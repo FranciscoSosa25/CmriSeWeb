@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+   <h:head>
+     <title>CMRI SE Web</title>
+      <h:outputScript name="primefaces/locale.js" library="js" />
+      <script type="text/javascript">
+          function argsValidationFailed(){
+        	  $(".ui-message-error").delay(1800).fadeOut(500);
+              $(".ui-messages-error").delay(1800).fadeOut(500);
+              $(".ui-messages-info").delay(1800).fadeOut(500);
+              $(".ui-messages-warn").delay(1800).fadeOut(500);
+          }
+      </script>
+      <ui:insert name="xxhrwjs"/>
+       <style>
+		  .pcleft /*panelColumnLeft*/ {
+		    text-align: left !important;
+		}
+		 .pcright /*panelColumnRight*/{
+		    text-align: right !important;
+		}
+		.xxOutputLabel{
+		 font-weight: bold;
+		 white-space: nowrap;
+		 }
+		  </style>
+      <ui:insert name="xxhrwcss"/>
+   </h:head>
+   <h:body>
+    <h:form id="templateForm">
+   
+   <p:toolbar>
+    <f:facet name="left">
+       <p:commandButton id="dynaButton" value="Menu" type="button" icon="fa fa-align-left" onclick="PF('leftSideVar').show()"/>
+       <ui:insert name="buscar" />
+       <ui:insert name="nuevo" />
+       <ui:insert name="guardar" />
+       <ui:insert name="actualizar" />
+    </f:facet>
+  </p:toolbar>
+   
+   
+   <p:sidebar widgetVar="leftSideVar" baseZIndex="10000">
+      <h1>Menu</h1>
+         <p:link value="Pagina Principal" outcome="PaginaPrincipal"/>
+        <p:panelMenu>
+          <p:submenu label="Administracion">
+            <p:menuitem value="Consulta Tablas Utilitarias" outcome="Admin-TablasUtilitariasvalores" icon="fa fa-group"/>
+          </p:submenu>
+          <p:submenu label="Preguntas">
+            <p:menuitem value="MRQs" outcome="Preguntas-ManageNewMrqs"/>
+            <p:submenu label="Aciones">
+              <p:menuitem value="Create MRQs" outcome="Preguntas-CreateNewMrqs"/>
+              <p:menuitem value="Update MRQs" outcome="Preguntas-UpdateNewMrqs"/>
+            </p:submenu>
+            <p:menuitem value="Core Cases"/>
+          </p:submenu>
+          <p:submenu label="Examenes">
+            <p:menuitem value="Core Exams"/>
+          </p:submenu>
+        </p:panelMenu>
+   </p:sidebar>
+  </h:form>
+  
+    <ui:insert name="content"/>
+    <ui:insert name="xxhrwjsEnd"/>
+   </h:body>
+</html>
