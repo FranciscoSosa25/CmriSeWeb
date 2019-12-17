@@ -54,8 +54,13 @@
           <p:submenu label="Preguntas">
             <p:menuitem value="MRQs" outcome="Preguntas-ManageNewMrqs"/>
             <p:submenu label="Aciones">
-              <p:menuitem value="Create MRQs" outcome="Preguntas-CreateNewMrqs"/>
-              <p:menuitem value="Update MRQs" outcome="Preguntas-UpdateNewMrqs"/>
+              <p:submenu label="Create MRQs">
+                  <p:menuitem value="Create MRQs Generics" outcome="Preguntas-CreateNewMrqs"/>
+              </p:submenu>
+              <p:submenu label="Update MRQs">
+                <p:menuitem value="Update MRQs Generics" outcome="Preguntas-UpdateNewMrqs"/>
+                <p:menuitem value="Update MRQs Free Text Answer" outcome="Preguntas-UpdateFreeTextAnswer-NewMrqs"/>
+              </p:submenu>
             </p:submenu>
             <p:menuitem value="Core Cases"/>
           </p:submenu>

@@ -45,6 +45,11 @@
             <to-view-id>/cmrise/preguntas/mrqs/UpdateMrq.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>Preguntas-UpdateFreeTextAnswer-NewMrqs</from-outcome>
+            <to-view-id>/cmrise/preguntas/mrqs/UpdateFreeTextAnswer.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
 </navigation-rule>        
  
 </faces-config>
