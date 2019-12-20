@@ -25,6 +25,12 @@
     NAME="output4" PATH="/cmrise/preguntas/mrqs/UpdateMrq.xhtml"
     TARGET="rules:#cmrise#preguntas#mrqs#UpdateMrq.xhtml"
     TITLE="Preguntas-UpdateNewMrqs" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="Preguntas-UpdateFreeTextAnswer-NewMrqs::#cmrise#preguntas#mrqs#UpdateFreeTextAnswer.xhtml"
+    NAME="output5"
+    PATH="/cmrise/preguntas/mrqs/UpdateFreeTextAnswer.xhtml"
+    TARGET="rules:#cmrise#preguntas#mrqs#UpdateFreeTextAnswer.xhtml"
+    TITLE="Preguntas-UpdateFreeTextAnswer-NewMrqs" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#cmrise#admin#TablasUtilitariasValores.xhtml"
@@ -37,4 +43,8 @@
   PATH="/cmrise/preguntas/mrqs/CreateMrq.xhtml" SHAPE="288,465,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#cmrise#preguntas#mrqs#UpdateMrq.xhtml"
   PATH="/cmrise/preguntas/mrqs/UpdateMrq.xhtml" SHAPE="304,497,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#cmrise#preguntas#mrqs#UpdateFreeTextAnswer.xhtml"
+  PATH="/cmrise/preguntas/mrqs/UpdateFreeTextAnswer.xhtml"
+  SHAPE="304,529,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>
