@@ -67,4 +67,16 @@ public class SelectsHelper {
 		return lselectScoringValueItems; 
 	}
 	
+	public List<SelectItem> getSelectScoringMethodItems(){
+		List<SelectItem> lselectScoringMethodItems = new ArrayList<SelectItem>();
+		List<TablasUtilitariasValoresDto> listScoringMethodValores =  tablasUtilitariasValoresLocal.findByTipoTabla("SCORING_METHOD");  
+		Iterator<TablasUtilitariasValoresDto> iterScoringMethodValores = listScoringMethodValores.iterator(); 
+		while(iterScoringMethodValores.hasNext()) {
+			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
+			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+			lselectScoringMethodItems.add(selectItem); 
+		}
+		return lselectScoringMethodItems; 
+	}
+	
 }

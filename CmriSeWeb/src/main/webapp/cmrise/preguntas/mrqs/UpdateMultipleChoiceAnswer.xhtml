@@ -4,9 +4,15 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
-<ui:define name="content">
 
- <h1>Actualizar Pregunta de Texto Libre Mrq</h1>
+<ui:define name="xxhrwcss">
+<style type="text/css">
+	
+</style>
+</ui:define>
+
+<ui:define name="content">
+ <h1>Actualizar Pregunta de Opción Múltiple Mrq</h1>
  <h:form id="questionInfoUpdateForm">
  <p:panel header="INFORMACIÓN DE LA PREGUNTA" >
      <div class="ui-g">
@@ -99,9 +105,9 @@
    </f:facet>
  </p:panel>
  </h:form>
-
- <h:form id="FreeTextAnswerQuestionUpdateForm">
-   <p:panel header="PREGUNTA DE TEXTO LIBRE">
+ 
+  <h:form id="MultipleChoiceAnswerQuestionUpdateForm">
+   <p:panel header="PREGUNTA DE OPCIÓN MÚLTIPLE">
    <div class="ui-g">
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel  value="Título de la pregunta" />
@@ -130,7 +136,7 @@
            <p:outputLabel for="scoringMethod" value="Método de puntuación" />
         </div>
         <div class="ui-g-12 ui-md-9">
-         <p:selectOneMenu id="scoringMethod" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" disabled="true" >
+         <p:selectOneMenu id="scoringMethod" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
           <f:selectItems value="#{selectsHelper.selectScoringMethodItems}" />
          </p:selectOneMenu>
           <p:message for="scoringMethod"/>
@@ -145,42 +151,153 @@
          </p:selectOneMenu>
           <p:message for="scoringValue"/>
          </div>
-         
-         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-           <p:outputLabel for="correctAnswer" value="Respuesta Correcta" />
-         </div>
-         <div class="ui-g-12 ui-md-9">
-          <p:inputText id="correctAnswer"  placeholder="Respuesta Correcta"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-          <p:message for="correctAnswer"/>
-         </div>
-         
      </div>
    </p:panel>
  </h:form>
 
-<h:form id="FreeTextAnswerWordListsUpdateForm">
- <p:panel header="RESPUESTAS DE TEXTO LIBRE - LISTAS DE PALABRAS">
-    <div class="ui-g">
-       <div class="ui-g-12 ui-md-4">
-        <p:panel header="PALABRAS INCLUIDAS">
-          <p:commandButton value="Agregar nueva palabra"/>
-        </p:panel>
+<h:form id="multipleChoiceAnswersUpdateForm">
+  <p:panel header="RESPUESTAS DE OPCIÓN MULTIPLE">
+      <div class="ui-g">
+       <div class="ui-g-12 ui-md-3" style="text-align:right;">
+           <p:outputLabel for="singleMode" value="¿Modo de Respuesta Única?" />
+        </div>
+        <div class="ui-g-12 ui-md-9">
+           <p:inputSwitch id="singleMode" onLabel="Si" offLabel="No"/>
+        </div>
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+           <p:outputLabel for="suffleOrder" value="¿Orden de Respuestas Aleatorio?" />
+        </div>
+        <div class="ui-g-12 ui-md-9">
+           <p:inputSwitch id="suffleOrder" onLabel="Si" offLabel="No"/>
+        </div>
+        
+         <div class="ui-g-12">
+         </div>
+        
        </div>
-        <div class="ui-g-12 ui-md-4">
-          <p:panel header="PALABRAS QUE PUEDEN SER">
-           <p:commandButton value="Agregar nueva palabra"/>
-          </p:panel>
+       
+       
+       <div class="ui-g" style="border: 1px solid black;width:80%;margin-bottom: 5px;" >
+        <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
+         <div class="ui-g-12">
+           <h1>1</h1>
+         </div>
+         <div class="ui-g-12">
+          <p:inputSwitch onLabel="&#10003;" offLabel="&#215;"/>
+         </div>
+        </div>
+       <div class="ui-g-10 ui-g-nopad">
+         <div class="ui-g-12">
+           <div class="ui-g-2" style="text-align:right;">
+            <p:outputLabel for="answerText1" value="Texto de Respuesta" />
+           </div>
+           <div class="ui-g-10">
+             <p:inputText id="answerText1" style="width:99%;"/>
+           </div>
+         </div>
+          <div class="ui-g-12">
+           <div class="ui-g-2" style="text-align:right;">
+            <p:outputLabel for="explanation1" value="Explicación" />
+           </div>
+           <div class="ui-g-10">
+             <p:inputText id="explanation1" style="width:99%;"/>
+           </div>
+         </div>
        </div>
-        <div class="ui-g-12 ui-md-4">
-           <p:panel header="PALABRAS EXCLUIDAS">
-            <p:commandButton value="Agregar nueva palabra"/>
-           </p:panel>
+       </div> <!-- END div -->
+
+        <div class="ui-g" style="border: 1px solid black;width:80%;margin-bottom: 5px;" >
+        <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
+         <div class="ui-g-12">
+           <h1>2</h1>
+         </div>
+         <div class="ui-g-12">
+          <p:inputSwitch onLabel="&#10003;" offLabel="&#215;"/>
+         </div>
+        </div>
+       <div class="ui-g-10 ui-g-nopad">
+         <div class="ui-g-12">
+           <div class="ui-g-2" style="text-align:right;">
+            <p:outputLabel for="answerText2" value="Texto de Respuesta" />
+           </div>
+           <div class="ui-g-10">
+             <p:inputText id="answerText2" style="width:99%;"/>
+           </div>
+         </div>
+          <div class="ui-g-12">
+           <div class="ui-g-2" style="text-align:right;">
+            <p:outputLabel for="explanation2" value="Explicación" />
+           </div>
+           <div class="ui-g-10">
+             <p:inputText id="explanation2" style="width:99%;"/>
+           </div>
+         </div>
        </div>
-      </div>
- </p:panel>
- </h:form>
- 
-  <h:form id="presentationElementsConclusionUpdateForm"> 
+       </div> <!-- END div --> 
+      
+      <div class="ui-g" style="border: 1px solid black;width:80%;margin-bottom: 5px;" >
+        <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
+         <div class="ui-g-12">
+           <h1>3</h1>
+         </div>
+         <div class="ui-g-12">
+          <p:inputSwitch onLabel="&#10003;" offLabel="&#215;"/>
+         </div>
+        </div>
+       <div class="ui-g-10 ui-g-nopad">
+         <div class="ui-g-12">
+           <div class="ui-g-2" style="text-align:right;">
+            <p:outputLabel for="answerText3" value="Texto de Respuesta" />
+           </div>
+           <div class="ui-g-10">
+             <p:inputText id="answerText3" style="width:99%;"/>
+           </div>
+         </div>
+          <div class="ui-g-12">
+           <div class="ui-g-2" style="text-align:right;">
+            <p:outputLabel for="explanation3" value="Explicación" />
+           </div>
+           <div class="ui-g-10">
+             <p:inputText id="explanation3" style="width:99%;"/>
+           </div>
+         </div>
+       </div>
+       </div> <!-- END div --> 
+       
+       <div class="ui-g" style="border: 1px solid black;width:80%;margin-bottom: 5px;" >
+        <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
+         <div class="ui-g-12">
+           <h1>4</h1>
+         </div>
+         <div class="ui-g-12">
+          <p:inputSwitch onLabel="&#10003;" offLabel="&#215;"/>
+         </div>
+        </div>
+       <div class="ui-g-10 ui-g-nopad">
+         <div class="ui-g-12">
+           <div class="ui-g-2" style="text-align:right;">
+            <p:outputLabel for="answerText4" value="Texto de Respuesta" />
+           </div>
+           <div class="ui-g-10">
+             <p:inputText id="answerText4" style="width:99%;"/>
+           </div>
+         </div>
+          <div class="ui-g-12">
+           <div class="ui-g-2" style="text-align:right;">
+            <p:outputLabel for="explanation4" value="Explicación" />
+           </div>
+           <div class="ui-g-10">
+             <p:inputText id="explanation4" style="width:99%;"/>
+           </div>
+         </div>
+       </div>
+       </div> <!-- END div --> 
+      
+       
+  </p:panel>
+</h:form>
+
+<h:form id="presentationElementsConclusionUpdateForm"> 
  <p:panel header="ELEMENTOS DE PRESENTACIÓN - CONCLUSIÓN">
   <f:facet name="actions">
       <p:splitButton immediate="true" title="Nuevo"  value="Agregar Nuevo Elemento" icon="pi pi-plus">

@@ -6,7 +6,7 @@
                 template="/WEB-INF/template/template.xhtml">
 <ui:define name="content">
 
- <h1>Actualizar Pregunta de Texto Libre Mrq</h1>
+ <h1>Actualizar Pregunta de Imagen Anotada Mrq</h1>
  <h:form id="questionInfoUpdateForm">
  <p:panel header="INFORMACIÓN DE LA PREGUNTA" >
      <div class="ui-g">
@@ -99,9 +99,9 @@
    </f:facet>
  </p:panel>
  </h:form>
-
- <h:form id="FreeTextAnswerQuestionUpdateForm">
-   <p:panel header="PREGUNTA DE TEXTO LIBRE">
+ 
+   <h:form id="AnnotatedImageAnswerQuestionUpdateForm">
+   <p:panel header="PREGUNTA DE IMAGEN ANOTADA">
    <div class="ui-g">
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel  value="Título de la pregunta" />
@@ -130,7 +130,7 @@
            <p:outputLabel for="scoringMethod" value="Método de puntuación" />
         </div>
         <div class="ui-g-12 ui-md-9">
-         <p:selectOneMenu id="scoringMethod" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" disabled="true" >
+         <p:selectOneMenu id="scoringMethod" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
           <f:selectItems value="#{selectsHelper.selectScoringMethodItems}" />
          </p:selectOneMenu>
           <p:message for="scoringMethod"/>
@@ -145,69 +145,10 @@
          </p:selectOneMenu>
           <p:message for="scoringValue"/>
          </div>
-         
-         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-           <p:outputLabel for="correctAnswer" value="Respuesta Correcta" />
-         </div>
-         <div class="ui-g-12 ui-md-9">
-          <p:inputText id="correctAnswer"  placeholder="Respuesta Correcta"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-          <p:message for="correctAnswer"/>
-         </div>
-         
      </div>
    </p:panel>
  </h:form>
-
-<h:form id="FreeTextAnswerWordListsUpdateForm">
- <p:panel header="RESPUESTAS DE TEXTO LIBRE - LISTAS DE PALABRAS">
-    <div class="ui-g">
-       <div class="ui-g-12 ui-md-4">
-        <p:panel header="PALABRAS INCLUIDAS">
-          <p:commandButton value="Agregar nueva palabra"/>
-        </p:panel>
-       </div>
-        <div class="ui-g-12 ui-md-4">
-          <p:panel header="PALABRAS QUE PUEDEN SER">
-           <p:commandButton value="Agregar nueva palabra"/>
-          </p:panel>
-       </div>
-        <div class="ui-g-12 ui-md-4">
-           <p:panel header="PALABRAS EXCLUIDAS">
-            <p:commandButton value="Agregar nueva palabra"/>
-           </p:panel>
-       </div>
-      </div>
- </p:panel>
- </h:form>
  
-  <h:form id="presentationElementsConclusionUpdateForm"> 
- <p:panel header="ELEMENTOS DE PRESENTACIÓN - CONCLUSIÓN">
-  <f:facet name="actions">
-      <p:splitButton immediate="true" title="Nuevo"  value="Agregar Nuevo Elemento" icon="pi pi-plus">
-       <p:menuitem value="Agregar Nuevo Texto"/>
-       <p:menuitem value="Agregar Nueva Imagen"/>
-      </p:splitButton>
-   </f:facet>
- </p:panel>
- </h:form>
-
- <div class="ui-g">
-   <div class="ui-g-12 ui-md-2" style="text-align:center">
-     <p:commandButton value="Guardar" />
-   </div>
-   <div class="ui-g-12 ui-md-2" style="text-align:center">
-    <p:commandButton value="Guardar y Previsualizar"/>
-   </div>
-   <div class="ui-g-12 ui-md-2" style="text-align:center">
-    <p:commandButton value="Cancelar"/>
-   </div>
-   <div class="ui-g-12 ui-md-2" style="text-align:center">
-    <p:commandButton value="Duplicar"/>
-   </div>
-   <div class="ui-g-12 ui-md-2" style="text-align:center">
-    <p:commandButton value="Borrar"/>
-   </div>
-  </div>
 
 </ui:define>
 </ui:composition>
