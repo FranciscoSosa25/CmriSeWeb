@@ -40,16 +40,23 @@
        <ui:insert name="nuevo" />
        <ui:insert name="guardar" />
        <ui:insert name="actualizar" />
+       <br></br>
+       <div  class="ui-g-12">
+         <h2 align="center">Mark CORE Exams</h2>
+         </div>
     </f:facet>
+
   </p:toolbar>
    
    
    <p:sidebar widgetVar="leftSideVar" baseZIndex="10000">
-      <h1>Menu</h1>
+      <h1>Menu</h1> 
          <p:link value="Pagina Principal" outcome="PaginaPrincipal"/>
         <p:panelMenu>
           <p:submenu label="Administracion">
             <p:menuitem value="Consulta Tablas Utilitarias" outcome="Admin-TablasUtilitariasvalores" icon="fa fa-group"/>
+             <p:menuitem value="Usuarios" outcome="Admin-Usuarios" icon="fa fa-group"/>
+
           </p:submenu>
           <p:submenu label="Preguntas">
             <p:menuitem value="MRQs" outcome="Preguntas-ManageNewMrqs"/>

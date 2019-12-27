@@ -26,6 +26,12 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
+            <from-outcome>Admin-Usuarios</from-outcome>
+            <to-view-id>/cmrise/admin/Usuarios.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+      
+        <navigation-case>
             <from-outcome>PaginaPrincipal</from-outcome>
             <to-view-id>/cmrise/principal.xhtml</to-view-id>
             <redirect/>
