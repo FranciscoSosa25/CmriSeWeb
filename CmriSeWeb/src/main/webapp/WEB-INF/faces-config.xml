@@ -50,6 +50,21 @@
             <to-view-id>/cmrise/preguntas/mrqs/UpdateFreeTextAnswer.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>Preguntas-UpdateMultipleChoiceAnswer-NewMrqs</from-outcome>
+            <to-view-id>/cmrise/preguntas/mrqs/UpdateMultipleChoiceAnswer.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Preguntas-UpdateAnnotatedImageAnswer-NewMrqs</from-outcome>
+            <to-view-id>/cmrise/preguntas/mrqs/UpdateAnnotatedImageAnswer.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>Preguntas-UpdateIndicateImageAnswer-NewMrqs</from-outcome>
+            <to-view-id>/cmrise/preguntas/mrqs/UpdateIndicateImageAnswer.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
 </navigation-rule>        
  
 </faces-config>
