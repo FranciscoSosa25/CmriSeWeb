@@ -1,0 +1,14 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+<ui:define name="nuevo">
+ <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Prueba/Examen" icon="pi pi-plus" action="Exams-CoreCases-Create"/>
+</ui:define>
+
+<ui:define name="content">
+ <h1>Gestionar Pruebas/Examenes</h1>
+</ui:define>
+</ui:composition>
