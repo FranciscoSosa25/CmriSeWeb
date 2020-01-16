@@ -7,48 +7,95 @@
     NAME="output" PATH="/cmrise/admin/TablasUtilitariasValores.xhtml"
     TARGET="rules:#cmrise#admin#TablasUtilitariasValores.xhtml"
     TITLE="Admin-TablasUtilitariasvalores" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="Admin-Usuarios::#cmrise#admin#Usuarios.xhtml" NAME="output1"
+    PATH="/cmrise/admin/Usuarios.xhtml"
+    TARGET="rules:#cmrise#admin#Usuarios.xhtml" TITLE="Admin-Usuarios" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT ID="PaginaPrincipal::#cmrise#principal.xhtml"
-    NAME="output1" PATH="/cmrise/principal.xhtml"
+    NAME="output2" PATH="/cmrise/principal.xhtml"
     TARGET="rules:#cmrise#principal.xhtml" TITLE="PaginaPrincipal" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
+    ID="Preguntas-Manage-CoreCases::#cmrise#preguntas#corecases#ManageCoreCases.xhtml"
+    NAME="output3"
+    PATH="/cmrise/preguntas/corecases/ManageCoreCases.xhtml"
+    TARGET="rules:#cmrise#preguntas#corecases#ManageCoreCases.xhtml"
+    TITLE="Preguntas-Manage-CoreCases" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="Preguntas-Create-CoreCase::#cmrise#preguntas#corecases#CreateCoreCase.xhtml"
+    NAME="output4"
+    PATH="/cmrise/preguntas/corecases/CreateCoreCase.xhtml"
+    TARGET="rules:#cmrise#preguntas#corecases#CreateCoreCase.xhtml"
+    TITLE="Preguntas-Create-CoreCase" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="Preguntas-Update-CoreCase::#cmrise#preguntas#corecases#UpdateCoreCase.xhtml"
+    NAME="output5"
+    PATH="/cmrise/preguntas/corecases/UpdateCoreCase.xhtml"
+    TARGET="rules:#cmrise#preguntas#corecases#UpdateCoreCase.xhtml"
+    TITLE="Preguntas-Update-CoreCase" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="Crear-Pregunta-CoreCase::#cmrise#preguntas#corecases#CreateQuestionCoreCase.xhtml"
+    NAME="output6"
+    PATH="/cmrise/preguntas/corecases/CreateQuestionCoreCase.xhtml"
+    TARGET="rules:#cmrise#preguntas#corecases#CreateQuestionCoreCase.xhtml"
+    TITLE="Crear-Pregunta-CoreCase" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="Actualizar-Pregunta-OpcionMultiple-CoreCase::#cmrise#preguntas#corecases#UpdateQuestionMultipleChoiceCoreCase.xhtml"
+    NAME="output7"
+    PATH="/cmrise/preguntas/corecases/UpdateQuestionMultipleChoiceCoreCase.xhtml"
+    TARGET="rules:#cmrise#preguntas#corecases#UpdateQuestionMultipleChoiceCoreCase.xhtml"
+    TITLE="Actualizar-Pregunta-OpcionMultiple-CoreCase" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
     ID="Preguntas-ManageNewMrqs::#cmrise#preguntas#mrqs#ManageNewMrqs.xhtml"
-    NAME="output2" PATH="/cmrise/preguntas/mrqs/ManageNewMrqs.xhtml"
+    NAME="output8" PATH="/cmrise/preguntas/mrqs/ManageNewMrqs.xhtml"
     TARGET="rules:#cmrise#preguntas#mrqs#ManageNewMrqs.xhtml"
     TITLE="Preguntas-ManageNewMrqs" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="Preguntas-CreateNewMrqs::#cmrise#preguntas#mrqs#CreateMrq.xhtml"
-    NAME="output3" PATH="/cmrise/preguntas/mrqs/CreateMrq.xhtml"
-    TARGET="rules:#cmrise#preguntas#mrqs#CreateMrq.xhtml"
-    TITLE="Preguntas-CreateNewMrqs" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
-    ID="Preguntas-UpdateNewMrqs::#cmrise#preguntas#mrqs#UpdateMrq.xhtml"
-    NAME="output4" PATH="/cmrise/preguntas/mrqs/UpdateMrq.xhtml"
-    TARGET="rules:#cmrise#preguntas#mrqs#UpdateMrq.xhtml"
-    TITLE="Preguntas-UpdateNewMrqs" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
     ID="Preguntas-UpdateFreeTextAnswer-NewMrqs::#cmrise#preguntas#mrqs#UpdateFreeTextAnswer.xhtml"
-    NAME="output5"
+    NAME="output9"
     PATH="/cmrise/preguntas/mrqs/UpdateFreeTextAnswer.xhtml"
     TARGET="rules:#cmrise#preguntas#mrqs#UpdateFreeTextAnswer.xhtml"
     TITLE="Preguntas-UpdateFreeTextAnswer-NewMrqs" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="Preguntas-UpdateMultipleChoiceAnswer-NewMrqs::#cmrise#preguntas#mrqs#UpdateMultipleChoiceAnswer.xhtml"
-    NAME="output6"
+    NAME="output10"
     PATH="/cmrise/preguntas/mrqs/UpdateMultipleChoiceAnswer.xhtml"
     TARGET="rules:#cmrise#preguntas#mrqs#UpdateMultipleChoiceAnswer.xhtml"
     TITLE="Preguntas-UpdateMultipleChoiceAnswer-NewMrqs" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="Preguntas-UpdateAnnotatedImageAnswer-NewMrqs::#cmrise#preguntas#mrqs#UpdateAnnotatedImageAnswer.xhtml"
-    NAME="output7"
-    PATH="/cmrise/preguntas/mrqs/UpdateAnnotatedImageAnswer.xhtml"
-    TARGET="rules:#cmrise#preguntas#mrqs#UpdateAnnotatedImageAnswer.xhtml"
-    TITLE="Preguntas-UpdateAnnotatedImageAnswer-NewMrqs" model-entity="JSFProcessItemOutput"/>
+    ID="Dicom-Leer-Archivo::#cmrise#dicom#LeerArchivoDicom.xhtml"
+    NAME="output11" PATH="/cmrise/dicom/LeerArchivoDicom.xhtml"
+    TARGET="rules:#cmrise#dicom#LeerArchivoDicom.xhtml"
+    TITLE="Dicom-Leer-Archivo" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="Preguntas-UpdateIndicateImageAnswer-NewMrqs::#cmrise#preguntas#mrqs#UpdateIndicateImageAnswer.xhtml"
-    NAME="output8"
-    PATH="/cmrise/preguntas/mrqs/UpdateIndicateImageAnswer.xhtml"
-    TARGET="rules:#cmrise#preguntas#mrqs#UpdateIndicateImageAnswer.xhtml"
-    TITLE="Preguntas-UpdateIndicateImageAnswer-NewMrqs" model-entity="JSFProcessItemOutput"/>
+    ID="Exams-CoreCases-Manage::#cmrise#examenes#corecases#ManageTestExam.xhtml"
+    NAME="output12"
+    PATH="/cmrise/examenes/corecases/ManageTestExam.xhtml"
+    TARGET="rules:#cmrise#examenes#corecases#ManageTestExam.xhtml"
+    TITLE="Exams-CoreCases-Manage" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="Exams-CoreCases-Update::#cmrise#examenes#corecases#UpdateTestExam.xhtml"
+    NAME="output13"
+    PATH="/cmrise/examenes/corecases/UpdateTestExam.xhtml"
+    TARGET="rules:#cmrise#examenes#corecases#UpdateTestExam.xhtml"
+    TITLE="Exams-CoreCases-Update" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="Exams-CoreCases-Update-AddCoreCase::#cmrise#examenes#corecases#UpdateTestExamAddCoreCase.xhtml"
+    NAME="output14"
+    PATH="/cmrise/examenes/corecases/UpdateTestExamAddCoreCase.xhtml"
+    TARGET="rules:#cmrise#examenes#corecases#UpdateTestExamAddCoreCase.xhtml"
+    TITLE="Exams-CoreCases-Update-AddCoreCase" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="Exams-CoreCases-Manage-Candidates::#cmrise#examenes#corecases#ManageCandidates.xhtml"
+    NAME="output15"
+    PATH="/cmrise/examenes/corecases/ManageCandidates.xhtml"
+    TARGET="rules:#cmrise#examenes#corecases#ManageCandidates.xhtml"
+    TITLE="Exams-CoreCases-Manage-Candidates" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="Exams-CoreCases-Create-Candidate::#cmrise#examenes#corecases#CreateCandidate.xhtml"
+    NAME="output16"
+    PATH="/cmrise/examenes/corecases/CreateCandidate.xhtml"
+    TARGET="rules:#cmrise#examenes#corecases#CreateCandidate.xhtml"
+    TITLE="Exams-CoreCases-Create-Candidate" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#cmrise#admin#TablasUtilitariasValores.xhtml"
@@ -77,4 +124,52 @@
   NAME="rules:#cmrise#preguntas#mrqs#UpdateMultipleChoiceAnswer.xhtml"
   PATH="/cmrise/preguntas/mrqs/UpdateMultipleChoiceAnswer.xhtml"
   SHAPE="304,625,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#cmrise#admin#Usuarios.xhtml"
+  PATH="/cmrise/admin/Usuarios.xhtml" SHAPE="304,625,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#cmrise#dicom#LeerArchivoDicom.xhtml"
+  PATH="/cmrise/dicom/LeerArchivoDicom.xhtml" SHAPE="304,657,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#cmrise#examenes#corecases#ManageTestExam.xhtml"
+  PATH="/cmrise/examenes/corecases/ManageTestExam.xhtml"
+  SHAPE="304,689,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#cmrise#examenes#corecases#CreateTestExam.xhtml"
+  PATH="/cmrise/examenes/corecases/CreateTestExam.xhtml"
+  SHAPE="304,721,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#cmrise#examenes#corecases#UpdateTestExam.xhtml"
+  PATH="/cmrise/examenes/corecases/UpdateTestExam.xhtml"
+  SHAPE="304,753,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#cmrise#examenes#corecases#UpdateTestExamAddCoreCase.xhtml"
+  PATH="/cmrise/examenes/corecases/UpdateTestExamAddCoreCase.xhtml"
+  SHAPE="304,785,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#cmrise#examenes#corecases#ManageCandidates.xhtml"
+  PATH="/cmrise/examenes/corecases/ManageCandidates.xhtml"
+  SHAPE="304,817,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#cmrise#examenes#corecases#CreateCandidate.xhtml"
+  PATH="/cmrise/examenes/corecases/CreateCandidate.xhtml"
+  SHAPE="304,881,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#cmrise#preguntas#corecases#ManageCoreCases.xhtml"
+  PATH="/cmrise/preguntas/corecases/ManageCoreCases.xhtml"
+  SHAPE="304,881,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#cmrise#preguntas#corecases#CreateCoreCase.xhtml"
+  PATH="/cmrise/preguntas/corecases/CreateCoreCase.xhtml"
+  SHAPE="304,881,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#cmrise#preguntas#corecases#UpdateCoreCase.xhtml"
+  PATH="/cmrise/preguntas/corecases/UpdateCoreCase.xhtml"
+  SHAPE="304,881,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#cmrise#preguntas#corecases#CreateQuestionCoreCase.xhtml"
+  PATH="/cmrise/preguntas/corecases/CreateQuestionCoreCase.xhtml"
+  SHAPE="304,881,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#cmrise#preguntas#corecases#UpdateQuestionMultipleChoiceCoreCase.xhtml"
+  PATH="/cmrise/preguntas/corecases/UpdateQuestionMultipleChoiceCoreCase.xhtml"
+  SHAPE="304,881,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

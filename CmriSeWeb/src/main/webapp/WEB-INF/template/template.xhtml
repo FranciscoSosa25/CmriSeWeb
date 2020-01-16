@@ -40,10 +40,6 @@
        <ui:insert name="nuevo" />
        <ui:insert name="guardar" />
        <ui:insert name="actualizar" />
-       <br></br>
-       <div  class="ui-g-12">
-         <h2 align="center">Mark CORE Exams</h2>
-         </div>
     </f:facet>
 
   </p:toolbar>
@@ -72,10 +68,24 @@
                 <p:menuitem value="Update MRQs Indicate Image Answer" outcome="Preguntas-UpdateIndicateImageAnswer-NewMrqs"/>
               </p:submenu>
             </p:submenu>
-            <p:menuitem value="Core Cases"/>
+            <p:submenu label="Casos Principales">
+              <p:menuitem value="Gestionar Casos Principales" outcome="Preguntas-Manage-CoreCases"/>
+              <p:menuitem value="Crear Caso Principal" outcome="Preguntas-Create-CoreCase"/>
+              <p:menuitem value="Actualizar Caso Principal" outcome="Preguntas-Update-CoreCase"/>
+              <p:menuitem value="Crear Pregunta Caso Principal" outcome="Crear-Pregunta-CoreCase"/>
+              <p:menuitem value="Actualizar Pregunta de Opción Multiple" outcome="Actualizar-Pregunta-OpcionMultiple-CoreCase"/>
+            </p:submenu>
           </p:submenu>
-          <p:submenu label="Examenes">
-            <p:menuitem value="Core Exams"/>
+          <p:submenu label="Pruebas/Exámenes">
+            <p:menuitem value="Administrar Exámenes Centrales" outcome="Exams-CoreCases-Manage"/>
+            <p:menuitem value="Crear Prueba/Examen" outcome="Exams-CoreCases-Create"/>
+            <p:menuitem value="Actualizar Prueba/Examen" outcome="Exams-CoreCases-Update"/>
+            <p:menuitem value="Actualizar Prueba/Examen Agregar Caso Principal" outcome="Exams-CoreCases-Update-AddCoreCase"/>
+            <p:menuitem value="Administrar Candidatos" outcome="Exams-CoreCases-Manage-Candidates"/>
+            <p:menuitem value="Agregar Candidato" outcome="Exams-CoreCases-Create-Candidate"/>
+          </p:submenu>
+          <p:submenu label="Archivos DICOM">
+           <p:menuitem value="Leer archivo DICOM" outcome="Dicom-Leer-Archivo"/>
           </p:submenu>
         </p:panelMenu>
    </p:sidebar>

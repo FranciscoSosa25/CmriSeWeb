@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+<ui:define name="content">
+<h1>Crear Caso Principal</h1>
+<h:form id="createForm">
+<h3>Información del Caso Principal</h3>
+ <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+  <p:outputLabel for="internalName" value="Nombre"/>
+  <p:inputText id="internalName" style="width:100%"/>
+  <p:message for="internalName"/>
+  <p:outputLabel for="topic" value="Tema de Pregunta" />
+  <p:selectOneMenu id="topic" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
+  <f:selectItems value="#{selectsHelper.selectTemaDePreguntaItems}" />
+  </p:selectOneMenu>
+  <p:message for="topic"/>
+  <p:outputLabel for="clinicalHistory" value="Historial Clinico"/>
+  <p:inputTextarea  id="clinicalHistory"  rows="4" style="width:100%"/>
+  <p:message  for="clinicalHistory"/>
+  <p:outputLabel for="descriptionOfTechnique" value="Descrición de la Técnica"/>
+  <p:inputTextarea  id="descriptionOfTechnique"  rows="4" style="width:100%"/>
+  <p:message  for="descriptionOfTechnique"/>
+  <p:outputLabel for="note" value="Nota"/>
+  <p:inputTextarea  id="note"  rows="4" style="width:100%"/>
+  <p:message  for="note"/>
+  <p:outputLabel for="showUnsafeOption"  value="¿Mostrar Opción Insegura?" />
+  <p:inputSwitch id="showUnsafeOption" onLabel="&#10003; SI" offLabel="&#215; NO"/>
+  <p:message  for="showUnsafeOption"/>
+ 
+  <p:outputLabel for="tags" value="Etiquetas"/>
+  <p:inputTextarea  id="tags"  rows="1" style="width:100%"/>
+  <p:message  for="tags"/>
+ </p:panelGrid>
+ 
+ <div class="ui-g">
+ <div class="ui-g-12 ui-md-6 ui-lg-2">
+  <p:commandButton value="Agregar Caso Principal"/>
+ </div>
+ <div class="ui-g-12 ui-md-6 ui-lg-2">
+  <p:commandButton value="Cancelar"/>
+ </div>
+</div>
+</h:form>
+</ui:define>
+</ui:composition>
