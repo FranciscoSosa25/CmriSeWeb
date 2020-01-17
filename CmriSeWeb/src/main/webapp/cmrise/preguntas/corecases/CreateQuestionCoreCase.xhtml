@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+<ui:define name="content">
+<h1>Crear Pregunta Caso Principal</h1>
+<div class="ui-g">
+ <div class="ui-g-2">
+   <p:panelGrid  columns="1" layout="grid">
+     <f:facet name="header">
+        <div style="background-color:blue">Arbol Caso Principal</div>
+     </f:facet>
+     <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Pregunta" icon="pi pi-plus" action="Preguntas-Create-CoreCase"/>
+   </p:panelGrid>
+   <p:panelGrid  columns="1" layout="grid">
+     <f:facet name="header">
+        <div style="background-color:blue">Series Dicom</div>
+     </f:facet>
+     <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Serie" icon="pi pi-plus" action="Preguntas-Create-CoreCase"/>
+   </p:panelGrid>
+ </div>
+ <div class="ui-g-10">
+    <p:panelGrid  columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+      <p:outputLabel for="internalName" value="Nombre Interno" />
+      <p:inputText id="internalName"  placeholder="Nombre Interno"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+      <p:message for="internalName"/>
+      <p:outputLabel for="title" value="Título en TOC" />
+      <p:inputText id="title"  placeholder="Título"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+      <p:message for="title"/>
+      <p:outputLabel for="questionType" value="Tipo de Pregunta" />
+      <p:selectOneMenu id="questionType" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+      <f:selectItem itemLabel="Seleccione un tipo de pregunta" itemValue="" />
+      <f:selectItems value="#{selectsHelper.selectTipoPreguntaCoreCaseItems}" />
+      </p:selectOneMenu>
+      <p:message for="questionType"/>
+      <p:outputLabel for="topic" value="Tema de Pregunta" />
+	  <p:selectOneMenu id="topic" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+	  <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
+	  <f:selectItems value="#{selectsHelper.selectTemaDePreguntaItems}" />
+	  </p:selectOneMenu>
+	  <p:message for="topic"/>      
+    </p:panelGrid>
+    <div class="ui-g">
+	  <div class="ui-g-12 ui-md-6 ui-lg-2">
+	   <p:outputLabel for="tag" value="Etiqueta" />
+	  </div>
+	  <div class="ui-g-12 ui-md-6 ui-lg-8">
+	    <div class="ui-inputgroup">
+	    <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span>
+	    <p:inputText id="tag" maxlength="255" style="width:100%"/>
+	    </div>
+	  </div>
+	  <div class="ui-g-12 ui-md-6 ui-lg-2">
+	    <p:message for="tag"/>  
+	  </div>
+	   <div class="ui-g-12 ui-md-6 ui-lg-2">
+	   <p:outputLabel for="internalComments" value="Comentarios Internos" />
+	  </div>
+	  <div class="ui-g-12 ui-md-6 ui-lg-8">
+	    <p:textEditor id="internalComments" widgetVar="internalCommentsWV"  height="100">
+		    <f:facet name="toolbar">
+		        <span class="ql-formats">
+		            <button class="ql-bold"></button>
+		            <button class="ql-italic"></button>
+		            <button class="ql-underline"></button>
+		            <button class="ql-strike"></button>
+		            <button class="ql-unorderedlist"></button>
+		            <button class="ql-orderedlist"></button>
+		        </span>
+		    </f:facet>
+		</p:textEditor>
+	  </div>
+	  <div class="ui-g-12 ui-md-6 ui-lg-2">
+	    <p:message for="internalComments"/>  
+	  </div>
+	  </div>
+	  <div class="ui-g">
+	   <div class="ui-g-12 ui-md-6 ui-lg-2">
+	    <p:commandButton value="Crear"/>
+	   </div>
+	   <div class="ui-g-12 ui-md-6 ui-lg-2">
+	     <p:commandButton value="Cancelar"/>
+	   </div>
+	  </div>
+ </div>
+ </div>
+ 
+     
+ 
+</ui:define>
+</ui:composition>

@@ -31,14 +31,33 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
-            <from-outcome>Admin-RolesUsuarios</from-outcome>
-            <to-view-id>/cmrise/admin/RolesUsuarios.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-      
-        <navigation-case>
             <from-outcome>PaginaPrincipal</from-outcome>
             <to-view-id>/cmrise/principal.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>Preguntas-Manage-CoreCases</from-outcome>
+            <to-view-id>/cmrise/preguntas/corecases/ManageCoreCases.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>Preguntas-Create-CoreCase</from-outcome>
+            <to-view-id>/cmrise/preguntas/corecases/CreateCoreCase.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>Preguntas-Update-CoreCase</from-outcome>
+            <to-view-id>/cmrise/preguntas/corecases/UpdateCoreCase.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Crear-Pregunta-CoreCase</from-outcome>
+            <to-view-id>/cmrise/preguntas/corecases/CreateQuestionCoreCase.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Actualizar-Pregunta-OpcionMultiple-CoreCase</from-outcome>
+            <to-view-id>/cmrise/preguntas/corecases/UpdateQuestionMultipleChoiceCoreCase.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         <navigation-case>
@@ -74,6 +93,46 @@
          <navigation-case>
             <from-outcome>Preguntas-UpdateIndicateImageAnswer-NewMrqs</from-outcome>
             <to-view-id>/cmrise/preguntas/mrqs/UpdateIndicateImageAnswer.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Dicom-Leer-Archivo</from-outcome>
+            <to-view-id>/cmrise/dicom/LeerArchivoDicom.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Exams-CoreCases-Manage</from-outcome>
+            <to-view-id>/cmrise/examenes/corecases/ManageTestExam.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>Exams-CoreCases-Create</from-outcome>
+            <to-view-id>/cmrise/examenes/corecases/CreateTestExam.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>Exams-CoreCases-Update</from-outcome>
+            <to-view-id>/cmrise/examenes/corecases/UpdateTestExam.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>Exams-CoreCases-Update-AddCoreCase</from-outcome>
+            <to-view-id>/cmrise/examenes/corecases/UpdateTestExamAddCoreCase.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>Exams-CoreCases-Manage-Candidates</from-outcome>
+            <to-view-id>/cmrise/examenes/corecases/ManageCandidates.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>Exams-CoreCases-Create-Candidate</from-outcome>
+            <to-view-id>/cmrise/examenes/corecases/CreateCandidate.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+          <navigation-case>
+            <from-outcome>Admin-RolesUsuarios</from-outcome>
+            <to-view-id>/cmrise/admin/RolesUsuarios.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
 </navigation-rule>        

@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+<ui:define name="content">
+<h1>Actualizar Prueba/Examen</h1>
+<h:form id="updateForm">
+
+<div class="ui-g">
+    <div class="ui-g-2 ui-g-nopad">
+     <p:panel layout="grid" >
+      <f:facet name="header">
+       <h3>PREGUNTAS GRUPO</h3>
+      </f:facet>
+      <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nuevo Grupo" icon="pi pi-plus" action="Exams-CoreCases-Update-AddCoreCase"/>
+     </p:panel>
+    </div>
+    <div class="ui-g-10 ui-g-nopad">
+      <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+  <p:outputLabel for="estatusExamen" value="Estatus Examen"/>
+  <p:selectOneMenu id="estatusExamen" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  <f:selectItems value="#{selectsHelper.selectEstatusExamenItems}" />
+  </p:selectOneMenu>
+  <p:message for="estatusExamen"/>
+</p:panelGrid>
+
+<p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+  <p:outputLabel for="publicTitle" value="Título Público"/>
+  <p:inputText id="publicTitle" style="width:100%"/>
+  <p:message for="publicTitle"/>
+  <p:outputLabel for="nameInternal" value="Nombre (Interno)"/>
+  <p:inputText id="nameInternal" style="width:100%"/>
+  <p:message for="nameInternal"/>
+  <p:outputLabel for="description" value="Descripción"/>
+  <p:inputTextarea  id="description"  rows="4" style="width:100%"/>
+  <p:message  for="description"/>
+  <p:outputLabel for="questionType" value="Tipo de Pregunta" />
+  <p:selectOneMenu id="questionType" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  <f:selectItem itemLabel="Seleccione un tipo de pregunta" itemValue="" />
+  <f:selectItems value="#{selectsHelper.selectTipoPreguntaItems}" />
+  </p:selectOneMenu>
+  <p:message for="questionType"/>
+  <p:outputLabel for="questionExam" value="Tipo de Examen" />
+  <p:selectOneMenu id="questionExam" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  <f:selectItem itemLabel="Seleccione un tipo de examen" itemValue="" />
+  <f:selectItems value="#{selectsHelper.selectTipoExamenItems}" />
+  </p:selectOneMenu>
+  <p:message for="questionExam"/>
+  <p:outputLabel for="topic" value="Tema" />
+  <p:selectOneMenu id="topic" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
+  <f:selectItems value="#{selectsHelper.selectTemaExamenItems}" />
+  </p:selectOneMenu>
+  <p:message for="topic"/>
+  <p:outputLabel for="internalComments" value="Comentarios Internos"/>
+  <p:inputTextarea  id="internalComments"  rows="4" style="width:100%"/>
+  <p:message  for="internalComments"/>
+</p:panelGrid>
+    </div>
+</div>
+</h:form>
+</ui:define>
+</ui:composition>

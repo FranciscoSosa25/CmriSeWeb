@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+<ui:define name="content">
+<h1>Crear Grupo de Casos Principales</h1>
+<h:form id="updateForm">
+<div class="ui-g">
+    <div class="ui-g-2 ui-g-nopad">
+     <p:panel layout="grid" >
+      <f:facet name="header">
+       <h3>PREGUNTAS GRUPO</h3>
+      </f:facet>
+      <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nuevo Grupo" icon="pi pi-plus" action="Exams-CoreCases-Update-AddCoreCase"/>
+     </p:panel>
+    </div>
+    <div class="ui-g-10 ui-g-nopad">
+      <p:panel layout="grid" >
+      <f:facet name="header">
+       <h3>SELECCIÓN DE CASO PRINCIPAL</h3>
+      </f:facet>
+       <p>
+       <p:outputLabel for="coreCase"  value="Ingrese o Seleccione un Caso Principal"/>
+       <p:selectOneMenu id="coreCase">
+       <f:selectItem itemLabel="Ingresa un Caso Principal" itemValue="" />
+       </p:selectOneMenu>
+       </p>
+      </p:panel>
+    </div>
+ </div>
+</h:form>
+    
+</ui:define>
+</ui:composition>
