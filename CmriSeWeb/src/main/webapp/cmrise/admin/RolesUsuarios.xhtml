@@ -1,0 +1,294 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="content">
+
+<script type="text/javascript">
+    function handleInsertRequest(xhr, status, args) {
+    	 if(args.validationFailed || !args.insertIn) {
+            PF('CrearAsignacionRolDialogWV').jq.effect("shake", {times:5}, 100);
+            $(".ui-message-error").delay(1800).fadeOut(500);
+            $(".ui-messages-error").delay(1800).fadeOut(500);
+            $(".ui-messages-info").delay(1800).fadeOut(500);
+            $(".ui-messages-warn").delay(1800).fadeOut(500);
+        }
+        else {
+        	PF('CrearAsignacionRolDialogWV').hide();
+        }
+    }
+
+    function handleBuscar(xhr, status, args) {
+    	 if(args.validationFailed || !args.searchIn) {
+    		 PF('BuscarAsignacionRolDialogWV').jq.effect("shake", {times:5}, 100);
+             $(".ui-message-error").delay(1800).fadeOut(500);
+             $(".ui-messages-error").delay(1800).fadeOut(500);
+             $(".ui-messages-info").delay(1800).fadeOut(500);
+             $(".ui-messages-warn").delay(1800).fadeOut(500);
+       	  }
+         else {
+          PF('BuscarAsignacionRolDialogWV').hide();
+         }
+    }
+
+    function onCompleteModificar(){
+    	 var lNombreUsuarioForm = document.getElementById('ConsultarAsignacionRolForm:nombreUsuario').textContent; 
+    	 if(null!=lNombreUsuarioForm){
+  		   if(''!=lNombreUsuarioForm){
+  		     PF('ModificarAsignacionRolDialogWV').show();
+  		   }
+  		}
+    }
+
+    function handleUpdateRequest(xhr, status, args) {
+   	 if(args.validationFailed || !args.updateIn) {
+           PF('ModificarAsignacionRolDialogWV').jq.effect("shake", {times:5}, 100);
+           $(".ui-message-error").delay(1800).fadeOut(500);
+           $(".ui-messages-error").delay(1800).fadeOut(500);
+           $(".ui-messages-info").delay(1800).fadeOut(500);
+           $(".ui-messages-warn").delay(1800).fadeOut(500);
+       }
+       else {
+       	PF('ModificarAsignacionRolDialogWV').hide();
+       }
+    }
+
+
+    function onCompleteBorrar(){
+   	 var lNombreUsuarioForm = document.getElementById('ConsultarAsignacionRolForm:nombreUsuario').textContent; 
+   	 if(null!=lNombreUsuarioForm){
+ 		   if(''!=lNombreUsuarioForm){
+ 		     PF('BorrarAsignacionRolDialogWV').show();
+ 		   }
+ 		}
+   }
+
+
+    function handleDeleteRequest(xhr, status, args) {
+      	 if(args.validationFailed || !args.deleteIn) {
+              PF('BorrarAsignacionRolDialogWV').jq.effect("shake", {times:5}, 100);
+              $(".ui-message-error").delay(1800).fadeOut(500);
+              $(".ui-messages-error").delay(1800).fadeOut(500);
+              $(".ui-messages-info").delay(1800).fadeOut(500);
+              $(".ui-messages-warn").delay(1800).fadeOut(500);
+          }
+          else {
+          	PF('BorrarAsignacionRolDialogWV').hide();
+          }
+       }
+    
+ </script>
+ 
+ <h:form id="ConsultarAsignacionRolForm">   
+  <p:toolbar>
+  <f:facet name="left">
+  <p:commandButton immediate="true" title="Buscar"  value="Buscar" icon="fa fa-search" style="margin-left: 15px;" onclick="PF('BuscarAsignacionRolDialogWV').show();"/>
+  <p:commandButton type="button" value="Nuevo" icon="fa fa-plus" style="margin-left: 15px;" onclick="PF('CrearAsignacionRolDialogWV').show();"/>
+  <p:commandButton immediate="true" title="Modificar"  value="Modificar" icon="fa fa-edit" style="margin-left: 15px;" oncomplete="onCompleteModificar();"/>
+  <p:commandButton immediate="true" title="Borrar"  value="Borrar" icon="fa fa-trash" style="margin-left: 15px;" oncomplete="onCompleteBorrar();"/>
+  </f:facet>
+  </p:toolbar>
+  
+  
+     <p:panel id="panelConsultar" header="Asignacion Rol">
+      <div class="ui-g">
+      <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">
+      <h:panelGrid columns="2" columnClasses="pcright, pcleft" >
+        <p:outputLabel for="nombreUsuario" value="Nombre Usuario:" />
+        <h:outputText id="nombreUsuario" value="#{asignacionRolesForm.selectedAsignacionRoles.nombreUsuario}" />
+        <p:outputLabel for="rolDesc" value="Rol:" />
+        <h:outputText id="rolDesc" value="#{asignacionRolesForm.selectedAsignacionRoles.rolDesc}" />
+      </h:panelGrid>
+      </div>
+      </div>
+     </p:panel>    
+  </h:form>
+  
+   <h:form id="NuevoAsignacionRolForm">
+   <f:passThroughAttribute name="autocomplete" value="off"/>
+   <p:dialog id="CrearAsignacionRolDialogId" header="Crear Asignacion Rol" widgetVar="CrearAsignacionRolDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000">
+    <p:messages id="messages" showDetail="true" closable="true">
+        <p:autoUpdate />
+    </p:messages>
+     <p:panel id="panelCrear">
+      <div class="ui-g">
+      <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">
+         <h:panelGrid columns="3" columnClasses="pcright, pcleft, pcleft" >
+            <p:outputLabel  for="numero_usuario" value="Usuario"/>
+		    <p:selectOneMenu id="numero_usuario"  required="true" value="#{asignacionRolesForm.numeroUsuario}">
+		    <f:selectItem itemLabel="seleccione" itemValue="" /> 
+		    <f:selectItems  value="#{adminHelper.selectUsuariosItems}" />
+			</p:selectOneMenu> 
+			<p:message for="numero_usuario"/>
+			<p:outputLabel value="Rol" for="rolCode" />
+	        <p:selectOneMenu id="rolCode" required="true" value="#{asignacionRolesForm.rolCode}" >
+		    <f:selectItem itemLabel="seleccione" itemValue="" /> 
+		    <f:selectItems value="#{adminHelper.selectRolesItems}"  />
+		    </p:selectOneMenu>
+		    <h:outputText value="#{asignacionRolesForm.message}" /> 
+	      <p:message for="rolCode"/>	
+	    </h:panelGrid>
+      </div>
+     </div>
+     
+      <p:fieldset legend="Fechas Efectivas">
+       <div class="ui-g">
+	   <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
+	   <h:panelGrid columns="3" >
+	       <p:outputLabel for="fechaEfectivaInicial" value="Desde" />
+	       <p:calendar id="fechaEfectivaInicial" value="#{asignacionRolesForm.fechaEfectivaDesde}" pattern="dd/MM/yyyy" mask="true" locale="es" required="true" requiredMessage="Requerido"/>
+	       <p:message for="fechaEfectivaInicial"/>
+	    </h:panelGrid>
+	    </div>
+	    <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
+	    <h:panelGrid columns="3" >
+	       <p:outputLabel for="fechaEfectivaFinal" value="Hasta"/>
+	       <p:calendar id="fechaEfectivaFinal" value="#{asignacionRolesForm.fechaEfectivaHasta}" pattern="dd/MM/yyyy" mask="true" locale="es" />
+	       <p:message for="fechaEfectivaFinal"/>
+	    </h:panelGrid>
+	    </div>
+	    </div>
+        </p:fieldset>
+        
+        <div class="ui-g">
+        <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
+        <p:commandButton value="Guardar" update="panelCrear ConsultarAsignacionRolForm ModificarAsignacionRolForm" action="#{asignacionRolesForm.insert()}" oncomplete="handleInsertRequest(xhr, status, args)" /> 
+        </div>
+         <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
+        <p:commandButton value="Cancelar" type="reset" update="panelCrear"  onclick="PF('CrearAsignacionRolDialogWV').hide();" /> 
+        </div>
+        </div>
+   </p:panel>
+   </p:dialog>
+   </h:form>
+  
+  
+  <h:form id="ModificarAsignacionRolForm">
+   <f:passThroughAttribute name="autocomplete" value="off"/>
+   <p:dialog id="ModificarAsignacionRolDialogId" header="Modificar Asignacion Rol" widgetVar="ModificarAsignacionRolDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000">
+    <p:messages id="messages" showDetail="true" closable="true">
+        <p:autoUpdate />
+    </p:messages>
+     <p:panel id="panelModificar">
+      <div class="ui-g">
+      <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">
+         <h:panelGrid columns="3" columnClasses="pcright, pcleft, pcleft" >
+            <p:outputLabel  for="numero_usuario" value="Usuario"/>
+		    <p:selectOneMenu id="numero_usuario"  required="true" value="#{asignacionRolesForm.selectedAsignacionRoles.numeroUsuario}">
+		    <f:selectItem itemLabel="seleccione" itemValue="" /> 
+		    <f:selectItems  value="#{adminHelper.selectUsuariosItems}" />
+			</p:selectOneMenu> 
+			<p:message for="numero_usuario"/>
+			<p:outputLabel value="Rol" for="rolCode" />
+	        <p:selectOneMenu id="rolCode" required="true" value="#{asignacionRolesForm.selectedAsignacionRoles.rolCode}" >
+		    <f:selectItem itemLabel="seleccione" itemValue="" /> 
+		    <f:selectItems value="#{adminHelper.selectRolesItems}"  />
+		    </p:selectOneMenu>
+		    <h:outputText value="#{asignacionRolesForm.message}" /> 
+	        <p:message for="rolCode"/>	
+	    </h:panelGrid>
+      </div>
+     </div>
+     
+      <p:fieldset legend="Fechas Efectivas">
+       <div class="ui-g">
+	   <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
+	   <h:panelGrid columns="3" >
+	       <p:outputLabel for="fechaEfectivaInicial" value="Desde" />
+	       <p:calendar id="fechaEfectivaInicial" value="#{asignacionRolesForm.selectedAsignacionRoles.fechaEfectivaDesde}" pattern="dd/MM/yyyy" mask="true" locale="es" required="true" requiredMessage="Requerido"/>
+	       <p:message for="fechaEfectivaInicial"/>
+	    </h:panelGrid>
+	    </div>
+	    <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
+	    <h:panelGrid columns="3" >
+	       <p:outputLabel for="fechaEfectivaFinal" value="Hasta"/>
+	       <p:calendar id="fechaEfectivaFinal" value="#{asignacionRolesForm.selectedAsignacionRoles.fechaEfectivaHasta}" pattern="dd/MM/yyyy" mask="true" locale="es" />
+	       <p:message for="fechaEfectivaFinal"/>
+	    </h:panelGrid>
+	    </div>
+	    </div>
+        </p:fieldset>
+        
+        <div class="ui-g">
+        <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
+        <p:commandButton value="Guardar" update="panelModificar ConsultarAsignacionRolForm" action="#{asignacionRolesForm.actualizar()}" oncomplete="handleUpdateRequest(xhr, status, args)" /> 
+        </div>
+         <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
+        <p:commandButton value="Cancelar" type="reset" update="panelModificar"  onclick="PF('ModificarAsignacionRolDialogWV').hide();" /> 
+        </div>
+        </div>
+   </p:panel>
+   </p:dialog>
+   </h:form>
+   
+  
+  <h:form id="BuscarAsignacionRolForm">
+  <f:passThroughAttribute name="autocomplete" value="off"/>
+   <p:dialog id="BuscarAsignacionRolDialogId" header="Buscar Asignacion Rol" widgetVar="BuscarAsignacionRolDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000">
+    <p:panel id="panelBuscar">
+     <p:messages id="messages" showDetail="true" closable="true">
+        <p:autoUpdate />
+    </p:messages>
+      <div class="ui-g">
+      <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">
+         <h:panelGrid columns="3" columnClasses="pcright, pcleft, pcleft" >
+            <p:outputLabel  for="numero_usuario" value="Usuario"/>
+		    <p:selectOneMenu id="numero_usuario"  required="true" value="#{asignacionRolesForm.buscarNumeroUsuario}">
+		    <f:selectItem itemLabel="seleccione" itemValue="" /> 
+		    <f:selectItems  value="#{adminHelper.selectUsuariosItems}" />
+			</p:selectOneMenu> 
+			<p:message for="numero_usuario"/>
+			<p:outputLabel value="Rol" for="rolCode" />
+	        <p:selectOneMenu id="rolCode" required="true" value="#{asignacionRolesForm.buscarRolCode}" >
+		    <f:selectItem itemLabel="seleccione" itemValue="" /> 
+		    <f:selectItems value="#{adminHelper.selectRolesItems}"  />
+		    </p:selectOneMenu>
+		    <h:outputText value="#{asignacionRolesForm.message}" /> 
+	      <p:message for="rolCode"/>	
+	    </h:panelGrid>
+      </div>
+     </div>
+     
+      <div class="ui-g">
+       <div class="ui-g-12 ui-lg-12" style="text-align: right;">
+        <p:commandButton value="Cancelar" oncomplete="PF('BuscarAsignacionRolDialogWV').hide();">
+         <p:ajax update="panelBuscar" resetValues="true" />
+         </p:commandButton>
+         <p:commandButton value="Consultar"  update="panelBuscar ConsultarAsignacionRolForm ModificarAsignacionRolForm"  actionListener="#{asignacionRolesForm.buscar}" style="margin-left: 10px;" oncomplete="handleBuscar(xhr, status, args)"/>
+       </div>
+       </div>
+    </p:panel>
+   </p:dialog>
+  </h:form>
+  
+  <h:form id="BorrarAsignacionRolForm">
+   <f:passThroughAttribute name="autocomplete" value="off"/>
+   <p:dialog id="BorrarAsignacionRolDialogId" header="Borrar Asignacion Rol" widgetVar="BorrarAsignacionRolDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000">
+    <p:panel id="panelBorrar">
+     <p:messages id="messages" showDetail="true" closable="true">
+        <p:autoUpdate />
+    </p:messages>
+      <div class="ui-g">
+      <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12">
+       <h1>¿Esta seguro de que desea borrar el registro?</h1>
+      </div>
+      </div>
+      
+      <div class="ui-g">
+        <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
+        <p:commandButton value="Aceptar" update="panelBorrar ConsultarAsignacionRolForm" action="#{asignacionRolesForm.borrar()}" oncomplete="handleDeleteRequest(xhr, status, args)" /> 
+        </div>
+         <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
+        <p:commandButton value="Cancelar" type="reset" update="panelBorrar"  onclick="PF('BorrarAsignacionRolDialogWV').hide();" /> 
+        </div>
+        </div>
+     
+    </p:panel>
+    </p:dialog>
+  </h:form>
+  
+</ui:define>
+</ui:composition>
