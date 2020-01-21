@@ -11,9 +11,9 @@
     ID="Admin-Usuarios::#cmrise#admin#Usuarios.xhtml" NAME="output1"
     PATH="/cmrise/admin/Usuarios.xhtml"
     TARGET="rules:#cmrise#admin#Usuarios.xhtml" TITLE="Admin-Usuarios" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT ID="PaginaPrincipal::#cmrise#principal.xhtml"
-    NAME="output2" PATH="/cmrise/principal.xhtml"
-    TARGET="rules:#cmrise#principal.xhtml" TITLE="PaginaPrincipal" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="Admin-Roles::#cmrise#admin#AdmonRoles.xhtml"
+    NAME="output2" PATH="/cmrise/admin/AdmonRoles.xhtml"
+    TARGET="rules:#cmrise#admin#AdmonRoles.xhtml" TITLE="Admin-Roles" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="Preguntas-Manage-CoreCases::#cmrise#preguntas#corecases#ManageCoreCases.xhtml"
     NAME="output3"
@@ -50,46 +50,44 @@
     TARGET="rules:#cmrise#preguntas#mrqs#ManageNewMrqs.xhtml"
     TITLE="Preguntas-ManageNewMrqs" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
+    ID="Preguntas-CreateNewMrqs::#cmrise#preguntas#mrqs#CreateMrq.xhtml"
+    NAME="output9" PATH="/cmrise/preguntas/mrqs/CreateMrq.xhtml"
+    TARGET="rules:#cmrise#preguntas#mrqs#CreateMrq.xhtml"
+    TITLE="Preguntas-CreateNewMrqs" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="Preguntas-UpdateNewMrqs::#cmrise#preguntas#mrqs#UpdateMrq.xhtml"
+    NAME="output10" PATH="/cmrise/preguntas/mrqs/UpdateMrq.xhtml"
+    TARGET="rules:#cmrise#preguntas#mrqs#UpdateMrq.xhtml"
+    TITLE="Preguntas-UpdateNewMrqs" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
     ID="Preguntas-UpdateFreeTextAnswer-NewMrqs::#cmrise#preguntas#mrqs#UpdateFreeTextAnswer.xhtml"
-    NAME="output9"
+    NAME="output11"
     PATH="/cmrise/preguntas/mrqs/UpdateFreeTextAnswer.xhtml"
     TARGET="rules:#cmrise#preguntas#mrqs#UpdateFreeTextAnswer.xhtml"
     TITLE="Preguntas-UpdateFreeTextAnswer-NewMrqs" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="Preguntas-UpdateMultipleChoiceAnswer-NewMrqs::#cmrise#preguntas#mrqs#UpdateMultipleChoiceAnswer.xhtml"
-    NAME="output10"
+    NAME="output12"
     PATH="/cmrise/preguntas/mrqs/UpdateMultipleChoiceAnswer.xhtml"
     TARGET="rules:#cmrise#preguntas#mrqs#UpdateMultipleChoiceAnswer.xhtml"
     TITLE="Preguntas-UpdateMultipleChoiceAnswer-NewMrqs" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="Dicom-Leer-Archivo::#cmrise#dicom#LeerArchivoDicom.xhtml"
-    NAME="output11" PATH="/cmrise/dicom/LeerArchivoDicom.xhtml"
+    NAME="output13" PATH="/cmrise/dicom/LeerArchivoDicom.xhtml"
     TARGET="rules:#cmrise#dicom#LeerArchivoDicom.xhtml"
     TITLE="Dicom-Leer-Archivo" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="Exams-CoreCases-Manage::#cmrise#examenes#corecases#ManageTestExam.xhtml"
-    NAME="output12"
+    NAME="output14"
     PATH="/cmrise/examenes/corecases/ManageTestExam.xhtml"
     TARGET="rules:#cmrise#examenes#corecases#ManageTestExam.xhtml"
     TITLE="Exams-CoreCases-Manage" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="Exams-CoreCases-Update::#cmrise#examenes#corecases#UpdateTestExam.xhtml"
-    NAME="output13"
+    NAME="output15"
     PATH="/cmrise/examenes/corecases/UpdateTestExam.xhtml"
     TARGET="rules:#cmrise#examenes#corecases#UpdateTestExam.xhtml"
     TITLE="Exams-CoreCases-Update" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
-    ID="Exams-CoreCases-Update-AddCoreCase::#cmrise#examenes#corecases#UpdateTestExamAddCoreCase.xhtml"
-    NAME="output14"
-    PATH="/cmrise/examenes/corecases/UpdateTestExamAddCoreCase.xhtml"
-    TARGET="rules:#cmrise#examenes#corecases#UpdateTestExamAddCoreCase.xhtml"
-    TITLE="Exams-CoreCases-Update-AddCoreCase" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
-    ID="Exams-CoreCases-Manage-Candidates::#cmrise#examenes#corecases#ManageCandidates.xhtml"
-    NAME="output15"
-    PATH="/cmrise/examenes/corecases/ManageCandidates.xhtml"
-    TARGET="rules:#cmrise#examenes#corecases#ManageCandidates.xhtml"
-    TITLE="Exams-CoreCases-Manage-Candidates" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="Exams-CoreCases-Create-Candidate::#cmrise#examenes#corecases#CreateCandidate.xhtml"
     NAME="output16"
@@ -172,4 +170,6 @@
   NAME="rules:#cmrise#preguntas#corecases#UpdateQuestionMultipleChoiceCoreCase.xhtml"
   PATH="/cmrise/preguntas/corecases/UpdateQuestionMultipleChoiceCoreCase.xhtml"
   SHAPE="304,881,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#cmrise#admin#AdmonRoles.xhtml"
+  PATH="/cmrise/admin/AdmonRoles.xhtml" SHAPE="304,881,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

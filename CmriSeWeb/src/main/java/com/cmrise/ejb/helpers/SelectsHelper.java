@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.model.SelectItem;
@@ -12,7 +13,7 @@ import javax.inject.Inject;
 import com.cmrise.ejb.services.admin.TablasUtilitariasValoresLocal;
 import com.cmrise.jpa.dto.admin.TablasUtilitariasValoresDto;
 
-@ManagedBean  
+@ManagedBean
 @RequestScoped
 public class SelectsHelper {
 
