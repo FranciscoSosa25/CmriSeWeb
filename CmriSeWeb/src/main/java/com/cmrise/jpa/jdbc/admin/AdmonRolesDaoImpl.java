@@ -39,4 +39,19 @@ public class AdmonRolesDaoImpl implements AdmonRolesDao {
 		return q.getResultList();
 	}
 
+	@Override
+	public void delete(long pNumero) {
+		AdmonRolesDto admonRolesDto = em.find(AdmonRolesDto.class, pNumero); 
+		em.remove(admonRolesDto);
+	}
+
+	@Override
+	public void update(long pNumero, AdmonRolesDto pAdmonRolesDto) {
+		AdmonRolesDto admonRolesDto = em.find(AdmonRolesDto.class, pNumero); 
+		admonRolesDto.setNombre(pAdmonRolesDto.getNombre());
+		admonRolesDto.setDescripcion(pAdmonRolesDto.getDescripcion());
+		admonRolesDto.setFechaEfectivaDesde(pAdmonRolesDto.getFechaEfectivaDesde());
+		admonRolesDto.setFechaEfectivaHasta(pAdmonRolesDto.getFechaEfectivaHasta());
+	}
+
 }

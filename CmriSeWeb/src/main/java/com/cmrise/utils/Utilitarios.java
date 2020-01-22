@@ -1,8 +1,5 @@
 package com.cmrise.utils;
 
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
-
 
 public  class Utilitarios {
 

@@ -27,6 +27,7 @@ public class AdmonRolesForm {
 	private Date fechaEfectivaDesde;
 	private Date fechaEfectivaHasta;
 	private List<AdmonRoles> listAdmonRoles = new ArrayList<AdmonRoles>();
+	private AdmonRoles admonRolesForAction = new AdmonRoles();
 	
 	@Inject
 	AdmonRolesLocal admonRolesLocal;
@@ -37,23 +38,32 @@ public class AdmonRolesForm {
 	 @PostConstruct
 	 public void init() {
 		 System.out.println("Entra AdmonRolesForm init()");
+		 refreshEntity();
+		 System.out.println("Sale AdmonRolesForm init()");
+	 }		 
+	
+	public void refreshEntity() {
 		 List<AdmonRolesDto> listAdmonRolesDto = admonRolesLocal.findAll(); 
 		 Iterator<AdmonRolesDto> iterAdmonRolesDto = listAdmonRolesDto.iterator(); 
 		 listAdmonRoles = new ArrayList<AdmonRoles>();
 		 while(iterAdmonRolesDto.hasNext()) {
 			 AdmonRolesDto admonRolesDto = iterAdmonRolesDto.next(); 
 			 AdmonRoles admonRoles= new AdmonRoles(); 
+			 admonRoles.setNumero(admonRolesDto.getNumero());
 			 admonRoles.setNombre(admonRolesDto.getNombre());
 			 admonRoles.setDescripcion(admonRolesDto.getDescripcion());
 			 admonRoles.setFechaEfectivaDesde(utilitariosLocal.toUtilDate(admonRolesDto.getFechaEfectivaDesde()));
 			 if(null!=admonRolesDto.getFechaEfectivaHasta()) {
-			 admonRoles.setFechaEfectivaHasta(utilitariosLocal.toUtilDate(admonRolesDto.getFechaEfectivaHasta()));
+			  if(Utilitarios.endOfTime.equals(admonRolesDto.getFechaEfectivaHasta())) {
+			    admonRoles.setFechaEfectivaHasta(null);
+			  }else {
+				 admonRoles.setFechaEfectivaHasta(utilitariosLocal.toUtilDate(admonRolesDto.getFechaEfectivaHasta()));
+			  }
 			 }
 			 listAdmonRoles.add(admonRoles); 
 		 }
-		 System.out.println("Sale AdmonRolesForm init()");
-	 }		 
-	
+	}
+	 
 	public void create() {
 	 System.out.println("Entra AdmonRolesForm Create");
 	 boolean createIn = false; 
@@ -74,12 +84,53 @@ public class AdmonRolesForm {
 	 }
 	 admonRolesDto.setFechaEfectivaHasta(sqlFechaEfectivaHasta);
 	 admonRolesLocal.insert(admonRolesDto);
+	 refreshEntity();
 	 createIn = true;
 	 PrimeFaces.current().ajax().addCallbackParam("createIn", createIn);
 		
 	 System.out.println("Sale AdmonRolesForm Create");
 	}
 
+	public void selectForAction(AdmonRoles pAdmonRoles) {
+		admonRolesForAction.setNumero(pAdmonRoles.getNumero());
+		admonRolesForAction.setNombre(pAdmonRoles.getNombre());
+		admonRolesForAction.setDescripcion(pAdmonRoles.getDescripcion());
+		admonRolesForAction.setFechaEfectivaDesde(pAdmonRoles.getFechaEfectivaDesde());
+		admonRolesForAction.setFechaEfectivaHasta(pAdmonRoles.getFechaEfectivaHasta());
+	}
+	
+	public void update() {
+		boolean updateIn = false; 
+		AdmonRolesDto admonRolesDto = new AdmonRolesDto();
+		admonRolesDto.setNombre(admonRolesForAction.getNombre());
+		admonRolesDto.setDescripcion(admonRolesForAction.getDescripcion());
+		 java.sql.Date sqlFechaEfectivaDesde = null; 
+		 java.sql.Date sqlFechaEfectivaHasta = null; 
+		if(null!=admonRolesForAction.getFechaEfectivaDesde()) {
+			sqlFechaEfectivaDesde = utilitariosLocal.toSqlDate(admonRolesForAction.getFechaEfectivaDesde());
+		}
+		if(null!=admonRolesForAction.getFechaEfectivaHasta()) {
+			sqlFechaEfectivaHasta = utilitariosLocal.toSqlDate(admonRolesForAction.getFechaEfectivaHasta());
+		}else {
+			 sqlFechaEfectivaHasta = Utilitarios.endOfTime;
+		 }
+		admonRolesDto.setFechaEfectivaDesde(sqlFechaEfectivaDesde);
+		admonRolesDto.setFechaEfectivaHasta(sqlFechaEfectivaHasta);
+		admonRolesLocal.update(admonRolesForAction.getNumero(), admonRolesDto);
+		refreshEntity();
+		updateIn = true;
+	    PrimeFaces.current().ajax().addCallbackParam("updateIn", updateIn);
+	}
+	
+	public void delete() {
+		boolean deleteIn = false; 
+		admonRolesLocal.delete(admonRolesForAction.getNumero());
+	    refreshEntity();
+	    deleteIn = true;
+	    PrimeFaces.current().ajax().addCallbackParam("deleteIn", deleteIn);
+			
+	}
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -118,6 +169,14 @@ public class AdmonRolesForm {
 
 	public void setListAdmonRoles(List<AdmonRoles> listAdmonRoles) {
 		this.listAdmonRoles = listAdmonRoles;
+	}
+
+	public AdmonRoles getAdmonRolesForAction() {
+		return admonRolesForAction;
+	}
+
+	public void setAdmonRolesForAction(AdmonRoles admonRolesForAction) {
+		this.admonRolesForAction = admonRolesForAction;
 	}
 	
 }

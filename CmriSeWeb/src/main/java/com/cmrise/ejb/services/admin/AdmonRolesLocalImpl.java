@@ -24,4 +24,14 @@ public class AdmonRolesLocalImpl implements AdmonRolesLocal {
 		return admonRolesDao.findAll();
 	}
 
+	@Override
+	public void delete(long pNumero) {
+		admonRolesDao.delete(pNumero);
+	}
+
+	@Override
+	public void update(long pNumero, AdmonRolesDto pAdmonRolesDto) {
+		admonRolesDao.update(pNumero, pAdmonRolesDto);	
+	}
+
 }

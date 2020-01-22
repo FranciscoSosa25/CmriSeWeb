@@ -11,4 +11,6 @@ public interface AdmonRolesLocal {
 
 	public void insert(AdmonRolesDto pAdmonRolesDto);
 	public List<AdmonRolesDto> findAll();
+	public void delete(long pNumero); 
+	public void update(long pNumero,AdmonRolesDto pAdmonRolesDto);
 }

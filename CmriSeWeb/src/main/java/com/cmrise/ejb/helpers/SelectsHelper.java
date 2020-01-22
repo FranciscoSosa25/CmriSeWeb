@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
+import com.cmrise.ejb.services.admin.AdmonRolesLocal;
 import com.cmrise.ejb.services.admin.TablasUtilitariasValoresLocal;
 import com.cmrise.jpa.dto.admin.TablasUtilitariasValoresDto;
 
@@ -19,6 +20,7 @@ public class SelectsHelper {
 
 	@Inject 
 	TablasUtilitariasValoresLocal tablasUtilitariasValoresLocal; 
+		
 	
 	public List<SelectItem> getSelectTipoPreguntaItems(){
 		List<SelectItem> lselectTipoPreguntaItems = new ArrayList<SelectItem>();
@@ -142,5 +144,7 @@ public class SelectsHelper {
 		}
 		return lselectEstatusExamenItems; 
 	}
+	
+	
 	
 }

@@ -54,9 +54,7 @@ public class AdmonUsuariosDto implements Serializable {
 	@Column(name="NOMBRE")
 	private String nombre;
 
-	@Column(name="TIPO_USUARIO")
-	private String tipoUsuario;
-
+	
 	//bi-directional many-to-one association to AdmonUsuariosRolesDto
 	@OneToMany(mappedBy="admonUsuario")
 	private List<AdmonUsuariosRolesDto> admonUsuariosRoles;
@@ -160,13 +158,6 @@ public class AdmonUsuariosDto implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getTipoUsuario() {
-		return this.tipoUsuario;
-	}
-
-	public void setTipoUsuario(String tipoUsuario) {
-		this.tipoUsuario = tipoUsuario;
-	}
 
 	public List<AdmonUsuariosRolesDto> getAdmonUsuariosRoles() {
 		return this.admonUsuariosRoles;
