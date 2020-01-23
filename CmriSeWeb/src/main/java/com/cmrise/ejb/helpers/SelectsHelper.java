@@ -11,7 +11,10 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
 import com.cmrise.ejb.services.admin.AdmonRolesLocal;
+import com.cmrise.ejb.services.admin.AdmonUsuariosLocal;
 import com.cmrise.ejb.services.admin.TablasUtilitariasValoresLocal;
+import com.cmrise.jpa.dto.admin.AdmonRolesDto;
+import com.cmrise.jpa.dto.admin.KeysDto;
 import com.cmrise.jpa.dto.admin.TablasUtilitariasValoresDto;
 
 @ManagedBean
@@ -20,7 +23,12 @@ public class SelectsHelper {
 
 	@Inject 
 	TablasUtilitariasValoresLocal tablasUtilitariasValoresLocal; 
-		
+
+	@Inject 
+	AdmonRolesLocal admonRolesLocal;
+	
+	@Inject 
+	AdmonUsuariosLocal admonUsuariosLocal;
 	
 	public List<SelectItem> getSelectTipoPreguntaItems(){
 		List<SelectItem> lselectTipoPreguntaItems = new ArrayList<SelectItem>();
@@ -146,5 +154,28 @@ public class SelectsHelper {
 	}
 	
 	
+	public List<SelectItem> getSelectAdmonRolesItems(){
+		List<SelectItem> lselectAdmonRolesItems = new ArrayList<SelectItem>();
+		List<KeysDto> listAdmonRolesDto = admonRolesLocal.findKeys(); 
+		Iterator<KeysDto> iterAdmonRolesDto = listAdmonRolesDto.iterator();
+		while(iterAdmonRolesDto.hasNext()) {
+			KeysDto keysDto = iterAdmonRolesDto.next();
+			SelectItem selectItem = new SelectItem(keysDto.getNumero(),keysDto.getNombre());
+			lselectAdmonRolesItems.add(selectItem);
+		}
+		return lselectAdmonRolesItems; 
+	}
+	
+	public List<SelectItem> getSelectAdmonUsuariosItems(){
+		List<SelectItem> lselectAdmonUsuariosItems = new ArrayList<SelectItem>();
+		List<KeysDto> listAdmonUsuariosDto = admonUsuariosLocal.findKeys(); 
+		Iterator<KeysDto> iterAdmonUsuariosDto = listAdmonUsuariosDto.iterator();
+		while(iterAdmonUsuariosDto.hasNext()) {
+			KeysDto keysDto = iterAdmonUsuariosDto.next();
+			SelectItem selectItem = new SelectItem(keysDto.getNumero(),keysDto.getNombre());
+			lselectAdmonUsuariosItems.add(selectItem);
+		}
+		return lselectAdmonUsuariosItems; 
+	}
 	
 }

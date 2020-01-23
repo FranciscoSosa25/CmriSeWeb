@@ -13,6 +13,7 @@ import javax.persistence.Query;
 
 import com.cmrise.jpa.dao.admin.AdmonUsuariosDao;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosDto;
+import com.cmrise.jpa.dto.admin.KeysDto;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless
@@ -114,6 +115,13 @@ public class AdmonUsuariosDaoImpl implements AdmonUsuariosDao {
 	 admonUsuariosDto.setContrasenia(pAdmonUsuariosDto.getContrasenia());
 	 admonUsuariosDto.setCorreoElectronico(pAdmonUsuariosDto.getCorreoElectronico());
 		
+	}
+
+	@Override
+	public List<KeysDto> findKeys() {
+		String strQuery = "SELECT new com.cmrise.jpa.dto.admin.KeysDto(a.numero,a.nombre) FROM AdmonUsuariosDto a";
+		Query q = em.createQuery(strQuery); 
+		return q.getResultList();
 	}
 
 }

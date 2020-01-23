@@ -1,6 +1,7 @@
 package com.cmrise.jpa.jdbc.admin;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -9,6 +10,7 @@ import javax.persistence.Query;
 
 import com.cmrise.jpa.dao.admin.AdmonUsuariosRolesDao;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesDto;
+import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesV1Dto;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless
@@ -29,6 +31,28 @@ public class AdmonUsuariosRolesDaoImpl implements AdmonUsuariosRolesDao {
 		pAdmonUsuariosRolesDto.setFechaCreacion(sqlsysdate);
 		pAdmonUsuariosRolesDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pAdmonUsuariosRolesDto);
+	}
+
+	@Override
+	public void delete(long pNumero) {
+		AdmonUsuariosRolesDto admonUsuariosRolesDto = em.find(AdmonUsuariosRolesDto.class, pNumero);
+		em.remove(admonUsuariosRolesDto);
+	}
+
+	@Override
+	public void update(long pNumero, AdmonUsuariosRolesDto pAdmonUsuariosRolesDto) {
+		AdmonUsuariosRolesDto admonUsuariosRolesDto = em.find(AdmonUsuariosRolesDto.class, pNumero);
+		admonUsuariosRolesDto.setAdmonRole(pAdmonUsuariosRolesDto.getAdmonRole());
+		admonUsuariosRolesDto.setAdmonUsuario(pAdmonUsuariosRolesDto.getAdmonUsuario());
+		admonUsuariosRolesDto.setFechaEfectivaDesde(pAdmonUsuariosRolesDto.getFechaEfectivaDesde());
+		admonUsuariosRolesDto.setFechaEfectivaHasta(pAdmonUsuariosRolesDto.getFechaEfectivaHasta());
+	}
+
+	@Override
+	public List<AdmonUsuariosRolesV1Dto> findAll() {
+		String strQuery = "SELECT a FROM AdmonUsuariosRolesV1Dto a"; 
+		Query query = em.createQuery(strQuery);
+		return query.getResultList();
 	}
 
 }

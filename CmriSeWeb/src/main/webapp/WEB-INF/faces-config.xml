@@ -31,13 +31,18 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
+            <from-outcome>Admon-Roles</from-outcome>
+            <to-view-id>/cmrise/admin/AdmonRoles.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+         <navigation-case>
             <from-outcome>Admon-Usuarios</from-outcome>
             <to-view-id>/cmrise/admin/AdmonUsuarios.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         <navigation-case>
-            <from-outcome>Admon-Roles</from-outcome>
-            <to-view-id>/cmrise/admin/AdmonRoles.xhtml</to-view-id>
+            <from-outcome>Admon-Usuarios-Roles</from-outcome>
+            <to-view-id>/cmrise/admin/AdmonUsuariosRoles.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         <navigation-case>

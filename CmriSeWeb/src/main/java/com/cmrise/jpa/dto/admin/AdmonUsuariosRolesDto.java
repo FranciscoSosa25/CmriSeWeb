@@ -47,6 +47,7 @@ public class AdmonUsuariosRolesDto implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="NUMERO_USUARIO")
 	private AdmonUsuariosDto admonUsuario;
+	
 
 	public AdmonUsuariosRolesDto() {
 	}
@@ -122,5 +123,7 @@ public class AdmonUsuariosRolesDto implements Serializable {
 	public void setAdmonUsuario(AdmonUsuariosDto admonUsuario) {
 		this.admonUsuario = admonUsuario;
 	}
+
+
 
 }

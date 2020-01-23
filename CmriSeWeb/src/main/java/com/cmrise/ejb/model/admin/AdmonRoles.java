@@ -7,8 +7,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 
-@ManagedBean  
-@ViewScoped
 public class AdmonRoles implements Serializable {
 
 	private static final long serialVersionUID = 1L;

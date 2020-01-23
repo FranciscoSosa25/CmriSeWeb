@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import com.cmrise.jpa.dao.admin.AdmonRolesDao;
 import com.cmrise.jpa.dto.admin.AdmonRolesDto;
+import com.cmrise.jpa.dto.admin.KeysDto;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless
@@ -52,6 +53,13 @@ public class AdmonRolesDaoImpl implements AdmonRolesDao {
 		admonRolesDto.setDescripcion(pAdmonRolesDto.getDescripcion());
 		admonRolesDto.setFechaEfectivaDesde(pAdmonRolesDto.getFechaEfectivaDesde());
 		admonRolesDto.setFechaEfectivaHasta(pAdmonRolesDto.getFechaEfectivaHasta());
+	}
+
+	@Override
+	public List<KeysDto> findKeys() {
+		String strQuery = "SELECT new com.cmrise.jpa.dto.admin.KeysDto(a.numero,a.nombre) FROM AdmonRolesDto a";
+		Query q = em.createQuery(strQuery); 
+		return q.getResultList();
 	}
 
 }

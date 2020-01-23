@@ -10,6 +10,23 @@
 </ui:define>
                 
 <ui:define name="content">
-<h1>Gestionar Nuevas MRQS</h1>
+<h1>Gestionar Nuevas MRQs</h1>
+<h:form id="ReadOnlyForm">
+ <p:dataTable emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+   <f:facet name="header">MRQs</f:facet>
+    <p:column headerText="Título">
+    </p:column>
+    <p:column headerText="Tipo Pregunta">
+    </p:column>
+    <p:column headerText="Estatus">
+    </p:column>
+    <p:column headerText="Tema">
+    </p:column>
+     <p:column headerText="Etiquetas">
+    </p:column>
+     <p:column headerText="Acciones">
+    </p:column>
+ </p:dataTable>
+ </h:form>
 </ui:define>
 </ui:composition>                

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import com.cmrise.jpa.dao.admin.AdmonRolesDao;
 import com.cmrise.jpa.dto.admin.AdmonRolesDto;
+import com.cmrise.jpa.dto.admin.KeysDto;
 
 @Stateless 
 public class AdmonRolesLocalImpl implements AdmonRolesLocal {
@@ -32,6 +33,11 @@ public class AdmonRolesLocalImpl implements AdmonRolesLocal {
 	@Override
 	public void update(long pNumero, AdmonRolesDto pAdmonRolesDto) {
 		admonRolesDao.update(pNumero, pAdmonRolesDto);	
+	}
+
+	@Override
+	public List<KeysDto> findKeys() {
+		return admonRolesDao.findKeys();
 	}
 
 }
