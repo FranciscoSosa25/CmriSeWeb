@@ -5,6 +5,11 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
 <ui:define name="content">
+<p:breadCrumb>
+    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
+     <p:menuitem value="Leer Archivo Dicom" url="#"/>
+
+</p:breadCrumb>
 <h1>Leer Archivo Dicom</h1>
 <p:commandButton value="Leer Solo un Archivo Dicom" actionListener="#{leerArchivoDicomForm.leerSoloUnArchivoDicom()}"/>
 </ui:define>

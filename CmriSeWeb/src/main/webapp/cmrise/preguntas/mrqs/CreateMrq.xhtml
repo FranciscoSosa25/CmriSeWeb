@@ -17,7 +17,13 @@
 
 <ui:define name="content">
 <h:form id="createMrqForm">
-<h1>Crear Mrq</h1>
+<p:breadCrumb>
+    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
+     <p:menuitem value="MRQs" outcome="Preguntas-ManageNewMrqs"/>
+    <p:menuitem value="Nueva MRQ" url="#" />
+   
+</p:breadCrumb>
+<h1>CREAR MRQ</h1>
  <p:panel header="INFORMACIÓN DE LA PREGUNTA">
    <div class="ui-g">
      <div class="ui-g-12 ui-md-12" >
