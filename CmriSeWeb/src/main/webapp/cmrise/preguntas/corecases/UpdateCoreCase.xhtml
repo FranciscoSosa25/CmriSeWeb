@@ -5,6 +5,11 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
 <ui:define name="content">
+<p:breadCrumb>
+    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
+     <p:menuitem value="Actualizar Caso Principal" url="#"/>
+
+</p:breadCrumb>
 <h1>Actualizar Caso Principal</h1>
 
 <h:form id="updateForm">
