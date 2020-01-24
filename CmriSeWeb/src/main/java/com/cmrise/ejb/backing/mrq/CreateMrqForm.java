@@ -22,7 +22,7 @@ public class CreateMrqForm {
 	@Inject
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal; 
 	
-	public void create() {
+	public String create() {
 		System.out.println("Entra CreateMrqForm create");
 		MrqsPreguntasHdrDto mrqsPreguntasHdrDto = new MrqsPreguntasHdrDto();
 		mrqsPreguntasHdrDto.setNombre(this.nombre);
@@ -37,6 +37,7 @@ public class CreateMrqForm {
 		mrqsPreguntasHdrDto.setSociedad(Utilitarios.SOCIEDAD);
 		mrqsPreguntasHdrLocal.insert(mrqsPreguntasHdrDto);
 		System.out.println("Sale CreateMrqForm create");
+		return "Preguntas-ManageNewMrqs";
 	}
 	
 	public String getNombre() {

@@ -1,6 +1,7 @@
 package com.cmrise.jpa.jdbc.mrqs;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -9,6 +10,7 @@ import javax.persistence.Query;
 
 import com.cmrise.jpa.dao.mrqs.MrqsPreguntasHdrDao;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless
@@ -40,6 +42,12 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 	@Override
 	public void update(long pNumero, MrqsPreguntasHdrDto pMrqsPreguntasHdrDto) {
 		MrqsPreguntasHdrDto mrqsPreguntasHdrDto =em.find(MrqsPreguntasHdrDto.class, pNumero);
+	}
+
+	@Override
+	public List<MrqsPreguntasHdrV1Dto> findAll() {
+		String strQuery ="SELECT m FROM MrqsPreguntasHdrV1Dto m";
+		return em.createQuery(strQuery).getResultList();
 	}
 
 }
