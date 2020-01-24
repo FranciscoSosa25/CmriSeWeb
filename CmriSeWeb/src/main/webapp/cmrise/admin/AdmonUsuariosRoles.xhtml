@@ -1,0 +1,166 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="xxhrwjs">
+<script type="text/javascript">
+function handleCreateRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.createIn) {
+		 PF('createUsuarioRolDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+    }else{
+    	 PF('createUsuarioRolDialogWV').hide();
+    }	
+}
+function handleDeleteRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.deleteIn) {
+		 PF('deleteUsuarioRolDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+   }else{
+   	 PF('deleteUsuarioRolDialogWV').hide();
+   }	
+}
+function handleUpdateRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.updateIn) {
+		 PF('updateUsuarioRolDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+  }else{
+  	 PF('updateUsuarioRolDialogWV').hide();
+  }	
+}
+</script>
+</ui:define>
+<ui:define name="content">
+<h1>Administración Usuarios Roles</h1>
+<h:form id="ReadOnlyForm">
+ <p:dataTable  var="admonUsuarioRol"  value="#{admonUsuariosRolesForm.listAdmonUsuariosRolesV1}" emptyMessage="Sin resultados" paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+   <f:facet name="header">USUARIOS ROLES</f:facet>
+   <p:column headerText="Matricula">
+      <h:outputText value="#{admonUsuarioRol.matricula}"/>
+   </p:column>
+   <p:column headerText="Usuario">
+      <h:outputText value="#{admonUsuarioRol.nombreCompletoUsuario}"/>
+   </p:column>
+   <p:column headerText="Rol">
+     <h:outputText value="#{admonUsuarioRol.nombreRol}"/>
+   </p:column>
+    <p:column headerText="Desde">
+      <h:outputText value="#{admonUsuarioRol.fedAur}">
+      <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+     </h:outputText>
+    </p:column>
+     <p:column headerText="Hasta">
+        <h:outputText value="#{admonUsuarioRol.fehAur}">
+      <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+     </h:outputText>
+    </p:column>
+     <p:column headerText="Opciones:">
+     </p:column>
+   
+     <p:column  headerText="Opciones">
+      <p:commandButton icon="fa fa-edit" style="margin-left: 10px;" update="UpdateForm" oncomplete="PF('updateUsuarioRolDialogWV').show();" ajax="true" actionListener="#{admonUsuariosRolesForm.selectForAction(admonUsuarioRol)}"/>
+      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteUsuarioRolDialogWV').show();" ajax="true" actionListener="#{admonUsuariosRolesForm.selectForAction(admonUsuarioRol)}"/>
+     </p:column>
+   
+    <f:facet name="footer">
+           <div class="ui-g">
+             <div class="ui-g-12 ui-lg-12" style="text-align: right;">
+                 <p:commandButton id="RegistrarBtn" value="Crear Relación Usuario-Rol" icon="fa fa-plus" onclick="PF('createUsuarioRolDialogWV').show();" />
+              </div>
+            </div>
+        </f:facet> 
+  </p:dataTable>
+ </h:form> 
+ 
+ <h:form id="CreateForm">
+ <f:passThroughAttribute name="autocomplete" value="off"/>
+  <p:dialog id="createUsuarioRolDialogId" widgetVar="createUsuarioRolDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Crear Relación Usuario-Rol">
+   <p:panelGrid id="createPanelID" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+      <p:outputLabel for="numeroUsuario" value="Usuario"/>
+      <p:selectOneMenu id="numeroUsuario" value="#{admonUsuariosRolesForm.numeroUsuario}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+      <f:selectItem itemLabel="Seleccione un Usuario" itemValue="" />
+      <f:selectItems value="#{selectsHelper.selectAdmonUsuariosItems}" />
+      </p:selectOneMenu>
+       <p:message for="numeroUsuario"/>
+       <p:outputLabel for="numeroRol" value="Rol"/>
+      <p:selectOneMenu id="numeroRol" value="#{admonUsuariosRolesForm.numeroRol}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+      <f:selectItem itemLabel="Seleccione un Rol" itemValue="" />
+      <f:selectItems value="#{selectsHelper.selectAdmonRolesItems}" />
+      </p:selectOneMenu>
+      <p:message for="numeroRol"/>
+      <p:outputLabel for="fechaEfectivaDesdeInput" value="Desde"/>
+	  <p:calendar id="fechaEfectivaDesdeInput" value="#{admonUsuariosRolesForm.fechaEfectivaDesde}"  locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+      <p:message for="fechaEfectivaDesdeInput"/>
+      <p:outputLabel for="fechaEfectivaHastaInput" value="Hasta"/>
+      <p:calendar id="fechaEfectivaHastaInput" value="#{admonUsuariosRolesForm.fechaEfectivaHasta}"  locale="es" pattern="dd/MM/yyyy" mask="true" />
+      <p:message for="fechaEfectivaHastaInput"/>
+      <f:facet name="footer">
+        <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CreateBtn" update="createPanelID ReadOnlyForm" value="Aceptar" actionListener="#{admonUsuariosRolesForm.create()}" oncomplete="handleCreateRequest(xhr, status, args)"  />
+              </div>
+             <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('createUsuarioRolDialogWV').hide();" />
+              </div>
+            </div>
+      </f:facet>
+   </p:panelGrid>   
+  </p:dialog>
+  </h:form>
+  
+ <h:form id="UpdateForm">
+ <f:passThroughAttribute name="autocomplete" value="off"/>
+  <p:dialog id="updateUsuarioRolDialogId" widgetVar="updateUsuarioRolDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Actualizar Relación Usuario-Rol">
+    <p:panelGrid id="updatePanelID" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+      <p:outputLabel for="numeroUsuario" value="Usuario"/>
+      <p:selectOneMenu id="numeroUsuario" value="#{admonUsuariosRolesForm.admonUsuariosRolesV1ForAction.numeroUsuario}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+      <f:selectItem itemLabel="Seleccione un Usuario" itemValue="" />
+      <f:selectItems value="#{selectsHelper.selectAdmonUsuariosItems}" />
+      </p:selectOneMenu>
+       <p:message for="numeroUsuario"/>
+       <p:outputLabel for="numeroRol" value="Rol"/>
+      <p:selectOneMenu id="numeroRol" value="#{admonUsuariosRolesForm.admonUsuariosRolesV1ForAction.numeroRol}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+      <f:selectItem itemLabel="Seleccione un Rol" itemValue="" />
+      <f:selectItems value="#{selectsHelper.selectAdmonRolesItems}" />
+      </p:selectOneMenu>
+      <p:message for="numeroRol"/>
+      <p:outputLabel for="fechaEfectivaDesdeInput" value="Desde"/>
+	  <p:calendar id="fechaEfectivaDesdeInput" value="#{admonUsuariosRolesForm.admonUsuariosRolesV1ForAction.fedAur}"  locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+      <p:message for="fechaEfectivaDesdeInput"/>
+      <p:outputLabel for="fechaEfectivaHastaInput" value="Hasta"/>
+      <p:calendar id="fechaEfectivaHastaInput" value="#{admonUsuariosRolesForm.admonUsuariosRolesV1ForAction.fehAur}"  locale="es" pattern="dd/MM/yyyy" mask="true" />
+      <p:message for="fechaEfectivaHastaInput"/>
+      <f:facet name="footer">
+        <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="UpdateBtn" update="updatePanelID ReadOnlyForm" value="Aceptar" actionListener="#{admonUsuariosRolesForm.update()}" oncomplete="handleUpdateRequest(xhr, status, args)"  />
+              </div>
+             <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('createUsuarioRolDialogWV').hide();" />
+              </div>
+            </div>
+      </f:facet>
+   </p:panelGrid>
+  </p:dialog>
+  </h:form>
+  
+  
+<h:form id="DeleteForm">
+   <p:dialog id="deleteUsuarioDialogId" widgetVar="deleteUsuarioRolDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Relacion Usuario-Rol">
+    <h2>¿Esta seguro de que desea borrar este registro?</h2>
+    <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="DeleteBtn" update="ReadOnlyForm" value="Aceptar" actionListener="#{admonUsuariosForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
+              </div>
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('deleteUsuarioDialogWV').hide();" />
+              </div>
+     </div>
+   </p:dialog>
+</h:form>   
+ 
+</ui:define>
+</ui:composition>
