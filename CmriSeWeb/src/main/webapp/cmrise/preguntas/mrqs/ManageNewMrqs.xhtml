@@ -23,6 +23,10 @@ function handleDeleteRequest(xhr, status, args){
 </ui:define>
                 
 <ui:define name="content">
+<p:breadCrumb>
+    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
+     <p:menuitem value="MRQs" url="#" />
+</p:breadCrumb>
 <h1>Gestionar Nuevas MRQs</h1>
 <h:form id="ReadOnlyForm">
  <p:dataTable var="preguntasHdrV1"  value="#{manageMrqsForm.listMrqsPreguntasHdrV1}"  paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
@@ -62,6 +66,6 @@ function handleDeleteRequest(xhr, status, args){
      </div>
   </p:dialog>
 </h:form>
- 
+
 </ui:define>
 </ui:composition>                

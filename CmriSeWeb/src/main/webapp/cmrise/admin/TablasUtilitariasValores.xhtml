@@ -40,6 +40,12 @@ function guardarFn(){
 
 
 <ui:define name="content">
+<p:breadCrumb>
+    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
+     <p:menuitem value="Tablas Utilitarias" url="#"/>
+   
+   
+</p:breadCrumb>
   <h:form id="NuevoTablUtilValo">
    <f:passThroughAttribute name="autocomplete" value="off"/>
      <p:outputLabel for="tipo" value="Tipo Tabla"/>

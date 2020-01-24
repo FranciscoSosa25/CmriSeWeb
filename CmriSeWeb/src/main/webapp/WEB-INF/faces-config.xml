@@ -145,6 +145,11 @@
             <to-view-id>/cmrise/examenes/corecases/CreateCandidate.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+          <navigation-case>
+            <from-outcome>Admin-RolesUsuarios</from-outcome>
+            <to-view-id>/cmrise/admin/RolesUsuarios.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
 </navigation-rule>        
  
 </faces-config>
