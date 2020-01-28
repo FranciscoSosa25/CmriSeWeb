@@ -14,6 +14,14 @@ function handleDeleteRequest(xhr, status, args){
    	 PF('deleteRolDialogWV').hide();
    }	
 }
+function handleDuplicateRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.duplicateIn) {
+		 PF('duplicateMrqDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+  }else{
+  	 PF('duplicateMrqDialogWV').hide();
+  }	
+}
 </script>
 </ui:define>
 
@@ -47,11 +55,26 @@ function handleDeleteRequest(xhr, status, args){
         <h:outputText value="#{preguntasHdrV1.etiquetas}" />
     </p:column>
      <p:column headerText="Acciones">
-       <p:commandButton icon="fa fa-edit" style="margin-left: 10px;" />
+       <p:commandButton icon="fa fa-edit" style="margin-left: 10px;" action="#{manageMrqsForm.update(preguntasHdrV1)}"/>
+       <p:commandButton icon="fa fa-copy" style="margin-left: 10px;" oncomplete="PF('duplicateMrqDialogWV').show();" ajax="true" actionListener="#{manageMrqsForm.selectForAction(preguntasHdrV1)}"/>
        <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteRolDialogWV').show();" ajax="true" actionListener="#{manageMrqsForm.selectForAction(preguntasHdrV1)}"/>
     </p:column>
  </p:dataTable>
  </h:form>
+ 
+  <h:form id="DuplicateForm">
+  <p:dialog id="duplicateMrqDialogId" widgetVar="duplicateMrqDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Duplicar Registro">
+   <h2>¿Seguro que quieres duplicar esta pregunta?</h2>
+    <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="DeleteBtn" update="ReadOnlyForm" value="Aceptar" actionListener="#{manageMrqsForm.duplicate()}" oncomplete="handleDuplicateRequest(xhr, status, args)"  />
+              </div>
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('duplicateMrqDialogWV').hide();" />
+              </div>
+     </div>
+  </p:dialog>
+</h:form>
  
  <h:form id="DeleteForm">
   <p:dialog id="deleteRolDialogId" widgetVar="deleteRolDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Registro">

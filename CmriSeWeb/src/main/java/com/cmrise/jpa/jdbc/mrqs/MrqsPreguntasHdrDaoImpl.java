@@ -50,4 +50,16 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 		return em.createQuery(strQuery).getResultList();
 	}
 
+	@Override
+	public MrqsPreguntasHdrV1Dto findByNumero(long pNumero) {
+		MrqsPreguntasHdrV1Dto retval = null;
+		String strQuery = "SELECT m FROM MrqsPreguntasHdrV1Dto m WHERE m.numero="+pNumero; 
+		Query query = em.createQuery(strQuery); 
+		retval = (MrqsPreguntasHdrV1Dto) query.getSingleResult();
+		System.out.println("****");
+		System.out.println("pNumero:"+pNumero);
+		System.out.println(retval);
+		return retval;
+	}
+
 }

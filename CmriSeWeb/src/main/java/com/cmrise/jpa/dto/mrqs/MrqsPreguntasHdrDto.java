@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 
 /**
@@ -64,8 +65,12 @@ public class MrqsPreguntasHdrDto implements Serializable {
 	private String titulo;
 
 	//bi-directional one-to-one association to MrqsPreguntasFtaDto
-	@OneToOne(mappedBy="mrqsPreguntasHdr")
+	@OneToOne(mappedBy="mrqsPreguntasHdr1")
 	private MrqsPreguntasFtaDto mrqsPreguntasFta;
+
+	//bi-directional many-to-one association to MrqsPreguntasFtaDto
+	@OneToMany(mappedBy="mrqsPreguntasHdr2")
+	private List<MrqsPreguntasFtaDto> mrqsPreguntasFtas;
 
 	public MrqsPreguntasHdrDto() {
 	}
@@ -196,6 +201,28 @@ public class MrqsPreguntasHdrDto implements Serializable {
 
 	public void setMrqsPreguntasFta(MrqsPreguntasFtaDto mrqsPreguntasFta) {
 		this.mrqsPreguntasFta = mrqsPreguntasFta;
+	}
+
+	public List<MrqsPreguntasFtaDto> getMrqsPreguntasFtas() {
+		return this.mrqsPreguntasFtas;
+	}
+
+	public void setMrqsPreguntasFtas(List<MrqsPreguntasFtaDto> mrqsPreguntasFtas) {
+		this.mrqsPreguntasFtas = mrqsPreguntasFtas;
+	}
+
+	public MrqsPreguntasFtaDto addMrqsPreguntasFta(MrqsPreguntasFtaDto mrqsPreguntasFta) {
+		getMrqsPreguntasFtas().add(mrqsPreguntasFta);
+		mrqsPreguntasFta.setMrqsPreguntasHdr2(this);
+
+		return mrqsPreguntasFta;
+	}
+
+	public MrqsPreguntasFtaDto removeMrqsPreguntasFta(MrqsPreguntasFtaDto mrqsPreguntasFta) {
+		getMrqsPreguntasFtas().remove(mrqsPreguntasFta);
+		mrqsPreguntasFta.setMrqsPreguntasHdr2(null);
+
+		return mrqsPreguntasFta;
 	}
 
 }
