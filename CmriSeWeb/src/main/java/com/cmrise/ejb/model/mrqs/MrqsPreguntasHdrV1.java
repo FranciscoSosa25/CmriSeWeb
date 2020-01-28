@@ -1,4 +1,4 @@
-package com.cmrise.ejb.model.admin;
+package com.cmrise.ejb.model.mrqs;
 
 import java.io.Serializable;
 import java.util.Date;

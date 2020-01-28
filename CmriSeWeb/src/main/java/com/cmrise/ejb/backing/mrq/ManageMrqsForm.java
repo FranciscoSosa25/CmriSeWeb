@@ -3,11 +3,14 @@ package com.cmrise.ejb.backing.mrq;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.PrimeFaces;
 
-import com.cmrise.ejb.model.admin.MrqsPreguntasHdrV1;
+import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
 
@@ -63,8 +66,21 @@ public class ManageMrqsForm {
 	    PrimeFaces.current().ajax().addCallbackParam("deleteIn", deleteIn);
 	}
 	
-	public void update() {
-		
+	public String update(MrqsPreguntasHdrV1 pMrqsPreguntasHdrV1) {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest();
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("NumeroHdrSV", pMrqsPreguntasHdrV1.getNumero());  
+		return "Preguntas-UpdateFreeTextAnswer-NewMrqs";
+	}
+	
+	public void duplicate() {
+		System.out.println("Entra "+this.getClass()+" duplicate");
+		boolean duplicateIn = false;
+		refreshEntity();
+		duplicateIn = true;
+	    PrimeFaces.current().ajax().addCallbackParam("duplicateIn", duplicateIn);
+		System.out.println("Sale "+this.getClass()+" duplicate");
 	}
 	
 	public List<MrqsPreguntasHdrV1> getListMrqsPreguntasHdrV1() {

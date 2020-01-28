@@ -153,7 +153,7 @@ function handleUpdateRequest(xhr, status, args){
     <h2>¿Esta seguro de que desea borrar este registro?</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeleteBtn" update="ReadOnlyForm" value="Aceptar" actionListener="#{admonUsuariosForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
+                 <p:commandButton id="DeleteBtn" update="ReadOnlyForm" value="Aceptar" actionListener="#{admonUsuariosRolesForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
               </div>
               <div class="ui-g-12 ui-lg-2" >
                  <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('deleteUsuarioDialogWV').hide();" />

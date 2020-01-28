@@ -16,5 +16,6 @@ public interface MrqsPreguntasHdrLocal {
 	public void delete(long pNumero);
 	public void update(long pNumero,MrqsPreguntasHdrDto pMrqsPreguntasHdrDto);
 	public List<MrqsPreguntasHdrV1Dto> findAll();
-
+	public MrqsPreguntasHdrV1Dto findByNumero(long pNumero);
+	
 }

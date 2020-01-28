@@ -68,6 +68,7 @@ public class AdmonUsuariosRolesForm {
 	}
 
 	public void create() {
+		 boolean createIn = false; 
 		AdmonUsuariosRolesDto admonUsuariosRolesDto = new AdmonUsuariosRolesDto();
 		AdmonUsuariosDto admonUsuariosDto = new AdmonUsuariosDto();
 		AdmonRolesDto admonRolesDto = new AdmonRolesDto();
@@ -84,6 +85,9 @@ public class AdmonUsuariosRolesForm {
 			admonUsuariosRolesDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
 		}
 		admonUsuariosRolesLocal.insert(admonUsuariosRolesDto);
+		refreshEntity();
+		createIn = true; 
+		PrimeFaces.current().ajax().addCallbackParam("createIn", createIn);
 		
 	}
 	
@@ -118,6 +122,14 @@ public class AdmonUsuariosRolesForm {
 		refreshEntity();
 		updateIn = true; 
 		PrimeFaces.current().ajax().addCallbackParam("updateIn", updateIn);
+	}
+	
+	public void delete() {
+		boolean deleteIn = false; 
+		admonUsuariosRolesLocal.delete(admonUsuariosRolesV1ForAction.getNumero());
+		refreshEntity();
+		deleteIn = true; 
+		PrimeFaces.current().ajax().addCallbackParam("deleteIn", deleteIn);
 	}
 	
 	public long getNumeroRol() {

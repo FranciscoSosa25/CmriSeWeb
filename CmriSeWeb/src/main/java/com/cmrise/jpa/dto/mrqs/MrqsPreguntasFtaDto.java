@@ -42,9 +42,6 @@ public class MrqsPreguntasFtaDto implements Serializable {
 	@Column(name="METODO_PUNTUACION")
 	private String metodoPuntuacion;
 
-	@Column(name="NUMERO_HDR")
-	private long numeroHdr;
-
 	@Column(name="RESPUESTA_CORRECTA")
 	private String respuestaCorrecta;
 
@@ -63,7 +60,12 @@ public class MrqsPreguntasFtaDto implements Serializable {
 	//bi-directional one-to-one association to MrqsPreguntasHdrDto
 	@OneToOne
 	@JoinColumn(name="NUMERO")
-	private MrqsPreguntasHdrDto mrqsPreguntasHdr;
+	private MrqsPreguntasHdrDto mrqsPreguntasHdr1;
+
+	//bi-directional many-to-one association to MrqsPreguntasHdrDto
+	@ManyToOne
+	@JoinColumn(name="NUMERO_HDR")
+	private MrqsPreguntasHdrDto mrqsPreguntasHdr2;
 
 	public MrqsPreguntasFtaDto() {
 	}
@@ -132,14 +134,6 @@ public class MrqsPreguntasFtaDto implements Serializable {
 		this.metodoPuntuacion = metodoPuntuacion;
 	}
 
-	public long getNumeroHdr() {
-		return this.numeroHdr;
-	}
-
-	public void setNumeroHdr(long numeroHdr) {
-		this.numeroHdr = numeroHdr;
-	}
-
 	public String getRespuestaCorrecta() {
 		return this.respuestaCorrecta;
 	}
@@ -180,12 +174,20 @@ public class MrqsPreguntasFtaDto implements Serializable {
 		this.valorPuntuacion = valorPuntuacion;
 	}
 
-	public MrqsPreguntasHdrDto getMrqsPreguntasHdr() {
-		return this.mrqsPreguntasHdr;
+	public MrqsPreguntasHdrDto getMrqsPreguntasHdr1() {
+		return this.mrqsPreguntasHdr1;
 	}
 
-	public void setMrqsPreguntasHdr(MrqsPreguntasHdrDto mrqsPreguntasHdr) {
-		this.mrqsPreguntasHdr = mrqsPreguntasHdr;
+	public void setMrqsPreguntasHdr1(MrqsPreguntasHdrDto mrqsPreguntasHdr1) {
+		this.mrqsPreguntasHdr1 = mrqsPreguntasHdr1;
+	}
+
+	public MrqsPreguntasHdrDto getMrqsPreguntasHdr2() {
+		return this.mrqsPreguntasHdr2;
+	}
+
+	public void setMrqsPreguntasHdr2(MrqsPreguntasHdrDto mrqsPreguntasHdr2) {
+		this.mrqsPreguntasHdr2 = mrqsPreguntasHdr2;
 	}
 
 }
