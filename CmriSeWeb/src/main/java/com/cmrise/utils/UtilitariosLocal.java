@@ -9,4 +9,5 @@ public interface UtilitariosLocal {
 	public  java.sql.Timestamp toSqlTimestamp(java.util.Date pUtilDate); 
 	public java.util.Date toUtilDate(java.sql.Date pSqlDate); 
 	public java.util.Date toUtilDate(java.sql.Timestamp pSqlTimestamp); 
+	public long objToLong(Object pObject);
 }

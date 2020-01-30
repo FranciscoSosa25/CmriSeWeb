@@ -20,42 +20,54 @@
      <f:facet name="header">
         <div style="background-color:blue">Arbol Caso Principal</div>
      </f:facet>
-     <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Pregunta" icon="pi pi-plus" action="Preguntas-Create-CoreCase"/>
+     <p:commandButton immediate="true" title="Nuevo"  value="Nueva Pregunta" icon="pi pi-plus" action="#{updateCoreCaseForm.createCoreQuestion()}"/>
    </p:panelGrid>
    <p:panelGrid  columns="1" layout="grid">
      <f:facet name="header">
         <div style="background-color:blue">Series Dicom</div>
      </f:facet>
-     <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Serie" icon="pi pi-plus" action="Preguntas-Create-CoreCase"/>
+     <p:commandButton immediate="true" title="Nuevo"  value="Nueva Serie" icon="pi pi-plus" action="Preguntas-Create-CoreCase"/>
    </p:panelGrid>
  </div>
  <div class="ui-g-10">
-    <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
-  <p:outputLabel for="internalName" value="Nombre"/>
-  <p:inputText id="internalName" style="width:100%"/>
-  <p:message for="internalName"/>
-  <p:outputLabel for="topic" value="Tema de Pregunta" />
-  <p:selectOneMenu id="topic" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-  <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
-  <f:selectItems value="#{selectsHelper.selectTemaDePreguntaItems}" />
-  </p:selectOneMenu>
-  <p:message for="topic"/>
-  <p:outputLabel for="clinicalHistory" value="Historial Clinico"/>
-  <p:inputTextarea  id="clinicalHistory"  rows="4" style="width:100%"/>
-  <p:message  for="clinicalHistory"/>
-  <p:outputLabel for="descriptionOfTechnique" value="Descrición de la Técnica"/>
-  <p:inputTextarea  id="descriptionOfTechnique"  rows="4" style="width:100%"/>
-  <p:message  for="descriptionOfTechnique"/>
-  <p:outputLabel for="note" value="Nota"/>
-  <p:inputTextarea  id="note"  rows="4" style="width:100%"/>
-  <p:message  for="note"/>
-  <p:outputLabel for="showUnsafeOption"  value="¿Mostrar Opción Insegura?" />
-  <p:inputSwitch id="showUnsafeOption" onLabel="&#10003; SI" offLabel="&#215; NO"/>
-  <p:message  for="showUnsafeOption"/>
-  <p:outputLabel for="tags" value="Etiquetas"/>
-  <p:inputTextarea  id="tags"  rows="1" style="width:100%"/>
-  <p:message  for="tags"/>
- </p:panelGrid> <!-- END Panel Grid -->
+   <p:tabView>
+     <p:tab title="Informacion Caso Principal">
+        <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+		<p:outputLabel for="estatusCc" value="Estatus"/>
+	    <p:selectOneMenu id="estatusCc"  value="#{updateCoreCaseForm.estatusCc}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+		<f:selectItem itemLabel="Seleccione un Valor.." itemValue="" />
+	    <f:selectItems value="#{selectsHelper.selectEstatusMrqsItems}" />
+		</p:selectOneMenu>
+		<p:message for="estatusCc"/>
+		<p:outputLabel for="internalName" value="Nombre"/>
+		<p:inputText id="internalName"  value="#{updateCoreCaseForm.nombreCc}" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+		<p:message for="internalName"/>
+		<p:outputLabel for="topic" value="Tema de Pregunta" />
+		<p:selectOneMenu id="topic" value="#{updateCoreCaseForm.temaCc}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+		<f:selectItem itemLabel="Seleccione un tema" itemValue="" />
+		<f:selectItems value="#{selectsHelper.selectTemaDePreguntaItems}" />
+		</p:selectOneMenu>
+		<p:message for="topic"/>
+		<p:outputLabel for="clinicalHistory" value="Historial Clinico"/>
+		<p:inputTextarea  id="clinicalHistory" value="#{updateCoreCaseForm.historialClinicoCc}" rows="4" style="width:100%"/>
+		<p:message  for="clinicalHistory"/>
+		<p:outputLabel for="descriptionOfTechnique" value="Descrición de la Técnica"/>
+		<p:inputTextarea  id="descriptionOfTechnique" value="#{updateCoreCaseForm.descripcionTecnicaCc}"  rows="4" style="width:100%"/>
+		<p:message  for="descriptionOfTechnique"/>
+		<p:outputLabel for="note" value="Nota"/>
+		<p:inputTextarea  id="note"  rows="4" style="width:100%"/>
+		<p:message  for="note"/>
+		<p:outputLabel for="showUnsafeOption"  value="¿Mostrar Opción Insegura?" />
+		<p:inputSwitch id="showUnsafeOption" value="#{updateCoreCaseForm.opcionInseguraCc}" onLabel="&#10003; SI" offLabel="&#215; NO"/>
+		<p:message  for="showUnsafeOption"/>
+		<p:outputLabel for="tags" value="Etiquetas"/>
+		<p:inputTextarea  id="tags"  value="#{updateCoreCaseForm.etiquetasCc}" rows="1" style="width:100%"/>
+		<p:message  for="tags"/>
+		</p:panelGrid> <!-- END Panel Grid -->
+     </p:tab>
+      <p:tab title="Listas Archivos Dicom &amp; Peguntas">
+     </p:tab>
+   </p:tabView>
  </div>
 </div>
  

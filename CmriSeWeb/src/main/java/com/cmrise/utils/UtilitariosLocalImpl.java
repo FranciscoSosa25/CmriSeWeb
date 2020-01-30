@@ -40,5 +40,22 @@ public class UtilitariosLocalImpl implements UtilitariosLocal {
 			retval = new java.util.Date(pSqlTimestamp.getTime());
 		}
 		return retval; 
+	}
+	@Override
+	public long objToLong(Object pObject) {
+		long retval = 0;
+		 if(null!=pObject) {
+	    	 if(pObject instanceof Long) {
+	    		 long numeroCcHdr = (Long)pObject;
+	    		 retval = numeroCcHdr; 
+	    	 }else {
+	    		 System.out.println("pObject instanceof Long:false");
+	    		 return 0;
+	    	 }
+	     }else {
+	    	 System.out.println("null!=pObject");
+	    	 return 0;
+	     }	
+		return retval;
 	} 
 }
