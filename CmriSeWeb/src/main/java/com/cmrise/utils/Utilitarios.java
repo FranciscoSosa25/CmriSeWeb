@@ -4,9 +4,10 @@ package com.cmrise.utils;
 public  class Utilitarios {
 
 	public static final String PCUNITNAME="CMRISEPU";
-	public static java.sql.Date endOfTime = java.sql.Date.valueOf("9999-12-31");
-	public static java.sql.Date startOfTime = java.sql.Date.valueOf("0001-01-01");
-	public static String SOCIEDAD ="CMRI - Consejo Mexicano de Radiología e Imagen";
+	public static final java.sql.Date endOfTime = java.sql.Date.valueOf("9999-12-31");
+	public static final java.sql.Date startOfTime = java.sql.Date.valueOf("0001-01-01");
+	public static final String SOCIEDAD ="CMRI - Consejo Mexicano de Radiolog\u00eda e Imagen";
+	public static final String INITIAL_STATUS_MRQ ="PARA_REVISAR";
 	public  java.sql.Date toSqlDate(java.util.Date pUtilDate){
 		 java.sql.Date retval = null; 
 		 if(null!=pUtilDate) {

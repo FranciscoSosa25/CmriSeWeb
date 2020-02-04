@@ -4,13 +4,24 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="xxhrwjs">
+ <script type="text/javascript">
+ function handleCreateRequest(xhr, status, args){
+ 	 if(args.validationFailed) {
+		 argsValidationFailed(); 
+     }
+ }
+ </script>
+</ui:define>
+                
 <ui:define name="content">
 <p:breadCrumb>
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
      <p:menuitem value="Crear Pregunta Caso Pricipal" url="#"/>
-
 </p:breadCrumb>
 <h1>Crear Pregunta Caso Principal</h1>
+<h:form id="createQuestionCoreCaseForm">
 <div class="ui-g">
  <div class="ui-g-2">
    <p:panelGrid  columns="1" layout="grid">
@@ -27,21 +38,21 @@
    </p:panelGrid>
  </div>
  <div class="ui-g-10">
-    <p:panelGrid  columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+    <p:panelGrid id="questionInformationForm" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
       <p:outputLabel for="internalName" value="Nombre Interno" />
-      <p:inputText id="internalName"  placeholder="Nombre Interno"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+      <p:inputText id="internalName" value="#{createQuestionCoreCaseForm.nombrePreguntaHdr}"  placeholder="Nombre Interno"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
       <p:message for="internalName"/>
       <p:outputLabel for="title" value="Título en TOC" />
-      <p:inputText id="title"  placeholder="Título"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+      <p:inputText id="title" value="#{createQuestionCoreCaseForm.tituloPreguntaHdr}" placeholder="Título"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
       <p:message for="title"/>
       <p:outputLabel for="questionType" value="Tipo de Pregunta" />
-      <p:selectOneMenu id="questionType" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+      <p:selectOneMenu id="questionType" value="#{createQuestionCoreCaseForm.tipoPreguntaHdr}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
       <f:selectItem itemLabel="Seleccione un tipo de pregunta" itemValue="" />
       <f:selectItems value="#{selectsHelper.selectTipoPreguntaCoreCaseItems}" />
       </p:selectOneMenu>
       <p:message for="questionType"/>
       <p:outputLabel for="topic" value="Tema de Pregunta" />
-	  <p:selectOneMenu id="topic" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+	  <p:selectOneMenu id="topic" value="#{createQuestionCoreCaseForm.temaPreguntaHdr}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
 	  <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
 	  <f:selectItems value="#{selectsHelper.selectTemaDePreguntaItems}" />
 	  </p:selectOneMenu>
@@ -54,7 +65,7 @@
 	  <div class="ui-g-12 ui-md-6 ui-lg-8">
 	    <div class="ui-inputgroup">
 	    <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span>
-	    <p:inputText id="tag" maxlength="255" style="width:100%"/>
+	    <p:inputText id="tag" value="#{createQuestionCoreCaseForm.etiquetasPreguntaHdr}" maxlength="255" style="width:100%"/>
 	    </div>
 	  </div>
 	  <div class="ui-g-12 ui-md-6 ui-lg-2">
@@ -64,7 +75,7 @@
 	   <p:outputLabel for="internalComments" value="Comentarios Internos" />
 	  </div>
 	  <div class="ui-g-12 ui-md-6 ui-lg-8">
-	    <p:textEditor id="internalComments" widgetVar="internalCommentsWV"  height="100">
+	    <p:textEditor id="internalComments" value="#{createQuestionCoreCaseForm.comentariosPreguntaHdr}" widgetVar="internalCommentsWV"  height="100">
 		    <f:facet name="toolbar">
 		        <span class="ql-formats">
 		            <button class="ql-bold"></button>
@@ -83,16 +94,14 @@
 	  </div>
 	  <div class="ui-g">
 	   <div class="ui-g-12 ui-md-6 ui-lg-2">
-	    <p:commandButton value="Crear"/>
+	    <p:commandButton value="Crear" update="questionInformationForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createQuestionCoreCaseForm.create()}"/>
 	   </div>
 	   <div class="ui-g-12 ui-md-6 ui-lg-2">
 	     <p:commandButton value="Cancelar"/>
 	   </div>
 	  </div>
- </div>
- </div>
- 
-     
- 
+ </div> <!-- END <div class="ui-g-10"> -->
+ </div> <!-- END <div class="ui-g"> -->
+</h:form>
 </ui:define>
 </ui:composition>

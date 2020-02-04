@@ -5,7 +5,9 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
    <h:head>
-     <title>CMRI SE Web</title>
+      <title>CMRI SE Web</title>
+      <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1"/>
       <h:outputScript name="primefaces/locale.js" library="js" />
       <script type="text/javascript">
           function argsValidationFailed(){
@@ -77,8 +79,11 @@
               <p:menuitem value="Gestionar Casos Principales" outcome="Preguntas-Manage-CoreCases"/>
               <p:menuitem value="Crear Caso Principal" outcome="Preguntas-Create-CoreCase"/>
               <p:menuitem value="Actualizar Caso Principal" outcome="Preguntas-Update-CoreCase"/>
-              <p:menuitem value="Crear Pregunta Caso Principal" outcome="Crear-Pregunta-CoreCase"/>
               <p:menuitem value="Actualizar Pregunta de Opción Multiple" outcome="Actualizar-Pregunta-OpcionMultiple-CoreCase"/>
+              <p:submenu label="Fast Path">
+                <p:menuitem value="Crear Pregunta Caso Principal" action="#{menuForm.fpCrearPreguntaCasoPrincipal()}"/>
+                <p:menuitem value="Actualizar Pregunta Caso Principal" action="#{menuForm.fpActualizarPreguntaFtaCoreCase()}"/>
+              </p:submenu>
             </p:submenu>
           </p:submenu>
           <p:submenu label="Pruebas/Exámenes">
