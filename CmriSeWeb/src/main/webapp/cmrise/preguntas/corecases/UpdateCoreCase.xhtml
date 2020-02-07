@@ -18,13 +18,21 @@
  <div class="ui-g-2">
    <p:panelGrid  columns="1" layout="grid">
      <f:facet name="header">
-        <div style="background-color:blue">Arbol Caso Principal</div>
+        <div class="xxdivTree">Arbol Caso Principal</div>
      </f:facet>
+     <p:dataList var="ccPreguntasHdrV1" value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" type="definition" responsive="true">
+       <f:facet name="caption">#{updateCoreCaseForm.nombreCc}</f:facet>
+       <p:column>
+         <p:commandLink action="#{updateCoreCaseForm.updatePregunta(ccPreguntasHdrV1)}">
+         <h:outputText value="#{ccPreguntasHdrV1.titulo}" />
+         </p:commandLink>
+       </p:column>
+     </p:dataList>
      <p:commandButton immediate="true" title="Nuevo"  value="Nueva Pregunta" icon="pi pi-plus" action="#{updateCoreCaseForm.createCoreQuestion()}"/>
    </p:panelGrid>
    <p:panelGrid  columns="1" layout="grid">
      <f:facet name="header">
-        <div style="background-color:blue">Series Dicom</div>
+        <div class="xxdivTree">Series Dicom</div>
      </f:facet>
      <p:commandButton immediate="true" title="Nuevo"  value="Nueva Serie" icon="pi pi-plus" action="Preguntas-Create-CoreCase"/>
    </p:panelGrid>
@@ -66,6 +74,30 @@
 		</p:panelGrid> <!-- END Panel Grid -->
      </p:tab>
       <p:tab title="Listas Archivos Dicom &amp; Peguntas">
+        <p:dataTable var="ccPreguntasHdrV1" value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+          <f:facet name="header">
+		   Lista de Preguntas
+		  </f:facet>
+		    <p:column headerText="Titulo" style="white-space: nowrap">
+		      <p:commandLink action="#{updateCoreCaseForm.updatePregunta(ccPreguntasHdrV1)}" >
+		      <h:outputText value="#{ccPreguntasHdrV1.titulo}" />
+		      </p:commandLink>
+		    </p:column>
+		     <p:column headerText="Tipo Pregunta" style="white-space: nowrap">
+		      <h:outputText value="#{ccPreguntasHdrV1.tipoPreguntaDesc}" />
+		    </p:column>
+		     <p:column headerText="Estatus">
+		       <h:outputText value="#{ccPreguntasHdrV1.estatusDesc}" />
+		    </p:column>
+		     <p:column headerText="Max Puntuación">
+		       <h:outputText value="#{ccPreguntasHdrV1.maxPuntuacion}" />
+		    </p:column>
+		    <p:column headerText="Etiquetas">
+		      <h:outputText value="#{ccPreguntasHdrV1.etiquetas}" />
+		    </p:column>
+		    <p:column headerText="Acciones">
+		    </p:column>
+        </p:dataTable>
      </p:tab>
    </p:tabView>
  </div>

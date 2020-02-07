@@ -1,6 +1,7 @@
 package com.cmrise.jpa.dto.corecases;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import javax.persistence.Column;
@@ -18,6 +19,9 @@ public class CcPreguntasHdrV1Dto implements Serializable {
 	@Id
 	@Column(name="NUMERO")
 	private long numero;
+	
+	@Column(name="NUMERO_CC_HDR")
+	private long numeroCcHdr;
 
 	@Column(name="ACTUALIZADO_POR")
 	private long actualizadoPor;
@@ -69,6 +73,9 @@ public class CcPreguntasHdrV1Dto implements Serializable {
 	
 	@Column(name="ESTATUS_DESC")
 	private String estatusDesc;
+	
+	@Column(name="MAX_PUNTUACION")
+	private BigDecimal maxPuntuacion;
 	
 	public long getNumero() {
 		return this.numero;
@@ -213,6 +220,22 @@ public class CcPreguntasHdrV1Dto implements Serializable {
 
 	public void setEstatusDesc(String estatusDesc) {
 		this.estatusDesc = estatusDesc;
+	}
+
+	public BigDecimal getMaxPuntuacion() {
+		return maxPuntuacion;
+	}
+
+	public void setMaxPuntuacion(BigDecimal maxPuntuacion) {
+		this.maxPuntuacion = maxPuntuacion;
+	}
+
+	public long getNumeroCcHdr() {
+		return numeroCcHdr;
+	}
+
+	public void setNumeroCcHdr(long numeroCcHdr) {
+		this.numeroCcHdr = numeroCcHdr;
 	}
 
 }

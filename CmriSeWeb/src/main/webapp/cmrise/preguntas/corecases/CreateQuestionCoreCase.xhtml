@@ -21,23 +21,34 @@
      <p:menuitem value="Crear Pregunta Caso Pricipal" url="#"/>
 </p:breadCrumb>
 <h1>Crear Pregunta Caso Principal</h1>
-<h:form id="createQuestionCoreCaseForm">
+
 <div class="ui-g">
  <div class="ui-g-2">
+   <h:form id="arbolPrincipalForm" >
    <p:panelGrid  columns="1" layout="grid">
      <f:facet name="header">
-        <div style="background-color:blue">Arbol Caso Principal</div>
+        <div class="xxdivTree">Arbol Caso Principal</div>
      </f:facet>
-     <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Pregunta" icon="pi pi-plus" action="Preguntas-Create-CoreCase"/>
+      <p:dataList var="ccPreguntasHdrV1" value="#{createQuestionCoreCaseForm.listCcPreguntasHdrV1}" type="definition" responsive="true">
+       <f:facet name="caption">#{updateCoreCaseForm.nombreCc}</f:facet>
+       <p:column>
+         <p:commandLink action="#{createQuestionCoreCaseForm.updatePregunta(ccPreguntasHdrV1)}">
+         <h:outputText value="#{ccPreguntasHdrV1.titulo}" />
+         </p:commandLink>
+       </p:column>
+     </p:dataList>
+     <p:commandButton immediate="true" title="Nuevo"  value="Nueva Pregunta" icon="pi pi-plus" action="#{createQuestionCoreCaseForm.nuevaPregunta()}"/>
    </p:panelGrid>
    <p:panelGrid  columns="1" layout="grid">
      <f:facet name="header">
-        <div style="background-color:blue">Series Dicom</div>
+        <div class="xxdivTree">Series Dicom</div>
      </f:facet>
-     <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Serie" icon="pi pi-plus" action="Preguntas-Create-CoreCase"/>
+     <p:commandButton immediate="true" title="Nuevo"  value="Nueva Serie" icon="pi pi-plus" action="Preguntas-Create-CoreCase"/>
    </p:panelGrid>
+   </h:form>
  </div>
  <div class="ui-g-10">
+  <h:form id="createQuestionCoreCaseForm">
     <p:panelGrid id="questionInformationForm" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
       <p:outputLabel for="internalName" value="Nombre Interno" />
       <p:inputText id="internalName" value="#{createQuestionCoreCaseForm.nombrePreguntaHdr}"  placeholder="Nombre Interno"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
@@ -100,8 +111,8 @@
 	     <p:commandButton value="Cancelar"/>
 	   </div>
 	  </div>
+	</h:form>
  </div> <!-- END <div class="ui-g-10"> -->
  </div> <!-- END <div class="ui-g"> -->
-</h:form>
 </ui:define>
 </ui:composition>

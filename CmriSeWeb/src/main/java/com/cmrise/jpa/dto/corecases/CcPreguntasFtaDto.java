@@ -39,6 +39,18 @@ public class CcPreguntasFtaDto implements Serializable {
 	@Column(name="FECHA_EFECTIVA_HASTA")
 	private Date fechaEfectivaHasta;
 
+	@Column(name="TITULO_PREGUNTA")
+	private String tituloPregunta; 
+	
+	@Column(name="TEXTO_PREGUNTA")
+	private String textoPregunta; 
+	
+	@Column(name="TEXTO_SUGERENCIAS")
+	private String textoSugerencias; 
+	
+	@Column(name="RESPUESTA_CORRECTA")
+	private String respuestaCorrecta; 
+	
 	//bi-directional many-to-one association to CcPreguntasHdrDto
 	@ManyToOne
 	@JoinColumn(name="NUMERO_HDR")
@@ -109,6 +121,38 @@ public class CcPreguntasFtaDto implements Serializable {
 
 	public void setCcPreguntasHdr(CcPreguntasHdrDto ccPreguntasHdr) {
 		this.ccPreguntasHdr = ccPreguntasHdr;
+	}
+
+	public String getTituloPregunta() {
+		return tituloPregunta;
+	}
+
+	public void setTituloPregunta(String tituloPregunta) {
+		this.tituloPregunta = tituloPregunta;
+	}
+
+	public String getTextoPregunta() {
+		return textoPregunta;
+	}
+
+	public void setTextoPregunta(String textoPregunta) {
+		this.textoPregunta = textoPregunta;
+	}
+
+	public String getTextoSugerencias() {
+		return textoSugerencias;
+	}
+
+	public void setTextoSugerencias(String textoSugerencias) {
+		this.textoSugerencias = textoSugerencias;
+	}
+
+	public String getRespuestaCorrecta() {
+		return respuestaCorrecta;
+	}
+
+	public void setRespuestaCorrecta(String respuestaCorrecta) {
+		this.respuestaCorrecta = respuestaCorrecta;
 	}
 
 }

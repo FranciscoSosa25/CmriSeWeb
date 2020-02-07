@@ -5,6 +5,7 @@ import javax.inject.Inject;
 
 import com.cmrise.jpa.dao.corecases.CcPreguntasFtaDao;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaDto;
+import com.cmrise.jpa.dto.corecases.CcPreguntasFtaV1Dto;
 
 @Stateless 
 public class CcPreguntasFtaLocalImpl implements CcPreguntasFtaLocal {
@@ -25,6 +26,16 @@ public class CcPreguntasFtaLocalImpl implements CcPreguntasFtaLocal {
 	@Override
 	public void update(long pNumero, CcPreguntasFtaDto pCcPreguntasFtaDto) {
 		ccPreguntasFtaDao.update(pNumero, pCcPreguntasFtaDto);
+	}
+
+	@Override
+	public long finNumeroByHdr(long pNumeroHdr) {
+		return ccPreguntasFtaDao.finNumeroByHdr(pNumeroHdr);
+	}
+
+	@Override
+	public CcPreguntasFtaV1Dto findDtoByNumeroHdr(long pNumeroHdr) {
+		return ccPreguntasFtaDao.findDtoByNumeroHdr(pNumeroHdr);
 	}
 
 }

@@ -35,7 +35,9 @@ function handleDeleteRequest(xhr, status, args){
    Casos Principales
    </f:facet>
     <p:column headerText="Nombre">
-     <h:outputText value="#{ccHdrV1.nombre}" />
+     <p:commandLink action="#{manageCoreCasesForm.update(ccHdrV1)}">
+      <h:outputText value="#{ccHdrV1.nombre}" />
+     </p:commandLink>
     </p:column>
      <p:column headerText="Estatus">
        <h:outputText value="#{ccHdrV1.estatusDesc}" />

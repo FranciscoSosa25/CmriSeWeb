@@ -1,6 +1,8 @@
 package com.cmrise.jpa.dto.corecases;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+
 import javax.persistence.*;
 
 import java.sql.Date;
@@ -63,6 +65,9 @@ public class CcPreguntasHdrDto implements Serializable {
 	
 	@Column(name="SOCIEDAD")
 	private String sociedad; 
+	
+	@Column(name="MAX_PUNTUACION")
+	private BigDecimal maxPuntuacion;
 	
 	//bi-directional many-to-one association to CcPreguntasFtaDto
 	@OneToMany(mappedBy="ccPreguntasHdr")
@@ -224,6 +229,14 @@ public class CcPreguntasHdrDto implements Serializable {
 
 	public void setSociedad(String sociedad) {
 		this.sociedad = sociedad;
+	}
+
+	public BigDecimal getMaxPuntuacion() {
+		return maxPuntuacion;
+	}
+
+	public void setMaxPuntuacion(BigDecimal maxPuntuacion) {
+		this.maxPuntuacion = maxPuntuacion;
 	}
 
 }

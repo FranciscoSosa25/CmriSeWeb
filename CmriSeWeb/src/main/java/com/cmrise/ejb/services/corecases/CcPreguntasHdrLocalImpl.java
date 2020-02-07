@@ -38,6 +38,11 @@ public class CcPreguntasHdrLocalImpl implements CcPreguntasHdrLocal {
 		return ccPreguntasHdrDao.findByNumero(pNumero);
 	}
 
+	@Override
+	public List<CcPreguntasHdrV1Dto> findListByNumeroCcHdr(long pNumeroCcHdr) {
+		return ccPreguntasHdrDao.findListByNumeroCcHdr(pNumeroCcHdr);
+	}
+
 	
 
 }

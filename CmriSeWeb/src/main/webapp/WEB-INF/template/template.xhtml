@@ -29,6 +29,15 @@
 		 font-weight: bold;
 		 white-space: nowrap;
 		 }
+		 
+		   .xxdivTree{
+	         background-color: #f4f4f4;
+		 	 border: 1px solid #c8c8c8;
+		 	 color: #333;
+			 padding: .571em 1em .571em 1em;
+			 border-bottom: 0 none;
+		 	 font-weight: 700;
+		    }
 		  </style>
       <ui:insert name="xxhrwcss"/>
    </h:head>
@@ -78,9 +87,9 @@
             <p:submenu label="Casos Principales">
               <p:menuitem value="Gestionar Casos Principales" outcome="Preguntas-Manage-CoreCases"/>
               <p:menuitem value="Crear Caso Principal" outcome="Preguntas-Create-CoreCase"/>
-              <p:menuitem value="Actualizar Caso Principal" outcome="Preguntas-Update-CoreCase"/>
               <p:menuitem value="Actualizar Pregunta de Opción Multiple" outcome="Actualizar-Pregunta-OpcionMultiple-CoreCase"/>
               <p:submenu label="Fast Path">
+                <p:menuitem value="Actualizar Caso Principal" action="#{menuForm.fpActualizarCasoPrincipal()}"/>
                 <p:menuitem value="Crear Pregunta Caso Principal" action="#{menuForm.fpCrearPreguntaCasoPrincipal()}"/>
                 <p:menuitem value="Actualizar Pregunta Caso Principal" action="#{menuForm.fpActualizarPreguntaFtaCoreCase()}"/>
               </p:submenu>
