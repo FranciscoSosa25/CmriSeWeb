@@ -5,16 +5,38 @@ import java.io.IOException;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.data.Tag;
 import org.dcm4che3.io.DicomInputStream;
 import org.dcm4che3.io.DicomInputStream.IncludeBulkData;
 
+import com.cmrise.ejb.services.dcm.DcmEquipmentLocal;
+import com.cmrise.ejb.services.dcm.DcmInstanceLocal;
+import com.cmrise.ejb.services.dcm.DcmPatientLocal;
+import com.cmrise.ejb.services.dcm.DcmSeriesLocal;
+import com.cmrise.ejb.services.dcm.DcmStudyLocal;
+
 @ManagedBean
 @ViewScoped
 public class LeerArchivoDicomForm {
 
+	@Inject 
+	DcmEquipmentLocal dcmEquipmentLocal; 
+	
+	@Inject 
+	DcmInstanceLocal dcmInstanceLocal; 
+	
+	@Inject 
+	DcmPatientLocal dcmPatientLocal;
+	
+	@Inject 
+	DcmSeriesLocal dcmSeriesLocal; 
+	
+	@Inject 
+	DcmStudyLocal dcmStudyLocal;
+	
 	public void leerSoloUnArchivoDicom() {
 		System.out.println("Entra leerSoloUnArchivoDicom");
 

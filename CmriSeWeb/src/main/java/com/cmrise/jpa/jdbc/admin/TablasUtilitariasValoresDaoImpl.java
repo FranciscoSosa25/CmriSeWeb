@@ -34,7 +34,6 @@ public class TablasUtilitariasValoresDaoImpl implements TablasUtilitariasValores
 	}
 
 	public List<TablasUtilitariasValoresDto> findByTipoTabla(String pTipoTabla) {
-		System.out.println("*");
 		String strQuery = "SELECT t FROM TablasUtilitariasValoresDto t where t.tipoTabla like '"+pTipoTabla+"'";
 		Query query = em.createQuery(strQuery); 
 		List<TablasUtilitariasValoresDto> retval = query.getResultList(); 

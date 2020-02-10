@@ -1,6 +1,7 @@
 package com.cmrise.jpa.jdbc.corecases;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -43,12 +44,26 @@ public class CcPreguntasHdrDaoImpl implements CcPreguntasHdrDao {
 	@Override
 	public void update(long pNumero, CcPreguntasHdrDto pCcPreguntasHdrDto) {
 		CcPreguntasHdrDto ccPreguntasHdrDto = em.find(CcPreguntasHdrDto.class, pNumero);
-		
+		ccPreguntasHdrDto.setNombre(pCcPreguntasHdrDto.getNombre());
+		ccPreguntasHdrDto.setTitulo(pCcPreguntasHdrDto.getTitulo());
+		ccPreguntasHdrDto.setEstatus(pCcPreguntasHdrDto.getEstatus());
+		ccPreguntasHdrDto.setTipoPregunta(pCcPreguntasHdrDto.getTipoPregunta());
+		ccPreguntasHdrDto.setTemaPregunta(pCcPreguntasHdrDto.getTemaPregunta());
+		ccPreguntasHdrDto.setMaxPuntuacion(pCcPreguntasHdrDto.getMaxPuntuacion());
+		ccPreguntasHdrDto.setEtiquetas(pCcPreguntasHdrDto.getEtiquetas());
+		ccPreguntasHdrDto.setComentarios(pCcPreguntasHdrDto.getComentarios());
 	}
 
 	@Override
 	public CcPreguntasHdrV1Dto findByNumero(long pNumero) {
 		return em.find(CcPreguntasHdrV1Dto.class, pNumero);
+	}
+
+	@Override
+	public List<CcPreguntasHdrV1Dto> findListByNumeroCcHdr(long pNumeroCcHdr) {
+		String strQuery = "SELECT c FROM CcPreguntasHdrV1Dto c WHERE c.numeroCcHdr="+pNumeroCcHdr;
+		Query query = em.createQuery(strQuery);
+		return query.getResultList();
 	}
 
 }

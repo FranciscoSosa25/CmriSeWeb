@@ -1,26 +1,29 @@
 package com.cmrise.jpa.dto.corecases;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
-/**
- * The persistent class for the CC_PREGUNTAS_FTA database table.
- * 
- */
 @Entity
-@Table(name="CC_PREGUNTAS_FTA")
-@NamedQuery(name="CcPreguntasFtaDto.findAll", query="SELECT c FROM CcPreguntasFtaDto c")
-public class CcPreguntasFtaDto implements Serializable {
+@Table(name="CC_PREGUNTAS_FTA_V1")
+@NamedQuery(name="CcPreguntasFtaV1Dto.findAll", query="SELECT c FROM CcPreguntasFtaV1Dto c")
+public class CcPreguntasFtaV1Dto implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@Column(name="NUMERO")
 	private long numero;
 
+	@Column(name="NUMERO_HDR")
+	private long numeroHdr;
+	
 	@Column(name="ACTUALIZADO_POR")
 	private long actualizadoPor;
 
@@ -51,14 +54,7 @@ public class CcPreguntasFtaDto implements Serializable {
 	@Column(name="RESPUESTA_CORRECTA")
 	private String respuestaCorrecta; 
 	
-	//bi-directional many-to-one association to CcPreguntasHdrDto
-	@ManyToOne
-	@JoinColumn(name="NUMERO_HDR")
-	private CcPreguntasHdrDto ccPreguntasHdr;
-
-	public CcPreguntasFtaDto() {
-	}
-
+	
 	public long getNumero() {
 		return this.numero;
 	}
@@ -115,14 +111,6 @@ public class CcPreguntasFtaDto implements Serializable {
 		this.fechaEfectivaHasta = fechaEfectivaHasta;
 	}
 
-	public CcPreguntasHdrDto getCcPreguntasHdr() {
-		return this.ccPreguntasHdr;
-	}
-
-	public void setCcPreguntasHdr(CcPreguntasHdrDto ccPreguntasHdr) {
-		this.ccPreguntasHdr = ccPreguntasHdr;
-	}
-
 	public String getTituloPregunta() {
 		return tituloPregunta;
 	}
@@ -153,6 +141,14 @@ public class CcPreguntasFtaDto implements Serializable {
 
 	public void setRespuestaCorrecta(String respuestaCorrecta) {
 		this.respuestaCorrecta = respuestaCorrecta;
+	}
+
+	public long getNumeroHdr() {
+		return numeroHdr;
+	}
+
+	public void setNumeroHdr(long numeroHdr) {
+		this.numeroHdr = numeroHdr;
 	}
 
 }

@@ -16,4 +16,5 @@ public interface CcPreguntasHdrLocal {
 	public void update(long pNumero
 			          ,CcPreguntasHdrDto pCcPreguntasHdrDto); 
 	public CcPreguntasHdrV1Dto findByNumero(long pNumero);
+	public List<CcPreguntasHdrV1Dto> findListByNumeroCcHdr(long pNumeroCcHdr); 
 }
