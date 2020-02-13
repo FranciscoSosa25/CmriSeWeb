@@ -63,11 +63,11 @@
           <p:submenu label="Administracion">
             <p:menuitem value="Consulta Tablas Utilitarias" outcome="Admin-TablasUtilitariasvalores" icon="fa fa-group"/>
 
-            <p:menuitem value="Usuarios" outcome="Admin-Usuarios" icon="fa fa-user-plus"/>
+            <p:menuitem value="Usuarios" outcome="Admin-Usuarios" icon="fa fa-user-plus" rendered="false"/>
             <p:menuitem value="Administración Roles" outcome="Admon-Roles" icon="fa fa-group"/>
-            <p:menuitem value="Administración Usuarios" outcome="Admon-Usuarios" icon="fa fa-group"/>
-            <p:menuitem value="Administración Usuarios Roles" outcome="Admon-Usuarios-Roles" icon="fa fa-group"/>
-            <p:menuitem value="Asignacion de Roles" outcome="Admin-RolesUsuarios" icon="fa fa-user-secret"/>
+            <p:menuitem value="Administración Usuarios" outcome="Admon-Usuarios" icon="fa fa-user-plus"/>
+            <p:menuitem value="Administración Usuarios Roles" outcome="Admon-Usuarios-Roles" icon="fa fa-user-secret"/>
+            <p:menuitem value="Asignacion de Roles" outcome="Admin-RolesUsuarios" icon="fa fa-user-secret" rendered="false"/>
 
           </p:submenu>
           <p:submenu label="Preguntas">
@@ -98,10 +98,12 @@
           <p:submenu label="Pruebas/Exámenes">
             <p:menuitem value="Administrar Exámenes Centrales" outcome="Exams-CoreCases-Manage"/>
             <p:menuitem value="Crear Prueba/Examen" outcome="Exams-CoreCases-Create"/>
-            <p:menuitem value="Actualizar Prueba/Examen" outcome="Exams-CoreCases-Update"/>
             <p:menuitem value="Actualizar Prueba/Examen Agregar Caso Principal" outcome="Exams-CoreCases-Update-AddCoreCase"/>
             <p:menuitem value="Administrar Candidatos" outcome="Exams-CoreCases-Manage-Candidates"/>
             <p:menuitem value="Agregar Candidato" outcome="Exams-CoreCases-Create-Candidate"/>
+            <p:submenu label="Fast Path">
+             <p:menuitem value="Actualizar Prueba/Examen" action="#{menuForm.fpActualizarPruebaExamen()}"/>
+            </p:submenu>  
           </p:submenu>
           <p:submenu label="Archivos DICOM">
            <p:menuitem value="Leer archivo DICOM" outcome="Dicom-Leer-Archivo"/>
