@@ -4,6 +4,20 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="xxhrwjs">
+<script type="text/javascript">
+function handleDeleteRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.deleteIn) {
+		 PF('deleteExamenDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+  }else{
+  	 PF('deleteExamenDialogWV').hide();
+  }	
+}
+</script>
+</ui:define>
+
 <ui:define name="nuevo">
  <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Prueba/Examen" icon="pi pi-plus" action="Exams-CoreCases-Create"/>
 </ui:define>
@@ -15,5 +29,47 @@
 
 </p:breadCrumb>
  <h1>Gestionar Pruebas/Examenes</h1>
+ 
+ <h:form id="ReadOnlyForm">
+ <p:dataTable var="ccExamenes" value="#{manageTestExamsForm.listCcExamenes}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+   <p:column headerText="Id">
+     <h:outputText value="#{ccExamenes.numero}" />
+   </p:column>
+    <p:column headerText="Título Público">
+      <h:outputText value="#{ccExamenes.titulo}" />
+    </p:column>
+    <p:column headerText="Tipo Pregunta">
+      <h:outputText value="#{ccExamenes.tipoPreguntaDesc}" />
+    </p:column>
+     <p:column headerText="Tipo Examen">
+      <h:outputText value="#{ccExamenes.tipoExamenDesc}" />
+    </p:column>
+    <p:column headerText="Visibilidad">
+      <h:outputText value="#{ccExamenes.visibilidadDesc}" />
+    </p:column>
+    <p:column headerText="Estatus">
+      <h:outputText value="#{ccExamenes.estatusDesc}" />
+    </p:column>
+     <p:column headerText="Acciones">
+        <p:commandButton icon="fa fa-edit" style="margin-left: 10px;" action="#{manageTestExamsForm.update(ccExamenes)}"/>
+        <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteExamenDialogWV').show();" ajax="true" actionListener="#{manageTestExamsForm.selectForAction(ccExamenes)}"/>
+     </p:column>
+ </p:dataTable>
+ </h:form>
+ 
+  <h:form id="DeleteForm">
+  <p:dialog id="deleteExamenDialogId" widgetVar="deleteExamenDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Registro">
+   <h2>¿Esta seguro de que desea borrar este registro?</h2>
+    <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="DeleteBtn" update="ReadOnlyForm" value="Aceptar" actionListener="#{manageTestExamsForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
+              </div>
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('deleteExamenDialogWV').hide();" />
+              </div>
+     </div>
+  </p:dialog>
+</h:form>
+ 
 </ui:define>
 </ui:composition>

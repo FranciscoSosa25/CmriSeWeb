@@ -26,6 +26,7 @@ public class MenuForm {
 	  session.setAttribute("NumeroCcHdrSV", (long)6);
 	  return  "Crear-Pregunta-CoreCase";
 	}
+	
 	public String fpActualizarPreguntaFtaCoreCase() {
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
@@ -34,4 +35,12 @@ public class MenuForm {
 		
 		return  "Actualizar-Pregunta-Fta-CoreCase";
 	}
+	
+	public String fpActualizarPruebaExamen() {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("NumeroCcExamenSV", (long)11);
+		return "Exams-CoreCases-Update"; 
+	}
+	
 }

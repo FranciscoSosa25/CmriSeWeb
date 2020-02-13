@@ -25,44 +25,115 @@
     <div class="ui-g-10 ui-g-nopad">
       <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
   <p:outputLabel for="estatusExamen" value="Estatus Examen"/>
-  <p:selectOneMenu id="estatusExamen" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  <p:selectOneMenu id="estatusExamen" value="#{updateTestExamForm.estatus}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
   <f:selectItems value="#{selectsHelper.selectEstatusExamenItems}" />
   </p:selectOneMenu>
   <p:message for="estatusExamen"/>
 </p:panelGrid>
 
-<p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+<p:panelGrid id="tituloPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
   <p:outputLabel for="publicTitle" value="Título Público"/>
-  <p:inputText id="publicTitle" style="width:100%"/>
+  <p:inputText id="publicTitle" value="#{updateTestExamForm.titulo}"  style="width:100%"/>
   <p:message for="publicTitle"/>
   <p:outputLabel for="nameInternal" value="Nombre (Interno)"/>
-  <p:inputText id="nameInternal" style="width:100%"/>
+  <p:inputText id="nameInternal" value="#{updateTestExamForm.nombre}" style="width:100%"/>
   <p:message for="nameInternal"/>
   <p:outputLabel for="description" value="Descripción"/>
-  <p:inputTextarea  id="description"  rows="4" style="width:100%"/>
+  <p:inputTextarea  id="description" value="#{updateTestExamForm.descripcion}" rows="4" style="width:100%"/>
   <p:message  for="description"/>
   <p:outputLabel for="questionType" value="Tipo de Pregunta" />
-  <p:selectOneMenu id="questionType" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  <p:selectOneMenu id="questionType" value="#{updateTestExamForm.tipoPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
   <f:selectItem itemLabel="Seleccione un tipo de pregunta" itemValue="" />
   <f:selectItems value="#{selectsHelper.selectTipoPreguntaItems}" />
   </p:selectOneMenu>
   <p:message for="questionType"/>
   <p:outputLabel for="questionExam" value="Tipo de Examen" />
-  <p:selectOneMenu id="questionExam" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  <p:selectOneMenu id="questionExam"  value="#{updateTestExamForm.tipoExamen}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
   <f:selectItem itemLabel="Seleccione un tipo de examen" itemValue="" />
   <f:selectItems value="#{selectsHelper.selectTipoExamenItems}" />
   </p:selectOneMenu>
   <p:message for="questionExam"/>
   <p:outputLabel for="topic" value="Tema" />
-  <p:selectOneMenu id="topic" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  <p:selectOneMenu id="topic"  value="#{updateTestExamForm.tema}"   required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
   <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
   <f:selectItems value="#{selectsHelper.selectTemaExamenItems}" />
   </p:selectOneMenu>
   <p:message for="topic"/>
   <p:outputLabel for="internalComments" value="Comentarios Internos"/>
-  <p:inputTextarea  id="internalComments"  rows="4" style="width:100%"/>
+  <p:inputTextarea  id="internalComments" value="#{updateTestExamForm.comentarios}"  rows="4" style="width:100%"/>
   <p:message  for="internalComments"/>
 </p:panelGrid>
+   
+   <h3>OPCIONES DE PRUEBA/EXAMEN</h3>
+
+<p:panelGrid id="visibilityPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+  <p:outputLabel for="visibility" value="Visibilidad" />
+  <p:selectOneMenu id="visibility" value="#{updateTestExamForm.visibilidad}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  <f:selectItem itemLabel="Seleccione ..." itemValue="" />
+  <f:selectItems value="#{selectsHelper.selectVisibilidadItems}" />
+  </p:selectOneMenu>
+  <p:message  for="visibility"/>
+</p:panelGrid>
+
+<p:panelGrid id="disponibilidadPanelId" columns="6" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2">
+  <p:outputLabel for="fechaDisponibleDesdeInput" value="Disponible Desde" />
+  <p:calendar id="fechaDisponibleDesdeInput" value="#{updateTestExamForm.fechaEfectivaDesde}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+  <p:message for="fechaDisponibleDesdeInput"/>
+  <p:outputLabel value="Disponible Hasta" />
+  <p:calendar id="fechaDisponibleHastaInput" value="#{updateTestExamForm.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy" mask="true" />
+  <p:message for="fechaDisponibleHastaInput"/>
+</p:panelGrid>
+
+<p:panelGrid id="tiempoLimitePanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+ <p:outputLabel  for="timeLimit" value="Límite de Tiempo" />
+ <p:spinner id="timeLimit" value="#{createTestExamForm.limiteTiempo}" />
+ <p:message  for="timeLimit"/>
+ <p:outputLabel for="canSkipQuestions"  value="¿Puede Saltar Preguntas?" />
+ <p:inputSwitch id="canSkipQuestions" value="#{updateTestExamForm.saltarPreguntas}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="canSkipQuestions"/>
+ <p:outputLabel for="canSkipCases"  value="¿Puede Saltar Casos?" />
+ <p:inputSwitch id="canSkipCases" value="#{updateTestExamForm.saltarCasos}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="canSkipCases"/>
+ <p:outputLabel for="showAnswers"  value="¿Mostrar Respuestas?" />
+ <p:inputSwitch id="showAnswers" value="#{updateTestExamForm.mostrarRespuestas}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="showAnswers"/>
+ <p:outputLabel for="hasPassmark"  value="¿Tiene Passmark?" />
+ <p:inputSwitch id="hasPassmark" value="#{updateTestExamForm.tienePassmark}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="hasPassmark"/>
+ <p:outputLabel for="shufleGroupOrder"  value="¿Orden Aleatorio de Grupo?" />
+ <p:inputSwitch id="shufleGroupOrder" value="#{updateTestExamForm.aleatorioGrupo}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="shufleGroupOrder"/>
+ <p:outputLabel for="shufleQuestionOrder"  value="¿Orden Aleatorio de Preguntas?" />
+ <p:inputSwitch id="shufleQuestionOrder" value="#{updateTestExamForm.aleatorioPreguntas}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="shufleQuestionOrder"/>
+ <p:outputLabel for="randomCasesSelection"  value="¿Selección de Casos Aleatorios?" />
+ <p:inputSwitch id="randomCasesSelection" value="#{updateTestExamForm.seleccionCasosAleatorios}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="randomCasesSelection"/> 
+ <p:outputLabel for="finishingMessage" value="Mensaje Final"/>
+ <p:inputTextarea  id="finishingMessage" value="#{updateTestExamForm.mensajeFinalizacion}" rows="4" style="width:100%"/>
+ <p:message  for="finishingMessage"/>
+</p:panelGrid>
+
+<h3>OPCIONES DE DOCUMENTOS</h3>
+<p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+ <p:outputLabel for="generateConfirmationOfAttendance"  value="¿Generar Confirmación de Asistencia?" />
+ <p:inputSwitch id="generateConfirmationOfAttendance" value="#{updateTestExamForm.confirmacionAsistencia}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="generateConfirmationOfAttendance"/>
+ <p:outputLabel for="generateDiploma"  value="¿Generar Diploma?" />
+ <p:inputSwitch id="generateDiploma" value="#{updateTestExamForm.diploma}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="generateDiploma"/>
+</p:panelGrid>
+
+<div class="ui-g">
+ <div class="ui-g-12 ui-md-6 ui-lg-2">
+  <p:commandButton value="Actulizar" update="tituloPanelId visibilityPanelId disponibilidadPanelId tiempoLimitePanelId" action="#{updateTestExamForm.update()}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
+ </div>
+ <div class="ui-g-12 ui-md-6 ui-lg-2">
+  <p:commandButton value="Cancelar"/>
+ </div>
+</div>
+   
+   
     </div>
 </div>
 </h:form>
