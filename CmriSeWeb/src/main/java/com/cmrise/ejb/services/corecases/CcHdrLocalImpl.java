@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.cmrise.jpa.dao.corecases.CcHdrDao;
+import com.cmrise.jpa.dto.admin.KeysDto;
 import com.cmrise.jpa.dto.corecases.CcHdrDto;
 import com.cmrise.jpa.dto.corecases.CcHdrV1Dto;
 
@@ -39,6 +40,11 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 	@Override
 	public CcHdrV1Dto findByNumero(long pNumero) {
 		return ccHdrDao.findByNumero(pNumero);
+	}
+
+	@Override
+	public List<KeysDto> findKeys() {
+		return ccHdrDao.findKeys();
 	}
 
 }

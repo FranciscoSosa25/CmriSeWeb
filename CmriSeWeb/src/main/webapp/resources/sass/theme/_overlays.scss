@@ -1,0 +1,230 @@
+body {
+    .ui-overlaypanel {
+        @include overlay-shadow();
+        
+        .ui-overlaypanel-close {
+            background-color: $primaryColor;
+            color: $primaryTextColor;
+            width: 22px;
+            height: 22px;
+            text-align: center;
+            line-height: 22px;
+            text-align: center;
+            font-size: $fontSize + 3;
+            
+            @include transition(background-color $transitionDuration);
+            
+            &.ui-state-hover {
+                background-color: darken($primaryColor, 5%);
+            }
+
+            span {
+                display: inline-block;
+                font-size: inherit;
+                margin-top: -1px;
+                line-height: inherit;
+            }
+        }
+    }
+    
+    .ui-dialog {
+        @include overlay-shadow();
+        border: 0 none;
+        background-color: transparent;
+        
+        .ui-dialog-titlebar {
+            padding: $headerPadding;
+            border-bottom: 1px solid $headerBorderColor;
+            
+            .ui-dialog-title {
+                margin: 0;
+                float: none;
+            }
+            
+            .ui-dialog-titlebar-icon {
+                color: $headerIconColor;
+                border: 0 none;
+                @include transition(color .3s);
+                padding: 0;
+                margin-left: 4px;
+                margin-top: 2px;
+                
+                &.ui-state-hover {
+                    color: $headerIconHoverColor;
+                }
+                
+                &.ui-dialog-titlebar-maximize  {
+                    position: relative;
+                    top: 1px;
+                    left: 2px;
+                }
+            }
+        }
+        
+        .ui-dialog-content {
+            background-color: $contentBgColor;
+            padding: $contentPadding;
+        }
+        
+        .ui-dialog-buttonpane {
+            padding: $headerPadding;
+            margin: 0;
+            text-align: right;
+            
+            button {
+                margin: 0 4px 0 0;
+            }
+        }
+        
+        &.ui-dialog-maximized {
+            top: 60px !important;
+        }
+        
+        &.ui-confirm-dialog {
+            .ui-dialog-content {
+                padding: 20px;
+                
+                > span {
+                    float: none;
+                    display: inline-block;
+                    vertical-align: middle;
+                    line-height: 1;
+                    margin: 0;
+                    
+                    &.ui-icon {
+                        display: inline-block;
+                        vertical-align: middle;
+                        margin-right: 8px;
+                        font-size: $fontSize + 4;
+                        width: $fontSize + 4;
+                        height: $fontSize + 4;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+        
+        .ui-resizable-handle {
+            display: none !important;
+        }
+    }
+    
+    .ui-tooltip {        
+        .ui-tooltip-text {
+            background-color: $primaryColor;
+            color: $primaryTextColor;
+            @include overlay-shadow();
+        }
+        
+        &.ui-state-error {
+            border: 0 none;
+        }
+        
+        &.ui-tooltip-right {
+            .ui-tooltip-arrow {
+                border-right-color: $primaryColor;
+            }
+        }
+        
+        &.ui-tooltip-left {
+            .ui-tooltip-arrow {
+                border-left-color: $primaryColor;
+            }
+        }
+        
+        &.ui-tooltip-top {
+            .ui-tooltip-arrow {
+                border-top-color: $primaryColor;
+            }
+        }
+        
+        &.ui-tooltip-bottom {
+            .ui-tooltip-arrow {
+                border-bottom-color: $primaryColor;
+            }
+        }
+    }
+    .sidebar-component {
+        .ui-sidebar {
+            .ui-sidebar-close {
+                &:hover {
+                    padding: 1px;
+                }
+            }
+    
+            .ui-button {
+                width: auto;
+            }
+        }
+        .ui-shadow {
+            box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.3);
+    
+        }
+    }
+    
+    .ui-lightbox {
+        @include overlay-shadow();
+        
+        .ui-lightbox-caption {
+            padding: $headerPadding;
+            
+            .ui-lightbox-caption-text {
+                color: $headerTextColor;
+                margin: 0;
+            }
+            
+            .ui-lightbox-close {
+                padding: 0;
+                margin-top: 2px;
+                color: $headerTextColor;
+                @include transition(color .3s);
+                
+                &.ui-state-hover {
+                    color: $headerIconHoverColor;
+                }
+            }
+        }
+        
+        .ui-lightbox-content-wrapper {
+            overflow: hidden;
+                      
+            .ui-lightbox-nav-left {
+                @include icon_override("\f053");
+                @include transition(all .3s);
+                font-size: 24px;
+                margin-left: 4px;
+                color: $textColor;
+
+                &:hover {
+                    color: $primaryColor;
+                    @include scale(1.2);
+                }
+                
+                span {
+                    display: none;
+                }
+            }
+            
+            .ui-lightbox-nav-right {
+                @include icon_override("\f054");
+                @include transition(all $transitionDuration);
+                font-size: 24px;
+                margin-right: 4px;
+                color: $textColor;
+                
+                &:hover {
+                    color: $primaryColor;
+                    @include scale(1.2);
+                }
+                
+                span {
+                    display: none;
+                }
+            }
+            
+            .ui-lightbox-content.ui-lightbox-loading + a {
+                display: none;
+            }
+        }
+    }
+}

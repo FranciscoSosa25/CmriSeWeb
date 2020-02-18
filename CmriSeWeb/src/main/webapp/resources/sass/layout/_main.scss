@@ -1,0 +1,21 @@
+html {
+    height: 100%;
+}
+
+/* Main Layout */
+body {
+    font-family: $fontFamily;
+    font-size: $fontSize;
+    font-weight: normal;
+    padding: 0;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100%;
+    background-color: $bodyBgColor;
+    color: $textColor;
+}
+
+.ajax-status-icon {
+    font-size: 36px;
+    color: $primaryColor;
+}

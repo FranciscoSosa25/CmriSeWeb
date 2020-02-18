@@ -1,0 +1,831 @@
+.layout-wrapper {
+    
+    .layout-mask {
+        display: none;
+    }
+
+    .layout-menu-container {
+        background-color: $menuBgColor;
+        position: fixed;
+        z-index: 101;
+        top: 50px;
+        @include border-box();
+        @include overlay-shadow;
+
+        .layout-menu {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+
+            li {
+                > a {
+                    color: $menuitemTextColor;
+                    display: block;
+                    @include border-box();
+
+                    span {
+                        display: inline-block;
+                        vertical-align: middle;
+                        margin-left: 6px;
+                    }
+
+                    i {
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+
+                    > span.menuitem-badge {
+                        background-color: $primaryColor;
+                        @include border-radius(50%);
+                        width: 18px;
+                        height: 18px;
+                        display: inline-block;
+                        vertical-align: middle;
+                        text-align: center;
+                        color: $primaryTextColor;
+                        font-size: 12px;
+                        float: right;
+                        position: relative;
+                        top: 2px;
+                        padding-top: 1px;
+                    }
+
+                    .layout-menuitem-toggler {
+                        @include transition(transform $transitionDuration);
+                    }
+                    
+                    &:not(:hover) {
+                        &.blue-theme {
+                            i {color: $blue}
+                        }
+                        
+                        &.green-theme {
+                            i {color: $green}
+                        }
+                        
+                        &.cyan-theme {
+                            i {color: $cyan}
+                        }
+                        
+                        &.purple-theme {
+                            i {color: $purple}
+                        }
+                        
+                        &.indigo-theme {
+                            i {color: $indigo}
+                        }
+                        
+                        &.yellow-theme {
+                            i {color: $yellow}
+                        }
+                        
+                        &.orange-theme {
+                            i {color: $orange}
+                        }
+                        
+                        &.pink-theme {
+                            i {color: $pink}
+                        }
+                    }
+                }
+
+                &.active-menuitem {
+                    > a {
+                        .layout-menuitem-toggler {
+                            @include rotate(-180deg);
+                        }
+                    }
+                }
+
+                ul {
+                    display: none;
+                    margin: 0;
+                    padding: 0;
+                    list-style-type: none;
+                }
+            }
+            
+            .layout-menu-tooltip {
+                display:none;
+                padding: 0 5px;
+                position: absolute;
+                left: 61px;
+                top: 7px;
+                line-height: 1;
+                
+                .layout-menu-tooltip-text {
+                   padding: 6px 8px;
+                   font-weight: 700;
+                   background-color: $primaryColor;
+                   color: $primaryTextColor;
+                   min-width: 75px;
+                   white-space: nowrap;
+                   text-align: center;
+                   @include border-radius($borderRadius);
+                   @include overlay-shadow();
+                }
+                
+                .layout-menu-tooltip-arrow {
+                    position: absolute;
+                    width: 0;
+                    height: 0;
+                    border-color: transparent;
+                    border-style: solid;
+                    top: 50%;
+                    left: 0;
+                    margin-top: -5px;
+                    border-width: 5px 5px 5px 0;
+                    border-right-color: $primaryColor;
+                }
+            }
+        }
+        
+        .nano {
+            > .nano-content {
+                &.menu-scroll-content {
+                    display: block;
+                    height: 100%;
+                    position: relative;
+                    overflow: scroll;
+                    overflow-x: hidden;
+                }
+
+                .nano-scroll-footer {
+                    height: 120px;
+                }
+            }
+            
+            > .nano-pane {
+                .nano-slider {
+                    background-color: #aaaaaa;
+                    opacity: 0.3;
+                    filter: alpha(opacity=30);
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 1025px) {
+    .layout-wrapper {
+
+        &.layout-horizontal {
+
+            .layout-menu-container {
+                padding: 0 20px;
+                width: 100%;
+
+                .layout-menu-title {
+                    display: none;
+                }
+
+                .layout-menu {
+
+                    > li {
+                        display: inline-block;
+                        position: relative;
+
+                        > a {
+                            padding: 12px;
+                            height: 50px;
+                            border-bottom: 2px solid transparent;
+                            @include transition(border-bottom-color $transitionDuration, background-color $transitionDuration);
+
+                            &:hover {
+                                border-bottom-color: $primaryColor;
+                                color: $menuItemHoverTextColor;
+                            }
+                        }
+
+                        &.active-menuitem {
+                            > a {
+                                background-color: $primaryColor;
+                                color: $primaryTextColor;
+                            }
+
+                            > ul {
+                                top: 50px;
+                                left: 0;
+                                position: absolute;
+                            }
+                        }
+
+                        > ul {
+                            min-width: 200px;
+                            @include overlay-shadow();
+                        }
+
+                        ul {
+                            display: none;
+                            margin: 0;
+                            padding: 0;
+                            list-style-type: none;
+                            background-color: $menuBgColor;
+
+                            li {
+                                a {
+                                    padding: 8px 12px;
+                                    display: block;
+
+                                    span {
+                                        margin-left: 6px;
+                                    }
+
+                                    i.layout-menuitem-toggler {
+                                        float: right;
+                                        display: block;
+                                        margin-top: 4px;
+                                    }
+
+                                    &:hover {
+                                        background-color: $primaryColor;
+                                        color: $primaryTextColor;
+                                    }
+                                }
+
+                                &.active-menuitem {
+                                    > a {
+                                        color: $menuItemActiveTextColor;
+
+                                        &:hover {
+                                            color: $primaryTextColor;
+                                        }
+                                    }
+
+                                    > ul {
+                                        display: block;
+                                    }
+                                }
+
+                                ul {
+                                    width: 100%;
+                                    @include no-shadow();
+
+                                    li {
+                                        a {
+                                            padding-left: 24px;
+                                        }
+
+                                        ul {
+                                            li {
+                                                a {
+                                                    padding-left: 36px;
+                                                }
+
+                                                ul {
+                                                    li {
+                                                        a {
+                                                            padding-left: 48px;
+                                                        }
+
+                                                        ul {
+                                                            li {
+                                                                a {
+                                                                    padding-left: 60px;
+                                                                }
+
+                                                                ul {
+                                                                    li {
+                                                                        a {
+                                                                            padding-left: 72px;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    li {
+                        > a {
+                            span.menuitem-badge {
+                                float: none;
+                                top: 0px;
+                            }
+                        }
+                    }
+                }
+
+                .nano {
+                    overflow: visible;
+
+                    > .nano-content {
+                        overflow: visible;
+                    }
+                }
+
+                .layout-menu-footer {
+                    display: none;
+                }
+            }
+        }
+        
+        &.layout-overlay, &.layout-static {
+
+            .layout-menu-container {
+                padding: 0;
+                width: 230px;
+                height: 100%;
+                left: -230px;
+                @include transition(left $transitionDuration);
+
+                .layout-menu-title {
+                    display: block;
+                    padding: 11px;
+                    font-size: 16px;
+                    color: $textSecondaryColor;
+                    border-bottom: 1px solid $dividerColor;
+                    letter-spacing: 2px;
+                }
+
+                .layout-menu {
+
+                    li {
+                        a {
+                            padding: 10px 12px;
+                            display: block;
+
+                            &:hover {
+                                background-color: $primaryColor;
+                                color: $primaryTextColor;
+                            }
+
+                            i:first-child {
+                                font-size: 18px;
+                                vertical-align: middle;
+                                display: inline-block;
+                            }
+
+                            i.layout-menuitem-toggler {
+                                float: right;
+                                line-height: 22px;
+                            }
+
+                            > span {
+                                vertical-align: middle;
+                                display: inline-block;
+                                line-height: $fontSize + 1;
+                                margin-left: 6px;
+                            }
+                        }
+
+                        &.active-menuitem {
+                            > a {
+                                background-color: $submenuActiveBgColor;
+                                color: $menuItemActiveTextColor;
+
+                                &:hover {
+                                    background-color: $primaryColor;
+                                    color: $primaryTextColor;
+                                }
+                            }
+                        }
+                    }
+
+                    > li {
+                        &:first-child {
+                            margin-top: 8px;
+                        }
+
+                        ul {
+                            background: $submenuActiveBgColor;
+
+                            li {
+                                a {
+                                    padding-left: 24px;
+                                }
+
+                                ul {
+                                    li {
+                                        a {
+                                            padding-left: 36px;
+                                        }
+
+                                        ul {
+                                            li {
+                                                a {
+                                                    padding-left: 48px;
+                                                }
+
+                                                ul {
+                                                    li {
+                                                        a {
+                                                            padding-left: 60px;
+                                                        }
+
+                                                        ul {
+                                                            li {
+                                                                a {
+                                                                    padding-left: 72px;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .layout-menu-footer {
+                    .layout-menu-footer-title {
+                        display: block;
+                        padding: 11px;
+                        font-size: 16px;
+                        color: $textSecondaryColor;
+                        border-bottom: 1px solid $dividerColor;
+                        letter-spacing: 2px;
+                    }
+
+                    .layout-menu-footer-content {
+                        padding: 10px 12px;
+                        color: $menuitemTextColor;
+
+                        .ui-progressbar {
+                            height: 5px;
+                            border: 0 none;
+                            margin: 16px 0 4px 0;
+                        }
+                    }
+                }
+            }
+
+            &.layout-overlay-active {
+                .layout-menu-container {
+                    left: 0;
+                }
+            }
+        }
+        
+        &.layout-static {
+            .layout-menu-container {
+                left: 0;
+            }
+            
+            &.layout-static-inactive {
+                .layout-menu-container {
+                    left: -230px;
+                }
+            } 
+        }
+        
+        &.layout-slim {
+            .layout-menu-container {
+                padding: 0;
+                height: 100%;
+                width: 60px;
+                overflow: visible;
+                top: 50px;
+                position: fixed;
+                
+                .layout-menu-title, .layout-menu-footer {
+                    display: none;
+                }
+                            
+                .nano {
+                    overflow: visible;
+                    
+                    .nano-content {
+                        overflow: visible;
+                        margin-right: 0px !important;
+                    }
+                    
+                    .nano-pane {
+                        display: none !important;
+                    }
+                }
+                
+                .layout-menu {
+                    padding: 8px 0 0 0;
+                    
+                    > li {
+                        position: relative;
+                                            
+                        > a {
+                            text-align: center;
+                            padding-left: 0;
+                            padding-right: 0;
+                            padding-top: 10px;
+                            padding-bottom: 10px;
+                            
+                            i:first-child {
+                                font-size: 19px;
+                            }
+                            
+                            span, .layout-menuitem-toggler {
+                                display: none;
+                            }
+                            
+                            &:hover + .layout-menu-tooltip {
+                                display: block;
+                            }
+                            
+                            &:hover {
+                                background-color: $primaryColor;
+                                color: $primaryTextColor;
+                            }
+                        }
+                        
+                        > ul {
+                            @include overlay-shadow();
+                            background-color: $menuBgColor;
+                            position: absolute;
+                            top: 0;
+                            left: 60px;
+                            min-width: 200px;
+                            
+                            li {
+                                a {
+                                    padding: 8px 12px;
+                                    display: block;
+
+                                    span {
+                                        margin-left: 6px;
+                                    }
+
+                                    i.layout-menuitem-toggler {
+                                        float: right;
+                                        display: block;
+                                        margin-top: 4px;
+                                    }
+
+                                    &:hover {
+                                        background-color: $primaryColor;
+                                        color: $primaryTextColor;
+                                    }
+                                }
+
+                                &.active-menuitem {
+                                    > a {
+                                        color: $menuItemActiveTextColor;
+
+                                        &:hover {
+                                            color: $primaryTextColor;
+                                        }
+                                    }
+
+                                    > ul {
+                                        display: block;
+                                    }
+                                }
+
+                                ul {
+                                    width: 100%;
+                                    @include no-shadow();
+
+                                    li {
+                                        a {
+                                            padding-left: 24px;
+                                        }
+
+                                        ul {
+                                            li {
+                                                a {
+                                                    padding-left: 36px;
+                                                }
+
+                                                ul {
+                                                    li {
+                                                        a {
+                                                            padding-left: 48px;
+                                                        }
+
+                                                        ul {
+                                                            li {
+                                                                a {
+                                                                    padding-left: 60px;
+                                                                }
+
+                                                                ul {
+                                                                    li {
+                                                                        a {
+                                                                            padding-left: 72px;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        &.active-menuitem {
+                            > a {
+                                background-color: $submenuActiveBgColor;
+                                color: $menuItemActiveTextColor;
+
+                                &:hover {
+                                    background-color: $primaryColor;
+                                    color: $primaryTextColor;
+                                }
+                                
+                                &:hover + .layout-menu-tooltip {
+                                    display: none;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } 
+        
+        &.layout-horizontal, &.layout-slim {
+            .layout-menu-container {
+                .nano {
+                    > .nano-content {
+                        &.menu-scroll-content {
+                            display: block;
+                            height: auto;
+                            position: static;
+                            overflow: visible;
+                            overflow-x: visible;
+                        }
+
+                        .nano-scroll-footer {
+                            height: 0px;
+                        }
+                    }
+                    
+                    > .nano-pane {
+                        display: none !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1024px) {
+    .layout-wrapper {
+        
+        .layout-mask {
+            display: none;
+        }
+        
+        .layout-menu-container {
+            padding: 0;
+            width: 230px;
+            height: 100%;
+            left: -230px;
+            @include transition(left $transitionDuration);
+
+            .layout-menu-title {
+                display: block;
+                padding: 16px;
+                font-size: 16px;
+                color: $textSecondaryColor;
+                border-bottom: 1px solid $dividerColor;
+                letter-spacing: 2px;
+            }
+
+            .layout-menu {
+
+                li {
+                    a {
+                        padding: 10px 12px;
+                        display: block;
+
+                        &:hover {
+                            background-color: $primaryColor;
+                            color: $primaryTextColor;
+                        }
+
+                        i:first-child {
+                            font-size: 18px;
+                            vertical-align: middle;
+                            display: inline-block;
+                        }
+
+                        i.layout-menuitem-toggler {
+                            float: right;
+                            line-height: 22px;
+                        }
+
+                        > span {
+                            vertical-align: middle;
+                            display: inline-block;
+                            line-height: $fontSize + 1;
+                            margin-left: 6px;
+                        }
+                    }
+
+                    &.active-menuitem {
+                        > a {
+                            background-color: $submenuActiveBgColor;
+                            color: $menuItemActiveTextColor;
+
+                            &:hover {
+                                background-color: $primaryColor;
+                                color: $primaryTextColor;
+                            }
+                        }
+                    }
+                }
+
+                > li {
+                    &:first-child {
+                        margin-top: 8px;
+                    }
+
+                    ul {
+                        background: $submenuActiveBgColor;
+
+                        li {
+                            a {
+                                padding-left: 24px;
+                            }
+
+                            ul {
+                                li {
+                                    a {
+                                        padding-left: 36px;
+                                    }
+
+                                    ul {
+                                        li {
+                                            a {
+                                                padding-left: 48px;
+                                            }
+
+                                            ul {
+                                                li {
+                                                    a {
+                                                        padding-left: 60px;
+                                                    }
+
+                                                    ul {
+                                                        li {
+                                                            a {
+                                                                padding-left: 72px;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .layout-menu-footer {
+                .layout-menu-footer-title {
+                    display: block;
+                    padding: 16px;
+                    font-size: 16px;
+                    color: $textSecondaryColor;
+                    border-bottom: 1px solid $dividerColor;
+                    letter-spacing: 2px;
+                }
+
+                .layout-menu-footer-content {
+                    padding: 10px 12px;
+                    color: $menuitemTextColor;
+
+                    .ui-progressbar {
+                        height: 5px;
+                        border: 0 none;
+                        margin: 16px 0 4px 0;
+                    }
+                }
+            }
+        }
+        
+        &.layout-mobile-active {
+            .layout-menu-container {
+                left: 0;
+            }
+            
+            .layout-mask {
+                display: block;
+                position: fixed;
+                background-color: $bodyBgColor;
+                @include opacity(.7);
+                height: 100%;
+                width: 100%;
+                top: 50px;
+                left: 0;
+                z-index: 100;
+            }
+        }
+    }
+}

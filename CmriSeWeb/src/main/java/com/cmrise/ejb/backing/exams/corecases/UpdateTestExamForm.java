@@ -134,6 +134,13 @@ public class UpdateTestExamForm {
 	}
 	
 
+	public String addCoreCaseGroup() {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("NumeroCcExamenSV", this.numeroCcExamen);
+		return "Exams-CoreCases-Update-AddCoreCase"; 
+	}
+	
 	public long getNumeroCcExamen() {
 		return numeroCcExamen;
 	}

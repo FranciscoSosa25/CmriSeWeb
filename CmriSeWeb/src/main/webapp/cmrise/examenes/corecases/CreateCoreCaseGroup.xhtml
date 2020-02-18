@@ -5,6 +5,26 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
 <ui:define name="content">
+
+<style type="text/css">
+    .ui-datalist .ui-datalist-content {
+        border:0 none
+    }
+    .ui-datalist ul {
+        padding:0px 10px 0 20px;
+        margin: 5px 0;
+    }
+    .label, .value {
+        vertical-align: top
+    }
+    .output {
+        font-weight: bold
+    }
+    .ui-selectmanymenu {
+        width: 100%;
+    }
+</style>
+
 <p:breadCrumb>
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
      <p:menuitem value="Crear Grupos de Casos" url="#"/>
@@ -26,15 +46,26 @@
       <f:facet name="header">
        <h3>SELECCIÓN DE CASO PRINCIPAL</h3>
       </f:facet>
-       <p>
        <p:outputLabel for="coreCase"  value="Ingrese o Seleccione un Caso Principal"/>
-       <p:selectOneMenu id="coreCase">
-       <f:selectItem itemLabel="Ingresa un Caso Principal" itemValue="" />
-       </p:selectOneMenu>
-       </p>
+        <p:selectManyMenu id="coreCase" value="#{createGroupForm.selectedCcHdrForAction}" converter="ccHdrForActionCoverter" var="cC" filter="true" filterMatchMode="contains" showCheckbox="true">
+          <f:selectItems value="#{createGroupForm.listCcHdrForAction}" var="cCTmp" itemLabel="#{cCTmp.nombre}" itemValue="#{cCTmp}" />
+          <p:column>
+            <h:outputText value="#{cC.nombre}" />
+          </p:column>
+          <p:column>
+            <h:outputText value="#{cC.estatusDesc}" />
+          </p:column>
+          <p:column>
+            <h:outputText value="#{cC.temaDesc}" />
+          </p:column>
+          </p:selectManyMenu>
+          <p:message for="coreCase"/>
+        <p:commandButton value="Agregar Casos" update="updateForm" action="#{createGroupForm.recuperaCoreCases()}" />
       </p:panel>
     </div>
  </div>
+ 
+        
 </h:form>
     
 </ui:define>

@@ -43,4 +43,18 @@ public class MenuForm {
 		return "Exams-CoreCases-Update"; 
 	}
 	
+	public String fpActualizarPruebaExamenAgregarCasosPrincipales() {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("NumeroCcExamenSV", (long)11);
+		return "Exams-CoreCases-Update-AddCoreCase"; 
+	}
+	
+	public String fpActualizarPruebaExamenActualizarCasosPrincipales() {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("NumeroCcExamenSV", (long)11);
+		return "Exams-CoreCases-Update-UpdateCoreCaseGroup"; 
+	}
+	
 }
