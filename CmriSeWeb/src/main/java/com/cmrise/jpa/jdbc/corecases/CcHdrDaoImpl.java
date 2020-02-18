@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.cmrise.jpa.dao.corecases.CcHdrDao;
+import com.cmrise.jpa.dto.admin.KeysDto;
 import com.cmrise.jpa.dto.corecases.CcHdrDto;
 import com.cmrise.jpa.dto.corecases.CcHdrV1Dto;
 import com.cmrise.utils.Utilitarios;
@@ -57,6 +58,13 @@ public class CcHdrDaoImpl implements CcHdrDao {
 	@Override
 	public CcHdrV1Dto findByNumero(long pNumero) {
 		return em.find(CcHdrV1Dto.class, pNumero);
+	}
+
+	@Override
+	public List<KeysDto> findKeys() {
+		String strQuery = "SELECT new com.cmrise.jpa.dto.admin.KeysDto(c.numero,c.nombre) FROM CcHdrDto c";
+		Query q = em.createQuery(strQuery); 
+		return q.getResultList();
 	}
 
 }

@@ -1,0 +1,107 @@
+.layout-wrapper {
+    .layout-content {
+        .layout-breadcrumb {
+            background-color: $menuBgColor;
+            border-bottom: 1px solid $dividerColor;
+            min-height: 38px;
+            padding: 0px 20px;
+            @include border-box();
+            @include clearfix();
+            
+            ul {
+                margin: 8px 0 0 0;
+                padding: 0 0 0 12px;
+                list-style: none;
+                color: $menuitemTextColor;
+                display: inline-block;
+                
+                li {
+                    display: inline-block; 
+                    vertical-align: middle;
+                    color: $menuitemTextColor;
+                    
+                    a {
+                        color: $menuitemTextColor;
+                    }
+                }
+            }
+            
+            .layout-breadcrumb-options {
+                float: right;
+                padding: 0;
+                height: 100%;
+                
+                a {
+                    color: $textSecondaryColor;
+                    display: inline-block;
+                    width: 42px;
+                    height: 42px;
+                    font-size: 20px;
+                    line-height: 42px;
+                    text-align: center;
+                    @include transition(background-color $transitionDuration);
+                    
+                    &:hover {
+                        background-color: $primaryColor;
+                        color: $primaryTextColor;
+                    }
+                    
+                    i {
+                        line-height: inherit;
+                    }
+                }
+            }
+        }
+    }
+    
+    .layout-content {
+        .layout-content-container {
+            padding: 20px 20px;
+        }
+    }
+}
+
+@media (min-width: 1025px) {
+    .layout-wrapper {        
+        &.layout-horizontal {
+            .layout-content {
+                padding-top: 100px;
+            }
+        }
+        
+        &.layout-overlay {
+            .layout-content {
+                padding-top: 50px;
+            }
+        }
+        
+        &.layout-static {
+            .layout-content {
+                padding-top: 50px;
+                margin-left: 230px;
+                @include transition(margin-left $transitionDuration);
+            }
+            
+            &.layout-static-inactive {
+                .layout-content {
+                    margin-left: 0;
+                }
+            }
+        }
+        
+        &.layout-slim {
+            .layout-content {
+                padding-top: 50px;
+                margin-left: 60px;
+            }
+        }
+    }
+}
+
+@media (max-width: 1024px) {
+    .layout-wrapper {
+        .layout-content {
+            padding: 50px 0px;
+        }
+    }
+}

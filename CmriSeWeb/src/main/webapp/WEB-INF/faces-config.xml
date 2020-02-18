@@ -124,6 +124,11 @@
    <redirect/>
   </navigation-case>
   <navigation-case>
+   <from-outcome>Exams-CoreCases-Update-UpdateCoreCaseGroup</from-outcome>
+   <to-view-id>/cmrise/examenes/corecases/UpdateCoreCaseGroup.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
    <from-outcome>Exams-CoreCases-Manage-Candidates</from-outcome>
    <to-view-id>/cmrise/examenes/corecases/ManageCandidates.xhtml</to-view-id>
    <redirect/>

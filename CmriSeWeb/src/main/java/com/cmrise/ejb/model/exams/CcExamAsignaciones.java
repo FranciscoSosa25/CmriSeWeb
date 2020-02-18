@@ -1,12 +1,14 @@
 package com.cmrise.ejb.model.exams;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class CcExamAsignaciones implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	private long id; 
 	private long numero;
 	private long actualizadoPor;
 	private long creadoPor;
@@ -15,6 +17,16 @@ public class CcExamAsignaciones implements Serializable {
 	private Date fechaEfectivaDesde;
 	private Date fechaEfectivaHasta;
 	private long numeroCoreCase;
+	private String tituloPregunta; 
+	private String tipoPreguntaDesc; 
+	private String estatusPregunta; 
+	private String estatusPreguntaDesc; 
+	private BigDecimal maxPuntuacionPregunta; 
+	private String temaPregunta; 
+	private String temaPreguntaDesc; 
+	private String etiquetas; 
+	private String tipoPregunta; 
+	
 
 	public CcExamAsignaciones() {
 	}
@@ -81,6 +93,86 @@ public class CcExamAsignaciones implements Serializable {
 
 	public void setNumeroCoreCase(long numeroCoreCase) {
 		this.numeroCoreCase = numeroCoreCase;
+	}
+
+	public String getTipoPreguntaDesc() {
+		return tipoPreguntaDesc;
+	}
+
+	public void setTipoPreguntaDesc(String tipoPreguntaDesc) {
+		this.tipoPreguntaDesc = tipoPreguntaDesc;
+	}
+
+	public String getEstatusPreguntaDesc() {
+		return estatusPreguntaDesc;
+	}
+
+	public void setEstatusPreguntaDesc(String estatusPreguntaDesc) {
+		this.estatusPreguntaDesc = estatusPreguntaDesc;
+	}
+
+	public BigDecimal getMaxPuntuacionPregunta() {
+		return maxPuntuacionPregunta;
+	}
+
+	public void setMaxPuntuacionPregunta(BigDecimal maxPuntuacionPregunta) {
+		this.maxPuntuacionPregunta = maxPuntuacionPregunta;
+	}
+
+	public String getTemaPreguntaDesc() {
+		return temaPreguntaDesc;
+	}
+
+	public void setTemaPreguntaDesc(String temaPreguntaDesc) {
+		this.temaPreguntaDesc = temaPreguntaDesc;
+	}
+
+	public String getEtiquetas() {
+		return etiquetas;
+	}
+
+	public void setEtiquetas(String etiquetas) {
+		this.etiquetas = etiquetas;
+	}
+
+	public String getTituloPregunta() {
+		return tituloPregunta;
+	}
+
+	public void setTituloPregunta(String tituloPregunta) {
+		this.tituloPregunta = tituloPregunta;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getTipoPregunta() {
+		return tipoPregunta;
+	}
+
+	public void setTipoPregunta(String tipoPregunta) {
+		this.tipoPregunta = tipoPregunta;
+	}
+
+	public String getEstatusPregunta() {
+		return estatusPregunta;
+	}
+
+	public void setEstatusPregunta(String estatusPregunta) {
+		this.estatusPregunta = estatusPregunta;
+	}
+
+	public String getTemaPregunta() {
+		return temaPregunta;
+	}
+
+	public void setTemaPregunta(String temaPregunta) {
+		this.temaPregunta = temaPregunta;
 	}
 
 

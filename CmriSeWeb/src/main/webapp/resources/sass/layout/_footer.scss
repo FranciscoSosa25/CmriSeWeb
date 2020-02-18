@@ -1,0 +1,29 @@
+.layout-wrapper {
+    
+    .layout-footer {
+        background-color: $menuBgColor;
+        padding: 20px 40px;
+        
+        .footer-text-left {
+            float: left;
+        }
+        
+        .footer-text-right {
+            float: right;
+            font-weight: 700;
+        }
+    }
+    
+    &.layout-static {
+        .layout-footer {
+            padding-left: 270px;
+        }
+    }
+    
+    &.layout-slim {
+        .layout-footer {
+            padding-left: 100px;
+        }
+    }
+    
+}
