@@ -40,4 +40,11 @@ public class AdmonUsuariosLocalImpl implements AdmonUsuariosLocal {
 		return admonUsuariosDao.findKeys();
 	}
 
+	@Override
+	public List<AdmonUsuariosDto> findTop500ByFilters(long pNumeroCcExamen
+			                                         ,String strClave) {
+		return admonUsuariosDao.findTop500ByFilters(pNumeroCcExamen
+				                                   ,strClave);
+	}
+
 }

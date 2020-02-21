@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import com.cmrise.ejb.model.corecases.CcHdrForAction;
+import com.cmrise.ejb.model.exams.CcExamAsignaciones;
 import com.cmrise.ejb.services.corecases.CcHdrLocal;
 import com.cmrise.ejb.services.exams.CcExamAsignacionesLocal;
 import com.cmrise.jpa.dto.corecases.CcHdrV1Dto;
@@ -44,7 +45,9 @@ public class CreateGroupForm {
 		if(objNumeroCcExamenSV instanceof Long) {
 			this.numeroCcExamen = (Long)objNumeroCcExamenSV; 
 		}
+		this.listCcHdrForAction = ccHdrLocal.findCoreCasesForExam(this.getNumeroCcExamen()); 
 		
+		/**
 		List<CcHdrV1Dto> listCcHdrV1Dto =  ccHdrLocal.findAll(); 
 		listCcHdrForAction = new ArrayList<CcHdrForAction>();
 		System.out.println("listCcHdrV1Dto.size():"+listCcHdrV1Dto.size());
@@ -58,6 +61,7 @@ public class CreateGroupForm {
 			ccHdrForAction.setTemaDesc(ccHdrV1Dto.getTemaDesc());
 			listCcHdrForAction.add(ccHdrForAction); 
 		}
+		**/
 		System.out.println("Sale "+this.getClass()+" init()");
 	 }
 	
@@ -114,6 +118,7 @@ public class CreateGroupForm {
 
 	public void setNumeroCcExamen(long numeroCcExamen) {
 		this.numeroCcExamen = numeroCcExamen;
-	} 
+	}
+
 	
 }

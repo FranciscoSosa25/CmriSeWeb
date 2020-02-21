@@ -6,7 +6,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.PrimeFaces;
 
@@ -50,9 +52,13 @@ private void refreshEntity() {
     }
 } 
  
-public void update() {
+public String update(CcExamenes pCcExamenes) {
  System.out.println("Entra "+this.getClass()+" update()");	
+ FacesContext context = FacesContext.getCurrentInstance(); 
+ HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+ session.setAttribute("NumeroCcExamenSV", pCcExamenes.getNumero());
  System.out.println("Sale "+this.getClass()+" update()");	
+ return "Exams-CoreCases-Update"; 	
 }
 
 public void selectForAction(CcExamenes pCcExamenes) {

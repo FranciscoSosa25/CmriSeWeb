@@ -57,4 +57,11 @@ public class MenuForm {
 		return "Exams-CoreCases-Update-UpdateCoreCaseGroup"; 
 	}
 	
+	public String fpExamsCoreCasesManageCandidates() {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("NumeroCcExamenSV", (long)11);
+		return "Exams-CoreCases-Manage-Candidates";
+	}
+	
 }

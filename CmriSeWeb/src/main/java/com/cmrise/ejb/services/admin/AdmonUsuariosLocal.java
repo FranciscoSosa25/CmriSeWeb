@@ -15,4 +15,6 @@ public interface AdmonUsuariosLocal {
 	public void delete(long pNumero);
 	public void update(long pNumero,AdmonUsuariosDto pAdmonUsuariosDto);
 	public List<KeysDto> findKeys();
+	public List<AdmonUsuariosDto> findTop500ByFilters(long pNumeroCcExamen
+			                                         ,String strClave);
 }

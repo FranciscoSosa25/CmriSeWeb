@@ -1,6 +1,8 @@
 package com.cmrise.ejb.backing.exams.corecases;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -11,6 +13,8 @@ import javax.servlet.http.HttpSession;
 
 import org.primefaces.PrimeFaces;
 
+import com.cmrise.ejb.model.exams.CcExamAsignaciones;
+import com.cmrise.ejb.services.exams.CcExamAsignacionesLocal;
 import com.cmrise.ejb.services.exams.CcExamenesLocal;
 import com.cmrise.jpa.dto.exams.CcExamenesDto;
 import com.cmrise.utils.Utilitarios;
@@ -44,11 +48,16 @@ public class UpdateTestExamForm {
 	private boolean confirmacionAsistencia; 
 	private boolean diploma;
 	
+	private List<CcExamAsignaciones> listCcExamAsignaciones = new ArrayList<CcExamAsignaciones>(); 
+	
 	@Inject 
 	UtilitariosLocal utilitariosLocal; 
 	
 	@Inject 
 	CcExamenesLocal ccExamenesLocal; 
+	
+	@Inject 
+	CcExamAsignacionesLocal ccExamAsignacionesLocal;
 	
 	 @PostConstruct
 	 public void init() {
@@ -91,6 +100,7 @@ public class UpdateTestExamForm {
 		this.setConfirmacionAsistencia(ccExamenesDto.getConfirmacionAsistencia());
 		this.setDiploma(ccExamenesDto.getDiploma());
 		
+		listCcExamAsignaciones = ccExamAsignacionesLocal.findByNumeroExamenWD(this.getNumeroCcExamen());
 		
 	}
 	
@@ -324,5 +334,13 @@ public class UpdateTestExamForm {
 	public void setDiploma(boolean diploma) {
 		this.diploma = diploma;
 	}
+	
+	public List<CcExamAsignaciones> getListCcExamAsignaciones() {
+		return listCcExamAsignaciones;
+	}
+
+	public void setListCcExamAsignaciones(List<CcExamAsignaciones> listCcExamAsignaciones) {
+		this.listCcExamAsignaciones = listCcExamAsignaciones;
+	} 
 	 
 }

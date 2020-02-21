@@ -11,8 +11,8 @@
       <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1"/>
       <h:outputScript name="primefaces/locale.js" library="js" />
-        <h:outputScript name="js/nanoscroller.js" library="apollo-layout" />
-        <h:outputScript name="js/layout.js" library="apollo-layout" />
+      <h:outputScript name="js/nanoscroller.js" library="apollo-layout" />
+      <h:outputScript name="js/layout.js" library="apollo-layout" />
       <script type="text/javascript">
           function argsValidationFailed(){
         	  $(".ui-message-error").delay(1800).fadeOut(500);
@@ -22,6 +22,7 @@
           }
       </script>
       <ui:insert name="xxhrwjs"/>
+      <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
        <style>
 		  .pcleft /*panelColumnLeft*/ {
 		    text-align: left !important;
@@ -96,14 +97,14 @@
             </p:submenu>
           </p:submenu>
           <p:submenu label="Pruebas/Exámenes">
-            <p:menuitem value="Administrar Exámenes Centrales" outcome="Exams-CoreCases-Manage"/>
-            <p:menuitem value="Crear Prueba/Examen" outcome="Exams-CoreCases-Create"/>
-            <p:menuitem value="Administrar Candidatos" outcome="Exams-CoreCases-Manage-Candidates"/>
-            <p:menuitem value="Agregar Candidato" outcome="Exams-CoreCases-Create-Candidate"/>
+            <p:menuitem value="Gestionar Exámenes Centrales" outcome="Exams-CoreCases-Manage"/>
+            <p:menuitem value="Crear Prueba/Examen" outcome="Exams-CoreCases-Create" />
+            <p:menuitem value="Agregar Candidato" outcome="Exams-CoreCases-Create-Candidate" rendered="false"/>
             <p:submenu label="Fast Path">
              <p:menuitem value="Actualizar Prueba/Examen" action="#{menuForm.fpActualizarPruebaExamen()}"/>
              <p:menuitem value="Agregar Grupo Casos Principales"  action="#{menuForm.fpActualizarPruebaExamenAgregarCasosPrincipales()}" />
              <p:menuitem value="Actualizar Grupo Casos Principales"  action="#{menuForm.fpActualizarPruebaExamenActualizarCasosPrincipales()}" />
+             <p:menuitem value="Gestionar Candidatos" action="#{menuForm.fpExamsCoreCasesManageCandidates()}"/>
             </p:submenu>  
           </p:submenu>
           <p:submenu label="Archivos DICOM">

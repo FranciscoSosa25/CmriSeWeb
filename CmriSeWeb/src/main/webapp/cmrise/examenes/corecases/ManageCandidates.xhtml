@@ -4,24 +4,138 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
+                
+<ui:define name="xxhrwjs">
+<script type="text/javascript">
+function handleSearhRequest(xhr, status, args){
+	 if(args.validationFailed||!args.searchIn) {
+		 argsValidationFailed(); 
+	 }else{
+		 PF('despliegaUsuariosDialogWV').show();
+	}
+}
+function handleDeleteRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.deleteIn) {
+		 PF('deleteDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+  }else{
+  	 PF('deleteDialogWV').hide();
+  }	
+}
+function handleDeleteAllRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.deleteAllIn) {
+		 PF('deleteDialogAllWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+ }else{
+ 	 PF('deleteDialogAllWV').hide();
+ }	
+}
+</script>
+</ui:define>
 <ui:define name="content">
 <p:breadCrumb>
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
      <p:menuitem value="Administrar Candidatos" url="#"/>
 
 </p:breadCrumb>
-<h1>Administrar Candidatos</h1>
-<p:panel>
+<h1>Gestionar Candidatos</h1>
+
+<h:form id="SearchForm">
+<p:panel id="SearchPanel">
  <f:facet name="header">
     <div class="ui-g">
     <div class="ui-g-9">
-     <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nuevo Candidato" icon="pi pi-plus" action="Exams-CoreCases-Create"/>
+     <div class="ui-inputgroup">
+        <p:inputText id="nombreUsuario" placeholder="Ingrese palabra clave para buscar usuario.." style="width:350px" value="#{manageCandidatesForm.searchUsuario}" required="true"/>
+        <p:commandButton immediate="false" title="Nuevo" update="SearchPanel DespliegaUsuariosFiltradosForm" value="Agregar Nuevo Candidato" icon="pi pi-plus" oncomplete="handleSearhRequest(xhr, status, args)" actionListener="#{manageCandidatesForm.filtrarUsuarios()}"  />
+      </div>
+      <p:message for="nombreUsuario"/>
     </div>
      <div class="ui-g-3">
-       <p:commandButton immediate="true" title="Borrar"  value="Borrar Todos los Candidatos" icon="pi pi-minus" action="Exams-CoreCases-Create"/>
+       <p:commandButton  oncomplete="PF('deleteDialogAllWV').show();" value="Borrar Todos los Candidatos" icon="pi pi-minus" />
     </div>
     </div>
  </f:facet>
 </p:panel>
+</h:form>
+
+<h:form id="ReadOnlyForm">
+   <p:dataTable id="admonCcCandidatosTblId" var="admonCcCandidatos" value="#{manageCandidatesForm.listAdmonCcCandidatos}" emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+    <f:facet name="header">Candidatos</f:facet>
+   <p:column headerText="Nombre Completo Usuario">
+    <h:outputText value="#{admonCcCandidatos.nombreCompletoUsuario}"/>
+   </p:column>
+   <p:column headerText="Contraseña">
+    <h:outputText value="#{admonCcCandidatos.contrasenia}"/>
+   </p:column>
+   <p:column headerText="Correo Electronico">
+    <h:outputText value="#{admonCcCandidatos.correoElectronico}"/>
+   </p:column>
+   <p:column headerText="Acciones">
+     <p:commandButton icon="fa fa-trash"  style="margin-left: 10px;" oncomplete="PF('deleteDialogWV').show();"  actionListener="#{manageCandidatesForm.selectForAction(admonCcCandidatos)}"/>
+   </p:column>
+  </p:dataTable>
+</h:form>
+
+
+
+<h:form id="DespliegaUsuariosFiltradosForm">
+  <p:dialog id="despliegaUsuariosDialogId" widgetVar="despliegaUsuariosDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Agregar Candidato">
+  <p:dataTable id="despliegaUsuariosDialogTblId" var="admonUsuario" value="#{manageCandidatesForm.listAdmonUsuarios}" emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+    <f:facet name="header">Usuarios de Aplicación</f:facet>
+   <p:column headerText="Nombre">
+    <h:outputText value="#{admonUsuario.nombre}"/>
+   </p:column>
+   <p:column headerText="Apellido Paterno">
+    <h:outputText value="#{admonUsuario.apellidoPaterno}"/>
+   </p:column>
+   <p:column headerText="Apellido Materno">
+    <h:outputText value="#{admonUsuario.apellidoMaterno}"/>
+   </p:column>
+    <p:column headerText="Correo Electronico">
+    <h:outputText value="#{admonUsuario.correoElectronico}"/>
+   </p:column>
+   <p:column headerText="Acciones">
+    <p:commandButton immediate="true" update="despliegaUsuariosDialogTblId :ReadOnlyForm:admonCcCandidatosTblId" icon="fa fa-plus" style="margin-left: 10px;"  ajax="true" actionListener="#{manageCandidatesForm.agregarCandidato(admonUsuario)}"/>
+   </p:column>
+  </p:dataTable>    
+    <f:facet name="footer">
+        <div class="ui-g" >
+             <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('despliegaUsuariosDialogWV').hide();" />
+              </div>
+            </div>
+      </f:facet> 
+  </p:dialog>
+</h:form>
+
+<h:form id="DeleteForm">
+   <p:dialog id="deleteDialogId" widgetVar="deleteDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Candidato">
+    <h2>¿Esta seguro de que desea borrar este registro?</h2>
+    <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="DeleteBtn" update="ReadOnlyForm" value="Aceptar" actionListener="#{manageCandidatesForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
+              </div>
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('deleteDialogWV').hide();" />
+              </div>
+     </div>
+   </p:dialog>
+</h:form> 
+
+<h:form id="DeleteAllForm">
+   <p:dialog id="deleteDialogAllId" widgetVar="deleteDialogAllWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar todos los Candidatos">
+    <h2>¿Esta seguro de que desea borrar TODOS los registro?</h2>
+    <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="DeleteBtn" update="ReadOnlyForm" value="Aceptar" actionListener="#{manageCandidatesForm.deleteAll()}" oncomplete="handleDeleteAllRequest(xhr, status, args)"  />
+              </div>
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('deleteDialogAllWV').hide();" />
+              </div>
+     </div>
+   </p:dialog>
+</h:form>
+
 </ui:define>
 </ui:composition>
