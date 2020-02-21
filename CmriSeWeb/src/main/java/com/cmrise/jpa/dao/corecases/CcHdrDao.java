@@ -15,4 +15,5 @@ public interface CcHdrDao {
 	public List<CcHdrV1Dto> findAll();
 	public CcHdrV1Dto findByNumero(long pNumero);
 	public List<KeysDto> findKeys(); 
+	public List<Object> findCoreCasesForExam(long pNumeroExamen);
 }

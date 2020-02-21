@@ -67,4 +67,21 @@ public class CcHdrDaoImpl implements CcHdrDao {
 		return q.getResultList();
 	}
 
+	@Override
+	public List<Object> findCoreCasesForExam(long pNumeroExamen) {
+		String strQuery="SELECT [NUMERO]\r" + 
+						"      ,[NOMBRE]\r" + 
+						"      ,[ESTATUS]\r" + 
+						"      ,[ESTATUS_DESC]\r" + 
+						"	  ,[TEMA]\r" + 
+						"	  ,[TEMA_DESC]\r" + 
+						" FROM [dbo].[CC_HDR_V1]\r" + 
+						"WHERE [NUMERO] NOT IN ( SELECT CEA.[NUMERO_CORE_CASE]\r" + 
+						"                          FROM [dbo].[CC_EXAM_ASIGNACIONES] CEA\r" +
+						"                         WHERE CEA.[NUMERO_CC_EXAMEN] ="+pNumeroExamen+"\r"+
+						"                       )\r";
+		Query query = em.createNativeQuery(strQuery); 
+		return query.getResultList();
+	}
+
 }

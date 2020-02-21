@@ -48,7 +48,14 @@ public class UpdateGroupForm {
 		session.setAttribute("NumeroCcExamenSV", this.getNumeroCcExamen());
 		return "Exams-CoreCases-Update-AddCoreCase"; 
 	}
-	 
+	
+	public String gestionarCandidatos() {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("NumeroCcExamenSV", this.getNumeroCcExamen());
+		return "Exams-CoreCases-Manage-Candidates"; 
+	}
+	
 	public long getNumeroCcExamen() {
 		return numeroCcExamen;
 	}

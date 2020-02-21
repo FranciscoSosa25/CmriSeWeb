@@ -17,8 +17,16 @@
     <div class="ui-g-2 ui-g-nopad">
      <p:panel layout="grid" >
       <f:facet name="header">
-       <h3>PREGUNTAS GRUPO</h3>
-      </f:facet>
+	       Grupo de Preguntas
+	     </f:facet>
+       <p:dataList var="ccExamAsignacionDL"  value="#{updateTestExamForm.listCcExamAsignaciones}"  type="definition" responsive="true">
+	       <f:facet name="caption">Hola</f:facet>
+	       <p:column>
+	         <p:commandLink action="#{updateQuestionFtaCoreCaseForm.updatePregunta(ccPreguntasHdrV1)}">
+	         <h:outputText value="#{ccExamAsignacionDL.tituloPregunta}" />
+	         </p:commandLink>
+	       </p:column>
+	     </p:dataList>
       <p:commandButton  title="Nuevo"  value="Agregar Nuevo Grupo" icon="pi pi-plus" action="#{updateTestExamForm.addCoreCaseGroup()}"/>
      </p:panel>
     </div>
