@@ -225,4 +225,5 @@ public class MrqsPreguntasHdrDto implements Serializable {
 		return mrqsPreguntasFta;
 	}
 
+	
 }
