@@ -23,7 +23,8 @@ public class CreateCoreCaseForm {
 	@Inject 
 	CcHdrLocal ccHdrLocal; 
 	
-	public void create() {
+	public String create() {
+		System.out.println("Entra CreateCoreCaseForm create");
 		CcHdrDto ccHdrDto = new CcHdrDto();
 		ccHdrDto.setNombre(this.nombre);
 		ccHdrDto.setTema(this.tema);
@@ -37,6 +38,9 @@ public class CreateCoreCaseForm {
 		ccHdrDto.setEstatus(Utilitarios.INITIAL_STATUS_MRQ);
 		ccHdrDto.setSociedad(Utilitarios.SOCIEDAD);
 		ccHdrLocal.insert(ccHdrDto);
+		System.out.println("Sale CreateCoreCaseForm create");
+		return "Preguntas-Manage-CoreCases";
+		
 	}
 	
 	public String getNombre() {

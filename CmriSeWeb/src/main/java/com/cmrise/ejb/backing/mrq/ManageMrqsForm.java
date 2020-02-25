@@ -1,6 +1,7 @@
 package com.cmrise.ejb.backing.mrq;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -12,6 +13,8 @@ import org.primefaces.PrimeFaces;
 
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
+import com.cmrise.jpa.dto.admin.AdmonUsuariosDto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
 
 import java.util.List;
@@ -55,24 +58,44 @@ public class ManageMrqsForm {
 	
 	public void selectForAction(MrqsPreguntasHdrV1 pMrqsPreguntasHdrV1) {
 		mrqsPreguntasHdrV1ForAction.setNumero(pMrqsPreguntasHdrV1.getNumero());
+		mrqsPreguntasHdrV1ForAction.setTitulo(pMrqsPreguntasHdrV1.getTitulo());
+		mrqsPreguntasHdrV1ForAction.setTipoPreguntaDesc(pMrqsPreguntasHdrV1.getTipoPreguntaDesc());
+		mrqsPreguntasHdrV1ForAction.setTemaPreguntaDesc(pMrqsPreguntasHdrV1.getTemaPreguntaDesc());
+		mrqsPreguntasHdrV1ForAction.setEstatusDesc(pMrqsPreguntasHdrV1.getEstatusDesc());
+		mrqsPreguntasHdrV1ForAction.setEtiquetas(pMrqsPreguntasHdrV1.getEtiquetas());
 	}
 	
     public void delete() {
 		boolean deleteIn = false; 
-		deleteIn = true;
 		mrqsPreguntasHdrLocal.delete(mrqsPreguntasHdrV1ForAction.getNumero());
-		refreshEntity();
-		deleteIn = true;
-	    PrimeFaces.current().ajax().addCallbackParam("deleteIn", deleteIn);
+		
+		 deleteIn = true;
+	     PrimeFaces.current().ajax().addCallbackParam("deleteIn", deleteIn);
 	}
-	
+   
+  
 	public String update(MrqsPreguntasHdrV1 pMrqsPreguntasHdrV1) {
+		boolean updateIn = false; 
+		MrqsPreguntasHdrDto mrqsPreguntasHdrDto = new MrqsPreguntasHdrDto();
+		mrqsPreguntasHdrDto.setNumero(pMrqsPreguntasHdrV1.getNumero());
+		mrqsPreguntasHdrDto.setTitulo(pMrqsPreguntasHdrV1.getTitulo());
+		mrqsPreguntasHdrDto.setTipoPregunta(pMrqsPreguntasHdrV1.getTipoPreguntaDesc());
+		mrqsPreguntasHdrDto.setTemaPregunta(pMrqsPreguntasHdrV1.getTemaPreguntaDesc());
+		mrqsPreguntasHdrDto.setEstatus(pMrqsPreguntasHdrV1.getEstatusDesc());
+		mrqsPreguntasHdrDto.setEtiquetas(pMrqsPreguntasHdrV1.getEtiquetas());
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest();
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-		session.setAttribute("NumeroHdrSV", pMrqsPreguntasHdrV1.getNumero());  
+		//mrqsPreguntasHdrLocal.update(mrqsPreguntasHdrV1ForAction.getNumero(), mrqsPreguntasHdrDto  );
+		mrqsPreguntasHdrLocal.update(pMrqsPreguntasHdrV1.getNumero(), mrqsPreguntasHdrDto);
+		refreshEntity();
+		updateIn = true; 
+		
+		PrimeFaces.current().ajax().addCallbackParam("updateIn", updateIn);
 		return "Preguntas-UpdateFreeTextAnswer-NewMrqs";
 	}
+	
+
 	
 	public void duplicate() {
 		System.out.println("Entra "+this.getClass()+" duplicate");

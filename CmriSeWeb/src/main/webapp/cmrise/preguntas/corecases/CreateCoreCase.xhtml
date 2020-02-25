@@ -15,11 +15,13 @@
  </script>
 </ui:define>
                 
+                
 <ui:define name="content">
 <p:breadCrumb>
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
+     <p:menuitem value="Gestionar Casos Principales" outcome= "Preguntas-Manage-CoreCases" />
      <p:menuitem value="Crear Caso Principal" url="#"/>
-
+       
 </p:breadCrumb>
 <h1>Crear Caso Principal</h1>
 <h:form id="createForm">
@@ -37,7 +39,7 @@
   <p:outputLabel for="clinicalHistory" value="Historial Clinico"/>
   <p:inputTextarea  id="clinicalHistory" value="#{createCoreCaseForm.historialClinico}" rows="4" style="width:100%"/>
   <p:message  for="clinicalHistory"/>
-  <p:outputLabel for="descriptionOfTechnique" value="Descrición de la Técnica"/>
+  <p:outputLabel for="descriptionOfTechnique" value="Descripción de la Técnica"/>
   <p:inputTextarea  id="descriptionOfTechnique" value="#{createCoreCaseForm.descripcionTecnica}"  rows="4" style="width:100%"/>
   <p:message  for="descriptionOfTechnique"/>
   <p:outputLabel for="note" value="Nota"/>
@@ -54,12 +56,16 @@
  
  <div class="ui-g">
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Agregar Caso Principal" update="createForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createCoreCaseForm.create}"/>
+  <p:commandButton value="Agregar Caso Principal" update="createForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createCoreCaseForm.create()}"/>
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Cancelar"/>
+  <p:commandButton value="Cancelar" process="@this" update="createForm" action="Preguntas-Manage-CoreCases" >
+  <p:resetInput target="createForm"/>
+   </p:commandButton>
  </div>
 </div>
+
+
 </h:form>
 </ui:define>
 </ui:composition>
