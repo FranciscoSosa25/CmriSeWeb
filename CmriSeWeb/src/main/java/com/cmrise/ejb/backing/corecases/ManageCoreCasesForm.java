@@ -79,6 +79,7 @@ public class ManageCoreCasesForm {
 	
 	public List<CcHdrV1> getListCcHdrV1() {
 		return listCcHdrV1;
+		
 	}
 	
 	public void setListCcHdrV1(List<CcHdrV1> listCcHdrV1) {

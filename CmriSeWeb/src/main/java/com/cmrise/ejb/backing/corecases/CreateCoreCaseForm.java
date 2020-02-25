@@ -40,6 +40,7 @@ public class CreateCoreCaseForm {
 		ccHdrLocal.insert(ccHdrDto);
 		System.out.println("Sale CreateCoreCaseForm create");
 		return "Preguntas-Manage-CoreCases";
+		
 	}
 	
 	public String getNombre() {
