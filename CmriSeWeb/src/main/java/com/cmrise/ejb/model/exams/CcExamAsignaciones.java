@@ -26,6 +26,7 @@ public class CcExamAsignaciones implements Serializable {
 	private String temaPreguntaDesc; 
 	private String etiquetas; 
 	private String tipoPregunta; 
+	private long numeroPreguntaHdr; 
 	
 
 	public CcExamAsignaciones() {
@@ -175,6 +176,13 @@ public class CcExamAsignaciones implements Serializable {
 		this.temaPregunta = temaPregunta;
 	}
 
+	public long getNumeroPreguntaHdr() {
+		return numeroPreguntaHdr;
+	}
+
+	public void setNumeroPreguntaHdr(long numeroPreguntaHdr) {
+		this.numeroPreguntaHdr = numeroPreguntaHdr;
+	}
 
 	
 }

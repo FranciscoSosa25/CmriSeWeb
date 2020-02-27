@@ -74,17 +74,16 @@
     TARGET="rules:#cmrise#preguntas#mrqs#CreateMrq.xhtml"
     TITLE="Preguntas-CreateNewMrqs" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
+    ID="Preguntas-UpdateNewMrqs::#cmrise#preguntas#mrqs#UpdateMrq.xhtml"
+    NAME="output14" PATH="/cmrise/preguntas/mrqs/UpdateMrq.xhtml"
+    TARGET="rules:#cmrise#preguntas#mrqs#UpdateMrq.xhtml"
+    TITLE="Preguntas-UpdateNewMrqs" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
     ID="Preguntas-UpdateFreeTextAnswer-NewMrqs::#cmrise#preguntas#mrqs#UpdateFreeTextAnswer.xhtml"
-    NAME="output14"
+    NAME="output15"
     PATH="/cmrise/preguntas/mrqs/UpdateFreeTextAnswer.xhtml"
     TARGET="rules:#cmrise#preguntas#mrqs#UpdateFreeTextAnswer.xhtml"
     TITLE="Preguntas-UpdateFreeTextAnswer-NewMrqs" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
-    ID="Preguntas-UpdateMultipleChoiceAnswer-NewMrqs::#cmrise#preguntas#mrqs#UpdateMultipleChoiceAnswer.xhtml"
-    NAME="output15"
-    PATH="/cmrise/preguntas/mrqs/UpdateMultipleChoiceAnswer.xhtml"
-    TARGET="rules:#cmrise#preguntas#mrqs#UpdateMultipleChoiceAnswer.xhtml"
-    TITLE="Preguntas-UpdateMultipleChoiceAnswer-NewMrqs" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="Preguntas-UpdateAnnotatedImageAnswer-NewMrqs::#cmrise#preguntas#mrqs#UpdateAnnotatedImageAnswer.xhtml"
     NAME="output16"
@@ -241,4 +240,21 @@
   NAME="rules:#cmrise#examenes#corecases#UpdateCoreCaseGroup.xhtml"
   PATH="/cmrise/examenes/corecases/UpdateCoreCaseGroup.xhtml"
   SHAPE="304,1201,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules::1" SHAPE="32,961,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::1" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="Candidates-Manage-Exams::#candidates#exams#ManageExams.xhtml"
+    NAME="output" PATH="/candidates/exams/ManageExams.xhtml"
+    TARGET="rules:#candidates#exams#ManageExams.xhtml"
+    TITLE="Candidates-Manage-Exams" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="Candidates-Exam::#candidates#exams#Exam.xhtml" NAME="output1"
+    PATH="/candidates/exams/Exam.xhtml"
+    TARGET="rules:#candidates#exams#Exam.xhtml" TITLE="Candidates-Exam" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#candidates#exams#ManageExams.xhtml"
+  PATH="/candidates/exams/ManageExams.xhtml" SHAPE="240,2097,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#candidates#exams#Exam.xhtml"
+  PATH="/candidates/exams/Exam.xhtml" SHAPE="256,2129,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

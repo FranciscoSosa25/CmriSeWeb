@@ -11,4 +11,5 @@ public interface CcPreguntasFtaDao {
 			          ,CcPreguntasFtaDto pCcPreguntasFtaDto);
 	public long finNumeroByHdr(long pNumeroHdr);
 	public CcPreguntasFtaV1Dto findDtoByNumeroHdr(long pNumeroHdr);
+	public CcPreguntasFtaDto findDtoByNumeroFta(long pNumeroFta);
 }

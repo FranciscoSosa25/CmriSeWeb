@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/templateCandidates.xhtml">
+<ui:define name="content">
+<h1>Examen</h1>
+<h:form id="topBackSaveSkipBtnsForm">
+<p:commandButton id="backBtn" value="Regresar" update="ftaForm" actionListener="#{examForm.backAction()}"/>
+<p:commandButton id="saveTrxBtn" value="Guardar y Continuar" actionListener="#{examForm.saveTrxAction()}"/>
+<p:commandButton id="skipBtn" value="Saltar" update="ftaForm" actionListener="#{examForm.skipAction()}"/>
+</h:form>
+
+<h:form id="ftaForm">
+ <div class="ui-g">
+ <div class="ui-g-12">
+   <h1>#{examForm.textoPregunta}</h1>
+ </div>
+  <div class="ui-g-12">
+    <h2>#{examForm.textoSugerencias}</h2>
+ </div>
+ <div class="ui-g-12">
+   <p:outputLabel for="answer" value="Su Respuesta:" style="font-size: 24px;"/>
+   <p:inputTextarea id="answer" rows="10" cols="50" style="width:98%;font-size: 24px;" value="#{examForm.respuestaPregunta}"/>
+ </div>
+ </div>
+</h:form>
+
+<h:form id="bottomBackSaveSkipBtnsForm">
+<p:commandButton id="backBtn" value="Regresar"/>
+<p:commandButton id="saveTrxBtn" value="Guardar y Continuar"/>
+<p:commandButton id="skipBtn" value="Saltar"/>
+</h:form>
+
+</ui:define>
+</ui:composition>

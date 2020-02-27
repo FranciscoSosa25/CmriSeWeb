@@ -61,8 +61,8 @@ public class CcExamAsignacionesLocalImpl implements CcExamAsignacionesLocal {
 				if(row[9] instanceof Object) {
 					
 				}
-				if(row[10] instanceof Object) {
-					
+				if(row[10] instanceof BigInteger) { /** NUMERO_PREGUNTA **/
+					ccExamAsignaciones.setNumeroPreguntaHdr(((BigInteger)row[10]).longValue());
 				}
 				if(row[11] instanceof String) { /** TITULO_PREGUNTA **/
 					ccExamAsignaciones.setTituloPregunta((String)row[11]);
@@ -96,5 +96,6 @@ public class CcExamAsignacionesLocalImpl implements CcExamAsignacionesLocal {
 		} /** END for(Object object:listObjects) { **/
 		return retval; 
 	}
+
 
 }

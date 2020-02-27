@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/templateCandidates.xhtml">
+
+<ui:define name="xxhrwcss">
+</ui:define>
+
+<ui:define name="content">
+<h1>Exámenes abiertos</h1>
+<h:form id="examinationsForm">
+<div class="ui-g">
+        <ui:repeat var="examination" value="#{manageExamsForm.listExaminations}">
+		    <div class="ui-g-6">
+		       <h2>#{examination.tituloExamen}</h2>
+		        <div class="ui-g">
+				 <div class="ui-g-6">
+				   <h3>Tiempo Limite:#{examination.tiempoLimite} minutos</h3>
+				 </div>
+				 </div>
+		     </div>
+		    <div class="ui-g-3" style="padding:30px;"><h2>EXAMEN</h2></div>
+		    <div class="ui-g-3" style="padding:30px;"><p:commandButton value="Tomar Examen" action="#{manageExamsForm.createCandCcExamen(examination)}"/></div>
+		 </ui:repeat>
+		</div>
+</h:form>		
+</ui:define>
+</ui:composition>
+

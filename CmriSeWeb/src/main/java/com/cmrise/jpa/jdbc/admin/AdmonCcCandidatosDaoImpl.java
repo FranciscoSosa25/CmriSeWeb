@@ -58,5 +58,20 @@ public class AdmonCcCandidatosDaoImpl implements AdmonCcCandidatosDao {
 		}
 		
 	}
+
+	@Override
+	public List<Object> findExaminationsByCandidato(long pNumeroCandidato) {
+		String strQuery = "SELECT ACC.[NUMERO]\r" + 
+						    "      ,ACC.[NUMERO_USUARIO]\r" + 
+						    "      ,ACC.[NUMERO_CC_EXAMEN]\r" + 
+						    "	  ,CE.TITULO\r" + 
+							"	  ,CE.TIEMPO_LIMITE\r" + 
+							"  FROM [dbo].[ADMON_CC_CANDIDATOS] ACC\r" + 
+							"      ,[dbo].[CC_EXAMENES] CE\r" + 
+							"  WHERE ACC.NUMERO_CC_EXAMEN = CE.NUMERO\r"+
+						    "    AND ACC.[NUMERO_USUARIO] ="+pNumeroCandidato; 
+		Query query = em.createNativeQuery(strQuery); 
+		return query.getResultList();
+	}
 	
 }

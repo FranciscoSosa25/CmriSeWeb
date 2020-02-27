@@ -38,4 +38,9 @@ public class CcPreguntasFtaLocalImpl implements CcPreguntasFtaLocal {
 		return ccPreguntasFtaDao.findDtoByNumeroHdr(pNumeroHdr);
 	}
 
+	@Override
+	public CcPreguntasFtaDto findDtoByNumeroFta(long pNumeroFta) {
+		return ccPreguntasFtaDao.findDtoByNumeroFta(pNumeroFta);
+	}
+
 }
