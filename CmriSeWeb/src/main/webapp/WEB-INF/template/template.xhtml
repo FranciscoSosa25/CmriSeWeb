@@ -110,6 +110,12 @@
           <p:submenu label="Archivos DICOM">
            <p:menuitem value="Leer archivo DICOM" outcome="Dicom-Leer-Archivo"/>
           </p:submenu>
+          <p:submenu label="Candidatos">
+            <p:menuitem value="Gestionar Examenes" action="#{menuForm.fpCandidatesManageExams()}"/>
+            <p:submenu label="Fast Path">
+             <p:menuitem value="Examen" action="#{menuForm.fpCandidatesExamen()}"/>
+            </p:submenu>
+          </p:submenu>
         </p:panelMenu>
       </p:sidebar>
   </h:form>

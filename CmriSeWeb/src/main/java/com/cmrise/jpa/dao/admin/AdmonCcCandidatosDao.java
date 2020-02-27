@@ -10,4 +10,5 @@ public interface AdmonCcCandidatosDao {
      public List<AdmonCcCandidatosV1Dto> findByNumeroCcExamenWD(long pNumeroExamen);
      public void delete(long pNumero); 
      public void deleteAll(long pNumeroCcExamen);
+     public List<Object> findExaminationsByCandidato(long pNumeroCandidato);
 }

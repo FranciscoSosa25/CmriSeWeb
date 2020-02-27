@@ -76,5 +76,11 @@ public class CcPreguntasFtaDaoImpl implements CcPreguntasFtaDao {
 		return (CcPreguntasFtaV1Dto)query.getSingleResult();
 	}
 
+	@Override
+	public CcPreguntasFtaDto findDtoByNumeroFta(long pNumeroFta) {
+		CcPreguntasFtaDto ccPreguntasFtaDto = em.find(CcPreguntasFtaDto.class, pNumeroFta);
+		return ccPreguntasFtaDto;
+	}
+
 
 }

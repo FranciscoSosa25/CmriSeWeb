@@ -64,4 +64,18 @@ public class MenuForm {
 		return "Exams-CoreCases-Manage-Candidates";
 	}
 	
+	public String fpCandidatesManageExams() {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("NumeroCandidatoSV", (long)7);
+		return "Candidates-Manage-Exams";
+	}
+	
+	public String fpCandidatesExamen() {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("numeroCandCcExamenSV", (long)29);
+		return "Candidates-Exam";
+	}
+	
 }

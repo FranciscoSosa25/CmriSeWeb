@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
  xmlns:xi="http://www.w3.org/2001/XInclude"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee                                     http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee                 
+                     http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
  <navigation-rule>
   <navigation-case>
    <from-outcome>Admin-TablasUtilitariasvalores</from-outcome>
@@ -144,6 +146,20 @@
    <redirect/>
   </navigation-case>
  </navigation-rule>
+ 
+  <navigation-rule>
+  <navigation-case>
+   <from-outcome>Candidates-Manage-Exams</from-outcome>
+   <to-view-id>/candidates/exams/ManageExams.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>Candidates-Exam</from-outcome>
+   <to-view-id>/candidates/exams/Exam.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  </navigation-rule>
+ 
  <application>
   <!-- Dialog Framework -->
   <action-listener>org.primefaces.application.DialogActionListener</action-listener>
