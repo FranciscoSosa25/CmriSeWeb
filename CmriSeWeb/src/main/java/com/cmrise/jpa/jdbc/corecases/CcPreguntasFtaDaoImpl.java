@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import com.cmrise.jpa.dao.corecases.CcPreguntasFtaDao;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaV1Dto;
+import com.cmrise.jpa.dto.corecases.CcPreguntasFtaV2Dto;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless
@@ -20,7 +21,7 @@ public class CcPreguntasFtaDaoImpl implements CcPreguntasFtaDao {
 	EntityManager em;
 	
 	@Override
-	public void insert(CcPreguntasFtaDto pCcPreguntasFtaDto) {
+	public long insert(CcPreguntasFtaDto pCcPreguntasFtaDto) {
 		Query q = em.createNativeQuery("SELECT NEXT VALUE FOR dbo.CC_PREGUNTAS_FTA_S");
 		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
 		pCcPreguntasFtaDto.setNumero(lNumeroS.longValue());
@@ -31,6 +32,7 @@ public class CcPreguntasFtaDaoImpl implements CcPreguntasFtaDao {
 		pCcPreguntasFtaDto.setFechaCreacion(sqlsysdate);
 		pCcPreguntasFtaDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pCcPreguntasFtaDto);
+		return lNumeroS.longValue(); 
 	}
 
 	@Override
@@ -80,6 +82,12 @@ public class CcPreguntasFtaDaoImpl implements CcPreguntasFtaDao {
 	public CcPreguntasFtaDto findDtoByNumeroFta(long pNumeroFta) {
 		CcPreguntasFtaDto ccPreguntasFtaDto = em.find(CcPreguntasFtaDto.class, pNumeroFta);
 		return ccPreguntasFtaDto;
+	}
+
+	@Override
+	public CcPreguntasFtaV2Dto findV2DtoByNumeroFta(long pNumeroFta) {
+		CcPreguntasFtaV2Dto ccPreguntasFtaV2Dto = em.find(CcPreguntasFtaV2Dto.class, pNumeroFta);
+		return ccPreguntasFtaV2Dto;
 	}
 
 

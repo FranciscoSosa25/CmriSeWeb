@@ -37,8 +37,16 @@ public class CandCcPreguntasFtaDaoImpl implements CandCcPreguntasFtaDao {
 	@Override
 	public void update(long pNumero, String pRespuesta) {
 		System.out.println("CandCcPreguntasFtaDaoImpl pNumero:"+pNumero);
+		System.out.println("CandCcPreguntasFtaDaoImpl pRespuesta:"+pRespuesta);
 		CandCcPreguntasFtaDto candCcPreguntasFtaDto = em.find(CandCcPreguntasFtaDto.class, pNumero); 
 		candCcPreguntasFtaDto.setRespuesta(pRespuesta);
+	}
+
+
+	@Override
+	public CandCcPreguntasFtaDto findByNumero(long pNumero) {
+		CandCcPreguntasFtaDto candCcPreguntasFtaDto = em.find(CandCcPreguntasFtaDto.class, pNumero); 
+		return candCcPreguntasFtaDto;
 	}
 
 	

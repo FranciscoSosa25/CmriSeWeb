@@ -9,6 +9,9 @@ public  class Utilitarios {
 	public static final String SOCIEDAD ="CMRI - Consejo Mexicano de Radiolog\u00eda e Imagen";
 	public static final String INITIAL_STATUS_MRQ ="PARA_REVISAR";
 	public static final String INITIAL_STATUS_CC_EXAM="EN_EL_TRABAJO";
+	public static final String RESP_TEXTO_LIBRE = "RESP_TEXTO_LIBRE"; 
+	public static final String OPCION_MULTIPLE = "OPCION_MULTIPLE";
+	public static final String WRONG_CORRECT = "WRONG_CORRECT"; 
 	public  java.sql.Date toSqlDate(java.util.Date pUtilDate){
 		 java.sql.Date retval = null; 
 		 if(null!=pUtilDate) {

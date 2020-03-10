@@ -30,8 +30,8 @@ public class MenuForm {
 	public String fpActualizarPreguntaFtaCoreCase() {
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-		session.setAttribute("NumeroCcHdrSV", (long)6);
-		session.setAttribute("NumeroCcPreguntaHdrSV", (long)5);
+		session.setAttribute("NumeroCcHdrSV", (long)11);
+		session.setAttribute("NumeroCcPreguntaHdrSV", (long)11);
 		
 		return  "Actualizar-Pregunta-Fta-CoreCase";
 	}

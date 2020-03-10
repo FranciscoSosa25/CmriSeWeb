@@ -3,6 +3,7 @@ package com.cmrise.ejb.backing.mrq;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -30,7 +31,6 @@ public class ManageMrqsForm {
 	
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal;
-	
 	
 	 @PostConstruct
 	 public void init() {
@@ -75,6 +75,8 @@ public class ManageMrqsForm {
    
   
 	public String update(MrqsPreguntasHdrV1 pMrqsPreguntasHdrV1) {
+		System.out.println("Entra update ManageMrqsForm");
+		/******************************************** 04032020 **
 		boolean updateIn = false; 
 		MrqsPreguntasHdrDto mrqsPreguntasHdrDto = new MrqsPreguntasHdrDto();
 		mrqsPreguntasHdrDto.setNumero(pMrqsPreguntasHdrV1.getNumero());
@@ -83,15 +85,17 @@ public class ManageMrqsForm {
 		mrqsPreguntasHdrDto.setTemaPregunta(pMrqsPreguntasHdrV1.getTemaPreguntaDesc());
 		mrqsPreguntasHdrDto.setEstatus(pMrqsPreguntasHdrV1.getEstatusDesc());
 		mrqsPreguntasHdrDto.setEtiquetas(pMrqsPreguntasHdrV1.getEtiquetas());
-		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest();
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-		//mrqsPreguntasHdrLocal.update(mrqsPreguntasHdrV1ForAction.getNumero(), mrqsPreguntasHdrDto  );
+		mrqsPreguntasHdrLocal.update(mrqsPreguntasHdrV1ForAction.getNumero(), mrqsPreguntasHdrDto  );
 		mrqsPreguntasHdrLocal.update(pMrqsPreguntasHdrV1.getNumero(), mrqsPreguntasHdrDto);
 		refreshEntity();
 		updateIn = true; 
-		
 		PrimeFaces.current().ajax().addCallbackParam("updateIn", updateIn);
+		********************************************************************/
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("NumeroHdrSV", pMrqsPreguntasHdrV1.getNumero());
+		System.out.println("Sale update ManageMrqsForm");
 		return "Preguntas-UpdateFreeTextAnswer-NewMrqs";
 	}
 	
@@ -121,7 +125,5 @@ public class ManageMrqsForm {
 	public void setMrqsPreguntasHdrV1ForAction(MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForAction) {
 		this.mrqsPreguntasHdrV1ForAction = mrqsPreguntasHdrV1ForAction;
 	}
-
-	
 	
 }

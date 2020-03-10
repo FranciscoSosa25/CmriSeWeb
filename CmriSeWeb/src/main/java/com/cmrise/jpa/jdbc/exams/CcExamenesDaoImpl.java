@@ -63,7 +63,7 @@ public class CcExamenesDaoImpl implements CcExamenesDao {
 	@Override
 	public void update(long pNumero, CcExamenesDto pCcExamenesDto) {
 		CcExamenesDto ccExamenesDto  = em.find(CcExamenesDto.class, pNumero); 
-		
+		System.out.println();
 		ccExamenesDto.setEstatus(pCcExamenesDto.getEstatus());
 		ccExamenesDto.setTitulo(pCcExamenesDto.getTitulo());
 		ccExamenesDto.setNombre(pCcExamenesDto.getNombre());

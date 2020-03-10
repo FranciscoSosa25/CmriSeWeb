@@ -2,6 +2,7 @@ package com.cmrise.ejb.backing.mrq;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -34,6 +35,7 @@ public class UpdateFTAMrqForm {
 	
 	@Inject
 	MrqsPreguntasFtaLocal mrqsPreguntasFtaLocal;
+	
 	
 	 @PostConstruct
 	 public void init() {
@@ -69,12 +71,53 @@ public class UpdateFTAMrqForm {
 		 mrqsPreguntasHdrV1ForAction.setTemaPregunta(mrqsPreguntasHdrV1Dto.getTemaPregunta());
 		 mrqsPreguntasHdrV1ForAction.setEtiquetas(mrqsPreguntasHdrV1Dto.getEtiquetas());
 		 mrqsPreguntasHdrV1ForAction.setComentarios(mrqsPreguntasHdrV1Dto.getComentarios());
+		 
+		 long numeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(this.getNumeroHdr()); 
+		 if(0l!=numeroFta) {
+		   /** CONSULTA INFORMACION **/
+			MrqsPreguntasFtaDto mrqsPreguntasFtaDto = mrqsPreguntasFtaLocal.findDtoByNumeroFta(numeroFta);
+			this.setTituloPregunta(mrqsPreguntasFtaDto.getTitulo());
+		 }
+		 
 		 System.out.println("Sale UpdateFTAMrqForm refreshEntity()");
 	}
 
 	public void update() {
 		
 		System.out.println("Entra UpdateFTAMrqForm update");
+		System.out.println("this.getNumeroHdr():"+this.getNumeroHdr());
+		long numeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(this.getNumeroHdr()); 
+		System.out.println("numeroFta:"+numeroFta);
+		MrqsPreguntasFtaDto mrqsPreguntasFtaDto = new MrqsPreguntasFtaDto();
+		MrqsPreguntasHdrDto mrqsPreguntasHdrDto = new MrqsPreguntasHdrDto();
+		if(0l==numeroFta) {
+		   /** INSERTA **/	
+			mrqsPreguntasHdrDto.setNumero(this.numeroHdr);
+			mrqsPreguntasFtaDto.setMrqsPreguntasHdr2(mrqsPreguntasHdrDto);
+			mrqsPreguntasFtaDto.setTitulo(this.tituloPregunta);
+			mrqsPreguntasFtaDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
+			mrqsPreguntasFtaDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
+			System.out.println("this.metodoPuntuacion:"+this.metodoPuntuacion);
+			mrqsPreguntasFtaDto.setMetodoPuntuacion(Utilitarios.WRONG_CORRECT);
+			mrqsPreguntasFtaDto.setRespuestaCorrecta(this.respuestaCorrecta);
+			mrqsPreguntasFtaDto.setTextoPregunta(this.textoPregunta);
+			mrqsPreguntasFtaDto.setValorPuntuacion(this.valorPuntuacion);
+			mrqsPreguntasFtaLocal.insert(mrqsPreguntasFtaDto);
+		}else {
+		  /** ACTUALIZA **/
+			mrqsPreguntasHdrDto.setNumero(this.numeroHdr);
+			mrqsPreguntasFtaDto.setMrqsPreguntasHdr2(mrqsPreguntasHdrDto);
+			mrqsPreguntasFtaDto.setTitulo(this.tituloPregunta);
+			mrqsPreguntasFtaDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
+			mrqsPreguntasFtaDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
+			System.out.println("this.metodoPuntuacion:"+this.metodoPuntuacion);
+			mrqsPreguntasFtaDto.setMetodoPuntuacion(Utilitarios.WRONG_CORRECT);
+			mrqsPreguntasFtaDto.setRespuestaCorrecta(this.respuestaCorrecta);
+			mrqsPreguntasFtaDto.setTextoPregunta(this.textoPregunta);
+			mrqsPreguntasFtaDto.setValorPuntuacion(this.valorPuntuacion);
+			mrqsPreguntasFtaLocal.update(numeroFta, mrqsPreguntasFtaDto);
+		}
+		/******************************************************************
 		MrqsPreguntasFtaDto mrqsPreguntasFtaDto = new MrqsPreguntasFtaDto();
 		MrqsPreguntasHdrDto mrqsPreguntasHdrDto = new MrqsPreguntasHdrDto();
 		mrqsPreguntasHdrDto.setNumero(this.numeroHdr);
@@ -88,8 +131,15 @@ public class UpdateFTAMrqForm {
 		mrqsPreguntasFtaDto.setTextoPregunta(this.textoPregunta);
 		mrqsPreguntasFtaDto.setValorPuntuacion(this.valorPuntuacion);
 		mrqsPreguntasFtaLocal.insert(mrqsPreguntasFtaDto);
+		******************************************************************/
 		System.out.println("Entra UpdateFTAMrqForm Sale");
 		
+	}
+	
+	public String cancel() {
+		System.out.println("Entra cancel");
+		System.out.println("Sale cancel");
+		return "Preguntas-ManageNewMrqs"; 
 	}
 	
 	public MrqsPreguntasHdrV1 getMrqsPreguntasHdrV1ForAction() {
@@ -147,4 +197,5 @@ public class UpdateFTAMrqForm {
 	public void setValorPuntuacion(String valorPuntuacion) {
 		this.valorPuntuacion = valorPuntuacion;
 	}
+
 }

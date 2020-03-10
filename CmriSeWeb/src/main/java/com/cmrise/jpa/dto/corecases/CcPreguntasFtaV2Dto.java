@@ -1,19 +1,28 @@
-package com.cmrise.jpa.dto;
+package com.cmrise.jpa.dto.corecases;
 
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
-public abstract class TemplateDto implements Serializable {
-
+@Entity
+@Table(name="CC_PREGUNTAS_FTA_V2")
+@NamedQuery(name="CcPreguntasFtaV2Dto.findAll", query="SELECT c FROM CcPreguntasFtaV2Dto c")
+public class CcPreguntasFtaV2Dto implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@Column(name="NUMERO")
 	private long numero;
+
+	@Column(name="NUMERO_HDR")
+	private long numeroHdr;
 	
 	@Column(name="ACTUALIZADO_POR")
 	private long actualizadoPor;
@@ -32,6 +41,21 @@ public abstract class TemplateDto implements Serializable {
 
 	@Column(name="FECHA_EFECTIVA_HASTA")
 	private Date fechaEfectivaHasta;
+
+	@Column(name="TITULO_PREGUNTA")
+	private String tituloPregunta; 
+	
+	@Column(name="TEXTO_PREGUNTA")
+	private String textoPregunta; 
+	
+	@Column(name="TEXTO_SUGERENCIAS")
+	private String textoSugerencias; 
+	
+	@Column(name="RESPUESTA_CORRECTA")
+	private String respuestaCorrecta; 
+	
+	@Column(name="TIPO_PREGUNTA")
+	private String tipoPregunta; 
 	
 	public long getNumero() {
 		return this.numero;
@@ -89,4 +113,53 @@ public abstract class TemplateDto implements Serializable {
 		this.fechaEfectivaHasta = fechaEfectivaHasta;
 	}
 
+	public String getTituloPregunta() {
+		return tituloPregunta;
+	}
+
+	public void setTituloPregunta(String tituloPregunta) {
+		this.tituloPregunta = tituloPregunta;
+	}
+
+	public String getTextoPregunta() {
+		return textoPregunta;
+	}
+
+	public void setTextoPregunta(String textoPregunta) {
+		this.textoPregunta = textoPregunta;
+	}
+
+	public String getTextoSugerencias() {
+		return textoSugerencias;
+	}
+
+	public void setTextoSugerencias(String textoSugerencias) {
+		this.textoSugerencias = textoSugerencias;
+	}
+
+	public String getRespuestaCorrecta() {
+		return respuestaCorrecta;
+	}
+
+	public void setRespuestaCorrecta(String respuestaCorrecta) {
+		this.respuestaCorrecta = respuestaCorrecta;
+	}
+
+	public long getNumeroHdr() {
+		return numeroHdr;
+	}
+
+	public void setNumeroHdr(long numeroHdr) {
+		this.numeroHdr = numeroHdr;
+	}
+
+	public String getTipoPregunta() {
+		return tipoPregunta;
+	}
+
+	public void setTipoPregunta(String tipoPregunta) {
+		this.tipoPregunta = tipoPregunta;
+	}
+
 }
+

@@ -12,9 +12,12 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
+import com.cmrise.ejb.services.corecases.CcOpcionMultipleLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasFtaLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasHdrLocal;
+import com.cmrise.jpa.dto.corecases.CcOpcionMultipleDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaV1Dto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasHdrDto;
@@ -44,7 +47,12 @@ public class UpdateQuestionFtaCoreCaseForm {
 	private long numeroFtaRecord;
 	
 	private List<CcPreguntasHdrV1> listCcPreguntasHdrV1 = new ArrayList<CcPreguntasHdrV1>();
-	   
+	
+	/**********************************************************************
+	  Atributos Opcion Multiple
+	 **********************************************************************/
+	
+	private List<CcOpcionMultiple> listCcOpcionMultiple = new ArrayList<CcOpcionMultiple>(); 
 	
 	@Inject 
 	UtilitariosLocal utilitariosLocal; 
@@ -54,6 +62,10 @@ public class UpdateQuestionFtaCoreCaseForm {
 
 	@Inject 
 	CcPreguntasFtaLocal ccPreguntasFtaLocal; 
+	
+	@Inject 
+	CcOpcionMultipleLocal  ccOpcionMultipleLocal; 
+	
 	
 	@PostConstruct
     public void init() {
@@ -78,10 +90,11 @@ public class UpdateQuestionFtaCoreCaseForm {
 	     
 	     
 	     this.setTituloPreguntaHdr(ccPreguntasHdrV1Dto.getTitulo());
-	     if("RESP_TEXTO_LIBRE".equals(ccPreguntasHdrV1Dto.getTipoPregunta())) {
+	     if(Utilitarios.RESP_TEXTO_LIBRE.equals(ccPreguntasHdrV1Dto.getTipoPregunta())) {
 	    	 this.setLimitedFreeTextAnswer(true);
-	     }else if("OPCION_MULTIPLE".equals(ccPreguntasHdrV1Dto.getTipoPregunta())) {
+	     }else if(Utilitarios.OPCION_MULTIPLE.equals(ccPreguntasHdrV1Dto.getTipoPregunta())) {
 	    	 this.setMultipleChoice(true);
+	    	 initListCcOpcionMultiple(); 
 	     }
 	     
 	     ccPreguntasHdrV1ForAction.setNumero(ccPreguntasHdrV1Dto.getNumero());
@@ -96,6 +109,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 	     ccPreguntasHdrV1ForAction.setComentarios(ccPreguntasHdrV1Dto.getComentarios());
 	     
 	     long lNumeroCcFta = ccPreguntasFtaLocal.finNumeroByHdr(longNumeroCcPreguntaHdr); 
+	     System.out.println("lNumeroCcFta:"+lNumeroCcFta);
 	     if(0l!=lNumeroCcFta) {
 	    	 this.setFtaRecord(true);
 	    	 CcPreguntasFtaV1Dto ccPreguntasFtaV1Dto =ccPreguntasFtaLocal.findDtoByNumeroHdr(longNumeroCcPreguntaHdr);
@@ -104,6 +118,25 @@ public class UpdateQuestionFtaCoreCaseForm {
 	         this.setTextoSugerenciasFta(ccPreguntasFtaV1Dto.getTextoSugerencias());
 	         this.setRespuestaCorrecta(ccPreguntasFtaV1Dto.getRespuestaCorrecta());
 	         this.setNumeroFtaRecord(ccPreguntasFtaV1Dto.getNumero());
+	         
+	         System.out.println("ccPreguntasFtaV1Dto.getNumero():"+ccPreguntasFtaV1Dto.getNumero());
+	         List<CcOpcionMultipleDto> listCcOpcionMultipleDto =  ccOpcionMultipleLocal.findByNumeroFta(ccPreguntasFtaV1Dto.getNumero()); 
+	         System.out.println("listCcOpcionMultipleDto.size():"+listCcOpcionMultipleDto.size());
+	         if(listCcOpcionMultipleDto.size()>0) {
+	        	 listCcOpcionMultiple = new ArrayList<CcOpcionMultiple>(); 
+	         }
+	         int lineNumber = 1; 
+	         for(CcOpcionMultipleDto ccOpcionMultipleDto:listCcOpcionMultipleDto) {
+	        	 CcOpcionMultiple ccOpcionMultiple = new CcOpcionMultiple(); 
+	        	 ccOpcionMultiple.setLineNumber(lineNumber);
+	        	 ccOpcionMultiple.setEstatus(ccOpcionMultipleDto.isEstatus());
+	        	 ccOpcionMultiple.setNumero(ccOpcionMultipleDto.getNumero());
+	        	 ccOpcionMultiple.setNumeroFta(ccOpcionMultipleDto.getNumeroFta());
+	        	 ccOpcionMultiple.setTextoExplicacion(ccOpcionMultipleDto.getTextoExplicacion());
+	        	 ccOpcionMultiple.setTextoRespuesta(ccOpcionMultipleDto.getTextoRespuesta());
+	        	 listCcOpcionMultiple.add(ccOpcionMultiple); 
+	         }
+	         
 	     }else {
 	    	 this.setFtaRecord(false);
 	     }
@@ -146,6 +179,25 @@ public class UpdateQuestionFtaCoreCaseForm {
 			ccPreguntasFtaDto.setRespuestaCorrecta(this.getRespuestaCorrecta());
 			ccPreguntasFtaLocal.update(this.getNumeroFtaRecord(), ccPreguntasFtaDto);
 			
+			for(CcOpcionMultiple ccOpcionMultiple:listCcOpcionMultiple) {
+				CcOpcionMultipleDto ccOpcionMultipleDto = new CcOpcionMultipleDto();
+				if(0!=ccOpcionMultiple.getNumero()) {
+				ccOpcionMultipleDto.setNumero(ccOpcionMultiple.getNumero());
+				ccOpcionMultipleDto.setEstatus(ccOpcionMultiple.isEstatus());
+				ccOpcionMultipleDto.setTextoExplicacion(ccOpcionMultiple.getTextoExplicacion());
+				ccOpcionMultipleDto.setTextoRespuesta(ccOpcionMultiple.getTextoRespuesta());
+				ccOpcionMultipleLocal.update(ccOpcionMultiple.getNumero(), ccOpcionMultipleDto);
+				}else {
+					ccOpcionMultipleDto.setEstatus(ccOpcionMultiple.isEstatus());
+					ccOpcionMultipleDto.setTextoRespuesta(ccOpcionMultiple.getTextoRespuesta());
+					ccOpcionMultipleDto.setTextoExplicacion(ccOpcionMultiple.getTextoExplicacion());
+					ccOpcionMultipleDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
+					ccOpcionMultipleDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
+					ccOpcionMultipleDto.setNumeroFta(this.getNumeroFtaRecord());
+					ccOpcionMultipleLocal.insert(ccOpcionMultipleDto); 
+				}
+			}
+			
 		}else {
 			CcPreguntasFtaDto ccPreguntasFtaDto = new CcPreguntasFtaDto();
 			ccPreguntasFtaDto.setCcPreguntasHdr(ccPreguntasHdrDto);
@@ -155,7 +207,21 @@ public class UpdateQuestionFtaCoreCaseForm {
 			ccPreguntasFtaDto.setRespuestaCorrecta(this.getRespuestaCorrecta());
 			ccPreguntasFtaDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
 			ccPreguntasFtaDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
-			ccPreguntasFtaLocal.insert(ccPreguntasFtaDto);
+			long numeroPreguntaFta =ccPreguntasFtaLocal.insert(ccPreguntasFtaDto);
+			
+			if(Utilitarios.OPCION_MULTIPLE.equals(ccPreguntasHdrDto.getTipoPregunta())) {
+				for(CcOpcionMultiple ccOpcionMultiple:listCcOpcionMultiple) {
+					CcOpcionMultipleDto ccOpcionMultipleDto = new CcOpcionMultipleDto(); 
+					ccOpcionMultipleDto.setEstatus(ccOpcionMultiple.isEstatus());
+					ccOpcionMultipleDto.setTextoRespuesta(ccOpcionMultiple.getTextoRespuesta());
+					ccOpcionMultipleDto.setTextoExplicacion(ccOpcionMultiple.getTextoExplicacion());
+					ccOpcionMultipleDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
+					ccOpcionMultipleDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
+					ccOpcionMultipleDto.setNumeroFta(numeroPreguntaFta);
+					ccOpcionMultipleLocal.insert(ccOpcionMultipleDto); 
+				}
+			} 
+			
 		}
 		
 		ccPreguntasHdrLocal.update(ccPreguntasHdrV1ForAction.getNumero(), ccPreguntasHdrDto);
@@ -177,6 +243,27 @@ public class UpdateQuestionFtaCoreCaseForm {
 		 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		 session.setAttribute("NumeroCcHdrSV", this.getNumeroCcHdr());
 	    return  "Crear-Pregunta-CoreCase";
+	}
+	
+	private void initListCcOpcionMultiple() {
+		listCcOpcionMultiple = new ArrayList<CcOpcionMultiple>(); 
+		int lineNumber = 1; 
+		CcOpcionMultiple ccOpcionMultiple = new CcOpcionMultiple(); 
+		ccOpcionMultiple.setLineNumber(lineNumber);
+		listCcOpcionMultiple.add(ccOpcionMultiple); 
+		lineNumber = lineNumber+1; 
+		ccOpcionMultiple = new CcOpcionMultiple(); 
+		ccOpcionMultiple.setLineNumber(lineNumber);
+		listCcOpcionMultiple.add(ccOpcionMultiple); 
+		lineNumber = lineNumber+1; 
+		ccOpcionMultiple = new CcOpcionMultiple(); 
+		ccOpcionMultiple.setLineNumber(lineNumber);
+		listCcOpcionMultiple.add(ccOpcionMultiple); 
+		lineNumber = lineNumber+1; 
+		ccOpcionMultiple = new CcOpcionMultiple(); 
+		ccOpcionMultiple.setLineNumber(lineNumber);
+		listCcOpcionMultiple.add(ccOpcionMultiple); 
+		lineNumber = lineNumber+1; 
 	}
 	
 	public String getTituloPreguntaHdr() {
@@ -293,6 +380,14 @@ public class UpdateQuestionFtaCoreCaseForm {
 
 	public void setNumeroCcHdr(long numeroCcHdr) {
 		this.numeroCcHdr = numeroCcHdr;
+	}
+
+	public List<CcOpcionMultiple> getListCcOpcionMultiple() {
+		return listCcOpcionMultiple;
+	}
+
+	public void setListCcOpcionMultiple(List<CcOpcionMultiple> listCcOpcionMultiple) {
+		this.listCcOpcionMultiple = listCcOpcionMultiple;
 	}
 	     
 }

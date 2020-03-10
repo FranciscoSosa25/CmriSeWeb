@@ -4,15 +4,24 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="xxhrwjs">
+ <script type="text/javascript">
+ function handleUpdateRequest(xhr, status, args){
+ 	 if(args.validationFailed) {
+		 argsValidationFailed(); 
+     }
+ }
+ </script>
+</ui:define>
+                
 <ui:define name="content">
 <p:breadCrumb>
-    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="Actualizar Prueba/Examen" url="#"/>
-
+   <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
+   <p:menuitem value="Actualizar Prueba/Examen" url="#"/>
 </p:breadCrumb>
 <h1>Actualizar Prueba/Examen</h1>
 <h:form id="updateForm">
-
 <div class="ui-g">
     <div class="ui-g-2 ui-g-nopad">
      <p:panel layout="grid" >
@@ -94,7 +103,7 @@
 
 <p:panelGrid id="tiempoLimitePanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
  <p:outputLabel  for="timeLimit" value="Límite de Tiempo" />
- <p:spinner id="timeLimit" value="#{createTestExamForm.limiteTiempo}" />
+ <p:spinner id="timeLimit" value="#{updateTestExamForm.limiteTiempo}" />
  <p:message  for="timeLimit"/>
  <p:outputLabel for="canSkipQuestions"  value="¿Puede Saltar Preguntas?" />
  <p:inputSwitch id="canSkipQuestions" value="#{updateTestExamForm.saltarPreguntas}" onLabel="&#10003;" offLabel="&#215;"/>
@@ -134,10 +143,10 @@
 
 <div class="ui-g">
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Actulizar" update="tituloPanelId visibilityPanelId disponibilidadPanelId tiempoLimitePanelId" action="#{updateTestExamForm.update()}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
+  <p:commandButton value="Actualizar" update="tituloPanelId visibilityPanelId disponibilidadPanelId tiempoLimitePanelId" actionListener="#{updateTestExamForm.update()}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Cancelar"/>
+  <p:commandButton value="Cancelar" action="#{updateTestExamForm.cancel()}"/>
  </div>
 </div>
    

@@ -105,6 +105,7 @@ public class UpdateTestExamForm {
 	}
 	
 	public void update() {
+		System.out.println("Entra UpdateTestExamForm update()");
 		boolean updateIn = false; 
 		CcExamenesDto ccExamenesUpdateDto = new CcExamenesDto();
 		
@@ -140,7 +141,7 @@ public class UpdateTestExamForm {
 		refreshEntity(); 
 		updateIn = true; 
 		PrimeFaces.current().ajax().addCallbackParam("updateIn", updateIn);
-		
+		System.out.println("Sale UpdateTestExamForm update()");
 	}
 	
 
@@ -149,6 +150,10 @@ public class UpdateTestExamForm {
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		session.setAttribute("NumeroCcExamenSV", this.numeroCcExamen);
 		return "Exams-CoreCases-Update-AddCoreCase"; 
+	}
+	
+	public String cancel() {
+		return "Exams-CoreCases-Manage"; 
 	}
 	
 	public long getNumeroCcExamen() {

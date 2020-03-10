@@ -10,4 +10,6 @@ public interface MrqsPreguntasFtaLocal  {
 	public void insert(MrqsPreguntasFtaDto pMrqsPreguntasFtaDto);
 	public void delete(long pNumero);
 	public void update(long pNumero,MrqsPreguntasFtaDto pMrqsPreguntasFtaDto);
+	public long findNumeroFtaByNumeroHdr(long pNumeroHdr); 
+	public MrqsPreguntasFtaDto findDtoByNumeroFta(long pNumeroFta); 
 }
