@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import org.primefaces.PrimeFaces;
+
 import com.cmrise.ejb.model.admin.TablasUtilitariasValores;
 import com.cmrise.ejb.services.admin.TablasUtilitariasValoresLocal;
 import com.cmrise.jpa.dto.admin.TablasUtilitariasValoresDto;
@@ -22,6 +24,7 @@ public class TablasUtilitariasValoresForm {
 	private java.sql.Date endOfTime = java.sql.Date.valueOf("9999-12-31");
 	private String tipoTabla; 
 	private String buscarTipoTabla; 
+	private long numeroForAction; 
 	
 	@Inject 
 	TablasUtilitariasValoresLocal tablasUtilitariasValoresLocal; 
@@ -143,6 +146,21 @@ public class TablasUtilitariasValoresForm {
     	System.out.println("Sale buscar");
     }
 
+    public void selectForAction(TablasUtilitariasValores pTablasUtilitariasValores) {
+    	this.setNumeroForAction(pTablasUtilitariasValores.getNumero());
+    }
+    
+    public void delete() {
+    	boolean deleteIn = false; 
+    	System.out.println("this.getNumeroForAction():"+this.getNumeroForAction());
+    	if(0!=this.getNumeroForAction()) {
+    	tablasUtilitariasValoresLocal.delete(this.getNumeroForAction());
+    	}
+    	buscar(); 
+		deleteIn = true; 
+		PrimeFaces.current().ajax().addCallbackParam("deleteIn", deleteIn);
+    }
+    
 	public List<TablasUtilitariasValores> getListTabUtilVal() {
 		return listTabUtilVal;
 	}
@@ -177,6 +195,14 @@ public class TablasUtilitariasValoresForm {
 
 	public void setBuscarTipoTabla(String buscarTipoTabla) {
 		this.buscarTipoTabla = buscarTipoTabla;
+	}
+
+	public long getNumeroForAction() {
+		return numeroForAction;
+	}
+
+	public void setNumeroForAction(long numeroForAction) {
+		this.numeroForAction = numeroForAction;
 	}
 	
 }

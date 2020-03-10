@@ -50,5 +50,11 @@ public class TablasUtilitariasValoresDaoImpl implements TablasUtilitariasValores
 		tablasUtilitariasValoresDto.setEstado(pTablasUtilitariasValoresDto.getEstado());
 	}
 
+	@Override
+	public void delete(long pNumero) {
+		TablasUtilitariasValoresDto tablasUtilitariasValoresDto =  em.find(TablasUtilitariasValoresDto.class, pNumero); 
+		em.remove(tablasUtilitariasValoresDto);
+	}
+
 	
 }

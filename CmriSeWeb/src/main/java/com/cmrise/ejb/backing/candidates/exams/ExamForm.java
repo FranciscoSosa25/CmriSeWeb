@@ -1,5 +1,6 @@
 package com.cmrise.ejb.backing.candidates.exams;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -11,16 +12,21 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import com.cmrise.ejb.model.candidates.exams.CandCcExamenesV1;
+import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
 import com.cmrise.ejb.services.candidates.exams.CandCcExamenesLocal;
 import com.cmrise.ejb.services.candidates.exams.CandCcPreguntasFtaLocal;
+import com.cmrise.ejb.services.corecases.CcOpcionMultipleLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasFtaLocal;
+import com.cmrise.jpa.dto.candidates.exams.CandCcPreguntasFtaDto;
+import com.cmrise.jpa.dto.corecases.CcOpcionMultipleDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaDto;
+import com.cmrise.jpa.dto.corecases.CcPreguntasFtaV2Dto;
 import com.cmrise.utils.Utilitarios;
 
 @ManagedBean
 @ViewScoped
 public class ExamForm {
-    private long numeroCandCcPreguntaFta; 
+	private long numeroCcpf; /** Numero CandidateCoreCasePreguntaFta **/
 	private long numeroCandidato;
 	private String tituloPregunta; 
 	private String textoPregunta; 
@@ -30,14 +36,30 @@ public class ExamForm {
 	private long numeroCandCcExamen; 
     private ListIterator<CandCcExamenesV1> listIterCandCcExamenesV1; 
 	
+    private boolean multipleChoice; 
+	private boolean limitedFreeTextAnswer;
+	private boolean indicateImage;
+    
+	/**********************************************************************
+	  Atributos Opcion Multiple
+	 **********************************************************************/
+	
+	private List<CcOpcionMultiple> listCcOpcionMultiple = new ArrayList<CcOpcionMultiple>(); 
+
+	
 	@Inject 
 	CandCcExamenesLocal candCcExamenesLocal; 
+	
 	
 	@Inject
 	CcPreguntasFtaLocal ccPreguntasFtaLocal; 
 	
 	@Inject 
 	CandCcPreguntasFtaLocal candCcPreguntasFtaLocal; 
+	
+	@Inject 
+	CcOpcionMultipleLocal ccOpcionMultipleLocal; 
+	
 	
 	@PostConstruct
 	public void init() {
@@ -55,10 +77,21 @@ public class ExamForm {
 		 if(listIterCandCcExamenesV1.hasNext()) {
 		 System.out.println("*");
 		 CandCcExamenesV1 candCcExamenesV1 = listIterCandCcExamenesV1.next();
-		 CcPreguntasFtaDto ccPreguntasFtaDto = ccPreguntasFtaLocal.findDtoByNumeroFta(candCcExamenesV1.getNumeroCpf()); 
-		 this.setTituloPregunta(ccPreguntasFtaDto.getTituloPregunta());
-		 this.setTextoPregunta(ccPreguntasFtaDto.getTextoPregunta());
-		 this.setTextoSugerencias(ccPreguntasFtaDto.getTextoSugerencias());
+		 CcPreguntasFtaV2Dto ccPreguntasFtaV2Dto = ccPreguntasFtaLocal.findV2DtoByNumeroFta(candCcExamenesV1.getNumeroCpf()); 
+		 CandCcPreguntasFtaDto candCcPreguntasFtaDto = candCcPreguntasFtaLocal.findByNumero(candCcExamenesV1.getNumeroCcpf());
+		 this.setTituloPregunta(ccPreguntasFtaV2Dto.getTituloPregunta());
+		 this.setTextoPregunta(ccPreguntasFtaV2Dto.getTextoPregunta());
+		 this.setTextoSugerencias(ccPreguntasFtaV2Dto.getTextoSugerencias());
+		 this.setNumeroCcpf(candCcExamenesV1.getNumeroCcpf());
+		 this.setRespuestaPregunta(candCcPreguntasFtaDto.getRespuesta());
+		 
+			 if(Utilitarios.OPCION_MULTIPLE.equals(ccPreguntasFtaV2Dto.getTipoPregunta())) {
+				 this.setMultipleChoice(true);
+				 initListCcOpcionMultiple(ccPreguntasFtaV2Dto.getNumero()); 
+			 }else if(Utilitarios.RESP_TEXTO_LIBRE.equals(ccPreguntasFtaV2Dto.getTipoPregunta())) {
+				 this.setLimitedFreeTextAnswer(true);
+			 }
+		 
 		 }
 		 System.out.println("Entra ExamForm init()");
 	}
@@ -69,30 +102,48 @@ public class ExamForm {
     	 System.out.println("previousIndex:"+previousIndex);
     	 if(getListIterCandCcExamenesV1().hasPrevious()) {
     	 CandCcExamenesV1 candCcExamenesV1 = getListIterCandCcExamenesV1().previous(); 
-    	 CcPreguntasFtaDto ccPreguntasFtaDto = ccPreguntasFtaLocal.findDtoByNumeroFta(candCcExamenesV1.getNumeroCpf()); 
-		 this.setTituloPregunta(ccPreguntasFtaDto.getTituloPregunta());
-		 this.setTextoPregunta(ccPreguntasFtaDto.getTextoPregunta());
-		 this.setTextoSugerencias(ccPreguntasFtaDto.getTextoSugerencias());
-		 this.setNumeroCandCcPreguntaFta(candCcExamenesV1.getNumeroCpf());
+    	 CcPreguntasFtaV2Dto ccPreguntasFtaV2Dto = ccPreguntasFtaLocal.findV2DtoByNumeroFta(candCcExamenesV1.getNumeroCpf()); 
+    	 CandCcPreguntasFtaDto candCcPreguntasFtaDto = candCcPreguntasFtaLocal.findByNumero(candCcExamenesV1.getNumeroCcpf());
+ 		 this.setTituloPregunta(ccPreguntasFtaV2Dto.getTituloPregunta());
+		 this.setTextoPregunta(ccPreguntasFtaV2Dto.getTextoPregunta());
+		 this.setTextoSugerencias(ccPreguntasFtaV2Dto.getTextoSugerencias());
+		 this.setNumeroCcpf(candCcExamenesV1.getNumeroCcpf());
+		 this.setRespuestaPregunta(candCcPreguntasFtaDto.getRespuesta());
+		 if(Utilitarios.OPCION_MULTIPLE.equals(ccPreguntasFtaV2Dto.getTipoPregunta())) {
+			 this.setMultipleChoice(true);
+			 initListCcOpcionMultiple(ccPreguntasFtaV2Dto.getNumero()); 
+		 }else if(Utilitarios.RESP_TEXTO_LIBRE.equals(ccPreguntasFtaV2Dto.getTipoPregunta())) {
+			 this.setLimitedFreeTextAnswer(true);
+		 }
     	 }
     	 System.out.println("Sale backAction");
 	}
 	
     public void saveTrxAction() {
     	 System.out.println("Entra saveTrxAction");
-    	 candCcPreguntasFtaLocal.update(this.getNumeroCandCcPreguntaFta()
+    	 System.out.println("this.getRespuestaPregunta():"+this.getRespuestaPregunta());
+    	 System.out.println("this.getTextoPregunta():"+this.getTextoPregunta());
+    	 System.out.println("this.getTextoSugerencias():"+this.getTextoSugerencias());
+    	 candCcPreguntasFtaLocal.update(this.getNumeroCcpf()
     			                      , this.getRespuestaPregunta()
     			                      );
     	 int nextIndex = getListIterCandCcExamenesV1().nextIndex(); 
     	 System.out.println("nextIndex:"+nextIndex);
     	 if(getListIterCandCcExamenesV1().hasNext()) {
         	 CandCcExamenesV1 candCcExamenesV1 = getListIterCandCcExamenesV1().next(); 
-        	 CcPreguntasFtaDto ccPreguntasFtaDto = ccPreguntasFtaLocal.findDtoByNumeroFta(candCcExamenesV1.getNumeroCpf()); 
-    		 this.setTituloPregunta(ccPreguntasFtaDto.getTituloPregunta());
-    		 this.setTextoPregunta(ccPreguntasFtaDto.getTextoPregunta());
-    		 this.setTextoSugerencias(ccPreguntasFtaDto.getTextoSugerencias());
-    		 this.setNumeroCandCcPreguntaFta(candCcExamenesV1.getNumeroCpf());
+        	 CcPreguntasFtaV2Dto ccPreguntasFtaV2Dto = ccPreguntasFtaLocal.findV2DtoByNumeroFta(candCcExamenesV1.getNumeroCpf()); 
+    		 this.setTituloPregunta(ccPreguntasFtaV2Dto.getTituloPregunta());
+    		 this.setTextoPregunta(ccPreguntasFtaV2Dto.getTextoPregunta());
+    		 this.setTextoSugerencias(ccPreguntasFtaV2Dto.getTextoSugerencias());
+    		 this.setNumeroCcpf(candCcExamenesV1.getNumeroCcpf());
+    		 if(Utilitarios.OPCION_MULTIPLE.equals(ccPreguntasFtaV2Dto.getTipoPregunta())) {
+    			 this.setMultipleChoice(true);
+    			 initListCcOpcionMultiple(ccPreguntasFtaV2Dto.getNumero()); 
+    		 }else if(Utilitarios.RESP_TEXTO_LIBRE.equals(ccPreguntasFtaV2Dto.getTipoPregunta())) {
+    			 this.setLimitedFreeTextAnswer(true);
+    		 }
         	 }
+    	 this.setRespuestaPregunta("");
     	 System.out.println("Sale saveTrxAction");
 	}
 
@@ -102,14 +153,38 @@ public class ExamForm {
     	 System.out.println("nextIndex:"+nextIndex);
     	 if(getListIterCandCcExamenesV1().hasNext()) {
     	 CandCcExamenesV1 candCcExamenesV1 = getListIterCandCcExamenesV1().next(); 
-    	 CcPreguntasFtaDto ccPreguntasFtaDto = ccPreguntasFtaLocal.findDtoByNumeroFta(candCcExamenesV1.getNumeroCpf()); 
-		 this.setTituloPregunta(ccPreguntasFtaDto.getTituloPregunta());
-		 this.setTextoPregunta(ccPreguntasFtaDto.getTextoPregunta());
-		 this.setTextoSugerencias(ccPreguntasFtaDto.getTextoSugerencias());
-		 this.setNumeroCandCcPreguntaFta(candCcExamenesV1.getNumeroCpf());
+    	 CcPreguntasFtaV2Dto ccPreguntasFtaV2Dto = ccPreguntasFtaLocal.findV2DtoByNumeroFta(candCcExamenesV1.getNumeroCpf()); 
+    	 CandCcPreguntasFtaDto candCcPreguntasFtaDto = candCcPreguntasFtaLocal.findByNumero(candCcExamenesV1.getNumeroCcpf());
+ 		 this.setTituloPregunta(ccPreguntasFtaV2Dto.getTituloPregunta());
+		 this.setTextoPregunta(ccPreguntasFtaV2Dto.getTextoPregunta());
+		 this.setTextoSugerencias(ccPreguntasFtaV2Dto.getTextoSugerencias());
+		 this.setNumeroCcpf(candCcExamenesV1.getNumeroCcpf());
+		 this.setRespuestaPregunta(candCcPreguntasFtaDto.getRespuesta());
+		
+		 if(Utilitarios.OPCION_MULTIPLE.equals(ccPreguntasFtaV2Dto.getTipoPregunta())) {
+			 this.setMultipleChoice(true);
+			 initListCcOpcionMultiple(ccPreguntasFtaV2Dto.getNumero()); 
+		 }else if(Utilitarios.RESP_TEXTO_LIBRE.equals(ccPreguntasFtaV2Dto.getTipoPregunta())) {
+		     System.out.println("Entra RESP_TEXTO_LIBRE");
+			 this.setLimitedFreeTextAnswer(true);
+		 }
     	 }
+    	 System.out.println("this.isLimitedFreeTextAnswer():"+this.isLimitedFreeTextAnswer());
+    	 System.out.println("this.isMultipleChoice():"+this.isMultipleChoice());
     	 System.out.println("Sale skipAction");
 	}
+    
+    private void initListCcOpcionMultiple(long pNumeroFta) {
+    	listCcOpcionMultiple = new ArrayList<CcOpcionMultiple>(); 
+    	List<CcOpcionMultipleDto>  listCcOpcionMultipleDto = ccOpcionMultipleLocal.findByNumeroFta(pNumeroFta);
+        for(CcOpcionMultipleDto ccOpcionMultipleDto:listCcOpcionMultipleDto) {
+        	CcOpcionMultiple ccOpcionMultiple = new CcOpcionMultiple(); 
+        	ccOpcionMultiple.setNumero(ccOpcionMultipleDto.getNumero());
+        	ccOpcionMultiple.setTextoRespuesta(ccOpcionMultipleDto.getTextoRespuesta());
+        	listCcOpcionMultiple.add(ccOpcionMultiple); 
+        }
+
+    }
     
 	public long getNumeroCandidato() {
 		return numeroCandidato;
@@ -167,12 +242,56 @@ public class ExamForm {
 		this.respuestaPregunta = respuestaPregunta;
 	}
 
-	public long getNumeroCandCcPreguntaFta() {
-		return numeroCandCcPreguntaFta;
+	public long getNumeroCcpf() {
+		return numeroCcpf;
 	}
 
-	public void setNumeroCandCcPreguntaFta(long numeroCandCcPreguntaFta) {
-		this.numeroCandCcPreguntaFta = numeroCandCcPreguntaFta;
+	public void setNumeroCcpf(long numeroCcpf) {
+		this.numeroCcpf = numeroCcpf;
+	}
+
+	public boolean isMultipleChoice() {
+		return multipleChoice;
+	}
+
+	public void setMultipleChoice(boolean multipleChoice) {
+		if(multipleChoice) {
+			this.setLimitedFreeTextAnswer(false);
+			this.setIndicateImage(false);
+		}
+		this.multipleChoice = multipleChoice;
+	}
+
+	public boolean isLimitedFreeTextAnswer() {
+		return limitedFreeTextAnswer;
+	}
+
+	public void setLimitedFreeTextAnswer(boolean limitedFreeTextAnswer) {
+		if(limitedFreeTextAnswer) {
+			this.setMultipleChoice(false);
+			this.setIndicateImage(false);
+		}
+		this.limitedFreeTextAnswer = limitedFreeTextAnswer;
+	}
+
+	public boolean isIndicateImage() {
+		return indicateImage;
+	}
+
+	public void setIndicateImage(boolean indicateImage) {
+		if(indicateImage) {
+			this.setMultipleChoice(false);
+			this.setLimitedFreeTextAnswer(false);
+		}
+		this.indicateImage = indicateImage;
+	}
+
+	public List<CcOpcionMultiple> getListCcOpcionMultiple() {
+		return listCcOpcionMultiple;
+	}
+
+	public void setListCcOpcionMultiple(List<CcOpcionMultiple> listCcOpcionMultiple) {
+		this.listCcOpcionMultiple = listCcOpcionMultiple;
 	}
 	
 }

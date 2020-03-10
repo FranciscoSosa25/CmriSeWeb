@@ -27,4 +27,14 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
 		mrqsPreguntasFtaDao.update(pNumero, pMrqsPreguntasFtaDto);
 	}
 
+	@Override
+	public long findNumeroFtaByNumeroHdr(long pNumeroHdr) {
+		return mrqsPreguntasFtaDao.findNumeroFtaByNumeroHdr(pNumeroHdr);
+	}
+
+	@Override
+	public MrqsPreguntasFtaDto findDtoByNumeroFta(long pNumeroFta) {
+		return mrqsPreguntasFtaDao.findDtoByNumeroFta(pNumeroFta);
+	}
+
 }

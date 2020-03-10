@@ -25,4 +25,9 @@ public class TablasUtilitariasValoresLocalImpl implements TablasUtilitariasValor
 		tablasUtilitariasValoresDao.update(pNumero, pTablasUtilitariasValoresDto);
 	}
 
+	@Override
+	public void delete(long pNumero) {
+		tablasUtilitariasValoresDao.delete(pNumero);
+	}
+
 }

@@ -22,6 +22,16 @@ function guardarFn(){
 	 var guardarBtn = document.getElementById('NuevoTablUtilValo:GuardarBtn'); 
 	 guardarBtn.click();
  }
+
+function handleDeleteRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.deleteIn) {
+		 PF('deleteRegistroDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+  }else{
+  	 PF('deleteRegistroDialogWV').hide();
+  }	
+}
+
 </script>
 </ui:define>
 
@@ -75,6 +85,9 @@ function guardarFn(){
         <p:column headerText="Estado">
             <p:selectBooleanCheckbox id="estadoInput" value="#{tabUtilVal.estado}" />
         </p:column>
+         <p:column headerText="Acciones">
+          <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteRegistroDialogWV').show();" ajax="true" actionListener="#{tablasUtilitariasValoresForm.selectForAction(tabUtilVal)}"/>
+         </p:column>
      </p:dataTable>
      
      <div class="ui-g">
@@ -113,6 +126,20 @@ function guardarFn(){
        </p:panel>
    </p:dialog> 
   </h:form>
+  
+  <h:form id="DeleteForm">
+  <p:dialog id="deleteRegistroDialogId" widgetVar="deleteRegistroDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Registro">
+   <h2>¿Esta seguro de que desea borrar este registro?</h2>
+    <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="DeleteBtn" update="NuevoTablUtilValo" value="Aceptar" actionListener="#{tablasUtilitariasValoresForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
+              </div>
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('deleteRegistroDialogWV').hide();" />
+              </div>
+     </div>
+  </p:dialog>
+</h:form>
   
 </ui:define>
 

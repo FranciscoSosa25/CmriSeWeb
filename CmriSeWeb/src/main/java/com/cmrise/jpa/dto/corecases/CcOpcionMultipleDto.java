@@ -1,13 +1,19 @@
-package com.cmrise.jpa.dto;
+package com.cmrise.jpa.dto.corecases;
 
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
-public abstract class TemplateDto implements Serializable {
+@Entity
+@Table(name="CC_OPCION_MULTIPLE")
+@NamedQuery(name="CcOpcionMultipleDto.findAll", query="SELECT c FROM CcOpcionMultipleDto c")
+public class CcOpcionMultipleDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,6 +38,19 @@ public abstract class TemplateDto implements Serializable {
 
 	@Column(name="FECHA_EFECTIVA_HASTA")
 	private Date fechaEfectivaHasta;
+	
+	@Column(name="NUMERO_FTA")
+	private long numeroFta; 
+	
+	@Column(name="ESTATUS")
+	private boolean estatus; 
+	
+	@Column(name="TEXTO_RESPUESTA")
+	private String textoRespuesta; 
+	
+	@Column(name="TEXTO_EXPLICACION")
+	private String textoExplicacion; 
+	
 	
 	public long getNumero() {
 		return this.numero;
@@ -89,4 +108,36 @@ public abstract class TemplateDto implements Serializable {
 		this.fechaEfectivaHasta = fechaEfectivaHasta;
 	}
 
+	public long getNumeroFta() {
+		return numeroFta;
+	}
+
+	public void setNumeroFta(long numeroFta) {
+		this.numeroFta = numeroFta;
+	}
+
+	public boolean isEstatus() {
+		return estatus;
+	}
+
+	public void setEstatus(boolean estatus) {
+		this.estatus = estatus;
+	}
+
+	public String getTextoExplicacion() {
+		return textoExplicacion;
+	}
+
+	public void setTextoExplicacion(String textoExplicacion) {
+		this.textoExplicacion = textoExplicacion;
+	}
+
+	public String getTextoRespuesta() {
+		return textoRespuesta;
+	}
+
+	public void setTextoRespuesta(String textoRespuesta) {
+		this.textoRespuesta = textoRespuesta;
+	}
+	
 }

@@ -22,4 +22,9 @@ public class CandCcPreguntasFtaLocalImpl implements CandCcPreguntasFtaLocal {
 		candCcPreguntasFtaDao.update(pNumero, pRespuesta);
 	}
 
+	@Override
+	public CandCcPreguntasFtaDto findByNumero(long pNumero) {
+		return candCcPreguntasFtaDao.findByNumero(pNumero);
+	}
+
 }
