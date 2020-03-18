@@ -11,8 +11,9 @@
       <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1"/>
       <h:outputScript name="primefaces/locale.js" library="js" />
-      <h:outputScript name="js/nanoscroller.js" library="apollo-layout" />
-      <h:outputScript name="js/layout.js" library="apollo-layout" />
+      <h:outputScript name="js/nanoscroller.js" library="poseidon-layout" />
+      <h:outputScript name="js/layout.js" library="poseidon-layout" />
+      <h:outputScript name="js/swipe.js" library="poseidon-layout" />
       <script type="text/javascript">
           function argsValidationFailed(){
         	  $(".ui-message-error").delay(1800).fadeOut(500);
@@ -126,7 +127,8 @@
     </div>
    </h:body>
    <ui:insert name="xxhrwjsEnd"/>
-   <h:outputStylesheet name="css/nanoscroller.css" library="apollo-layout" />
-   <h:outputStylesheet name="css/layout-indigo-light.css" library="apollo-layout" />
+   <h:outputStylesheet name="css/animate.css" library="poseidon-layout" />
+   <h:outputStylesheet name="css/nanoscroller.css" library="poseidon-layout" />
+   <h:outputStylesheet name="css/layout-turquoise.css" library="poseidon-layout" />
         
 </html>

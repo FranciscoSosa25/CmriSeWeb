@@ -21,7 +21,7 @@
   -->
  <context-param>
       <param-name>primefaces.THEME</param-name>
-      <param-value>apollo-indigo-light</param-value>
+      <param-value>poseidon-turquoise</param-value>
       <!--<param-value>apollo-blue-light</param-value>-->
  </context-param>
  <servlet>

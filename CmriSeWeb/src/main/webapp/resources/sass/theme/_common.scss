@@ -1,24 +1,18 @@
 body {
-    .card {
-        background-color: $contentBgColor;
-    }
-    
     .ui-widget,
     .ui-widget .ui-widget {
-        font-family: $fontFamily;
+        font-family: "Open Sans","Helvetica Neue",sans-serif;
         text-decoration: none;
     }
 
     .ui-widget-content {
-        background-color: $contentBgColor;
+        background-color: #ffffff;
         border: 1px solid $contentBorderColor;
     }
     
     .ui-widget-header {
-        background: $headerBgColor;
+        background-color: $headerBgColor;
         color: $headerTextColor;
-        border: 1px solid $headerBorderColor;
-        font-weight: 700;
     }
 
     .ui-state-default {
@@ -35,16 +29,17 @@ body {
 
     .ui-state-active, .ui-state-highlight {
         background-color: $primaryColor;
-        color: $primaryTextColor;
+        color: #ffffff;
     }
     
-    .ui-state-error, .ui-widget.ui-state-error {
-	    border: 1px solid $errorColor;
+    .ui-state-error, .ui-state-default.ui-state-error {
+        border: 1px solid $inputInvalidBorderColor;
     }
     
     .ui-icon {
         width: $iconWidth;
-        font-size: $iconFontSize;
+        height: $iconHeight;
+        line-height: $iconHeight;
     }
 
     .ui-state-disabled {
@@ -74,25 +69,11 @@ body {
     }
 
     .ui-widget-overlay {
-        background-color: $contentBgColor;
+        background-color: #424242;
         @include opacity(.7);
     }
     
     .ui-shadow {
         //@include shadow();
-    }
-    
-    a {
-        color: $primaryColor;
-        text-decoration: none;
-        
-        &:hover {
-            color: darken($primaryColor,5%);
-        }
-    }
-    
-    .ajax-loader {
-        font-size: 28px;
-        color: $primaryColor;
     }
 }

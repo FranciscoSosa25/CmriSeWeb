@@ -1,38 +1,31 @@
-body {    
+body {
     .ui-inputfield {
-        color: $textColor;
-        font-size: $fontSize;
-        background: $inputBgColor;
+        background: #ffffff;
         padding: $inputPadding;
         border: 1px solid $inputBorderColor;
-        @include transition(box-shadow $transitionDuration, border-color $transitionDuration);
+        @include transition(border-color .3s);
         @include border-radius($borderRadius);
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
+        font-size: $fontSize;
         
-        &.ui-state-hover:not(.ui-state-error) {
-            border-color: $inputHoverBorderColor;
+        &.ui-state-hover {
+            border: 1px solid $inputHoverBorderColor;
         }
         
-        &.ui-state-focus:not(.ui-state-error) {
-            @include focused-input();
+        &.ui-state-focus {
+            border: 1px solid $primaryColor;
+            @include border-shadow();
         }
     }
     
     .ui-button {
+        color: #ffffff;
         background-color: $primaryColor;
-        color: $primaryTextColor;
         border: 1px solid transparent;
         font-size: $fontSize;
-        @include transition(background-color $transitionDuration);
+        @include transition(background-color .3s);
         
         &.ui-state-focus {
             outline: 0 none;
-            background-color: darken($primaryColor,5%);
-        }
-        
-        &.ui-state-hover {
             background-color: darken($primaryColor,5%);
         }
         
@@ -42,27 +35,27 @@ body {
                 
         &.ui-button-text-only {
             .ui-button-text {
-                padding: 5px 8px;
+                padding: 5px 10px;
             }
         }
         
         &.ui-button-text-icon-left {
             .ui-button-text {
-                padding: 5px 8px 5px 26px;
+                padding: 5px 10px 5px 25px;
             }
             
-            .ui-icon {
-                margin-top: -6px;
+            .ui-icon.fa {
+                margin-top: -8px;
             }
         }
         
         &.ui-button-text-icon-right {
             .ui-button-text {
-                padding: 5px 26px 5px 8px;
+                padding: 5px 25px 5px 10px;
             }
             
-            .ui-icon {
-                margin-top: -6px;
+            .ui-icon.fa {
+                margin-top: -8px;
             }
         }
         
@@ -71,14 +64,29 @@ body {
                 padding: 5px;
             }
             
-            .ui-icon {
-                margin-top: -6px;
+            .ui-icon.fa {
+                margin-top: -8px;
             }
         }
-                
+        
+        &.turquoise-btn {
+            background-color: $turquoise;
+            
+            &.ui-state-hover {
+                background-color: darken($turquoise,5%);
+            }
+            
+            &.ui-state-focus {
+                background-color: darken($turquoise,5%);
+            }
+            
+            &.ui-state-active {
+                background-color: darken($turquoise,10%);
+            }
+        }
+        
         &.blue-btn {
             background-color: $blue;
-            color: $white;
             
             &.ui-state-hover {
                 background-color: darken($blue,5%);
@@ -95,7 +103,6 @@ body {
         
         &.purple-btn {
             background-color: $purple;
-            color: $white;
             
             &.ui-state-hover {
                 background-color: darken($purple,5%);
@@ -110,9 +117,40 @@ body {
             }
         }
         
+        &.orange-btn {
+            background-color: $orange;
+            
+            &.ui-state-hover {
+                background-color: darken($orange,5%);
+            }
+                        
+            &.ui-state-focus {
+                background-color: darken($orange,5%);
+            }
+            
+            &.ui-state-active {
+                background-color: darken($orange,10%);
+            }
+        }
+        
+        &.pink-btn {
+            background-color: $pink;
+            
+            &.ui-state-hover {
+                background-color: darken($pink,5%);
+            }
+                        
+            &.ui-state-focus {
+                background-color: darken($pink,5%);
+            }
+            
+            &.ui-state-active {
+                background-color: darken($pink,10%);
+            }
+        }
+        
         &.green-btn {
             background-color: $green;
-            color: $white;
             
             &.ui-state-hover {
                 background-color: darken($green,5%);
@@ -127,151 +165,96 @@ body {
             }
         }
         
-        &.cyan-btn {
-            background-color: $cyan;
-            color: $white;
+        &.deep-purple-btn {
+            background-color: $deepPurple;
             
             &.ui-state-hover {
-                background-color: darken($cyan,5%);
+                background-color: darken($deepPurple,5%);
             }
             
             &.ui-state-focus {
-                background-color: darken($cyan,5%);
+                background-color: darken($deepPurple,5%);
             }
             
             &.ui-state-active {
-                background-color: darken($cyan,10%);
-            }
-        }
-                
-        &.yellow-btn {
-            background-color: $yellow;
-            color: $black;
-            
-            &.ui-state-hover {
-                background-color: darken($yellow,5%);
-            }
-            
-            &.ui-state-focus {
-                background-color: darken($yellow,5%);
-            }
-            
-            &.ui-state-active {
-                background-color: darken($yellow,10%);
+                background-color: darken($deepPurple,10%);
             }
         }
         
-        &.orange-btn {
-            background-color: $orange;
-            color: $white;
+        &.black-btn {
+            background-color: $black;
             
             &.ui-state-hover {
-                background-color: darken($orange,5%);
+                background-color: darken($black,5%);
             }
-            
+                        
             &.ui-state-focus {
-                background-color: darken($orange,5%);
+                background-color: darken($black,5%);
             }
             
             &.ui-state-active {
-                background-color: darken($orange,10%);
+                background-color: darken($black,10%);
             }
+        }
+
+        &.raised-btn {
+            -moz-box-shadow: 0 1px 2.5px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+            -webkit-box-shadow: 0 1px 2.5px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
+            box-shadow: 0 1px 2.5px 0 rgba(0, 0, 0, 0.26), 0 1px 5px 0 rgba(0, 0, 0, 0.16);
         }
         
-        &.indigo-btn {
-            background-color: $indigo;
-            color: $white;
-            
-            &.ui-state-hover {
-                background-color: darken($indigo,5%);
-            }
-            
-            &.ui-state-focus {
-                background-color: darken($indigo,5%);
-            }
-            
-            &.ui-state-active {
-                background-color: darken($indigo,10%);
-            }
-        }
-        
-        &.red-btn {
-            background-color: $red;
-            color: $white;
-            
-            &.ui-state-hover {
-                background-color: darken($red,5%);
-            }
-            
-            &.ui-state-focus {
-                background-color: darken($red,5%);
-            }
-            
-            &.ui-state-active {
-                background-color: darken($red,10%);
-            }
-        }
-                
         .ui-icon-triangle-1-s {
             margin-top: -10px;
         }
+    }
+    
+    .ui-button.ui-state-hover {
+        background-color: darken($primaryColor,5%);
     }
         
     .ui-chkbox {
         display: inline-block;
         vertical-align: middle;
         margin: 0;
-        width: 18px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
         
         .ui-chkbox-box {
             border: 1px solid $inputBorderColor;
-            background-color: $inputBgColor;
-            width: 18px;
-            height: 18px;
-            text-align: center;
-            @include transition(background-color $transitionDuration, box-shadow $transitionDuration, border-color $transitionDuration);
+            background-color: #ffffff;
+            width: 20px;
+            height: 20px;
+            @include transition(background-color .3s);
             
             &.ui-state-hover {
                 border: 1px solid $inputHoverBorderColor;
             }
             
-            &.ui-state-focus {
-                color: $primaryColor;
-                @include focused-input();
-            }
-            
             &.ui-state-active {
                 border: 1px solid $primaryColor;
                 background-color: $primaryColor;
-                color: $primaryTextColor;
+                color: #ffffff;
+            }
+            
+            &.ui-state-focus {
+                border: 1px solid $primaryColor;
+                @include border-shadow();
             }
             
             .ui-chkbox-icon {
-                font-size: $fontSize + 2;
-                display: inline-block;
-                margin-top: 1px;
-                margin-left: 1px;
-            }
-            
-            &[data-iconstates] {
                 overflow: hidden;
+                font-size: $fontSize + 2px;
+                position: relative;
+                top: 2px;
+                left: 2px;
             }
         }
     }
     
     .ui-chips {
         .ui-chips-container {
-            width: 149px;
-            padding: 0px;
-            
-            .ui-chips-token {
-                padding: 2px 3px;
-                
-                .ui-chips-token-icon {
-                    margin-top: -7px;
-                }
-            }
+            width: 170px;
+            padding: 1px 0px 2px 0px;
         }
     }
     
@@ -285,17 +268,14 @@ body {
         display: inline-block;
         vertical-align: middle;
         margin: 0;
-        width: auto;
-        height: auto;
+        width: 20px;
+        height: 20px;
         
         .ui-radiobutton-box {
             border: 1px solid $inputBorderColor;
-            background-color: $inputBgColor;
-            width: 18px;
-            height: 18px;
-            line-height: 18px;
-            text-align: center;
-            @include transition(border-color $transitionDuration,box-shadow $transitionDuration);
+            background-color: #ffffff;
+            width: 20px;
+            height: 20px;
             @include border-radius(50%);
             
             &.ui-state-hover {
@@ -303,33 +283,26 @@ body {
             }
             
             &.ui-state-active {
-                border: 1px solid $primaryColor;
+                border: 1px solid $inputHoverBorderColor;
+                background-color: #ffffff;
+                color: #ffffff;
                 
                 .ui-radiobutton-icon {
-                    background-color: $primaryColor;
+                    color: $primaryColor;
                 }
             }
             
             &.ui-state-focus {
-                @include focused-input();
-                
-                .ui-radiobutton-icon.ui-icon-bullet {
-                    background-color: $primaryColor;
-                }
+                border: 1px solid $primaryColor;
+                @include border-shadow();
             }
             
             .ui-radiobutton-icon {
-                width: 10px;
-                height: 10px;
-                margin-left: 0;
-                background-color: transparent;
-                display: inline-block;
-                @include transition(background-color $transitionDuration);
-                @include border-radius(50%);
-                
-                &:before {
-                    display: none;
-                }
+                @include transition(color .3s);
+                overflow: hidden;
+                position: relative;
+                top: 2px;
+                left: 1.4px;
             }
         }
     }
@@ -353,53 +326,81 @@ body {
     }
     
     .ui-inputswitch {
-        height: 14px;
-        width: 34px !important;
-        overflow: visible;
-        background-color: $inputBgColor;
-        border-color: $inputBorderColor;
-        @include border-radius(8px);
-    
         .ui-inputswitch-handle {
-            top: -3px;
-            background-color: darken($inputBgColor, 10%);
-            @include border-radius(50%);
-            @include transition(background-color $transitionDuration);
-            width: 20px !important;
-            height: 20px !important;
-        }
-        
-        .ui-inputswitch-on {
-            visibility: hidden;
-        }
-        
-        .ui-inputswitch-off, .ui-inputswitch-on {
-            span {
-                visibility: hidden;
-            }
-        }
-        
-        &.ui-inputswitch-checked {
-            background-color: lighten($primaryColor, 15%);
-            border-color: lighten($primaryColor, 15%);
+            background-color: #ffffff;
+            border: 1px solid transparent;
+            box-sizing: border-box;
             
-            .ui-inputswitch-handle {
-                background-color: lighten($primaryColor, 5%);
-                color: lighten($primaryColor, 5%);
+            &.ui-state-focus {
+                border: 1px solid $primaryColor;
+                @include border-shadow();
             }
+        }
+        
+        .ui-inputswitch-off {
+            background-color: #a8acb1;
+            color: #ffffff;
+        }
+        
+        .ui-inputswitch-on,.ui-inputswitch-off {
+            span {
+                position: relative;
+                top: -2px;
+                font-weight: 400;
+            }
+        }
+    }
+    
+    .ui-toggleswitch {
+        height: 26px;
+        width: 3.5em;
+        
+        .ui-toggleswitch-slider {
+            @include transition(background-color .3s);
+            background-color: #a8acb1;
+            color: #ffffff;
+            border: 1px solid $contentBorderColor;
+            @include border-radius(2px);
+            overflow: hidden;
+            
+            &:before {
+                background-color: #ffffff;
+                border: 1px solid transparent;
+                @include transition(.3s);
+                @include border-radius(0);
+                width: calc(3em / 2);
+                height: 22px;
+                left: auto;
+                bottom: auto;
+            }
+        }
+        
+        &.ui-toggleswitch-checked {
+            .ui-toggleswitch-slider {
+                background-color: $primaryColor;
+                color: #ffffff;
+                
+                &:before {
+                    @include translateX(calc(2em - 4px));
+                    @include translateXForIE(2em, -4px);
+                }
+            }
+        }
+        
+        &.ui-toggleswitch-focus {
+            .ui-toggleswitch-slider {            
+                &:before {
+                    border: 1px solid $primaryColor;
+                    @include border-shadow();
+                }
+            } 
         }
     }
     
     .ui-autocomplete {
         .ui-autocomplete-dropdown {
-            width: 28px;
-            padding: 0;
-            border: 0 none;
-            background: transparent;
-            color: $textSecondaryColor;
-            
             .ui-icon-triangle-1-s {
-                margin-top: -7px;
+                margin-top: -8px;
                 @include icon_override("\f078");
             }
         }
@@ -408,42 +409,26 @@ body {
             .ui-autocomplete-multiple-container {
                 padding: $inputPadding;
                 
-                .ui-autocomplete-input-token {   
-                    margin: 0;
-                                     
+                .ui-autocomplete-input-token {
                     input {
                         font-size: $fontSize;
                         padding: 0;
                         margin: 0;
-                        color: $textColor;
                     }
                 }    
                 
                 .ui-autocomplete-token {
                     margin: 0 2px; 
-                    
-                    .ui-autocomplete-token-icon {
-                        margin-top: -8px;
-                    }
                 }
-            }
-        }
-        
-        .ui-autocomplete-input.ui-state-focus + .ui-autocomplete-dropdown {
-            span {
-                color: $primaryColor;
             }
         }
     }
     
     .ui-autocomplete-panel {
         @include overlay-shadow();
-        border: 0 none;
-        background-color: $inputBgColor;
         
         .ui-autocomplete-items {
             padding: 0;
-            background-color: $inputBgColor;
             
             .ui-autocomplete-item {
                 margin: 0;
@@ -459,30 +444,12 @@ body {
         }
     }
     
-    .ui-fluid {
-        .ui-autocomplete {
-            .ui-autocomplete-dropdown.ui-button {
-                width: 28px;
-            }
-        }
-    }
-    
     .ui-selectonemenu {
-        background: $inputBgColor;
+        background: #ffffff;
         border: 1px solid $inputBorderColor;
-        @include transition(border-color $transitionDuration, box-shadow $transitionDuration);
-
-        .ui-selectonemenu-label {
-            color: $textColor;
-        }
         
         .ui-selectonemenu-trigger {
-            padding: 0;
-            width: 28px;
-            text-align: center;
-            
             .ui-icon-triangle-1-s {
-                color: $textSecondaryColor;
                 margin-top: 6px;
                 @include icon_override("\f078");
             }
@@ -493,8 +460,9 @@ body {
         }
         
         &.ui-state-focus {
-            @include focused-input();
-                        
+            border: 1px solid $primaryColor;
+            @include border-shadow();
+            
             .ui-selectonemenu-trigger {
                 .ui-icon-triangle-1-s {
                     color: $primaryColor;
@@ -505,8 +473,6 @@ body {
         
     .ui-selectonemenu-panel {
         @include overlay-shadow();
-        border: 0 none;
-        background-color: $inputBgColor;
         
         .ui-selectonemenu-filter-container {
             padding: $headerPadding;
@@ -518,14 +484,13 @@ body {
             }
             
             .ui-icon {
-                top: 12px;
-                right: 15px;    
+                top: 15px;
+                right: 20px;    
             }
         }
         
         .ui-selectonemenu-items {
             padding: 0;
-            background-color: $inputBgColor;
             
             .ui-selectonemenu-item {
                 margin: 0;
@@ -542,43 +507,29 @@ body {
             }
             
             .ui-selectonemenu-item-group {
-                @include border-radius(0);
                 padding: $listItemPadding;
                 background-color: $dividerColor;
             }
         }
     }
     
-    .ui-fluid {
-        .ui-selectonemenu {
-            .ui-selectonemenu-trigger {
-                padding: 0;
-                width: 28px;
-            }
-        }
-    }
-    
     .ui-selectcheckboxmenu {
-        background: $inputBgColor;
+        background: #ffffff;
         border: 1px solid $inputBorderColor;
-        @include transition(border-color $transitionDuration, box-shadow $transitionDuration);
         
         .ui-selectcheckboxmenu-label {
-            color: $textColor;
             padding: $inputPadding;
             padding-right: 30px;
         }
         
         .ui-selectcheckboxmenu-trigger {  
-            width: 28px;
-            padding: 0;
-            border: 0 none;
-            @include box-sizing(border-box);
-            text-align: center;
+            width: 32px;
+            box-sizing: border-box;
                       
             .ui-icon-triangle-1-s {
-                color: $textSecondaryColor;
-                margin-top: 7px;
+                position: relative;
+                left: 3px;
+                margin-top: 6px;
                 @include icon_override("\f078");
             }
         }
@@ -588,9 +539,10 @@ body {
         }
         
         &.ui-state-focus {
-            @include focused-input();
-                        
-            .ui-selectcheckboxmenu-trigger {
+            border: 1px solid $primaryColor;
+            @include border-shadow();
+            
+            .ui-selectonemenu-trigger {
                 .ui-icon-triangle-1-s {
                     color: $primaryColor;
                 }
@@ -599,6 +551,7 @@ body {
         
         &.ui-selectcheckboxmenu-multiple {
             padding-top: 1px;
+            padding-bottom: 1px;
 
             .ui-selectcheckboxmenu-multiple-container {
                 &.ui-inputfield {
@@ -608,10 +561,12 @@ body {
                 
                 .ui-selectcheckboxmenu-token {
                     padding: 2px 3px;
-                    
-                    .ui-selectcheckboxmenu-token-icon {
-                        margin-top: -7px;
-                    }
+                }
+            }
+
+            .ui-selectcheckboxmenu-trigger {
+                .ui-icon {
+                    top: auto;
                 }
             }
         }
@@ -620,67 +575,53 @@ body {
     .ui-selectcheckboxmenu-panel {
         padding: 0;
         @include overlay-shadow();
-        border: 0 none;
         
         .ui-selectcheckboxmenu-header {
             padding: $headerPadding;
-            border: 0 none;
-            border-bottom: 1px solid $headerBorderColor;
+            background-color: $dividerColor;
             
             .ui-selectcheckboxmenu-filter-container {
-                float: none;
-                width: 75%;
-                display: inline-block;
-                vertical-align: middle;
-                margin-left: 0;
+                width: 50%;
                 
                 .ui-inputfield {
-                    padding: 4px 24px 4px 4px;
+                    padding: 1px;
                     width: 100%;
-                    @include box-sizing(border-box);
-                }
-                
-                .ui-icon {
-                    margin-top: 5px;
-                    color: $textSecondaryColor;
+                    box-sizing: border-box;
                 }
             }
             
             .ui-chkbox {
-                margin-right: 8px;
-                margin-top: -1px;
-                float: none;
-                vertical-align: middle;
+                position: relative;
+                top: 0;
+                margin-right: 20px;
                 
                 .ui-chkbox-box {
                     &.ui-state-focus {                        
                         .ui-icon {
-                            color: $primaryColor;
+                            color: $textColor;
                         }
                     }
                     
-                    &.ui-state-active {  
-                        border: 1px solid $headerIconColor;   
-                                           
+                    &.ui-state-active {
                         .ui-icon {
-                            color: $headerTextColor;
+                            color: #ffffff;
                         }
                     }
                 }
             }
             
             .ui-selectcheckboxmenu-close {
-                color: $headerIconColor;
-                margin: 3px 0 0 0;
-                @include transition(color $transitionDuration);
+                color: $headerTextColor;
+                font-size: $fontSize + 4;
+                margin: 0;
+                position: relative;
+                top: 3px;
+                padding: 0;
+                @include transition(color .3s);
                 
                 &.ui-state-hover {
-                    padding: 1px;
-                    color: $headerIconHoverColor;
-                }
-                
-                span {
-                    font-size: $fontSize + 3;
+                    padding: 0;
+                    color: $primaryColor;
                 }
             }
         }
@@ -709,16 +650,6 @@ body {
     .ui-selectmanymenu {
         padding: 0;
         
-        .ui-selectlistbox-filter-container {
-            padding: $headerPadding;
-            
-            .ui-icon {
-                color: $textSecondaryColor;
-                top: 12px;
-                right: 14px;
-            } 
-        }
-        
         .ui-selectlistbox-item {
             margin: 0;
             padding: $listItemPadding;
@@ -727,10 +658,6 @@ body {
             .ui-chkbox {
                 margin-right: 8px;
                 vertical-align: top;
-                
-                .ui-chkbox-box {
-                    border-color: $textColor;
-                }
             }
             
             &:hover {
@@ -738,7 +665,7 @@ body {
             }
             
             &.ui-state-highlight {
-                @include highlight();
+                @include list-item-highlight();
             }
             
             > td {
@@ -750,16 +677,6 @@ body {
     .ui-selectonelistbox {
         padding: 0;
         
-        .ui-selectlistbox-filter-container {
-            padding: $headerPadding;
-            
-            .ui-icon {
-                color: $textSecondaryColor;
-                top: 12px;
-                right: 12px;
-            } 
-        }
-        
         .ui-selectlistbox-item {
             margin: 0;
             padding: $listItemPadding;
@@ -770,7 +687,7 @@ body {
             }
             
             &.ui-state-highlight {
-                @include highlight();
+                @include list-item-highlight();
             }
             
             > td {
@@ -784,8 +701,6 @@ body {
         
         .ui-multiselectlistbox-header {
             padding: $headerPadding;
-            border-color: $inputBorderColor;
-            margin-bottom: -2px;
         }
         
         .ui-multiselectlistbox-item {
@@ -798,7 +713,7 @@ body {
             }
             
             &.ui-state-highlight {
-                @include highlight();
+                @include list-item-highlight();
             }
         }
     }
@@ -811,11 +726,15 @@ body {
             a {
                 @include icon_override("\f05e");
                 display: block;
-                @include transition(color $transitionDuration);
+                @include transition(color .3s);
                 font-size: 20px;
                 height: 20px;
                 width: 20px;
                 color: $pink;
+                
+                &:hover {
+                    color: lighten($pink,5%);
+                }
             }
         }
         
@@ -829,7 +748,6 @@ body {
                 font-size: 20px;
                 height: 20px;
                 width: 20px;
-                color: $textColor;
             }
         }
         
@@ -843,24 +761,6 @@ body {
                 width: 20px;
             }
         }
-        
-        &:not(.ui-state-disabled) {
-            .ui-rating-star {                
-                a {    
-                    &:hover {
-                        color: $primaryColor;
-                    }
-                }
-            }
-            
-            .ui-rating-cancel {
-                a {
-                    &:hover {
-                        color: lighten($pink,5%);
-                    }
-                }
-            }
-        }
     }
     
     .ui-spinner {
@@ -869,41 +769,27 @@ body {
         }
         
         .ui-icon-triangle-1-n {
-            left: -1px; 
-            margin-top: -2px; 
-            color: $textSecondaryColor;
+            margin-top: -3px;    
         }
         .ui-icon-triangle-1-s {
-            left: -1px; 
-            margin-top: -10px;
-            color: $textSecondaryColor;
+            margin-top: -11px;    
         }
         
         .ui-spinner-button {
             z-index: auto;
-            box-sizing: border-box;
-            background-color: transparent;
-            
-            &.ui-state-hover {
-                .ui-icon {
-                    color: $textColor;
-                }
-            }
         }
     }
     
-    .ui-fluid {        
+    .ui-fluid {
         .ui-spinner {
-            .ui-spinner-input {
-                padding-right: 28px;
-            }
-            
             .ui-spinner-button {
                 .ui-icon-triangle-1-n {
-                    left: 0px;
+                    left: 3px;
+                    margin-top: -2px; 
                 }
                 .ui-icon-triangle-1-s {
-                    left: 0px;
+                    left: 3px;
+                    margin-top: -12px; 
                 }
             }
         }
@@ -911,7 +797,6 @@ body {
     
     .ui-slider {
         background-color: $dividerColor;
-        border-color: $dividerColor;
         
         &.ui-slider-horizontal {
             .ui-slider-handle {
@@ -927,75 +812,72 @@ body {
         
         .ui-slider-handle {
             background-color: $primaryColor;
-            @include transition(background-color $transitionDuration);
-            @include border-radius(50%);
+            @include transition(background-color .3s);
             
-            &:hover, &:focus {
+            &:hover {
                 background-color: darken($primaryColor,5%);
-                @include transition(box-shadow $transitionDuration);
-                @include focused-input();
-                border: 0 none;
-            }
-            
-            &:focus {
-                outline: 0 none;
             }
         }
         
         .ui-slider-range {
-            background: lighten($primaryColor,20%);   
+            background-color: lighten($primaryColor,5%);   
         }
     }
     
     .ui-selectbooleanbutton {
-        background-color: $toggleButtonBgColor;
+        background-color: $dividerColor;
         color: $textColor;
-        @include transition(border-color $transitionDuration, background-color $transitionDuration);
         
         &.ui-state-hover {
-            background-color: $toggleButtonBgColor;
-            border-color: $primaryColor;
+            background-color: #a8acb1;
         }
         
         &.ui-state-focus {
-            background-color: $toggleButtonBgColor;
-            border-color: $primaryColor;
+            background-color: $dividerColor;
+            color: $textColor;
+            @include border-shadow();
+            border: 1px solid $primaryColor;
         }
         
-        &.ui-state-active {            
+        &.ui-state-active {
+            background-color: $primaryColor;
+            color: #ffffff;
+            
             &.ui-state-focus {
                 background-color: $primaryColor;
-                color: $primaryTextColor;
-                @include focused-input();
+                color: #ffffff;
+                @include border-shadow();
             }
         }
     }
     
-    .ui-buttonset:not(.ui-splitbutton) {
+    .ui-buttonset {
         .ui-button {
-            background-color: $toggleButtonBgColor;
+            background-color: $dividerColor;
             color: $textColor;
             border: 1px solid transparent;
             @include border-radius(0px);
-            @include transition(border-color $transitionDuration, background-color $transitionDuration);
             
             &.ui-state-hover {
-                background-color: $toggleButtonBgColor;
-                border-color: $primaryColor;
+                background-color: #a8acb1;
             }
             
             &.ui-state-focus {
-                background-color: $toggleButtonBgColor;
-                border-color: $primaryColor;
-                outline: 0 none;
+                background-color: $dividerColor;
+                color: $textColor;
+                @include border-shadow();
+                border: 1px solid $primaryColor;
             }
             
             &.ui-state-active {
-                @include highlight();
+                background-color: $primaryColor;
+                color: #ffffff;
+                border-right-color: $primaryColor;
                 
                 &.ui-state-focus {
                     background-color: $primaryColor;
-                    @include focused-input();
+                    color: #ffffff;
+                    @include border-shadow();
                 }
             } 
             
@@ -1018,58 +900,69 @@ body {
         }
     }
     
-    .ui-splitbutton {
+    .ui-splitbutton.ui-buttonset {
         .ui-button {
+            color: #ffffff;
+            background-color: $primaryColor;
             border: 1px solid transparent;
             
             .ui-icon-triangle-1-s {
-                margin-top: -7px;
+                margin-top: -8px;
                 @include icon_override("\f078");
+            }
+            
+            &.ui-state-hover {
+                background-color: darken($primaryColor,5%);
+                color: #ffffff;
+            }
+                        
+            &.ui-state-focus {
+                background-color: darken($primaryColor,5%);
+                color: #ffffff;
+            }
+            
+            &.ui-state-active {
+                background-color: darken($primaryColor,10%);
+                color: #ffffff;
             }
         }
     }
     
     .ui-datepicker {
         padding: 0;
-        width: 260px;
-        @include border-radius($borderRadius);
         
         .ui-datepicker-header {
             padding: $headerPadding;
-            border-top: 0;
-            border-left: 0;
-            border-right: 0;
             @include border-radius(0);
-            @include border-radius-top($borderRadius);
             
             .ui-datepicker-prev {
                 cursor: pointer;
-                top:12px;
-                color: $headerIconColor;
+                top:14px;
+                color: #ffffff;
                 @include icon_override("\f053");
-                @include transition(color $transitionDuration);
+                @include transition(color .3s);
                 span {
                     display: none;
                 }
                 
                 &.ui-datepicker-prev-hover {
-                    color: $headerIconHoverColor;
+                    color: $primaryColor;
                     left: 2px;
                 }
             }
             
             .ui-datepicker-next {
                 cursor: pointer;
-                top:12px;
-                color: $headerIconColor;
+                top:14px;
+                color: #ffffff;
                 @include icon_override("\f054");
-                @include transition(color $transitionDuration);
+                @include transition(color .3s);
                 span {
                     display: none;
                 }
                 
                 &.ui-datepicker-next-hover {
-                    color: $headerIconHoverColor;
+                    color: $primaryColor;
                     right: 2px;
                 }
             }
@@ -1078,41 +971,25 @@ body {
         table {
             font-size: $fontSize;
             
-            th {
-                color: $textSecondaryColor;
-            }
-            
-            td {    
-                padding: 2px;
-                text-align: center;
-                        
-                a,span {
-                    min-width: 15px;
-                    display: inline-block;
+            td {            
+                a {
                     text-align: center;
                     color: $textColor;
                     padding: 5px;
                     @include border-radius($borderRadius);
                     
                     &.ui-state-hover {
-                        @include list-item-hover();
+                        background-color: $listItemHoverBgColor;
                     }
                     
                     &.ui-state-highlight {
-                        color: $primaryTextColor;
-                        background-color: $primaryColor;
+                        color: $textColor;
+                        background-color: $dividerColor;
                     }
                     
                     &.ui-state-active {
-                        color: $primaryTextColor;
+                        color: #ffffff;
                         background-color: $primaryColor;
-                    }
-                }
-                
-                &.ui-datepicker-today {
-                    a {
-                        background-color: $dividerColor;
-                        color: $textColor;
                     }
                 }
             }
@@ -1120,60 +997,16 @@ body {
 
         &#ui-datepicker-div {
             @include overlay-shadow();
-            border: 0 none;
-            
-            .ui-timepicker-div {
-                .ui-widget-header {
-                    padding: $headerPadding;
-                    border-top: 0;
-                    border-left: 0;
-                    border-right: 0;
-                    @include border-radius(0);
-                }
-                
-                input {
-                    border-color: $inputBorderColor;
-                }
-            }
-        }
-        
-        &.ui-datepicker-multi {            
-            .ui-datepicker-group {
-                border-right: 1px solid $dividerColor;
-                @include box-sizing(border-box);
-                
-                table {
-                    width: 100%;
-                    margin: 0;
-                    
-                    th {
-                        background-color: $contentBgColor;
-                        color: $textColor;
-                    }
-                }
-                
-                &.ui-datepicker-group-last {
-                    padding: 0;
-                    border-right: 0 none;
-                }
-            }
         }
     }
     
     .ui-trigger-calendar {
         .ui-inputfield {
+            @include border-radius-right(0);
             border-right: 0 none;
-            
-            &.ui-state-hover, &.ui-state-focus {
-                border-right: 0 none;
-            }
         }
         .ui-datepicker-trigger.ui-button {
             @include border-radius-left(0);
-            
-            .ui-icon-calendar {
-                line-height: 1.1em;
-            }
         }
     }
     
@@ -1181,10 +1014,153 @@ body {
         .ui-trigger-calendar {
             .ui-datepicker-trigger.ui-button {
                 right: -2px;
-                height: 32px;
+                height: 31px;
+            }
+        }
+    }
+    
+    .p-datepicker-panel {
+        @include border-radius($borderRadius);
+        overflow: hidden;
+
+        &:not(.ui-datepicker-inline) {
+            @include overlay-shadow();
+        }
+        
+        .ui-datepicker-group {
+            border: 0 none;
+            @include border-radius(0);
+        }
+        
+        .ui-datepicker-header {            
+            .ui-datepicker-prev,
+            .ui-datepicker-next {
+                outline: 0 none;
+
+                &:hover {
+                    color: $primaryColor;
+                }
+            }
+        }
+        
+        table {
+            td {
+                a {                    
+                    &:hover {
+                        background-color: $listItemHoverBgColor;
+                    }
+                    
+                    &.ui-state-highlight {
+                        color: $textColor;
+                        background-color: $dividerColor;
+                    }
+                    
+                    &.ui-state-active {
+                        color: #ffffff;
+                        background-color: $primaryColor;
+                    }
+                }
                 
-                > .ui-icon {
-                    margin-top: -7px;
+                a,span {
+                    width: 100%;
+                    @include box-sizing(border-box);
+                }
+                
+                &.ui-datepicker-today {
+                    a {
+                        color: #ffffff;
+                        background-color: $primaryColor;
+                    }
+                }
+            }
+        }
+
+        &.ui-datepicker-multiple-month {            
+            .ui-datepicker-group {
+                @include border-radius(0);
+                width: 17em;
+                border-right-width: 0px;
+
+                &:last-child {
+                    border-right-width: 1px;
+                }
+                
+                .ui-datepicker-calendar-container {
+                    padding: 0 .4em;
+                }
+            }
+        }
+        
+        &.ui-datepicker-monthpicker {
+            .ui-monthpicker {
+                .ui-monthpicker-month {
+                    color: $textColor;
+                    @include box-sizing(border-box);
+                    
+                    &:hover {
+                        background-color: $listItemHoverBgColor;
+                    }
+                    
+                    &.ui-state-active {
+                        color: #ffffff;
+                        background-color: $primaryColor;
+                    }
+                }
+            }
+        }
+        
+        .ui-timepicker {
+            font-weight: normal;
+            border: 0 none;
+            @include border-radius-top(0);
+            border-top: 1px solid $dividerColor;
+            
+            .ui-picker-up {
+                color: #ffffff;
+                @include icon_override("\f077");
+                display: block;
+                margin-bottom: .2em;
+                
+                span {
+                    display: none;
+                }
+                
+                &:hover {
+                    color: $primaryColor;
+                }
+            }
+            
+            .ui-picker-down {
+                color: #ffffff;
+                @include icon_override("\f078");
+                display: block;
+                margin-top: .2em;
+                
+                span {
+                    display: none;
+                }
+                
+                &:hover {
+                    color: $primaryColor;
+                }
+            }
+        }
+        
+        .ui-datepicker-buttonbar {
+            border: 0 none;
+            @include border-radius-top(0);
+            border-top: 1px solid $contentBorderColor;
+            
+            .ui-button {
+                width: auto;
+                
+                &:focus {
+                    outline: 0 none;
+                    background-color: darken($primaryColor,5%);
+                }
+
+                &:hover {
+                    background-color: darken($primaryColor,5%);
                 }
             }
         }
@@ -1200,10 +1176,9 @@ body {
     .ui-fileupload {
         .ui-fileupload-buttonbar {
             padding: $headerPadding;
-            border-bottom: 0 none;
             
             .ui-button {
-                margin-right: 6px;
+                margin-right: 8px;
                 
                 &.ui-fileupload-upload {
                     .ui-icon {
@@ -1212,39 +1187,22 @@ body {
                 }
             }
         }
-        
-        .ui-fileupload-content {
-            padding: $contentPadding;
-            
-            .ui-fileupload-row > div {
-                vertical-align: middle;
-                padding: $contentPadding;
-            }
-            
-            .ui-progressbar {
-                top: 0;
-            }
-        }
     }
     
-    #keypad-div {
-        padding: $contentPadding;
-        
+    #keypad-div,
+    .keypad-popup {
         button {
-            border: 1px solid $inputBorderColor;
+            border: 0 none;
             padding: 5px;
-            background-color: $inputBgColor;
-            color: $textColor;
             
             &:hover {
-                border-color: $primaryColor;
+                background-color: $dividerColor;
             }
             
             &.keypad-shift {
                 background-color: $green;
                 
                 &:hover {
-                    border-color: $green;
                     background-color: lighten($green, 5%);
                 }
             }
@@ -1253,7 +1211,6 @@ body {
                 background-color: $blue;
                 
                 &:hover {
-                    border-color: $blue;
                     background-color: lighten($blue, 5%);
                 }
             }
@@ -1262,7 +1219,6 @@ body {
                 background-color: $pink;
                 
                 &:hover {
-                    border-color: $pink;
                     background-color: lighten($pink, 5%);
                 }
             }
@@ -1271,17 +1227,9 @@ body {
                 background-color: $purple;
                 
                 &:hover {
-                    border-color: $purple;
                     background-color: lighten($purple, 5%);
                 }
             }
-        }
-    }
-    
-    .ui-outputlabel {
-        &.ui-state-error {
-            background-color: transparent;
-            border: 0 none;
         }
     }
 
@@ -1299,10 +1247,10 @@ body {
             }
 
             &:last-child {
-                @include border-radius-left($borderRadius);
+                @include border-radius-right($borderRadius);
             }
         }
-       
+
         .ui-button-text-only {
             margin: 0;
         }

@@ -33,11 +33,16 @@
      <artifactId>primefaces</artifactId>
      <version>7.0</version>
     </dependency> 
-     <dependency>
+       <dependency>
         <groupId>org.primefaces</groupId>
         <artifactId>apollo-theme</artifactId>
         <version>2.0.1</version>
-    </dependency>   
+     </dependency>
+    <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>poseidon</artifactId>
+            <version>2.0.0</version>
+        </dependency> 
     <dependency>
     	<groupId>javax</groupId>
     	<artifactId>javaee-web-api</artifactId>
