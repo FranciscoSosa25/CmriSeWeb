@@ -1,161 +1,59 @@
-/* Login */
 .login-body {
-    min-height: 100%;
-    font-size: 16px;
-    margin: 0;
-
-    background: {
-        image: url("\#{resource['apollo-layout:images/map.png']}");
-        position: top right;
-        repeat: no-repeat;
-        size: 50% 100%;
-    }
-
-    .body-container {
-        height: 7px;
-        border-top: 7px solid $primaryColor;
-    }
-
-    .left-side {
+    .login-panel {
         height: 100%;
-        padding-left: 100px;
-
-        img {
-            padding: 100px 0 100px 0;
-            width: 60px;
-            height: 60px;
-        }
-
-        h1 {
-            font-size: 80px;
-            color: $textColor;
-        }
-
-        p {
-            color: $textColor;
-            padding-right: 50px;
-            margin-top: 0;
-            margin-bottom: 40px;
-        }
-    }
-}
-
-.login-wrapper {
-    width: 400px;
-    margin: 0 auto;
-    text-align: center;
-
-    .login-container {
+        width: 350px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 100px 50px;
+        -webkit-box-shadow: 0 5px 7px 5px rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0 5px 7px 5px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 5px 7px 5px rgba(0, 0, 0, 0.1);
         box-sizing: border-box;
-        padding-top: 50%;
-        text-align: center;
-        color: #4f575b;
-
-        .title {
-            font-size: 20px;
-            color: $textColor;
-            display: block;
-            text-align: left;
-            margin-bottom: 10px;
-            margin-left: 12px;
-        }
-
-        .password-container {
-            text-align: right;
-        }
+        background-color: #ffffff;
+        overflow: auto;
         
-        a {
-            color: $primaryColor;
-            text-decoration: none;
-            font-size: 16px;
-            line-height: 32px;
-            display: inline-block;
-            padding-bottom: 2px;
-            border-bottom: 1px solid transparent;
-            @include transition(border-bottom-color $transitionDuration);
-
-            &:hover {
-                border-bottom-color: $primaryColor;
-            }
-        }
-
-        input {
-            font-size: 1em;
-        }
-
-        .ui-g-12, .ui-g-6 {
-            padding: .8em;
-        }
-
-        .ui-button {
-            font-size: 16px;
-        }
-
-    }
-}
-
-@media (max-width: 64em) {
-    .login-body {
-        text-align: center;
-        background-size: cover;
-
-        .left-side {
-            height: 300px;
-            padding-left: 25px;
-
-            img {
-                padding: 20px 0 20px 0;
-            }
-
-            p {
-                display: none;
-            }
-        }
-
-        .right-side {
-            height: 100%;
-        }
-    }
-
-    .login-wrapper {
-        width: 320px;
-
-        .login-container {
-            padding-top: 25%;
-        }
-    }
-}
-
-@media (max-width: 40em) {
-    .login-body {
-        .left-side {
-            height: 200px;
-            padding-left: 25px;
+        .ui-g-12 {
+            padding: 16px 0;
             text-align: center;
-
-            img {
-                padding: 20px 0 20px 0;
+            
+            &.logo-container {
+                img {
+                    margin-bottom: 20px;
+                }
             }
-
-            h1 {
-                font-size: 40px;
+            
+            &.chkbox-container {
+                text-align: left;
+                
+                .ui-outputlabel {
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-left: 8px;
+                }
             }
-
-            p {
-                display: none;
+            
+            &.button-container {
+                button {
+                    margin-bottom: 20px;
+                }
             }
-        }
-
-        .right-side {
-            height: calc(100% - 250px);
         }
     }
+}
+@media (min-width: 641px) {
+    .login-body {
+        background: url("\#{resource['poseidon-layout:images/login/login-background.png']}") top left no-repeat;
+        background-size: cover;
+    }
+}
 
-    .login-wrapper {
-        width: 320px;
-
-        .login-container {
-            padding-top: 25%;
+@media (max-width: 640px) {
+    .login-body {
+        background: none;
+        
+        .login-panel {
+            width: 100%;
         }
     }
 }

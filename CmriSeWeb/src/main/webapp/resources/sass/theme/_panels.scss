@@ -1,46 +1,29 @@
 body {
     .ui-panel {
         padding: 0;
-        border: 1px solid $contentBorderColor;
         
         .ui-panel-titlebar {
             border: 0 none;
-            border-bottom: 1px solid $headerBorderColor;
             padding: $headerPadding;
             @include border-radius-top($borderRadius);
             @include border-radius-bottom(0px);
             
-            .ui-panel-title {
-                line-height: 21px;
-                margin: 0;
-            }
-            
             .ui-panel-titlebar-icon {
-                top: 2px;
                 position: relative;
-                font-size: $fontSize + 3;
-                color: $headerIconColor;
+                top: 2px;
+                color: #ffffff;
                 margin: 0 0 0 4px;
                 @include transition(color .3s);
                 
                 &.ui-state-hover {
-                    color:  $headerIconHoverColor;
-                }
-                
-                .ui-icon-minusthick {
-                    @include icon_override("\f056");
-                }
-                
-                .ui-icon-plusthick {
-                    @include icon_override("\f055");
+                    color: $primaryColor;
                 }
             }
         }
         
         .ui-panel-content {
-            border: 0 none;
-            border-top: 0 none;
-            @include box-sizing(border-box);
+            height: 100%;
+            box-sizing: border-box;
             padding: $contentPadding;
         }
         
@@ -59,42 +42,27 @@ body {
     }
     
     .ui-fieldset {         
-        padding: 0 0 6px 0;
+        padding: 0 0 8px 0;
                
         .ui-fieldset-legend {
-            color: $headerTextColor;
+            color: #ffffff;
             background-color: $headerBgColor;
             margin-left: 10px;
-            border: 1px solid $headerBorderColor;
             @include transition(background-color .3s);
             
             .ui-fieldset-toggler {
                 float: none;
                 display: inline-block;
                 vertical-align: middle;
-                margin-right: 4px;
-                height: $fontSize;
-                margin-top: 0;
-                padding: 0;
-                color: $headerIconColor;
+                margin-right: 8px;
             }
             
             &.ui-state-hover {
-                background-color: $headerHoverBgColor;
-                color: $headerHoverTextColor;
-                
-                .ui-icon {
-                    color: $headerHoverTextColor;
-                }
+                background-color: $primaryColor;
             }
             
             &.ui-state-focus {
                 background-color: $headerHoverBgColor;
-                color: $headerHoverTextColor;
-                
-                .ui-icon {
-                    color: $headerHoverTextColor;
-                }
             }
         }
         
@@ -105,7 +73,7 @@ body {
     
     .ui-notificationbar {
         background-color: $primaryColor;
-        color: $primaryTextColor;
+        color: #ffffff;
     }
     
     .ui-accordion {
@@ -113,42 +81,34 @@ body {
             background-color: $headerBgColor;
             padding: $headerPadding;
             padding-left: 30px;
-            color: $headerTextColor;
+            color:#ffffff;
             font-size: $fontSize;
-            border: 1px solid $contentBorderColor;
             @include transition(background-color .3s);
-            margin-bottom: 0;
             
             &.ui-state-hover {
-                color: $headerHoverTextColor;
                 background-color: $headerHoverBgColor;
-                
-                .ui-icon {
-                    color: $headerHoverTextColor;
-                }
             }
             
             &.ui-state-active {
                 background-color: $primaryColor;
-                color: $primaryTextColor;
-                
-                .ui-icon {
-                    color: $primaryTextColor;
-                }
+                color: #ffffff;
             }
             
-            .ui-icon {
-                left: 10px;
-                color: $headerIconColor;
+            .ui-icon-triangle-1-e {
+                margin-top: -7px;
+                @include icon_override("\f054");
+            }
+            
+            .ui-icon-triangle-1-s {
+                @include icon_override("\f078");
+            }
+            
+            &.ui-tabs-outline {
+                border: 0 none;
+                background-color: $headerHoverBgColor;
                 
-                &.ui-icon-triangle-1-e {
-                    margin-top: -6px;
-                    @include icon_override("\f054");
-                }
-                
-                &.ui-icon-triangle-1-s {
-                    margin-top: -7px;
-                    @include icon_override("\f078");
+                &.ui-state-active {
+                    background-color: lighten($primaryColor, 5%);
                 }
             }
         }
@@ -161,89 +121,64 @@ body {
     .ui-tabs {
         padding: 0;
         
-        &.ui-tabs-top, 
-        &.ui-tabs-bottom, 
-        &.ui-tabs-left, 
-        &.ui-tabs-right {
-            border: 0 none;
-            background: transparent;
-            
+        &.ui-tabs-top,&.ui-tabs-bottom,&.ui-tabs-left,&.ui-tabs-right {
             .ui-tabs-nav {
                 padding: 0;
-                border: 0 none;
-                background: transparent;
-                @include box-sizing(border-box);
-                @include border-radius(0);
                 
                 li {
                     position: static;
-                    box-sizing: border-box;
-                    background-color: $headerBgColor;
                     @include transition(background-color .3s);
+                    @include border-radius(0);
+                    margin: 0;
+                    box-sizing: border-box;
                     
                     a {
-                        padding: $tabHeaderPadding;
-                        color: $headerTextColor;
+                        padding: $headerPadding;
+                        color: #ffffff;
                         
                         &:focus {
                             outline: 0 none;
                         }
                     }
                     
-                    .ui-icon-close {
-                        margin-top: 10px;
-                        color: $headerTextColor;
-                    }
-                    
                     &.ui-state-hover {
                         background-color: $headerHoverBgColor;
-                        
-                        a {
-                            color: $headerHoverTextColor;
-                        }
-                        
-                        .ui-icon-close {
-                            color: $headerIconHoverColor;
-                        }
+                    }
+                    
+                    &.ui-tabs-outline {
+                        outline: 0 none;
+                        background-color: $headerHoverBgColor;
                     }
                     
                     &.ui-state-active {
                         background-color: $primaryColor;
                         
-                        a {
-                            color: $primaryTextColor;
-                        }
-                        
-                        .ui-icon-close {
-                            color: $primaryTextColor;
+                        &.ui-tabs-outline {
+                            background-color: lighten($primaryColor,5%);
                         }
                     }
                     
+                    .ui-icon-close {
+                        margin-top: 8px;
+                    }
                 }
             }
             
-            .ui-tabs-panel {
-                background-color: $contentBgColor;
-                border: 1px solid $contentBorderColor;
-                border-top: 0 none;
-            }
-            
             .ui-tabs-navscroller-btn {
-                background-color: $headerBgColor;
-                border: 1px solid $headerBorderColor;
-                @include border-radius(0);
-                height: 28px;
+                background-color: #ffffff;
                 
                 &.ui-state-hover {
-                    background-color: $headerHoverBgColor;
+                    background-color: $listItemHoverBgColor;
                 }
                 
                 &.ui-tabs-navscroller-btn-left {
                     left: 0;
+                    height: 33px;
                 }
                 
                 &.ui-tabs-navscroller-btn-right {
                     right: 0;
+                    height: 34px;
                 }
                 
                 .ui-icon {
@@ -252,50 +187,12 @@ body {
             }
         }
         
-        &.ui-tabs-top {
+        &.ui-tabs-left,&.ui-tabs-right {
             .ui-tabs-nav {
-                margin-bottom: -1px;
-            }
-            
-            .ui-tabs-panel {
-                border-top: 1px solid $contentBorderColor;
-            }
-        }
-        
-        &.ui-tabs-left,
-        &.ui-tabs-right {
-            .ui-tabs-nav {
-                width: 25%;
-                
                 li {
                     width: 100%;
                 }
-            }  
-            
-            .ui-tabs-panel {
-                border-left: 0 none;
-            }  
-        }
-        
-        &.ui-tabs-left {
-            .ui-tabs-panel {
-                border-top: 1px solid $contentBorderColor;
-                border-left: 0 none;
-            }  
-        }
-        
-        &.ui-tabs-right {
-            .ui-tabs-panel {
-                border-top: 1px solid $contentBorderColor;
-                border-right: 0 none;
-            }  
-        }
-        
-        &.ui-tabs-bottom {
-            .ui-tabs-panel {
-                border-top: 1px solid $contentBorderColor;
-                border-bottom: 0 none;
-            }  
+            }    
         }
         
         .ui-tabs-panel {
@@ -305,52 +202,59 @@ body {
     
     .ui-scrollpanel {
         .ui-scrollpanel-drag {
-            background-color: $primaryColor;
+            background-color: #a8acb1;
         }
         
         .ui-scrollpanel-track {
-            background-color: $headerBgColor;
-            border: 0 none;
+            background-color: #f0f3f5;
         }
         
         .ui-scrollpanel-corner {
-            background-color: $contentBgColor
+            background-color: #f0f3f5;
         }
     }
     
     .ui-toolbar {
-        background-color: $headerBgColor;
-        border-color: $headerBorderColor;
         padding: $headerPadding;
     }
+    
+    .ui-tooltip {
+        .ui-tooltip-arrow {
+            color: #2d353c;
+        }
         
+        .ui-tooltip-text {
+            background-color: #2d353c;
+        }
+    }
+    
     .ui-wizard {
         .ui-wizard-step-titles {
             .ui-wizard-step-title {
-                background-color: $headerBgColor;
-                border: 1px solid $headerBorderColor;
-                border-right: 0 none;
+                background-color: #ffffff;
+                border-left: 1px solid $contentBorderColor;
                 margin: 0;
                 padding: $headerPadding;
                 @include border-radius(0);
                                 
                 &:first-child {
                     @include border-radius-left($borderRadius);
+                    border-right: 1px solid $contentBorderColor;
                 }
                 
                 &:last-child {
                     @include border-radius-right($borderRadius);
-                    border-right: 1px solid $headerBorderColor;
+                    border-right: 1px solid $contentBorderColor;
                 }
                 
                 &.ui-state-highlight {
                     border-color: $primaryColor;
                     background-color: $primaryColor;
-                    color: $primaryTextColor;
+                    color: #ffffff;
                 }
             }
         }
-    }   
+    }    
 }
 
 @media (max-width: 640px) {

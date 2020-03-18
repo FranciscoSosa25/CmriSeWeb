@@ -10,7 +10,7 @@
     border-top-right-radius: $val;
     -moz-border-radius-bottomright: $val;
     -webkit-border-bottom-right-radius: $val;
-    border-bottom-right-radius: $val;
+    border-bottom-right-radius: $val; 
 }
 
 @mixin border-radius-left($val) {
@@ -40,16 +40,6 @@
     border-bottom-right-radius: $val;
 }
 
-@mixin gradient($deg, $color1, $color2) {
-    background: -moz-linear-gradient($deg, $color1 0%, $color2 100%); /* ff3.6+ */
-    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, $color1), color-stop(100%, $color2)); /* safari4+,chrome */
-    background: -webkit-linear-gradient($deg, $color1 0%, $color2 100%); /* safari5.1+,chrome10+ */
-    background: -o-linear-gradient($deg, $color1 0%, $color2 100%); /* opera 11.10+ */
-    background: -ms-linear-gradient($deg, $color1 0%, $color2 100%); /* ie10+ */
-    background: linear-gradient($deg, $color1 0%, $color2 100%); /* w3c */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$color1}', endColorstr='#{$color2}',GradientType=1 ); /* ie6-9 */
-}
-
 @mixin transition($transition...) {
     -moz-transition:    $transition;
     -o-transition:      $transition;
@@ -57,69 +47,7 @@
     transition:         $transition;
 }
 
-@mixin icon-override($icon) {
-    background-image: none !important;
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-indent: 0px !important;
-    text-align: center;
-
-    &:before {
-        content: $icon;
-    }
-}
-
-@mixin border-shadow() {
-    -webkit-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
-}
-
-@mixin overlay-shadow {
-    box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0 1px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-@mixin no-shadow() {
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-}
-
-@mixin shadow($value) {
-    box-shadow: $value;
-    -webkit-box-shadow: $value;
-    -moz-box-shadow: $value;
-}
-
-@mixin border-box() {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-@mixin box-sizing($box-model) {
-    -webkit-box-sizing: $box-model;
-    -moz-box-sizing: $box-model;
-    box-sizing: $box-model;
-}
-
-@mixin list-item-hover {
-    background-color: darken($primaryColor, 15%);
-    color: $primaryTextColor;
-}
-
-@mixin highlight {
-    background-color: $primaryColor;
-    color: $primaryTextColor;
-}
-
-@mixin rotate($deg) {
+@mixin rotate($deg) {    
     -webkit-transform: rotate($deg);
     -moz-transform: rotate($deg);
     -o-transform: rotate($deg);
@@ -127,7 +55,7 @@
     transform: rotate($deg);
 }
 
-@mixin scale($deg) {
+@mixin scale($deg) {    
     -webkit-transform: scale($deg);
     -moz-transform: scale($deg);
     -o-transform: scale($deg);
@@ -141,29 +69,71 @@
   filter: alpha(opacity=$opacity-ie);
 }
 
+@mixin no-shadow() {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+@mixin list-item-hover {
+    background-color: $listItemHoverBgColor;
+    color: $listItemHoverTextColor;
+}
+
+@mixin list-item-highlight {
+    background-color: $primaryColor;
+    color: #ffffff;
+}
+
 @mixin menu-item-hover {
     background-color: $primaryColor;
-    color: $primaryTextColor;
+    color: #ffffff;
 }
 
-@mixin focused-input() {
-    border-color: $primaryColor;
-    @include shadow(0 0 7px 0 $primaryColor);
+@mixin background-gradient-top2bottom($start-colour, $end-colour) {
+    background-color: $start-colour;
+    background-image: -webkit-gradient(linear, left top, left bottom, from($start-colour), to($end-colour));
+    background-image: -webkit-linear-gradient(top, $start-colour, $end-colour);
+    background-image:    -moz-linear-gradient(top, $start-colour, $end-colour);
+    background-image:     -ms-linear-gradient(top, $start-colour, $end-colour);
+    background-image:      -o-linear-gradient(top, $start-colour, $end-colour);
+    background-image:         linear-gradient(top, $start-colour, $end-colour);
+    filter:            progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$start-colour}', endColorstr='#{$end-colour}');
 }
 
-@mixin animation-duration($val) {
-    -webkit-animation-duration: $val;
-    -moz-animation-duration: $val;
-    animation-duration: $val;
+@mixin border-shadow() {
+    -webkit-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
 }
 
-@mixin clearfix() {
-    &:before,
-    &:after {
-        content: "";
-        display: table;
-    }
-    &:after {
-        clear: both;
-    }
+@mixin overlay-shadow {
+    -webkit-box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.15);
+}
+
+@mixin placeholder {
+    &::-webkit-input-placeholder {@content}
+    &:-moz-placeholder           {@content}
+    &::-moz-placeholder          {@content}
+    &:-ms-input-placeholder      {@content}  
+}
+
+@mixin translateX($val) {
+    -webkit-transform: translateX($val);
+    -moz-transform: translateX($val);
+    -o-transform: translateX($val);
+    -ms-transform: translateX($val);
+    transform: translateX($val);
+}
+
+@mixin translateXForIE($val1, $val2) {
+    -ms-transform: translateX($val1) translateX($val2);
+}
+
+@mixin box-sizing($box-model) {
+    -webkit-box-sizing: $box-model;
+    -moz-box-sizing: $box-model;
+    box-sizing: $box-model;
 }
