@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import com.cmrise.jpa.dao.mrqs.MrqsPreguntasFtaDao;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless
@@ -47,6 +48,7 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 		mrqsPreguntasFtaDto.setRespuestaCorrecta(pMrqsPreguntasFtaDto.getRespuestaCorrecta());
 		mrqsPreguntasFtaDto.setTextoPregunta(pMrqsPreguntasFtaDto.getTextoPregunta());
 		mrqsPreguntasFtaDto.setValorPuntuacion(pMrqsPreguntasFtaDto.getValorPuntuacion());
+		mrqsPreguntasFtaDto.setTextoSugerencias(pMrqsPreguntasFtaDto.getTextoSugerencias());
 	}
 
 	@Override
@@ -72,6 +74,33 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 	public MrqsPreguntasFtaDto findDtoByNumeroFta(long pNumeroFta) {
 		MrqsPreguntasFtaDto mrqsPreguntasFtaDto = em.find(MrqsPreguntasFtaDto.class, pNumeroFta); 
 		return mrqsPreguntasFtaDto;
+	}
+
+	@Override
+	public long copyPaste(long pNumero,MrqsPreguntasHdrDto pMrqsPreguntasHdrDto) {
+		MrqsPreguntasFtaDto copy = em.find(MrqsPreguntasFtaDto.class, pNumero);
+		Query q = em.createNativeQuery("SELECT NEXT VALUE FOR dbo.MRQS_PREGUNTAS_FTA_S");
+		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
+		MrqsPreguntasFtaDto mrqsPreguntasFtaDto = new MrqsPreguntasFtaDto();
+		mrqsPreguntasFtaDto.setNumero(lNumeroS.longValue());
+		java.util.Date sysdate = new java.util.Date();
+		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
+		mrqsPreguntasFtaDto.setCreadoPor((long)-1);
+		mrqsPreguntasFtaDto.setActualizadoPor((long)-1);
+		mrqsPreguntasFtaDto.setFechaCreacion(sqlsysdate);
+		mrqsPreguntasFtaDto.setFechaActualizacion(sqlsysdate);
+		
+		mrqsPreguntasFtaDto.setMrqsPreguntasHdr2(pMrqsPreguntasHdrDto);
+		mrqsPreguntasFtaDto.setTitulo(copy.getTitulo());
+		mrqsPreguntasFtaDto.setTextoPregunta(copy.getTextoPregunta());
+		mrqsPreguntasFtaDto.setTextoSugerencias(copy.getTextoSugerencias());
+		mrqsPreguntasFtaDto.setMetodoPuntuacion(copy.getMetodoPuntuacion());
+		mrqsPreguntasFtaDto.setValorPuntuacion(copy.getValorPuntuacion());
+		mrqsPreguntasFtaDto.setRespuestaCorrecta(copy.getRespuestaCorrecta());
+		mrqsPreguntasFtaDto.setFechaEfectivaDesde(copy.getFechaEfectivaDesde());
+		mrqsPreguntasFtaDto.setFechaEfectivaHasta(copy.getFechaEfectivaHasta());
+		em.persist(mrqsPreguntasFtaDto);
+		return lNumeroS.longValue();
 	}
 
 }

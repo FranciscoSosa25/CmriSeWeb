@@ -5,6 +5,7 @@ import javax.inject.Inject;
 
 import com.cmrise.jpa.dao.mrqs.MrqsPreguntasFtaDao;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 
 @Stateless 
 public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
@@ -35,6 +36,11 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
 	@Override
 	public MrqsPreguntasFtaDto findDtoByNumeroFta(long pNumeroFta) {
 		return mrqsPreguntasFtaDao.findDtoByNumeroFta(pNumeroFta);
+	}
+
+	@Override
+	public long copyPaste(long pNumero, MrqsPreguntasHdrDto pMrqsPreguntasHdrDto) {
+		return mrqsPreguntasFtaDao.copyPaste(pNumero, pMrqsPreguntasHdrDto);
 	}
 
 }

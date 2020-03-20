@@ -35,17 +35,12 @@ function handleDuplicateRequest(xhr, status, args){
 </ui:define>
 
 
-<ui:define name="nuevo">
- <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva MRQ" icon="pi pi-plus" action="Preguntas-CreateNewMrqs"/>
-</ui:define>
                 
 <ui:define name="content">
-<p:breadCrumb>
-    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="MRQs" url="#" />
-</p:breadCrumb>
-<h1>Gestionar Nuevas MRQs</h1>
 <h:form id="ReadOnlyForm">
+<h1>Gestionar Nuevas MRQs</h1>
+<p:growl id="growl"  />
+<p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva MRQ" icon="pi pi-plus" action="Preguntas-CreateNewMrqs"/>
  <p:dataTable var="preguntasHdrV1"  value="#{manageMrqsForm.listMrqsPreguntasHdrV1}"  paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">MRQs</f:facet>
     <p:column headerText="Título">
@@ -71,7 +66,7 @@ function handleDuplicateRequest(xhr, status, args){
  </p:dataTable>
  </h:form>
  
-  <h:form id="DuplicateForm">
+ <h:form id="DuplicateForm">
   <p:dialog id="duplicateMrqDialogId" widgetVar="duplicateMrqDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Duplicar Registro">
    <h2>¿Seguro que quieres duplicar esta pregunta?</h2>
     <div class="ui-g" >
@@ -85,6 +80,7 @@ function handleDuplicateRequest(xhr, status, args){
   </p:dialog>
 </h:form>
  
+   
  <h:form id="DeleteForm">
   <p:dialog id="deleteRolDialogId" widgetVar="deleteRolDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Registro">
    <h2>¿Esta seguro de que desea borrar este registro?</h2>
@@ -102,5 +98,6 @@ function handleDuplicateRequest(xhr, status, args){
   </p:dialog>
 </h:form>
 
+ 
 </ui:define>
 </ui:composition>                

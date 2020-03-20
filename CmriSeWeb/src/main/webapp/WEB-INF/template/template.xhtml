@@ -3,26 +3,29 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:pa="http://primefaces.org/apollo"
-       >
-   <h:head>
-      <title>CMRI SE Web</title>
-      <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
-      <meta name="viewport" content="width=device-width, initial-scale=1"/>
-      <h:outputScript name="primefaces/locale.js" library="js" />
-      <h:outputScript name="js/nanoscroller.js" library="poseidon-layout" />
-      <h:outputScript name="js/layout.js" library="poseidon-layout" />
-      <h:outputScript name="js/swipe.js" library="poseidon-layout" />
-      <script type="text/javascript">
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <meta name="theme-color" content="#{guestPreferences.themeColors[guestPreferences.theme]}" />
+        </f:facet>
+        <title><ui:insert name="title">CMRI</ui:insert></title>
+        <h:outputScript name="js/nanoscroller.js" library="poseidon-layout" />
+        <h:outputScript name="js/layout.js" library="poseidon-layout" />
+        <h:outputScript name="js/swipe.js" library="poseidon-layout" />
+        <script type="text/javascript">
           function argsValidationFailed(){
         	  $(".ui-message-error").delay(1800).fadeOut(500);
               $(".ui-messages-error").delay(1800).fadeOut(500);
               $(".ui-messages-info").delay(1800).fadeOut(500);
               $(".ui-messages-warn").delay(1800).fadeOut(500);
           }
-      </script>
-      <ui:insert name="xxhrwjs"/>
+        </script>
+        <ui:insert name="xxhrwjs"/>
       <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
        <style>
 		  .pcleft /*panelColumnLeft*/ {
@@ -45,90 +48,44 @@
 		 	 font-weight: 700;
 		    }
 		  </style>
-      <ui:insert name="xxhrwcss"/>
-   </h:head>
-   <h:body>
-   
-  <div class="layout-wrapper layout-overlay">
-   <h:form id="templateForm">
-   <p:toolbar>
-    <f:facet name="left">
-       <p:commandButton id="dynaButton" value="Menu" type="button" icon="fa fa-align-left" onclick="PF('leftSideVar').show()"/>
-       <ui:insert name="buscar" />
-       <ui:insert name="nuevo" />
-       <ui:insert name="guardar" />
-       <ui:insert name="actualizar" />
-    </f:facet>
-  </p:toolbar>
-   <p:sidebar widgetVar="leftSideVar" baseZIndex="10000">
-      <h1>Menu</h1> 
-         <p:link value="Pagina Principal" outcome="PaginaPrincipal"/>
-        <p:panelMenu>
-          <p:submenu label="Administracion">
-            <p:menuitem value="Consulta Tablas Utilitarias" outcome="Admin-TablasUtilitariasvalores" icon="fa fa-group"/>
-            <p:menuitem value="Usuarios" outcome="Admin-Usuarios" icon="fa fa-user-plus" rendered="false"/>
-            <p:menuitem value="Administración Roles" outcome="Admon-Roles" icon="fa fa-group"/>
-            <p:menuitem value="Administración Usuarios" outcome="Admon-Usuarios" icon="fa fa-user-plus"/>
-            <p:menuitem value="Administración Usuarios Roles" outcome="Admon-Usuarios-Roles" icon="fa fa-user-secret"/>
-            <p:menuitem value="Asignacion de Roles" outcome="Admin-RolesUsuarios" icon="fa fa-user-secret" rendered="false"/>
-          </p:submenu>
-          <p:submenu label="Preguntas">
-            <p:menuitem value="MRQs" outcome="Preguntas-ManageNewMrqs"/>
-            <p:submenu label="Aciones">
-              <p:submenu label="Create MRQs">
-                  <p:menuitem value="Create MRQs Generics" outcome="Preguntas-CreateNewMrqs"/>
-              </p:submenu>
-              <p:submenu label="Update MRQs">
-                <p:menuitem value="Update MRQs Generics" outcome="Preguntas-UpdateNewMrqs"/>
-                <p:menuitem value="Update MRQs Free Text Answer" outcome="Preguntas-UpdateFreeTextAnswer-NewMrqs"/>
-                <p:menuitem value="Update MRQs Multiple Choice Answer" outcome="Preguntas-UpdateMultipleChoiceAnswer-NewMrqs"/>
-                <p:menuitem value="Update MRQs Annotatded Image Answer" outcome="Preguntas-UpdateAnnotatedImageAnswer-NewMrqs"/>
-                <p:menuitem value="Update MRQs Indicate Image Answer" outcome="Preguntas-UpdateIndicateImageAnswer-NewMrqs"/>
-              </p:submenu>
-            </p:submenu>
-            <p:submenu label="Casos Principales">
-              <p:menuitem value="Gestionar Casos Principales" outcome="Preguntas-Manage-CoreCases"/>
-              <p:menuitem value="Crear Caso Principal" outcome="Preguntas-Create-CoreCase"/>
-              <p:menuitem value="Actualizar Pregunta de Opción Multiple" outcome="Actualizar-Pregunta-OpcionMultiple-CoreCase"/>
-            </p:submenu>
-             <p:submenu label="Fast Path">
-                <p:menuitem value="Actualizar Caso Principal" action="#{menuForm.fpActualizarCasoPrincipal()}"/>
-                <p:menuitem value="Crear Pregunta Caso Principal" action="#{menuForm.fpCrearPreguntaCasoPrincipal()}"/>
-                <p:menuitem value="Actualizar Pregunta Caso Principal" action="#{menuForm.fpActualizarPreguntaFtaCoreCase()}"/>
-              </p:submenu>
-          </p:submenu>
-          <p:submenu label="Pruebas/Exámenes">
-            <p:menuitem value="Gestionar Exámenes Centrales" outcome="Exams-CoreCases-Manage"/>
-            <p:menuitem value="Crear Prueba/Examen" outcome="Exams-CoreCases-Create" />
-            <p:menuitem value="Agregar Candidato" outcome="Exams-CoreCases-Create-Candidate" rendered="false"/>
-            <p:submenu label="Fast Path">
-             <p:menuitem value="Actualizar Prueba/Examen" action="#{menuForm.fpActualizarPruebaExamen()}"/>
-             <p:menuitem value="Agregar Grupo Casos Principales"  action="#{menuForm.fpActualizarPruebaExamenAgregarCasosPrincipales()}" />
-             <p:menuitem value="Actualizar Grupo Casos Principales"  action="#{menuForm.fpActualizarPruebaExamenActualizarCasosPrincipales()}" />
-             <p:menuitem value="Gestionar Candidatos" action="#{menuForm.fpExamsCoreCasesManageCandidates()}"/>
-            </p:submenu>  
-          </p:submenu>
-          <p:submenu label="Archivos DICOM">
-           <p:menuitem value="Leer archivo DICOM" outcome="Dicom-Leer-Archivo"/>
-          </p:submenu>
-          <p:submenu label="Candidatos">
-            <p:menuitem value="Gestionar Examenes" action="#{menuForm.fpCandidatesManageExams()}"/>
-            <p:submenu label="Fast Path">
-             <p:menuitem value="Examen" action="#{menuForm.fpCandidatesExamen()}"/>
-            </p:submenu>
-          </p:submenu>
-        </p:panelMenu>
-      </p:sidebar>
-  </h:form>
-                
-     <div class="layout-content-container">
-      <ui:insert name="content"/>
-     </div>
-    </div>
-   </h:body>
-   <ui:insert name="xxhrwjsEnd"/>
-   <h:outputStylesheet name="css/animate.css" library="poseidon-layout" />
-   <h:outputStylesheet name="css/nanoscroller.css" library="poseidon-layout" />
-   <h:outputStylesheet name="css/layout-turquoise.css" library="poseidon-layout" />
+        <ui:insert name="xxhrwcss"/>
+        <ui:insert name="head"/>
+    </h:head>
+
+    <h:body styleClass="main-body">
         
+        <div class="layout-wrapper #{guestPreferences.menuLayout} #{guestPreferences.orientationRTL ? 'layout-rtl' : null}">
+              <ui:include src="./topbar.xhtml" /> 
+              <ui:include src="./menu.xhtml" /> 
+            
+            <div class="layout-main">
+                <div class="route-bar">
+                    <i class="fa fa-home"></i> <span>/ </span>
+                    <ui:insert name="viewname" />
+                    
+                    <ui:include src="./right-sidebar.xhtml" />
+                </div>
+                <div class="layout-main-content">
+                     <ui:insert name="content"/> 
+                </div>
+                
+                <ui:include src="./footer.xhtml" />
+            </div>
+        </div>
+        
+        <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
+           <f:facet name="start">
+               <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
+           </f:facet>
+
+           <f:facet name="complete">
+               <h:outputText value="" />
+           </f:facet>
+       </p:ajaxStatus>
+        
+        <h:outputStylesheet name="css/nanoscroller.css" library="poseidon-layout" />
+        <h:outputStylesheet name="css/animate.css" library="poseidon-layout" />
+        <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="poseidon-layout" />
+    </h:body>
+
 </html>

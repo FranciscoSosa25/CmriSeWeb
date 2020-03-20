@@ -27,12 +27,9 @@
    <PROCESS-ITEM-OUTPUT ID="PaginaPrincipal::#cmrise#principal.xhtml"
     NAME="output5" PATH="/cmrise/principal.xhtml"
     TARGET="rules:#cmrise#principal.xhtml" TITLE="PaginaPrincipal" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
-    ID="Preguntas-Manage-CoreCases::#cmrise#preguntas#corecases#ManageCoreCases.xhtml"
-    NAME="output6"
-    PATH="/cmrise/preguntas/corecases/ManageCoreCases.xhtml"
-    TARGET="rules:#cmrise#preguntas#corecases#ManageCoreCases.xhtml"
-    TITLE="Preguntas-Manage-CoreCases" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="#dashboard::#cmrise#principal.xhtml"
+    NAME="output6" PATH="/cmrise/principal.xhtml"
+    TARGET="rules:#cmrise#principal.xhtml" TITLE="/dashboard" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="Preguntas-Create-CoreCase::#cmrise#preguntas#corecases#CreateCoreCase.xhtml"
     NAME="output7"
@@ -85,17 +82,17 @@
     TARGET="rules:#cmrise#preguntas#mrqs#UpdateFreeTextAnswer.xhtml"
     TITLE="Preguntas-UpdateFreeTextAnswer-NewMrqs" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
-    ID="Preguntas-UpdateAnnotatedImageAnswer-NewMrqs::#cmrise#preguntas#mrqs#UpdateAnnotatedImageAnswer.xhtml"
+    ID="Preguntas-UpdateMultipleChoiceAnswer-NewMrqs::#cmrise#preguntas#mrqs#UpdateMultipleChoiceAnswer.xhtml"
     NAME="output16"
+    PATH="/cmrise/preguntas/mrqs/UpdateMultipleChoiceAnswer.xhtml"
+    TARGET="rules:#cmrise#preguntas#mrqs#UpdateMultipleChoiceAnswer.xhtml"
+    TITLE="Preguntas-UpdateMultipleChoiceAnswer-NewMrqs" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="Preguntas-UpdateAnnotatedImageAnswer-NewMrqs::#cmrise#preguntas#mrqs#UpdateAnnotatedImageAnswer.xhtml"
+    NAME="output17"
     PATH="/cmrise/preguntas/mrqs/UpdateAnnotatedImageAnswer.xhtml"
     TARGET="rules:#cmrise#preguntas#mrqs#UpdateAnnotatedImageAnswer.xhtml"
     TITLE="Preguntas-UpdateAnnotatedImageAnswer-NewMrqs" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT
-    ID="Preguntas-UpdateIndicateImageAnswer-NewMrqs::#cmrise#preguntas#mrqs#UpdateIndicateImageAnswer.xhtml"
-    NAME="output17"
-    PATH="/cmrise/preguntas/mrqs/UpdateIndicateImageAnswer.xhtml"
-    TARGET="rules:#cmrise#preguntas#mrqs#UpdateIndicateImageAnswer.xhtml"
-    TITLE="Preguntas-UpdateIndicateImageAnswer-NewMrqs" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT
     ID="Dicom-Leer-Archivo::#cmrise#dicom#LeerArchivoDicom.xhtml"
     NAME="output18" PATH="/cmrise/dicom/LeerArchivoDicom.xhtml"

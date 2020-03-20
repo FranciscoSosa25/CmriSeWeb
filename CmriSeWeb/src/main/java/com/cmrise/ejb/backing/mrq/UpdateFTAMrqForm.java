@@ -1,6 +1,7 @@
 package com.cmrise.ejb.backing.mrq;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -29,7 +30,14 @@ public class UpdateFTAMrqForm {
 	private String respuestaCorrecta; 
 	private String textoPregunta; 
 	private String valorPuntuacion; 
-
+    private String textoSugerencias; 
+	
+    private boolean multipleChoice; 
+	private boolean limitedFreeTextAnswer;
+	private boolean indicateImage;
+	private boolean annotatedImage;
+    
+    
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal;
 	
@@ -77,6 +85,15 @@ public class UpdateFTAMrqForm {
 		   /** CONSULTA INFORMACION **/
 			MrqsPreguntasFtaDto mrqsPreguntasFtaDto = mrqsPreguntasFtaLocal.findDtoByNumeroFta(numeroFta);
 			this.setTituloPregunta(mrqsPreguntasFtaDto.getTitulo());
+			this.setTextoPregunta(mrqsPreguntasFtaDto.getTextoPregunta());
+			this.setTextoSugerencias(mrqsPreguntasFtaDto.getTextoSugerencias());
+			this.setRespuestaCorrecta(mrqsPreguntasFtaDto.getRespuestaCorrecta());
+		 }
+		 
+		 if(Utilitarios.RESP_TEXTO_LIBRE.equals(mrqsPreguntasHdrV1Dto.getTipoPregunta())) {
+			 this.setLimitedFreeTextAnswer(true);
+		 }else if(Utilitarios.OPCION_MULTIPLE.equals(mrqsPreguntasHdrV1Dto.getTipoPregunta())) {
+			 this.setMultipleChoice(true);
 		 }
 		 
 		 System.out.println("Sale UpdateFTAMrqForm refreshEntity()");
@@ -102,6 +119,7 @@ public class UpdateFTAMrqForm {
 			mrqsPreguntasFtaDto.setRespuestaCorrecta(this.respuestaCorrecta);
 			mrqsPreguntasFtaDto.setTextoPregunta(this.textoPregunta);
 			mrqsPreguntasFtaDto.setValorPuntuacion(this.valorPuntuacion);
+			mrqsPreguntasFtaDto.setTextoSugerencias(this.textoSugerencias);
 			mrqsPreguntasFtaLocal.insert(mrqsPreguntasFtaDto);
 		}else {
 		  /** ACTUALIZA **/
@@ -115,23 +133,22 @@ public class UpdateFTAMrqForm {
 			mrqsPreguntasFtaDto.setRespuestaCorrecta(this.respuestaCorrecta);
 			mrqsPreguntasFtaDto.setTextoPregunta(this.textoPregunta);
 			mrqsPreguntasFtaDto.setValorPuntuacion(this.valorPuntuacion);
+			mrqsPreguntasFtaDto.setTextoSugerencias(this.textoSugerencias);
 			mrqsPreguntasFtaLocal.update(numeroFta, mrqsPreguntasFtaDto);
 		}
-		/******************************************************************
-		MrqsPreguntasFtaDto mrqsPreguntasFtaDto = new MrqsPreguntasFtaDto();
-		MrqsPreguntasHdrDto mrqsPreguntasHdrDto = new MrqsPreguntasHdrDto();
-		mrqsPreguntasHdrDto.setNumero(this.numeroHdr);
-		mrqsPreguntasFtaDto.setMrqsPreguntasHdr2(mrqsPreguntasHdrDto);
-		mrqsPreguntasFtaDto.setTitulo(this.tituloPregunta);
-		mrqsPreguntasFtaDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
-		mrqsPreguntasFtaDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
-		System.out.println("this.metodoPuntuacion:"+this.metodoPuntuacion);
-		mrqsPreguntasFtaDto.setMetodoPuntuacion("WRONG_CORRECT");
-		mrqsPreguntasFtaDto.setRespuestaCorrecta(this.respuestaCorrecta);
-		mrqsPreguntasFtaDto.setTextoPregunta(this.textoPregunta);
-		mrqsPreguntasFtaDto.setValorPuntuacion(this.valorPuntuacion);
-		mrqsPreguntasFtaLocal.insert(mrqsPreguntasFtaDto);
-		******************************************************************/
+		
+		mrqsPreguntasHdrDto.setEstatus(this.getMrqsPreguntasHdrV1ForAction().getEstatus());
+		mrqsPreguntasHdrDto.setNombre(this.getMrqsPreguntasHdrV1ForAction().getNombre());
+		mrqsPreguntasHdrDto.setTitulo(this.getMrqsPreguntasHdrV1ForAction().getTitulo());
+		mrqsPreguntasHdrDto.setTipoPregunta(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta());
+		mrqsPreguntasHdrDto.setTemaPregunta(this.getMrqsPreguntasHdrV1ForAction().getTemaPregunta());
+		mrqsPreguntasHdrDto.setEtiquetas(this.getMrqsPreguntasHdrV1ForAction().getEtiquetas());
+		mrqsPreguntasHdrDto.setComentarios(this.getMrqsPreguntasHdrV1ForAction().getComentarios());
+		mrqsPreguntasHdrLocal.update(this.getNumeroHdr(), mrqsPreguntasHdrDto);
+	
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage("Los cambios se actualizaron:","Correctamente") );
+        
 		System.out.println("Entra UpdateFTAMrqForm Sale");
 		
 	}
@@ -196,6 +213,66 @@ public class UpdateFTAMrqForm {
 
 	public void setValorPuntuacion(String valorPuntuacion) {
 		this.valorPuntuacion = valorPuntuacion;
+	}
+
+	public String getTextoSugerencias() {
+		return textoSugerencias;
+	}
+
+	public void setTextoSugerencias(String textoSugerencias) {
+		this.textoSugerencias = textoSugerencias;
+	}
+
+	public boolean isMultipleChoice() {
+		return multipleChoice;
+	}
+
+	public void setMultipleChoice(boolean pMultipleChoice) {
+		if(pMultipleChoice) {
+		this.setAnnotatedImage(false);
+		this.setIndicateImage(false);
+		this.setLimitedFreeTextAnswer(false);
+		}
+		this.multipleChoice = pMultipleChoice;
+	}
+
+	public boolean isLimitedFreeTextAnswer() {
+		return limitedFreeTextAnswer;
+	}
+
+	public void setLimitedFreeTextAnswer(boolean pLimitedFreeTextAnswer) {
+		if(pLimitedFreeTextAnswer) {
+			this.setMultipleChoice(false);
+			this.setAnnotatedImage(false);
+			this.setIndicateImage(false);
+		}
+		this.limitedFreeTextAnswer = pLimitedFreeTextAnswer;
+	}
+
+	public boolean isIndicateImage() {
+		return indicateImage;
+	}
+
+	public void setIndicateImage(boolean pIndicateImage) {
+		if(pIndicateImage) {
+			this.setMultipleChoice(false);
+			this.setAnnotatedImage(false);
+			this.setLimitedFreeTextAnswer(false);
+		}
+		this.indicateImage = pIndicateImage;
+	}
+
+	public boolean isAnnotatedImage() {
+		return annotatedImage;
+	}
+
+	public void setAnnotatedImage(boolean pAnnotatedImage) {
+		if(pAnnotatedImage) {
+			this.setMultipleChoice(false);
+			this.setIndicateImage(false);
+			this.setLimitedFreeTextAnswer(false);
+		}
+		this.annotatedImage = pAnnotatedImage;
 	}
 
 }
