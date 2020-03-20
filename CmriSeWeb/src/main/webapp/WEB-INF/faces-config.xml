@@ -36,6 +36,11 @@
    <redirect/>
   </navigation-case>
   <navigation-case>
+   <from-outcome>/dashboard</from-outcome>
+   <to-view-id>/cmrise/principal.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
    <from-outcome>Preguntas-Manage-CoreCases</from-outcome>
    <to-view-id>/cmrise/preguntas/corecases/ManageCoreCases.xhtml</to-view-id>
    <redirect/>

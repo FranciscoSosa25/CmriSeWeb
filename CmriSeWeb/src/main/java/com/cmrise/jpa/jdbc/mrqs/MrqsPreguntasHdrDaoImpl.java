@@ -42,6 +42,14 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 	@Override
 	public void update(long pNumero, MrqsPreguntasHdrDto pMrqsPreguntasHdrDto) {
 		MrqsPreguntasHdrDto mrqsPreguntasHdrDto =em.find(MrqsPreguntasHdrDto.class, pNumero);
+		mrqsPreguntasHdrDto.setEstatus(pMrqsPreguntasHdrDto.getEstatus());
+		mrqsPreguntasHdrDto.setNombre(pMrqsPreguntasHdrDto.getNombre());
+		mrqsPreguntasHdrDto.setTitulo(pMrqsPreguntasHdrDto.getTitulo());
+		mrqsPreguntasHdrDto.setTipoPregunta(pMrqsPreguntasHdrDto.getTipoPregunta());
+		mrqsPreguntasHdrDto.setTemaPregunta(pMrqsPreguntasHdrDto.getTemaPregunta());
+		mrqsPreguntasHdrDto.setEtiquetas(pMrqsPreguntasHdrDto.getEtiquetas());
+		mrqsPreguntasHdrDto.setComentarios(pMrqsPreguntasHdrDto.getComentarios());
+		
 	}
 
 	@Override
@@ -60,6 +68,36 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 		System.out.println("pNumero:"+pNumero);
 		System.out.println(retval);
 		return retval;
+	}
+
+	@Override
+	public MrqsPreguntasHdrDto copyPaste(long pNumero) {
+		MrqsPreguntasHdrDto copy =em.find(MrqsPreguntasHdrDto.class, pNumero);
+		MrqsPreguntasHdrDto mrqsPreguntasHdrDto = new MrqsPreguntasHdrDto();
+		Query q = em.createNativeQuery("SELECT NEXT VALUE FOR dbo.MRQS_PREGUNTAS_HDR_S");
+		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
+		mrqsPreguntasHdrDto.setNumero(lNumeroS.longValue());
+		java.util.Date sysdate = new java.util.Date();
+		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
+		mrqsPreguntasHdrDto.setCreadoPor((long)-1);
+		mrqsPreguntasHdrDto.setActualizadoPor((long)-1);
+		mrqsPreguntasHdrDto.setFechaCreacion(sqlsysdate);
+		mrqsPreguntasHdrDto.setFechaActualizacion(sqlsysdate);		
+		
+		mrqsPreguntasHdrDto.setNombre(copy.getNombre());
+		mrqsPreguntasHdrDto.setTitulo(copy.getTitulo());
+		mrqsPreguntasHdrDto.setTipoPregunta(copy.getTipoPregunta());
+		mrqsPreguntasHdrDto.setTemaPregunta(copy.getTemaPregunta());
+		mrqsPreguntasHdrDto.setEtiquetas(copy.getEtiquetas());
+		mrqsPreguntasHdrDto.setComentarios(copy.getComentarios());
+		mrqsPreguntasHdrDto.setEstatus(copy.getEstatus());
+		mrqsPreguntasHdrDto.setSociedad(copy.getSociedad());
+		mrqsPreguntasHdrDto.setFechaEfectivaDesde(copy.getFechaEfectivaDesde());
+		mrqsPreguntasHdrDto.setFechaEfectivaHasta(copy.getFechaEfectivaHasta());
+		
+		em.persist(mrqsPreguntasHdrDto);
+		
+		return mrqsPreguntasHdrDto;
 	}
 
 }

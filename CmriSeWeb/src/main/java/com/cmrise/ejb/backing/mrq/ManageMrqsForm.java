@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.primefaces.PrimeFaces;
 
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
+import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
@@ -31,6 +32,9 @@ public class ManageMrqsForm {
 	
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal;
+	
+	@Inject
+	MrqsPreguntasFtaLocal mrqsPreguntasFtaLocal;
 	
 	 @PostConstruct
 	 public void init() {
@@ -67,10 +71,18 @@ public class ManageMrqsForm {
 	
     public void delete() {
 		boolean deleteIn = false; 
-		mrqsPreguntasHdrLocal.delete(mrqsPreguntasHdrV1ForAction.getNumero());
-		
-		 deleteIn = true;
-	     PrimeFaces.current().ajax().addCallbackParam("deleteIn", deleteIn);
+		long numeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsPreguntasHdrV1ForAction.getNumero());
+		if(0l!=numeroFta) { 
+			mrqsPreguntasFtaLocal.delete(numeroFta);
+			mrqsPreguntasHdrLocal.delete(mrqsPreguntasHdrV1ForAction.getNumero());
+			refreshEntity();
+			deleteIn = true;
+	    }else {
+	    	mrqsPreguntasHdrLocal.delete(mrqsPreguntasHdrV1ForAction.getNumero());
+			refreshEntity();
+			deleteIn = true;
+	    }
+		PrimeFaces.current().ajax().addCallbackParam("deleteIn", deleteIn);
 	}
    
   
@@ -104,6 +116,9 @@ public class ManageMrqsForm {
 	public void duplicate() {
 		System.out.println("Entra "+this.getClass()+" duplicate");
 		boolean duplicateIn = false;
+		long numeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsPreguntasHdrV1ForAction.getNumero());
+		MrqsPreguntasHdrDto mrqsPreguntasHdrDto = mrqsPreguntasHdrLocal.copyPaste(mrqsPreguntasHdrV1ForAction.getNumero());
+		mrqsPreguntasFtaLocal.copyPaste(numeroFta, mrqsPreguntasHdrDto);
 		refreshEntity();
 		duplicateIn = true;
 	    PrimeFaces.current().ajax().addCallbackParam("duplicateIn", duplicateIn);

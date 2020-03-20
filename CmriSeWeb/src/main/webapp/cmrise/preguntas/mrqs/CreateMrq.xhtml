@@ -75,7 +75,7 @@
          <div class="ui-g-12 ui-md-9">
            <div class="ui-inputgroup">
            <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span>
-           <p:inputText id="tag" maxlength="255" style="width:100%"/>
+           <p:inputText id="tag" value="#{createMrqForm.etiquetas}" maxlength="255" style="width:100%"/>
            </div>
          </div>
        </div>
@@ -85,7 +85,7 @@
          <p:outputLabel for="internalComments" value="Comentarios Internos" />
         </div>
          <div class="ui-g-12 ui-md-9">
-          <p:textEditor id="internalComments" widgetVar="internalCommentsWV"  height="100">
+          <p:textEditor id="internalComments" value="#{createMrqForm.comentarios}" widgetVar="internalCommentsWV"  height="100">
 		    <f:facet name="toolbar">
 		        <span class="ql-formats">
 		            <button class="ql-bold"></button>

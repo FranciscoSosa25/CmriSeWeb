@@ -39,4 +39,9 @@ public class MrqsPreguntasHdrLocalImpl implements MrqsPreguntasHdrLocal {
 		return mrqsPreguntasHdrDao.findByNumero(pNumero);
 	}
 
+	@Override
+	public MrqsPreguntasHdrDto copyPaste(long pNumero) {
+		return mrqsPreguntasHdrDao.copyPaste(pNumero);
+	}
+
 }
