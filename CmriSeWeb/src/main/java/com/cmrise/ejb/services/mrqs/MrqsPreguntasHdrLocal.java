@@ -8,6 +8,7 @@ import com.cmrise.jpa.dao.mrqs.MrqsPreguntasHdrDao;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesV1Dto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
 
 @Local
 public interface MrqsPreguntasHdrLocal {
@@ -18,4 +19,5 @@ public interface MrqsPreguntasHdrLocal {
 	public List<MrqsPreguntasHdrV1Dto> findAll();
 	public MrqsPreguntasHdrV1Dto findByNumero(long pNumero);
 	public MrqsPreguntasHdrDto copyPaste(long pNumero);
+	public MrqsPreguntasHdrV2Dto findV2ByNumeroHdr(long pNumeroHdr); 
 }

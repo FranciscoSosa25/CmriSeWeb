@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/templateCandidates.xhtml">
+<ui:define name="content">
+<h1>Previsualización MRQ</h1>
+<h:form id="previewForm">
+<div class="ui-g">
+ <div class="ui-g-12 ui-md-3">
+   <div class="ui-g-12 ui-md-12" style="background-color: #4a4058;color: #fff;">
+     <div class="ui-g-12" >
+     <h3>Pregunta</h3>
+     <h1>#{mrqPreviewForm.tituloPregunta}</h1>
+    </div>
+   </div>
+   <div class="ui-g-12 ui-md-12" style="background-color: rgba(0, 0, 0, 0.3);color: #fff;">
+   </div>  
+   <div class="ui-g-12 ui-md-12" style="background-color: rgba(0, 0, 0, 0.3);color: #fff;">
+    <h1>Tabla de Contenidos</h1>
+   </div>
+   <div class="ui-g-12 ui-md-12" style="background-color: #343633;color: #fff;">
+    <h3>Pregunta</h3>
+    <h3>#{mrqPreviewForm.tituloPregunta}</h3>
+   </div>
+ </div>
+  <div class="ui-g-12 ui-md-9 ui-g-nopad">
+     <div class="ui-g-12 ui-md-12">
+        <div class="ui-g-12 ui-md-12">
+           <div class="ui-g-12 ui-md-9">
+            <h3>Pregunta > #{mrqPreviewForm.textoPregunta}</h3>
+           </div>
+           <div class="ui-g-12 ui-md-3">
+             <p:commandButton value="Guardar y Procesar" action="#{mrqPreviewForm.saveProceed()}"/>
+             <p:commandButton value="Saltar" action="#{mrqPreviewForm.skip()}"/>
+           </div>
+           <div class="ui-g-12 ui-md-12">
+              <h3>#{mrqPreviewForm.textoSugerencias}</h3>
+           </div>
+           <div class="ui-g-12 ui-md-12">
+			   <p:outputLabel for="answer" value="Su Respuesta:" style="font-size: 24px;"/>
+			   <p:inputTextarea id="answer" rows="10" cols="50" style="width:98%;font-size: 24px;" value="#{mrqPreviewForm.respuestaPregunta}">
+			    </p:inputTextarea>
+			 </div>
+        </div>
+     </div>
+   </div>
+</div>
+</h:form>
+</ui:define>
+</ui:composition>

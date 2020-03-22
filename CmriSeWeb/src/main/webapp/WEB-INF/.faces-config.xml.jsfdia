@@ -248,10 +248,20 @@
     ID="Candidates-Exam::#candidates#exams#Exam.xhtml" NAME="output1"
     PATH="/candidates/exams/Exam.xhtml"
     TARGET="rules:#candidates#exams#Exam.xhtml" TITLE="Candidates-Exam" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="Mrq-Preview::#cmrise#preguntas#mrqs#preview#MrqPreview.xhtml"
+    NAME="output2"
+    PATH="/cmrise/preguntas/mrqs/preview/MrqPreview.xhtml"
+    TARGET="rules:#cmrise#preguntas#mrqs#preview#MrqPreview.xhtml"
+    TITLE="Mrq-Preview" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#candidates#exams#ManageExams.xhtml"
   PATH="/candidates/exams/ManageExams.xhtml" SHAPE="240,2097,0,0" model-entity="JSFProcessGroup"/>
  <PROCESS-ITEM NAME="rules:#candidates#exams#Exam.xhtml"
   PATH="/candidates/exams/Exam.xhtml" SHAPE="256,2129,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#cmrise#preguntas#mrqs#preview#MrqPreview.xhtml"
+  PATH="/cmrise/preguntas/mrqs/preview/MrqPreview.xhtml"
+  SHAPE="272,2161,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

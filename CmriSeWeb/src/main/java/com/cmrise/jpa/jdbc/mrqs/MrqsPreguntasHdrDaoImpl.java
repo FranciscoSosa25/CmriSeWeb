@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import com.cmrise.jpa.dao.mrqs.MrqsPreguntasHdrDao;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless
@@ -98,6 +99,12 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 		em.persist(mrqsPreguntasHdrDto);
 		
 		return mrqsPreguntasHdrDto;
+	}
+
+	@Override
+	public MrqsPreguntasHdrV2Dto findV2ByNumeroHdr(long pNumeroHdr) {
+		MrqsPreguntasHdrV2Dto mrqsPreguntasHdrV2Dto = em.find(MrqsPreguntasHdrV2Dto.class, pNumeroHdr); 
+		return mrqsPreguntasHdrV2Dto;
 	}
 
 }

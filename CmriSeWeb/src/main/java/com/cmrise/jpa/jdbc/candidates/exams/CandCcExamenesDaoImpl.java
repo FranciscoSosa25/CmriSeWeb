@@ -47,13 +47,20 @@ public class CandCcExamenesDaoImpl implements CandCcExamenesDao {
 							"      ,CCE.[ESTATUS]\r" + 
 							"      ,CCE.[FECHA_EFECTIVA_DESDE]\r" + 
 							"      ,CCE.[FECHA_EFECTIVA_HASTA]\r" + 
+							"      ,CPF.TITULO_PREGUNTA\r" + 
+							"      ,CE.NOMBRE NOMBRE_EXAMEN\r" + 
 							"  FROM [dbo].[CAND_CC_EXAMENES] CCE\r" + 
 							"      ,[dbo].[CAND_CC_PREGUNTAS_HDR] CCPH\r" + 
-							"	  ,[dbo].[CAND_CC_PREGUNTAS_FTA] CCPF\r" + 
+							"	   ,[dbo].[CAND_CC_PREGUNTAS_FTA] CCPF\r" + 
+							"	   ,[dbo].[CC_EXAMENES] CE \r" + 
+							"	   ,[dbo].[CC_PREGUNTAS_FTA] CPF\r" + 
 							"  WHERE 1=1\r" + 
 							"   AND CCE.NUMERO = CCPH.NUMERO_CAND_CC_EXAMEN\r" + 
 							"   AND CCPH.NUMERO = CCPF.NUMERO_CC_CAND_PREGUNTA_HDR\r" + 
+							"   AND CCE.NUMERO_CC_EXAMEN = CE.NUMERO\r" + 
+							"   AND CCPF.NUMERO_CC_PREGUNTA_FTA = CPF.NUMERO\r" + 
 							"   AND CCE.NUMERO = "+pNumeroCandCcExamen; 
+		System.out.println(strQuery);
 		Query query = em.createNativeQuery(strQuery); 
 		return query.getResultList(); 
 	}
@@ -76,6 +83,39 @@ public class CandCcExamenesDaoImpl implements CandCcExamenesDao {
 			}
 	      
 			return retval;
+	}
+
+	@Override
+	public Object findCandCcExamenPreguntaInfo(long pNumeroCandCcExamen
+			                                 , long pNumeroCandCcPreguntaHdr
+			                                 ) {
+		String strQuery = "SELECT CCE.[NUMERO]\r" + 
+			    "      ,CCE.[NUMERO_CC_EXAMEN]\r" + 
+				"	  ,CCPH.NUMERO                 NUMERO_CCPH\r" + 
+				"	  ,CCPH.NUMERO_CC_PREGUNTA_HDR NUMERO_CPH\r" + 
+				"	  ,CCPF.NUMERO                 NUMERO_CCPF\r" + 
+				"	  ,CCPF.NUMERO_CC_PREGUNTA_FTA NUMERO_CPF\r" + 
+				"      ,CCE.[NUMERO_USUARIO]        NUMERO_CANDIDATO\r" + 
+				"      ,CCE.[ESTATUS]\r" + 
+				"      ,CCE.[FECHA_EFECTIVA_DESDE]\r" + 
+				"      ,CCE.[FECHA_EFECTIVA_HASTA]\r" + 
+				"      ,CPF.TITULO_PREGUNTA\r" + 
+				"      ,CE.NOMBRE NOMBRE_EXAMEN\r" + 
+				"  FROM [dbo].[CAND_CC_EXAMENES] CCE\r" + 
+				"      ,[dbo].[CAND_CC_PREGUNTAS_HDR] CCPH\r" + 
+				"	   ,[dbo].[CAND_CC_PREGUNTAS_FTA] CCPF\r" + 
+				"	   ,[dbo].[CC_EXAMENES] CE \r" + 
+				"	   ,[dbo].[CC_PREGUNTAS_FTA] CPF\r" + 
+				"  WHERE 1=1\r" + 
+				"   AND CCE.NUMERO = CCPH.NUMERO_CAND_CC_EXAMEN\r" + 
+				"   AND CCPH.NUMERO = CCPF.NUMERO_CC_CAND_PREGUNTA_HDR\r" + 
+				"   AND CCE.NUMERO_CC_EXAMEN = CE.NUMERO\r" + 
+				"   AND CCPF.NUMERO_CC_PREGUNTA_FTA = CPF.NUMERO\r" + 
+				"   AND CCE.NUMERO = "+pNumeroCandCcExamen+"\r"+
+				"   AND CCPH.NUMERO = "+pNumeroCandCcPreguntaHdr; 
+		System.out.println(strQuery);
+		Query query = em.createNativeQuery(strQuery); 
+        return query.getSingleResult();
 	}
 
 }

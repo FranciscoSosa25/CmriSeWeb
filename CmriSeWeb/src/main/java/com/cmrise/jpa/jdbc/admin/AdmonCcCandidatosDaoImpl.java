@@ -69,6 +69,7 @@ public class AdmonCcCandidatosDaoImpl implements AdmonCcCandidatosDao {
 							"  FROM [dbo].[ADMON_CC_CANDIDATOS] ACC\r" + 
 							"      ,[dbo].[CC_EXAMENES] CE\r" + 
 							"  WHERE ACC.NUMERO_CC_EXAMEN = CE.NUMERO\r"+
+							"    AND GETDATE() BETWEEN CE.FECHA_EFECTIVA_DESDE AND CE.FECHA_EFECTIVA_HASTA \r"+
 						    "    AND ACC.[NUMERO_USUARIO] ="+pNumeroCandidato; 
 		Query query = em.createNativeQuery(strQuery); 
 		return query.getResultList();
