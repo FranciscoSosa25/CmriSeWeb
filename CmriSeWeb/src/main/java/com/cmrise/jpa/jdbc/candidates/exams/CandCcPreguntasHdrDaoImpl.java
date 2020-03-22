@@ -32,4 +32,28 @@ public class CandCcPreguntasHdrDaoImpl implements CandCcPreguntasHdrDao {
 		return lNumeroS.longValue(); 
 	}
 
+	@Override
+	public long findNextNumber(long pNumeroCandCcExamen
+			                 , long pNumeroCandCcPreguntaHdr) {
+		String strQuery =" SELECT ISNULL(MIN([NUMERO]),0) NEXT_NUMERO\r" + 
+						 "  FROM [dbo].[CAND_CC_PREGUNTAS_HDR]\r" + 
+						 " WHERE NUMERO_CAND_CC_EXAMEN = "+pNumeroCandCcExamen+" \r" + 
+						 "  AND NUMERO > "+pNumeroCandCcPreguntaHdr;
+		Query q = em.createNativeQuery(strQuery); 
+		BigInteger lNumero = (BigInteger)q.getSingleResult();
+		return lNumero.longValue();
+	}
+
+	@Override
+	public long findPreviousNumber(long pNumeroCandCcExamen
+			                     , long pNumeroCandCcPreguntaHdr) {
+		String strQuery =" SELECT ISNULL(MAX([NUMERO]),0) PREVIOUS_NUMERO\r" + 
+						"  FROM [dbo].[CAND_CC_PREGUNTAS_HDR]\r" + 
+						" WHERE NUMERO_CAND_CC_EXAMEN = "+pNumeroCandCcExamen+" \r" + 
+						"  AND NUMERO < "+pNumeroCandCcPreguntaHdr; 
+		Query q = em.createNativeQuery(strQuery); 
+		BigInteger lNumero = (BigInteger)q.getSingleResult();
+		return lNumero.longValue();
+	}
+
 }

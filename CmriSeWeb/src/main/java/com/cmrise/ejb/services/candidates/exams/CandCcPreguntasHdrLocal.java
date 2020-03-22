@@ -8,5 +8,11 @@ import com.cmrise.jpa.dto.candidates.exams.CandCcPreguntasHdrDto;
 public interface CandCcPreguntasHdrLocal {
 
 	public long insert(CandCcPreguntasHdrDto pCandCcPreguntasHdrDto); 
-	
+	public long findNextNumber(long pNumeroCandCcExamen
+                              ,long pNumeroCandCcPreguntaHdr
+                               ); 
+    public long findPreviousNumber(long pNumeroCandCcExamen
+		                          ,long pNumeroCandCcPreguntaHdr
+		                           ); 
+
 }

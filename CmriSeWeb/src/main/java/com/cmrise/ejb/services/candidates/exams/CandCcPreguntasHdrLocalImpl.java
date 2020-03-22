@@ -17,4 +17,18 @@ public class CandCcPreguntasHdrLocalImpl implements CandCcPreguntasHdrLocal {
 		return candCcPreguntasHdrDao.insert(pCandCcPreguntasHdrDto);
 	}
 
+	@Override
+	public long findNextNumber(long pNumeroCandCcExamen
+			                 , long pNumeroCandCcPreguntaHdr) {
+		return candCcPreguntasHdrDao.findNextNumber(pNumeroCandCcExamen
+				                                  , pNumeroCandCcPreguntaHdr);
+	}
+
+	@Override
+	public long findPreviousNumber(long pNumeroCandCcExamen
+			                     , long pNumeroCandCcPreguntaHdr) {
+		return candCcPreguntasHdrDao.findPreviousNumber(pNumeroCandCcExamen
+				                                      , pNumeroCandCcPreguntaHdr);
+	}
+
 }

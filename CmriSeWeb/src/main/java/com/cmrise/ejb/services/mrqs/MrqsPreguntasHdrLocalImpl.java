@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import com.cmrise.jpa.dao.mrqs.MrqsPreguntasHdrDao;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
 
 @Stateless 
 public class MrqsPreguntasHdrLocalImpl implements MrqsPreguntasHdrLocal {
@@ -42,6 +43,11 @@ public class MrqsPreguntasHdrLocalImpl implements MrqsPreguntasHdrLocal {
 	@Override
 	public MrqsPreguntasHdrDto copyPaste(long pNumero) {
 		return mrqsPreguntasHdrDao.copyPaste(pNumero);
+	}
+
+	@Override
+	public MrqsPreguntasHdrV2Dto findV2ByNumeroHdr(long pNumeroHdr) {
+		return mrqsPreguntasHdrDao.findV2ByNumeroHdr(pNumeroHdr);
 	}
 
 }

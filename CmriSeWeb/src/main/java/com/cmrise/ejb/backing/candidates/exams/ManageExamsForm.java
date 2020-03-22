@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -61,6 +62,19 @@ CandCcPreguntasFtaLocal candCcPreguntasFtaLocal;
 		 refreshEntity();
 		 System.out.println("Sale ManageExamsForm init()");
 	}
+	
+	public void buscarExamenes() {
+		 FacesContext context = FacesContext.getCurrentInstance(); 
+		 refreshEntity();
+		 System.out.println("listExaminations.size():"+listExaminations.size());
+		 if(0==listExaminations.size()) {
+			 context.addMessage(null, new FacesMessage("A continuacion","Se presentan algunas referencias") );
+			 context.addMessage(null, new FacesMessage("El candidato","No tiene examenes asociados") );
+			 context.addMessage(null, new FacesMessage("Los Examenes","No Estan Activos") );
+		 }else {
+			 context.addMessage(null, new FacesMessage("Se econtraron","Los siguientes examenes") );
+		 }
+	}
 
 	public String createCandCcExamen(Examinations pExaminations) {
 		System.out.println("Entra ManageExamsForm createCandCcExamen()");
@@ -73,6 +87,7 @@ CandCcPreguntasFtaLocal candCcPreguntasFtaLocal;
 		
 		if(0!=numeroCandCcExamenTmp) {
 			  session.setAttribute("numeroCandCcExamenSV", numeroCandCcExamenTmp);
+			  session.setAttribute("numeroCandCcPreguntaHdrSV", 0);
 			  return "Candidates-Exam";
 		}
 		
@@ -111,6 +126,7 @@ CandCcPreguntasFtaLocal candCcPreguntasFtaLocal;
 		}
 		
 		  session.setAttribute("numeroCandCcExamenSV", numeroCandCcExamen);
+		  session.setAttribute("numeroCandCcPreguntaHdrSV", 0);
 		
 		System.out.println("Sale ManageExamsForm createCandCcExamen()");
 		return "Candidates-Exam";

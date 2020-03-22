@@ -6,8 +6,13 @@
       xmlns:p="http://primefaces.org/ui">
    <h:head>
      <title>CMRI SE Web</title>
-     <meta http-equiv="Content-Type" content="text/html" charset="utf-8"/>
-     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+     <meta name="apple-mobile-web-app-capable" content="yes" />
+     <h:outputScript name="js/nanoscroller.js" library="poseidon-layout" />
+     <h:outputScript name="js/layout.js" library="poseidon-layout" />
+     <h:outputScript name="js/swipe.js" library="poseidon-layout" />
 <script type="text/javascript">
 $(document).ready(function() {
 	  var  lfusername = document.getElementById("mainForm:username"); 
@@ -35,49 +40,46 @@ $(document).ready(function() {
    </style>
  </h:head>
 
-<h:body>
+<h:body >
      <h:form id="mainForm"> 
        <div id="div1" class="ui-g">
         <div  class="ui-g-12">
         <h2 align="center"> CMRI Sistema de Evaluación <br></br>Iniciar Sesión</h2>
         </div>
        </div>
-       
-       <div class="ui-g">
-         <div class="ui-g-12 ui-md-4" >
-         </div>
-         <div class="ui-g-12 ui-md-4" style="height:500px;">
-           <p:separator style="height:100px;border:none;"/>
-           <table>
-            <tr>
-             <td>
-             <p:inputText id="username" name="username" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-		     <p:watermark for="@previous" value="Usuario"/>
-		     <p:message for="username"/>
-		     </td>
-            </tr>
-            <tr>
-             <td>
+         <p:separator style="height:150px;border:none;"/>
+         <div class="login-panel ui-fluid">
+          <div class="ui-g">
+          <div class="ui-g-4">
+          </div>
+          <div class="ui-g-4">
+            <p:inputText id="username" name="username" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+            <p:watermark for="@previous" value="Usuario"/>
+		    <p:message for="username"/>
+          </div>
+          <div class="ui-g-4">
+          </div>
+           <div class="ui-g-4">
+          </div>
+        <div class="ui-g-4">
              <p:inputText id="password" name="password" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
 		     <p:watermark for="@previous" value="Contraseña"/>
 		     <p:message for="password"/>
-		     </td>
-            </tr>
-            <tfoot>
-             <tr>
-              <th>
-               <p:commandButton update="mainForm" value="Iniciar Sesión" style="width:100%" oncomplete="handleLoginRequest(xhr, status, args)" action="cmrise/principal"/>
-             </th>
-             </tr>
-            </tfoot>
-           </table> 
-	     </div>
-         <div class="ui-g-12 ui-md-4">
         </div>
-       </div> 
-       
-        
-       
-     </h:form> 
+         <div class="ui-g-4">
+          </div>
+           <div class="ui-g-4">
+          </div>
+         <div class="ui-g-4 button-container">
+             <p:commandButton update="mainForm" value="Iniciar Sesión" style="width:100%" oncomplete="handleLoginRequest(xhr, status, args)" action="cmrise/principal"/>
+         </div>
+          <div class="ui-g-4">
+          </div>
+         </div>
+         </div>
+      </h:form>
+      <h:outputStylesheet name="css/nanoscroller.css" library="poseidon-layout" />
+      <h:outputStylesheet name="css/animate.css" library="poseidon-layout" />
+      <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="poseidon-layout" /> 
 </h:body>
 </html>

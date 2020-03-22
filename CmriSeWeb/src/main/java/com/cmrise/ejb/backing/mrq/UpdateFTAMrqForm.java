@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.cmrise.ejb.helpers.GuestPreferences;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
@@ -43,6 +44,9 @@ public class UpdateFTAMrqForm {
 	
 	@Inject
 	MrqsPreguntasFtaLocal mrqsPreguntasFtaLocal;
+	
+	@ManagedProperty(value="#{guestPreferences}")
+	GuestPreferences guestPreferences; 
 	
 	
 	 @PostConstruct
@@ -159,6 +163,15 @@ public class UpdateFTAMrqForm {
 		return "Preguntas-ManageNewMrqs"; 
 	}
 	
+	public String saveAndPreview() {
+		 update();
+		 getGuestPreferences().setTheme("deep-purple");
+		 FacesContext context = FacesContext.getCurrentInstance(); 
+	     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+	     session.setAttribute("mrqNumeroHdrSV", this.getNumeroHdr());
+		return "Mrq-Preview"; 
+	}
+	
 	public MrqsPreguntasHdrV1 getMrqsPreguntasHdrV1ForAction() {
 		return mrqsPreguntasHdrV1ForAction;
 	}
@@ -273,6 +286,14 @@ public class UpdateFTAMrqForm {
 			this.setLimitedFreeTextAnswer(false);
 		}
 		this.annotatedImage = pAnnotatedImage;
+	}
+
+	public GuestPreferences getGuestPreferences() {
+		return guestPreferences;
+	}
+
+	public void setGuestPreferences(GuestPreferences guestPreferences) {
+		this.guestPreferences = guestPreferences;
 	}
 
 }

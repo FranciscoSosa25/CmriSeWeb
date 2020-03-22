@@ -8,4 +8,7 @@ public interface CandCcExamenesDao {
   public long insert(CandCcExamenesDto pCandCcExamenesDto); 
   public List<Object> findCandCcExamInfoByNumero(long pNumeroCandCcExamen); 
   public long findNumeroCandCcExamen(long pNumeroCcExamen,long pNumeroCandidato); 
+  public Object findCandCcExamenPreguntaInfo(long pNumeroCandCcExamen
+		                                    ,long pNumeroCandCcPreguntaHdr
+		                                    );
 }

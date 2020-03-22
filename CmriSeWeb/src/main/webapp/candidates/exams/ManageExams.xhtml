@@ -11,6 +11,8 @@
 <ui:define name="content">
 <h1>Exámenes abiertos</h1>
 <h:form id="examinationsForm">
+<p:growl id="growl" showDetail="true" life="5000" />  
+<p:commandButton value="Buscar Exámenes" action="#{manageExamsForm.buscarExamenes()}" update="@form" />
 <div class="ui-g">
         <ui:repeat var="examination" value="#{manageExamsForm.listExaminations}">
 		    <div class="ui-g-6">

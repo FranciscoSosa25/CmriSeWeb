@@ -69,7 +69,7 @@ public class CcExamAsignacionesDaoImpl implements CcExamAsignacionesDao {
 				"    AND TUV3.TIPO_TABLA='TIPO_PREGUNTA'\r"+ 
 				"    AND TUV3.CODIGO_TABLA = CPH.TIPO_PREGUNTA"+
 			    "    AND CEA.[NUMERO_CC_EXAMEN] = "+pNumeroExamen; 
-		
+		System.out.println(strQuery);
 		Query query = em.createNativeQuery(strQuery); 
 		return query.getResultList();
 	}

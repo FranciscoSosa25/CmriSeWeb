@@ -205,7 +205,7 @@ function handleUpdateRequest(xhr, status, args){
      <p:commandButton id="GuardarBtn" value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="growl updateForm:questionInfoUpdatePanel updateForm:FreeTextAnswerQuestionUpdatePanel" oncomplete="handleUpdateRequest(xhr, status, args)"/>
    </div>
    <div class="ui-g-12 ui-md-2" style="text-align:center">
-    <p:commandButton value="Guardar y Previsualizar"/>
+    <p:commandButton value="Guardar y Previsualizar" action="#{updateFTAMrqForm.saveAndPreview()}"/>
    </div>
    <div class="ui-g-12 ui-md-2" style="text-align:center">
     <p:commandButton value="Cancelar" action="#{updateFTAMrqForm.cancel()}"/>

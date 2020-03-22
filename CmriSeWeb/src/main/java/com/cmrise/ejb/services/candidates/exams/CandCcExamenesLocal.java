@@ -12,5 +12,7 @@ public interface CandCcExamenesLocal {
 	public long insert(CandCcExamenesDto pCandCcExamenesDto); 	
 	public List<CandCcExamenesV1> findCandCcExamInfoByNumero(long pNumeroCandCcExamen); 
 	public long findNumeroCandCcExamen(long pNumeroCcExamen, long pNumeroCandidato);
-	 
+	public CandCcExamenesV1 findCandCcExamenPreguntaInfo(long pNumeroCandCcExamen
+											            ,long pNumeroCandCcPreguntaHdr
+											            ); 
 }

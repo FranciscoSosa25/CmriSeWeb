@@ -163,6 +163,11 @@
    <to-view-id>/candidates/exams/Exam.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
+  <navigation-case>
+   <from-outcome>Mrq-Preview</from-outcome>
+   <to-view-id>/cmrise/preguntas/mrqs/preview/MrqPreview.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
   </navigation-rule>
  
  <application>

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -15,6 +16,7 @@ import com.cmrise.ejb.model.candidates.exams.CandCcExamenesV1;
 import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
 import com.cmrise.ejb.services.candidates.exams.CandCcExamenesLocal;
 import com.cmrise.ejb.services.candidates.exams.CandCcPreguntasFtaLocal;
+import com.cmrise.ejb.services.candidates.exams.CandCcPreguntasHdrLocal;
 import com.cmrise.ejb.services.corecases.CcOpcionMultipleLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasFtaLocal;
 import com.cmrise.jpa.dto.candidates.exams.CandCcPreguntasFtaDto;
@@ -34,6 +36,9 @@ public class ExamForm {
 	private String respuestaPregunta; 
 	
 	private long numeroCandCcExamen; 
+	private long numeroCandCcPreguntaHdr; 
+	private String nombreCcExamen; 
+	private List<CandCcExamenesV1> listCandCcExamenesV1 = new ArrayList<CandCcExamenesV1>();
     private ListIterator<CandCcExamenesV1> listIterCandCcExamenesV1; 
 	
     private boolean multipleChoice; 
@@ -55,6 +60,9 @@ public class ExamForm {
 	CcPreguntasFtaLocal ccPreguntasFtaLocal; 
 	
 	@Inject 
+	CandCcPreguntasHdrLocal candCcPreguntasHdrLocal; 
+	
+	@Inject 
 	CandCcPreguntasFtaLocal candCcPreguntasFtaLocal; 
 	
 	@Inject 
@@ -68,36 +76,73 @@ public class ExamForm {
 		 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		 Object objNumeroCandidatoSV = session.getAttribute("NumeroCandidatoSV"); 	
 		 Object objNumeroCandCcExamenSV = session.getAttribute("numeroCandCcExamenSV"); 
+		 Object objnumeroCandCcPreguntaHdrSV = session.getAttribute("numeroCandCcPreguntaHdrSV"); 
 		 this.numeroCandidato = Utilitarios.objToLong(objNumeroCandidatoSV); 
 		 this.numeroCandCcExamen = Utilitarios.objToLong(objNumeroCandCcExamenSV); 
+		 this.numeroCandCcPreguntaHdr = Utilitarios.objToLong(objnumeroCandCcPreguntaHdrSV); 
 		 System.out.println("this.numeroCandCcExamen:"+this.numeroCandCcExamen);
-		 List<CandCcExamenesV1> listCandCcExamenesV1 = candCcExamenesLocal.findCandCcExamInfoByNumero(this.numeroCandCcExamen); 
+		 System.out.println("this.numeroCandCcPreguntaHdr:"+this.numeroCandCcPreguntaHdr);
+		 if(0==numeroCandCcPreguntaHdr) {
+		 listCandCcExamenesV1 = new ArrayList<CandCcExamenesV1>();
+		 listCandCcExamenesV1 = candCcExamenesLocal.findCandCcExamInfoByNumero(this.numeroCandCcExamen); 
 		 listIterCandCcExamenesV1 = listCandCcExamenesV1.listIterator();
 		 System.out.println(listIterCandCcExamenesV1);
 		 if(listIterCandCcExamenesV1.hasNext()) {
 		 System.out.println("*");
 		 CandCcExamenesV1 candCcExamenesV1 = listIterCandCcExamenesV1.next();
-		 CcPreguntasFtaV2Dto ccPreguntasFtaV2Dto = ccPreguntasFtaLocal.findV2DtoByNumeroFta(candCcExamenesV1.getNumeroCpf()); 
-		 CandCcPreguntasFtaDto candCcPreguntasFtaDto = candCcPreguntasFtaLocal.findByNumero(candCcExamenesV1.getNumeroCcpf());
-		 this.setTituloPregunta(ccPreguntasFtaV2Dto.getTituloPregunta());
-		 this.setTextoPregunta(ccPreguntasFtaV2Dto.getTextoPregunta());
-		 this.setTextoSugerencias(ccPreguntasFtaV2Dto.getTextoSugerencias());
-		 this.setNumeroCcpf(candCcExamenesV1.getNumeroCcpf());
-		 this.setRespuestaPregunta(candCcPreguntasFtaDto.getRespuesta());
-		 
-			 if(Utilitarios.OPCION_MULTIPLE.equals(ccPreguntasFtaV2Dto.getTipoPregunta())) {
-				 this.setMultipleChoice(true);
-				 initListCcOpcionMultiple(ccPreguntasFtaV2Dto.getNumero()); 
-			 }else if(Utilitarios.RESP_TEXTO_LIBRE.equals(ccPreguntasFtaV2Dto.getTipoPregunta())) {
-				 this.setLimitedFreeTextAnswer(true);
-			 }
-		 
+		 fillFieldsForm(candCcExamenesV1);
+		 }
+		 } /** if(0==numeroCandCcPreguntaHdr) **/
+		 else {
+			 listCandCcExamenesV1 = new ArrayList<CandCcExamenesV1>();
+			 listCandCcExamenesV1 = candCcExamenesLocal.findCandCcExamInfoByNumero(this.numeroCandCcExamen); 
+			 CandCcExamenesV1 candCcExamenesV1 =  candCcExamenesLocal.findCandCcExamenPreguntaInfo(this.getNumeroCandCcExamen()
+															                                       ,this.getNumeroCandCcPreguntaHdr() 
+															                                       ); 	
+			 fillFieldsForm(candCcExamenesV1); 
 		 }
 		 System.out.println("Entra ExamForm init()");
 	}
 	
+	private void fillFieldsForm(CandCcExamenesV1 pCandCcExamenesV1) {
+		
+		 this.nombreCcExamen = pCandCcExamenesV1.getNombreExamen();
+		 CcPreguntasFtaV2Dto ccPreguntasFtaV2Dto = ccPreguntasFtaLocal.findV2DtoByNumeroFta(pCandCcExamenesV1.getNumeroCpf()); 
+		 CandCcPreguntasFtaDto candCcPreguntasFtaDto = candCcPreguntasFtaLocal.findByNumero(pCandCcExamenesV1.getNumeroCcpf());
+		 this.setTituloPregunta(ccPreguntasFtaV2Dto.getTituloPregunta());
+		 this.setTextoPregunta(ccPreguntasFtaV2Dto.getTextoPregunta());
+		 this.setTextoSugerencias(ccPreguntasFtaV2Dto.getTextoSugerencias());
+		 this.setNumeroCcpf(pCandCcExamenesV1.getNumeroCcpf());
+		 this.setRespuestaPregunta(candCcPreguntasFtaDto.getRespuesta());
+		 
+		 if(Utilitarios.OPCION_MULTIPLE.equals(ccPreguntasFtaV2Dto.getTipoPregunta())) {
+			 this.setMultipleChoice(true);
+			 initListCcOpcionMultiple(ccPreguntasFtaV2Dto.getNumero()); 
+		 }else if(Utilitarios.RESP_TEXTO_LIBRE.equals(ccPreguntasFtaV2Dto.getTipoPregunta())) {
+			 this.setLimitedFreeTextAnswer(true);
+		 }
+		
+	}
+	
 	public void backAction() {
 		 System.out.println("Entra backAction");
+		 long previousNumero = candCcPreguntasHdrLocal.findPreviousNumber(this.getNumeroCandCcExamen()
+																          ,this.getNumeroCandCcPreguntaHdr()
+																          ); 
+
+		System.out.println("previousNumero:"+previousNumero);
+		if(0==previousNumero) {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		context.addMessage(null, new FacesMessage("Ya no se puede regresar a la","Otra pregunta") );
+		return; 
+		}
+		
+		this.setNumeroCandCcPreguntaHdr(previousNumero);
+   	    CandCcExamenesV1 candCcExamenesV1 =  candCcExamenesLocal.findCandCcExamenPreguntaInfo(this.getNumeroCandCcExamen()
+																			                  ,this.getNumeroCandCcPreguntaHdr() 
+																			                  ); 	
+        fillFieldsForm(candCcExamenesV1); 
+        /***************************************************************************************
 		 int previousIndex = getListIterCandCcExamenesV1().previousIndex();
     	 System.out.println("previousIndex:"+previousIndex);
     	 if(getListIterCandCcExamenesV1().hasPrevious()) {
@@ -116,17 +161,38 @@ public class ExamForm {
 			 this.setLimitedFreeTextAnswer(true);
 		 }
     	 }
+    	 **************************************************************************************/
     	 System.out.println("Sale backAction");
 	}
 	
     public void saveTrxAction() {
+    	    	
     	 System.out.println("Entra saveTrxAction");
+    	
     	 System.out.println("this.getRespuestaPregunta():"+this.getRespuestaPregunta());
     	 System.out.println("this.getTextoPregunta():"+this.getTextoPregunta());
     	 System.out.println("this.getTextoSugerencias():"+this.getTextoSugerencias());
     	 candCcPreguntasFtaLocal.update(this.getNumeroCcpf()
     			                      , this.getRespuestaPregunta()
     			                      );
+    	 
+    	    long nextNumero = candCcPreguntasHdrLocal.findNextNumber(this.getNumeroCandCcExamen()
+															        ,this.getNumeroCandCcPreguntaHdr()
+															         ); 
+
+			System.out.println("nextNumero:"+nextNumero);
+			if(0==nextNumero) {
+			FacesContext context = FacesContext.getCurrentInstance(); 
+			context.addMessage(null, new FacesMessage("Ya no se puede avanzar a la","Otra pregunta") );
+			return; 
+			}
+			
+			this.setNumeroCandCcPreguntaHdr(nextNumero);
+			CandCcExamenesV1 candCcExamenesV1 =  candCcExamenesLocal.findCandCcExamenPreguntaInfo(this.getNumeroCandCcExamen()
+	                  ,this.getNumeroCandCcPreguntaHdr() 
+	                  ); 	
+           fillFieldsForm(candCcExamenesV1); 
+         /*********************************************************************************************    	 
     	 int nextIndex = getListIterCandCcExamenesV1().nextIndex(); 
     	 System.out.println("nextIndex:"+nextIndex);
     	 if(getListIterCandCcExamenesV1().hasNext()) {
@@ -143,12 +209,30 @@ public class ExamForm {
     			 this.setLimitedFreeTextAnswer(true);
     		 }
         	 }
+         ********************************************************************************************/
     	 this.setRespuestaPregunta("");
     	 System.out.println("Sale saveTrxAction");
 	}
 
     public void skipAction() {
+    	 long nextNumero = candCcPreguntasHdrLocal.findNextNumber(this.getNumeroCandCcExamen()
+														          ,this.getNumeroCandCcPreguntaHdr()
+														          ); 
+    	 
+    	 System.out.println("nextNumero:"+nextNumero);
+    	 if(0==nextNumero) {
+    		 FacesContext context = FacesContext.getCurrentInstance(); 
+    		 context.addMessage(null, new FacesMessage("Ya no se puede avanzar a la","Otra pregunta") );
+    		 return; 
+    	 }
+    	 
     	 System.out.println("Entra skipAction");
+    	 this.setNumeroCandCcPreguntaHdr(nextNumero);
+    	 CandCcExamenesV1 candCcExamenesV1 =  candCcExamenesLocal.findCandCcExamenPreguntaInfo(this.getNumeroCandCcExamen()
+																			                  ,this.getNumeroCandCcPreguntaHdr() 
+																			                  ); 	
+         fillFieldsForm(candCcExamenesV1); 
+         /**************************************************************************************************    	 
     	 int nextIndex = getListIterCandCcExamenesV1().nextIndex(); 
     	 System.out.println("nextIndex:"+nextIndex);
     	 if(getListIterCandCcExamenesV1().hasNext()) {
@@ -171,6 +255,7 @@ public class ExamForm {
     	 }
     	 System.out.println("this.isLimitedFreeTextAnswer():"+this.isLimitedFreeTextAnswer());
     	 System.out.println("this.isMultipleChoice():"+this.isMultipleChoice());
+    	 ***********************************************************************************************************/
     	 System.out.println("Sale skipAction");
 	}
     
@@ -186,6 +271,15 @@ public class ExamForm {
 
     }
     
+    public String question(CandCcExamenesV1 pCandExamCoreCasePregunta) {
+    	System.out.println("Entra String question");
+    	FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("numeroCandCcPreguntaHdrSV", pCandExamCoreCasePregunta.getNumeroCcph());
+    	System.out.println("Sale String question");
+    	return "Candidates-Exam";
+    }
+     
 	public long getNumeroCandidato() {
 		return numeroCandidato;
 	}
@@ -292,6 +386,30 @@ public class ExamForm {
 
 	public void setListCcOpcionMultiple(List<CcOpcionMultiple> listCcOpcionMultiple) {
 		this.listCcOpcionMultiple = listCcOpcionMultiple;
+	}
+
+	public List<CandCcExamenesV1> getListCandCcExamenesV1() {
+		return listCandCcExamenesV1;
+	}
+
+	public void setListCandCcExamenesV1(List<CandCcExamenesV1> listCandCcExamenesV1) {
+		this.listCandCcExamenesV1 = listCandCcExamenesV1;
+	}
+
+	public String getNombreCcExamen() {
+		return nombreCcExamen;
+	}
+
+	public void setNombreCcExamen(String nombreCcExamen) {
+		this.nombreCcExamen = nombreCcExamen;
+	}
+
+	public long getNumeroCandCcPreguntaHdr() {
+		return numeroCandCcPreguntaHdr;
+	}
+
+	public void setNumeroCandCcPreguntaHdr(long numeroCandCcPreguntaHdr) {
+		this.numeroCandCcPreguntaHdr = numeroCandCcPreguntaHdr;
 	}
 	
 }

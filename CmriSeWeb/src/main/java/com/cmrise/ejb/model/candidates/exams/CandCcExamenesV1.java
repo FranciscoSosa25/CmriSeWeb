@@ -17,6 +17,8 @@ public class CandCcExamenesV1 implements Serializable{
 	private String estatus; 
 	private Date fechaEfectivaDesde; 
 	private Date fechaEfectivaHasta; 
+	private String tituloPregunta; 
+	private String nombreExamen; 
 	
 	public long getNumero() {
 		return numero;
@@ -77,6 +79,18 @@ public class CandCcExamenesV1 implements Serializable{
 	}
 	public void setFechaEfectivaHasta(Date fechaEfectivaHasta) {
 		this.fechaEfectivaHasta = fechaEfectivaHasta;
+	}
+	public String getTituloPregunta() {
+		return tituloPregunta;
+	}
+	public void setTituloPregunta(String tituloPregunta) {
+		this.tituloPregunta = tituloPregunta;
+	}
+	public String getNombreExamen() {
+		return nombreExamen;
+	}
+	public void setNombreExamen(String nombreExamen) {
+		this.nombreExamen = nombreExamen;
 	}
 	
 }
