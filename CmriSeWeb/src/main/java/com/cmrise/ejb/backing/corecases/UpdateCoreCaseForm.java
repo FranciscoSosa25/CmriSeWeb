@@ -6,12 +6,14 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.cmrise.ejb.helpers.GuestPreferences;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
 import com.cmrise.ejb.services.corecases.CcHdrLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasHdrLocal;
@@ -39,6 +41,9 @@ public class UpdateCoreCaseForm {
    
    @Inject 
    CcPreguntasHdrLocal ccPreguntasHdrLocal;
+   @ManagedProperty(value="#{guestPreferences}")
+	GuestPreferences guestPreferences; 
+	
    
    @PostConstruct
 	 public void init() {
@@ -109,8 +114,18 @@ public class UpdateCoreCaseForm {
       session.setAttribute("NumeroCcPreguntaHdrSV", lNumeroPreguntaHdr);
 	  return  "Actualizar-Pregunta-Fta-CoreCase";
   }
+//  
   
   
+	public String saveAndPreview() {	     
+		/**updatePregunta();**/ 
+		 getGuestPreferences().setTheme("deep-purple");
+	 FacesContext context = FacesContext.getCurrentInstance(); 
+	     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+	     session.setAttribute("NumeroCcHdrSV", this.getNumeroCcHdr());	     
+		return "coreCase-Preview"; 
+	}
+ 
   
 public long getNumeroCcHdr() {
 	return numeroCcHdr;
@@ -208,6 +223,13 @@ public List<CcPreguntasHdrV1> getListCcPreguntasHdrV1() {
 
 public void setListCcPreguntasHdrV1(List<CcPreguntasHdrV1> listCcPreguntasHdrV1) {
 	this.listCcPreguntasHdrV1 = listCcPreguntasHdrV1;
+}
+public GuestPreferences getGuestPreferences() {
+	return guestPreferences;
+}
+
+public void setGuestPreferences(GuestPreferences guestPreferences) {
+	this.guestPreferences = guestPreferences;
 }
 
 }
