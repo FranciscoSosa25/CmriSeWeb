@@ -145,6 +145,19 @@ public class UpdateTestExamForm {
 	}
 	
 
+	public String updatePregunta(CcExamAsignaciones pCcExamAsignaciones) {
+	  FacesContext context = FacesContext.getCurrentInstance(); 
+	  HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+	  System.out.println("pCcExamAsignaciones.getNumeroCoreCase():"+pCcExamAsignaciones.getNumeroCoreCase());
+	  System.out.println("pCcExamAsignaciones.getNumeroPreguntaHdr():"+pCcExamAsignaciones.getNumeroPreguntaHdr());
+	  long lNumeroCcHdr = pCcExamAsignaciones.getNumeroCoreCase();
+	  long lNumeroPreguntaHdr = pCcExamAsignaciones.getNumeroPreguntaHdr();
+	  session.setAttribute("NumeroCcHdrSV", lNumeroCcHdr);
+      session.setAttribute("NumeroCcPreguntaHdrSV", lNumeroPreguntaHdr);
+      return  "Actualizar-Pregunta-Fta-CoreCase";
+	}
+    
+	
 	public String addCoreCaseGroup() {
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);

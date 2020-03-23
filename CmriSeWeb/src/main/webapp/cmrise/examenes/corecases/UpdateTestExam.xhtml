@@ -31,7 +31,7 @@
        <p:dataList var="ccExamAsignacionDL"  value="#{updateTestExamForm.listCcExamAsignaciones}"  type="definition" responsive="true">
 	       <f:facet name="caption">Hola</f:facet>
 	       <p:column>
-	         <p:commandLink action="#{updateQuestionFtaCoreCaseForm.updatePregunta(ccPreguntasHdrV1)}">
+	         <p:commandLink action="#{updateTestExamForm.updatePregunta(ccExamAsignacionDL)}">
 	         <h:outputText value="#{ccExamAsignacionDL.tituloPregunta}" />
 	         </p:commandLink>
 	       </p:column>
@@ -146,7 +146,7 @@
   <p:commandButton value="Actualizar" update="tituloPanelId visibilityPanelId disponibilidadPanelId tiempoLimitePanelId" actionListener="#{updateTestExamForm.update()}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Cancelar" action="#{updateTestExamForm.cancel()}"/>
+  <p:commandButton value="Cancelar" action="#{updateTestExamForm.cancel()}" immediate="true"/>
  </div>
 </div>
    

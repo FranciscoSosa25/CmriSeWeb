@@ -12,10 +12,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.primefaces.PrimeFaces;
-
 import com.cmrise.ejb.helpers.GuestPreferences;
-import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
 import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
