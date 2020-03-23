@@ -36,7 +36,8 @@ public class SelectsHelper {
 	private List<SelectItem> selectTipoExamenItems; 
 	private List<SelectItem> selectTemaExamenItems; 
 	private List<SelectItem> selectVisibilidadItems; 
-	private List<SelectItem> selectEstatusExamenItems; 
+	private List<SelectItem> selectEstatusExamenItems;
+	private List<SelectItem> selectEstatusMrqsItems;
 	
 	@PostConstruct
     public void init() {
@@ -46,6 +47,7 @@ public class SelectsHelper {
        environmentTemaExamen();
        environmentVisibilidad();
        environmentEstatusExamen();
+       environmentEstatusMrqs();
        System.out.println("Sale SelectsHelper init()");
     }
 	
@@ -93,16 +95,19 @@ public class SelectsHelper {
 		return lselectTemaDePreguntaItems; 
 	}
 	
-	public List<SelectItem> getSelectEstatusMrqsItems(){
-		List<SelectItem> lselectEstatusMrqsItems = new ArrayList<SelectItem>();
+	private void environmentEstatusMrqs() {
+	 this.selectEstatusMrqsItems = new ArrayList<SelectItem>();
 		List<TablasUtilitariasValoresDto> listEstatusMrqsValores =  tablasUtilitariasValoresLocal.findByTipoTabla("ESTATUS_MRQ");  
 		Iterator<TablasUtilitariasValoresDto> iterEstatusMrqsValores = listEstatusMrqsValores.iterator(); 
 		while(iterEstatusMrqsValores.hasNext()) {
 			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterEstatusMrqsValores.next();
 			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
-			lselectEstatusMrqsItems.add(selectItem); 
+			this.selectEstatusMrqsItems.add(selectItem); 
 		}
-		return lselectEstatusMrqsItems; 
+	} 
+	
+	public List<SelectItem> getSelectEstatusMrqsItems(){
+		return this.selectEstatusMrqsItems; 
 	}
 	
 	public List<SelectItem> getSelectScoringValueItems(){

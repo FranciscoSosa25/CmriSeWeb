@@ -48,4 +48,35 @@ public class MrqsOpcionMultipleDaoImpl implements MrqsOpcionMultipleDao {
 		mrqsOpcionMultipleDto.setTextoRespuesta(pMrqsOpcionMultipleDto.getTextoRespuesta());
 	}
 
+	@Override
+	public void delete(long pNumero) {
+		MrqsOpcionMultipleDto mrqsOpcionMultipleDto = em.find(MrqsOpcionMultipleDto.class, pNumero);
+		em.remove(mrqsOpcionMultipleDto);
+	}
+
+	@Override
+	public void deleteByNumeroFta(long pNumeroFta) {
+		List<MrqsOpcionMultipleDto> listMrqsOpcionMultipleDto =  findByNumeroFta(pNumeroFta);
+		for(MrqsOpcionMultipleDto mrqsOpcionMultipleDto: listMrqsOpcionMultipleDto) {
+			em.remove(mrqsOpcionMultipleDto);
+		}
+		
+	}
+
+	@Override
+	public void copyPaste(long pNumeroFtaOld
+			            , long longpNumeroFtaCopy) {
+		List<MrqsOpcionMultipleDto> listMrqsOpcionMultipleDto =  findByNumeroFta(pNumeroFtaOld);
+		for(MrqsOpcionMultipleDto oldMrqsOpcionMultipleDto: listMrqsOpcionMultipleDto) {
+			MrqsOpcionMultipleDto copyMrqsOpcionMultipleDto = new MrqsOpcionMultipleDto(); 
+			copyMrqsOpcionMultipleDto.setNumeroFta(longpNumeroFtaCopy);
+			copyMrqsOpcionMultipleDto.setTextoExplicacion(oldMrqsOpcionMultipleDto.getTextoExplicacion());
+			copyMrqsOpcionMultipleDto.setTextoRespuesta(oldMrqsOpcionMultipleDto.getTextoRespuesta());
+			copyMrqsOpcionMultipleDto.setFechaEfectivaDesde(oldMrqsOpcionMultipleDto.getFechaEfectivaDesde());
+			copyMrqsOpcionMultipleDto.setFechaEfectivaHasta(oldMrqsOpcionMultipleDto.getFechaEfectivaHasta());
+			insert(copyMrqsOpcionMultipleDto); 
+		}
+		
+	}
+
 }

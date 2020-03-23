@@ -48,7 +48,6 @@ public class ExamForm {
 	/**********************************************************************
 	  Atributos Opcion Multiple
 	 **********************************************************************/
-	
 	private List<CcOpcionMultiple> listCcOpcionMultiple = new ArrayList<CcOpcionMultiple>(); 
 
 	

@@ -1,5 +1,8 @@
 package com.cmrise.ejb.backing.mrq.preview;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -9,7 +12,10 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import com.cmrise.ejb.helpers.GuestPreferences;
+import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
+import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
+import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
 import com.cmrise.utils.Utilitarios;
 
@@ -28,12 +34,20 @@ public class MrqPreviewForm {
 	private String textoSugerencias; 
 	private String respuestaPregunta; 
 	
+	/**********************************************************************
+	  Atributos Opcion Multiple
+	 **********************************************************************/
+	private List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
+	
 	
 	@ManagedProperty(value="#{guestPreferences}")
 	GuestPreferences guestPreferences; 
 	
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal; 
+	
+	@Inject 
+	MrqsOpcionMultipleLocal mrqsOpcionMultipleLocal; 
 	
 	@PostConstruct
 	public void init() {
@@ -46,9 +60,26 @@ public class MrqPreviewForm {
 	     this.setTituloPregunta(mrqsPreguntasHdrV2Dto.getTitulo());
 	     this.setTextoPregunta(mrqsPreguntasHdrV2Dto.getTextoPregunta());
 	     this.setTextoSugerencias(mrqsPreguntasHdrV2Dto.getTextoSugerencias());
+	     if(Utilitarios.RESP_TEXTO_LIBRE.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
+	    	 this.setLimitedFreeTextAnswer(true);
+	     }else if(Utilitarios.OPCION_MULTIPLE.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
+	    	 this.setMultipleChoice(true);
+	    	 initListMrqsOpcionMultiple(mrqsPreguntasHdrV2Dto.getNumeroMpf()); 
+	     }
 	     System.out.println("Sale MrqPreviewForm init()");
 	}		 
 	
+	private void initListMrqsOpcionMultiple(long numeroMpf) {
+		listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
+		List<MrqsOpcionMultipleDto> listMrqsOpcionMultipleDto = mrqsOpcionMultipleLocal.findByNumeroFta(numeroMpf);
+        for(MrqsOpcionMultipleDto mrqsOpcionMultipleDto:listMrqsOpcionMultipleDto) {
+        	MrqsOpcionMultiple mrqsOpcionMultiple = new MrqsOpcionMultiple(); 
+        	mrqsOpcionMultiple.setNumero(mrqsOpcionMultipleDto.getNumero());
+        	mrqsOpcionMultiple.setTextoRespuesta(mrqsOpcionMultipleDto.getTextoRespuesta());
+        	listMrqsOpcionMultiple.add(mrqsOpcionMultiple); 
+        }
+	}
+
 	public String saveProceed() {
 		guestPreferences.setTheme("turquoise");
 		FacesContext context = FacesContext.getCurrentInstance(); 
@@ -144,6 +175,14 @@ public class MrqPreviewForm {
 
 	public void setGuestPreferences(GuestPreferences guestPreferences) {
 		this.guestPreferences = guestPreferences;
+	}
+
+	public List<MrqsOpcionMultiple> getListMrqsOpcionMultiple() {
+		return listMrqsOpcionMultiple;
+	}
+
+	public void setListMrqsOpcionMultiple(List<MrqsOpcionMultiple> listMrqsOpcionMultiple) {
+		this.listMrqsOpcionMultiple = listMrqsOpcionMultiple;
 	}
 	
 	

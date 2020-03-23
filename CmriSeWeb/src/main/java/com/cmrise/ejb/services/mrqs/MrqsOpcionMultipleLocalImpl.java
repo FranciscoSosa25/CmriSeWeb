@@ -29,4 +29,19 @@ public class MrqsOpcionMultipleLocalImpl implements MrqsOpcionMultipleLocal {
 		mrqsOpcionMultipleDao.update(pNumero, pMrqsOpcionMultipleDto);
 	}
 
+	@Override
+	public void delete(long pNumero) {
+		mrqsOpcionMultipleDao.delete(pNumero);
+	}
+
+	@Override
+	public void deleteByNumeroFta(long pNumeroFta) {
+		mrqsOpcionMultipleDao.deleteByNumeroFta(pNumeroFta);
+	}
+
+	@Override
+	public void copyPaste(long pNumeroFtaOld, long longpNumeroFtaCopy) {
+		mrqsOpcionMultipleDao.copyPaste(pNumeroFtaOld, longpNumeroFtaCopy);
+	}
+
 }
