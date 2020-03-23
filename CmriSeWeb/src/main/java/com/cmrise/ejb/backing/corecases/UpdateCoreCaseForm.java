@@ -115,6 +115,8 @@ public class UpdateCoreCaseForm {
 	  return  "Actualizar-Pregunta-Fta-CoreCase";
   }
 //  
+  
+  
 	public String saveAndPreview() {	     
 		/**updatePregunta();**/ 
 		 getGuestPreferences().setTheme("deep-purple");
