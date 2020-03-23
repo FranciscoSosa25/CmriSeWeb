@@ -12,7 +12,7 @@
                 <div class="nano-content menu-scroll-content">
                     <pp:menu widgetVar="me">
                         <p:menuitem id="om_dashboard" value="Pagína Principal" icon="fa fa-fw fa-home" outcome="/dashboard"/>
-                        <p:submenu id="om_themes" label="Temas" icon="fa fa-fw fa-paint-brush">
+                        <p:submenu id="om_themes" label="Temas" icon="fa fa-fw fa-paint-brush" rendered="false">
                             <p:menuitem id="theme1" value="Tema Turquesa" icon="fa fa-fw fa-paint-brush" actionListener="#{guestPreferences.setTheme('turquoise')}" ajax="false" style="color:#00acac"/>
                             <p:menuitem id="theme2" value="Tema Azul" icon="fa fa-fw fa-paint-brush" actionListener="#{guestPreferences.setTheme('blue')}" ajax="false" style="color:#2f8ee5"/>
                             <p:menuitem id="theme3" value="Tema Purpura" icon="fa fa-fw fa-paint-brush" actionListener="#{guestPreferences.setTheme('purple')}" ajax="false" style="color:#6c76af"/>
@@ -32,8 +32,9 @@
 				            <p:menuitem value="Asignacion de Roles" outcome="Admin-RolesUsuarios" icon="fa fa-user-secret" rendered="false"/>
 				          </p:submenu>
 				          <p:submenu label="Preguntas" icon="fa fa-fw fa-align-right">
-				            <p:menuitem value="MRQs" outcome="Preguntas-ManageNewMrqs"/>
-				            <p:submenu label="Aciones" icon="fa fa-fw fa-align-right">
+				            <p:menuitem value="Gestionar MRQs" outcome="Preguntas-ManageNewMrqs"/>
+				            <p:menuitem value="Gestionar Casos Principales" outcome="Preguntas-Manage-CoreCases"/>
+				            <p:submenu label="Aciones" icon="fa fa-fw fa-align-right" rendered="false">
 				              <p:submenu label="Create MRQs">
 				                  <p:menuitem value="Create MRQs Generics" outcome="Preguntas-CreateNewMrqs"/>
 				              </p:submenu>
@@ -45,12 +46,12 @@
 				                <p:menuitem value="Update MRQs Indicate Image Answer" outcome="Preguntas-UpdateIndicateImageAnswer-NewMrqs"/>
 				              </p:submenu>
 				            </p:submenu>
-				            <p:submenu label="Casos Principales" icon="fa fa-fw fa-align-right">
+				            <p:submenu label="Casos Principales" icon="fa fa-fw fa-align-right" rendered="false">
 				              <p:menuitem value="Gestionar Casos Principales" outcome="Preguntas-Manage-CoreCases"/>
 				              <p:menuitem value="Crear Caso Principal" outcome="Preguntas-Create-CoreCase"/>
 				              <p:menuitem value="Actualizar Pregunta de Opción Multiple" outcome="Actualizar-Pregunta-OpcionMultiple-CoreCase"/>
 				            </p:submenu>
-				             <p:submenu label="Fast Path" icon="fa fa-fw fa-align-right">
+				             <p:submenu label="Fast Path" icon="fa fa-fw fa-align-right" rendered="false">
 				                <p:menuitem value="Actualizar Caso Principal" action="#{menuForm.fpActualizarCasoPrincipal()}"/>
 				                <p:menuitem value="Crear Pregunta Caso Principal" action="#{menuForm.fpCrearPreguntaCasoPrincipal()}"/>
 				                <p:menuitem value="Actualizar Pregunta Caso Principal" action="#{menuForm.fpActualizarPreguntaFtaCoreCase()}"/>
@@ -58,9 +59,9 @@
 				          </p:submenu>
 				          <p:submenu label="Pruebas/Exámenes" icon="fa fa-fw fa-sitemap">
 				            <p:menuitem value="Gestionar Exámenes Centrales" outcome="Exams-CoreCases-Manage"/>
-				            <p:menuitem value="Crear Prueba/Examen" outcome="Exams-CoreCases-Create" />
+				            <p:menuitem value="Crear Prueba/Examen" outcome="Exams-CoreCases-Create" rendered="false"/>
 				            <p:menuitem value="Agregar Candidato" outcome="Exams-CoreCases-Create-Candidate" rendered="false"/>
-				            <p:submenu label="Fast Path" icon="fa fa-fw fa-sitemap">
+				            <p:submenu label="Fast Path" icon="fa fa-fw fa-sitemap" rendered="false">
 				             <p:menuitem value="Actualizar Prueba/Examen" action="#{menuForm.fpActualizarPruebaExamen()}"/>
 				             <p:menuitem value="Agregar Grupo Casos Principales"  action="#{menuForm.fpActualizarPruebaExamenAgregarCasosPrincipales()}" />
 				             <p:menuitem value="Actualizar Grupo Casos Principales"  action="#{menuForm.fpActualizarPruebaExamenActualizarCasosPrincipales()}" />
@@ -72,7 +73,7 @@
 				          </p:submenu>
 				          <p:submenu label="Candidatos" icon="fa fa-fw fa-gg">
 				            <p:menuitem value="Gestionar Examenes" action="#{menuForm.fpCandidatesManageExams()}"/>
-				            <p:submenu label="Fast Path" icon="fa fa-fw fa-gg">
+				            <p:submenu label="Fast Path" icon="fa fa-fw fa-gg" rendered="false">
 				             <p:menuitem value="Examen" action="#{menuForm.fpCandidatesExamen()}"/>
 				            </p:submenu>
 				          </p:submenu>

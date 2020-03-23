@@ -40,8 +40,8 @@ public class CcExamAsignacionesLocalImpl implements CcExamAsignacionesLocal {
 				if(row[2] instanceof Object) {
 					
 				}
-				if(row[3] instanceof Object) {
-									
+				if(row[3] instanceof Object) {  /** NUMERO_CORE_CASE **/
+					ccExamAsignaciones.setNumeroCoreCase(((BigInteger)row[3]).longValue());					
 				}
 				if(row[4] instanceof Object) {
 					
