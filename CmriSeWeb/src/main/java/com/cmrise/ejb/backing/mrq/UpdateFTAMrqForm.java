@@ -1,5 +1,7 @@
 package com.cmrise.ejb.backing.mrq;
 
+import java.util.List;
+import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -10,10 +12,16 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.primefaces.PrimeFaces;
+
 import com.cmrise.ejb.helpers.GuestPreferences;
+import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
+import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
+import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
+import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
@@ -24,6 +32,7 @@ import com.cmrise.utils.Utilitarios;
 public class UpdateFTAMrqForm {
 	
 	private long numeroHdr;
+	private long numeroFta; 
 	private MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForAction = new MrqsPreguntasHdrV1();
 	
 	private String tituloPregunta;
@@ -39,15 +48,22 @@ public class UpdateFTAMrqForm {
 	private boolean annotatedImage;
     
     
+	/**********************************************************************
+	  Atributos Opcion Multiple
+	 **********************************************************************/
+	private List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>();
+	
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal;
 	
 	@Inject
 	MrqsPreguntasFtaLocal mrqsPreguntasFtaLocal;
 	
+	@Inject 
+	MrqsOpcionMultipleLocal mrqsOpcionMultipleLocal; 
+	
 	@ManagedProperty(value="#{guestPreferences}")
 	GuestPreferences guestPreferences; 
-	
 	
 	 @PostConstruct
 	 public void init() {
@@ -76,6 +92,13 @@ public class UpdateFTAMrqForm {
 	private void refreshEntity() {
 		 System.out.println("Entra UpdateFTAMrqForm refreshEntity()");
 		 MrqsPreguntasHdrV1Dto mrqsPreguntasHdrV1Dto = mrqsPreguntasHdrLocal.findByNumero(this.numeroHdr);
+		 if(Utilitarios.RESP_TEXTO_LIBRE.equals(mrqsPreguntasHdrV1Dto.getTipoPregunta())) {
+			 this.setLimitedFreeTextAnswer(true);
+		 }else if(Utilitarios.OPCION_MULTIPLE.equals(mrqsPreguntasHdrV1Dto.getTipoPregunta())) {
+			 this.setMultipleChoice(true);
+			 initListMrqsOpcionMultiple(); 
+		 }
+		 mrqsPreguntasHdrV1ForAction.setNumero(mrqsPreguntasHdrV1Dto.getNumero());
 		 mrqsPreguntasHdrV1ForAction.setEstatus(mrqsPreguntasHdrV1Dto.getEstatus());
 		 mrqsPreguntasHdrV1ForAction.setNombre(mrqsPreguntasHdrV1Dto.getNombre());
 		 mrqsPreguntasHdrV1ForAction.setTitulo(mrqsPreguntasHdrV1Dto.getTitulo());
@@ -84,34 +107,70 @@ public class UpdateFTAMrqForm {
 		 mrqsPreguntasHdrV1ForAction.setEtiquetas(mrqsPreguntasHdrV1Dto.getEtiquetas());
 		 mrqsPreguntasHdrV1ForAction.setComentarios(mrqsPreguntasHdrV1Dto.getComentarios());
 		 
-		 long numeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(this.getNumeroHdr()); 
-		 if(0l!=numeroFta) {
+		 long lNumeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(this.getNumeroHdr()); 
+		 if(0l!=lNumeroFta) {
 		   /** CONSULTA INFORMACION **/
-			MrqsPreguntasFtaDto mrqsPreguntasFtaDto = mrqsPreguntasFtaLocal.findDtoByNumeroFta(numeroFta);
+			this.setNumeroFta(lNumeroFta);
+			MrqsPreguntasFtaDto mrqsPreguntasFtaDto = mrqsPreguntasFtaLocal.findDtoByNumeroFta(lNumeroFta);
 			this.setTituloPregunta(mrqsPreguntasFtaDto.getTitulo());
 			this.setTextoPregunta(mrqsPreguntasFtaDto.getTextoPregunta());
 			this.setTextoSugerencias(mrqsPreguntasFtaDto.getTextoSugerencias());
 			this.setRespuestaCorrecta(mrqsPreguntasFtaDto.getRespuestaCorrecta());
+			
+			List<MrqsOpcionMultipleDto> listMrqsOpcionMultipleDto = mrqsOpcionMultipleLocal.findByNumeroFta(mrqsPreguntasFtaDto.getNumero());
+			System.out.println("listMrqsOpcionMultipleDto.size():"+listMrqsOpcionMultipleDto.size());
+			if(listMrqsOpcionMultipleDto.size()>0) {
+				listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>();
+			}
+			int lineNumber = 1;
+			for(MrqsOpcionMultipleDto mrqsOpcionMultipleDto:listMrqsOpcionMultipleDto) {
+				 MrqsOpcionMultiple mrqsOpcionMultiple = new MrqsOpcionMultiple(); 
+				 mrqsOpcionMultiple.setLineNumber(lineNumber);
+				 mrqsOpcionMultiple.setEstatus(mrqsOpcionMultipleDto.isEstatus());
+	        	 mrqsOpcionMultiple.setNumero(mrqsOpcionMultipleDto.getNumero());
+	        	 mrqsOpcionMultiple.setNumeroFta(mrqsOpcionMultipleDto.getNumeroFta());
+	        	 mrqsOpcionMultiple.setTextoExplicacion(mrqsOpcionMultipleDto.getTextoExplicacion());
+	        	 mrqsOpcionMultiple.setTextoRespuesta(mrqsOpcionMultipleDto.getTextoRespuesta());
+	        	 listMrqsOpcionMultiple.add(mrqsOpcionMultiple); 
+			}
+			
 		 }
-		 
-		 if(Utilitarios.RESP_TEXTO_LIBRE.equals(mrqsPreguntasHdrV1Dto.getTipoPregunta())) {
-			 this.setLimitedFreeTextAnswer(true);
-		 }else if(Utilitarios.OPCION_MULTIPLE.equals(mrqsPreguntasHdrV1Dto.getTipoPregunta())) {
-			 this.setMultipleChoice(true);
-		 }
+		
 		 
 		 System.out.println("Sale UpdateFTAMrqForm refreshEntity()");
+	}
+
+	private void initListMrqsOpcionMultiple() {
+		listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
+		int lineNumber = 1; 
+		MrqsOpcionMultiple mrqsOpcionMultiple = new MrqsOpcionMultiple(); 
+		mrqsOpcionMultiple.setLineNumber(lineNumber);
+		listMrqsOpcionMultiple.add(mrqsOpcionMultiple); 
+		lineNumber = lineNumber+1; 
+		mrqsOpcionMultiple = new MrqsOpcionMultiple(); 
+		mrqsOpcionMultiple.setLineNumber(lineNumber);
+		listMrqsOpcionMultiple.add(mrqsOpcionMultiple); 
+		lineNumber = lineNumber+1; 
+		mrqsOpcionMultiple = new MrqsOpcionMultiple(); 
+		mrqsOpcionMultiple.setLineNumber(lineNumber);
+		listMrqsOpcionMultiple.add(mrqsOpcionMultiple); 
+		lineNumber = lineNumber+1; 
+		mrqsOpcionMultiple = new MrqsOpcionMultiple(); 
+		mrqsOpcionMultiple.setLineNumber(lineNumber);
+		listMrqsOpcionMultiple.add(mrqsOpcionMultiple); 
+		lineNumber = lineNumber+1; 
+		
 	}
 
 	public void update() {
 		
 		System.out.println("Entra UpdateFTAMrqForm update");
 		System.out.println("this.getNumeroHdr():"+this.getNumeroHdr());
-		long numeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(this.getNumeroHdr()); 
-		System.out.println("numeroFta:"+numeroFta);
+		long lNumeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(this.getNumeroHdr()); 
+		System.out.println("lNumeroFta:"+lNumeroFta);
 		MrqsPreguntasFtaDto mrqsPreguntasFtaDto = new MrqsPreguntasFtaDto();
 		MrqsPreguntasHdrDto mrqsPreguntasHdrDto = new MrqsPreguntasHdrDto();
-		if(0l==numeroFta) {
+		if(0l==lNumeroFta) {
 		   /** INSERTA **/	
 			mrqsPreguntasHdrDto.setNumero(this.numeroHdr);
 			mrqsPreguntasFtaDto.setMrqsPreguntasHdr2(mrqsPreguntasHdrDto);
@@ -120,7 +179,12 @@ public class UpdateFTAMrqForm {
 			mrqsPreguntasFtaDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
 			System.out.println("this.metodoPuntuacion:"+this.metodoPuntuacion);
 			mrqsPreguntasFtaDto.setMetodoPuntuacion(Utilitarios.WRONG_CORRECT);
+		    if(Utilitarios.OPCION_MULTIPLE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
+		    mrqsPreguntasFtaDto.setRespuestaCorrecta("OPCION_MULTIPLE"); 	
+		    }else {
 			mrqsPreguntasFtaDto.setRespuestaCorrecta(this.respuestaCorrecta);
+		    }
+			
 			mrqsPreguntasFtaDto.setTextoPregunta(this.textoPregunta);
 			mrqsPreguntasFtaDto.setValorPuntuacion(this.valorPuntuacion);
 			mrqsPreguntasFtaDto.setTextoSugerencias(this.textoSugerencias);
@@ -134,11 +198,35 @@ public class UpdateFTAMrqForm {
 			mrqsPreguntasFtaDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
 			System.out.println("this.metodoPuntuacion:"+this.metodoPuntuacion);
 			mrqsPreguntasFtaDto.setMetodoPuntuacion(Utilitarios.WRONG_CORRECT);
+			if(Utilitarios.OPCION_MULTIPLE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
+			  mrqsPreguntasFtaDto.setRespuestaCorrecta("OPCION_MULTIPLE"); 	
+			}else {
 			mrqsPreguntasFtaDto.setRespuestaCorrecta(this.respuestaCorrecta);
+			}
 			mrqsPreguntasFtaDto.setTextoPregunta(this.textoPregunta);
 			mrqsPreguntasFtaDto.setValorPuntuacion(this.valorPuntuacion);
 			mrqsPreguntasFtaDto.setTextoSugerencias(this.textoSugerencias);
-			mrqsPreguntasFtaLocal.update(numeroFta, mrqsPreguntasFtaDto);
+			mrqsPreguntasFtaLocal.update(lNumeroFta, mrqsPreguntasFtaDto);
+			
+			for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
+				MrqsOpcionMultipleDto mrqsOpcionMultipleDto = new MrqsOpcionMultipleDto();
+				if(0!=mrqsOpcionMultiple.getNumero()) {
+				mrqsOpcionMultipleDto.setNumero(mrqsOpcionMultiple.getNumero());
+				mrqsOpcionMultipleDto.setEstatus(mrqsOpcionMultiple.isEstatus());
+				mrqsOpcionMultipleDto.setTextoExplicacion(mrqsOpcionMultiple.getTextoExplicacion());
+				mrqsOpcionMultipleDto.setTextoRespuesta(mrqsOpcionMultiple.getTextoRespuesta());
+				mrqsOpcionMultipleLocal.update(mrqsOpcionMultiple.getNumero(), mrqsOpcionMultipleDto);
+				}else {
+					mrqsOpcionMultipleDto.setEstatus(mrqsOpcionMultiple.isEstatus());
+					mrqsOpcionMultipleDto.setTextoRespuesta(mrqsOpcionMultiple.getTextoRespuesta());
+					mrqsOpcionMultipleDto.setTextoExplicacion(mrqsOpcionMultiple.getTextoExplicacion());
+					mrqsOpcionMultipleDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
+					mrqsOpcionMultipleDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
+					mrqsOpcionMultipleDto.setNumeroFta(this.getNumeroFta());
+					mrqsOpcionMultipleLocal.insert(mrqsOpcionMultipleDto); 
+				}
+			}
+			
 		}
 		
 		mrqsPreguntasHdrDto.setEstatus(this.getMrqsPreguntasHdrV1ForAction().getEstatus());
@@ -158,8 +246,6 @@ public class UpdateFTAMrqForm {
 	}
 	
 	public String cancel() {
-		System.out.println("Entra cancel");
-		System.out.println("Sale cancel");
 		return "Preguntas-ManageNewMrqs"; 
 	}
 	
@@ -170,6 +256,30 @@ public class UpdateFTAMrqForm {
 	     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 	     session.setAttribute("mrqNumeroHdrSV", this.getNumeroHdr());
 		return "Mrq-Preview"; 
+	}
+	
+	public String duplicate() {
+		long numeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsPreguntasHdrV1ForAction.getNumero());
+		MrqsPreguntasHdrDto mrqsPreguntasHdrDto = mrqsPreguntasHdrLocal.copyPaste(mrqsPreguntasHdrV1ForAction.getNumero());
+		long numeroFtaCopy = mrqsPreguntasFtaLocal.copyPaste(numeroFta, mrqsPreguntasHdrDto);
+		mrqsOpcionMultipleLocal.copyPaste(numeroFta, numeroFtaCopy);
+		refreshEntity();
+		return "Preguntas-ManageNewMrqs"; 
+	}
+	public String delete() {
+		long numeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsPreguntasHdrV1ForAction.getNumero());
+		if(0l!=numeroFta) { 
+			if(Utilitarios.OPCION_MULTIPLE.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
+				mrqsOpcionMultipleLocal.deleteByNumeroFta(numeroFta);
+			}
+			mrqsPreguntasFtaLocal.delete(numeroFta);
+			mrqsPreguntasHdrLocal.delete(mrqsPreguntasHdrV1ForAction.getNumero());
+			refreshEntity();
+		}else {
+	    	mrqsPreguntasHdrLocal.delete(mrqsPreguntasHdrV1ForAction.getNumero());
+			refreshEntity();
+		}
+		return "Preguntas-ManageNewMrqs"; 
 	}
 	
 	public MrqsPreguntasHdrV1 getMrqsPreguntasHdrV1ForAction() {
@@ -294,6 +404,22 @@ public class UpdateFTAMrqForm {
 
 	public void setGuestPreferences(GuestPreferences guestPreferences) {
 		this.guestPreferences = guestPreferences;
+	}
+
+	public List<MrqsOpcionMultiple> getListMrqsOpcionMultiple() {
+		return listMrqsOpcionMultiple;
+	}
+
+	public void setListMrqsOpcionMultiple(List<MrqsOpcionMultiple> listMrqsOpcionMultiple) {
+		this.listMrqsOpcionMultiple = listMrqsOpcionMultiple;
+	}
+
+	public long getNumeroFta() {
+		return numeroFta;
+	}
+
+	public void setNumeroFta(long numeroFta) {
+		this.numeroFta = numeroFta;
 	}
 
 }

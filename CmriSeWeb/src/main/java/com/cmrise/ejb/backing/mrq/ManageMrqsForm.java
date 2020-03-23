@@ -13,11 +13,13 @@ import javax.servlet.http.HttpSession;
 import org.primefaces.PrimeFaces;
 
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
+import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
+import com.cmrise.utils.Utilitarios;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -36,6 +38,10 @@ public class ManageMrqsForm {
 	@Inject
 	MrqsPreguntasFtaLocal mrqsPreguntasFtaLocal;
 	
+	@Inject 
+	MrqsOpcionMultipleLocal  mrqsOpcionMultipleLocal; 
+	
+	
 	 @PostConstruct
 	 public void init() {
 		 System.out.println("Entra ManageMrqsForm init()");
@@ -52,6 +58,7 @@ public class ManageMrqsForm {
 			MrqsPreguntasHdrV1 mrqsPreguntasHdrV1 = new MrqsPreguntasHdrV1();
 			mrqsPreguntasHdrV1.setNumero(mrqsPreguntasHdrV1Dto.getNumero());
 			mrqsPreguntasHdrV1.setTitulo(mrqsPreguntasHdrV1Dto.getTitulo());
+			mrqsPreguntasHdrV1.setTipoPregunta(mrqsPreguntasHdrV1Dto.getTipoPregunta());
 			mrqsPreguntasHdrV1.setTipoPreguntaDesc(mrqsPreguntasHdrV1Dto.getTipoPreguntaDesc());
 			mrqsPreguntasHdrV1.setTemaPreguntaDesc(mrqsPreguntasHdrV1Dto.getTemaPreguntaDesc());
 			mrqsPreguntasHdrV1.setEstatusDesc(mrqsPreguntasHdrV1Dto.getEstatusDesc());
@@ -63,6 +70,7 @@ public class ManageMrqsForm {
 	public void selectForAction(MrqsPreguntasHdrV1 pMrqsPreguntasHdrV1) {
 		mrqsPreguntasHdrV1ForAction.setNumero(pMrqsPreguntasHdrV1.getNumero());
 		mrqsPreguntasHdrV1ForAction.setTitulo(pMrqsPreguntasHdrV1.getTitulo());
+		mrqsPreguntasHdrV1ForAction.setTipoPregunta(pMrqsPreguntasHdrV1.getTipoPregunta());
 		mrqsPreguntasHdrV1ForAction.setTipoPreguntaDesc(pMrqsPreguntasHdrV1.getTipoPreguntaDesc());
 		mrqsPreguntasHdrV1ForAction.setTemaPreguntaDesc(pMrqsPreguntasHdrV1.getTemaPreguntaDesc());
 		mrqsPreguntasHdrV1ForAction.setEstatusDesc(pMrqsPreguntasHdrV1.getEstatusDesc());
@@ -73,6 +81,9 @@ public class ManageMrqsForm {
 		boolean deleteIn = false; 
 		long numeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsPreguntasHdrV1ForAction.getNumero());
 		if(0l!=numeroFta) { 
+			if(Utilitarios.OPCION_MULTIPLE.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
+				mrqsOpcionMultipleLocal.deleteByNumeroFta(numeroFta);
+			}
 			mrqsPreguntasFtaLocal.delete(numeroFta);
 			mrqsPreguntasHdrLocal.delete(mrqsPreguntasHdrV1ForAction.getNumero());
 			refreshEntity();
@@ -118,7 +129,8 @@ public class ManageMrqsForm {
 		boolean duplicateIn = false;
 		long numeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsPreguntasHdrV1ForAction.getNumero());
 		MrqsPreguntasHdrDto mrqsPreguntasHdrDto = mrqsPreguntasHdrLocal.copyPaste(mrqsPreguntasHdrV1ForAction.getNumero());
-		mrqsPreguntasFtaLocal.copyPaste(numeroFta, mrqsPreguntasHdrDto);
+		long numeroFtaCopy = mrqsPreguntasFtaLocal.copyPaste(numeroFta, mrqsPreguntasHdrDto);
+		mrqsOpcionMultipleLocal.copyPaste(numeroFta, numeroFtaCopy);
 		refreshEntity();
 		duplicateIn = true;
 	    PrimeFaces.current().ajax().addCallbackParam("duplicateIn", duplicateIn);

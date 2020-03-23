@@ -7,4 +7,7 @@ public interface MrqsOpcionMultipleDao {
 	public long insert(MrqsOpcionMultipleDto pMrqsOpcionMultipleDto); 
 	public List<MrqsOpcionMultipleDto> findByNumeroFta(long pNumeroFta);
 	public void update(long pNumero,MrqsOpcionMultipleDto pMrqsOpcionMultipleDto);
+	public void delete(long pNumero);
+	public void deleteByNumeroFta(long pNumeroFta); 
+	public void copyPaste(long pNumeroFtaOld,long longpNumeroFtaCopy); 
 }
