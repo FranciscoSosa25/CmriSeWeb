@@ -194,7 +194,7 @@ function handleUpdateRequest(xhr, status, args){
 		     <p:commandButton value="Guardar"  update="informacionPreguntaPanelGridID MultipleChoiceAnswerQuestionUpdatePanel" action="#{updateQuestionFtaCoreCaseForm.update()}"  ajax="false"/>
 		   </div>
 		   <div class="ui-g-12 ui-md-3" style="text-align:center">
-		    <p:commandButton value="Guardar y Previsualizar"/>
+		    <p:commandButton value="Guardar y Previsualizar" action="#{updateCoreCaseForm.saveAndPreview()}"/>
 		   </div>
 		   <div class="ui-g-12 ui-md-2" style="text-align:center">
 		    <p:commandButton value="Cancelar"/>
@@ -377,7 +377,7 @@ function handleUpdateRequest(xhr, status, args){
 	     <p:commandButton id="GuardarBtn" value="Guardar" update="informacionPreguntaPanelGridID FreeTextAnswerQuestionUpdatePanel" action="#{updateQuestionFtaCoreCaseForm.update()}"  ajax="false"/>
 	    </div>
 	    <div class="ui-g-12 ui-md-4" style="text-align:center">
-	     <p:commandButton value="Guardar y Previsualizar"/>
+	     <p:commandButton value="Guardar y Previsualizar" action="#{updateCoreCaseForm.saveAndPreview()}"/>
 	    </div>
 	    <div class="ui-g-12 ui-md-2" style="text-align:center">
 	     <p:commandButton value="Cancelar"/>
