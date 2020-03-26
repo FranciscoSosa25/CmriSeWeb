@@ -20,7 +20,7 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 	EntityManager em;
 	
 	@Override
-	public void insert(MrqsPreguntasFtaDto pMrqsPreguntasFtaDto) {
+	public long insert(MrqsPreguntasFtaDto pMrqsPreguntasFtaDto) {
 		Query q = em.createNativeQuery("SELECT NEXT VALUE FOR dbo.MRQS_PREGUNTAS_FTA_S");
 		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
 		pMrqsPreguntasFtaDto.setNumero(lNumeroS.longValue());
@@ -31,6 +31,7 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 		pMrqsPreguntasFtaDto.setFechaCreacion(sqlsysdate);
 		pMrqsPreguntasFtaDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pMrqsPreguntasFtaDto);
+		return lNumeroS.longValue();
 	}
 
 	@Override
@@ -49,6 +50,8 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 		mrqsPreguntasFtaDto.setTextoPregunta(pMrqsPreguntasFtaDto.getTextoPregunta());
 		mrqsPreguntasFtaDto.setValorPuntuacion(pMrqsPreguntasFtaDto.getValorPuntuacion());
 		mrqsPreguntasFtaDto.setTextoSugerencias(pMrqsPreguntasFtaDto.getTextoSugerencias());
+		mrqsPreguntasFtaDto.setSingleAnswerMode(pMrqsPreguntasFtaDto.isSingleAnswerMode());
+		mrqsPreguntasFtaDto.setSuffleAnswerOrder(pMrqsPreguntasFtaDto.isSuffleAnswerOrder());
 	}
 
 	@Override

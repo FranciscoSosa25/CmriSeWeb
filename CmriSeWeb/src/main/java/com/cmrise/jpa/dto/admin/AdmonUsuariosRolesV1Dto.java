@@ -71,6 +71,18 @@ public class AdmonUsuariosRolesV1Dto implements Serializable {
 
 	@Column(name="NUMERO_USUARIO")
 	private long numeroUsuario;
+	
+	@Column(name="APELLIDO_PATERNO")
+	private String apellidoPaterno;
+	
+	@Column(name="APELLIDO_MATERNO")
+	private String apellidoMaterno;
+	
+	@Column(name="CORREO_ELECTRONICO")
+	private String correoElectronico;
+	
+	@Column(name="CONTRASENIA")
+	private String contrasenia; 
 
 	public AdmonUsuariosRolesV1Dto() {
 	}
@@ -217,6 +229,38 @@ public class AdmonUsuariosRolesV1Dto implements Serializable {
 
 	public void setNumeroUsuario(long numeroUsuario) {
 		this.numeroUsuario = numeroUsuario;
+	}
+
+	public String getApellidoPaterno() {
+		return apellidoPaterno;
+	}
+
+	public void setApellidoPaterno(String apellidoPaterno) {
+		this.apellidoPaterno = apellidoPaterno;
+	}
+
+	public String getApellidoMaterno() {
+		return apellidoMaterno;
+	}
+
+	public void setApellidoMaterno(String apellidoMaterno) {
+		this.apellidoMaterno = apellidoMaterno;
+	}
+
+	public String getCorreoElectronico() {
+		return correoElectronico;
+	}
+
+	public void setCorreoElectronico(String correoElectronico) {
+		this.correoElectronico = correoElectronico;
+	}
+
+	public String getContrasenia() {
+		return contrasenia;
+	}
+
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
 	}
 
 }

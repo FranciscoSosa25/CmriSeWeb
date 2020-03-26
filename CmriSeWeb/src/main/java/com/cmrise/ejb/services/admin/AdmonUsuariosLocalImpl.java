@@ -16,8 +16,8 @@ public class AdmonUsuariosLocalImpl implements AdmonUsuariosLocal {
 	AdmonUsuariosDao admonUsuariosDao;
 	
 	@Override
-	public void insert(AdmonUsuariosDto pAdmonUsuariosDto) {
-		admonUsuariosDao.insert(pAdmonUsuariosDto);
+	public long insert(AdmonUsuariosDto pAdmonUsuariosDto) {
+		return admonUsuariosDao.insert(pAdmonUsuariosDto);
 	}
 
 	@Override

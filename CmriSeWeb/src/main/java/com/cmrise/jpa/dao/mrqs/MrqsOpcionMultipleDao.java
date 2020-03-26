@@ -10,4 +10,11 @@ public interface MrqsOpcionMultipleDao {
 	public void delete(long pNumero);
 	public void deleteByNumeroFta(long pNumeroFta); 
 	public void copyPaste(long pNumeroFtaOld,long longpNumeroFtaCopy); 
+	public List<Object> findByNumeroFtaShuffleOrder(long pNumeroFta
+                                                   ,boolean pShuffleOrder
+                                                   );
+	public int correctOrWrongAnswer(long pNumero
+			                       ,long pNumetoFta
+			                       );
+	
 }

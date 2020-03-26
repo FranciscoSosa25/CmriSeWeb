@@ -6,19 +6,14 @@ public class MrqsOpcionMultiple implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private int lineNumber; 
+	
 	private long numero; 
 	private long numeroFta; 
 	private boolean estatus; 
 	private String textoRespuesta; 
 	private String textoExplicacion;
-	
-	public int getLineNumber() {
-		return lineNumber;
-	}
-	public void setLineNumber(int lineNumber) {
-		this.lineNumber = lineNumber;
-	}
+	private int numeroLinea; 
+
 	public long getNumero() {
 		return numero;
 	}
@@ -48,6 +43,12 @@ public class MrqsOpcionMultiple implements Serializable{
 	}
 	public void setTextoExplicacion(String textoExplicacion) {
 		this.textoExplicacion = textoExplicacion;
+	}
+	public int getNumeroLinea() {
+		return numeroLinea;
+	}
+	public void setNumeroLinea(int numeroLinea) {
+		this.numeroLinea = numeroLinea;
 	} 
 
 }

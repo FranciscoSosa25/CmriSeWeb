@@ -57,6 +57,12 @@ public class MrqsPreguntasFtaDto implements Serializable {
 	@Column(name="VALOR_PUNTUACION")
 	private String valorPuntuacion;
 
+	@Column(name="SINGLE_ANSWER_MODE")
+	private boolean singleAnswerMode;
+	
+	@Column(name="SUFFLE_ANSWER_ORDER")
+	private boolean suffleAnswerOrder; 
+	
 	//bi-directional one-to-one association to MrqsPreguntasHdrDto
 	@OneToOne
 	@JoinColumn(name="NUMERO")
@@ -188,6 +194,22 @@ public class MrqsPreguntasFtaDto implements Serializable {
 
 	public void setMrqsPreguntasHdr2(MrqsPreguntasHdrDto mrqsPreguntasHdr2) {
 		this.mrqsPreguntasHdr2 = mrqsPreguntasHdr2;
+	}
+
+	public boolean isSingleAnswerMode() {
+		return singleAnswerMode;
+	}
+
+	public void setSingleAnswerMode(boolean singleAnswerMode) {
+		this.singleAnswerMode = singleAnswerMode;
+	}
+
+	public boolean isSuffleAnswerOrder() {
+		return suffleAnswerOrder;
+	}
+
+	public void setSuffleAnswerOrder(boolean suffleAnswerOrder) {
+		this.suffleAnswerOrder = suffleAnswerOrder;
 	}
 
 }

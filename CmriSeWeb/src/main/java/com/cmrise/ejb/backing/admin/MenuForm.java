@@ -1,15 +1,29 @@
 package com.cmrise.ejb.backing.admin;
 
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-@ManagedBean
-@ApplicationScoped
-public class MenuForm {
+import com.cmrise.ejb.helpers.GuestPreferences;
 
+@ManagedBean
+@ViewScoped
+public class MenuForm {
+	
+	@ManagedProperty(value="#{guestPreferences}")
+	GuestPreferences guestPreferences; 
+
+	public GuestPreferences getGuestPreferences() {
+		return guestPreferences;
+	}
+
+	public void setGuestPreferences(GuestPreferences guestPreferences) {
+		this.guestPreferences = guestPreferences;
+	}
+	
 	public String fpActualizarCasoPrincipal() {
 		String retval = null;
 		FacesContext context = FacesContext.getCurrentInstance(); 
@@ -77,5 +91,14 @@ public class MenuForm {
 		session.setAttribute("numeroCandCcExamenSV", (long)29);
 		return "Candidates-Exam";
 	}
+	
+	public String fpMrqPreview() {
+		this.getGuestPreferences().setTheme("deep-purple");
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("mrqNumeroHdrSV", (long)21);
+		return "Mrq-Preview"; 
+	}
+	
 	
 }

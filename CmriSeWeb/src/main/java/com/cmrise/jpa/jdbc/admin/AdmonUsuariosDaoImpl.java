@@ -23,7 +23,7 @@ public class AdmonUsuariosDaoImpl implements AdmonUsuariosDao {
 	EntityManager em;
 	
 	@Override
-	public void insert(AdmonUsuariosDto pAdmonUsuariosDto) {
+	public long insert(AdmonUsuariosDto pAdmonUsuariosDto) {
 		Query q = em.createNativeQuery("SELECT NEXT VALUE FOR dbo.ADMON_USUARIOS_S");
 		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
 		pAdmonUsuariosDto.setNumero(lNumeroS.longValue());
@@ -34,6 +34,7 @@ public class AdmonUsuariosDaoImpl implements AdmonUsuariosDao {
 		pAdmonUsuariosDto.setFechaCreacion(sqlsysdate);
 		pAdmonUsuariosDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pAdmonUsuariosDto);
+		return lNumeroS.longValue();
 	}
 
 	@Override

@@ -55,4 +55,20 @@ public class AdmonUsuariosRolesDaoImpl implements AdmonUsuariosRolesDao {
 		return query.getResultList();
 	}
 
+	@Override
+	public int validaUsuarioRol(long pNumeroUsuario
+			                   ,long pNumeroRol
+			                   ) {
+	    String strQuery ="SELECT COUNT(1)\r" + 
+	          		     "  FROM [dbo].[ADMON_USUARIOS_ROLES]\r" + 
+	    		         " WHERE [NUMERO_USUARIO] = "+pNumeroUsuario+"\r" + 
+	    	 	         "  AND [NUMERO_ROL] ="+pNumeroRol ;
+	    
+	    Query query = em.createNativeQuery(strQuery); 
+		Object object = query.getSingleResult(); 
+		System.out.println(object);
+		Integer integer = (Integer)query.getSingleResult(); 
+		return integer.intValue();
+	}
+
 }
