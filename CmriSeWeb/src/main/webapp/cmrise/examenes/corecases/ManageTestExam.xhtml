@@ -19,17 +19,17 @@ function handleDeleteRequest(xhr, status, args){
 </ui:define>
 
 <ui:define name="nuevo">
- <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Prueba/Examen" icon="pi pi-plus" action="Exams-CoreCases-Create"/>
+
 </ui:define>
 
 <ui:define name="content">
 <p:breadCrumb>
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="Pruebas/Examenes" url="#"/>
+     <p:menuitem value="Pruebas/Examenes" url="ManageTestExam"/>
 
 </p:breadCrumb>
  <h1>Gestionar Pruebas/Examenes</h1>
- 
+  <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Prueba/Examen" icon="pi pi-plus" action="Exams-CoreCases-Create"/>
  <h:form id="ReadOnlyForm">
  <p:dataTable var="ccExamenes" value="#{manageTestExamsForm.listCcExamenes}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
    <p:column headerText="Id">
