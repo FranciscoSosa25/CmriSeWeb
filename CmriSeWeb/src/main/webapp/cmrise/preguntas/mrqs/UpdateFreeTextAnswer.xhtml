@@ -374,13 +374,13 @@ function handleUpdateRequest(xhr, status, args){
            <p:outputLabel for="singleMode" value="¿Modo de Respuesta Única?" />
         </div>
         <div class="ui-g-12 ui-md-9">
-           <p:inputSwitch id="singleMode" onLabel="Si" offLabel="No"/>
+           <p:inputSwitch id="singleMode" onLabel="Si" offLabel="No" value="#{updateFTAMrqForm.singleAnswerMode}"/>
         </div>
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="suffleOrder" value="¿Orden de Respuestas Aleatorio?" />
         </div>
         <div class="ui-g-12 ui-md-9">
-           <p:inputSwitch id="suffleOrder" onLabel="Si" offLabel="No"/>
+           <p:inputSwitch id="suffleOrder" onLabel="Si" offLabel="No" value="#{updateFTAMrqForm.suffleAnswerOrder}"/>
         </div>
         
          <div class="ui-g-12">
@@ -389,10 +389,10 @@ function handleUpdateRequest(xhr, status, args){
         <ui:repeat var="mrqsOpcionMultiple" value="#{updateFTAMrqForm.listMrqsOpcionMultiple}">
         <div class="ui-g" style="border: 1px solid black;width:80%;margin-bottom: 5px;" >
         <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
-         <div class="ui-g-12">
-           <h1>#{mrqOpcionMultiple.lineNumber}</h1>
+         <div class="ui-g-6">
+           <p:spinner value="#{mrqsOpcionMultiple.numeroLinea}" min="1" max="10" rotate="true" />
          </div>
-         <div class="ui-g-12">
+         <div class="ui-g-6">
           <p:inputSwitch onLabel="&#10003;" offLabel="&#215;" value="#{mrqsOpcionMultiple.estatus}" />
          </div>
         </div>
@@ -417,7 +417,6 @@ function handleUpdateRequest(xhr, status, args){
        </div> <!-- END div -->
         </ui:repeat>
          
-        
        </div>
   
   </p:panel>

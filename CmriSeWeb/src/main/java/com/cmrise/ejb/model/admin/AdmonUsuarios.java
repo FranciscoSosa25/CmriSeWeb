@@ -19,6 +19,8 @@ public class AdmonUsuarios implements Serializable {
 	private Date fechaEfectivaDesde;
 	private Date fechaEfectivaHasta;
 	private String nombre;
+	private long numeroRol; 
+	private String nombreRol; 
 	
 	public long getNumero() {
 		return numero;
@@ -91,6 +93,18 @@ public class AdmonUsuarios implements Serializable {
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+	public long getNumeroRol() {
+		return numeroRol;
+	}
+	public void setNumeroRol(long numeroRol) {
+		this.numeroRol = numeroRol;
+	}
+	public String getNombreRol() {
+		return nombreRol;
+	}
+	public void setNombreRol(String nombreRol) {
+		this.nombreRol = nombreRol;
 	}
 	
 

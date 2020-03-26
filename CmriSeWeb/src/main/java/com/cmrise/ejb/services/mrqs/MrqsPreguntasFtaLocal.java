@@ -8,7 +8,7 @@ import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 
 @Local
 public interface MrqsPreguntasFtaLocal  {
-	public void insert(MrqsPreguntasFtaDto pMrqsPreguntasFtaDto);
+	public long insert(MrqsPreguntasFtaDto pMrqsPreguntasFtaDto);
 	public void delete(long pNumero);
 	public void update(long pNumero,MrqsPreguntasFtaDto pMrqsPreguntasFtaDto);
 	public long findNumeroFtaByNumeroHdr(long pNumeroHdr); 

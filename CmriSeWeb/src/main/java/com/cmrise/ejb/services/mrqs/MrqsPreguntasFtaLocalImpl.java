@@ -14,8 +14,8 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
 	MrqsPreguntasFtaDao mrqsPreguntasFtaDao;
 	
 	@Override
-	public void insert(MrqsPreguntasFtaDto pMrqsPreguntasFtaDto) {
-		mrqsPreguntasFtaDao.insert(pMrqsPreguntasFtaDto);
+	public long insert(MrqsPreguntasFtaDto pMrqsPreguntasFtaDto) {
+		return mrqsPreguntasFtaDao.insert(pMrqsPreguntasFtaDto);
 	}
 
 	@Override

@@ -51,6 +51,9 @@ function handleUpdateRequest(xhr, status, args){
     <p:column headerText="Correo Electronico">
     <h:outputText value="#{admonUsuario.correoElectronico}"/>
    </p:column>
+    <p:column headerText="Rol">
+    <h:outputText value="#{admonUsuario.nombreRol}"/>
+   </p:column>
     <p:column headerText="Desde">
      <h:outputText value="#{admonUsuario.fechaEfectivaDesde}">
       <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
@@ -94,6 +97,12 @@ function handleUpdateRequest(xhr, status, args){
      <p:outputLabel for="correoElectronico" value="Correo Electronico"/>
      <p:inputText id="correoElectronico" value="#{admonUsuariosForm.correoElectronico}" style="width:70%"/>
      <p:message for="correoElectronico"/>
+     <p:outputLabel for="numeroRol" value="Rol"/>
+      <p:selectOneMenu id="numeroRol" value="#{admonUsuariosForm.numeroRol}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+      <f:selectItem itemLabel="Seleccione un Rol" itemValue="" />
+      <f:selectItems value="#{selectsHelper.selectAdmonRolesItems}" />
+      </p:selectOneMenu>
+      <p:message for="numeroRol"/>
      <p:outputLabel for="fechaEfectivaDesdeInput" value="Desde"/>
 	  <p:calendar id="fechaEfectivaDesdeInput" value="#{admonUsuariosForm.fechaEfectivaDesde}"  locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
       <p:message for="fechaEfectivaDesdeInput"/>
@@ -133,6 +142,12 @@ function handleUpdateRequest(xhr, status, args){
      <p:outputLabel for="correoElectronico" value="Correo Electronico"/>
      <p:inputText id="correoElectronico" value="#{admonUsuariosForm.admonUsuariosForAction.correoElectronico}" style="width:70%"/>
      <p:message for="correoElectronico"/>
+     <p:outputLabel for="numeroRol" value="Rol"/>
+      <p:selectOneMenu id="numeroRol" value="#{admonUsuariosForm.admonUsuariosForAction.numeroRol}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+      <f:selectItem itemLabel="Seleccione un Rol" itemValue="" />
+      <f:selectItems value="#{selectsHelper.selectAdmonRolesItems}" />
+      </p:selectOneMenu>
+      <p:message for="numeroRol"/>
      <p:outputLabel for="fechaEfectivaDesdeInput" value="Desde"/>
 	  <p:calendar id="fechaEfectivaDesdeInput" value="#{admonUsuariosForm.admonUsuariosForAction.fechaEfectivaDesde}"  locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
       <p:message for="fechaEfectivaDesdeInput"/>

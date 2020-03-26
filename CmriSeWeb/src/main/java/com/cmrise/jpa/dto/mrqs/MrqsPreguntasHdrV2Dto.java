@@ -86,6 +86,12 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 	
 	@Column(name="RESPUESTA_CORRECTA")
 	private String respuestaCorrecta; 
+	
+	@Column(name="SINGLE_ANSWER_MODE")
+	private boolean singleAnswerMode;
+	
+	@Column(name="SUFFLE_ANSWER_ORDER")
+	private boolean suffleAnswerOrder; 
 
 	public MrqsPreguntasHdrV2Dto() {
 	}
@@ -264,6 +270,22 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 
 	public void setRespuestaCorrecta(String respuestaCorrecta) {
 		this.respuestaCorrecta = respuestaCorrecta;
+	}
+
+	public boolean isSingleAnswerMode() {
+		return singleAnswerMode;
+	}
+
+	public void setSingleAnswerMode(boolean singleAnswerMode) {
+		this.singleAnswerMode = singleAnswerMode;
+	}
+
+	public boolean isSuffleAnswerOrder() {
+		return suffleAnswerOrder;
+	}
+
+	public void setSuffleAnswerOrder(boolean suffleAnswerOrder) {
+		this.suffleAnswerOrder = suffleAnswerOrder;
 	}
 
 }

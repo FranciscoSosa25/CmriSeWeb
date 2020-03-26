@@ -14,5 +14,13 @@ public interface MrqsOpcionMultipleLocal {
 	public void update(long pNumero,MrqsOpcionMultipleDto pMrqsOpcionMultipleDto);
 	public void delete(long pNumero); 
 	public void deleteByNumeroFta(long pNumeroFta); 
-	public void copyPaste(long pNumeroFtaOld,long longpNumeroFtaCopy); 
+	public void copyPaste(long pNumeroFtaOld
+			             ,long longpNumeroFtaCopy
+			             ); 
+	public List<MrqsOpcionMultipleDto> findByNumeroFtaShuffleOrder(long pNumeroFta
+										            ,boolean pShuffleOrder
+										            );
+	public int correctOrWrongAnswer(long pNumero
+						            ,long pNumetoFta
+						            );	
 }

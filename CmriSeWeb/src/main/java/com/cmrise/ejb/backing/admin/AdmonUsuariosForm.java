@@ -14,7 +14,11 @@ import org.primefaces.PrimeFaces;
 
 import com.cmrise.ejb.model.admin.AdmonUsuarios;
 import com.cmrise.ejb.services.admin.AdmonUsuariosLocal;
+import com.cmrise.ejb.services.admin.AdmonUsuariosRolesLocal;
+import com.cmrise.jpa.dto.admin.AdmonRolesDto;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosDto;
+import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesDto;
+import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesV1Dto;
 import com.cmrise.utils.Utilitarios;
 import com.cmrise.utils.UtilitariosLocal;
 
@@ -31,6 +35,7 @@ public class AdmonUsuariosForm {
 	private Date fechaEfectivaHasta;
 	private List<AdmonUsuarios> listAdmonUsuarios = new ArrayList<AdmonUsuarios>();
 	private AdmonUsuarios admonUsuariosForAction = new AdmonUsuarios();
+	private long numeroRol; 
 	
 	@Inject 
 	AdmonUsuariosLocal admonUsuariosLocal; 
@@ -38,30 +43,37 @@ public class AdmonUsuariosForm {
 	@Inject 
 	UtilitariosLocal utilitariosLocal;
 	
+	@Inject
+	AdmonUsuariosRolesLocal admonUsuariosRolesLocal; 
+	
     @PostConstruct
 	public void init() {
 		 refreshEntity();
 	 }		 
 	
     public void refreshEntity() {
-		List<AdmonUsuariosDto> listAdmonUsuariosDto = admonUsuariosLocal.findTop500(); 
-		Iterator<AdmonUsuariosDto> iterAdmonUsuariosDto = listAdmonUsuariosDto.iterator(); 
+    	List<AdmonUsuariosRolesV1Dto> listAdmonUsuariosRolesV1Dto =  admonUsuariosRolesLocal.findAll(); 
+		Iterator<AdmonUsuariosRolesV1Dto> iterAdmonUsuariosRolesV1Dto = listAdmonUsuariosRolesV1Dto.iterator(); 
 		listAdmonUsuarios = new ArrayList<AdmonUsuarios>();
-		while(iterAdmonUsuariosDto.hasNext()) {
-			AdmonUsuariosDto admonUsuariosDto = iterAdmonUsuariosDto.next(); 
+		while(iterAdmonUsuariosRolesV1Dto.hasNext()) {
+			AdmonUsuariosRolesV1Dto admonUsuariosRolesV1Dto = iterAdmonUsuariosRolesV1Dto.next(); 
 			AdmonUsuarios admonUsuarios = new AdmonUsuarios();
-			admonUsuarios.setNumero(admonUsuariosDto.getNumero());
-			admonUsuarios.setNombre(admonUsuariosDto.getNombre());
-			admonUsuarios.setApellidoPaterno(admonUsuariosDto.getApellidoPaterno());
-			admonUsuarios.setApellidoMaterno(admonUsuariosDto.getApellidoMaterno());
-			admonUsuarios.setContrasenia(admonUsuariosDto.getContrasenia());
-			admonUsuarios.setCorreoElectronico(admonUsuariosDto.getCorreoElectronico());
-			admonUsuarios.setFechaEfectivaDesde(utilitariosLocal.toUtilDate(admonUsuariosDto.getFechaEfectivaDesde()));
-			if(Utilitarios.endOfTime.equals(admonUsuariosDto.getFechaEfectivaHasta())) {
+			admonUsuarios.setNumero(admonUsuariosRolesV1Dto.getNumeroUsuario());
+			admonUsuarios.setNombre(admonUsuariosRolesV1Dto.getNombreUsuario());
+			admonUsuarios.setApellidoPaterno(admonUsuariosRolesV1Dto.getApellidoPaterno());
+			admonUsuarios.setApellidoMaterno(admonUsuariosRolesV1Dto.getApellidoMaterno());
+			admonUsuarios.setContrasenia(admonUsuariosRolesV1Dto.getContrasenia());
+			admonUsuarios.setCorreoElectronico(admonUsuariosRolesV1Dto.getCorreoElectronico());
+			admonUsuarios.setFechaEfectivaDesde(utilitariosLocal.toUtilDate(admonUsuariosRolesV1Dto.getFedAu()));
+			if(Utilitarios.endOfTime.equals(admonUsuariosRolesV1Dto.getFehAu())) {
 				admonUsuarios.setFechaEfectivaHasta(null);	
 			}else {
-				admonUsuarios.setFechaEfectivaHasta(utilitariosLocal.toUtilDate(admonUsuariosDto.getFechaEfectivaHasta()));	
+				admonUsuarios.setFechaEfectivaHasta(utilitariosLocal.toUtilDate(admonUsuariosRolesV1Dto.getFehAu()));	
 			}
+			
+			admonUsuarios.setNumeroRol(admonUsuariosRolesV1Dto.getNumeroRol());
+			admonUsuarios.setNombreRol(admonUsuariosRolesV1Dto.getNombreRol());
+			
 			listAdmonUsuarios.add(admonUsuarios);
 		}
 	}
@@ -87,7 +99,28 @@ public class AdmonUsuariosForm {
 			 sqlFechaEfectivaHasta = Utilitarios.endOfTime;
 		 }
 		 admonUsuariosDto.setFechaEfectivaHasta(sqlFechaEfectivaHasta);
-		 admonUsuariosLocal.insert(admonUsuariosDto);
+		 long longNumeroUsusario = admonUsuariosLocal.insert(admonUsuariosDto);
+		 
+		    /*************************************************************************/
+		    AdmonUsuariosRolesDto admonUsuariosRolesDto = new AdmonUsuariosRolesDto();
+			AdmonRolesDto admonRolesDto = new AdmonRolesDto();
+			AdmonUsuariosDto admonUsuariosV2Dto = new AdmonUsuariosDto();
+			System.out.println("longNumeroUsusario:"+longNumeroUsusario);
+			System.out.println("this.getNumeroRol():"+this.getNumeroRol());
+			admonUsuariosV2Dto.setNumero(longNumeroUsusario);
+			admonRolesDto.setNumero(this.getNumeroRol());
+			admonUsuariosRolesDto.setAdmonUsuario(admonUsuariosV2Dto);
+			admonUsuariosRolesDto.setAdmonRole(admonRolesDto);
+			admonUsuariosRolesDto.setFechaEfectivaDesde(utilitariosLocal.toSqlDate(fechaEfectivaDesde));
+			if(null!=fechaEfectivaHasta) {
+				admonUsuariosRolesDto.setFechaEfectivaHasta(utilitariosLocal.toSqlDate(fechaEfectivaHasta));	
+			}else {
+				admonUsuariosRolesDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
+			}
+	     
+			admonUsuariosRolesLocal.insert(admonUsuariosRolesDto);	
+		    /***********************************************************************/
+		 
 		 refreshEntity();
 		 createIn = true; 
 		 PrimeFaces.current().ajax().addCallbackParam("createIn", createIn);
@@ -103,6 +136,7 @@ public class AdmonUsuariosForm {
 		admonUsuariosForAction.setFechaEfectivaDesde(pAdmonUsuarios.getFechaEfectivaDesde());
 		admonUsuariosForAction.setFechaEfectivaHasta(pAdmonUsuarios.getFechaEfectivaHasta());
 		admonUsuariosForAction.setContrasenia(pAdmonUsuarios.getContrasenia());
+		admonUsuariosForAction.setNumeroRol(pAdmonUsuarios.getNumeroRol());
 	}
 	
 	
@@ -131,6 +165,30 @@ public class AdmonUsuariosForm {
 			admonUsuariosDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
 		}
 		admonUsuariosLocal.update(admonUsuariosForAction.getNumero(), admonUsuariosDto);
+		
+		int intValidaUsarioRol = admonUsuariosRolesLocal.validaUsuarioRol(admonUsuariosForAction.getNumero()
+										                                , admonUsuariosForAction.getNumeroRol()
+										                                );
+		System.out.println("intValidaUsarioRol:"+intValidaUsarioRol);
+		AdmonUsuariosRolesDto admonUsuariosRolesDto = new AdmonUsuariosRolesDto();
+		AdmonRolesDto admonRolesDto = new AdmonRolesDto();
+		admonUsuariosDto.setNumero(admonUsuariosForAction.getNumero());
+		admonRolesDto.setNumero(admonUsuariosForAction.getNumeroRol());
+		admonUsuariosRolesDto.setAdmonUsuario(admonUsuariosDto);
+		admonUsuariosRolesDto.setAdmonRole(admonRolesDto);
+		admonUsuariosRolesDto.setFechaEfectivaDesde(utilitariosLocal.toSqlDate(admonUsuariosForAction.getFechaEfectivaDesde()));
+		if(null!=admonUsuariosForAction.getFechaEfectivaHasta()) {
+			admonUsuariosRolesDto.setFechaEfectivaHasta(utilitariosLocal.toSqlDate(admonUsuariosForAction.getFechaEfectivaHasta()));	
+		}else {
+			admonUsuariosRolesDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
+		}
+		
+		if(0!=intValidaUsarioRol) {
+			admonUsuariosRolesLocal.update(intValidaUsarioRol, admonUsuariosRolesDto);
+		}else {
+			admonUsuariosRolesLocal.insert(admonUsuariosRolesDto);
+		}
+		
 		refreshEntity();
 		updateIn = true; 
 		PrimeFaces.current().ajax().addCallbackParam("updateIn", updateIn);
@@ -195,5 +253,13 @@ public class AdmonUsuariosForm {
 	}
 	public void setAdmonUsuariosForAction(AdmonUsuarios admonUsuariosForAction) {
 		this.admonUsuariosForAction = admonUsuariosForAction;
+	}
+
+	public long getNumeroRol() {
+		return numeroRol;
+	}
+
+	public void setNumeroRol(long numeroRol) {
+		this.numeroRol = numeroRol;
 	}
 }
