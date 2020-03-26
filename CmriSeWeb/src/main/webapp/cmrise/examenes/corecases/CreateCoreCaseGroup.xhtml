@@ -27,7 +27,8 @@
 
 <p:breadCrumb>
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="Crear Grupos de Casos" url="#"/>
+    <p:menuitem value="Gestionar Pruebas/Examenes" url="ManageTestExam"/>
+     <p:menuitem value="Crear Grupos de Casos Principales" url="#"/>
 
 </p:breadCrumb>
 <h1>Crear Grupo de Casos Principales</h1>
@@ -38,7 +39,15 @@
        <f:facet name="header">
 	       Grupo de Preguntas
 	     </f:facet>
-      <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nuevo Grupo" icon="pi pi-plus" action="Exams-CoreCases-Update-AddCoreCase"/>
+	     	     <p:dataList var="ccExamAsignacionDL"  value="#{updateGroupForm.listCcExamAsignaciones}"  type="definition" responsive="true">
+	       <f:facet name="caption">Hola</f:facet>
+	       <p:column>
+	         <p:commandLink action="#{updateQuestionFtaCoreCaseForm.updatePregunta(ccPreguntasHdrV1)}">
+	         <h:outputText value="#{ccExamAsignacionDL.tituloPregunta}" />
+	         </p:commandLink>
+	       </p:column>
+	     </p:dataList>
+      <!--<p:commandButton immediate="true" title="Nuevo"  value="Agregar Nuevo Grupo" icon="pi pi-plus" action="Exams-CoreCases-Update-AddCoreCase"/>-->
      </p:panel>
     </div>
     <div class="ui-g-10 ui-g-nopad">
