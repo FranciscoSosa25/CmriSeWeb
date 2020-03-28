@@ -13,4 +13,9 @@ public interface AdmonUsuariosRolesDao {
  public int validaUsuarioRol(long pNumeroUsuario
 		                    ,long pNumeroRol
 		                    );
+ public int loginUsuarioRol(String pMatricula
+		                   ,String pRol
+		                   ,String pContrasenia
+		                   ); 
+ 
 }

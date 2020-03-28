@@ -38,6 +38,9 @@ public class SelectsHelper {
 	private List<SelectItem> selectVisibilidadItems; 
 	private List<SelectItem> selectEstatusExamenItems;
 	private List<SelectItem> selectEstatusMrqsItems;
+	private List<SelectItem> selectTemaDePreguntaItems; 
+	private List<SelectItem> selectScoringValueItems;
+	private List<SelectItem> selectScoringMethodItems; 
 	
 	@PostConstruct
     public void init() {
@@ -48,6 +51,9 @@ public class SelectsHelper {
        environmentVisibilidad();
        environmentEstatusExamen();
        environmentEstatusMrqs();
+       environmentTemaDePregunta();
+       environmentScoringValue();
+       environmentScoringMethod(); 
        System.out.println("Sale SelectsHelper init()");
     }
 	
@@ -83,16 +89,19 @@ public class SelectsHelper {
 		return lselectTipoPreguntaItems; 
 	}
 	
-	public List<SelectItem> getSelectTemaDePreguntaItems(){
-		List<SelectItem> lselectTemaDePreguntaItems = new ArrayList<SelectItem>();
+	private void environmentTemaDePregunta() {
+		this.selectTemaDePreguntaItems = new ArrayList<SelectItem>();
 		List<TablasUtilitariasValoresDto> listTemaDePreguntaValores =  tablasUtilitariasValoresLocal.findByTipoTabla("TEMA_DE_PREGUNTA");  
 		Iterator<TablasUtilitariasValoresDto> iterTemaDePreguntaValores = listTemaDePreguntaValores.iterator(); 
 		while(iterTemaDePreguntaValores.hasNext()) {
 			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterTemaDePreguntaValores.next();
 			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getCodigoTabla()+" - "+tablasUtilitariasValoresDto.getSignificado()); 
-			lselectTemaDePreguntaItems.add(selectItem); 
+			selectTemaDePreguntaItems.add(selectItem); 
 		}
-		return lselectTemaDePreguntaItems; 
+	}
+	
+	public List<SelectItem> getSelectTemaDePreguntaItems(){
+		return this.selectTemaDePreguntaItems; 
 	}
 	
 	private void environmentEstatusMrqs() {
@@ -110,28 +119,34 @@ public class SelectsHelper {
 		return this.selectEstatusMrqsItems; 
 	}
 	
-	public List<SelectItem> getSelectScoringValueItems(){
-		List<SelectItem> lselectScoringValueItems = new ArrayList<SelectItem>();
+	private void environmentScoringValue() {
+		this.selectScoringValueItems = new ArrayList<SelectItem>();
 		List<TablasUtilitariasValoresDto> listScoringValuesValores =  tablasUtilitariasValoresLocal.findByTipoTabla("SCORING_VALUE");  
 		Iterator<TablasUtilitariasValoresDto> iterEstatusMrqsValores = listScoringValuesValores.iterator(); 
 		while(iterEstatusMrqsValores.hasNext()) {
 			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterEstatusMrqsValores.next();
 			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
-			lselectScoringValueItems.add(selectItem); 
+			this.selectScoringValueItems.add(selectItem); 
 		}
-		return lselectScoringValueItems; 
 	}
 	
-	public List<SelectItem> getSelectScoringMethodItems(){
-		List<SelectItem> lselectScoringMethodItems = new ArrayList<SelectItem>();
+	public List<SelectItem> getSelectScoringValueItems(){
+		return this.selectScoringValueItems; 
+	}
+	
+	private void environmentScoringMethod() {
+		this.selectScoringMethodItems = new ArrayList<SelectItem>();
 		List<TablasUtilitariasValoresDto> listScoringMethodValores =  tablasUtilitariasValoresLocal.findByTipoTabla("SCORING_METHOD");  
 		Iterator<TablasUtilitariasValoresDto> iterScoringMethodValores = listScoringMethodValores.iterator(); 
 		while(iterScoringMethodValores.hasNext()) {
 			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
 			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
-			lselectScoringMethodItems.add(selectItem); 
+			this.selectScoringMethodItems.add(selectItem); 
 		}
-		return lselectScoringMethodItems; 
+	}
+	
+	public List<SelectItem> getSelectScoringMethodItems(){
+		return this.selectScoringMethodItems; 
 	}
 	
 	private void environmentTipoExamen() {

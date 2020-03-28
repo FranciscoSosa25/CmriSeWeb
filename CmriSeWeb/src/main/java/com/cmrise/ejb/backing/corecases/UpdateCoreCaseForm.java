@@ -144,6 +144,16 @@ public class UpdateCoreCaseForm {
 		return "coreCase-Preview"; 
 	}
  
+	public void actualizar() {
+		System.out.println("Entra actualizar");
+		System.out.println("this.getNumeroCcHdr():"+this.getNumeroCcHdr());
+		CcHdrDto ccHdrDto = new CcHdrDto(); 
+		ccHdrDto.setNombre(this.getNombreCc());
+		ccHdrLocal.update(this.getNumeroCcHdr(), ccHdrDto);
+	    FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Se actualizaron los datos correctamente", "Actualizacion correcta"));
+		System.out.println("Sale actualizar");
+	}
   
 public long getNumeroCcHdr() {
 	return numeroCcHdr;

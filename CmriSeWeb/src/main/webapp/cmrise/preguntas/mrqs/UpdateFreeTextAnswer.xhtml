@@ -14,6 +14,32 @@ function handleUpdateRequest(xhr, status, args){
 </script>
 </ui:define>
 
+<ui:define name="xxhrwcss">
+<style type="text/css">
+.myPanelStyle1.ui-panel .ui-panel-titlebar {
+color: #3c763d;background-color: #dff0d8;border-color: #d6e9c6;
+}
+.myPanelStyle2.ui-panel .ui-panel-titlebar {
+color: #8a6d3b;background-color: #fcf8e3;border-color: #faebcc;
+}
+.myPanelStyle3.ui-panel .ui-panel-titlebar {
+color: #a94442;background-color: #f2dede;border-color: #ebccd1;
+}    
+.red-button.ui-button.ui-state-default {
+        background-color: #d9534f;
+        border-color: #d9534f;
+        color: #fff;
+        margin-top:5px; 
+    }
+ 
+    .red-button.ui-button.ui-state-default:enabled:hover, 
+    .red-button.ui-button.ui-state-default:focus {
+        background-color: #d43f3a;
+        border-color: #d9534f;
+    }
+</style>
+</ui:define>
+
 <ui:define name="content">
 
  <h1>Actualizar Pregunta de Texto Libre Mrq</h1>
@@ -174,21 +200,60 @@ function handleUpdateRequest(xhr, status, args){
      </div>
    </p:panel>
 
- <p:panel header="RESPUESTAS DE TEXTO LIBRE - LISTAS DE PALABRAS">
+ <p:panel id="listasPalabrasPanel" header="RESPUESTAS DE TEXTO LIBRE - LISTAS DE PALABRAS" >
     <div class="ui-g">
        <div class="ui-g-12 ui-md-4">
-        <p:panel header="PALABRAS INCLUIDAS">
-          <p:commandButton value="Agregar nueva palabra"/>
+        <p:panel styleClass="myPanelStyle1" >
+          <f:facet name="header" >PALABRAS INCLUIDAS</f:facet>
+          <p:dataGrid var="incWords" value="#{updateFTAMrqForm.listIncWmrqsListasPalabras}" columns="1" layout="grid"  >
+              <div class="ui-g-12 ui-md-12 ui-inputgroup">
+               <p:inputText value="#{incWords.palabra}" placeholder="Agregar palabra.." style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+                <p:commandButton icon="pi pi-times" styleClass="red-button" oncomplete="PF('deleteListasPalabrasWV').show();" actionListener="#{updateFTAMrqForm.selectWordForAction(incWords)}"/>     
+              </div>
+               <div class="ui-g-12 ui-md-12">
+             <p:inputText value="#{incWords.sinonimos}" placeholder="Agregar sinonimos.." style="width:100%"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+              </div>
+             <div class="ui-g-12 ui-md-12">
+             <p:outputLabel value="Lista de sinónimos separados por comas"/>
+             </div>
+           </p:dataGrid>
+          <p:commandButton value="Agregar nueva palabra" actionListener="#{updateFTAMrqForm.addIncWord()}" update="updateQuestionFreeTextForm growl updateQuestionFreeTextForm:questionInfoUpdatePanel"/>
         </p:panel>
        </div>
         <div class="ui-g-12 ui-md-4">
-          <p:panel header="PALABRAS QUE PUEDEN SER">
-           <p:commandButton value="Agregar nueva palabra"/>
+          <p:panel styleClass="myPanelStyle2" >
+            <f:facet name="header" >PALABRAS QUE PUEDEN SER</f:facet>
+           <p:dataGrid var="canWords" value="#{updateFTAMrqForm.listCanWmrqsListasPalabras}" columns="1" layout="grid">
+             <div class="ui-g-12 ui-md-12 ui-inputgroup">
+               <p:inputText value="#{canWords.palabra}" placeholder="Agregar palabra.." style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+                <p:commandButton icon="pi pi-times" styleClass="red-button" oncomplete="PF('deleteListasPalabrasWV').show();" actionListener="#{updateFTAMrqForm.selectWordForAction(canWords)}"/>     
+              </div>
+               <div class="ui-g-12 ui-md-12">
+             <p:inputText value="#{canWords.sinonimos}" placeholder="Agregar sinonimos.." style="width:100%"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+              </div>
+             <div class="ui-g-12 ui-md-12">
+             <p:outputLabel value="Lista de sinónimos separados por comas"/>
+             </div>
+          </p:dataGrid>
+           <p:commandButton value="Agregar nueva palabra" actionListener="#{updateFTAMrqForm.addCanWord()}" update="updateQuestionFreeTextForm growl updateQuestionFreeTextForm:questionInfoUpdatePanel"/>
           </p:panel>
        </div>
         <div class="ui-g-12 ui-md-4">
-           <p:panel header="PALABRAS EXCLUIDAS">
-            <p:commandButton value="Agregar nueva palabra"/>
+           <p:panel styleClass="myPanelStyle3" >
+           <f:facet name="header" >PALABRAS EXCLUIDAS</f:facet>
+             <p:dataGrid var="excWords" value="#{updateFTAMrqForm.listExcWmrqsListasPalabras}" columns="1" layout="grid">
+	            <div class="ui-g-12 ui-md-12 ui-inputgroup">
+               <p:inputText value="#{excWords.palabra}" placeholder="Agregar palabra.." style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+                <p:commandButton icon="pi pi-times" styleClass="red-button" oncomplete="PF('deleteListasPalabrasWV').show();" actionListener="#{updateFTAMrqForm.selectWordForAction(excWords)}"/>     
+              </div>
+               <div class="ui-g-12 ui-md-12">
+             <p:inputText value="#{excWords.sinonimos}" placeholder="Agregar sinonimos.." style="width:100%"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+              </div>
+             <div class="ui-g-12 ui-md-12">
+             <p:outputLabel value="Lista de sinónimos separados por comas"/>
+             </div>
+	          </p:dataGrid>
+            <p:commandButton value="Agregar nueva palabra" actionListener="#{updateFTAMrqForm.addExcWord()}" update="updateQuestionFreeTextForm growl updateQuestionFreeTextForm:questionInfoUpdatePanel"/>
            </p:panel>
        </div>
       </div>
@@ -217,7 +282,7 @@ function handleUpdateRequest(xhr, status, args){
     <p:commandButton value="Duplicar" oncomplete="PF('duplicateMrqDialogWV').show();"/>
    </div>
    <div class="ui-g-12 ui-md-2" style="text-align:center">
-    <p:commandButton value="Borrar" oncomplete="PF('deleteRolDialogWV').show();"/>
+    <p:commandButton value="Borrar" oncomplete="PF('deleteRolDialogWV').show();" />
    </div>
   </div>
   
@@ -350,7 +415,7 @@ function handleUpdateRequest(xhr, status, args){
         </div>
         <div class="ui-g-12 ui-md-9">
          <p:selectOneMenu id="scoringMethod" value="#{updateFTAMrqForm.metodoPuntuacion}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"  >
-          <f:selectItem itemValue="WRONG_CORRECT" itemLabel="Correcto - Incorrecto"/>
+         <f:selectItems value="#{selectsHelper.selectScoringMethodItems}" />
          </p:selectOneMenu>
           <p:message for="scoringMethod"/>
          </div>
@@ -387,7 +452,7 @@ function handleUpdateRequest(xhr, status, args){
          </div>
          
         <ui:repeat var="mrqsOpcionMultiple" value="#{updateFTAMrqForm.listMrqsOpcionMultiple}">
-        <div class="ui-g" style="border: 1px solid black;width:80%;margin-bottom: 5px;" >
+        <div class="ui-g" style="border: 1px solid black;width:98%;margin-bottom: 5px;" >
         <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
          <div class="ui-g-6">
            <p:spinner value="#{mrqsOpcionMultiple.numeroLinea}" min="1" max="10" rotate="true" />
@@ -396,7 +461,7 @@ function handleUpdateRequest(xhr, status, args){
           <p:inputSwitch onLabel="&#10003;" offLabel="&#215;" value="#{mrqsOpcionMultiple.estatus}" />
          </div>
         </div>
-       <div class="ui-g-10 ui-g-nopad">
+       <div class="ui-g-9 ui-g-nopad">
          <div class="ui-g-12">
            <div class="ui-g-2" style="text-align:right;">
             <p:outputLabel for="answerText" value="Texto de Respuesta" />
@@ -414,8 +479,15 @@ function handleUpdateRequest(xhr, status, args){
            </div>
          </div>
        </div>
+        <div class="ui-g-1 ui-g-nopad">
+           <p:commandButton icon="pi pi-times" styleClass="red-button" oncomplete="PF('deleteOpcionMultipleWV').show();" actionListener="#{updateFTAMrqForm.selectOpcionMultipleForAction(mrqsOpcionMultiple)}"/>
+        </div>
        </div> <!-- END div -->
         </ui:repeat>
+        
+        <div class="ui-g-12">
+        <p:commandButton immediate="true" title="Nuevo"  value="Agregar nueva respuesta" actionListener="#{updateFTAMrqForm.addOpcionMultiple()}" update="updateQuestionMultipleChoiceForm updateQuestionMultipleChoiceForm:multipleChoiceAnswersUpdatePanel"  icon="pi pi-plus" />
+        </div>
          
        </div>
   
@@ -459,13 +531,35 @@ function handleUpdateRequest(xhr, status, args){
    
  <h:form id="DeleteForm">
   <p:dialog id="deleteRolDialogId" widgetVar="deleteRolDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Registro">
-   <h2>¿Esta seguro de que desea borrar este registro?</h2>
+   <h2>#{msgs['globalForm.deleteMessage']}</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeleteBtn" value="Aceptar"   action="#{updateFTAMrqForm.delete()}"  />
+                 <p:commandButton id="DeleteFtaBtn" value="Aceptar"   action="#{updateFTAMrqForm.delete()}"  />
               </div>
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('deleteRolDialogWV').hide();" />
+                 <p:commandButton id="CancelarFtaBtn"  value="Cancelar"  onclick="PF('deleteRolDialogWV').hide();" />
+              </div>
+     </div>
+  </p:dialog>
+  <p:dialog id="deleteListasPalabrasDialogId" widgetVar="deleteListasPalabrasWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Registro">
+   <h2>#{msgs['globalForm.deleteMessage']}</h2>
+    <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="DeleteListPalabBtn" value="Aceptar"   actionListener="#{updateFTAMrqForm.deleteWord()}" update="updateQuestionFreeTextForm:listasPalabrasPanel" oncomplete="PF('deleteListasPalabrasWV').hide();"  />
+              </div>
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarListPalabBtn"  value="Cancelar"  onclick="PF('deleteListasPalabrasWV').hide();" />
+              </div>
+     </div>
+  </p:dialog>
+  <p:dialog id="deleteOpcionMultipleDialogId" widgetVar="deleteOpcionMultipleWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Registro">
+   <h2>#{msgs['globalForm.deleteMessage']}</h2>
+    <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="DeleteOpcMultBtn" value="Aceptar"   actionListener="#{updateFTAMrqForm.deleteOpcionMultiple()}" update="updateQuestionMultipleChoiceForm:multipleChoiceAnswersUpdatePanel" oncomplete="PF('deleteOpcionMultipleWV').hide();"  />
+              </div>
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarOpcMultBtn"  value="Cancelar"  onclick="PF('deleteOpcionMultipleWV').hide();" />
               </div>
      </div>
   </p:dialog>

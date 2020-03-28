@@ -1,7 +1,6 @@
 package com.cmrise.jpa.dto.mrqs;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -11,9 +10,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="MRQS_OPCION_MULTIPLE")
-@NamedQuery(name="MrqsOpcionMultipleDto.findAll", query="SELECT m FROM MrqsOpcionMultipleDto m")
-public class MrqsOpcionMultipleDto implements Serializable {
+@Table(name="MRQS_LISTAS_PALABRAS")
+@NamedQuery(name="MrqsListasPalabrasDto.findAll", query="SELECT m FROM MrqsListasPalabrasDto m")
+public class MrqsListasPalabrasDto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,27 +31,20 @@ public class MrqsOpcionMultipleDto implements Serializable {
 
 	@Column(name="FECHA_CREACION")
 	private Timestamp fechaCreacion;
-
-	@Column(name="FECHA_EFECTIVA_DESDE")
-	private Date fechaEfectivaDesde;
-
-	@Column(name="FECHA_EFECTIVA_HASTA")
-	private Date fechaEfectivaHasta;
 	
 	@Column(name="NUMERO_FTA")
 	private long numeroFta; 
 	
-	@Column(name="ESTATUS")
-	private boolean estatus; 
+	@Column(name="TIPO_REGISTRO")
+	private String tipoRegistro;
 	
-	@Column(name="TEXTO_RESPUESTA")
-	private String textoRespuesta; 
+	@Column(name="PALABRA")
+	private String palabra; 
 	
-	@Column(name="TEXTO_EXPLICACION")
-	private String textoExplicacion; 
+	@Column(name="SINONIMOS")
+	private String sinonimos; 
 	
-	@Column(name="NUMERO_LINEA")
-	private int numeroLinea; 
+	
 	
 	public long getNumero() {
 		return this.numero;
@@ -94,21 +86,6 @@ public class MrqsOpcionMultipleDto implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public Date getFechaEfectivaDesde() {
-		return this.fechaEfectivaDesde;
-	}
-
-	public void setFechaEfectivaDesde(Date fechaEfectivaDesde) {
-		this.fechaEfectivaDesde = fechaEfectivaDesde;
-	}
-
-	public Date getFechaEfectivaHasta() {
-		return this.fechaEfectivaHasta;
-	}
-
-	public void setFechaEfectivaHasta(Date fechaEfectivaHasta) {
-		this.fechaEfectivaHasta = fechaEfectivaHasta;
-	}
 
 	public long getNumeroFta() {
 		return numeroFta;
@@ -118,36 +95,29 @@ public class MrqsOpcionMultipleDto implements Serializable {
 		this.numeroFta = numeroFta;
 	}
 
-	public boolean isEstatus() {
-		return estatus;
+	public String getTipoRegistro() {
+		return tipoRegistro;
 	}
 
-	public void setEstatus(boolean estatus) {
-		this.estatus = estatus;
+	public void setTipoRegistro(String tipoRegistro) {
+		this.tipoRegistro = tipoRegistro;
 	}
 
-	public String getTextoExplicacion() {
-		return textoExplicacion;
+	public String getPalabra() {
+		return palabra;
 	}
 
-	public void setTextoExplicacion(String textoExplicacion) {
-		this.textoExplicacion = textoExplicacion;
+	public void setPalabra(String palabra) {
+		this.palabra = palabra;
 	}
 
-	public String getTextoRespuesta() {
-		return textoRespuesta;
+	public String getSinonimos() {
+		return sinonimos;
 	}
 
-	public void setTextoRespuesta(String textoRespuesta) {
-		this.textoRespuesta = textoRespuesta;
+	public void setSinonimos(String sinonimos) {
+		this.sinonimos = sinonimos;
 	}
 
-	public int getNumeroLinea() {
-		return numeroLinea;
-	}
-
-	public void setNumeroLinea(int numeroLinea) {
-		this.numeroLinea = numeroLinea;
-	}
 	
 }
