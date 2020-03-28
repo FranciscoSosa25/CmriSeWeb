@@ -106,4 +106,9 @@ public class MrqsOpcionMultipleLocalImpl implements MrqsOpcionMultipleLocal {
 		return mrqsOpcionMultipleDao.correctOrWrongAnswer(pNumero, pNumetoFta);
 	}
 
+	@Override
+	public int totalCorrectAnswers(long pNumeroFta) {
+		return mrqsOpcionMultipleDao.totalCorrectAnswers(pNumeroFta);
+	}
+
 }

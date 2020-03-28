@@ -93,6 +93,13 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 	@Column(name="SUFFLE_ANSWER_ORDER")
 	private boolean suffleAnswerOrder; 
 
+	@Column(name="VALOR_PUNTUACION")
+	private String valorPuntuacion; 
+	
+	@Column(name="METODO_PUNTUACION")
+	private String metodoPuntuacion; 
+	
+	
 	public MrqsPreguntasHdrV2Dto() {
 	}
 
@@ -286,6 +293,22 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 
 	public void setSuffleAnswerOrder(boolean suffleAnswerOrder) {
 		this.suffleAnswerOrder = suffleAnswerOrder;
+	}
+
+	public String getValorPuntuacion() {
+		return valorPuntuacion;
+	}
+
+	public void setValorPuntuacion(String valorPuntuacion) {
+		this.valorPuntuacion = valorPuntuacion;
+	}
+
+	public String getMetodoPuntuacion() {
+		return metodoPuntuacion;
+	}
+
+	public void setMetodoPuntuacion(String metodoPuntuacion) {
+		this.metodoPuntuacion = metodoPuntuacion;
 	}
 
 }

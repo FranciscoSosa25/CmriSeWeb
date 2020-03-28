@@ -1,0 +1,18 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="viewname">
+<p:link outcome="PaginaPrincipal" value="Inicio"/>
+<span>/ </span>
+</ui:define>            
+   
+<ui:define name="content">
+<h1>Gestionar Examenes MRQs</h1>
+ <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Prueba/Examen" icon="pi pi-plus" action="Exams-MRQs-Create"/>
+
+</ui:define>
+</ui:composition>                

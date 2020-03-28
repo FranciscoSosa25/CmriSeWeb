@@ -13,7 +13,9 @@ public class MrqsOpcionMultiple implements Serializable{
 	private String textoRespuesta; 
 	private String textoExplicacion;
 	private int numeroLinea; 
-
+	private int idxTemp; 
+    private boolean estatusCandidato; 
+	
 	public long getNumero() {
 		return numero;
 	}
@@ -49,6 +51,18 @@ public class MrqsOpcionMultiple implements Serializable{
 	}
 	public void setNumeroLinea(int numeroLinea) {
 		this.numeroLinea = numeroLinea;
+	}
+	public int getIdxTemp() {
+		return idxTemp;
+	}
+	public void setIdxTemp(int idxTemp) {
+		this.idxTemp = idxTemp;
+	}
+	public boolean isEstatusCandidato() {
+		return estatusCandidato;
+	}
+	public void setEstatusCandidato(boolean estatusCandidato) {
+		this.estatusCandidato = estatusCandidato;
 	} 
 
 }

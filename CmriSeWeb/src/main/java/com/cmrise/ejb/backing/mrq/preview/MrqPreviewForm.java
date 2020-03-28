@@ -38,8 +38,11 @@ public class MrqPreviewForm {
 	private boolean questionView; 
 	private boolean answerView; 
 	private boolean correctAnswer; 
-	private boolean wrongAnswer; 
 	
+	private boolean wrongAnswer; 
+	private float puntuacion; 
+	private String metodoPuntuacion; 
+	private int totalCorrectAnswers; 
 	/**********************************************************************
 	  Atributos Opcion Multiple
 	 **********************************************************************/
@@ -73,6 +76,8 @@ public class MrqPreviewForm {
 	     this.setTextoPregunta(mrqsPreguntasHdrV2Dto.getTextoPregunta());
 	     this.setTextoSugerencias(mrqsPreguntasHdrV2Dto.getTextoSugerencias());
 	     this.setRespuestaPreguntaSistema(mrqsPreguntasHdrV2Dto.getRespuestaCorrecta());
+	     this.puntuacion = Float.parseFloat(mrqsPreguntasHdrV2Dto.getValorPuntuacion()); 
+	     this.metodoPuntuacion = mrqsPreguntasHdrV2Dto.getMetodoPuntuacion(); 
 	     if(Utilitarios.RESP_TEXTO_LIBRE.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
 	    	 this.setLimitedFreeTextAnswer(true);
 	     }else if(Utilitarios.OPCION_MULTIPLE.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
@@ -80,6 +85,7 @@ public class MrqPreviewForm {
 	    	 initListMrqsOpcionMultiple(mrqsPreguntasHdrV2Dto.getNumeroMpf(),mrqsPreguntasHdrV2Dto.isSuffleAnswerOrder()); 
 	         this.setSingleAnswerMode(mrqsPreguntasHdrV2Dto.isSingleAnswerMode());
 	         this.setSuffleAnswerOrder(mrqsPreguntasHdrV2Dto.isSuffleAnswerOrder());
+	         this.totalCorrectAnswers = mrqsOpcionMultipleLocal.totalCorrectAnswers(mrqsPreguntasHdrV2Dto.getNumeroMpf()); 
 	     }
 	     this.setQuestionView(true);
 	     System.out.println("Sale MrqPreviewForm init()");
@@ -107,49 +113,65 @@ public class MrqPreviewForm {
 			  this.setCorrectAnswer(true);
 		  }else {
 			  this.setWrongAnswer(true);
+			  this.setPuntuacion(0);
 		  }
 	  }else if(this.isMultipleChoice()) {
-		  
-		  List<MrqsOpcionMultipleDto> listMrqsOpcionMultipleDto = mrqsOpcionMultipleLocal.findByNumeroFta(this.getNumetoFta());
+		 /** List<MrqsOpcionMultipleDto> listMrqsOpcionMultipleDto = mrqsOpcionMultipleLocal.findByNumeroFta(this.getNumetoFta()); **/
 		  if(this.isSingleAnswerMode()) {
-			  System.out.println("*");
-			  evaluateIsSingleAnswerMode(listMrqsOpcionMultipleDto);
+			  evaluateIsSingleAnswerMode(listMrqsOpcionMultiple);
 		  }else{
-			  evaluateNotIsSingleAnswerMode(listMrqsOpcionMultipleDto);
+			  evaluateNotIsSingleAnswerMode(listMrqsOpcionMultiple);
 		  }
 	  }
 	  System.out.println("Sale saveProceed");	
 	}
 	
 	
-   private void evaluateIsSingleAnswerMode(List<MrqsOpcionMultipleDto> pListMrqsOpcionMultipleDto) {
-			for(MrqsOpcionMultipleDto mrqsOpcionMultipleDto:pListMrqsOpcionMultipleDto) {
-			 if(mrqsOpcionMultipleDto.isEstatus()) {
-				 String strNumero = mrqsOpcionMultipleDto.getNumero()+""; 
+   private void evaluateIsSingleAnswerMode(List<MrqsOpcionMultiple> pListMrqsOpcionMultiple) {
+	  
+	   for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
+			  long longRespuestaCandidato = Long.parseLong(this.getRespuestaPreguntaCandidato()); 
+			  if(mrqsOpcionMultiple.getNumero()==longRespuestaCandidato) {
+				  mrqsOpcionMultiple.setEstatusCandidato(true); 
+			  }
+		  }
+	   
+			for(MrqsOpcionMultiple mrqsOpcionMultiple:pListMrqsOpcionMultiple) {
+			 if(mrqsOpcionMultiple.isEstatus()) {
+				 String strNumero = mrqsOpcionMultiple.getNumero()+""; 
 				 if(strNumero.equals(this.getRespuestaPreguntaCandidato())) {
 					 this.setCorrectAnswer(true);
 					 break; 
 				 }
 			  }		 
-		 }
+		    }
 		 if(this.isCorrectAnswer()) {
-		  System.out.println("**");		 
 		 this.setCorrectAnswers("1 Respuesta(s) correctas");
 		 this.setWrongAnswers("0 Respuesta(s) incorrectas"); 
 		 }else {
-			 System.out.println("***");		 
 			this.setWrongAnswer(true);
 			this.setCorrectAnswers("0 Respuesta(s) correctas");
 		    this.setWrongAnswers("1 Respuesta(s) incorrectas");  
+		    this.setPuntuacion(0);
 		 }
 	}
 		
-	private void evaluateNotIsSingleAnswerMode(List<MrqsOpcionMultipleDto> pListMrqsOpcionMultipleDto) {
+	private void evaluateNotIsSingleAnswerMode(List<MrqsOpcionMultiple> pListMrqsOpcionMultiple) {
 	   System.out.println("this.getRespuestasPreguntaCandidato():"+this.getRespuestasPreguntaCandidato());
 	   int countCorrectAnswers =0; 
 	   int countWrongAnswers = 0; 
 	  if(null!=this.getRespuestasPreguntaCandidato()) {
 		  String [] array = this.getRespuestasPreguntaCandidato(); 
+		  
+		  for(int idx =0;idx<array.length;idx=idx+1) {
+			  for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
+				  long longRespuestaCandidato = Long.parseLong(array[idx]); 
+				  if(mrqsOpcionMultiple.getNumero()==longRespuestaCandidato) {
+					  mrqsOpcionMultiple.setEstatusCandidato(true); 
+				  }
+			  }
+		  }
+		  
 		   for(int idx =0;idx<array.length;idx=idx+1) {
 			   System.out.println(array[idx]);
 			   Long longValue = Long.parseLong(array[idx]); 
@@ -161,10 +183,20 @@ public class MrqPreviewForm {
 			   }
 		   }
 	   }
+	  System.out.println("countCorrectAnswers:"+countCorrectAnswers);
 	  if(countCorrectAnswers>0) {
 		  this.setCorrectAnswer(true);
+		  System.out.println("metodoPuntuacion:"+this.metodoPuntuacion);
+		  if(Utilitarios.PROP_SCORING.equals(this.metodoPuntuacion)) {
+			  System.out.println("totalCorrectAnswers:"+this.totalCorrectAnswers);
+			  System.out.println("puntuacion:"+this.puntuacion);
+		   float floatPuntuacionProp = ((float)countCorrectAnswers/(float)this.totalCorrectAnswers)*this.puntuacion; 
+		   System.out.println("floatPuntuacionProp:"+floatPuntuacionProp);
+		   this.setPuntuacion(floatPuntuacionProp);
+		  }
 	  }else {
 		  this.setWrongAnswer(true);
+		  this.setPuntuacion(0);
 	  }
 	  
 	  this.setCorrectAnswers(countCorrectAnswers+" Respuesta(s) correctas");
@@ -364,6 +396,30 @@ public class MrqPreviewForm {
 
 	public void setWrongAnswers(String wrongAnswers) {
 		this.wrongAnswers = wrongAnswers;
+	}
+
+	public float getPuntuacion() {
+		return puntuacion;
+	}
+
+	public void setPuntuacion(float puntuacion) {
+		this.puntuacion = puntuacion;
+	}
+
+	public int getTotalCorrectAnswers() {
+		return totalCorrectAnswers;
+	}
+
+	public void setTotalCorrectAnswers(int totalCorrectAnswers) {
+		this.totalCorrectAnswers = totalCorrectAnswers;
+	}
+
+	public String getMetodoPuntuacion() {
+		return metodoPuntuacion;
+	}
+
+	public void setMetodoPuntuacion(String metodoPuntuacion) {
+		this.metodoPuntuacion = metodoPuntuacion;
 	}
 	
 	

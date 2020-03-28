@@ -23,4 +23,5 @@ public interface MrqsOpcionMultipleLocal {
 	public int correctOrWrongAnswer(long pNumero
 						            ,long pNumetoFta
 						            );	
+	public int totalCorrectAnswers(long pNumeroFta);
 }

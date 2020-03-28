@@ -52,6 +52,8 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 		mrqsPreguntasFtaDto.setTextoSugerencias(pMrqsPreguntasFtaDto.getTextoSugerencias());
 		mrqsPreguntasFtaDto.setSingleAnswerMode(pMrqsPreguntasFtaDto.isSingleAnswerMode());
 		mrqsPreguntasFtaDto.setSuffleAnswerOrder(pMrqsPreguntasFtaDto.isSuffleAnswerOrder());
+		mrqsPreguntasFtaDto.setMetodoPuntuacion(pMrqsPreguntasFtaDto.getMetodoPuntuacion());
+		mrqsPreguntasFtaDto.setValorPuntuacion(pMrqsPreguntasFtaDto.getValorPuntuacion());
 	}
 
 	@Override

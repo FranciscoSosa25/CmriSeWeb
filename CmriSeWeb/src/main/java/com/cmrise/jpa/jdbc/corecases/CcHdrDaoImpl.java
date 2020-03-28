@@ -43,7 +43,7 @@ public class CcHdrDaoImpl implements CcHdrDao {
 	@Override
 	public void update(long pNumero, CcHdrDto pCcHdrDto) {
 		CcHdrDto ccHdrDto = em.find(CcHdrDto.class, pNumero);
-		
+		ccHdrDto.setNombre(pCcHdrDto.getNombre());
 	}
 
 	@Override
