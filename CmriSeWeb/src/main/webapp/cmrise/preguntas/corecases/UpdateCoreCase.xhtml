@@ -14,7 +14,11 @@
 
 <h:form id="updateForm">
 <h3>Información del Caso Principal</h3>
-<p:growl id="growl" showDetail="true" life="5000" />
+
+ <p:growl id="growl" showDetail="true" life="5000" />  
+
+
+
 <div class="ui-g">
  <div class="ui-g-2">
    <p:panelGrid  columns="1" layout="grid">
@@ -22,7 +26,7 @@
         <div class="xxdivTree">Arbol Caso Principal</div>
      </f:facet>
      <p:dataList var="ccPreguntasHdrV1" value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" type="definition" responsive="true">
-       <f:facet name="caption">#{updateCoreCaseForm.nombreCc}</f:facet>
+       <f:facet name="caption"></f:facet> <!--#{updateCoreCaseForm.nombreCc} -->
        <p:column>
          <p:commandLink action="#{updateCoreCaseForm.updatePregunta(ccPreguntasHdrV1)}">
          <h:outputText value="#{ccPreguntasHdrV1.titulo}" />
@@ -106,10 +110,12 @@
  
  <div class="ui-g">
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Guardar" update="updateForm" actionListener="#{updateCoreCaseForm.actualizar()}"/>
+
+  <p:commandButton value="Guardar" update="updateForm" actionListener= "#{updateCoreCaseForm.actualizar()}"/>
+
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Guardar y Previsualizar"/>
+  <p:commandButton value="Guardar y Previsualizar" />
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
   <p:commandButton value="Cancelar" action="Preguntas-Manage-CoreCases" immediate="true"/>
