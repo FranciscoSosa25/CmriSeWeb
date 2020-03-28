@@ -12,6 +12,15 @@ public  class Utilitarios {
 	public static final String RESP_TEXTO_LIBRE = "RESP_TEXTO_LIBRE"; 
 	public static final String OPCION_MULTIPLE = "OPCION_MULTIPLE";
 	public static final String WRONG_CORRECT = "WRONG_CORRECT"; 
+	public static final String PROP_SCORING = "PROP_SCORING"; 
+	public static final String INCLUDED_WORDS ="INCLUDED_WORDS"; 
+	public static final String CAN_WORDS ="CAN_WORDS"; 
+	public static final String EXCLUDED_WORDS ="EXCLUDED_WORDS"; 
+	public static final String ROL_USUARIO = "USUARIO"; 
+	public static final String ROL_MAESTRO = "MAESTRO"; 
+	public static final String ROL_ALUMNO = "ALUMNO"; 
+	
+	
 	public  java.sql.Date toSqlDate(java.util.Date pUtilDate){
 		 java.sql.Date retval = null; 
 		 if(null!=pUtilDate) {

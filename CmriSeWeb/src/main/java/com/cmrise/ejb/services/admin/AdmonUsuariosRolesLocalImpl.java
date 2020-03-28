@@ -42,4 +42,11 @@ public class AdmonUsuariosRolesLocalImpl implements AdmonUsuariosRolesLocal {
 				                                     );
 	}
 
+	@Override
+	public int loginUsuarioRol(String pMatricula
+			                 , String pRol
+			                 , String pContrasenia) {
+		return admonUsuariosRolesDao.loginUsuarioRol(pMatricula, pRol, pContrasenia);
+	}
+
 }

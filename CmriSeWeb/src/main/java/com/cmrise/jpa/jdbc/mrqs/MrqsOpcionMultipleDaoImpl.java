@@ -122,4 +122,18 @@ public class MrqsOpcionMultipleDaoImpl implements MrqsOpcionMultipleDao {
 		return integer.intValue();
 	}
 
+	@Override
+	public int totalCorrectAnswers(long pNumeroFta) {
+		String strQuery = "SELECT COUNT(1)\r " + 
+				  "  FROM [dbo].[MRQS_OPCION_MULTIPLE] MOM\r " + 
+				  "  WHERE 1=1 \r" +
+				  "   AND MOM.[NUMERO_FTA] = "+pNumeroFta+
+				  "   AND ESTATUS = 1"; 
+		Query query = em.createNativeQuery(strQuery); 
+		Object object = query.getSingleResult(); 
+		System.out.println(object);
+		Integer integer = (Integer)query.getSingleResult(); 
+		return integer.intValue();
+	}
+
 }

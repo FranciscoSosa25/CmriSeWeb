@@ -14,9 +14,9 @@
         </f:facet>
         <script type="text/javascript">
 	  $(document).ready(function() {
-	  var  lfusername = document.getElementById("mainForm:username"); 
-	  lfusername.value = "Administrador";
-	  var  lfpassword = document.getElementById("mainForm:password"); 
+	  var  lfusername = document.getElementById("loginForm:username"); 
+	  lfusername.value = "A12";
+	  var  lfpassword = document.getElementById("loginForm:password"); 
 	  lfpassword.value = "admin";
 	  });
  
@@ -37,19 +37,20 @@
         <title>CMRI</title>
     </h:head>
     <h:body styleClass="login-body" style="background-color: white;">
-    <h:form id="mainForm"> 
+    <h:form id="loginForm"> 
+    <p:growl id="growl" showDetail="true" life="2000" />  
         <div class="login-panel ui-fluid">
             <div class="ui-g">
                 <div class="ui-g-12 logo-container">
                     <p:graphicImage name="images/login/cmri-120.png" library="poseidon-layout" />
                 </div>
                 <div class="ui-g-12">
-                    <p:inputText id="username" name="username" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
-           			<p:watermark for="@previous" value="Usuario"/>
+                    <p:inputText id="username" value="#{indexForm.username}" name="username" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+           			<p:watermark for="@previous" value="Matricula"/>
 		    		<p:message for="username"/>
                 </div>
                 <div class="ui-g-12">
-                    <p:inputText id="password" name="password" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+                    <p:password id="password" value="#{indexForm.password}"  name="password" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
 		     		<p:watermark for="@previous" value="Contraseña"/>
 		     		<p:message for="password"/>
                 </div>
@@ -58,8 +59,7 @@
                     <p:outputLabel for="remember-me" value="Remember Me"/>
                 </div> -->
                 <div class="ui-g-12 button-container">
-                 <!-- <p:commandButton  value="Iniciar Sesión" style="width:100%" oncomplete="handleLoginRequest(xhr, status, args)" action="cmrise/principal.xhtml"/>  -->
-                   <p:button outcome="/cmrise/principal.xhtml" value="Iniciar Sesión" icon="fa fa-user" styleClass="turquoise-btn" oncomplete="handleLoginRequest(xhr, status, args)"/>
+                   <p:commandButton  icon="fa fa-user" styleClass="turquoise-btn" value="Iniciar Sesión" update="loginForm" style="width:100%" oncomplete="handleLoginRequest(xhr, status, args)" action="#{indexForm.login()}"/>  
                 </div>
             </div>
         </div>

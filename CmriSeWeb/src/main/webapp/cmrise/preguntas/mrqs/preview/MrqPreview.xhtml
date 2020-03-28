@@ -34,21 +34,16 @@ function handleUpdateRequest(xhr, status, args){
        color:black;
        font-size:20px;
      }
-      .white-button.ui-button.ui-state-default {
-        background-color: #ffffff;
-        color: #222222;
-        border-color: #d6d6d6;
-        border-color: var(--input-border-color, #d6d6d6);
-    }
- 
-    .white-button.ui-button.ui-state-default:enabled:hover, 
-    .white-button.ui-button.ui-state-default:focus {
-        background-color: #f2f2f2;
-        border-color: #ccc;
-        color: #373a3c;
-        border-color: var(--input-hover-border-color, #ccc);
-    }
- 
+    
+     .xXscores{
+       margin-top:10px; 
+       margin-bottom:10px; 
+       background: #f9f9f9;;
+       border: 1px solid #ccc;
+       font-weight: bold;
+     }
+    
+    
     .green-button.ui-button.ui-state-default {
         background-color: #5cb85c;
         border-color: #5cb85c;
@@ -149,6 +144,12 @@ function handleUpdateRequest(xhr, status, args){
                  Su Respuesta es CORRECTA
                </div>
              </h:panelGroup>
+             
+              <h:panelGroup layout="block" rendered="#{mrqPreviewForm.answerView}">
+              <div class="ui-g-12 ui-md-12 xXscores" >
+                 Puntuacíon:<h:outputText value="#{mrqPreviewForm.puntuacion}" />
+              </div>
+              </h:panelGroup>
 		    
 		     <h:panelGroup layout="block" rendered="#{mrqPreviewForm.answerView and mrqPreviewForm.wrongAnswer and mrqPreviewForm.multipleChoice}" >
                <div class="ui-g-12 ui-md-12 xXwrongAnswer" >
@@ -192,7 +193,12 @@ function handleUpdateRequest(xhr, status, args){
 		            <ui:repeat var="mrqOpcionMultiple" value="#{mrqPreviewForm.listMrqsOpcionMultiple}">
 		             <div class="ui-g-12 ui-md-12">
 		             <h:panelGroup layout="block" rendered="#{mrqOpcionMultiple.estatus}">
-					  <div class="ui-g-12 ui-md-12">
+		               <div class="ui-g-12 ui-md-1">
+		                <h:panelGroup layout="block" rendered="#{mrqOpcionMultiple.estatusCandidato}">
+		                <i class="pi pi-check" ></i>
+		                </h:panelGroup>
+		               </div>
+		             <div class="ui-g-12 ui-md-11">
 					      <div class="ui-inputgroup">
 					          <p:commandButton icon="pi pi-check" styleClass="green-button"/> 
 					          <h:outputText value="#{mrqOpcionMultiple.textoRespuesta}" />
@@ -200,7 +206,12 @@ function handleUpdateRequest(xhr, status, args){
 					  </div>
 					</h:panelGroup>
 					<h:panelGroup layout="block" rendered="#{not mrqOpcionMultiple.estatus}">
-					  <div class="ui-g-12 ui-md-12">
+					    <div class="ui-g-12 ui-md-1">
+		                <h:panelGroup layout="block" rendered="#{mrqOpcionMultiple.estatusCandidato}">
+		                <i class="pi pi-check" ></i>
+		                </h:panelGroup>
+		               </div>
+					  <div class="ui-g-12 ui-md-11">
 					      <div class="ui-inputgroup">
 					           <p:commandButton icon="pi pi-times" styleClass="red-button"/>
 						       <h:outputText value="#{mrqOpcionMultiple.textoRespuesta}" />
@@ -217,7 +228,12 @@ function handleUpdateRequest(xhr, status, args){
 		            <ui:repeat var="mrqOpcionMultiple" value="#{mrqPreviewForm.listMrqsOpcionMultiple}">
 		             <div class="ui-g-12 ui-md-12">
 		             <h:panelGroup layout="block" rendered="#{mrqOpcionMultiple.estatus}">
-					  <div class="ui-g-12 ui-md-12">
+		                <div class="ui-g-12 ui-md-1">
+		                <h:panelGroup layout="block" rendered="#{mrqOpcionMultiple.estatusCandidato}">
+		                <i class="pi pi-check" ></i>
+		                </h:panelGroup>
+		               </div>
+					  <div class="ui-g-12 ui-md-11">
 					      <div class="ui-inputgroup">
 					          <p:commandButton icon="pi pi-check" styleClass="green-button"/> 
 					          <h:outputText value="#{mrqOpcionMultiple.textoRespuesta}" />
@@ -225,7 +241,12 @@ function handleUpdateRequest(xhr, status, args){
 					  </div>
 					</h:panelGroup>
 					<h:panelGroup layout="block" rendered="#{not mrqOpcionMultiple.estatus}">
-					  <div class="ui-g-12 ui-md-12">
+					    <div class="ui-g-12 ui-md-1">
+		                <h:panelGroup layout="block" rendered="#{mrqOpcionMultiple.estatusCandidato}">
+		                <i class="pi pi-check" ></i>
+		                </h:panelGroup>
+		               </div>
+					  <div class="ui-g-12 ui-md-11">
 					      <div class="ui-inputgroup">
 					           <p:commandButton icon="pi pi-times" styleClass="red-button"/>
 						       <h:outputText value="#{mrqOpcionMultiple.textoRespuesta}" />

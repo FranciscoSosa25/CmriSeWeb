@@ -13,11 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.cmrise.ejb.helpers.GuestPreferences;
+import com.cmrise.ejb.model.mrqs.MrqsListasPalabras;
 import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
+import com.cmrise.ejb.services.mrqs.MrqsListasPalabrasLocal;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
+import com.cmrise.jpa.dto.mrqs.MrqsListasPalabrasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
@@ -52,6 +55,18 @@ public class UpdateFTAMrqForm {
 	 **********************************************************************/
 	private List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>();
 	private MrqsOpcionMultiple mrqsOpcionMultipleForAction = new MrqsOpcionMultiple(); 
+	private int idxOM = 0; 
+	/*********************************************************************
+	 Atributos Listas de Palabras
+	 *********************************************************************/
+	
+	private List<MrqsListasPalabras> listIncWmrqsListasPalabras = new ArrayList<MrqsListasPalabras>();
+	private List<MrqsListasPalabras> listCanWmrqsListasPalabras = new ArrayList<MrqsListasPalabras>();
+	private List<MrqsListasPalabras> listExcWmrqsListasPalabras = new ArrayList<MrqsListasPalabras>();
+	private int idxIncW = 0; 
+	private int idxCanW = 0; 
+	private int idxExcW = 0; 
+	private MrqsListasPalabras mrqsListasPalabrasForAction = new MrqsListasPalabras(); 
 	
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal;
@@ -62,11 +77,51 @@ public class UpdateFTAMrqForm {
 	@Inject 
 	MrqsOpcionMultipleLocal mrqsOpcionMultipleLocal; 
 	
+	@Inject 
+	MrqsListasPalabrasLocal mrqsListasPalabrasLocal; 
+	
 	@ManagedProperty(value="#{guestPreferences}")
 	GuestPreferences guestPreferences; 
 	
-	 @PostConstruct
-	 public void init() {
+	public void addOpcionMultiple() {
+		MrqsOpcionMultiple mrqsOpcionMultiple = new MrqsOpcionMultiple(); 
+		idxOM++; 
+		mrqsOpcionMultiple.setIdxTemp(idxOM);
+		listMrqsOpcionMultiple.add(mrqsOpcionMultiple);
+	}
+	
+	public void selectOpcionMultipleForAction(MrqsOpcionMultiple pMrqsOpcionMultiple) {
+		mrqsListasPalabrasForAction = new MrqsListasPalabras(); 
+		mrqsListasPalabrasForAction.setIdxTemp(pMrqsOpcionMultiple.getIdxTemp());
+		mrqsListasPalabrasForAction.setNumero(pMrqsOpcionMultiple.getNumero());
+	}
+	
+	public void deleteOpcionMultiple() {
+		boolean updateedDB = false; 
+		if(0!=mrqsListasPalabrasForAction.getIdxTemp()) {
+			for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
+				if(mrqsListasPalabrasForAction.getIdxTemp()==mrqsOpcionMultiple.getIdxTemp()) {
+					listMrqsOpcionMultiple.remove(mrqsOpcionMultiple); 
+					break; 
+				}
+			}
+		}else if(0!=mrqsListasPalabrasForAction.getNumero()) {
+			mrqsOpcionMultipleLocal.delete(mrqsListasPalabrasForAction.getNumero());
+			for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
+				if(mrqsListasPalabrasForAction.getNumero()==mrqsOpcionMultiple.getNumero()) {
+					listMrqsOpcionMultiple.remove(mrqsOpcionMultiple); 
+					break; 
+				}
+			}
+			updateedDB = true; 
+		}
+		
+	}
+	
+	
+	
+	@PostConstruct
+	public void init() {
 		 System.out.println("Entra UpdateFTAMrqForm init()");
 		 FacesContext context = FacesContext.getCurrentInstance(); 
 	     HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest(); 
@@ -118,6 +173,8 @@ public class UpdateFTAMrqForm {
 			this.setRespuestaCorrecta(mrqsPreguntasFtaDto.getRespuestaCorrecta());
 			this.setSingleAnswerMode(mrqsPreguntasFtaDto.isSingleAnswerMode());
 			this.setSuffleAnswerOrder(mrqsPreguntasFtaDto.isSuffleAnswerOrder());
+			this.setMetodoPuntuacion(mrqsPreguntasFtaDto.getMetodoPuntuacion());
+			this.setValorPuntuacion(mrqsPreguntasFtaDto.getValorPuntuacion());
 			List<MrqsOpcionMultipleDto> listMrqsOpcionMultipleDto = mrqsOpcionMultipleLocal.findByNumeroFta(mrqsPreguntasFtaDto.getNumero());
 			System.out.println("listMrqsOpcionMultipleDto.size():"+listMrqsOpcionMultipleDto.size());
 			if(listMrqsOpcionMultipleDto.size()>0) {
@@ -135,6 +192,43 @@ public class UpdateFTAMrqForm {
 	        	 listMrqsOpcionMultiple.add(mrqsOpcionMultiple); 
 			}
 			
+			List<MrqsListasPalabrasDto> listMrqsListasPalabrasDto = null; 
+			listMrqsListasPalabrasDto = mrqsListasPalabrasLocal.findByFta(lNumeroFta, Utilitarios.INCLUDED_WORDS); 
+			if(null!=listMrqsListasPalabrasDto) {
+				listIncWmrqsListasPalabras = new ArrayList<MrqsListasPalabras>();
+				for(MrqsListasPalabrasDto mrqsListasPalabrasDto : listMrqsListasPalabrasDto) {
+					MrqsListasPalabras mrqsListasPalabras = new MrqsListasPalabras(); 	
+					mrqsListasPalabras.setNumero(mrqsListasPalabrasDto.getNumero());
+					mrqsListasPalabras.setPalabra(mrqsListasPalabrasDto.getPalabra());
+					mrqsListasPalabras.setSinonimos(mrqsListasPalabrasDto.getSinonimos());
+					mrqsListasPalabras.setTipoRegistro(mrqsListasPalabrasDto.getTipoRegistro());
+					listIncWmrqsListasPalabras.add(mrqsListasPalabras); 
+				}
+			}
+			listMrqsListasPalabrasDto = mrqsListasPalabrasLocal.findByFta(lNumeroFta, Utilitarios.CAN_WORDS);
+            if(null!=listMrqsListasPalabrasDto) {
+            	listCanWmrqsListasPalabras = new ArrayList<MrqsListasPalabras>(); 
+               for(MrqsListasPalabrasDto mrqsListasPalabrasDto : listMrqsListasPalabrasDto) {
+            	   MrqsListasPalabras mrqsListasPalabras = new MrqsListasPalabras(); 	
+					mrqsListasPalabras.setNumero(mrqsListasPalabrasDto.getNumero());
+					mrqsListasPalabras.setPalabra(mrqsListasPalabrasDto.getPalabra());
+					mrqsListasPalabras.setSinonimos(mrqsListasPalabrasDto.getSinonimos());
+					mrqsListasPalabras.setTipoRegistro(mrqsListasPalabrasDto.getTipoRegistro());
+					listCanWmrqsListasPalabras.add(mrqsListasPalabras); 
+				}
+			}
+            listMrqsListasPalabrasDto = mrqsListasPalabrasLocal.findByFta(lNumeroFta, Utilitarios.EXCLUDED_WORDS);
+            if(null!=listMrqsListasPalabrasDto) {
+            	listExcWmrqsListasPalabras = new ArrayList<MrqsListasPalabras>();
+                for(MrqsListasPalabrasDto mrqsListasPalabrasDto : listMrqsListasPalabrasDto) {
+                	MrqsListasPalabras mrqsListasPalabras = new MrqsListasPalabras(); 	
+					mrqsListasPalabras.setNumero(mrqsListasPalabrasDto.getNumero());
+					mrqsListasPalabras.setPalabra(mrqsListasPalabrasDto.getPalabra());
+					mrqsListasPalabras.setSinonimos(mrqsListasPalabrasDto.getSinonimos());
+					mrqsListasPalabras.setTipoRegistro(mrqsListasPalabrasDto.getTipoRegistro());
+					listExcWmrqsListasPalabras.add(mrqsListasPalabras); 
+				}
+			}
 		 }
 		
 		 
@@ -179,7 +273,7 @@ public class UpdateFTAMrqForm {
 			mrqsPreguntasFtaDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
 			mrqsPreguntasFtaDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
 			System.out.println("this.metodoPuntuacion:"+this.metodoPuntuacion);
-			mrqsPreguntasFtaDto.setMetodoPuntuacion(Utilitarios.WRONG_CORRECT);
+			mrqsPreguntasFtaDto.setMetodoPuntuacion(this.getMetodoPuntuacion());
 		    if(Utilitarios.OPCION_MULTIPLE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
 		    mrqsPreguntasFtaDto.setRespuestaCorrecta("OPCION_MULTIPLE"); 	
 		    }else {
@@ -191,6 +285,7 @@ public class UpdateFTAMrqForm {
 			mrqsPreguntasFtaDto.setTextoSugerencias(this.textoSugerencias);
 			mrqsPreguntasFtaDto.setSingleAnswerMode(this.isSingleAnswerMode());
 			mrqsPreguntasFtaDto.setSuffleAnswerOrder(this.isSuffleAnswerOrder());
+			mrqsPreguntasFtaDto.setValorPuntuacion(this.valorPuntuacion);
 			lNumeroFta = mrqsPreguntasFtaLocal.insert(mrqsPreguntasFtaDto);
 			
 			for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
@@ -205,6 +300,18 @@ public class UpdateFTAMrqForm {
 				mrqsOpcionMultipleLocal.insert(mrqsOpcionMultipleDto); 
 			}
 			
+			for(MrqsListasPalabras mrqsListasPalabras:listIncWmrqsListasPalabras) {
+				insertListasPalabras(lNumeroFta,mrqsListasPalabras); 
+			}
+			
+			for(MrqsListasPalabras mrqsListasPalabras:listCanWmrqsListasPalabras) {
+				insertListasPalabras(lNumeroFta,mrqsListasPalabras); 
+			}
+			
+			for(MrqsListasPalabras mrqsListasPalabras:listExcWmrqsListasPalabras) {
+				insertListasPalabras(lNumeroFta,mrqsListasPalabras); 
+			}
+			
 		}else {
 		  /** ACTUALIZA **/
 			mrqsPreguntasHdrDto.setNumero(this.numeroHdr);
@@ -213,7 +320,7 @@ public class UpdateFTAMrqForm {
 			mrqsPreguntasFtaDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
 			mrqsPreguntasFtaDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
 			System.out.println("this.metodoPuntuacion:"+this.metodoPuntuacion);
-			mrqsPreguntasFtaDto.setMetodoPuntuacion(Utilitarios.WRONG_CORRECT);
+			mrqsPreguntasFtaDto.setMetodoPuntuacion(this.getMetodoPuntuacion());
 			if(Utilitarios.OPCION_MULTIPLE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
 			  mrqsPreguntasFtaDto.setRespuestaCorrecta("OPCION_MULTIPLE"); 	
 			}else {
@@ -247,6 +354,19 @@ public class UpdateFTAMrqForm {
 				}
 			}
 			
+			for(MrqsListasPalabras mrqsListasPalabras:listIncWmrqsListasPalabras) {
+				updateListasPalabras(lNumeroFta,mrqsListasPalabras); 
+			}
+			
+			for(MrqsListasPalabras mrqsListasPalabras:listCanWmrqsListasPalabras) {
+				updateListasPalabras(lNumeroFta,mrqsListasPalabras); 
+			}
+			
+			for(MrqsListasPalabras mrqsListasPalabras:listExcWmrqsListasPalabras) {
+				updateListasPalabras(lNumeroFta,mrqsListasPalabras); 
+			}
+			
+			
 		}
 		
 		mrqsPreguntasHdrDto.setEstatus(this.getMrqsPreguntasHdrV1ForAction().getEstatus());
@@ -263,6 +383,30 @@ public class UpdateFTAMrqForm {
         
 		System.out.println("Entra UpdateFTAMrqForm Sale");
 		
+	}
+	
+	private void insertListasPalabras(long pNumetoFta
+			                         ,MrqsListasPalabras pMrqsListasPalabras) {
+		
+		MrqsListasPalabrasDto mrqsListasPalabrasDto = new MrqsListasPalabrasDto(); 
+		mrqsListasPalabrasDto.setTipoRegistro(pMrqsListasPalabras.getTipoRegistro());
+		mrqsListasPalabrasDto.setNumeroFta(pNumetoFta);
+		mrqsListasPalabrasDto.setPalabra(pMrqsListasPalabras.getPalabra());
+		mrqsListasPalabrasDto.setSinonimos(pMrqsListasPalabras.getSinonimos());
+		mrqsListasPalabrasLocal.insert(mrqsListasPalabrasDto); 
+		
+	}
+	
+	private void updateListasPalabras(long pNumetoFta
+            ,MrqsListasPalabras pMrqsListasPalabras) {
+	  if(0!=pMrqsListasPalabras.getNumero()) {
+		  MrqsListasPalabrasDto mrqsListasPalabrasDto = new MrqsListasPalabrasDto(); 
+		  mrqsListasPalabrasDto.setPalabra(pMrqsListasPalabras.getPalabra());
+	      mrqsListasPalabrasDto.setSinonimos(pMrqsListasPalabras.getSinonimos());
+	      mrqsListasPalabrasLocal.update(pMrqsListasPalabras.getNumero(), mrqsListasPalabrasDto);
+	  }else {
+		  insertListasPalabras(pNumetoFta,pMrqsListasPalabras); 
+	  }	
 	}
 	
 	public String cancel() {
@@ -301,6 +445,140 @@ public class UpdateFTAMrqForm {
 		}
 		return "Preguntas-ManageNewMrqs"; 
 	}
+	
+	
+	public void selectWordForAction(MrqsListasPalabras pMrqsListasPalabras) {
+		System.out.println("pMrqsListasPalabras.getIdxTemp():"+pMrqsListasPalabras.getIdxTemp());
+		System.out.println("pMrqsListasPalabras.getNumero():"+pMrqsListasPalabras.getNumero());
+		mrqsListasPalabrasForAction = new MrqsListasPalabras(); 
+		mrqsListasPalabrasForAction.setIdxTemp(pMrqsListasPalabras.getIdxTemp());
+		mrqsListasPalabrasForAction.setNumero(pMrqsListasPalabras.getNumero());
+		mrqsListasPalabrasForAction.setTipoRegistro(pMrqsListasPalabras.getTipoRegistro());
+	}
+	
+	public void deleteWord() {
+		boolean updateedDB = false; 
+		System.out.println("mrqsListasPalabrasForAction.getTipoRegistro():"+mrqsListasPalabrasForAction.getTipoRegistro());
+		if(Utilitarios.INCLUDED_WORDS.equals(mrqsListasPalabrasForAction.getTipoRegistro())) {
+			if(mrqsListasPalabrasForAction.getIdxTemp()!=0) {
+				for(MrqsListasPalabras mrqsListasPalabras:listIncWmrqsListasPalabras) {
+					if(mrqsListasPalabrasForAction.getIdxTemp()==mrqsListasPalabras.getIdxTemp()) {
+						listIncWmrqsListasPalabras.remove(mrqsListasPalabras); 
+						break; 
+					}
+				}
+			}else if(mrqsListasPalabrasForAction.getNumero()!=0) {
+				mrqsListasPalabrasLocal.delete(mrqsListasPalabrasForAction.getNumero());
+				updateedDB = true; 
+			}
+			
+		}else if(Utilitarios.CAN_WORDS.equals(mrqsListasPalabrasForAction.getTipoRegistro())) {
+			
+			if(mrqsListasPalabrasForAction.getIdxTemp()!=0) {
+				for(MrqsListasPalabras mrqsListasPalabras:listCanWmrqsListasPalabras) {
+					if(mrqsListasPalabrasForAction.getIdxTemp()==mrqsListasPalabras.getIdxTemp()) {
+						listCanWmrqsListasPalabras.remove(mrqsListasPalabras); 
+						break; 
+					}
+				}
+			}else if(mrqsListasPalabrasForAction.getNumero()!=0) {
+				mrqsListasPalabrasLocal.delete(mrqsListasPalabrasForAction.getNumero());
+				updateedDB = true; 
+			}
+			
+		}else if(Utilitarios.EXCLUDED_WORDS.equals(mrqsListasPalabrasForAction.getTipoRegistro())) {
+			
+			if(mrqsListasPalabrasForAction.getIdxTemp()!=0) {
+				for(MrqsListasPalabras mrqsListasPalabras:listExcWmrqsListasPalabras) {
+					if(mrqsListasPalabrasForAction.getIdxTemp()==mrqsListasPalabras.getIdxTemp()) {
+						listExcWmrqsListasPalabras.remove(mrqsListasPalabras); 
+						break; 
+					}
+				}
+			}else if(mrqsListasPalabrasForAction.getNumero()!=0) {
+				mrqsListasPalabrasLocal.delete(mrqsListasPalabrasForAction.getNumero());
+				updateedDB = true; 
+			}
+			
+			
+		}
+		
+		 if(updateedDB) {
+			 long lNumeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(this.getNumeroHdr()); 
+			 if(0l!=lNumeroFta) {
+				 refreshWordsEntity(lNumeroFta);
+			 }
+		 }
+		
+	}
+		 
+		 
+    public void refreshWordsEntity(long pNumeroFta) {
+    
+    	List<MrqsListasPalabrasDto> listMrqsListasPalabrasDto = null; 
+		listMrqsListasPalabrasDto = mrqsListasPalabrasLocal.findByFta(pNumeroFta, Utilitarios.INCLUDED_WORDS); 
+		if(null!=listMrqsListasPalabrasDto) {
+			listIncWmrqsListasPalabras = new ArrayList<MrqsListasPalabras>();
+			for(MrqsListasPalabrasDto mrqsListasPalabrasDto : listMrqsListasPalabrasDto) {
+				MrqsListasPalabras mrqsListasPalabras = new MrqsListasPalabras(); 	
+				mrqsListasPalabras.setNumero(mrqsListasPalabrasDto.getNumero());
+				mrqsListasPalabras.setPalabra(mrqsListasPalabrasDto.getPalabra());
+				mrqsListasPalabras.setSinonimos(mrqsListasPalabrasDto.getSinonimos());
+				mrqsListasPalabras.setTipoRegistro(mrqsListasPalabrasDto.getTipoRegistro());
+				listIncWmrqsListasPalabras.add(mrqsListasPalabras); 
+			}
+		}
+		listMrqsListasPalabrasDto = mrqsListasPalabrasLocal.findByFta(pNumeroFta, Utilitarios.CAN_WORDS);
+        if(null!=listMrqsListasPalabrasDto) {
+        	listCanWmrqsListasPalabras = new ArrayList<MrqsListasPalabras>(); 
+           for(MrqsListasPalabrasDto mrqsListasPalabrasDto : listMrqsListasPalabrasDto) {
+        	   MrqsListasPalabras mrqsListasPalabras = new MrqsListasPalabras(); 	
+				mrqsListasPalabras.setNumero(mrqsListasPalabrasDto.getNumero());
+				mrqsListasPalabras.setPalabra(mrqsListasPalabrasDto.getPalabra());
+				mrqsListasPalabras.setSinonimos(mrqsListasPalabrasDto.getSinonimos());
+				mrqsListasPalabras.setTipoRegistro(mrqsListasPalabrasDto.getTipoRegistro());
+				listCanWmrqsListasPalabras.add(mrqsListasPalabras); 
+			}
+		}
+        listMrqsListasPalabrasDto = mrqsListasPalabrasLocal.findByFta(pNumeroFta, Utilitarios.EXCLUDED_WORDS);
+        if(null!=listMrqsListasPalabrasDto) {
+        	listExcWmrqsListasPalabras = new ArrayList<MrqsListasPalabras>();
+            for(MrqsListasPalabrasDto mrqsListasPalabrasDto : listMrqsListasPalabrasDto) {
+            	MrqsListasPalabras mrqsListasPalabras = new MrqsListasPalabras(); 	
+				mrqsListasPalabras.setNumero(mrqsListasPalabrasDto.getNumero());
+				mrqsListasPalabras.setPalabra(mrqsListasPalabrasDto.getPalabra());
+				mrqsListasPalabras.setSinonimos(mrqsListasPalabrasDto.getSinonimos());
+				mrqsListasPalabras.setTipoRegistro(mrqsListasPalabrasDto.getTipoRegistro());
+				listExcWmrqsListasPalabras.add(mrqsListasPalabras); 
+			}
+		}
+    		 
+    }
+	
+	public void addIncWord() {
+		MrqsListasPalabras mrqsListasPalabras = new MrqsListasPalabras(); 
+		idxIncW++; 
+		mrqsListasPalabras.setTipoRegistro(Utilitarios.INCLUDED_WORDS);
+		mrqsListasPalabras.setIdxTemp(idxIncW);
+		listIncWmrqsListasPalabras.add(mrqsListasPalabras); 
+	}
+	
+	public void addCanWord() {
+		MrqsListasPalabras mrqsListasPalabras = new MrqsListasPalabras(); 
+		 idxCanW++; 
+	    mrqsListasPalabras.setTipoRegistro(Utilitarios.CAN_WORDS);
+	    mrqsListasPalabras.setIdxTemp(idxCanW);
+	    listCanWmrqsListasPalabras.add(mrqsListasPalabras); 
+	}
+	
+	public void addExcWord() {
+		MrqsListasPalabras mrqsListasPalabras = new MrqsListasPalabras(); 
+		idxExcW++; 
+		mrqsListasPalabras.setTipoRegistro(Utilitarios.EXCLUDED_WORDS);
+		mrqsListasPalabras.setIdxTemp(idxExcW);
+		listExcWmrqsListasPalabras.add(mrqsListasPalabras);
+	}
+	
 	
 	public MrqsPreguntasHdrV1 getMrqsPreguntasHdrV1ForAction() {
 		return mrqsPreguntasHdrV1ForAction;
@@ -464,6 +742,70 @@ public class UpdateFTAMrqForm {
 
 	public void setMrqsOpcionMultipleForAction(MrqsOpcionMultiple mrqsOpcionMultipleForAction) {
 		this.mrqsOpcionMultipleForAction = mrqsOpcionMultipleForAction;
+	}
+
+	public List<MrqsListasPalabras> getListIncWmrqsListasPalabras() {
+		return listIncWmrqsListasPalabras;
+	}
+
+	public void setListIncWmrqsListasPalabras(List<MrqsListasPalabras> listIncWmrqsListasPalabras) {
+		this.listIncWmrqsListasPalabras = listIncWmrqsListasPalabras;
+	}
+
+	public List<MrqsListasPalabras> getListCanWmrqsListasPalabras() {
+		return listCanWmrqsListasPalabras;
+	}
+
+	public void setListCanWmrqsListasPalabras(List<MrqsListasPalabras> listCanWmrqsListasPalabras) {
+		this.listCanWmrqsListasPalabras = listCanWmrqsListasPalabras;
+	}
+
+	public List<MrqsListasPalabras> getListExcWmrqsListasPalabras() {
+		return listExcWmrqsListasPalabras;
+	}
+
+	public void setListExcWmrqsListasPalabras(List<MrqsListasPalabras> listExcWmrqsListasPalabras) {
+		this.listExcWmrqsListasPalabras = listExcWmrqsListasPalabras;
+	}
+
+	public int getIdxIncW() {
+		return idxIncW;
+	}
+
+	public void setIdxIncW(int idxIncW) {
+		this.idxIncW = idxIncW;
+	}
+
+	public int getIdxCanW() {
+		return idxCanW;
+	}
+
+	public void setIdxCanW(int idxCanW) {
+		this.idxCanW = idxCanW;
+	}
+
+	public int getIdxExcW() {
+		return idxExcW;
+	}
+
+	public void setIdxExcW(int idxExcW) {
+		this.idxExcW = idxExcW;
+	}
+
+	public MrqsListasPalabras getMrqsListasPalabrasForAction() {
+		return mrqsListasPalabrasForAction;
+	}
+
+	public void setMrqsListasPalabrasForAction(MrqsListasPalabras mrqsListasPalabrasForAction) {
+		this.mrqsListasPalabrasForAction = mrqsListasPalabrasForAction;
+	}
+
+	public int getIdxOM() {
+		return idxOM;
+	}
+
+	public void setIdxOM(int idxOM) {
+		this.idxOM = idxOM;
 	}
 
 }
