@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -113,12 +114,29 @@ public class UpdateCoreCaseForm {
 	  session.setAttribute("NumeroCcHdrSV", lNumeroCcHdr);
       session.setAttribute("NumeroCcPreguntaHdrSV", lNumeroPreguntaHdr);
 	  return  "Actualizar-Pregunta-Fta-CoreCase";
-  }
-//  
+  }  
   
+  public void actualizar () {
+	  System.out.println("Entra actualizar");
+	  CcHdrDto ccHdrDto = new CcHdrDto();
+	  ccHdrDto.setNombre(this.getNombreCc());
+	  ccHdrDto.setEstatus(this.getEstatusCc());
+	  ccHdrDto.setTema(this.getTemaCc());
+	  ccHdrDto.setEtiquetas(this.getEtiquetasCc());
+	  ccHdrDto.setHistorialClinico(this.getHistorialClinicoCc());
+	  ccHdrDto.setDescripcionTecnica(this.getDescripcionTecnicaCc());
+	  ccHdrDto.setNota(this.getNotaCc());
+	
+	  
+	  ccHdrLocal.update(this.getNumeroCcHdr(), ccHdrDto);
+	  FacesContext context = FacesContext.getCurrentInstance();
+      context.addMessage(null, new FacesMessage("Se actualizaron los datos correctamente", "Actualizacion correcta"));
+	  System.out.println("Sale Actualizar");
+  }
+
   
 	public String saveAndPreview() {	     
-		/**updatePregunta();**/ 
+		//updatePregunta();
 		 getGuestPreferences().setTheme("deep-purple");
 	 FacesContext context = FacesContext.getCurrentInstance(); 
 	     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
