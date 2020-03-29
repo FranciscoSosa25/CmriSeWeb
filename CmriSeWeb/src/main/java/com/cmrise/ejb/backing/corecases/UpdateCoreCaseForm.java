@@ -136,25 +136,16 @@ public class UpdateCoreCaseForm {
 
   
 	public String saveAndPreview() {	     
-		//updatePregunta();
+		 actualizar(); 
 		 getGuestPreferences().setTheme("deep-purple");
-	 FacesContext context = FacesContext.getCurrentInstance(); 
+	     FacesContext context = FacesContext.getCurrentInstance(); 
 	     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-	     session.setAttribute("NumeroCcHdrSV", this.getNumeroCcHdr());	     
-		return "coreCase-Preview"; 
+	     session.setAttribute("NumeroCcHdrSV", this.getNumeroCcHdr());	
+	     System.out.println("Sale saveAndPreview()");
+	    return "CoreCase-Preview"; 
 	}
  
-	public void actualizar() {
-		System.out.println("Entra actualizar");
-		System.out.println("this.getNumeroCcHdr():"+this.getNumeroCcHdr());
-		CcHdrDto ccHdrDto = new CcHdrDto(); 
-		ccHdrDto.setNombre(this.getNombreCc());
-		ccHdrLocal.update(this.getNumeroCcHdr(), ccHdrDto);
-	    FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Se actualizaron los datos correctamente", "Actualizacion correcta"));
-		System.out.println("Sale actualizar");
-	}
-  
+
 public long getNumeroCcHdr() {
 	return numeroCcHdr;
  }

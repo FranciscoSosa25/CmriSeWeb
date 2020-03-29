@@ -4,7 +4,123 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="xxhrwjs">
+ <script type="text/javascript">
+ function handleCreateRequest(xhr, status, args){
+ 	 if(args.validationFailed) {
+		 argsValidationFailed(); 
+     }
+ }
+ </script>
+</ui:define> 
+                
 <ui:define name="content">
  <h1>Crear Prueba/Examen</h1>
+<h:form id="createForm">
+<f:passThroughAttribute name="autocomplete" value="off"/>
+<p:panelGrid id="tituloPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+  <p:outputLabel for="publicTitle" value="Título Público"/>
+  <p:inputText id="publicTitle" value="#{createMrqsExamForm.titulo}" style="width:100%"/>
+  <p:message for="publicTitle"/>
+  <p:outputLabel for="nameInternal" value="Nombre (Interno)"/>
+  <p:inputText id="nameInternal" value="#{createMrqsExamForm.nombre}" style="width:100%"/>
+  <p:message for="nameInternal"/>
+  <p:outputLabel for="description" value="Descripción"/>
+  <p:inputTextarea  id="description" value="#{createMrqsExamForm.descripcion}"  rows="4" style="width:100%"/>
+  <p:message  for="description"/>
+  <p:outputLabel for="questionType" value="Tipo de Pregunta" />
+  <p:selectOneMenu id="questionType" value="#{createMrqsExamForm.tipoPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  <f:selectItem itemLabel="Seleccione un tipo de pregunta" itemValue="" />
+  <f:selectItems value="#{selectsHelper.selectTipoPreguntaExamenItems}" />
+  </p:selectOneMenu>
+  <p:message for="questionType"/>
+  <p:outputLabel for="questionExam" value="Tipo de Examen" />
+  <p:selectOneMenu id="questionExam" value="#{createMrqsExamForm.tipoExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  <f:selectItem itemLabel="Seleccione un tipo de examen" itemValue="" />
+  <f:selectItems value="#{selectsHelper.selectTipoExamenItems}" />
+  </p:selectOneMenu>
+  <p:message for="questionExam"/>
+  <p:outputLabel for="topic" value="Tema" />
+  <p:selectOneMenu id="topic" value="#{createMrqsExamForm.tema}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
+  <f:selectItems value="#{selectsHelper.selectTemaExamenItems}" />
+  </p:selectOneMenu>
+  <p:message for="topic"/>
+  <p:outputLabel for="internalComments" value="Comentarios Internos"/>
+  <p:inputTextarea  id="internalComments" value="#{createMrqsExamForm.comentarios}" rows="4" style="width:100%"/>
+  <p:message  for="internalComments"/>
+</p:panelGrid>
+
+<h3>OPCIONES DE PRUEBA/EXAMEN</h3>
+
+<p:panelGrid id="visibilityPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+  <p:outputLabel for="visibility" value="Visibilidad" />
+  <p:selectOneMenu id="visibility" value="#{createMrqsExamForm.visibilidad}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  <f:selectItem itemLabel="Seleccione ..." itemValue="" />
+  <f:selectItems value="#{selectsHelper.selectVisibilidadItems}" />
+  </p:selectOneMenu>
+  <p:message  for="visibility"/>
+</p:panelGrid>
+
+<p:panelGrid id="disponibilidadPanelId" columns="6" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2">
+  <p:outputLabel for="fechaDisponibleDesdeInput" value="Disponible Desde" />
+  <p:calendar id="fechaDisponibleDesdeInput" value="#{createMrqsExamForm.fechaEfectivaDesde}" locale="es" pattern="dd/MM/yyyy HH:mm" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+  <p:message for="fechaDisponibleDesdeInput"/>
+  <p:outputLabel value="Disponible Hasta" />
+  <p:calendar id="fechaDisponibleHastaInput" value="#{createMrqsExamForm.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy HH:mm" mask="true" disabled="true" />
+  <p:message for="fechaDisponibleHastaInput"/>
+</p:panelGrid>
+
+<p:panelGrid id="tiempoLimitePanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+ <p:outputLabel  for="timeLimit" value="Límite de Tiempo" />
+ <p:spinner id="timeLimit" value="#{createMrqsExamForm.limiteTiempo}" />
+ <p:message  for="timeLimit"/>
+ <p:outputLabel for="canSkipQuestions"  value="¿Puede Saltar Preguntas?" />
+ <p:inputSwitch id="canSkipQuestions" value="#{createMrqsExamForm.saltarPreguntas}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="canSkipQuestions"/>
+ <p:outputLabel for="canSkipCases"  value="¿Puede Saltar Casos?" />
+ <p:inputSwitch id="canSkipCases" value="#{createMrqsExamForm.saltarCasos}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="canSkipCases"/>
+ <p:outputLabel for="showAnswers"  value="¿Mostrar Respuestas?" />
+ <p:inputSwitch id="showAnswers" value="#{createMrqsExamForm.mostrarRespuestas}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="showAnswers"/>
+ <p:outputLabel for="hasPassmark"  value="¿Tiene Passmark?" />
+ <p:inputSwitch id="hasPassmark" value="#{createMrqsExamForm.tienePassmark}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="hasPassmark"/>
+ <p:outputLabel for="shufleGroupOrder"  value="¿Orden Aleatorio de Grupo?" />
+ <p:inputSwitch id="shufleGroupOrder" value="#{createMrqsExamForm.aleatorioGrupo}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="shufleGroupOrder"/>
+ <p:outputLabel for="shufleQuestionOrder"  value="¿Orden Aleatorio de Preguntas?" />
+ <p:inputSwitch id="shufleQuestionOrder" value="#{createMrqsExamForm.aleatorioPreguntas}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="shufleQuestionOrder"/>
+ <p:outputLabel for="randomCasesSelection"  value="¿Selección de Casos Aleatorios?" />
+ <p:inputSwitch id="randomCasesSelection" value="#{createMrqsExamForm.seleccionCasosAleatorios}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="randomCasesSelection"/> 
+ <p:outputLabel for="finishingMessage" value="Mensaje Final"/>
+ <p:inputTextarea  id="finishingMessage" value="#{createMrqsExamForm.mensajeFinalizacion}" rows="4" style="width:100%"/>
+ <p:message  for="finishingMessage"/>
+</p:panelGrid>
+
+<h3>OPCIONES DE DOCUMENTOS</h3>
+<p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+ <p:outputLabel for="generateConfirmationOfAttendance"  value="¿Generar Confirmación de Asistencia?" />
+ <p:inputSwitch id="generateConfirmationOfAttendance" value="#{createMrqsExamForm.confirmacionAsistencia}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="generateConfirmationOfAttendance"/>
+ <p:outputLabel for="generateDiploma"  value="¿Generar Diploma?" />
+ <p:inputSwitch id="generateDiploma" value="#{createMrqsExamForm.diploma}" onLabel="&#10003;" offLabel="&#215;"/>
+ <p:message  for="generateDiploma"/>
+</p:panelGrid>
+
+<div class="ui-g">
+ <div class="ui-g-12 ui-md-6 ui-lg-2">
+  <p:commandButton value="Crear" update="tituloPanelId visibilityPanelId disponibilidadPanelId tiempoLimitePanelId" action="#{createMrqsExamForm.create()}" oncomplete="handleCreateRequest(xhr, status, args)"/>
+ </div>
+ <div class="ui-g-12 ui-md-6 ui-lg-2">
+  <p:commandButton value="Cancelar"/>
+ </div>
+</div>
+</h:form>
 </ui:define>
 </ui:composition>
+

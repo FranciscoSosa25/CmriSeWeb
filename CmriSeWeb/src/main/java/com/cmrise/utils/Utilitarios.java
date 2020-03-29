@@ -6,6 +6,7 @@ public  class Utilitarios {
 	public static final String PCUNITNAME="CMRISEPU";
 	public static final java.sql.Date endOfTime = java.sql.Date.valueOf("9999-12-31");
 	public static final java.sql.Date startOfTime = java.sql.Date.valueOf("0001-01-01");
+	public static final java.sql.Timestamp endOfTimeTimestamp = java.sql.Timestamp.valueOf("9999-12-31 00:00:00");
 	public static final String SOCIEDAD ="CMRI - Consejo Mexicano de Radiolog\u00eda e Imagen";
 	public static final String INITIAL_STATUS_MRQ ="PARA_REVISAR";
 	public static final String INITIAL_STATUS_CC_EXAM="EN_EL_TRABAJO";

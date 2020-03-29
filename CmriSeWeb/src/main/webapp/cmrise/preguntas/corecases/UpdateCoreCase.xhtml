@@ -115,7 +115,7 @@
 
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Guardar y Previsualizar" />
+  <p:commandButton value="Guardar y Previsualizar" update="updateForm" action="#{updateCoreCaseForm.saveAndPreview()}"/>
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
   <p:commandButton value="Cancelar" action="Preguntas-Manage-CoreCases" immediate="true"/>

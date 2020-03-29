@@ -20,10 +20,10 @@ import com.cmrise.jpa.dto.exams.MrqsExamenesV1Dto;
 @ViewScoped
 public class ManageMrqsExamsForm {
 	 private List<MrqsExamenes> listMrqsExamenes = new ArrayList<MrqsExamenes>();
-	 private MrqsExamenes ccExamenesForAction = new MrqsExamenes();
+	 private MrqsExamenes mrqsExamenesForAction = new MrqsExamenes();
 	 
 	 @Inject 
-	 MrqsExamenesLocal ccExamenesLocal; 
+	 MrqsExamenesLocal mrqsExamenesLocal; 
 	 
 	 @PostConstruct
 	 public void init() {
@@ -33,7 +33,7 @@ public class ManageMrqsExamsForm {
 	 }
 	 
 	private void refreshEntity() {
-		List<MrqsExamenesV1Dto> listMrqsExamenesV1Dto = ccExamenesLocal.findAllWD(); 
+		List<MrqsExamenesV1Dto> listMrqsExamenesV1Dto = mrqsExamenesLocal.findAllWD(); 
 	    System.out.println("listMrqsExamenesDto.size():"+listMrqsExamenesV1Dto.size());
 	    listMrqsExamenes = new ArrayList<MrqsExamenes>();
 	    for(MrqsExamenesV1Dto ccExamenesV1Dto: listMrqsExamenesV1Dto) {
@@ -62,27 +62,21 @@ public class ManageMrqsExamsForm {
 
 	public void selectForAction(MrqsExamenes pMrqsExamenes) {
 		System.out.println("Entra "+this.getClass()+" selectForAction()");	
-		ccExamenesForAction.setNumero(pMrqsExamenes.getNumero());
+		mrqsExamenesForAction.setNumero(pMrqsExamenes.getNumero());
 		System.out.println("Sale "+this.getClass()+" selectForAction()");
 	}
 
 	public void delete() {
 		System.out.println("Entra "+this.getClass()+" delete()");
 		boolean deleteIn = false; 
-		ccExamenesLocal.delete(ccExamenesForAction.getNumero());
+		mrqsExamenesLocal.delete(mrqsExamenesForAction.getNumero());
 		refreshEntity(); 
 		deleteIn = true; 
 		PrimeFaces.current().ajax().addCallbackParam("deleteIn", deleteIn);
 		System.out.println("Sale "+this.getClass()+" delete()");	
 	}
 
-	public MrqsExamenes getMrqsExamenesForAction() {
-		return ccExamenesForAction;
-	}
-
-	public void setMrqsExamenesForAction(MrqsExamenes ccExamenesForAction) {
-		this.ccExamenesForAction = ccExamenesForAction;
-	}
+	
 
 	public List<MrqsExamenes> getListMrqsExamenes() {
 		return listMrqsExamenes;
@@ -90,6 +84,14 @@ public class ManageMrqsExamsForm {
 
 	public void setListMrqsExamenes(List<MrqsExamenes> listMrqsExamenes) {
 		this.listMrqsExamenes = listMrqsExamenes;
+	}
+
+	public MrqsExamenes getMrqsExamenesForAction() {
+		return mrqsExamenesForAction;
+	}
+
+	public void setMrqsExamenesForAction(MrqsExamenes mrqsExamenesForAction) {
+		this.mrqsExamenesForAction = mrqsExamenesForAction;
 	}
 	 
 }

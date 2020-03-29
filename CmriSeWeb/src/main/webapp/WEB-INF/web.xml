@@ -54,6 +54,17 @@
   <welcome-file>faces/index.xhtml</welcome-file>
  </welcome-file-list>
  
-      
- 
+<filter>  
+    <filter-name>UserRoleFilter</filter-name>  
+    <filter-class>com.cmrise.ejb.backing.admin.UserRoleFilter</filter-class>  
+</filter>  
+<filter-mapping>  
+    <filter-name>UserRoleFilter</filter-name>  
+    <url-pattern>/faces/cmrise/*</url-pattern> 
+</filter-mapping>
+
+<filter-mapping>  
+    <filter-name>UserRoleFilter</filter-name>  
+    <url-pattern>/cmrise/*</url-pattern> 
+</filter-mapping> 
 </web-app>
