@@ -183,6 +183,15 @@
   </navigation-case>
   </navigation-rule>
  
+ <navigation-rule>
+  <navigation-case>
+   <from-outcome>CoreCase-Preview</from-outcome>
+   <to-view-id>/cmrise/preguntas/corecases/preview/CoreCasePreview.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+ </navigation-rule>
+ 
+ 
  <application>
   <!-- Dialog Framework -->
   <action-listener>org.primefaces.application.DialogActionListener</action-listener>

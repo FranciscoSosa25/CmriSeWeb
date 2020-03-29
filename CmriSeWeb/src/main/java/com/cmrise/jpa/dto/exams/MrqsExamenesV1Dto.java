@@ -5,8 +5,18 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
+/**
+ * The persistent class for the MRQS_EXAMENES_V1 database table.
+ * 
+ */
+@Entity
+@Table(name="MRQS_EXAMENES_V1")
+@NamedQuery(name="MrqsExamenesV1Dto.findAll", query="SELECT m FROM MrqsExamenesV1Dto m")
 public class MrqsExamenesV1Dto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -47,10 +57,10 @@ public class MrqsExamenesV1Dto implements Serializable {
 	private Timestamp fechaCreacion;
 
 	@Column(name="FECHA_EFECTIVA_DESDE")
-	private Date fechaEfectivaDesde;
+	private Timestamp fechaEfectivaDesde;
 
 	@Column(name="FECHA_EFECTIVA_HASTA")
-	private Date fechaEfectivaHasta;
+	private Timestamp fechaEfectivaHasta;
 
 	@Column(name="MENSAJE_FINALIZACION")
 	private String mensajeFinalizacion;
@@ -209,19 +219,19 @@ public class MrqsExamenesV1Dto implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public Date getFechaEfectivaDesde() {
+	public Timestamp getFechaEfectivaDesde() {
 		return this.fechaEfectivaDesde;
 	}
 
-	public void setFechaEfectivaDesde(Date fechaEfectivaDesde) {
+	public void setFechaEfectivaDesde(Timestamp fechaEfectivaDesde) {
 		this.fechaEfectivaDesde = fechaEfectivaDesde;
 	}
 
-	public Date getFechaEfectivaHasta() {
+	public Timestamp getFechaEfectivaHasta() {
 		return this.fechaEfectivaHasta;
 	}
 
-	public void setFechaEfectivaHasta(Date fechaEfectivaHasta) {
+	public void setFechaEfectivaHasta(Timestamp fechaEfectivaHasta) {
 		this.fechaEfectivaHasta = fechaEfectivaHasta;
 	}
 

@@ -41,6 +41,7 @@ public class SelectsHelper {
 	private List<SelectItem> selectTemaDePreguntaItems; 
 	private List<SelectItem> selectScoringValueItems;
 	private List<SelectItem> selectScoringMethodItems; 
+	private List<SelectItem> selectTipoPreguntaExamenItems; 
 	
 	@PostConstruct
     public void init() {
@@ -53,11 +54,14 @@ public class SelectsHelper {
        environmentEstatusMrqs();
        environmentTemaDePregunta();
        environmentScoringValue();
-       environmentScoringMethod(); 
+       environmentScoringMethod();
+       environmentTipoPreguntaExamen();
        System.out.println("Sale SelectsHelper init()");
     }
 	
 	
+	
+
 	private void environmentTipoPregunta() {
 		this.selectTipoPreguntaItems = new ArrayList<SelectItem>();
 		List<TablasUtilitariasValoresDto> listTipoPreguntaValores =  tablasUtilitariasValoresLocal.findByTipoTabla("TIPO_PREGUNTA");  
@@ -246,5 +250,21 @@ public class SelectsHelper {
 		return lselectCoreCasesItems; 
 	}
 
+
+	private void environmentTipoPreguntaExamen() {
+		this.selectTipoPreguntaExamenItems = new ArrayList<SelectItem>();
+		List<TablasUtilitariasValoresDto> listTipoPreguntaValores =  tablasUtilitariasValoresLocal.findByTipoTabla("TIPO_PREGUNTA_EXAMEN");  
+		Iterator<TablasUtilitariasValoresDto> iterTipoPreguntaValores = listTipoPreguntaValores.iterator(); 
+		while(iterTipoPreguntaValores.hasNext()) {
+			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterTipoPreguntaValores.next();
+			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+			this.selectTipoPreguntaExamenItems.add(selectItem); 
+		}
+	}
+
+	
+	public List<SelectItem> getSelectTipoPreguntaExamenItems() {
+		return selectTipoPreguntaExamenItems;
+	}
 
 }
