@@ -47,6 +47,7 @@ public class UpdateTestExamForm {
 	private String mensajeFinalizacion; 
 	private boolean confirmacionAsistencia; 
 	private boolean diploma;
+	private String nombreCaso;
 	
 	private List<CcExamAsignaciones> listCcExamAsignaciones = new ArrayList<CcExamAsignaciones>(); 
 	
@@ -113,6 +114,7 @@ public class UpdateTestExamForm {
 		ccExamenesUpdateDto.setEstatus(this.getEstatus());
 		ccExamenesUpdateDto.setTitulo(this.getTitulo());
 		ccExamenesUpdateDto.setNombre(this.getNombre());
+		
 		ccExamenesUpdateDto.setDescripcion(this.getDescripcion());
 		ccExamenesUpdateDto.setTipoPregunta(this.getTipoPregunta());
 		ccExamenesUpdateDto.setTipoExamen(this.getTipoExamen());
@@ -359,6 +361,14 @@ public class UpdateTestExamForm {
 
 	public void setListCcExamAsignaciones(List<CcExamAsignaciones> listCcExamAsignaciones) {
 		this.listCcExamAsignaciones = listCcExamAsignaciones;
-	} 
+	}
+
+	public String getNombreCaso() {
+		return nombreCaso;
+	}
+
+	public void setNombreCaso(String nombreCaso) {
+		this.nombreCaso = nombreCaso;
+	}
 	 
 }

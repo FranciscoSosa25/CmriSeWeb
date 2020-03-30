@@ -38,6 +38,10 @@ function handleDuplicateRequest(xhr, status, args){
                 
 <ui:define name="content">
 <h:form id="ReadOnlyForm">
+ <p:breadCrumb>
+  		<p:menuitem value="Pagina Principal" outcome="PaginaPrincipal"/>
+      <p:menuitem value="MRQs" url="#" />
+  </p:breadCrumb>
 <h1>Gestionar Nuevas MRQs</h1>
 <p:growl id="growl"  />
 <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva MRQ" icon="pi pi-plus" action="Preguntas-CreateNewMrqs"/>
