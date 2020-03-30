@@ -35,7 +35,7 @@
       <h:outputText value="#{mrqsExamenes.estatusDesc}" />
     </p:column>
      <p:column headerText="Acciones">
-        <p:commandButton icon="fa fa-edit" style="margin-left: 10px;" action="#{manageMrqsExamsForm.update(ccExamenes)}"/>
+        <p:commandButton icon="fa fa-edit" style="margin-left: 10px;" action="#{manageMrqsExamsForm.update(mrqsExamenes)}"/>
         <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteExamenDialogWV').show();" ajax="true" actionListener="#{manageMrqsExamsForm.selectForAction(mrqsExamenes)}"/>
      </p:column>
  </p:dataTable>

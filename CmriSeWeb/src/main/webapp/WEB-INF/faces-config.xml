@@ -181,6 +181,11 @@
    <to-view-id>/cmrise/examenes/mrqs/CreateMrqsExam.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
+   <navigation-case>
+   <from-outcome>Exams-MRQs-Update</from-outcome>
+   <to-view-id>/cmrise/examenes/mrqs/UpdateMrqsExam.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
   </navigation-rule>
  
  <navigation-rule>
