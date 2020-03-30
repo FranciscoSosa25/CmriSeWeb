@@ -6,17 +6,22 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 import com.cmrise.ejb.model.exams.CcExamAsignaciones;
-import com.cmrise.ejb.services.exams.CcExamAsignacionesLocal;
+import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
 import com.cmrise.ejb.services.exams.MrqsExamenesLocal;
+import com.cmrise.ejb.services.exams.MrqsGrupoHdrLocal;
 import com.cmrise.jpa.dto.exams.MrqsExamenesDto;
+import com.cmrise.jpa.dto.exams.MrqsGrupoHdrDto;
 import com.cmrise.utils.Utilitarios;
 import com.cmrise.utils.UtilitariosLocal;
 
@@ -50,6 +55,12 @@ public class UpdateMrqsExamForm {
 	
 	//private List<CcExamAsignaciones> listCcExamAsignaciones = new ArrayList<CcExamAsignaciones>(); 
 	
+	private MrqsGrupoHdr mrqsGrupoHdr = new MrqsGrupoHdr(); 
+	private List<MrqsGrupoHdr> listMrqsGrupoHdr = new ArrayList<MrqsGrupoHdr>(); 
+	
+	private TreeNode rootMrqsGrupo;
+	private TreeNode selectedNode;
+	
 	@Inject 
 	UtilitariosLocal utilitariosLocal; 
 	
@@ -57,7 +68,9 @@ public class UpdateMrqsExamForm {
 	MrqsExamenesLocal mrqsExamenesLocal; 
 	
 	@Inject 
-	CcExamAsignacionesLocal ccExamAsignacionesLocal;
+	MrqsGrupoHdrLocal mrqsGrupoHdrLocal; 
+	
+	
 	
 	 @PostConstruct
 	 public void init() {
@@ -68,6 +81,7 @@ public class UpdateMrqsExamForm {
 		numeroMrqsExamen = utilitariosLocal.objToLong(objNumeroCcExamen); 
 		System.out.println(" numeroMrqsExamen:"+numeroMrqsExamen);
 		refreshEntity(); 
+		
 	    System.out.println("Finaliza UpdateTestExamForm init()");
 	 }
 
@@ -83,7 +97,7 @@ public class UpdateMrqsExamForm {
 		this.setComentarios(mrqsExamenesDto.getComentarios());
 		this.setVisibilidad(mrqsExamenesDto.getVisibilidad());
 		this.setFechaEfectivaDesde(utilitariosLocal.toUtilDate(mrqsExamenesDto.getFechaEfectivaDesde()));
-		if(Utilitarios.endOfTime.equals(mrqsExamenesDto.getFechaEfectivaHasta())) {
+		if(Utilitarios.endOfTimeTimestamp.equals(mrqsExamenesDto.getFechaEfectivaHasta())) {
 			this.setFechaEfectivaHasta(null);
 		}else {
 			this.setFechaEfectivaHasta(utilitariosLocal.toUtilDate(mrqsExamenesDto.getFechaEfectivaHasta()));
@@ -102,42 +116,48 @@ public class UpdateMrqsExamForm {
 		
 		/** listCcExamAsignaciones = ccExamAsignacionesLocal.findByNumeroExamenWD(this.getNumeroMrqsExamen()); **/
 		
+		rootMrqsGrupo = new DefaultTreeNode("Root", null);
+		listMrqsGrupoHdr = mrqsGrupoHdrLocal.findByNumeroExamen(this.getNumeroMrqsExamen()); 
+		for(MrqsGrupoHdr mrqsGrupoHdr:listMrqsGrupoHdr) {
+			TreeNode nodeGrupoHdr = new DefaultTreeNode(mrqsGrupoHdr, rootMrqsGrupo);
+		}
+		
 	}
 	
 	public void update() {
 		System.out.println("Entra UpdateTestExamForm update()");
 		boolean updateIn = false; 
-		MrqsExamenesDto ccExamenesUpdateDto = new MrqsExamenesDto();
+		MrqsExamenesDto mrqsExamenesDto = new MrqsExamenesDto();
 		
-		ccExamenesUpdateDto.setNumero(this.getNumeroMrqsExamen());
-		ccExamenesUpdateDto.setEstatus(this.getEstatus());
-		ccExamenesUpdateDto.setTitulo(this.getTitulo());
-		ccExamenesUpdateDto.setNombre(this.getNombre());
-		ccExamenesUpdateDto.setDescripcion(this.getDescripcion());
-		ccExamenesUpdateDto.setTipoPregunta(this.getTipoPregunta());
-		ccExamenesUpdateDto.setTipoExamen(this.getTipoExamen());
-		ccExamenesUpdateDto.setTema(this.getTema());
-		ccExamenesUpdateDto.setComentarios(this.getComentarios());
-		ccExamenesUpdateDto.setVisibilidad(this.getVisibilidad());
-		ccExamenesUpdateDto.setFechaEfectivaDesde(utilitariosLocal.toSqlTimestamp(this.getFechaEfectivaDesde()));
+		mrqsExamenesDto.setNumero(this.getNumeroMrqsExamen());
+		mrqsExamenesDto.setEstatus(this.getEstatus());
+		mrqsExamenesDto.setTitulo(this.getTitulo());
+		mrqsExamenesDto.setNombre(this.getNombre());
+		mrqsExamenesDto.setDescripcion(this.getDescripcion());
+		mrqsExamenesDto.setTipoPregunta(this.getTipoPregunta());
+		mrqsExamenesDto.setTipoExamen(this.getTipoExamen());
+		mrqsExamenesDto.setTema(this.getTema());
+		mrqsExamenesDto.setComentarios(this.getComentarios());
+		mrqsExamenesDto.setVisibilidad(this.getVisibilidad());
+		mrqsExamenesDto.setFechaEfectivaDesde(utilitariosLocal.toSqlTimestamp(this.getFechaEfectivaDesde()));
 		if(null!=this.getFechaEfectivaHasta()) {
-			ccExamenesUpdateDto.setFechaEfectivaHasta(utilitariosLocal.toSqlTimestamp(this.getFechaEfectivaHasta()));
+			mrqsExamenesDto.setFechaEfectivaHasta(utilitariosLocal.toSqlTimestamp(this.getFechaEfectivaHasta()));
 		}else {
-			ccExamenesUpdateDto.setFechaEfectivaHasta(Utilitarios.endOfTimeTimestamp);
+			mrqsExamenesDto.setFechaEfectivaHasta(Utilitarios.endOfTimeTimestamp);
 		}
-		ccExamenesUpdateDto.setTiempoLimite(this.getLimiteTiempo());
-		ccExamenesUpdateDto.setSaltarPreguntas(this.isSaltarPreguntas());
-		ccExamenesUpdateDto.setSaltarCasos(this.isSaltarCasos());
-		ccExamenesUpdateDto.setMostrarRespuestas(this.isMostrarRespuestas());
-		ccExamenesUpdateDto.setTienePassmark(this.isTienePassmark());
-		ccExamenesUpdateDto.setAleatorioGrupo(this.isAleatorioGrupo());
-		ccExamenesUpdateDto.setAleatorioPreguntas(this.isAleatorioPreguntas());
-		ccExamenesUpdateDto.setSeleccionCasosAleatorios(this.isSeleccionCasosAleatorios());
-		ccExamenesUpdateDto.setMensajeFinalizacion(this.getMensajeFinalizacion());
-		ccExamenesUpdateDto.setConfirmacionAsistencia(this.isConfirmacionAsistencia());
-		ccExamenesUpdateDto.setDiploma(this.isDiploma());
+		mrqsExamenesDto.setTiempoLimite(this.getLimiteTiempo());
+		mrqsExamenesDto.setSaltarPreguntas(this.isSaltarPreguntas());
+		mrqsExamenesDto.setSaltarCasos(this.isSaltarCasos());
+		mrqsExamenesDto.setMostrarRespuestas(this.isMostrarRespuestas());
+		mrqsExamenesDto.setTienePassmark(this.isTienePassmark());
+		mrqsExamenesDto.setAleatorioGrupo(this.isAleatorioGrupo());
+		mrqsExamenesDto.setAleatorioPreguntas(this.isAleatorioPreguntas());
+		mrqsExamenesDto.setSeleccionCasosAleatorios(this.isSeleccionCasosAleatorios());
+		mrqsExamenesDto.setMensajeFinalizacion(this.getMensajeFinalizacion());
+		mrqsExamenesDto.setConfirmacionAsistencia(this.isConfirmacionAsistencia());
+		mrqsExamenesDto.setDiploma(this.isDiploma());
 		
-		mrqsExamenesLocal.update(this.getNumeroMrqsExamen(), ccExamenesUpdateDto);
+		mrqsExamenesLocal.update(this.getNumeroMrqsExamen(), mrqsExamenesDto);
 		refreshEntity(); 
 		updateIn = true; 
 		PrimeFaces.current().ajax().addCallbackParam("updateIn", updateIn);
@@ -158,15 +178,25 @@ public class UpdateMrqsExamForm {
 	}
     
 	
-	public String addCoreCaseGroup() {
-		FacesContext context = FacesContext.getCurrentInstance(); 
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-		session.setAttribute("NumeroCcExamenSV", this.numeroMrqsExamen);
-		return "Exams-CoreCases-Update-AddCoreCase"; 
+	public void initMrqGroup() {
+		mrqsGrupoHdr.setTitulo(this.getTitulo());
+		mrqsGrupoHdr.setTema(this.getTema());
+		mrqsGrupoHdr.setComentarios(this.getComentarios());
+	}
+	
+	public String addMRQsGroup() {
+		
+		MrqsGrupoHdrDto mrqsGrupoHdrDto = new MrqsGrupoHdrDto(); 
+		mrqsGrupoHdrDto.setTitulo(mrqsGrupoHdr.getTitulo());
+		mrqsGrupoHdrDto.setTema(mrqsGrupoHdr.getTema());
+		mrqsGrupoHdrDto.setComentarios(mrqsGrupoHdr.getComentarios());
+		mrqsGrupoHdrDto.setNumeroExamen(this.getNumeroMrqsExamen());
+		mrqsGrupoHdrLocal.insert(mrqsGrupoHdrDto); 
+		return "Exams-MRQs-Update"; 
 	}
 	
 	public String cancel() {
-		return "Exams-CoreCases-Manage"; 
+		return "Exams-MRQs-Manage"; 
 	}
 	
 	public long getNumeroMrqsExamen() {
@@ -352,6 +382,35 @@ public class UpdateMrqsExamForm {
 	public void setDiploma(boolean diploma) {
 		this.diploma = diploma;
 	}
+
+	public MrqsGrupoHdr getMrqsGrupoHdr() {
+		return mrqsGrupoHdr;
+	}
+
+	public void setMrqsGrupoHdr(MrqsGrupoHdr mrqsGrupoHdr) {
+		this.mrqsGrupoHdr = mrqsGrupoHdr;
+	}
+
+	public List<MrqsGrupoHdr> getListMrqsGrupoHdr() {
+		return listMrqsGrupoHdr;
+	}
+
+	public void setListMrqsGrupoHdr(List<MrqsGrupoHdr> listMrqsGrupoHdr) {
+		this.listMrqsGrupoHdr = listMrqsGrupoHdr;
+	}
+
+	public TreeNode getRootMrqsGrupo() {
+		return rootMrqsGrupo;
+	}
+
+	public TreeNode getSelectedNode() {
+		return selectedNode;
+	}
+
+	public void setSelectedNode(TreeNode selectedNode) {
+		this.selectedNode = selectedNode;
+	}
+
 	
 	/**
 	public List<CcExamAsignaciones> getListCcExamAsignaciones() {

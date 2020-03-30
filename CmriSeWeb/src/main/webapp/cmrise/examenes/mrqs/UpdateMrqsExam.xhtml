@@ -12,6 +12,14 @@
 		 argsValidationFailed(); 
      }
  }
+
+ function handleCreateGrupoRequest(xhr, status, args){
+	 if(args.validationFailed) {
+ 		 PF('MrqsGrupoHdrCreateDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+     }
+ }
+ 
  </script>
 </ui:define>
                 
@@ -24,17 +32,12 @@
       <f:facet name="header">
 	       Grupo de Preguntas
 	     </f:facet>
-	     <!-- 
-	     <p:dataList var="ccExamAsignacionDL"  value="#{updateMrqsExamForm.listCcExamAsignaciones}"  type="definition" responsive="true">
-	       <f:facet name="caption">Hola</f:facet>
-	       <p:column>
-	         <p:commandLink action="#{updateMrqsExamForm.updatePregunta(ccExamAsignacionDL)}">
-	         <h:outputText value="#{ccExamAsignacionDL.tituloPregunta}" />
-	         </p:commandLink>
-	       </p:column>
-	     </p:dataList>
-	      -->
-      <p:commandButton  title="Nuevo"  value="Agregar Nuevo Grupo" icon="pi pi-plus" action="#{updateMrqsExamForm.addCoreCaseGroup()}"/>
+	   <p:tree value="#{updateMrqsExamForm.rootMrqsGrupo}" var="node" style="width:100%" selectionMode="single" selection="#{updateMrqsExamForm.selectedNode}" dynamic="true">
+        <p:treeNode>
+            <h:outputText value="#{node.titulo}" />
+        </p:treeNode>
+      </p:tree>    
+	  <p:commandButton  title="Nuevo"  value="Agregar Nuevo Grupo" update="MrqsGrupoHdrCreateForm" icon="pi pi-plus" actionListener="#{updateMrqsExamForm.initMrqGroup()}" oncomplete="PF('MrqsGrupoHdrCreateDialogWV').show();"/>
      </p:panel>
     </div>
     <div class="ui-g-10 ui-g-nopad">
@@ -59,7 +62,7 @@
   <p:outputLabel for="questionType" value="Tipo de Pregunta" />
   <p:selectOneMenu id="questionType" value="#{updateMrqsExamForm.tipoPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
   <f:selectItem itemLabel="Seleccione un tipo de pregunta" itemValue="" />
-  <f:selectItems value="#{selectsHelper.selectTipoPreguntaItems}" />
+  <f:selectItems value="#{selectsHelper.selectTipoPreguntaExamenItems}" />
   </p:selectOneMenu>
   <p:message for="questionType"/>
   <p:outputLabel for="questionExam" value="Tipo de Examen" />
@@ -147,10 +150,35 @@
   <p:commandButton value="Cancelar" action="#{updateMrqsExamForm.cancel()}" immediate="true"/>
  </div>
 </div>
-   
-   
     </div>
 </div>
 </h:form>
+
+
+<h:form id="MrqsGrupoHdrCreateForm">
+ <f:passThroughAttribute name="autocomplete" value="off"/>
+ <p:dialog id="MrqsGrupoHdrCreateDialogId" widgetVar="MrqsGrupoHdrCreateDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Crear Grupo">
+  <p:panelGrid id="grupoHdrPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+  <p:outputLabel for="publicTitle" value="Título"/>
+  <p:inputText id="publicTitle" value="#{updateMrqsExamForm.mrqsGrupoHdr.titulo}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:100%"/>
+  <p:message for="publicTitle"/>
+  <p:outputLabel for="topic" value="Tema" />
+  <p:selectOneMenu id="topic"  value="#{updateMrqsExamForm.mrqsGrupoHdr.tema}"   required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
+  <f:selectItems value="#{selectsHelper.selectTemaExamenItems}" />
+  </p:selectOneMenu>
+  <p:message for="topic"/>
+  <p:outputLabel for="internalComments" value="Comentarios"/>
+  <p:inputTextarea  id="internalComments" value="#{updateMrqsExamForm.mrqsGrupoHdr.comentarios}"  rows="4" style="width:100%"/>
+  <p:message  for="internalComments"/> 
+  </p:panelGrid>
+  <div class="ui-g">
+   <div class="ui-g-4"></div>
+   <div class="ui-g-4"><p:commandButton value="Crear Grupo" update="MrqsGrupoHdrCreateForm:grupoHdrPanelId" action="#{updateMrqsExamForm.addMRQsGroup()}" oncomplete="handleCreateGrupoRequest(xhr, status, args)" style="width:100%"/></div>
+   <div class="ui-g-4"><p:commandButton value="Cancelar" onclick="PF('MrqsGrupoHdrCreateDialogWV').hide();" style="width:100%"/></div> 
+   </div>
+  </p:dialog>
+</h:form>
+
 </ui:define>
 </ui:composition>

@@ -55,9 +55,9 @@ public class ManageMrqsExamsForm {
 	 System.out.println("Entra "+this.getClass()+" update()");	
 	 FacesContext context = FacesContext.getCurrentInstance(); 
 	 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-	 session.setAttribute("NumeroCcExamenSV", pMrqsExamenes.getNumero());
+	 session.setAttribute("NumeroMrqsExamenSV", pMrqsExamenes.getNumero());
 	 System.out.println("Sale "+this.getClass()+" update()");	
-	 return "Exams-CoreCases-Update"; 	
+	 return "Exams-MRQs-Update"; 	
 	}
 
 	public void selectForAction(MrqsExamenes pMrqsExamenes) {
