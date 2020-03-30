@@ -4,15 +4,85 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/templateCandidates.xhtml">
+                               
+ <ui:define name="xxhrwjs">
+<script type="text/javascript">
+function handleUpdateRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.updateIn) {
+		 argsValidationFailed(); 
+      }
+}
+</script>
+</ui:define>
+
+
+ <ui:define name="xxhrwcss">
+                                
+<style type="text/css">
+     .xXwrongAnswer{
+        background-color: #ffe6e6;
+	    text-align: left;
+	    border: 3px solid red;
+	    color:red;
+	    font-size:30px;
+     }
+     .xXcorrectAnswer{
+        background-color: #e6ffe6;
+	    text-align: left;
+	    border: 3px solid green;
+	    color:green;
+	    font-size:30px;
+     }
+     .xXinstructions{
+       background-color: #fff;
+       color:black;
+       font-size:20px;
+     }
+    
+     .xXscores{
+       margin-top:10px; 
+       margin-bottom:10px; 
+       background: #f9f9f9;;
+       border: 1px solid #ccc;
+       font-weight: bold;
+     }
+    
+    
+    .green-button.ui-button.ui-state-default {
+        background-color: #5cb85c;
+        border-color: #5cb85c;
+        color: #fff;
+    }
+ 
+    .green-button.ui-button.ui-state-default:enabled:hover, 
+    .green-button.ui-button.ui-state-default:focus {
+        background-color: #4cae4c;
+        border-color: #5cb85c;
+    }
+ 
+    .red-button.ui-button.ui-state-default {
+        background-color: #d9534f;
+        border-color: #d9534f;
+        color: #fff;
+    }
+ 
+    .red-button.ui-button.ui-state-default:enabled:hover, 
+    .red-button.ui-button.ui-state-default:focus {
+        background-color: #d43f3a;
+        border-color: #d9534f;
+    }
+    
+</style>
+</ui:define>
 <ui:define name="content">
-<h1>Previsualización MRQ</h1>
-<h:form id="previewForm">
+<h1>Previsualización Caso Principal</h1>
+<h:form id="coreCaseForm">
 <div class="ui-g">
  <div class="ui-g-12 ui-md-3">
    <div class="ui-g-12 ui-md-12" style="background-color: #4a4058;color: #fff;">
      <div class="ui-g-12" >
      <h3>Pregunta</h3>
-<!--      <h1>#{mrqPreviewForm.tituloPregunta}</h1> -->
+
     </div>
    </div>
    <div class="ui-g-12 ui-md-12" style="background-color: rgba(0, 0, 0, 0.3);color: #fff;">
@@ -22,7 +92,7 @@
    </div>
    <div class="ui-g-12 ui-md-12" style="background-color: #343633;color: #fff;">
     <h3>Caso principal</h3>
-<!--     <h3>#{mrqPreviewForm.tituloPregunta}</h3> -->
+
    </div>
  </div>
  
