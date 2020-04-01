@@ -19,13 +19,13 @@
 <ui:define name="content">
 <p:breadCrumb>
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="Gestionar Casos Principales" outcome= "Preguntas-Manage-CoreCases" />
-     <p:menuitem value="Crear Caso Principal" url="#"/>
+     <p:menuitem value="Gestionar Casos clínicos" outcome= "Preguntas-Manage-CoreCases" />
+     <p:menuitem value="Crear Caso Clínico" url="#"/>
        
 </p:breadCrumb>
-<h1>Crear Caso Principal</h1>
+<h1>Crear Caso Clínico</h1>
 <h:form id="createForm">
-<h3>Información del Caso Principal</h3>
+<h3>Información del Caso clínico</h3>
  <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
   <p:outputLabel for="internalName" value="Nombre"/>
   <p:inputText id="internalName" value="#{createCoreCaseForm.nombre}" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
@@ -56,7 +56,7 @@
  
  <div class="ui-g">
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Agregar Caso Principal" update="createForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createCoreCaseForm.create()}"/>
+  <p:commandButton value="Agregar Caso Clínico" update="createForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createCoreCaseForm.create()}"/>
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
   <p:commandButton value="Cancelar" process="@this" update="createForm" action="Preguntas-Manage-CoreCases" >
