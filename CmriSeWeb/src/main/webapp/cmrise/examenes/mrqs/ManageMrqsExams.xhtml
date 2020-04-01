@@ -11,6 +11,10 @@
 </ui:define>            
    
 <ui:define name="content">
+<p:breadCrumb>
+    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
+     <p:menuitem value="Gestionar Examen MRQ" url="#"/>
+</p:breadCrumb>
 <h1>Gestionar Examenes MRQs</h1>
  <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Prueba/Examen" icon="pi pi-plus" action="Exams-MRQs-Create"/>
 
