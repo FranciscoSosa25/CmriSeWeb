@@ -10,13 +10,13 @@
 <ui:define name="content">
 <p:breadCrumb>
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="Actualizar Caso Principal" url="#"/>
+     <p:menuitem value="Actualizar Caso Clínico" url="#"/>
 
 </p:breadCrumb>
-<h1>Actualizar Caso Principal</h1>
+<h1>Actualizar Caso Clínico</h1>
 
 <h:form id="updateForm">
-<h3>Información del Caso Principal</h3>
+<h3>Información del Caso Clínico</h3>
 
  <p:growl id="growl" showDetail="true" life="5000" />  
 
@@ -26,7 +26,7 @@
  <div class="ui-g-2">
    <p:panelGrid  columns="1" layout="grid">
      <f:facet name="header">
-        <div class="xxdivTree">Arbol Caso Principal</div>
+        <div class="xxdivTree">Arbol Caso Clinico</div>
      </f:facet>
      <p:dataList var="ccPreguntasHdrV1" value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" type="definition" responsive="true">
        <f:facet name="caption"></f:facet> <!--#{updateCoreCaseForm.nombreCc} -->
@@ -47,7 +47,7 @@
  </div>
  <div class="ui-g-10">
    <p:tabView>
-     <p:tab title="Informacion Caso Principal">
+     <p:tab title="Informacion Caso Clínico">
         <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
 		<p:outputLabel for="estatusCc" value="Estatus"/>
 	    <p:selectOneMenu id="estatusCc"  value="#{updateCoreCaseForm.estatusCc}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
@@ -81,7 +81,7 @@
 		<p:message  for="tags"/>
 		</p:panelGrid> <!-- END Panel Grid -->
      </p:tab>
-      <p:tab title="Listas Archivos Dicom &amp; Peguntas">
+      <p:tab title="Listas Archivos Dicom &amp; Preguntas">
         <p:dataTable var="ccPreguntasHdrV1" value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
           <f:facet name="header">
 		   Lista de Preguntas
