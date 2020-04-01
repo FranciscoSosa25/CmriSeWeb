@@ -16,18 +16,23 @@
 </ui:define> 
                 
 <ui:define name="content">
+<p:breadCrumb>
+    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
+     <p:menuitem value="Gestionar Pruebas/Examenes" url="ManageMrqsExams.xhtml"/>
+     <p:menuitem value="Crear Nuevo Examen MRQ" url="#"/>
+</p:breadCrumb>
  <h1>Crear Prueba/Examen</h1>
 <h:form id="createForm">
 <f:passThroughAttribute name="autocomplete" value="off"/>
 <p:panelGrid id="tituloPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
   <p:outputLabel for="publicTitle" value="Título Público"/>
-  <p:inputText id="publicTitle" value="#{createMrqsExamForm.titulo}" style="width:100%"/>
+  <p:inputText id="publicTitle" value="#{createMrqsExamForm.titulo}" style="width:100%" maxlength="200"/>
   <p:message for="publicTitle"/>
   <p:outputLabel for="nameInternal" value="Nombre (Interno)"/>
-  <p:inputText id="nameInternal" value="#{createMrqsExamForm.nombre}" style="width:100%"/>
+  <p:inputText id="nameInternal" value="#{createMrqsExamForm.nombre}" style="width:100%" maxlength="200"/>
   <p:message for="nameInternal"/>
   <p:outputLabel for="description" value="Descripción"/>
-  <p:inputTextarea  id="description" value="#{createMrqsExamForm.descripcion}"  rows="4" style="width:100%"/>
+  <p:inputTextarea  id="description" value="#{createMrqsExamForm.descripcion}"  rows="4" style="width:100%" maxlength="300"/>
   <p:message  for="description"/>
   <p:outputLabel for="questionType" value="Tipo de Pregunta" />
   <p:selectOneMenu id="questionType" value="#{createMrqsExamForm.tipoPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
@@ -48,7 +53,7 @@
   </p:selectOneMenu>
   <p:message for="topic"/>
   <p:outputLabel for="internalComments" value="Comentarios Internos"/>
-  <p:inputTextarea  id="internalComments" value="#{createMrqsExamForm.comentarios}" rows="4" style="width:100%"/>
+  <p:inputTextarea  id="internalComments" value="#{createMrqsExamForm.comentarios}" rows="4" style="width:100%" maxlength="500"/>
   <p:message  for="internalComments"/>
 </p:panelGrid>
 
@@ -98,7 +103,7 @@
  <p:inputSwitch id="randomCasesSelection" value="#{createMrqsExamForm.seleccionCasosAleatorios}" onLabel="&#10003;" offLabel="&#215;"/>
  <p:message  for="randomCasesSelection"/> 
  <p:outputLabel for="finishingMessage" value="Mensaje Final"/>
- <p:inputTextarea  id="finishingMessage" value="#{createMrqsExamForm.mensajeFinalizacion}" rows="4" style="width:100%"/>
+ <p:inputTextarea  id="finishingMessage" value="#{createMrqsExamForm.mensajeFinalizacion}" rows="4" style="width:100%" maxlength="500"/>
  <p:message  for="finishingMessage"/>
 </p:panelGrid>
 
