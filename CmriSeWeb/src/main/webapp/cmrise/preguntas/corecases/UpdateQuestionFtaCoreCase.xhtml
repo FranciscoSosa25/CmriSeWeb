@@ -83,7 +83,7 @@ function handleUpdateRequest(xhr, status, args){
 	  <div class="ui-g-12 ui-md-6 ui-lg-8">
 	    <div class="ui-inputgroup">
 	    <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span>
-	    <p:inputText id="tag" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.etiquetas}" maxlength="255" style="width:100%"/>
+	    <p:inputText id="tag" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.etiquetas}" maxlength="500" style="width:100%"/>
 	    </div>
 	  </div>
 	  <div class="ui-g-12 ui-md-6 ui-lg-2">
@@ -123,10 +123,10 @@ function handleUpdateRequest(xhr, status, args){
 	     PREGUNTA DE OPCIÓN MÚLTIPLE
 	   </f:facet>
 	     <p:outputLabel  value="Título de la pregunta" />
-	     <p:inputText id="questionTitle"  value="#{updateQuestionFtaCoreCaseForm.tituloPreguntaFta}" placeholder="Título de la pregunta"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+	     <p:inputText id="questionTitle"  value="#{updateQuestionFtaCoreCaseForm.tituloPreguntaFta}" placeholder="Título de la pregunta"  maxlength="200" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
          <p:message for="questionTitle"/>
          <p:outputLabel for="questionText"  value="Texto de la pregunta" />
-         <p:inputTextarea id="questionText" value="#{updateQuestionFtaCoreCaseForm.textoPreguntaFta}"  style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+         <p:inputTextarea id="questionText" value="#{updateQuestionFtaCoreCaseForm.textoPreguntaFta}"  style="width:100%" required="true" maxlength="500" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
          <p:message for="questionText"/>
          <p:outputLabel for="hintsText"  value="Texto de sugerencias" />
          <p:inputText id="hintsText" value="#{updateQuestionFtaCoreCaseForm.textoSugerenciasFta}" placeholder="(No use mas de 5 palabras)"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
