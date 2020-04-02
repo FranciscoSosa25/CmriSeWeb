@@ -1,10 +1,13 @@
 package com.cmrise.ejb.services.admin;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import com.cmrise.ejb.model.admin.AdmonUsuariosRolesV1;
 import com.cmrise.jpa.dao.admin.AdmonUsuariosRolesDao;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesDto;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesV1Dto;
@@ -47,6 +50,65 @@ public class AdmonUsuariosRolesLocalImpl implements AdmonUsuariosRolesLocal {
 			                 , String pRol
 			                 , String pContrasenia) {
 		return admonUsuariosRolesDao.loginUsuarioRol(pMatricula, pRol, pContrasenia);
+	}
+
+	@Override
+	public List<AdmonUsuariosRolesV1> findWithFilterExam(long pNumeroExamen
+			                                           , String pTipoExamen) {
+		List<AdmonUsuariosRolesV1> retval = new ArrayList<AdmonUsuariosRolesV1>(); 
+		List<Object> listObjects = admonUsuariosRolesDao.findWithFilterExam(pNumeroExamen
+				                                                          , pTipoExamen); 
+		for(Object object:listObjects) {
+			if(object instanceof Object[]) {
+				AdmonUsuariosRolesV1 admonUsuariosRolesV1 = new AdmonUsuariosRolesV1(); 
+				Object[] row = (Object[]) object;
+				if(row[0] instanceof BigInteger) { /** [NUMERO] **/
+					admonUsuariosRolesV1.setNumero(((BigInteger)row[0]).longValue());
+				}
+				if(row[1] instanceof BigInteger) { /** [NUMERO_USUARIO] **/
+					admonUsuariosRolesV1.setNumeroUsuario(((BigInteger)row[1]).longValue());
+				}
+				if(row[2] instanceof String) { /** [MATRICULA] **/
+					admonUsuariosRolesV1.setMatricula((String)row[2]);
+				}
+				if(row[3] instanceof String) { /** [NOMBRE_USUAURIO] **/
+					admonUsuariosRolesV1.setNombreUsuario((String)row[3]);
+				}
+				if(row[4] instanceof String) { /** [NOMBRE_COMPLETO_USUARIO] **/
+					admonUsuariosRolesV1.setNombreCompletoUsuario((String)row[4]);
+				}
+				if(row[5] instanceof BigInteger) { /** [NUMERO_ROL] **/
+					admonUsuariosRolesV1.setNumeroRol(((BigInteger)row[5]).longValue());
+				}
+				if(row[6] instanceof String) { /** [NOMBRE_ROL] **/
+					admonUsuariosRolesV1.setNombreRol((String)row[6]);
+				}
+				if(row[7] instanceof String) { /** [DESCRIPCION_ROL] **/
+					admonUsuariosRolesV1.setDescripcionRol((String)row[7]);
+				}
+				if(row[8] instanceof String) { /** [APELLIDO_PATERNO] **/
+					admonUsuariosRolesV1.setApellidoPaterno((String)row[8]);
+				}
+				if(row[9] instanceof String) { /** [APELLIDO_MATERNO] **/
+					admonUsuariosRolesV1.setApellidoMaterno((String)row[9]);
+				}
+				if(row[10] instanceof String) { /** [CORREO_ELECTRONICO] **/
+					admonUsuariosRolesV1.setCorreoElectronico((String)row[10]);
+				}
+				if(row[11] instanceof String) { /** [CONTRASENIA] **/
+					admonUsuariosRolesV1.setContrasenia((String)row[11]);
+				}
+				retval.add(admonUsuariosRolesV1); 
+			}
+		}
+		return retval;
+	}
+
+	@Override
+	public AdmonUsuariosRolesV1Dto findLoginUsusarioRol(String pMatricula
+			                                          , String pRol
+			                                          , String pContrasenia) {
+		return admonUsuariosRolesDao.findLoginUsusarioRol(pMatricula, pRol, pContrasenia);
 	}
 
 }

@@ -20,7 +20,12 @@ public  class Utilitarios {
 	public static final String ROL_USUARIO = "USUARIO"; 
 	public static final String ROL_MAESTRO = "MAESTRO"; 
 	public static final String ROL_ALUMNO = "ALUMNO"; 
-	
+	public static final String MRQS ="MRQS"; 
+	public static final String CORE_CASES = "CORE_CASES"; /** Casos Clinicos **/
+	public static final String EE_ASIGNADO = "ASIGNADO"; /*Estatus Examen ASIGNADO*/
+	public static final String EE_EN_PROGRESO = "EN_PROGRESO"; /*Estatus Examen EN_PROGRESO*/
+	public static final String EE_TERMINADO = "TERMINADO"; /*Estatus Examen TERMINADO*/
+	public static final String EE_CALIFCADO = "CALIFCADO"; /*Estatus Examen CALIFCADO*/
 	
 	public  java.sql.Date toSqlDate(java.util.Date pUtilDate){
 		 java.sql.Date retval = null; 

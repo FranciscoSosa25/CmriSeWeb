@@ -31,6 +31,17 @@
 </p:breadCrumb>
 <h1>Actualizar Prueba/Examen</h1>
 <h:form id="updateForm">
+<p:growl id="messages" showDetail="true" />
+<div class="ui-g">
+<div class="ui-g-4">
+</div>
+<div class="ui-g-4">
+<p:commandButton value="Gestionar Nuevos Candidados" immediate="true" action="#{updateMrqsExamForm.createNewCandidates()}" icon="fa fa-user-plus" style="width:100%"/>
+</div>
+<div class="ui-g-4">
+<p:commandButton value="Asignar Candidados" immediate="true" action="#{updateMrqsExamForm.assignCandidates()}" icon="fa fa-recycle" style="width:100%"/>
+</div>
+</div>
 <div class="ui-g">
     <div class="ui-g-2 ui-g-nopad">
      <p:panel layout="grid" >
@@ -38,6 +49,7 @@
 	       Grupo de Preguntas
 	     </f:facet>
 	   <p:tree value="#{updateMrqsExamForm.rootMrqsGrupo}" var="node" style="width:100%" selectionMode="single" selection="#{updateMrqsExamForm.selectedNode}" dynamic="true">
+         <p:ajax event="select" update=":updateForm:messages" listener="#{updateMrqsExamForm.onNodeSelect}" />
         <p:treeNode>
             <h:outputText value="#{node.titulo}" />
         </p:treeNode>

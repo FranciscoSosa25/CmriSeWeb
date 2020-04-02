@@ -12,9 +12,10 @@
 <h1>Exámenes abiertos</h1>
 <h:form id="examinationsForm">
 <p:growl id="growl" showDetail="true" life="5000" />  
-<p:commandButton value="Buscar Exámenes" action="#{manageExamsForm.buscarExamenes()}" update="@form" />
-<div class="ui-g">
+<p:commandButton value="Buscar Exámenes" action="#{manageExamsForm.buscarExamenes()}" update="@form" style="margin:20px;"/>
+
         <ui:repeat var="examination" value="#{manageExamsForm.listExaminations}">
+        <div class="ui-g card">
 		    <div class="ui-g-6">
 		       <h2>#{examination.tituloExamen}</h2>
 		        <div class="ui-g">
@@ -24,9 +25,10 @@
 				 </div>
 		     </div>
 		    <div class="ui-g-3" style="padding:30px;"><h2>EXAMEN</h2></div>
-		    <div class="ui-g-3" style="padding:30px;"><p:commandButton value="Tomar Examen" action="#{manageExamsForm.createCandCcExamen(examination)}"/></div>
-		 </ui:repeat>
-		</div>
+		    <div class="ui-g-3" style="padding:30px;"><p:commandButton value="Tomar Examen" action="#{manageExamsForm.takeExam(examination)}"/></div>
+		   </div>
+		</ui:repeat>
+		
 </h:form>		
 </ui:define>
 </ui:composition>

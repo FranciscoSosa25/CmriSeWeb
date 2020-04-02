@@ -10,4 +10,7 @@ import com.cmrise.jpa.dto.exams.MrqsGrupoHdrDto;
 public interface MrqsGrupoHdrLocal {
 	public long insert(MrqsGrupoHdrDto pMrqsGrupoHdrDto); 
 	public List<MrqsGrupoHdr> findByNumeroExamen(long pNumeroExamen); 
+	public MrqsGrupoHdrDto findByNumero(long pNumero); 
+	public void delete(long pNumero); 
+	public void update(long pNumero, MrqsGrupoHdrDto pMrqsGrupoHdrDto); 
 }

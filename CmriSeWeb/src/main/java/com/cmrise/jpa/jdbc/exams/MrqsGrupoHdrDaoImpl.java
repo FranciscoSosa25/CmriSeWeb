@@ -43,4 +43,27 @@ public class MrqsGrupoHdrDaoImpl implements MrqsGrupoHdrDao {
 		return query.getResultList();
 	}
 
+
+	@Override
+	public MrqsGrupoHdrDto findByNumero(long pNumero) {
+		return em.find(MrqsGrupoHdrDto.class, pNumero);
+	}
+
+
+	@Override
+	public void delete(long pNumero) {
+		MrqsGrupoHdrDto mrqsGrupoHdrDto = em.find(MrqsGrupoHdrDto.class, pNumero); 
+		em.remove(mrqsGrupoHdrDto);
+		
+	}
+
+
+	@Override
+	public void update(long pNumero, MrqsGrupoHdrDto pMrqsGrupoHdrDto) {
+		MrqsGrupoHdrDto mrqsGrupoHdrDto = em.find(MrqsGrupoHdrDto.class, pNumero); 
+		mrqsGrupoHdrDto.setTitulo(pMrqsGrupoHdrDto.getTitulo());
+		mrqsGrupoHdrDto.setTema(pMrqsGrupoHdrDto.getTema());
+		mrqsGrupoHdrDto.setComentarios(pMrqsGrupoHdrDto.getComentarios());
+	}
+
 }

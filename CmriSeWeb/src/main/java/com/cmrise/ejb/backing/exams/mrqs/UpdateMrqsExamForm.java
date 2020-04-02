@@ -5,21 +5,24 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import com.cmrise.ejb.model.exams.CcExamAsignaciones;
 import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
+import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.ejb.services.exams.MrqsExamenesLocal;
 import com.cmrise.ejb.services.exams.MrqsGrupoHdrLocal;
+import com.cmrise.ejb.services.exams.MrqsGrupoLinesLocal;
 import com.cmrise.jpa.dto.exams.MrqsExamenesDto;
 import com.cmrise.jpa.dto.exams.MrqsGrupoHdrDto;
 import com.cmrise.utils.Utilitarios;
@@ -57,6 +60,8 @@ public class UpdateMrqsExamForm {
 	
 	private MrqsGrupoHdr mrqsGrupoHdr = new MrqsGrupoHdr(); 
 	private List<MrqsGrupoHdr> listMrqsGrupoHdr = new ArrayList<MrqsGrupoHdr>(); 
+	private List<MrqsPreguntasHdrV1> listMrqsGrupoPreguntas = new ArrayList<MrqsPreguntasHdrV1>();
+	
 	
 	private TreeNode rootMrqsGrupo;
 	private TreeNode selectedNode;
@@ -70,6 +75,8 @@ public class UpdateMrqsExamForm {
 	@Inject 
 	MrqsGrupoHdrLocal mrqsGrupoHdrLocal; 
 	
+	@Inject 
+	MrqsGrupoLinesLocal mrqsGrupoLinesLocal; 
 	
 	
 	 @PostConstruct
@@ -77,11 +84,10 @@ public class UpdateMrqsExamForm {
 		System.out.println("Comienza UpdateTestExamForm init()");
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-		Object objNumeroCcExamen = session.getAttribute("NumeroMrqsExamenSV");
-		numeroMrqsExamen = utilitariosLocal.objToLong(objNumeroCcExamen); 
+		Object objNumeroMrqsExamen = session.getAttribute("NumeroMrqsExamenSV");
+		numeroMrqsExamen = utilitariosLocal.objToLong(objNumeroMrqsExamen); 
 		System.out.println(" numeroMrqsExamen:"+numeroMrqsExamen);
 		refreshEntity(); 
-		
 	    System.out.println("Finaliza UpdateTestExamForm init()");
 	 }
 
@@ -120,6 +126,10 @@ public class UpdateMrqsExamForm {
 		listMrqsGrupoHdr = mrqsGrupoHdrLocal.findByNumeroExamen(this.getNumeroMrqsExamen()); 
 		for(MrqsGrupoHdr mrqsGrupoHdr:listMrqsGrupoHdr) {
 			TreeNode nodeGrupoHdr = new DefaultTreeNode(mrqsGrupoHdr, rootMrqsGrupo);
+			listMrqsGrupoPreguntas = mrqsGrupoLinesLocal.findByNumeroHdrWD(mrqsGrupoHdr.getNumero());
+			for(MrqsPreguntasHdrV1 mrqsPreguntasHdrV1:listMrqsGrupoPreguntas) {
+				TreeNode nodeGrupoPreguntaHdr = new DefaultTreeNode(mrqsPreguntasHdrV1, nodeGrupoHdr);
+			}
 		}
 		
 	}
@@ -194,6 +204,39 @@ public class UpdateMrqsExamForm {
 		mrqsGrupoHdrLocal.insert(mrqsGrupoHdrDto); 
 		return "Exams-MRQs-Update"; 
 	}
+	
+	public void onNodeSelect(NodeSelectEvent event) {
+		String strEvent = event.getTreeNode().toString(); 
+		if(strEvent.contains("HDR")) {
+			 System.out.println("*");
+			 long lNumeroGrupoHeader =  Long.parseLong(strEvent.substring(3)); 
+			 FacesContext context = FacesContext.getCurrentInstance();
+			 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+			 session.setAttribute("NumeroMrqsExamenSV", this.getNumeroMrqsExamen());
+			 session.setAttribute("NumeroMrqsGrupoSV", lNumeroGrupoHeader);
+			 context.getApplication().getNavigationHandler().handleNavigation(context, null, "Exams-MRQs-Update-Group");
+		     return; 
+		}else if(strEvent.contains("LINE")) {
+			
+		}
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected", event.getTreeNode().toString());
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+	
+	public String assignCandidates() {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("NumeroMrqsExamenSV", this.getNumeroMrqsExamen());
+		return "Assign-MRQs-Candidates"; 
+	}
+	
+	public String createNewCandidates() {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("NumeroMrqsExamenSV", this.getNumeroMrqsExamen());
+		return "Create-MRQs-Candidates"; 
+	}
+	
 	
 	public String cancel() {
 		return "Exams-MRQs-Manage"; 
@@ -410,6 +453,16 @@ public class UpdateMrqsExamForm {
 	public void setSelectedNode(TreeNode selectedNode) {
 		this.selectedNode = selectedNode;
 	}
+
+	public List<MrqsPreguntasHdrV1> getListMrqsGrupoPreguntas() {
+		return listMrqsGrupoPreguntas;
+	}
+
+	public void setListMrqsGrupoPreguntas(List<MrqsPreguntasHdrV1> listMrqsGrupoPreguntas) {
+		this.listMrqsGrupoPreguntas = listMrqsGrupoPreguntas;
+	}
+
+
 
 	
 	/**

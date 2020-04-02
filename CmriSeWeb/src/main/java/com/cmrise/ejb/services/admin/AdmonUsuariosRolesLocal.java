@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.cmrise.ejb.model.admin.AdmonUsuariosRolesV1;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesDto;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesV1Dto;
 
@@ -21,4 +22,11 @@ public interface AdmonUsuariosRolesLocal {
 					             ,String pRol
 					             ,String pContrasenia
 					             ); 
+	 public List<AdmonUsuariosRolesV1> findWithFilterExam(long   pNumeroExamen
+											             ,String pTipoExamen
+											             ); 
+	 public AdmonUsuariosRolesV1Dto findLoginUsusarioRol(String pMatricula
+											           , String pRol
+											           , String pContrasenia
+											            ); 
 }

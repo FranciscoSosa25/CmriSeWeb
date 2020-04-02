@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import com.cmrise.ejb.model.exams.MrqsExamenes;
 import com.cmrise.jpa.dao.exams.MrqsExamenesDao;
 import com.cmrise.jpa.dto.exams.MrqsExamenesDto;
 import com.cmrise.jpa.dto.exams.MrqsExamenesV1Dto;
@@ -43,6 +44,15 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 	@Override
 	public void update(long pNumero, MrqsExamenesDto pMrqsExamenesDto) {
 		mrqsExamenesDao.update(pNumero, pMrqsExamenesDto);
+	}
+
+	@Override
+	public MrqsExamenes findByIdWD(long pNumero) {
+		MrqsExamenesDto mrqsExamenesDto = mrqsExamenesDao.findById(pNumero);
+		MrqsExamenes retval = new MrqsExamenes(); 
+		retval.setNumero(mrqsExamenesDto.getNumero());
+		retval.setTitulo(mrqsExamenesDto.getTitulo());
+		return retval;
 	}
 
 	

@@ -10,6 +10,8 @@ import javax.persistence.Query;
 
 import com.cmrise.jpa.dao.exams.MrqsGrupoLinesDao;
 import com.cmrise.jpa.dto.exams.MrqsGrupoLinesDto;
+import com.cmrise.jpa.dto.exams.MrqsGrupoLinesV1Dto;
+import com.cmrise.jpa.dto.exams.MrqsGrupoLinesV2Dto;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless
@@ -40,5 +42,38 @@ public class MrqsGrupoLinesDaoImpl implements MrqsGrupoLinesDao {
 		Query query = em.createQuery(strQuery); 
 		return query.getResultList();
 	}
+
+	@Override
+	public List<MrqsGrupoLinesV1Dto> findByNumeroHdrWD(long pNumeroHdr) {
+		String strQuery = "SELECT m FROM MrqsGrupoLinesV1Dto m WHERE m.numeroHdr="+pNumeroHdr; 
+		Query query = em.createQuery(strQuery); 
+		return query.getResultList();
+	}
+
+	@Override
+	public List<MrqsGrupoLinesV2Dto> findByNumeroHdrWDV2(long pNumeroHdr) {
+		String strQuery = "SELECT m FROM MrqsGrupoLinesV2Dto m WHERE m.numeroHdr="+pNumeroHdr; 
+		Query query = em.createQuery(strQuery); 
+		return query.getResultList();
+	}
+	
+	@Override
+	public void delete(long pNumero) {
+		MrqsGrupoLinesDto mrqsGrupoLinesDto = em.find(MrqsGrupoLinesDto.class, pNumero); 
+		em.remove(mrqsGrupoLinesDto);
+	}
+
+	@Override
+	public void delete(MrqsGrupoLinesDto pMrqsGrupoLinesDto) {
+		em.remove(pMrqsGrupoLinesDto);
+	}
+
+	@Override
+	public MrqsGrupoLinesV2Dto findByNumeroV2(long pNumero) {
+		MrqsGrupoLinesV2Dto MrqsGrupoLinesV2Dto = em.find(MrqsGrupoLinesV2Dto.class, pNumero); 
+		return MrqsGrupoLinesV2Dto;
+	}
+
+
 
 }

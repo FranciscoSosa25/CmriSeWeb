@@ -7,6 +7,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
 import com.cmrise.jpa.dao.mrqs.MrqsOpcionMultipleDao;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 
@@ -109,6 +110,22 @@ public class MrqsOpcionMultipleLocalImpl implements MrqsOpcionMultipleLocal {
 	@Override
 	public int totalCorrectAnswers(long pNumeroFta) {
 		return mrqsOpcionMultipleDao.totalCorrectAnswers(pNumeroFta);
+	}
+
+	@Override
+	public List<MrqsOpcionMultiple> findByNumeroFtaShuffleOrderOM(long pNumeroFta, boolean pShuffleOrder) {
+		List<MrqsOpcionMultiple> retval = new ArrayList<MrqsOpcionMultiple>(); 
+		List<Object> listObjects = mrqsOpcionMultipleDao.findByNumeroFtaShuffleOrder(pNumeroFta, pShuffleOrder); 
+		List<MrqsOpcionMultipleDto> listMrqsOpcionMultipleDto = objectsToDtos(listObjects); 
+		for(MrqsOpcionMultipleDto mrqsOpcionMultipleDto:listMrqsOpcionMultipleDto) {
+			MrqsOpcionMultiple mrqsOpcionMultiple = new MrqsOpcionMultiple(); 
+			mrqsOpcionMultiple.setNumero(mrqsOpcionMultipleDto.getNumero());
+			mrqsOpcionMultiple.setNumeroFta(mrqsOpcionMultipleDto.getNumeroFta());
+			mrqsOpcionMultiple.setTextoRespuesta(mrqsOpcionMultipleDto.getTextoRespuesta());
+			mrqsOpcionMultiple.setTextoExplicacion(mrqsOpcionMultipleDto.getTextoExplicacion());
+			retval.add(mrqsOpcionMultiple); 
+		}
+		return retval;
 	}
 
 }

@@ -18,4 +18,12 @@ public interface AdmonUsuariosRolesDao {
 		                   ,String pContrasenia
 		                   ); 
  
+ public List<Object> findWithFilterExam(long pNumeroExamen,String pTipoExamen); 
+ 
+ public AdmonUsuariosRolesV1Dto findLoginUsusarioRol(String pMatricula
+											        ,String pRol
+											        ,String pContrasenia
+											        ); 
+
+ 
 }

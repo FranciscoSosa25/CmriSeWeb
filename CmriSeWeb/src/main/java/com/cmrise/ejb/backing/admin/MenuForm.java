@@ -100,5 +100,13 @@ public class MenuForm {
 		return "Mrq-Preview"; 
 	}
 	
+	public String fpUpdateMrqsExamGroup() {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		 session.setAttribute("NumeroMrqsExamenSV", (long)1);
+		 session.setAttribute("NumeroMrqsGrupoSV", (long)2);
+		return "Exams-MRQs-Update-Group"; 
+	}
+	
 	
 }

@@ -169,6 +169,11 @@
    <redirect/>
   </navigation-case>
   <navigation-case>
+   <from-outcome>Candidates-MRQs-Exam</from-outcome>
+   <to-view-id>/candidates/exams/MRQsExam.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
    <from-outcome>Mrq-Preview</from-outcome>
    <to-view-id>/cmrise/preguntas/mrqs/preview/MrqPreview.xhtml</to-view-id>
    <redirect/>
@@ -176,6 +181,11 @@
   </navigation-rule>
  
  <navigation-rule>
+ <navigation-case>
+   <from-outcome>History-Exams</from-outcome>
+   <to-view-id>/cmrise/examenes/HistoryExams.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
   <navigation-case>
    <from-outcome>Exams-MRQs-Manage</from-outcome>
    <to-view-id>/cmrise/examenes/mrqs/ManageMrqsExams.xhtml</to-view-id>
@@ -189,6 +199,21 @@
    <navigation-case>
    <from-outcome>Exams-MRQs-Update</from-outcome>
    <to-view-id>/cmrise/examenes/mrqs/UpdateMrqsExam.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>Exams-MRQs-Update-Group</from-outcome>
+   <to-view-id>/cmrise/examenes/mrqs/UpdateMrqsExamGroup.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+   <navigation-case>
+   <from-outcome>Assign-MRQs-Candidates</from-outcome>
+   <to-view-id>/cmrise/examenes/mrqs/AssignMrqsCandidates.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+   <navigation-case>
+   <from-outcome>Create-MRQs-Candidates</from-outcome>
+   <to-view-id>/cmrise/examenes/mrqs/CreateMrqsCandidates.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
   </navigation-rule>
