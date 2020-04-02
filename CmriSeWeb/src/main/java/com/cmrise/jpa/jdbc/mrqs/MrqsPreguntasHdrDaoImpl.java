@@ -107,4 +107,37 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 		return mrqsPreguntasHdrV2Dto;
 	}
 
+	@Override
+	public List<Object> findWithFilterExam(long pNumeroExamen) {
+		String strQuery ="SELECT [NUMERO]\r\n" + 
+						"      ,[NOMBRE]\r" + 
+						"      ,[TITULO]\r" + 
+						"      ,[TIPO_PREGUNTA]\r" + 
+						"      ,[TIPO_PREGUNTA_DESC]\r" + 
+						"      ,[TEMA_PREGUNTA]\r" + 
+						"      ,[TEMA_PREGUNTA_DESC]\r" + 
+						"      ,[ETIQUETAS]\r" + 
+						"      ,[COMENTARIOS]\r" + 
+						"      ,[ESTATUS]\r" + 
+						"      ,[ESTATUS_DESC]\r" + 
+						"      ,[SOCIEDAD]\r" + 
+						"      ,[FECHA_EFECTIVA_DESDE]\r" + 
+						"      ,[FECHA_EFECTIVA_HASTA]\r" + 
+						"      ,[CREADO_POR]\r" + 
+						"      ,[FECHA_CREACION]\r" + 
+						"      ,[ACTUALIZADO_POR]\r" + 
+						"      ,[FECHA_ACTUALIZACION]\r" + 
+						"  FROM [dbo].[MRQS_PREGUNTAS_HDR_V1]\r" + 
+						" WHERE [NUMERO] NOT IN ( SELECT MGL.NUMERO_PREGUNTA\r" + 
+						"						   FROM MRQS_GRUPO_LINES MGL\r" + 
+						"							   ,MRQS_GRUPO_HDR MGH\r" + 
+						"							   ,MRQS_EXAMENES ME\r" + 
+						"						  WHERE ME.NUMERO = MGH.NUMERO_EXAMEN\r" + 
+						"							AND MGH.NUMERO = MGL.NUMERO_HDR\r" + 
+						"							AND ME.NUMERO = "+pNumeroExamen+"\r" + 
+						"							)"; 
+		Query query = em.createNativeQuery(strQuery); 
+		return query.getResultList();
+	}
+
 }

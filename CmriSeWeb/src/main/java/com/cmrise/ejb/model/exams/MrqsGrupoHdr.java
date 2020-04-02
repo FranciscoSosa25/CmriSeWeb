@@ -88,5 +88,10 @@ public class MrqsGrupoHdr implements Serializable {
 		this.comentarios = comentarios;
 	}
 
+	@Override
+    public String toString() {
+        return "HDR"+this.numero;
+    }
+ 
 	
 }

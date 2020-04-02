@@ -6,17 +6,20 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import com.cmrise.ejb.helpers.UserLogin;
 import com.cmrise.ejb.model.candidates.exams.Examinations;
 import com.cmrise.ejb.model.exams.CcExamAsignaciones;
 import com.cmrise.ejb.services.admin.AdmonCcCandidatosLocal;
 import com.cmrise.ejb.services.candidates.exams.CandCcExamenesLocal;
 import com.cmrise.ejb.services.candidates.exams.CandCcPreguntasFtaLocal;
 import com.cmrise.ejb.services.candidates.exams.CandCcPreguntasHdrLocal;
+import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasFtaLocal;
 import com.cmrise.ejb.services.exams.CcExamAsignacionesLocal;
 import com.cmrise.jpa.dto.candidates.exams.CandCcExamenesDto;
@@ -29,7 +32,6 @@ import com.cmrise.utils.Utilitarios;
 @ViewScoped
 public class ManageExamsForm {
 
-private long numeroCandidato;
 private List<Examinations> listExaminations = new ArrayList<Examinations>(); 
 
 @Inject 
@@ -50,15 +52,17 @@ CandCcPreguntasHdrLocal candCcPreguntasHdrLocal;
 @Inject 
 CandCcPreguntasFtaLocal candCcPreguntasFtaLocal; 
 
+@Inject 
+CandExamenesLocal candExamenesLocal; 
+
+
+@ManagedProperty(value="#{userLogin}")
+private UserLogin userLogin; 
 
 	@PostConstruct
 	public void init() {
 		 System.out.println("Entra ManageExamsForm init()");
-		 FacesContext context = FacesContext.getCurrentInstance(); 
-		 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-		 Object objNumeroCandidatoSV = session.getAttribute("NumeroCandidatoSV"); 	
-		 long longCandidatoSV =  Utilitarios.objToLong(objNumeroCandidatoSV);
-		 this.setNumeroCandidato(longCandidatoSV);
+		 System.out.println("userLogin.getNumeroUsuario():"+userLogin.getNumeroUsuario());
 		 refreshEntity();
 		 System.out.println("Sale ManageExamsForm init()");
 	}
@@ -99,7 +103,7 @@ CandCcPreguntasFtaLocal candCcPreguntasFtaLocal;
 		CandCcExamenesDto candCcExamenesDto = new CandCcExamenesDto(); 
 		candCcExamenesDto.setFechaEfectivaDesde(sysSqlFechaDesde);
 		candCcExamenesDto.setFechaEfectivaHasta(sqlFechaHasta);
-		candCcExamenesDto.setNumeroUsuario(this.getNumeroCandidato());
+		//candCcExamenesDto.setNumeroUsuario(this.getNumeroCandidato());
 		candCcExamenesDto.setNumeroCcExamen(pExaminations.getNumeroCcExamen());
 		candCcExamenesDto.setEstatus("INICIALIZADO");
 		long numeroCandCcExamen = candCcExamenesLocal.insert(candCcExamenesDto); 
@@ -132,24 +136,31 @@ CandCcPreguntasFtaLocal candCcPreguntasFtaLocal;
 		return "Candidates-Exam";
 	} 
 	
-	public void refreshEntity() {
-		listExaminations = admonCcCandidatosLocal.findExaminationsByCandidato(this.getNumeroCandidato()); 
+	public String takeExam(Examinations pExaminations) {
+	   FacesContext context = FacesContext.getCurrentInstance(); 
+	   HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+	   session.setAttribute("NumeroMrqsExamenSV", pExaminations.getNumeroMrqsExamen());
+	  return "Candidates-MRQs-Exam"; 	
 	}
 	
-	public long getNumeroCandidato() {
-		return numeroCandidato;
+	public void refreshEntity() {
+		listExaminations = candExamenesLocal.findByUsuario(userLogin.getNumeroUsuario()); 
 	}
-
-	public void setNumeroCandidato(long numeroCandidato) {
-		this.numeroCandidato = numeroCandidato;
-	}
-
+	
 	public List<Examinations> getListExaminations() {
 		return listExaminations;
 	}
 
 	public void setListExaminations(List<Examinations> listExaminations) {
 		this.listExaminations = listExaminations;
+	}
+
+	public UserLogin getUserLogin() {
+		return userLogin;
+	}
+
+	public void setUserLogin(UserLogin userLogin) {
+		this.userLogin = userLogin;
 	}		 
 
 }

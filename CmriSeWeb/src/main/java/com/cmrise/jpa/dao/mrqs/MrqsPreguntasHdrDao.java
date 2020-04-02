@@ -15,5 +15,6 @@ public interface MrqsPreguntasHdrDao {
 	public MrqsPreguntasHdrV1Dto findByNumero(long pNumero);
 	public MrqsPreguntasHdrDto copyPaste(long pNumero);
 	public MrqsPreguntasHdrV2Dto findV2ByNumeroHdr(long pNumeroHdr); 
+	public List<Object> findWithFilterExam(long pNumeroExamen); 
 	
 }

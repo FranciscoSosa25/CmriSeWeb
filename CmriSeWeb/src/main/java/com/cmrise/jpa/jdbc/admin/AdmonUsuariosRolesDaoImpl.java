@@ -89,4 +89,41 @@ public class AdmonUsuariosRolesDaoImpl implements AdmonUsuariosRolesDao {
 			return integer.intValue();
 	}
 
+	@Override
+	public List<Object> findWithFilterExam(long   pNumeroExamen
+			                              ,String pTipoExamen
+			                              ) {
+		String strQuery =   "SELECT [NUMERO]\r" + 
+							"      ,[NUMERO_USUARIO]\r" + 
+							"      ,[MATRICULA]\r" + 
+							"      ,[NOMBRE_USUARIO]\r" + 
+							"      ,[NOMBRE_COMPLETO_USUARIO]\r" + 
+							"      ,[NUMERO_ROL]\r" + 
+							"      ,[NOMBRE_ROL]\r" + 
+							"      ,[DESCRIPCION_ROL]\r" + 
+							"      ,[APELLIDO_PATERNO]\r" + 
+							"      ,[APELLIDO_MATERNO]\r" + 
+							"      ,[CORREO_ELECTRONICO]\r" + 
+							"      ,[CONTRASENIA]\r" + 
+							"  FROM [dbo].[ADMON_USUARIOS_ROLES_V1]\r" + 
+							" WHERE NOMBRE_ROL = '"+Utilitarios.ROL_ALUMNO+"'\r" + 
+							"   AND [NUMERO_USUARIO] NOT IN ( SELECT NUMERO_USUARIO\r" + 
+							"								    FROM CAND_EXAMENES\r" + 
+							"								   WHERE NUMERO_EXAMEN = "+pNumeroExamen+"\r" + 
+							"								     AND TIPO = '"+pTipoExamen+"' \r" + 
+							"									)";
+		Query query = em.createNativeQuery(strQuery); 
+		return query.getResultList();
+	}
+
+	@Override
+	public AdmonUsuariosRolesV1Dto findLoginUsusarioRol(String pMatricula
+			                                          , String pRol
+			                                          , String pContrasenia
+			                                          ) {
+		String strQuery = "SELECT a FROM AdmonUsuariosRolesV1Dto a WHERE a.matricula='"+pMatricula+"' AND a.nombreRol='"+pRol+"' AND a.contrasenia='"+pContrasenia+"'"; 
+		Query query = em.createQuery(strQuery); 
+		return (AdmonUsuariosRolesV1Dto)query.getSingleResult();
+	}
+
 }

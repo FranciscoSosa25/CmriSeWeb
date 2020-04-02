@@ -134,5 +134,9 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 		this.titulo = titulo;
 	}
 
+	@Override
+    public String toString() {
+        return "LINE"+this.numero;
+    }
 	
 }

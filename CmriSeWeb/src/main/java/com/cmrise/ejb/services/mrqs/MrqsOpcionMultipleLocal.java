@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 
 @Local
@@ -24,4 +25,7 @@ public interface MrqsOpcionMultipleLocal {
 						            ,long pNumetoFta
 						            );	
 	public int totalCorrectAnswers(long pNumeroFta);
+	public List<MrqsOpcionMultiple> findByNumeroFtaShuffleOrderOM(long pNumeroFta /** findByNumeroFtaShuffleOrderOBject Model **/
+														         ,boolean pShuffleOrder
+														         );
 }

@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+<ui:define name="content">
+ <h1>Sin Implementacion</h1>
+<div class="ui-g card">
+ <div class="ui-g-12">
+ <h1>Asignado a David
+ </h1>
+ <hr/><br/>
+ <h1>
+ Instrucciones:</h1>
+ <h1>Solictar de manera masiva los siguientes Datos
+       [NOMBRE]
+      ,[APELLIDO_PATERNO]
+      ,[APELLIDO_MATERNO]
+      ,[CORREO_ELECTRONICO]
+       Como actualmente solicitan la informacion en el sistema Europeo
+      </h1>
+ <h1>Para que puedan ser creados en la siguiente Tabla ADMON_USUARIOS</h1>
+ <h1>*Validar que los registros  no se dupliquen dentro de la tabla*</h1>
+  
+ <h1>Cada Vez que se creen registros tambien se debe insertar un registro en la siguiente tabla [ADMON_USUARIOS_ROLES]
+     Aqui deberas insertar el numero que se genero al crear un usuario y poner el numero del ROL ALUMNO </h1>
+     
+   <h1>Se debe implementar el siguiente Controlador com.cmrise.ejb.backing.exams.mrqs.CreateMrqsCandidatesForm</h1> 
+   <h1>Apoyarse de las siguientes clases com.cmrise.ejb.services.admin.AdmonUsuariosLocalImpl metodo insert()</h1>
+   <h1>Apoyarse de las siguientes clases com.cmrise.ejb.services.admin.AdmonUsuariosRolesLocal metodo insert()</h1>
+   <h1>** Tomar como referencia la implementacion del siguiente controlador com.cmrise.ejb.backing.admin.AdmonUsuariosForm **</h1>
+   
+   </div>
+  </div>
+ 
+</ui:define>
+</ui:composition>    

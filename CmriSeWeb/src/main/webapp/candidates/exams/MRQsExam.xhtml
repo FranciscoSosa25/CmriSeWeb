@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/templateCandidates.xhtml">
+<ui:define name="content">
+<h:form id="previewForm">
+<p:growl id="messages" showDetail="true" />
+<h4>Examen</h4>
+<h1>#{mRQsExamForm.mrqsExamen.titulo}</h1>
+<p:growl id="growl" showDetail="true" life="5000" />  
+<div class="ui-g">
+ <div class="ui-g-12 ui-md-3">
+   <p:panel layout="grid" >
+      <f:facet name="header">
+	       Grupo de Preguntas
+	     </f:facet>
+	   <p:tree value="#{mRQsExamForm.rootMrqsGrupo}" var="node" style="width:100%" selectionMode="single" selection="#{mRQsExamForm.selectedNode}" dynamic="true">
+        <p:ajax event="select" listener="#{mRQsExamForm.onNodeSelect}" />
+        <p:treeNode>
+            <h:outputText value="#{node.titulo}" />
+        </p:treeNode>
+      </p:tree>    
+  </p:panel>
+ </div>
+  <div class="ui-g-12 ui-md-9 ui-g-nopad">
+     <div class="ui-g-12 ui-md-12">
+           <div class="ui-g-12 ui-md-6">
+            <h3>#{mRQsExamForm.mrqsGrupoHdr.titulo} > #{mRQsExamForm.mrqsGrupoLinesV2.titulo}</h3>
+           </div>
+           <div class="ui-g-12 ui-md-6">
+            <p:commandButton value="Guardar y Procesar" />
+           </div>
+      </div>
+       <div class="ui-g-12 ui-md-12 card">
+        <h1 style="font-weight: bold;">#{mRQsExamForm.mrqsGrupoLinesV2.textoPregunta}</h1>
+        <h3>(#{mRQsExamForm.mrqsGrupoLinesV2.textoSugerencias})</h3>
+       </div>
+       <div class="ui-g-12 ui-md-12 card">
+        <h:panelGroup layout="block" rendered="#{mRQsExamForm.limitedFreeTextAnswer}">
+           <div class="ui-g-12 ui-md-12" >
+			   <p:outputLabel for="answer" value="Su Respuesta:" style="font-weight: bold;"/>
+			   <p:inputTextarea id="answer" rows="10" cols="50" style="width:98%;font-size: 24px;" value="" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+			    </p:inputTextarea>
+			    <p:message for="answer"  />
+			 </div>
+		    </h:panelGroup>	 
+		    
+		    <h:panelGroup layout="block" rendered="#{mRQsExamForm.multipleChoice  and mRQsExamForm.mrqsGrupoLinesV2.singleAnswerMode}">
+		      <div class="ui-g-12 ui-md-12" >
+		         <p:selectOneRadio id="answerRadioSingle"  layout="grid" columns="1" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
+				 <f:selectItems value="#{mRQsExamForm.listMrqsOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
+				 </p:selectOneRadio>
+				   <p:message for="answerRadioSingle"  />
+		      </div>
+             </h:panelGroup>  
+            
+            <h:panelGroup layout="block" rendered="#{mRQsExamForm.multipleChoice and not mRQsExamForm.mrqsGrupoLinesV2.singleAnswerMode}">
+		      <div class="ui-g-12 ui-md-12" >
+		         <p:selectManyCheckbox id="answerRadioMultiple"  layout="grid" columns="1" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
+				 <f:selectItems value="#{mRQsExamForm.listMrqsOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
+				 </p:selectManyCheckbox>
+				 <p:message for="answerRadioMultiple"  />
+		      </div>
+             </h:panelGroup>  
+            
+		</div>      
+  </div>
+</div>
+</h:form>
+</ui:define>
+</ui:composition>

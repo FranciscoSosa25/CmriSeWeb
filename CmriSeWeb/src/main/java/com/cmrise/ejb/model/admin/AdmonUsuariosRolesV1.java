@@ -25,6 +25,10 @@ public class AdmonUsuariosRolesV1 implements Serializable {
 	private long numero;
 	private long numeroRol;
 	private long numeroUsuario;
+	private String apellidoPaterno; 
+	private String apellidoMaterno;
+	private String correoElectronico; 
+	private String contrasenia; 
 	
 	public long getActualizadoPor() {
 		return actualizadoPor;
@@ -133,6 +137,30 @@ public class AdmonUsuariosRolesV1 implements Serializable {
 	}
 	public void setNumeroUsuario(long numeroUsuario) {
 		this.numeroUsuario = numeroUsuario;
+	}
+	public String getApellidoPaterno() {
+		return apellidoPaterno;
+	}
+	public void setApellidoPaterno(String apellidoPaterno) {
+		this.apellidoPaterno = apellidoPaterno;
+	}
+	public String getApellidoMaterno() {
+		return apellidoMaterno;
+	}
+	public void setApellidoMaterno(String apellidoMaterno) {
+		this.apellidoMaterno = apellidoMaterno;
+	}
+	public String getCorreoElectronico() {
+		return correoElectronico;
+	}
+	public void setCorreoElectronico(String correoElectronico) {
+		this.correoElectronico = correoElectronico;
+	}
+	public String getContrasenia() {
+		return contrasenia;
+	}
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
 	}
 	
 

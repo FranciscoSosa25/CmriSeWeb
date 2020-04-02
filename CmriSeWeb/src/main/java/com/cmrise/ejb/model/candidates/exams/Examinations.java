@@ -11,6 +11,7 @@ public class Examinations implements Serializable{
 	private long numeroCcExamen; 
 	private String tituloExamen; 
 	private short tiempoLimite;
+	private long numeroMrqsExamen; 
 	
 	public long getNumeroAdmonCcCandidato() {
 		return numeroAdmonCcCandidato;
@@ -41,6 +42,12 @@ public class Examinations implements Serializable{
 	}
 	public void setTiempoLimite(short tiempoLimite) {
 		this.tiempoLimite = tiempoLimite;
+	}
+	public long getNumeroMrqsExamen() {
+		return numeroMrqsExamen;
+	}
+	public void setNumeroMrqsExamen(long numeroMrqsExamen) {
+		this.numeroMrqsExamen = numeroMrqsExamen;
 	} 
 	
 }

@@ -28,7 +28,7 @@
 				            <p:menuitem value="Usuarios" outcome="Admin-Usuarios" icon="fa fa-user-plus" rendered="false"/>
 				            <p:menuitem value="Administración Roles" outcome="Admon-Roles" icon="fa fa-group"/>
 				            <p:menuitem value="Administración Usuarios" outcome="Admon-Usuarios" icon="fa fa-user-plus"/>
-				            <p:menuitem value="Administración Usuarios Roles" outcome="Admon-Usuarios-Roles" icon="fa fa-user-secret" rendered="false"/>
+				            <p:menuitem value="Administración Usuarios Roles" outcome="Admon-Usuarios-Roles" icon="fa fa-user-secret" rendered="true"/>
 				            <p:menuitem value="Asignacion de Roles" outcome="Admin-RolesUsuarios" icon="fa fa-user-secret" rendered="false"/>
 				          </p:submenu>
 				          <p:submenu label="Preguntas" icon="fa fa-fw fa-align-right">
@@ -61,9 +61,11 @@
 				          <p:submenu label="Pruebas/Exámenes" icon="fa fa-fw fa-sitemap">
 				            <p:menuitem value="Gestionar Exámenes MRQs" outcome="Exams-MRQs-Manage"/>
 				            <p:menuitem value="Gestionar Exámenes Centrales" outcome="Exams-CoreCases-Manage"/>
+				            <p:menuitem value="Historico Examenes" outcome="History-Exams"/>
 				            <p:menuitem value="Crear Prueba/Examen" outcome="Exams-CoreCases-Create" rendered="false"/>
 				            <p:menuitem value="Agregar Candidato" outcome="Exams-CoreCases-Create-Candidate" rendered="false"/>
-				            <p:submenu label="Fast Path" icon="fa fa-fw fa-sitemap" rendered="false">
+				            <p:submenu label="Fast Path" icon="fa fa-fw fa-sitemap" rendered="true">
+				             <p:menuitem value="Agregar Preguntas MRQs" action="#{menuForm.fpUpdateMrqsExamGroup()}"/>
 				             <p:menuitem value="Actualizar Prueba/Examen" action="#{menuForm.fpActualizarPruebaExamen()}"/>
 				             <p:menuitem value="Agregar Grupo Casos Principales"  action="#{menuForm.fpActualizarPruebaExamenAgregarCasosPrincipales()}" />
 				             <p:menuitem value="Actualizar Grupo Casos Principales"  action="#{menuForm.fpActualizarPruebaExamenActualizarCasosPrincipales()}" />

@@ -32,10 +32,17 @@ public class UserRoleFilter implements Filter {
 		   ||Utilitarios.ROL_MAESTRO.equals(strxXRole)
 		   ) {
 			 chain.doFilter(httpRequest, response);
-		 }else {
+			 return; 
+		 }
+		 else if(Utilitarios.ROL_ALUMNO.equals(strxXRole)){
 			 HttpServletResponse r = (HttpServletResponse) response;
-	          r.sendRedirect(httpRequest.getContextPath() + "/faces/index.xhtml");
-	            return;
+	         r.sendRedirect(httpRequest.getContextPath() + "/faces/access.xhtml");
+	         return;
+		 }
+		 else {
+			 HttpServletResponse r = (HttpServletResponse) response;
+	         r.sendRedirect(httpRequest.getContextPath() + "/faces/index.xhtml");
+	         return;
 		 }
 		 
 	}

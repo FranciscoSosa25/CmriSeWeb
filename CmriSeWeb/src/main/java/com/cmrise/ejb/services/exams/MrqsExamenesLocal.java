@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 
 import com.cmrise.jpa.dto.exams.MrqsExamenesV1Dto;
+import com.cmrise.ejb.model.exams.MrqsExamenes;
 import com.cmrise.jpa.dto.exams.MrqsExamenesDto;
 
 @Local
@@ -16,5 +17,6 @@ public interface MrqsExamenesLocal {
 	public void delete(long pNumero);
 	public MrqsExamenesDto findById(long pNumero); 
 	public void update(long pNumero,MrqsExamenesDto pMrqsExamenesDto);
+	public MrqsExamenes findByIdWD(long pNumero); 
 	
 }

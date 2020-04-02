@@ -170,7 +170,7 @@ function handleUpdateRequest(xhr, status, args){
 
 <h:form id="DeleteForm">
    <p:dialog id="deleteUsuarioDialogId" widgetVar="deleteUsuarioDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Usuario">
-    <h2>¿Esta seguro de que desea borrar este registro?</h2>
+    <h2>#{msgs['globalForm.deleteMessage']}</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
                  <p:commandButton id="DeleteBtn" update="ReadOnlyForm" value="Aceptar" actionListener="#{admonUsuariosForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />

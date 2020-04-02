@@ -8,13 +8,18 @@ import javax.inject.Inject;
 
 import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
 import com.cmrise.jpa.dao.exams.MrqsGrupoHdrDao;
+import com.cmrise.jpa.dao.exams.MrqsGrupoLinesDao;
 import com.cmrise.jpa.dto.exams.MrqsGrupoHdrDto;
+import com.cmrise.jpa.dto.exams.MrqsGrupoLinesDto;
 
 @Stateless
 public class MrqsGrupoHdrLocalImpl implements MrqsGrupoHdrLocal {
 
 	@Inject 
 	MrqsGrupoHdrDao mrqsGrupoHdrDao; 
+	
+	@Inject 
+	MrqsGrupoLinesDao mrqsGrupoLinesDao; 
 	
 	@Override
 	public long insert(MrqsGrupoHdrDto pMrqsGrupoHdrDto) {
@@ -33,6 +38,25 @@ public class MrqsGrupoHdrLocalImpl implements MrqsGrupoHdrLocal {
 			retval.add(mrqsGrupoHdr); 
 		}
 		return retval;
+	}
+
+	@Override
+	public MrqsGrupoHdrDto findByNumero(long pNumero) {
+		return mrqsGrupoHdrDao.findByNumero(pNumero);
+	}
+
+	@Override
+	public void delete(long pNumero) {
+		List<MrqsGrupoLinesDto> listMrqsGrupoLinesDto = mrqsGrupoLinesDao.findByNumeroHdr(pNumero); 
+		for(MrqsGrupoLinesDto mrqsGrupoLinesDto:listMrqsGrupoLinesDto) {
+			mrqsGrupoLinesDao.delete(mrqsGrupoLinesDto);
+		}
+		mrqsGrupoHdrDao.delete(pNumero);
+	}
+
+	@Override
+	public void update(long pNumero, MrqsGrupoHdrDto pMrqsGrupoHdrDto) {
+		mrqsGrupoHdrDao.update(pNumero, pMrqsGrupoHdrDto);
 	}
 
 }
