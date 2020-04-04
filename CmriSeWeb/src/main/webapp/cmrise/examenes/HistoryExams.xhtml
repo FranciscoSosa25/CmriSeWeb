@@ -4,8 +4,8 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
-<ui:define name="content">
- <h1>Sin Implementacion</h1>
+
+ <!-- <h1>Sin Implementacion</h1>
 <div class="ui-g card">
  <div class="ui-g-12">
   <h1>Asignado a David</h1>
@@ -17,6 +17,25 @@
   <h1>El controlador que se debera implementar es el siguiente:</h1>
   <h1>com.cmrise.ejb.backing.exams.HistoryExamForm</h1>
  </div>
- </div>
+ </div> -->
+ <ui:define name="content">
+<h1>Historial de Examenes</h1>
+<h:form id="ReadOnlyForm">
+ <p:dataTable var="candExamenesV2" value="#{historyExamsForm.listCandExamenesV2}" emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+   <f:facet name="header">Historial de Examenes</f:facet>
+   <p:column headerText="Nombre Candidato">
+    <h:outputText value="#{candExamenesV2.nombreCompletoUsuario}"/>
+   </p:column>
+   <p:column headerText="Matricula">
+    <h:outputText value="#{candExamenesV2.matricula}"/>
+   </p:column>
+   <p:column headerText="Numero Examen">
+    <h:outputText value="#{candExamenesV2.numeroExamen}"/>
+   </p:column>
+    <p:column headerText="Tipo">
+    <h:outputText value="#{candExamenesV2.tipo}"/>
+   </p:column>
+ </p:dataTable>
+ </h:form>
  </ui:define>
  </ui:composition>
