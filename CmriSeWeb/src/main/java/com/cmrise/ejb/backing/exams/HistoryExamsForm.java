@@ -17,6 +17,8 @@ import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;
 @ViewScoped
 public class HistoryExamsForm {
 	
+
+
 	private List<CandExamenesV2> listCandExamenesV2 = new ArrayList<CandExamenesV2>();
 	
 	@Inject
@@ -44,5 +46,6 @@ public class HistoryExamsForm {
 	public void setListCandExamenesV2(List<CandExamenesV2> listCandExamenesV2) {
 		this.listCandExamenesV2 = listCandExamenesV2;
 	} 
+
 
 }
