@@ -34,7 +34,7 @@ function handleDeleteRequest(xhr, status, args){
 <h:form id="ReadOnlyForm">
  <p:dataTable var="ccHdrV1"  value="#{manageCoreCasesForm.listCcHdrV1}"  paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">
-   Casos Principales
+   Casos Clínicos
    </f:facet>
     <p:column headerText="Nombre">
      <p:commandLink action="#{manageCoreCasesForm.update(ccHdrV1)}">

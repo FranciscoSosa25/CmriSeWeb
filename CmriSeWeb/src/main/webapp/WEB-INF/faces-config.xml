@@ -26,8 +26,8 @@
    <redirect/>
   </navigation-case>
    <navigation-case>
-   <from-outcome>Admon-Candidatos</from-outcome>
-   <to-view-id>/cmrise/admin/AdmonCandidatos.xhtml</to-view-id>
+   <from-outcome>Historial-Candidatos</from-outcome>
+   <to-view-id>/cmrise/examenes/mrqs/HistoryCandidates.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
     <navigation-case>
