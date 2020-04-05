@@ -62,4 +62,11 @@ public class CandExamenesDaoImpl implements CandExamenesDao {
 		return query.getResultList();
 	}
 
+	@Override
+	public CandExamenesV1Dto findByNumero(long pNumero) {
+		String strQuery="SELECT c FROM CandExamenesV1Dto c WHERE c.numero="+pNumero; 
+		Query query = em.createQuery(strQuery);
+		return (CandExamenesV1Dto)query.getSingleResult(); 
+	}
+
 }

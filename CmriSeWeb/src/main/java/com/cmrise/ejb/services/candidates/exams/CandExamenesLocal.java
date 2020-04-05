@@ -17,6 +17,9 @@ public interface CandExamenesLocal {
 								            ,String pTipoExamen
 								            ); 
 	public void delete(long pNumero); 
-	public List<Examinations> findByUsuario(long pNumeroUsuario); 
+	public List<CandExamenesV2> findByUsuario(long pNumeroUsuario); 
 	public List<CandExamenesV2> findAll(); 
+    public CandExamenesV1 findByNumero(long pNumero); 
+    
 }
+

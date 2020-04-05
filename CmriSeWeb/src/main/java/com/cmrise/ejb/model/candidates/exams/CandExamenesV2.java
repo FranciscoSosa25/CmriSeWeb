@@ -18,6 +18,8 @@ public class CandExamenesV2 implements Serializable{
 	private String nombreCompletoUsuario;
 	private String nombreRol; 
 	private String descripcionRol; 
+	private String titulo; 
+	private short tiempoLimite; 
 	
 	public long getNumero() {
 		return numero;
@@ -90,6 +92,18 @@ public class CandExamenesV2 implements Serializable{
 	}
 	public void setDescripcionRol(String descripcionRol) {
 		this.descripcionRol = descripcionRol;
+	}
+	public String getTitulo() {
+		return titulo;
+	}
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+	public short getTiempoLimite() {
+		return tiempoLimite;
+	}
+	public void setTiempoLimite(short tiempoLimite) {
+		this.tiempoLimite = tiempoLimite;
 	} 
 
 }

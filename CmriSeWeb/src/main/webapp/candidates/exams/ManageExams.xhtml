@@ -14,10 +14,10 @@
 <p:growl id="growl" showDetail="true" life="5000" />  
 <p:commandButton value="Buscar Exámenes" action="#{manageExamsForm.buscarExamenes()}" update="@form" style="margin:20px;"/>
 
-        <ui:repeat var="examination" value="#{manageExamsForm.listExaminations}">
+        <ui:repeat var="examination" value="#{manageExamsForm.listCandExamenesV2}">
         <div class="ui-g card">
 		    <div class="ui-g-6">
-		       <h2>#{examination.tituloExamen}</h2>
+		       <h2>#{examination.titulo}</h2>
 		        <div class="ui-g">
 				 <div class="ui-g-6">
 				   <h3>Tiempo Limite:#{examination.tiempoLimite} minutos</h3>

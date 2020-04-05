@@ -30,7 +30,7 @@
             <h3>#{mRQsExamForm.mrqsGrupoHdr.titulo} > #{mRQsExamForm.mrqsGrupoLinesV2.titulo}</h3>
            </div>
            <div class="ui-g-12 ui-md-6">
-            <p:commandButton value="Guardar y Procesar" />
+            <p:commandButton value="Guardar y Procesar" action="#{mRQsExamForm.saveAndProceed()}"/>
            </div>
       </div>
        <div class="ui-g-12 ui-md-12 card">
@@ -41,7 +41,7 @@
         <h:panelGroup layout="block" rendered="#{mRQsExamForm.limitedFreeTextAnswer}">
            <div class="ui-g-12 ui-md-12" >
 			   <p:outputLabel for="answer" value="Su Respuesta:" style="font-weight: bold;"/>
-			   <p:inputTextarea id="answer" rows="10" cols="50" style="width:98%;font-size: 24px;" value="" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+			   <p:inputTextarea id="answer"  value="#{mRQsExamForm.respuestaCandidato}" rows="10" cols="50"  style="width:98%;font-size: 24px;"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
 			    </p:inputTextarea>
 			    <p:message for="answer"  />
 			 </div>
@@ -49,7 +49,7 @@
 		    
 		    <h:panelGroup layout="block" rendered="#{mRQsExamForm.multipleChoice  and mRQsExamForm.mrqsGrupoLinesV2.singleAnswerMode}">
 		      <div class="ui-g-12 ui-md-12" >
-		         <p:selectOneRadio id="answerRadioSingle"  layout="grid" columns="1" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
+		         <p:selectOneRadio id="answerRadioSingle" value="#{mRQsExamForm.respuestaCandidato}" layout="grid" columns="1" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
 				 <f:selectItems value="#{mRQsExamForm.listMrqsOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
 				 </p:selectOneRadio>
 				   <p:message for="answerRadioSingle"  />
@@ -58,7 +58,7 @@
             
             <h:panelGroup layout="block" rendered="#{mRQsExamForm.multipleChoice and not mRQsExamForm.mrqsGrupoLinesV2.singleAnswerMode}">
 		      <div class="ui-g-12 ui-md-12" >
-		         <p:selectManyCheckbox id="answerRadioMultiple"  layout="grid" columns="1" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
+		         <p:selectManyCheckbox id="answerRadioMultiple"  value="#{mRQsExamForm.respuestasPreguntaCandidato}" layout="grid" columns="1" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
 				 <f:selectItems value="#{mRQsExamForm.listMrqsOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
 				 </p:selectManyCheckbox>
 				 <p:message for="answerRadioMultiple"  />

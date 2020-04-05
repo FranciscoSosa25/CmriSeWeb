@@ -13,18 +13,26 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import com.cmrise.ejb.helpers.UserLogin;
+import com.cmrise.ejb.model.candidates.exams.CandExamenesV2;
 import com.cmrise.ejb.model.candidates.exams.Examinations;
 import com.cmrise.ejb.model.exams.CcExamAsignaciones;
+import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
+import com.cmrise.ejb.model.exams.MrqsGrupoLines;
 import com.cmrise.ejb.services.admin.AdmonCcCandidatosLocal;
 import com.cmrise.ejb.services.candidates.exams.CandCcExamenesLocal;
 import com.cmrise.ejb.services.candidates.exams.CandCcPreguntasFtaLocal;
 import com.cmrise.ejb.services.candidates.exams.CandCcPreguntasHdrLocal;
+import com.cmrise.ejb.services.candidates.exams.CandExamRespuestasLocal;
 import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasFtaLocal;
 import com.cmrise.ejb.services.exams.CcExamAsignacionesLocal;
+import com.cmrise.ejb.services.exams.MrqsGrupoHdrLocal;
+import com.cmrise.ejb.services.exams.MrqsGrupoLinesLocal;
+import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.jpa.dto.candidates.exams.CandCcExamenesDto;
 import com.cmrise.jpa.dto.candidates.exams.CandCcPreguntasFtaDto;
 import com.cmrise.jpa.dto.candidates.exams.CandCcPreguntasHdrDto;
+import com.cmrise.jpa.dto.candidates.exams.CandExamRespuestasDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaV1Dto;
 import com.cmrise.utils.Utilitarios;
 
@@ -32,7 +40,7 @@ import com.cmrise.utils.Utilitarios;
 @ViewScoped
 public class ManageExamsForm {
 
-private List<Examinations> listExaminations = new ArrayList<Examinations>(); 
+private List<CandExamenesV2> listCandExamenesV2 = new ArrayList<CandExamenesV2>(); 
 
 @Inject 
 AdmonCcCandidatosLocal admonCcCandidatosLocal; 
@@ -55,6 +63,18 @@ CandCcPreguntasFtaLocal candCcPreguntasFtaLocal;
 @Inject 
 CandExamenesLocal candExamenesLocal; 
 
+@Inject 
+MrqsGrupoHdrLocal mrqsGrupoHdrLocal; 
+
+@Inject 
+MrqsGrupoLinesLocal mrqsGrupoLinesLocal; 
+
+@Inject 
+CandExamRespuestasLocal candExamRespuestasLocal; 
+
+@Inject 
+MrqsPreguntasFtaLocal mrqsPreguntasFtaLocal;  
+
 
 @ManagedProperty(value="#{userLogin}")
 private UserLogin userLogin; 
@@ -70,8 +90,8 @@ private UserLogin userLogin;
 	public void buscarExamenes() {
 		 FacesContext context = FacesContext.getCurrentInstance(); 
 		 refreshEntity();
-		 System.out.println("listExaminations.size():"+listExaminations.size());
-		 if(0==listExaminations.size()) {
+		 System.out.println("listCandExamenesV2.size():"+listCandExamenesV2.size());
+		 if(0==listCandExamenesV2.size()) {
 			 context.addMessage(null, new FacesMessage("A continuacion","Se presentan algunas referencias") );
 			 context.addMessage(null, new FacesMessage("El candidato","No tiene examenes asociados") );
 			 context.addMessage(null, new FacesMessage("Los Examenes","No Estan Activos") );
@@ -136,31 +156,61 @@ private UserLogin userLogin;
 		return "Candidates-Exam";
 	} 
 	
-	public String takeExam(Examinations pExaminations) {
+	public String takeExam(CandExamenesV2 pCandExamenesV2) {
+	   System.out.println("pCandExamenesV2.getTipo():"+pCandExamenesV2.getTipo());
+	   if(Utilitarios.MRQS.equals(pCandExamenesV2.getTipo())) {
+		   List<MrqsGrupoHdr> listMrqsGrupoHdr = mrqsGrupoHdrLocal.findByNumeroExamen(pCandExamenesV2.getNumeroExamen()); 
+	       for(MrqsGrupoHdr idx:listMrqsGrupoHdr) {
+	    	   List<MrqsGrupoLines> listMrqsGrupoLines =  mrqsGrupoLinesLocal.findByNumeroHdr(idx.getNumero()); 
+	    	   for(MrqsGrupoLines jdx:listMrqsGrupoLines) {
+	    		   long numeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(jdx.getNumeroPregunta()); 
+	    		   System.out.println("numeroFta:"+numeroFta);
+	    		   int intValidaRegistro = candExamRespuestasLocal.validaRegistro(pCandExamenesV2.getNumero()
+	    				                                 ,idx.getNumero()
+	    				                                 ,jdx.getNumeroPregunta()
+	    				                                 ,numeroFta
+	    				                                 );
+	    		   System.out.println("intValidaRegistro:"+intValidaRegistro);
+	    		   if(0==intValidaRegistro) {
+	    		   CandExamRespuestasDto candExamRespuestasDto = new CandExamRespuestasDto();
+	    		   candExamRespuestasDto.setNumeroCandExamen(pCandExamenesV2.getNumero());
+	    		   candExamRespuestasDto.setNumeroGrupo(idx.getNumero());
+	    		   candExamRespuestasDto.setNumeroPreguntaHdr(jdx.getNumeroPregunta());
+	    		   candExamRespuestasDto.setNumeroPreguntaFta(numeroFta);
+	    		   candExamRespuestasDto.setCreadoPor(userLogin.getNumeroUsuario());
+	    		   candExamRespuestasDto.setActualizadoPor(userLogin.getNumeroUsuario());
+	    		   candExamRespuestasLocal.insert(candExamRespuestasDto); 
+	    		   }
+	    	   }
+	       }
+	   }else if(Utilitarios.CORE_CASES.equals(pCandExamenesV2.getTipo())) {
+		   
+	   }
 	   FacesContext context = FacesContext.getCurrentInstance(); 
 	   HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-	   session.setAttribute("NumeroMrqsExamenSV", pExaminations.getNumeroMrqsExamen());
+	   session.setAttribute("NumeroCandExamenSV",pCandExamenesV2.getNumero());
+	   session.setAttribute("NumeroMrqsExamenSV", pCandExamenesV2.getNumeroExamen());
 	  return "Candidates-MRQs-Exam"; 	
 	}
 	
 	public void refreshEntity() {
-		listExaminations = candExamenesLocal.findByUsuario(userLogin.getNumeroUsuario()); 
+		listCandExamenesV2 = candExamenesLocal.findByUsuario(userLogin.getNumeroUsuario()); 
 	}
 	
-	public List<Examinations> getListExaminations() {
-		return listExaminations;
-	}
-
-	public void setListExaminations(List<Examinations> listExaminations) {
-		this.listExaminations = listExaminations;
-	}
-
 	public UserLogin getUserLogin() {
 		return userLogin;
 	}
 
 	public void setUserLogin(UserLogin userLogin) {
 		this.userLogin = userLogin;
+	}
+
+	public List<CandExamenesV2> getListCandExamenesV2() {
+		return listCandExamenesV2;
+	}
+
+	public void setListCandExamenesV2(List<CandExamenesV2> listCandExamenesV2) {
+		this.listCandExamenesV2 = listCandExamenesV2;
 	}		 
 
 }
