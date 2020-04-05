@@ -14,4 +14,5 @@ public interface CandExamenesDao {
 	public void delete(long pNumero); 
 	public List<CandExamenesV2Dto> findByUsuario(long pNumeroUsuario); 
 	public List<CandExamenesV2Dto> findAll(); 
+	public CandExamenesV1Dto findByNumero(long pNumero);
 }

@@ -52,15 +52,12 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 	}
 
 	@Override
-	public List<Examinations> findByUsuario(long pNumeroUsuario) {
-		List<Examinations> retval = new ArrayList<Examinations>(); 
+	public List<CandExamenesV2> findByUsuario(long pNumeroUsuario) {
+		List<CandExamenesV2> retval = new ArrayList<CandExamenesV2>(); 
 		List<CandExamenesV2Dto> listCandExamenesV2Dto = candExamenesDao.findByUsuario(pNumeroUsuario); 
 		for(CandExamenesV2Dto candExamenesV2Dto:listCandExamenesV2Dto) {
-			Examinations examinatios = new Examinations(); 
-			examinatios.setNumeroMrqsExamen(candExamenesV2Dto.getNumeroExamen());
-			examinatios.setTiempoLimite(candExamenesV2Dto.getTiempoLimite());
-			examinatios.setTituloExamen(candExamenesV2Dto.getTitulo());
-			retval.add(examinatios); 
+			CandExamenesV2 candExamenesV2 = dtoV2ToObjMod(candExamenesV2Dto);
+			retval.add(candExamenesV2); 
 		}
 		return retval;
 	}
@@ -85,7 +82,19 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 		retval.setNombreCompletoUsuario(pCandExamenesV2Dto.getNombreCompletoUsuario());
 		retval.setDescripcionRol(pCandExamenesV2Dto.getDescripcionRol());
 		retval.setTipo(pCandExamenesV2Dto.getTipo());
+		retval.setTitulo(pCandExamenesV2Dto.getTitulo());
+		retval.setTiempoLimite(pCandExamenesV2Dto.getTiempoLimite());
 		return retval; 
+	}
+
+	@Override
+	public CandExamenesV1 findByNumero(long pNumero) {
+		CandExamenesV1 retval = new CandExamenesV1(); 
+		CandExamenesV1Dto candExamenesV1Dto = candExamenesDao.findByNumero(pNumero); 
+		retval.setNumero(candExamenesV1Dto.getNumero());
+		retval.setNumeroExamen(candExamenesV1Dto.getNumeroExamen());
+		retval.setTipo(candExamenesV1Dto.getTipo());
+		return retval;
 	}
 	
 }
