@@ -20,6 +20,7 @@ public class CandExamenesV1  implements Serializable{
 	private String nombreCompletoUsuario;
 	private String nombreRol; 
 	private String descripcionRol; 
+	private String curp; 
 	
 	public long getNumero() {
 		return numero;
@@ -92,6 +93,12 @@ public class CandExamenesV1  implements Serializable{
 	}
 	public void setDescripcionRol(String descripcionRol) {
 		this.descripcionRol = descripcionRol;
+	}
+	public String getCurp() {
+		return curp;
+	}
+	public void setCurp(String curp) {
+		this.curp = curp;
 	} 
 
 }

@@ -109,6 +109,7 @@ public class AdmonUsuariosDaoImpl implements AdmonUsuariosDao {
 	 if(null!=pAdmonUsuariosDto.getNombre()) {
 	 admonUsuariosDto.setNombre(pAdmonUsuariosDto.getNombre());
 	 }
+	 admonUsuariosDto.setCurp(pAdmonUsuariosDto.getCurp());
 	 admonUsuariosDto.setApellidoPaterno(pAdmonUsuariosDto.getApellidoPaterno());
 	 admonUsuariosDto.setApellidoMaterno(pAdmonUsuariosDto.getApellidoMaterno());
 	 admonUsuariosDto.setFechaEfectivaDesde(pAdmonUsuariosDto.getFechaEfectivaDesde());

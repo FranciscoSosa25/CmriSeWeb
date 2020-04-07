@@ -122,7 +122,7 @@
   <p:commandButton value="Crear" update="tituloPanelId visibilityPanelId disponibilidadPanelId tiempoLimitePanelId" action="#{createMrqsExamForm.create()}" oncomplete="handleCreateRequest(xhr, status, args)"/>
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Cancelar"/>
+  <p:commandButton value="Cancelar" immediate="true" action="Exams-MRQs-Manage"/>
  </div>
 </div>
 </h:form>

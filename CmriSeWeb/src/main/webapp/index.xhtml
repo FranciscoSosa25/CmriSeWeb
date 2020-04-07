@@ -7,6 +7,7 @@
 
     <h:head>
         <f:facet name="first">
+            <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/poseidon-layout/images/login/cmri-120.png" /> 
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
@@ -15,9 +16,9 @@
         <script type="text/javascript">
 	  $(document).ready(function() {
 	  var  lfusername = document.getElementById("loginForm:username"); 
-	  lfusername.value = "A112";
+	  lfusername.value = "XXXXXXXXXXXXXXXXXX";
 	  var  lfpassword = document.getElementById("loginForm:password"); 
-	  lfpassword.value = "21";
+	  lfpassword.value = "Admin";
 	  });
  
     function handleLoginRequest(xhr, status, args) {
@@ -45,8 +46,8 @@
                     <p:graphicImage name="images/login/cmri-120.png" library="poseidon-layout" />
                 </div>
                 <div class="ui-g-12">
-                    <p:inputText id="username" value="#{indexForm.username}" name="username" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
-           			<p:watermark for="@previous" value="Matricula"/>
+                    <p:inputText id="username" value="#{indexForm.curp}" name="username" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+           			<p:watermark for="@previous" value="CURP"/>
 		    		<p:message for="username"/>
                 </div>
                 <div class="ui-g-12">

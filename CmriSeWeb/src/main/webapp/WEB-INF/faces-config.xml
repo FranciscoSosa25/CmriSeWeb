@@ -25,11 +25,6 @@
    <to-view-id>/cmrise/admin/AdmonUsuarios.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
-   <navigation-case>
-   <from-outcome>Historial-Candidatos</from-outcome>
-   <to-view-id>/cmrise/examenes/mrqs/HistoryCandidates.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
     <navigation-case>
   <from-outcome>Admon-Usuarios-Roles</from-outcome>
    <to-view-id>/cmrise/admin/AdmonUsuariosRoles.xhtml</to-view-id>
@@ -184,6 +179,26 @@
  <navigation-case>
    <from-outcome>History-Exams</from-outcome>
    <to-view-id>/cmrise/examenes/HistoryExams.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>History-Exams-Detail</from-outcome>
+   <to-view-id>/cmrise/examenes/HistoryExamsDetail.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+   <navigation-case>
+   <from-outcome>History-Questions</from-outcome>
+   <to-view-id>/cmrise/examenes/HistoryQuestions.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>Historial-Candidatos</from-outcome>
+   <to-view-id>/cmrise/examenes/HistoryCandidates.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+   <navigation-case>
+   <from-outcome>Historial-Candidatos-Detail</from-outcome>
+   <to-view-id>/cmrise/examenes/HistoryCandidatesDetail.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
   <navigation-case>

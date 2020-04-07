@@ -8,7 +8,6 @@ import javax.inject.Inject;
 
 import com.cmrise.ejb.model.candidates.exams.CandExamenesV1;
 import com.cmrise.ejb.model.candidates.exams.CandExamenesV2;
-import com.cmrise.ejb.model.candidates.exams.Examinations;
 import com.cmrise.jpa.dao.candidates.exams.CandExamenesDao;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesDto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesV1Dto;
@@ -29,18 +28,20 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 	public List<CandExamenesV1> findByExamen(long pNumeroExamen, String pTipoExamen) {
 		List<CandExamenesV1Dto> listCandExamenesV1Dto = candExamenesDao.findByExamen(pNumeroExamen, pTipoExamen); 
 		List<CandExamenesV1> retval = new ArrayList<CandExamenesV1>(); 
-		for(CandExamenesV1Dto CandExamenesV1Dto:listCandExamenesV1Dto) {
+		for(CandExamenesV1Dto candExamenesV1Dto:listCandExamenesV1Dto) {
 			CandExamenesV1 candExamenesV1 = new CandExamenesV1(); 
-			candExamenesV1.setNumero(CandExamenesV1Dto.getNumero());
-			candExamenesV1.setNumeroExamen(CandExamenesV1Dto.getNumeroExamen());
-			candExamenesV1.setNumeroUsuario(CandExamenesV1Dto.getNumeroUsuario());
-			candExamenesV1.setTipo(CandExamenesV1Dto.getTipo());
-			candExamenesV1.setMatricula(CandExamenesV1Dto.getMatricula());
-			candExamenesV1.setNombreUsuario(CandExamenesV1Dto.getNombreUsuario());
-			candExamenesV1.setApellidoPaterno(CandExamenesV1Dto.getApellidoPaterno());
-			candExamenesV1.setApellidoMaterno(CandExamenesV1Dto.getApellidoMaterno());
-			candExamenesV1.setDescripcionRol(CandExamenesV1Dto.getDescripcionRol());
-			candExamenesV1.setNombreCompletoUsuario(CandExamenesV1Dto.getNombreCompletoUsuario());
+			candExamenesV1.setNumero(candExamenesV1Dto.getNumero());
+			candExamenesV1.setNumeroExamen(candExamenesV1Dto.getNumeroExamen());
+			candExamenesV1.setNumeroUsuario(candExamenesV1Dto.getNumeroUsuario());
+			candExamenesV1.setTipo(candExamenesV1Dto.getTipo());
+			candExamenesV1.setMatricula(candExamenesV1Dto.getMatricula());
+			candExamenesV1.setNombreUsuario(candExamenesV1Dto.getNombreUsuario());
+			candExamenesV1.setApellidoPaterno(candExamenesV1Dto.getApellidoPaterno());
+			candExamenesV1.setApellidoMaterno(candExamenesV1Dto.getApellidoMaterno());
+			candExamenesV1.setDescripcionRol(candExamenesV1Dto.getDescripcionRol());
+			candExamenesV1.setNombreCompletoUsuario(candExamenesV1Dto.getNombreCompletoUsuario());
+			candExamenesV1.setCurp(candExamenesV1Dto.getCurp());
+			candExamenesV1.setEstatus(candExamenesV1Dto.getEstatus());
 			retval.add(candExamenesV1); 
 		}
 		return retval;
@@ -84,6 +85,10 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 		retval.setTipo(pCandExamenesV2Dto.getTipo());
 		retval.setTitulo(pCandExamenesV2Dto.getTitulo());
 		retval.setTiempoLimite(pCandExamenesV2Dto.getTiempoLimite());
+		retval.setEstatus(pCandExamenesV2Dto.getEstatus());
+		retval.setCurp(pCandExamenesV2Dto.getCurp());
+		retval.setFechaEfectivaDesdeExamen(new java.util.Date(pCandExamenesV2Dto.getFechaEfectivaDesdeExamen().getTime()));
+		retval.setFechaEfectivaHastaExamen(new java.util.Date(pCandExamenesV2Dto.getFechaEfectivaHastaExamen().getTime()));
 		return retval; 
 	}
 
@@ -96,5 +101,17 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 		retval.setTipo(candExamenesV1Dto.getTipo());
 		return retval;
 	}
+
+	@Override
+	public List<CandExamenesV2> findByCURP(String pCurp) {
+		List<CandExamenesV2> retval = new ArrayList<CandExamenesV2>(); 
+		List<CandExamenesV2Dto> listCandExamenesV2Dto = candExamenesDao.findByCURP(pCurp); 
+		for(CandExamenesV2Dto candExamenesV2Dto:listCandExamenesV2Dto) {
+			CandExamenesV2 candExamenesV2 = dtoV2ToObjMod(candExamenesV2Dto);
+			retval.add(candExamenesV2); 
+		}
+		return retval;
+	}
+	
 	
 }

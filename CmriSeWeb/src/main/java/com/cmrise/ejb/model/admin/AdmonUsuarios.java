@@ -21,6 +21,7 @@ public class AdmonUsuarios implements Serializable {
 	private String nombre;
 	private long numeroRol; 
 	private String nombreRol; 
+	private String curp; 
 	
 	public long getNumero() {
 		return numero;
@@ -105,6 +106,12 @@ public class AdmonUsuarios implements Serializable {
 	}
 	public void setNombreRol(String nombreRol) {
 		this.nombreRol = nombreRol;
+	}
+	public String getCurp() {
+		return curp;
+	}
+	public void setCurp(String curp) {
+		this.curp = curp;
 	}
 	
 

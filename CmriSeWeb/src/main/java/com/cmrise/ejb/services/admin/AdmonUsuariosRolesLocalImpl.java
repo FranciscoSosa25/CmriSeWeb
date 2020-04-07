@@ -46,10 +46,12 @@ public class AdmonUsuariosRolesLocalImpl implements AdmonUsuariosRolesLocal {
 	}
 
 	@Override
-	public int loginUsuarioRol(String pMatricula
+	public int loginUsuarioRol(String pCurp
 			                 , String pRol
 			                 , String pContrasenia) {
-		return admonUsuariosRolesDao.loginUsuarioRol(pMatricula, pRol, pContrasenia);
+		return admonUsuariosRolesDao.loginUsuarioRol(pCurp
+				                                   , pRol
+				                                   , pContrasenia);
 	}
 
 	@Override
@@ -105,10 +107,13 @@ public class AdmonUsuariosRolesLocalImpl implements AdmonUsuariosRolesLocal {
 	}
 
 	@Override
-	public AdmonUsuariosRolesV1Dto findLoginUsusarioRol(String pMatricula
+	public AdmonUsuariosRolesV1Dto findLoginUsusarioRol(String pCurp
 			                                          , String pRol
-			                                          , String pContrasenia) {
-		return admonUsuariosRolesDao.findLoginUsusarioRol(pMatricula, pRol, pContrasenia);
+			                                          , String pContrasenia
+			                                          ) {
+		return admonUsuariosRolesDao.findLoginUsusarioRol(pCurp
+				                                        , pRol
+				                                        , pContrasenia);
 	}
 
 }

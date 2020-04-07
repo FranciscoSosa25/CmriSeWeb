@@ -54,6 +54,8 @@ public class AdmonUsuariosDto implements Serializable {
 	@Column(name="NOMBRE")
 	private String nombre;
 
+	@Column(name="CURP")
+	private String curp; 
 	
 	//bi-directional many-to-one association to AdmonUsuariosRolesDto
 	@OneToMany(mappedBy="admonUsuario")
@@ -179,6 +181,14 @@ public class AdmonUsuariosDto implements Serializable {
 		admonUsuariosRole.setAdmonUsuario(null);
 
 		return admonUsuariosRole;
+	}
+
+	public String getCurp() {
+		return curp;
+	}
+
+	public void setCurp(String curp) {
+		this.curp = curp;
 	}
 
 }
