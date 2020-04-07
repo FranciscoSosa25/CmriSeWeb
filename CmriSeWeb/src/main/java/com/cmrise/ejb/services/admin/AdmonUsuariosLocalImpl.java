@@ -47,4 +47,10 @@ public class AdmonUsuariosLocalImpl implements AdmonUsuariosLocal {
 				                                   ,strClave);
 	}
 
-}
+	@Override
+	public List<AdmonUsuariosDto> findAll() {
+		return admonUsuariosDao.findAll();
+		}
+	}
+
+

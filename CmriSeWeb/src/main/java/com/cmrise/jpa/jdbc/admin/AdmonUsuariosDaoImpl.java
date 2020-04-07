@@ -37,66 +37,7 @@ public class AdmonUsuariosDaoImpl implements AdmonUsuariosDao {
 		return lNumeroS.longValue();
 	}
 
-	@Override
-	public List<AdmonUsuariosDto> findTop500() {
-		List<AdmonUsuariosDto> retval = new ArrayList<AdmonUsuariosDto>();
-		String strQuery = "SELECT TOP (500) [NUMERO]\r" + 
-							"      ,[NOMBRE]\r" + 
-							"      ,[APELLIDO_PATERNO]\r" + 
-							"      ,[APELLIDO_MATERNO]\r" + 
-							"      ,[CONTRASENIA]\r" + 
-							"      ,[CORREO_ELECTRONICO]\r" + 
-							"      ,[FECHA_EFECTIVA_DESDE]\r" + 
-							"      ,[FECHA_EFECTIVA_HASTA]\r" + 
-							"      ,[CREADO_POR]\r" + 
-							"      ,[FECHA_CREACION]\r" + 
-							"      ,[ACTUALIZADO_POR]\r" + 
-							"      ,[FECHA_ACTUALIZACION]\r" + 
-							"  FROM [CMRISE].[dbo].[ADMON_USUARIOS]\r" + 
-							"ORDER BY [FECHA_ACTUALIZACION] DESC \r" + 
-							"        ,[NUMERO] DESC";
-	    Query query = em.createNativeQuery(strQuery);
-	    List<Object> listObject=query.getResultList();
-	    Iterator<Object> iterObject = listObject.iterator();
-	    while(iterObject.hasNext()) {
-	    	Object result = iterObject.next();
-	    	AdmonUsuariosDto admonUsuariosDto = new AdmonUsuariosDto();
-	    	if(result instanceof Object[]) {
-				Object[] row = (Object[]) result;
-				if(row[0] instanceof BigInteger){
-					admonUsuariosDto.setNumero(((BigInteger)row[0]).longValue());
-				}
-				if(row[1] instanceof String) {
-					String strNombre = (String)row[1];
-					admonUsuariosDto.setNombre(strNombre);
-				}
-				if(row[2] instanceof String) {
-					String strApellidoPaterno = (String)row[2];
-					admonUsuariosDto.setApellidoPaterno(strApellidoPaterno);
-				}
-				if(row[3] instanceof String) {
-					String strApellidoMaterno = (String)row[3];
-					admonUsuariosDto.setApellidoMaterno(strApellidoMaterno);
-				}
-				if(row[4] instanceof String) {
-					admonUsuariosDto.setContrasenia((String)row[4]);
-				}
-				if(row[5] instanceof String) {
-					String strCorreoElectronico = (String)row[5];
-					admonUsuariosDto.setCorreoElectronico(strCorreoElectronico);
-				}
-				if(row[6] instanceof Date) {
-					admonUsuariosDto.setFechaEfectivaDesde((Date)row[6]);
-				}
-				if(row[7] instanceof Date) {
-					admonUsuariosDto.setFechaEfectivaHasta((Date)row[7]);
-				}
-	    	}	
-	    	retval.add(admonUsuariosDto);
-	    }
-		return retval; 
-	}
-
+	
 	@Override
 	public void delete(long pNumero) {
 		AdmonUsuariosDto admonUsuariosDto =	em.find(AdmonUsuariosDto.class, pNumero);
@@ -187,6 +128,20 @@ public class AdmonUsuariosDaoImpl implements AdmonUsuariosDao {
 	    	retval.add(admonUsuariosDto);
 	    }
 		return retval; 
+	}
+
+
+	@Override
+	public List<AdmonUsuariosDto> findTop500() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<AdmonUsuariosDto> findAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
