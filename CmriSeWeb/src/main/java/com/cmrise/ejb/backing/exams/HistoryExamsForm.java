@@ -6,45 +6,64 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-
-
-import com.cmrise.ejb.model.candidates.exams.CandExamenesV2;
+import javax.servlet.http.HttpSession;
+import com.cmrise.ejb.model.exams.Examenes;
 import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;
+import com.cmrise.ejb.services.exams.ExamenesLocal;
 
 
 @ManagedBean
 @ViewScoped
 public class HistoryExamsForm {
 	
-
-
-	private List<CandExamenesV2> listCandExamenesV2 = new ArrayList<CandExamenesV2>();
+	private List<Examenes> listExamenes = new ArrayList<Examenes>(); 
+	private String tituloExamen; 
 	
 	@Inject
 	CandExamenesLocal candExamenesLocal;
+	
+	@Inject 
+	ExamenesLocal examenesLocal; 
 	
 	 @PostConstruct
 		public void init() {
 		 System.out.println("Entra "+this.getClass()+" init()");
 		 refreshEntity();
 		 System.out.println("Sale "+this.getClass()+" init()");
-			 
 		 }		 
 		
 	    public void refreshEntity() {
-	    	 
-	    	 listCandExamenesV2 = candExamenesLocal.findAll();
+	     listExamenes = examenesLocal.findAllObjMod(); 
+	    }
 
-	    	 }
-	    
-
-	public List<CandExamenesV2> getListCandExamenesV2() {
-		return listCandExamenesV2;
+	public String toDetailExam(Examenes pExamenes) {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("NumeroExamenSV", pExamenes.getNumero());
+		session.setAttribute("TipoExamenSV", pExamenes.getTipoExamenCode());
+		return "History-Exams-Detail"; 
+	}    
+	
+	public void findByTituloExamen() {
+		 listExamenes = examenesLocal.findByTituloExamen(this.tituloExamen); 
+	}
+	
+	public List<Examenes> getListExamenes() {
+		return listExamenes;
 	}
 
-	public void setListCandExamenesV2(List<CandExamenesV2> listCandExamenesV2) {
-		this.listCandExamenesV2 = listCandExamenesV2;
+	public void setListExamenes(List<Examenes> listExamenes) {
+		this.listExamenes = listExamenes;
+	}
+
+	public String getTituloExamen() {
+		return tituloExamen;
+	}
+
+	public void setTituloExamen(String tituloExamen) {
+		this.tituloExamen = tituloExamen;
 	} 
 
 

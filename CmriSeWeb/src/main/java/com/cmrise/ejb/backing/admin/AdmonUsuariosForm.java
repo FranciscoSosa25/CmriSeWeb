@@ -36,6 +36,7 @@ public class AdmonUsuariosForm {
 	private List<AdmonUsuarios> listAdmonUsuarios = new ArrayList<AdmonUsuarios>();
 	private AdmonUsuarios admonUsuariosForAction = new AdmonUsuarios();
 	private long numeroRol; 
+	private String curp; 
 	
 	@Inject 
 	AdmonUsuariosLocal admonUsuariosLocal; 
@@ -59,6 +60,7 @@ public class AdmonUsuariosForm {
 			AdmonUsuariosRolesV1Dto admonUsuariosRolesV1Dto = iterAdmonUsuariosRolesV1Dto.next(); 
 			AdmonUsuarios admonUsuarios = new AdmonUsuarios();
 			admonUsuarios.setNumero(admonUsuariosRolesV1Dto.getNumeroUsuario());
+			admonUsuarios.setCurp(admonUsuariosRolesV1Dto.getCurp());
 			admonUsuarios.setNombre(admonUsuariosRolesV1Dto.getNombreUsuario());
 			admonUsuarios.setApellidoPaterno(admonUsuariosRolesV1Dto.getApellidoPaterno());
 			admonUsuarios.setApellidoMaterno(admonUsuariosRolesV1Dto.getApellidoMaterno());
@@ -81,6 +83,7 @@ public class AdmonUsuariosForm {
 	public void create() {
 		AdmonUsuariosDto admonUsuariosDto = new AdmonUsuariosDto();
 		 boolean createIn = false; 
+		admonUsuariosDto.setCurp(this.curp);
 		admonUsuariosDto.setNombre(this.nombre);
 		admonUsuariosDto.setApellidoPaterno(this.apellidoPaterno);
 		admonUsuariosDto.setApellidoMaterno(this.apellidoMaterno);
@@ -129,6 +132,7 @@ public class AdmonUsuariosForm {
 	public void selectForAction(AdmonUsuarios pAdmonUsuarios) {
 		System.out.println("*pAdmonUsuarios.getNumero():"+pAdmonUsuarios.getNumero());
 		admonUsuariosForAction.setNumero(pAdmonUsuarios.getNumero());
+		admonUsuariosForAction.setCurp(pAdmonUsuarios.getCurp());
 		admonUsuariosForAction.setNombre(pAdmonUsuarios.getNombre());
 		admonUsuariosForAction.setApellidoPaterno(pAdmonUsuarios.getApellidoPaterno());
 		admonUsuariosForAction.setApellidoMaterno(pAdmonUsuarios.getApellidoMaterno());
@@ -153,6 +157,7 @@ public class AdmonUsuariosForm {
 		AdmonUsuariosDto admonUsuariosDto = new AdmonUsuariosDto();
 		System.out.println("admonUsuariosForAction.getNombre():"+admonUsuariosForAction.getNombre());
 		System.out.println("admonUsuariosForAction.getNumero():"+admonUsuariosForAction.getNumero());
+		admonUsuariosDto.setCurp(admonUsuariosForAction.getCurp());
 		admonUsuariosDto.setNombre(admonUsuariosForAction.getNombre());
 		admonUsuariosDto.setApellidoPaterno(admonUsuariosForAction.getApellidoPaterno());
 		admonUsuariosDto.setApellidoMaterno(admonUsuariosForAction.getApellidoMaterno());
@@ -261,5 +266,13 @@ public class AdmonUsuariosForm {
 
 	public void setNumeroRol(long numeroRol) {
 		this.numeroRol = numeroRol;
+	}
+
+	public String getCurp() {
+		return curp;
+	}
+
+	public void setCurp(String curp) {
+		this.curp = curp;
 	}
 }

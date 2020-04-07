@@ -1,6 +1,9 @@
 package com.cmrise.jpa.dao.candidates.exams;
 
+import java.util.List;
+
 import com.cmrise.jpa.dto.candidates.exams.CandExamRespuestasDto;
+import com.cmrise.jpa.dto.candidates.exams.CandExamRespuestasV1Dto;
 
 public interface CandExamRespuestasDao {
 
@@ -28,5 +31,8 @@ public interface CandExamRespuestasDao {
 					             ,long pNumeroGrupo
 					             ,long pNumeroPreguntaHdr
 					             ,long pNumeroPreguntaFta
-					             );			                         
+					             );			
+    
+    public List<CandExamRespuestasV1Dto> findV1DtoByNumeroCandExamen(long pNumeroCandExamen);
+    
 }

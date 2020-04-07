@@ -7,7 +7,8 @@
       xmlns:pa="http://primefaces.org/apollo"
        >
    <h:head>
-     <f:facet name="first">
+        <f:facet name="first">
+            <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/poseidon-layout/images/login/cmri-120.png" /> 
             <meta http-equiv="X-UA-Compatible" content="IE=edge" />
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
@@ -54,7 +55,7 @@
    </h:head>
    <h:body styleClass="main-body">
                 <div class="route-bar">
-                    <i class="fa fa-home"></i><span style="font-weight:bold;color:red;"> #{userLogin.descripcionRol}:</span><span style="font-weight:bold;">#{userLogin.nombreCompletoUsuario}</span><span style="font-weight:bold;color:red;">  Matricula:</span><span style="font-weight:bold;">#{userLogin.matricula}</span>
+                    <i class="fa fa-home"></i><span style="font-weight:bold;color:red;"> #{userLogin.descripcionRol}:</span><span style="font-weight:bold;">#{userLogin.nombreCompletoUsuario}</span><span style="font-weight:bold;color:red;">  CURP:</span><span style="font-weight:bold;">#{userLogin.curp}</span>
                 </div>
                 <div class="layout-main-content">
                      <ui:insert name="content"/> 

@@ -83,6 +83,9 @@ public class AdmonUsuariosRolesV1Dto implements Serializable {
 	
 	@Column(name="CONTRASENIA")
 	private String contrasenia; 
+	
+	@Column(name="CURP")
+	private String curp; 
 
 	public AdmonUsuariosRolesV1Dto() {
 	}
@@ -261,6 +264,14 @@ public class AdmonUsuariosRolesV1Dto implements Serializable {
 
 	public void setContrasenia(String contrasenia) {
 		this.contrasenia = contrasenia;
+	}
+
+	public String getCurp() {
+		return curp;
+	}
+
+	public void setCurp(String curp) {
+		this.curp = curp;
 	}
 
 }

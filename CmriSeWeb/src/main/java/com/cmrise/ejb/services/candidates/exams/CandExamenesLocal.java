@@ -21,6 +21,6 @@ public interface CandExamenesLocal {
 	public List<CandExamenesV2> findByUsuario(long pNumeroUsuario); 
 	public List<CandExamenesV2> findAll(); 
     public CandExamenesV1 findByNumero(long pNumero); 
-    
+    public List<CandExamenesV2> findByCURP(String pCurp); 
 }
 

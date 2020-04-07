@@ -69,4 +69,11 @@ public class CandExamenesDaoImpl implements CandExamenesDao {
 		return (CandExamenesV1Dto)query.getSingleResult(); 
 	}
 
+	@Override
+	public List<CandExamenesV2Dto> findByCURP(String pCurp) {
+		String strQuery="SELECT c FROM CandExamenesV2Dto c WHERE c.curp like '%"+pCurp+"%'"; 
+		Query query = em.createQuery(strQuery);
+		return query.getResultList();
+	}
+
 }

@@ -37,8 +37,11 @@ function handleUpdateRequest(xhr, status, args){
 <ui:define name="content">
 <h1>Administración Usuarios</h1>
 <h:form id="ReadOnlyForm">
- <p:dataTable var="admonUsuario" value="#{admonUsuariosForm.listAdmonUsuarios}" emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+ <p:dataTable var="admonUsuario" value="#{admonUsuariosForm.listAdmonUsuarios}"  emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">USUARIOS</f:facet>
+    <p:column headerText="CURP" style="text-overflow: ellipsis; white-space: nowrap;width:150px" >
+    <h:outputText value="#{admonUsuario.curp}"/>
+   </p:column>
    <p:column headerText="Nombre">
     <h:outputText value="#{admonUsuario.nombre}"/>
    </p:column>
@@ -64,7 +67,7 @@ function handleUpdateRequest(xhr, status, args){
        <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
      </h:outputText>
    </p:column> 
-   <p:column  headerText="Opciones">
+   <p:column  headerText="Opciones" style="text-overflow: ellipsis; white-space: nowrap;width:100px" >
       <p:commandButton icon="fa fa-edit" style="margin-left: 10px;" update="UpdateForm" oncomplete="PF('updateUsuarioDialogWV').show();" ajax="true" actionListener="#{admonUsuariosForm.selectForAction(admonUsuario)}"/>
       <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteUsuarioDialogWV').show();" ajax="true" actionListener="#{admonUsuariosForm.selectForAction(admonUsuario)}"/>
    </p:column>
@@ -82,7 +85,12 @@ function handleUpdateRequest(xhr, status, args){
  <f:passThroughAttribute name="autocomplete" value="off"/>
   <p:dialog id="createUsuarioDialogId" widgetVar="createUsuarioDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Registrar Usuario">
    <p:panelGrid id="createPanelID" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
-     <p:outputLabel for="nombre" value="Nombre"/>
+     <p:outputLabel for="curp" value="CURP"/>
+	 <p:inputText id="curp" value="#{admonUsuariosForm.curp}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%">
+	  <f:validateLength minimum="18" />
+	 </p:inputText> 
+	 <p:message for="curp"/>
+	 <p:outputLabel for="nombre" value="Nombre"/>
 	 <p:inputText id="nombre" value="#{admonUsuariosForm.nombre}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
 	 <p:message for="nombre"/>
 	 <p:outputLabel for="apellidoPaterno" value="Apellido Paterno"/>
@@ -127,7 +135,12 @@ function handleUpdateRequest(xhr, status, args){
  <f:passThroughAttribute name="autocomplete" value="off"/>
   <p:dialog id="updateUsuarioDialogId" widgetVar="updateUsuarioDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Actualizar Usuario">
    <p:panelGrid id="updatePanelID" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
-      <p:outputLabel for="nombre" value="Nombre"/>
+     <p:outputLabel for="curp" value="CURP"/>
+	 <p:inputText id="curp" value="#{admonUsuariosForm.admonUsuariosForAction.curp}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%">
+	 <f:validateLength minimum="18" />
+	 </p:inputText> 
+	 <p:message for="curp"/>
+     <p:outputLabel for="nombre" value="Nombre"/>
 	 <p:inputText id="nombre" value="#{admonUsuariosForm.admonUsuariosForAction.nombre}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
 	 <p:message for="nombre"/>
 	 <p:outputLabel for="apellidoPaterno" value="Apellido Paterno"/>

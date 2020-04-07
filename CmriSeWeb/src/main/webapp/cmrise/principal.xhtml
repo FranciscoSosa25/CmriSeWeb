@@ -7,34 +7,6 @@
 
 <ui:define name="content">
 <h1>Pagina Principal</h1>
-<h:form id="SearchForm">
-<f:passThroughAttribute name="autocomplete" value="off"/>
- <p:fieldset legend="Buscar Examen" toggleable="true" toggleSpeed="500" style="margin-bottom:20px" collapsed="true" >
-  <p:ajax event="toggle" />
-  <p:panel id="SearchPanel" >
-  
-  <div class="ui-g ui-fluid">
-    <div class="ui-g-12 ui-lg-3" style="width: 100%; margin-top: 5px;">
-         <p:outputLabel   value="Titulo Examen:" />
-         <p:inputText id="titulo_examen"  style="width: 100%; margin-top: 5px;"  maxlength="50" />
-         <p:message for="titulo_examen"/>
-    </div>
-    </div>
-    
-    
-
-     <div class="ui-g">
-       <div class="ui-g-12 ui-lg-12" style="text-align: right;">
-        <p:commandButton value="Cancelar">
-         <p:ajax update="SearchPanel" resetValues="true" />
-        </p:commandButton>
-        <p:commandButton value="Consultar"  style="margin-left: 10px;"/>
-       </div>
-     </div>
-   
-  </p:panel>
- </p:fieldset>
-</h:form>
-</ui:define>
-                
+<h1>Bienvenidos</h1>
+</ui:define>    
 </ui:composition>

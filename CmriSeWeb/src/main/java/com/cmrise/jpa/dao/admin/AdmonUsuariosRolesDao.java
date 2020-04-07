@@ -13,14 +13,14 @@ public interface AdmonUsuariosRolesDao {
  public int validaUsuarioRol(long pNumeroUsuario
 		                    ,long pNumeroRol
 		                    );
- public int loginUsuarioRol(String pMatricula
+ public int loginUsuarioRol(String pCurp
 		                   ,String pRol
 		                   ,String pContrasenia
 		                   ); 
  
  public List<Object> findWithFilterExam(long pNumeroExamen,String pTipoExamen); 
  
- public AdmonUsuariosRolesV1Dto findLoginUsusarioRol(String pMatricula
+ public AdmonUsuariosRolesV1Dto findLoginUsusarioRol(String pCurp
 											        ,String pRol
 											        ,String pContrasenia
 											        ); 

@@ -1,5 +1,7 @@
 package com.cmrise.ejb.services.candidates.exams;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import com.cmrise.ejb.model.candidates.exams.CandExamRespuestasV1;
@@ -27,4 +29,7 @@ public interface CandExamRespuestasLocal {
 					             ,long pNumeroGrupo
 					             ,long pNumeroPreguntaHdr
 					             ,long pNumeroPreguntaFta); 
+	
+	public List<CandExamRespuestasV1> findV1ObjModByNumeroCandExamen(long pNumeroCandExamen); 
+	
 }

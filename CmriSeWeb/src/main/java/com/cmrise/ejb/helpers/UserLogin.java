@@ -15,6 +15,7 @@ public class UserLogin implements Serializable {
 	private String matricula;
 	private String nombreCompletoUsuario; 
 	private String descripcionRol;
+	private String curp; 
 
 	public String getMatricula() {
 		return matricula;
@@ -46,6 +47,14 @@ public class UserLogin implements Serializable {
 
 	public void setDescripcionRol(String descripcionRol) {
 		this.descripcionRol = descripcionRol;
+	}
+
+	public String getCurp() {
+		return curp;
+	}
+
+	public void setCurp(String curp) {
+		this.curp = curp;
 	} 
 	
 }

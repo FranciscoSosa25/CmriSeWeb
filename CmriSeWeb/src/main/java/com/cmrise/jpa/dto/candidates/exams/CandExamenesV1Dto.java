@@ -65,6 +65,7 @@ public class CandExamenesV1Dto implements Serializable {
 	@Column(name="DESCRIPCION_ROL")
 	private String descripcionRol; 
 	
+	private String curp; 
 	
 	public long getNumero() {
 		return this.numero;
@@ -193,6 +194,14 @@ public class CandExamenesV1Dto implements Serializable {
 
 	public void setDescripcionRol(String descripcionRol) {
 		this.descripcionRol = descripcionRol;
+	}
+
+	public String getCurp() {
+		return curp;
+	}
+
+	public void setCurp(String curp) {
+		this.curp = curp;
 	}
 	
 }

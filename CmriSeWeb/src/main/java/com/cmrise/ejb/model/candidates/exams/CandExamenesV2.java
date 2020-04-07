@@ -1,6 +1,7 @@
 package com.cmrise.ejb.model.candidates.exams;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class CandExamenesV2 implements Serializable{
 
@@ -20,6 +21,9 @@ public class CandExamenesV2 implements Serializable{
 	private String descripcionRol; 
 	private String titulo; 
 	private short tiempoLimite; 
+	private String curp; 
+	private Date fechaEfectivaDesdeExamen; 
+	private Date fechaEfectivaHastaExamen; 
 	
 	public long getNumero() {
 		return numero;
@@ -104,6 +108,24 @@ public class CandExamenesV2 implements Serializable{
 	}
 	public void setTiempoLimite(short tiempoLimite) {
 		this.tiempoLimite = tiempoLimite;
+	}
+	public String getCurp() {
+		return curp;
+	}
+	public void setCurp(String curp) {
+		this.curp = curp;
+	}
+	public Date getFechaEfectivaDesdeExamen() {
+		return fechaEfectivaDesdeExamen;
+	}
+	public void setFechaEfectivaDesdeExamen(Date fechaEfectivaDesdeExamen) {
+		this.fechaEfectivaDesdeExamen = fechaEfectivaDesdeExamen;
+	}
+	public Date getFechaEfectivaHastaExamen() {
+		return fechaEfectivaHastaExamen;
+	}
+	public void setFechaEfectivaHastaExamen(Date fechaEfectivaHastaExamen) {
+		this.fechaEfectivaHastaExamen = fechaEfectivaHastaExamen;
 	} 
 
 }

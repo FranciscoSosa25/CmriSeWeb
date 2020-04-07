@@ -7,6 +7,7 @@
     xmlns:po="http://primefaces.org/poseidon">
 
     <div class="topbar clearfix">
+   
         <div class="topbar-left">            
             <div class="logo"></div>
         </div>
@@ -15,11 +16,13 @@
             <a id="menu-button" href="#">
                 <i class="fa fa-angle-left">
                 </i>
+                <i class="fa fa-home"></i><span style="font-weight:bold;color:red;"> #{userLogin.descripcionRol}:</span><span style="font-weight:bold;">#{userLogin.nombreCompletoUsuario}</span><span style="font-weight:bold;color:red;">  CURP:</span><span style="font-weight:bold;">#{userLogin.curp}</span>
             </a>
             
             <a id="topbar-menu-button" href="#">
                 <i class="fa fa-bars"></i>
             </a>
+                
             <ui:insert name="buscar" />
 	        <ui:insert name="nuevo" />
 	        <ui:insert name="guardar" />

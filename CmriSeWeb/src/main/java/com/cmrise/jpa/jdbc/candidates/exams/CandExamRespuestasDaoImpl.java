@@ -1,6 +1,7 @@
 package com.cmrise.jpa.jdbc.candidates.exams;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -11,6 +12,7 @@ import javax.persistence.StoredProcedureQuery;
 
 import com.cmrise.jpa.dao.candidates.exams.CandExamRespuestasDao;
 import com.cmrise.jpa.dto.candidates.exams.CandExamRespuestasDto;
+import com.cmrise.jpa.dto.candidates.exams.CandExamRespuestasV1Dto;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless
@@ -94,6 +96,13 @@ public class CandExamRespuestasDaoImpl implements CandExamRespuestasDao {
 		storedProcedure.setParameter(4, (Long)pNumeroPreguntaFta); 
 		storedProcedure.execute();
 		
+	}
+
+	@Override
+	public List<CandExamRespuestasV1Dto> findV1DtoByNumeroCandExamen(long pNumeroCandExamen) {
+		String strQuery = "SELECT c FROM CandExamRespuestasV1Dto c WHERE c.numeroCandExamen = "+pNumeroCandExamen;
+		Query query = em.createQuery(strQuery); 
+		return query.getResultList();
 	}
 
 	

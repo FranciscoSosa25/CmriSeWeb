@@ -1,32 +1,80 @@
-package com.cmrise.ejb.model.candidates.exams;
+package com.cmrise.jpa.dto.candidates.exams;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
-public class CandExamRespuestasV1 implements Serializable {
+@Entity
+@Table(name="CAND_EXAM_RESPUESTAS_V1")
+@NamedQuery(name="CandExamRespuestasV1Dto.findAll", query="SELECT c FROM CandExamRespuestasV1Dto c")
+public class CandExamRespuestasV1Dto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+	@Id
+	@Column(name="NUMERO")
 	private long numero;
+	
+	@Column(name="ACTUALIZADO_POR")
 	private long actualizadoPor;
+
+	@Column(name="CREADO_POR")
 	private long creadoPor;
-	private Date fechaActualizacion;
-	private Date fechaCreacion;
+
+	@Column(name="FECHA_ACTUALIZACION")
+	private Timestamp fechaActualizacion;
+
+	@Column(name="FECHA_CREACION")
+	private Timestamp fechaCreacion;
+	
+	@Column(name="NUMERO_CAND_EXAMEN")
 	private long numeroCandExamen; 
+	
+	@Column(name="NUMERO_GRUPO")
 	private long numeroGrupo; 
+	
+	@Column(name="NUMERO_PREGUNTA_HDR")
 	private long numeroPreguntaHdr; 
+	
+	@Column(name="NUMERO_PREGUNTA_FTA")
 	private long numeroPreguntaFta; 
+	
+	@Column(name="RESPUESTA")
 	private String respuesta; 
+	
+	@Column(name="PUNTUACION")
 	private double puntuacion; 
+	
+	@Column(name="NUMERO_EXAMEN")
 	private long numeroExamen; 
+	
+	@Column(name="NUMERO_USUARIO")
 	private long numeroUsuario; 
+	
+	@Column(name="TIPO_EXAMEN")
 	private String tipoExamen; 
+	
+	@Column(name="TITULO_PREGUNTA")
 	private String tituloPregunta; 
+	
+	@Column(name="TIPO_PREGUNTA")
 	private String tipoPregunta; 
+	
+	@Column(name="TIPO_PREGUNTA_DESC")
 	private String tipoPreguntaDesc; 
+	
+	@Column(name="ESTATUS")
 	private String estatus; 
+	
+	@Column(name="NUM_OPC_CORRECTAS")
 	private int numOpcCorrectas; 
+	
+	@Column(name="NUM_OPC_INCORRECTAS")
 	private int numOpcIncorrectas; 
 	
 	
@@ -54,19 +102,19 @@ public class CandExamRespuestasV1 implements Serializable {
 		this.creadoPor = creadoPor;
 	}
 
-	public Date getFechaActualizacion() {
+	public Timestamp getFechaActualizacion() {
 		return this.fechaActualizacion;
 	}
 
-	public void setFechaActualizacion(Date fechaActualizacion) {
+	public void setFechaActualizacion(Timestamp fechaActualizacion) {
 		this.fechaActualizacion = fechaActualizacion;
 	}
 
-	public Date getFechaCreacion() {
+	public Timestamp getFechaCreacion() {
 		return this.fechaCreacion;
 	}
 
-	public void setFechaCreacion(Date fechaCreacion) {
+	public void setFechaCreacion(Timestamp fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 

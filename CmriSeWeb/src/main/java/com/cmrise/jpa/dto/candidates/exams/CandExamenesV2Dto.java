@@ -72,6 +72,14 @@ public class CandExamenesV2Dto implements Serializable {
 	@Column(name="TIEMPO_LIMITE")
 	private short tiempoLimite;
 
+	@Column(name="CURP")
+	private String curp; 
+	
+	@Column(name="FECHA_EFECTIVA_DESDE_EXAMEN")
+	private Timestamp fechaEfectivaDesdeExamen;
+	
+	@Column(name="FECHA_EFECTIVA_HASTA_EXAMEN")
+	private Timestamp fechaEfectivaHastaExamen;
 	
 	public long getNumero() {
 		return this.numero;
@@ -216,6 +224,30 @@ public class CandExamenesV2Dto implements Serializable {
 
 	public void setTiempoLimite(short tiempoLimite) {
 		this.tiempoLimite = tiempoLimite;
+	}
+
+	public String getCurp() {
+		return curp;
+	}
+
+	public void setCurp(String curp) {
+		this.curp = curp;
+	}
+
+	public Timestamp getFechaEfectivaDesdeExamen() {
+		return fechaEfectivaDesdeExamen;
+	}
+
+	public void setFechaEfectivaDesdeExamen(Timestamp fechaEfectivaDesdeExamen) {
+		this.fechaEfectivaDesdeExamen = fechaEfectivaDesdeExamen;
+	}
+
+	public Timestamp getFechaEfectivaHastaExamen() {
+		return fechaEfectivaHastaExamen;
+	}
+
+	public void setFechaEfectivaHastaExamen(Timestamp fechaEfectivaHastaExamen) {
+		this.fechaEfectivaHastaExamen = fechaEfectivaHastaExamen;
 	}
 	
 }

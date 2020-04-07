@@ -72,13 +72,13 @@ public class AdmonUsuariosRolesDaoImpl implements AdmonUsuariosRolesDao {
 	}
 
 	@Override
-	public int loginUsuarioRol(String pMatricula
+	public int loginUsuarioRol(String pCurp
 			                 , String pRol
 			                 , String pContrasenia
 			                 ) {
 		   String strQuery ="SELECT COUNT(1)\r" + 
       		     "  FROM [dbo].[ADMON_USUARIOS_ROLES_V1]\r" + 
-		         " WHERE [MATRICULA] = '"+pMatricula+"'\r" + 
+		         " WHERE [CURP] = '"+pCurp+"'\r" + 
 	 	         "  AND [NOMBRE_ROL] ='"+pRol+"'\r" + 
 	 	         "  AND [CONTRASENIA] ='"+pContrasenia+"'";
 
@@ -117,11 +117,11 @@ public class AdmonUsuariosRolesDaoImpl implements AdmonUsuariosRolesDao {
 	}
 
 	@Override
-	public AdmonUsuariosRolesV1Dto findLoginUsusarioRol(String pMatricula
+	public AdmonUsuariosRolesV1Dto findLoginUsusarioRol(String pCurp
 			                                          , String pRol
 			                                          , String pContrasenia
 			                                          ) {
-		String strQuery = "SELECT a FROM AdmonUsuariosRolesV1Dto a WHERE a.matricula='"+pMatricula+"' AND a.nombreRol='"+pRol+"' AND a.contrasenia='"+pContrasenia+"'"; 
+		String strQuery = "SELECT a FROM AdmonUsuariosRolesV1Dto a WHERE a.curp='"+pCurp+"' AND a.nombreRol='"+pRol+"' AND a.contrasenia='"+pContrasenia+"'"; 
 		Query query = em.createQuery(strQuery); 
 		return (AdmonUsuariosRolesV1Dto)query.getSingleResult();
 	}

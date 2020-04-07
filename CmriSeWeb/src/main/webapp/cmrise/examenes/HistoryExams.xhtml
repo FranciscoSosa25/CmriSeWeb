@@ -5,37 +5,62 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
 
- <!-- <h1>Sin Implementacion</h1>
-<div class="ui-g card">
- <div class="ui-g-12">
-  <h1>Asignado a David</h1>
-  <h1>Instrucciones se debera consultar el siguiente objeto CAND_EXAMENES_V2
-  con ayuda de las siguientes clases 
-  </h1>
-  <h1>com.cmrise.ejb.services.candidates.exams.CandExamenesLocal</h1><h1>Metodo findAll()</h1>
-  <h1>com.cmrise.ejb.model.candidates.exams.CandExamenesV2</h1>
-  <h1>El controlador que se debera implementar es el siguiente:</h1>
-  <h1>com.cmrise.ejb.backing.exams.HistoryExamForm</h1>
- </div>
- </div> -->
  <ui:define name="content">
 <h1>Historial de Examenes</h1>
+<h:form id="SearchForm">
+<f:passThroughAttribute name="autocomplete" value="off"/>
+ <p:fieldset legend="Buscar Examen" toggleable="true" toggleSpeed="500" style="margin-bottom:20px" collapsed="true" >
+  <p:ajax event="toggle" />
+  <p:panel id="SearchPanel" >
+  <div class="ui-g ui-fluid">
+    <div class="ui-g-12 ui-lg-3" style="width: 100%; margin-top: 5px;">
+         <p:outputLabel   value="Titulo Examen:" />
+         <p:inputText id="titulo_examen" value="#{historyExamsForm.tituloExamen}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
+         <p:message for="titulo_examen"/>
+    </div>
+    </div>
+       <div class="ui-g">
+       <div class="ui-g-12 ui-lg-12" style="text-align: right;">
+        <p:commandButton value="Cancelar">
+         <p:ajax update="SearchPanel" resetValues="true" />
+        </p:commandButton>
+        <p:commandButton value="Consultar" actionListener="#{historyExamsForm.findByTituloExamen()}" update="ReadOnlyForm" style="margin-left: 10px;"/>
+       </div>
+     </div>
+  </p:panel>
+ </p:fieldset>
+</h:form>
+
 <h:form id="ReadOnlyForm">
- <p:dataTable var="candExamenesV2" value="#{historyExamsForm.listCandExamenesV2}" emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+ <p:dataTable var="examen" value="#{historyExamsForm.listExamenes}" emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">Historial de Examenes</f:facet>
-   <p:column headerText="Nombre Candidato">
-    <h:outputText value="#{candExamenesV2.nombreCompletoUsuario}"/>
+   <p:column headerText="Título">
+    <p:commandLink action="#{historyExamsForm.toDetailExam(examen)}">
+      <h:outputText value="#{examen.titulo}"/>
+    </p:commandLink>
    </p:column>
-   <p:column headerText="Matricula">
-    <h:outputText value="#{candExamenesV2.matricula}"/>
+   <p:column headerText="Nombre">
+    <h:outputText value="#{examen.nombre}"/>
    </p:column>
-   <p:column headerText="Numero Examen">
-    <h:outputText value="#{candExamenesV2.numeroExamen}"/>
+   <p:column headerText="Descripción">
+    <h:outputText value="#{examen.descripcion}"/>
    </p:column>
-    <p:column headerText="Tipo">
-    <h:outputText value="#{candExamenesV2.tipo}"/>
+   <p:column headerText="Tiempo Límite">
+    <h:outputText value="#{examen.tiempoLimite}"/>
+   </p:column>
+   <p:column headerText="Tipo Examen">
+    <h:outputText value="#{examen.tipoExamenDesc}"/>
+   </p:column>
+   <p:column headerText="Total Candidatos">
+    <h:outputText value="#{examen.totalCandidatos}"/>
+   </p:column>
+   <p:column headerText="Desde">
+    <h:outputText value="#{examen.fechaEfectivaDesde}">
+     <f:convertDateTime type="date" pattern= "dd/MM/yyyy HH:mm" />
+     </h:outputText>
    </p:column>
  </p:dataTable>
+ 
  </h:form>
  </ui:define>
  </ui:composition>
