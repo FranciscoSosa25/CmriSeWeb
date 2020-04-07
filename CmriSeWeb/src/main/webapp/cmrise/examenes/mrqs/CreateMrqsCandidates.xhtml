@@ -4,35 +4,25 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
+
 <ui:define name="content">
- <h1>Sin Implementacion</h1>
-<div class="ui-g card">
- <div class="ui-g-12">
- <h1>Asignado a David
- </h1>
- <hr/><br/>
- <h1>
- Instrucciones:</h1>
- <h1>Solictar de manera masiva los siguientes Datos
-       [NOMBRE]
-      ,[APELLIDO_PATERNO]
-      ,[APELLIDO_MATERNO]
-      ,[CORREO_ELECTRONICO]
-       Como actualmente solicitan la informacion en el sistema Europeo
-      </h1>
- <h1>Para que puedan ser creados en la siguiente Tabla ADMON_USUARIOS</h1>
- <h1>*Validar que los registros  no se dupliquen dentro de la tabla*</h1>
-  
- <h1>Cada Vez que se creen registros tambien se debe insertar un registro en la siguiente tabla [ADMON_USUARIOS_ROLES]
-     Aqui deberas insertar el numero que se genero al crear un usuario y poner el numero del ROL ALUMNO </h1>
-     
-   <h1>Se debe implementar el siguiente Controlador com.cmrise.ejb.backing.exams.mrqs.CreateMrqsCandidatesForm</h1> 
-   <h1>Apoyarse de las siguientes clases com.cmrise.ejb.services.admin.AdmonUsuariosLocalImpl metodo insert()</h1>
-   <h1>Apoyarse de las siguientes clases com.cmrise.ejb.services.admin.AdmonUsuariosRolesLocal metodo insert()</h1>
-   <h1>** Tomar como referencia la implementacion del siguiente controlador com.cmrise.ejb.backing.admin.AdmonUsuariosForm **</h1>
-   
-   </div>
-  </div>
- 
+<h1>Gestionar Nuevos Candidatos</h1>
+<h:form id="ReadOnlyForm">
+ <p:dataTable var="admonUsuario" value="#{admonUsuariosForm.listAdmonUsuarios}" emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+   <f:facet name="header">Candidatos</f:facet>
+   <p:column headerText="Nombre">
+    <h:outputText value="#{admonUsuario.nombre}"/>
+   </p:column>
+   <p:column headerText="Apellido Paterno">
+    <h:outputText value="#{admonUsuario.apellidoPaterno}"/>
+   </p:column>
+   <p:column headerText="Apellido Materno">
+    <h:outputText value="#{admonUsuario.apellidoMaterno}"/>
+   </p:column>
+    <p:column headerText="Correo Electronico">
+    <h:outputText value="#{admonUsuario.correoElectronico}"/>
+   </p:column>
+  </p:dataTable>
+  </h:form>
 </ui:define>
 </ui:composition>    
