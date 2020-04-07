@@ -30,6 +30,11 @@
    <to-view-id>/cmrise/examenes/mrqs/HistoryCandidates.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
+   <navigation-case>
+   <from-outcome>Candidates-Exams-Detail</from-outcome>
+   <to-view-id>/cmrise/examenes/mrqs/CandidatesExamsDetail.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
     <navigation-case>
   <from-outcome>Admon-Usuarios-Roles</from-outcome>
    <to-view-id>/cmrise/admin/AdmonUsuariosRoles.xhtml</to-view-id>
