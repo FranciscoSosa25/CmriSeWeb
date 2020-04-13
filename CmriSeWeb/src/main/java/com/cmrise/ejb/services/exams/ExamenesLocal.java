@@ -10,6 +10,7 @@ import com.cmrise.ejb.model.exams.Examenes;
 public interface ExamenesLocal {
 
 	public List<Examenes> findAllObjMod();
-	public List<Examenes> findByTituloExamen(String pTituloExamen);
-	
+	public List<Examenes> findByTituloExamen(String pTituloExamen, String pTipoExamen);
+	/*public List<Examenes> findByTipoExamen(String pTipoExamen);*/
+
 }
