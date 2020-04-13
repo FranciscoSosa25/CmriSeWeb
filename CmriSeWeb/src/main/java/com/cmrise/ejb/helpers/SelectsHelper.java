@@ -255,7 +255,10 @@ public class SelectsHelper {
 		}
 		return lselectCoreCasesItems; 
 	}
-
+	
+	public List<SelectItem> getSelectTipoPreguntaExamenItems() {
+		return selectTipoPreguntaExamenItems;
+	}
 
 	private void environmentTipoPreguntaExamen() {
 		this.selectTipoPreguntaExamenItems = new ArrayList<SelectItem>();
