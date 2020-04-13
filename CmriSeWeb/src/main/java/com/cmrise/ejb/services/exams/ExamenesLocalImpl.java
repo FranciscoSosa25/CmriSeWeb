@@ -63,8 +63,8 @@ public class ExamenesLocalImpl implements ExamenesLocal {
 	}
 
 	@Override
-	public List<Examenes> findByTituloExamen(String pTituloExamen) {
-		List<Object> listObjects = examenesDao.findByTituloExamen(pTituloExamen);
+	public List<Examenes> findByTituloExamen(String pTituloExamen, String pTipoExamen) {
+		List<Object> listObjects = examenesDao.findByTituloExamen(pTituloExamen,pTipoExamen);
 		List<Examenes> retval = new ArrayList<Examenes>(); 
 		for(Object object:listObjects) {
 			Examenes examen = objToExamenes(object); 
@@ -72,5 +72,16 @@ public class ExamenesLocalImpl implements ExamenesLocal {
 		}
 		return retval;
 	}
+	
+	
+//	public List<Examenes> findByTipoExamen(String pTipoExamen) {
+//		List<Object> listObjects = examenesDao.findByTipoExamen(pTipoExamen);
+//		List<Examenes> retval = new ArrayList<Examenes>(); 
+//		for(Object object:listObjects) {
+//			Examenes examen = objToExamenes(object); 
+//			retval.add(examen);
+//		}
+//		return retval;
+//	}
 
 }

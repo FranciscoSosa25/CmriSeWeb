@@ -20,6 +20,7 @@ public class HistoryExamsForm {
 	
 	private List<Examenes> listExamenes = new ArrayList<Examenes>(); 
 	private String tituloExamen; 
+	private String tipoExamen; 
 	
 	@Inject
 	CandExamenesLocal candExamenesLocal;
@@ -47,8 +48,11 @@ public class HistoryExamsForm {
 	}    
 	
 	public void findByTituloExamen() {
-		 listExamenes = examenesLocal.findByTituloExamen(this.tituloExamen); 
+		 listExamenes = examenesLocal.findByTituloExamen(this.tituloExamen,this.tipoExamen); 
 	}
+	/*public void findByTipoExamen() {
+		 listExamenes = examenesLocal.findByTipoExamen(this.tipoExamen); 
+	}*/
 	
 	public List<Examenes> getListExamenes() {
 		return listExamenes;
@@ -66,5 +70,12 @@ public class HistoryExamsForm {
 		this.tituloExamen = tituloExamen;
 	} 
 
+	public String getTipoExamen() {
+		return tipoExamen;
+	}
+
+	public void setTipoExamen(String tipoExamen) {
+		this.tipoExamen = tipoExamen;
+	} 
 
 }
