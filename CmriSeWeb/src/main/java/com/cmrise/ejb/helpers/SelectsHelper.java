@@ -42,6 +42,7 @@ public class SelectsHelper {
 	private List<SelectItem> selectScoringValueItems;
 	private List<SelectItem> selectScoringMethodItems; 
 	private List<SelectItem> selectTipoPreguntaExamenItems; 
+	private List<SelectItem> selectTipoPreguntaCoreCaseItems; 
 	
 	@PostConstruct
     public void init() {
@@ -56,6 +57,7 @@ public class SelectsHelper {
        environmentScoringValue();
        environmentScoringMethod();
        environmentTipoPreguntaExamen();
+       environmentTipoPreguntaCoreCase();
        System.out.println("Sale SelectsHelper init()");
     }
 	
@@ -78,19 +80,23 @@ public class SelectsHelper {
 		return this.selectTipoPreguntaItems; 
 	}
 	
-	
-	public List<SelectItem> getSelectTipoPreguntaCoreCaseItems(){
-		List<SelectItem> lselectTipoPreguntaItems = new ArrayList<SelectItem>();
+	private void environmentTipoPreguntaCoreCase() {
+		this.selectTipoPreguntaItems = new ArrayList<SelectItem>();
 		List<TablasUtilitariasValoresDto> listTipoPreguntaValores =  tablasUtilitariasValoresLocal.findByTipoTabla("TIPO_PREGUNTA");  
 		Iterator<TablasUtilitariasValoresDto> iterTipoPreguntaValores = listTipoPreguntaValores.iterator(); 
 		while(iterTipoPreguntaValores.hasNext()) {
 			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterTipoPreguntaValores.next();
-			if(!"IMAGEN_ANOTADA".equals(tablasUtilitariasValoresDto.getCodigoTabla())) {
+			if(!"IMAGEN_ANOTADA".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+			 &&!"RESP_TEXTO_LIBRE".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+			  ) {
 			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
-			lselectTipoPreguntaItems.add(selectItem); 
+			this.selectTipoPreguntaItems.add(selectItem); 
 			}
 		}
-		return lselectTipoPreguntaItems; 
+	}
+	
+	public List<SelectItem> getSelectTipoPreguntaCoreCaseItems(){
+		return this.selectTipoPreguntaItems; 
 	}
 	
 	private void environmentTemaDePregunta() {
@@ -263,8 +269,5 @@ public class SelectsHelper {
 	}
 
 	
-	public List<SelectItem> getSelectTipoPreguntaExamenItems() {
-		return selectTipoPreguntaExamenItems;
-	}
 
 }

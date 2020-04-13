@@ -1,259 +1,260 @@
 <?xml version="1.0"?>
-<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
- xmlns:xi="http://www.w3.org/2001/XInclude"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
- xsi:schemaLocation="http://java.sun.com/xml/ns/javaee                 
+<faces-config version="2.0"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee                 
                      http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
- <navigation-rule>
-  <navigation-case>
-   <from-outcome>Admin-TablasUtilitariasvalores</from-outcome>
-   <to-view-id>/cmrise/admin/TablasUtilitariasValores.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Admin-Usuarios</from-outcome>
-   <to-view-id>/cmrise/admin/Usuarios.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Admon-Roles</from-outcome>
-   <to-view-id>/cmrise/admin/AdmonRoles.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Admon-Usuarios</from-outcome>
-   <to-view-id>/cmrise/admin/AdmonUsuarios.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-   <navigation-case>
-  <from-outcome>Admon-Usuarios-Roles</from-outcome>
-   <to-view-id>/cmrise/admin/AdmonUsuariosRoles.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>PaginaPrincipal</from-outcome>
-   <to-view-id>/cmrise/principal.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>/dashboard</from-outcome>
-   <to-view-id>/cmrise/principal.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Preguntas-Manage-CoreCases</from-outcome>
-   <to-view-id>/cmrise/preguntas/corecases/ManageCoreCases.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Preguntas-Create-CoreCase</from-outcome>
-   <to-view-id>/cmrise/preguntas/corecases/CreateCoreCase.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Preguntas-Update-CoreCase</from-outcome>
-   <to-view-id>/cmrise/preguntas/corecases/UpdateCoreCase.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Crear-Pregunta-CoreCase</from-outcome>
-   <to-view-id>/cmrise/preguntas/corecases/CreateQuestionCoreCase.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Actualizar-Pregunta-Fta-CoreCase</from-outcome>
-   <to-view-id>/cmrise/preguntas/corecases/UpdateQuestionFtaCoreCase.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Actualizar-Pregunta-OpcionMultiple-CoreCase</from-outcome>
-   <to-view-id>/cmrise/preguntas/corecases/UpdateQuestionMultipleChoiceCoreCase.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Preguntas-ManageNewMrqs</from-outcome>
-   <to-view-id>/cmrise/preguntas/mrqs/ManageNewMrqs.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Preguntas-CreateNewMrqs</from-outcome>
-   <to-view-id>/cmrise/preguntas/mrqs/CreateMrq.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Preguntas-UpdateNewMrqs</from-outcome>
-   <to-view-id>/cmrise/preguntas/mrqs/UpdateMrq.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Preguntas-UpdateFreeTextAnswer-NewMrqs</from-outcome>
-   <to-view-id>/cmrise/preguntas/mrqs/UpdateFreeTextAnswer.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Preguntas-UpdateMultipleChoiceAnswer-NewMrqs</from-outcome>
-   <to-view-id>/cmrise/preguntas/mrqs/UpdateMultipleChoiceAnswer.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Preguntas-UpdateAnnotatedImageAnswer-NewMrqs</from-outcome>
-   <to-view-id>/cmrise/preguntas/mrqs/UpdateAnnotatedImageAnswer.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Preguntas-UpdateIndicateImageAnswer-NewMrqs</from-outcome>
-   <to-view-id>/cmrise/preguntas/mrqs/UpdateIndicateImageAnswer.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Dicom-Leer-Archivo</from-outcome>
-   <to-view-id>/cmrise/dicom/LeerArchivoDicom.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Exams-CoreCases-Manage</from-outcome>
-   <to-view-id>/cmrise/examenes/corecases/ManageTestExam.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Exams-CoreCases-Create</from-outcome>
-   <to-view-id>/cmrise/examenes/corecases/CreateTestExam.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Exams-CoreCases-Update</from-outcome>
-   <to-view-id>/cmrise/examenes/corecases/UpdateTestExam.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Exams-CoreCases-Update-AddCoreCase</from-outcome>
-   <to-view-id>/cmrise/examenes/corecases/CreateCoreCaseGroup.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Exams-CoreCases-Update-UpdateCoreCaseGroup</from-outcome>
-   <to-view-id>/cmrise/examenes/corecases/UpdateCoreCaseGroup.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Exams-CoreCases-Manage-Candidates</from-outcome>
-   <to-view-id>/cmrise/examenes/corecases/ManageCandidates.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Exams-CoreCases-Create-Candidate</from-outcome>
-   <to-view-id>/cmrise/examenes/corecases/CreateCandidate.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Admin-RolesUsuarios</from-outcome>
-   <to-view-id>/cmrise/admin/RolesUsuarios.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
- </navigation-rule>
- 
-  <navigation-rule>
-  <navigation-case>
-   <from-outcome>Candidates-Manage-Exams</from-outcome>
-   <to-view-id>/candidates/exams/ManageExams.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Candidates-Exam</from-outcome>
-   <to-view-id>/candidates/exams/Exam.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Candidates-MRQs-Exam</from-outcome>
-   <to-view-id>/candidates/exams/MRQsExam.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Mrq-Preview</from-outcome>
-   <to-view-id>/cmrise/preguntas/mrqs/preview/MrqPreview.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  </navigation-rule>
- 
- <navigation-rule>
- <navigation-case>
-   <from-outcome>History-Exams</from-outcome>
-   <to-view-id>/cmrise/examenes/HistoryExams.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>History-Exams-Detail</from-outcome>
-   <to-view-id>/cmrise/examenes/HistoryExamsDetail.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-   <navigation-case>
-   <from-outcome>History-Questions</from-outcome>
-   <to-view-id>/cmrise/examenes/HistoryQuestions.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Historial-Candidatos</from-outcome>
-   <to-view-id>/cmrise/examenes/HistoryCandidates.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-   <navigation-case>
-   <from-outcome>Historial-Candidatos-Detail</from-outcome>
-   <to-view-id>/cmrise/examenes/HistoryCandidatesDetail.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Exams-MRQs-Manage</from-outcome>
-   <to-view-id>/cmrise/examenes/mrqs/ManageMrqsExams.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-   <navigation-case>
-   <from-outcome>Exams-MRQs-Create</from-outcome>
-   <to-view-id>/cmrise/examenes/mrqs/CreateMrqsExam.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-   <navigation-case>
-   <from-outcome>Exams-MRQs-Update</from-outcome>
-   <to-view-id>/cmrise/examenes/mrqs/UpdateMrqsExam.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>Exams-MRQs-Update-Group</from-outcome>
-   <to-view-id>/cmrise/examenes/mrqs/UpdateMrqsExamGroup.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-   <navigation-case>
-   <from-outcome>Assign-MRQs-Candidates</from-outcome>
-   <to-view-id>/cmrise/examenes/mrqs/AssignMrqsCandidates.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-   <navigation-case>
-   <from-outcome>Create-MRQs-Candidates</from-outcome>
-   <to-view-id>/cmrise/examenes/mrqs/CreateMrqsCandidates.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  </navigation-rule>
- 
- <navigation-rule>
-  <navigation-case>
-   <from-outcome>CoreCase-Preview</from-outcome>
-   <to-view-id>/cmrise/preguntas/corecases/preview/CoreCasePreview.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
- </navigation-rule>
- 
- 
- <application>
-  <!-- Dialog Framework -->
-  <action-listener>org.primefaces.application.DialogActionListener</action-listener>
-  <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
-  <view-handler>org.primefaces.application.DialogViewHandler</view-handler>
-  <locale-config>
-   <default-locale>es</default-locale>
-  </locale-config>
-  <resource-bundle>
-   <!--No se necesita agregar la extension del archivo-->
-   <base-name>mensajes</base-name>
-   <var>msgs</var>
-  </resource-bundle>
- </application>
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>Admin-TablasUtilitariasvalores</from-outcome>
+			<to-view-id>/cmrise/admin/TablasUtilitariasValores.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Admin-Usuarios</from-outcome>
+			<to-view-id>/cmrise/admin/Usuarios.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Admon-Roles</from-outcome>
+			<to-view-id>/cmrise/admin/AdmonRoles.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Admon-Usuarios</from-outcome>
+			<to-view-id>/cmrise/admin/AdmonUsuarios.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Admon-Usuarios-Roles</from-outcome>
+			<to-view-id>/cmrise/admin/AdmonUsuariosRoles.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>PaginaPrincipal</from-outcome>
+			<to-view-id>/cmrise/principal.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>/dashboard</from-outcome>
+			<to-view-id>/cmrise/principal.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Preguntas-Manage-CoreCases</from-outcome>
+			<to-view-id>/cmrise/preguntas/corecases/ManageCoreCases.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Preguntas-Create-CoreCase</from-outcome>
+			<to-view-id>/cmrise/preguntas/corecases/CreateCoreCase.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Preguntas-Update-CoreCase</from-outcome>
+			<to-view-id>/cmrise/preguntas/corecases/UpdateCoreCase.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Crear-Pregunta-CoreCase</from-outcome>
+			<to-view-id>/cmrise/preguntas/corecases/CreateQuestionCoreCase.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Actualizar-Pregunta-Fta-CoreCase</from-outcome>
+			<to-view-id>/cmrise/preguntas/corecases/UpdateQuestionFtaCoreCase.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Actualizar-Pregunta-OpcionMultiple-CoreCase</from-outcome>
+			<to-view-id>/cmrise/preguntas/corecases/UpdateQuestionMultipleChoiceCoreCase.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Preguntas-ManageNewMrqs</from-outcome>
+			<to-view-id>/cmrise/preguntas/mrqs/ManageNewMrqs.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Preguntas-CreateNewMrqs</from-outcome>
+			<to-view-id>/cmrise/preguntas/mrqs/CreateMrq.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Preguntas-UpdateNewMrqs</from-outcome>
+			<to-view-id>/cmrise/preguntas/mrqs/UpdateMrq.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Preguntas-UpdateFreeTextAnswer-NewMrqs</from-outcome>
+			<to-view-id>/cmrise/preguntas/mrqs/UpdateFreeTextAnswer.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Preguntas-UpdateMultipleChoiceAnswer-NewMrqs</from-outcome>
+			<to-view-id>/cmrise/preguntas/mrqs/UpdateMultipleChoiceAnswer.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Preguntas-UpdateAnnotatedImageAnswer-NewMrqs</from-outcome>
+			<to-view-id>/cmrise/preguntas/mrqs/UpdateAnnotatedImageAnswer.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Preguntas-UpdateIndicateImageAnswer-NewMrqs</from-outcome>
+			<to-view-id>/cmrise/preguntas/mrqs/UpdateIndicateImageAnswer.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Dicom-Leer-Archivo</from-outcome>
+			<to-view-id>/cmrise/dicom/LeerArchivoDicom.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Exams-CoreCases-Manage</from-outcome>
+			<to-view-id>/cmrise/examenes/corecases/ManageTestExam.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Exams-CoreCases-Create</from-outcome>
+			<to-view-id>/cmrise/examenes/corecases/CreateTestExam.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Exams-CoreCases-Update</from-outcome>
+			<to-view-id>/cmrise/examenes/corecases/UpdateTestExam.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Exams-CoreCases-Update-AddCoreCase</from-outcome>
+			<to-view-id>/cmrise/examenes/corecases/CreateCoreCaseGroup.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Exams-CoreCases-Update-UpdateCoreCaseGroup</from-outcome>
+			<to-view-id>/cmrise/examenes/corecases/UpdateCoreCaseGroup.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Exams-CoreCases-Manage-Candidates</from-outcome>
+			<to-view-id>/cmrise/examenes/corecases/ManageCandidates.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Exams-CoreCases-Create-Candidate</from-outcome>
+			<to-view-id>/cmrise/examenes/corecases/CreateCandidate.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Admin-RolesUsuarios</from-outcome>
+			<to-view-id>/cmrise/admin/RolesUsuarios.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>Candidates-Manage-Exams</from-outcome>
+			<to-view-id>/candidates/exams/ManageExams.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Candidates-Exam</from-outcome>
+			<to-view-id>/candidates/exams/Exam.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Candidates-MRQs-Exam</from-outcome>
+			<to-view-id>/candidates/exams/MRQsExam.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Mrq-Preview</from-outcome>
+			<to-view-id>/cmrise/preguntas/mrqs/preview/MrqPreview.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>History-Exams</from-outcome>
+			<to-view-id>/cmrise/examenes/HistoryExams.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>History-Exams-Detail</from-outcome>
+			<to-view-id>/cmrise/examenes/HistoryExamsDetail.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>History-Questions</from-outcome>
+			<to-view-id>/cmrise/examenes/HistoryQuestions.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Historial-Candidatos</from-outcome>
+			<to-view-id>/cmrise/examenes/HistoryCandidates.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Historial-Candidatos-Detail</from-outcome>
+			<to-view-id>/cmrise/examenes/HistoryCandidatesDetail.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Exams-MRQs-Manage</from-outcome>
+			<to-view-id>/cmrise/examenes/mrqs/ManageMrqsExams.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Exams-MRQs-Create</from-outcome>
+			<to-view-id>/cmrise/examenes/mrqs/CreateMrqsExam.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Exams-MRQs-Update</from-outcome>
+			<to-view-id>/cmrise/examenes/mrqs/UpdateMrqsExam.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Exams-MRQs-Update-Group</from-outcome>
+			<to-view-id>/cmrise/examenes/mrqs/UpdateMrqsExamGroup.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Assign-MRQs-Candidates</from-outcome>
+			<to-view-id>/cmrise/examenes/mrqs/AssignMrqsCandidates.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Create-MRQs-Candidates</from-outcome>
+			<to-view-id>/cmrise/examenes/mrqs/CreateMrqsCandidates.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>CoreCase-Preview</from-outcome>
+			<to-view-id>/cmrise/preguntas/corecases/preview/CoreCasePreview.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+
+
+	<application>
+		<!-- Dialog Framework -->
+		<action-listener>org.primefaces.application.DialogActionListener</action-listener>
+		<navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
+		<view-handler>org.primefaces.application.DialogViewHandler</view-handler>
+		<locale-config>
+			<default-locale>es</default-locale>
+		</locale-config>
+		<resource-bundle>
+			<!--No se necesita agregar la extension del archivo -->
+			<base-name>mensajes</base-name>
+			<var>msgs</var>
+		</resource-bundle>
+	</application>
 </faces-config>

@@ -11,6 +11,14 @@ function handleUpdateRequest(xhr, status, args){
 		 argsValidationFailed(); 
       }
 }
+
+function handlePresentationRequest(xhr, status, args){
+	console.log("Entra handlePresentationRequest");
+	 if(args.validationFailed|| !args.updateIn) {
+		 argsValidationFailed(); 
+      }
+	console.log("Sale handlePresentationRequest");
+}
 </script>
 </ui:define>
 
@@ -48,6 +56,47 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
   </p:breadCrumb>
   
  <h1>Actualizar Pregunta de Texto Libre Mrq</h1>
+
+<p:dialog id="presentationDialogId" widgetVar="presentationDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Agregar Imagenes">
+ <h:form id="presentationForm" enctype="multipart/form-data">
+  <p:growl id="messages" showDetail="true" />       
+     
+    <div class="ui-g">
+    <div class="ui-g-12">
+       <p:outputLabel for="tituloSuperiorId" value="Título Superior" />
+    </div>
+    <div class="ui-g-12">
+      <p:inputText id="tituloSuperiorId" style="width:60%" value="#{updateFTAMrqForm.presentMrqsImagenesGrp.tituloSuperior}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+    </div>
+    <div class="ui-g-12">
+      <p:message for="tituloSuperiorId"/>
+    </div>
+     <div class="ui-g-12">
+       <p:outputLabel for="tituloInferiorId" value="Título Inferior" />
+    </div>
+    <div class="ui-g-12">
+      <p:inputText id="tituloInferiorId" style="width:60%" value="#{updateFTAMrqForm.presentMrqsImagenesGrp.tituloInferior}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+    </div>
+     <div class="ui-g-12">
+      <p:message for="tituloInferiorId"/>
+    </div>
+     <div class="ui-g-12">
+     <p:fileUpload id="presentatioFilesID" value="#{updateFTAMrqForm.presentationFiles}"  label="Seleccionar" mode="simple"  multiple="true"  allowTypes="/(\.|\/)(jpg)$/" update="presentationForm" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+    </div>
+     <div class="ui-g-12">
+      <p:message for="presentatioFilesID"/>
+    </div>
+    <div class="ui-g-6">
+     <p:commandButton value="Procesar"  action="#{updateFTAMrqForm.uploadMultiple}" update="presentationForm" ajax="false" />
+    </div>
+    <div class="ui-g-6">
+      <p:commandButton value="Cancelar"  onclick="PF('presentationDialogWV').hide();" />
+    </div>
+  </div>
+  
+</h:form>
+</p:dialog> 
+ 
  <h:form id="updateQuestionFreeTextForm" rendered="#{updateFTAMrqForm.limitedFreeTextAnswer}">
  <p:growl id="growl" showDetail="true" life="5000" />  
 
@@ -135,11 +184,28 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 
  <p:panel header="ELEMENTOS DE PRESENTACIÓN - INTRODUCCIÓN">
    <f:facet name="actions">
-      <p:splitButton immediate="true" title="Nuevo"  value="Agregar Nuevo Elemento" icon="pi pi-plus">
+       <p:splitButton immediate="true" title="Nuevo"  value="Agregar Nuevo Elemento" icon="pi pi-plus">
        <p:menuitem value="Agregar Nuevo Texto"/>
-       <p:menuitem value="Agregar Nueva Imagen"/>
-      </p:splitButton>
+       <p:menuitem value="Agregar Nueva Imagen" onclick="PF('presentationDialogWV').show();"  />
+       </p:splitButton>
    </f:facet>
+   
+    <ui:repeat var="imagenesGrupo" value="#{updateFTAMrqForm.listPresentMrqsImagenesGrp}" varStatus="status">
+     <div class="ui-g">
+      <div class="ui-g-12">
+       <h3>#{imagenesGrupo.tituloSuperior}</h3>
+      </div>
+      <div class="ui-g-12">
+       <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
+         <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="max-width: 300px; max-height: 300px;" />
+       </ui:repeat>
+      </div>
+      <div class="ui-g-12">
+       <h3>#{imagenesGrupo.tituloInferior}</h3>
+      </div>
+     </div>
+    </ui:repeat>
+    
  </p:panel>
  
  
@@ -175,7 +241,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
            <p:outputLabel for="scoringMethod" value="Método de puntuación" />
         </div>
         <div class="ui-g-12 ui-md-9">
-         <p:selectOneMenu id="scoringMethod" value="#{updateFTAMrqForm.metodoPuntuacion}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" disabled="true" >
+         <p:selectOneMenu id="scoringMethod" value="#{updateFTAMrqForm.metodoPuntuacion}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"  >
           <f:selectItem itemValue="WRONG_CORRECT" itemLabel="Correcto - Incorrecto"/>
          </p:selectOneMenu>
           <p:message for="scoringMethod"/>
@@ -565,6 +631,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
      </div>
   </p:dialog>
 </h:form>
+
 
 
 </ui:define>

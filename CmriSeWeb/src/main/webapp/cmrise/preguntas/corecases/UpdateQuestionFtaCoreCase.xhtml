@@ -14,6 +14,32 @@ function handleUpdateRequest(xhr, status, args){
 }
 </script>
 </ui:define>
+
+<ui:define name="xxhrwcss">
+<style type="text/css">
+.myPanelStyle1.ui-panel .ui-panel-titlebar {
+color: #3c763d;background-color: #dff0d8;border-color: #d6e9c6;
+}
+.myPanelStyle2.ui-panel .ui-panel-titlebar {
+color: #8a6d3b;background-color: #fcf8e3;border-color: #faebcc;
+}
+.myPanelStyle3.ui-panel .ui-panel-titlebar {
+color: #a94442;background-color: #f2dede;border-color: #ebccd1;
+}    
+.red-button.ui-button.ui-state-default {
+        background-color: #d9534f;
+        border-color: #d9534f;
+        color: #fff;
+        margin-top:5px; 
+    }
+ 
+    .red-button.ui-button.ui-state-default:enabled:hover, 
+    .red-button.ui-button.ui-state-default:focus {
+        background-color: #d43f3a;
+        border-color: #d9534f;
+    }
+</style>
+</ui:define>                
                 
 <ui:define name="content">
 <h1>#{updateQuestionFtaCoreCaseForm.tituloPreguntaHdr}</h1>
@@ -136,37 +162,35 @@ function handleUpdateRequest(xhr, status, args){
          <p:message  for="correctAnswer"/>
        </p:panelGrid>
        
-       <p:panel id="MultipleChoiceAnswerQuestionUpdatePanel" header="RESPUESTAS DE OPCIÓN MULTIPLE">
+       <p:panel id="multipleChoiceAnswersUpdatePanel" header="RESPUESTAS DE OPCIÓN MULTIPLE">
       <div  class="ui-g">
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="singleMode" value="¿Modo de Respuesta Única?" />
         </div>
         <div class="ui-g-12 ui-md-9">
-           <p:inputSwitch id="singleMode" onLabel="Si" offLabel="No"/>
+           <p:inputSwitch id="singleMode" onLabel="Si" offLabel="No" value="#{updateQuestionFtaCoreCaseForm.singleAnswerMode}"/>
         </div>
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="suffleOrder" value="¿Orden de Respuestas Aleatorio?" />
         </div>
         <div class="ui-g-12 ui-md-9">
-           <p:inputSwitch id="suffleOrder" onLabel="Si" offLabel="No"/>
+           <p:inputSwitch id="suffleOrder" onLabel="Si" offLabel="No" value="#{updateQuestionFtaCoreCaseForm.suffleAnswerOrder}"/>
         </div>
         
          <div class="ui-g-12">
          </div>
         
-       </div>
-       
         <ui:repeat var="ccOpcionMultiple" value="#{updateQuestionFtaCoreCaseForm.listCcOpcionMultiple}">
-        <div class="ui-g" style="border: 1px solid black;width:80%;margin-bottom: 5px;" >
+        <div class="ui-g" style="border: 1px solid black;width:80%;margin-bottom: 5px;width:98%" >
         <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
-         <div class="ui-g-12">
-           <h1>#{ccOpcionMultiple.lineNumber}</h1>
+         <div class="ui-g-6">
+          <p:spinner value="#{ccOpcionMultiple.numeroLinea}" min="1" max="10" rotate="true" />
          </div>
-         <div class="ui-g-12">
+         <div class="ui-g-6">
           <p:inputSwitch onLabel="&#10003;" offLabel="&#215;" value="#{ccOpcionMultiple.estatus}" />
          </div>
         </div>
-       <div class="ui-g-10 ui-g-nopad">
+       <div class="ui-g-9 ui-g-nopad">
          <div class="ui-g-12">
            <div class="ui-g-2" style="text-align:right;">
             <p:outputLabel for="answerText" value="Texto de Respuesta" />
@@ -183,21 +207,28 @@ function handleUpdateRequest(xhr, status, args){
              <p:inputText id="explanation" style="width:99%;" value="#{ccOpcionMultiple.textoExplicacion}"/>
            </div>
          </div>
-       </div>
-       </div> <!-- END div -->
+         </div>
+          <div class="ui-g-1 ui-g-nopad">
+            <p:commandButton icon="pi pi-times" styleClass="red-button" oncomplete="PF('deleteOpcionMultipleWV').show();" actionListener="#{updateQuestionFtaCoreCaseForm.selectOpcionMultipleForAction(ccOpcionMultiple)}"/>
+          </div>
+         </div> <!-- END div -->  
         </ui:repeat>
-       
-       </p:panel>
+        
+        <div class="ui-g-12">
+        <p:commandButton immediate="true" title="Nuevo"  value="Agregar nueva respuesta" actionListener="#{updateQuestionFtaCoreCaseForm.addOpcionMultiple()}" update="updateQuestionMultipleChoiceForm updateQuestionMultipleChoiceForm:multipleChoiceAnswersUpdatePanel"  icon="pi pi-plus" />
+        </div>
+       </div> 
+      </p:panel>
        
         <div class="ui-g">
 		   <div class="ui-g-12 ui-md-2" style="text-align:center">
 		     <p:commandButton value="Guardar"  update="informacionPreguntaPanelGridID MultipleChoiceAnswerQuestionUpdatePanel" action="#{updateQuestionFtaCoreCaseForm.update()}"  ajax="false"/>
 		   </div>
 		   <div class="ui-g-12 ui-md-3" style="text-align:center">
-		    <p:commandButton value="Guardar y Previsualizar" action="#{updateCoreCaseForm.saveAndPreview()}"/>
+		    <p:commandButton value="Guardar y Previsualizar" action="#{updateQuestionFtaCoreCaseForm.saveAndPreview()}"/>
 		   </div>
 		   <div class="ui-g-12 ui-md-2" style="text-align:center">
-		    <p:commandButton value="Cancelar"/>
+		    <p:commandButton value="Cancelar" immediate="true" action="Preguntas-Update-CoreCase" />
 		   </div>
 		   <div class="ui-g-12 ui-md-2" style="text-align:center">
 		    <p:commandButton value="Duplicar"/>
@@ -341,26 +372,7 @@ function handleUpdateRequest(xhr, status, args){
 	          <p:inputText id="hintsText"  value="#{updateQuestionFtaCoreCaseForm.textoSugerenciasFta}"  placeholder="(No use mas de 5 palabras)"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
 	          <p:message for="hintsText"/>
 	         </div>
-	         
-	          <div class="ui-g-12 ui-md-3" style="text-align:right;">
-	           <p:outputLabel for="scoringMethod" value="Método de puntuación" />
-	        </div>
-	        <div class="ui-g-12 ui-md-9">
-	         <p:selectOneMenu id="scoringMethod"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" disabled="true" >
-	          <f:selectItem itemValue="WRONG_CORRECT" itemLabel="Correcto - Incorrecto"/>
-	         </p:selectOneMenu>
-	          <p:message for="scoringMethod"/>
-	         </div>
-	         
-	         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-	           <p:outputLabel for="scoringValue" value="Valor de puntuación" />
-	        </div>
-	        <div class="ui-g-12 ui-md-9">
-	         <p:selectOneMenu id="scoringValue"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
-	          <f:selectItems value="#{selectsHelper.selectScoringValueItems}" />
-	         </p:selectOneMenu>
-	          <p:message for="scoringValue"/>
-	         </div>
+	      
 	         
 	         <div class="ui-g-12 ui-md-3" style="text-align:right;">
 	           <p:outputLabel for="correctAnswer" value="Respuesta Correcta" />
@@ -379,10 +391,10 @@ function handleUpdateRequest(xhr, status, args){
 	    <div class="ui-g-12 ui-md-4" style="text-align:center">
 	    
 	    
-	     <p:commandButton value="Guardar y Previsualizar" action="#{updateCoreCaseForm.saveAndPreview()}"/>
+	     <p:commandButton value="Guardar y Previsualizar" action="#{updateQuestionFtaCoreCaseForm.saveAndPreview()}"/>
 	    </div>
 	    <div class="ui-g-12 ui-md-2" style="text-align:center">
-	     <p:commandButton value="Cancelar"/>
+	     <p:commandButton value="Cancelar" immediate="true" action="Preguntas-Update-CoreCase"/>
 	    </div>
 	    <div class="ui-g-12 ui-md-2" style="text-align:center">
 	     <p:commandButton value="Borrar"/>
@@ -391,6 +403,20 @@ function handleUpdateRequest(xhr, status, args){
     </h:form>	    
   </div> <!-- End <div class="ui-g-10"> -->
  </div> <!-- END <div class="ui-g"> -->
+
+ <h:form id="DeleteForm">
+ <p:dialog id="deleteOpcionMultipleDialogId" widgetVar="deleteOpcionMultipleWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Registro">
+   <h2>#{msgs['globalForm.deleteMessage']}</h2>
+    <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="DeleteOpcMultBtn" value="Aceptar"   actionListener="#{updateQuestionFtaCoreCaseForm.deleteOpcionMultiple()}" update="updateQuestionMultipleChoiceForm:multipleChoiceAnswersUpdatePanel" oncomplete="PF('deleteOpcionMultipleWV').hide();"  />
+              </div>
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarOpcMultBtn"  value="Cancelar"  onclick="PF('deleteOpcionMultipleWV').hide();" />
+              </div>
+     </div>
+  </p:dialog>
+ </h:form>
 
 
 </ui:define>                

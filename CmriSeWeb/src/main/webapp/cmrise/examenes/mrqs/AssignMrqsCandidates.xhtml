@@ -20,6 +20,9 @@
 		 </div>
   <p:dataTable  var="candExamenesV1"  value="#{assignMrqsCandidatesForm.listCandExamenesV1}" emptyMessage="Sin resultados" paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">Candidatos Asignados</f:facet>
+    <p:column headerText="CURP">
+      <h:outputText value="#{candExamenesV1.curp}"/>
+   </p:column>
     <p:column headerText="Matricula">
       <h:outputText value="#{candExamenesV1.matricula}"/>
    </p:column>

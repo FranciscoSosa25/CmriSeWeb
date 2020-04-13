@@ -23,6 +23,7 @@ import com.cmrise.ejb.model.exams.MrqsGrupoLinesV2;
 import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV2;
+import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
 import com.cmrise.ejb.services.candidates.exams.CandExamRespuestasLocal;
 import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;
 import com.cmrise.ejb.services.exams.MrqsExamenesLocal;
@@ -30,6 +31,7 @@ import com.cmrise.ejb.services.exams.MrqsGrupoHdrLocal;
 import com.cmrise.ejb.services.exams.MrqsGrupoLinesLocal;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
+import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
 import com.cmrise.utils.Utilitarios;
 import com.cmrise.utils.UtilitariosLocal;
 
@@ -57,6 +59,8 @@ public class MRQsExamForm {
 	private String respuestaCandidato; 
 	private String[] respuestasPreguntaCandidato;
 	
+	private List<MrqsImagenesGrp> listPresentMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
+	
 	@Inject
 	UtilitariosLocal utilitariosLocal; 
 	
@@ -80,6 +84,9 @@ public class MRQsExamForm {
 	
 	@Inject
 	CandExamRespuestasLocal candExamRespuestasLocal; 
+	
+	@Inject 
+	MrqsImagenesGrpLocal mrqsImagenesGrpLocal;
 	
 	@PostConstruct
 	public void init() {
@@ -190,6 +197,10 @@ public class MRQsExamForm {
 				this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
 				
 			}
+			
+			 listPresentMrqsImagenesGrp =  mrqsImagenesGrpLocal.findByFta(this.numeroPreguntaFta,Utilitarios.INTRODUCCION);
+		        	
+			
 	}
 
 	public void onNodeSelect(NodeSelectEvent event) {
@@ -408,6 +419,14 @@ public class MRQsExamForm {
 
 	public void setCandExamRespuestasV1(CandExamRespuestasV1 candExamRespuestasV1) {
 		this.candExamRespuestasV1 = candExamRespuestasV1;
+	}
+
+	public List<MrqsImagenesGrp> getListPresentMrqsImagenesGrp() {
+		return listPresentMrqsImagenesGrp;
+	}
+
+	public void setListPresentMrqsImagenesGrp(List<MrqsImagenesGrp> listPresentMrqsImagenesGrp) {
+		this.listPresentMrqsImagenesGrp = listPresentMrqsImagenesGrp;
 	}
 
 

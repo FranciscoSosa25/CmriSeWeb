@@ -54,6 +54,11 @@ public class CcPreguntasFtaV1Dto implements Serializable {
 	@Column(name="RESPUESTA_CORRECTA")
 	private String respuestaCorrecta; 
 	
+	@Column(name="SINGLE_ANSWER_MODE")
+	private boolean singleAnswerMode; 
+	
+	@Column(name="SUFFLE_ANSWER_ORDER")
+	private boolean suffleAnswerOrder; 
 	
 	public long getNumero() {
 		return this.numero;
@@ -149,6 +154,22 @@ public class CcPreguntasFtaV1Dto implements Serializable {
 
 	public void setNumeroHdr(long numeroHdr) {
 		this.numeroHdr = numeroHdr;
+	}
+
+	public boolean isSingleAnswerMode() {
+		return singleAnswerMode;
+	}
+
+	public void setSingleAnswerMode(boolean singleAnswerMode) {
+		this.singleAnswerMode = singleAnswerMode;
+	}
+
+	public boolean isSuffleAnswerOrder() {
+		return suffleAnswerOrder;
+	}
+
+	public void setSuffleAnswerOrder(boolean suffleAnswerOrder) {
+		this.suffleAnswerOrder = suffleAnswerOrder;
 	}
 
 }

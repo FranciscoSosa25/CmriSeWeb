@@ -48,7 +48,8 @@ public class CcPreguntasFtaDaoImpl implements CcPreguntasFtaDao {
 		ccPreguntasFtaDto.setTextoPregunta(pCcPreguntasFtaDto.getTextoPregunta());
 		ccPreguntasFtaDto.setTextoSugerencias(pCcPreguntasFtaDto.getTextoSugerencias());
 		ccPreguntasFtaDto.setRespuestaCorrecta(pCcPreguntasFtaDto.getRespuestaCorrecta());
-		
+		ccPreguntasFtaDto.setSingleAnswerMode(pCcPreguntasFtaDto.isSingleAnswerMode());
+		ccPreguntasFtaDto.setSuffleAnswerOrder(pCcPreguntasFtaDto.isSuffleAnswerOrder());
 		
 	}
 
@@ -73,9 +74,15 @@ public class CcPreguntasFtaDaoImpl implements CcPreguntasFtaDao {
 
 	@Override
 	public CcPreguntasFtaV1Dto findDtoByNumeroHdr(long pNumeroHdr) {
+		CcPreguntasFtaV1Dto ccPreguntasFtaV1Dto = new CcPreguntasFtaV1Dto(); 
+		try {
 		String strQuery = "SELECT c FROM CcPreguntasFtaV1Dto c WHERE c.numeroHdr ="+pNumeroHdr; 
 		Query query = em.createQuery(strQuery); 
-		return (CcPreguntasFtaV1Dto)query.getSingleResult();
+		ccPreguntasFtaV1Dto = (CcPreguntasFtaV1Dto)query.getSingleResult(); 
+		}catch(javax.persistence.NoResultException nre) {
+			System.out.println("Exception CcPreguntasFtaDaoImpl.findDtoByNumeroHdr("+pNumeroHdr+") ,"+nre.getMessage());
+		}
+		return ccPreguntasFtaV1Dto;
 	}
 
 	@Override

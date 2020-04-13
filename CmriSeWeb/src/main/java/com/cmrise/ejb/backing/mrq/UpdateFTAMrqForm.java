@@ -1,7 +1,11 @@
 package com.cmrise.ejb.backing.mrq;
 
 import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -11,21 +15,31 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.file.UploadedFiles;
 
 import com.cmrise.ejb.helpers.GuestPreferences;
 import com.cmrise.ejb.model.mrqs.MrqsListasPalabras;
 import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
+import com.cmrise.ejb.model.mrqs.img.MrqsImagenes;
+import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
 import com.cmrise.ejb.services.mrqs.MrqsListasPalabrasLocal;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
+import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
 import com.cmrise.jpa.dto.mrqs.MrqsListasPalabrasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
+import com.cmrise.jpa.dto.mrqs.img.MrqsImagenesGrpDto;
 import com.cmrise.utils.Utilitarios;
+import com.cmrise.utils.UtilitariosLocal;
 
 @ManagedBean
 @ViewScoped
@@ -68,6 +82,14 @@ public class UpdateFTAMrqForm {
 	private int idxExcW = 0; 
 	private MrqsListasPalabras mrqsListasPalabrasForAction = new MrqsListasPalabras(); 
 	
+	/************************************************************************
+	 * Archivos E Imagenes
+	 */
+	
+	private UploadedFiles presentationFiles;
+	private MrqsImagenesGrp presentMrqsImagenesGrp = new MrqsImagenesGrp(); 
+	private List<MrqsImagenesGrp> listPresentMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
+	
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal;
 	
@@ -79,6 +101,12 @@ public class UpdateFTAMrqForm {
 	
 	@Inject 
 	MrqsListasPalabrasLocal mrqsListasPalabrasLocal; 
+	
+	@Inject 
+	UtilitariosLocal utilitariosLocal; 
+	
+	@Inject 
+	MrqsImagenesGrpLocal mrqsImagenesGrpLocal;
 	
 	@ManagedProperty(value="#{guestPreferences}")
 	GuestPreferences guestPreferences; 
@@ -139,8 +167,8 @@ public class UpdateFTAMrqForm {
 	    	 System.out.println("(null!=obNumeroHdr:false");
 	    	 return;
 	     }
-		
-		 refreshEntity();
+	 
+	     refreshEntity();
 		 System.out.println("Sale UpdateFTAMrqForm init()");
 	 }		 
 	 
@@ -229,6 +257,9 @@ public class UpdateFTAMrqForm {
 					listExcWmrqsListasPalabras.add(mrqsListasPalabras); 
 				}
 			}
+            
+            listPresentMrqsImagenesGrp =  mrqsImagenesGrpLocal.findByFta(lNumeroFta,Utilitarios.INTRODUCCION);
+            
 		 }
 		
 		 
@@ -367,6 +398,12 @@ public class UpdateFTAMrqForm {
 			}
 			
 			
+			for(MrqsImagenesGrp mrqsImagenesGrp:listPresentMrqsImagenesGrp) {
+				mrqsImagenesGrp.setTipo(Utilitarios.MRQS);
+				mrqsImagenesGrp.setSeccion(Utilitarios.INTRODUCCION);
+				updateImagenesGrp(lNumeroFta,mrqsImagenesGrp);   
+			 }
+			
 		}
 		
 		mrqsPreguntasHdrDto.setEstatus(this.getMrqsPreguntasHdrV1ForAction().getEstatus());
@@ -407,6 +444,20 @@ public class UpdateFTAMrqForm {
 	  }else {
 		  insertListasPalabras(pNumetoFta,pMrqsListasPalabras); 
 	  }	
+	}
+	
+	private void updateImagenesGrp(long pNumetoFta,MrqsImagenesGrp pMrqsImagenesGrp) {
+		
+		if(0!=pMrqsImagenesGrp.getNumero()) {
+			
+		}else {
+			insertaImagenesGrp(pNumetoFta,pMrqsImagenesGrp); 
+		}
+	}
+	
+	private void insertaImagenesGrp(long pNumetoFta
+			                       ,MrqsImagenesGrp pMrqsImagenesGrp) {
+		mrqsImagenesGrpLocal.insert(pNumetoFta,pMrqsImagenesGrp);
 	}
 	
 	public String cancel() {
@@ -578,6 +629,84 @@ public class UpdateFTAMrqForm {
 		mrqsListasPalabras.setIdxTemp(idxExcW);
 		listExcWmrqsListasPalabras.add(mrqsListasPalabras);
 	}
+	
+	
+	 public void uploadMultiple() {
+		 System.out.println("Entra uploadMultiple");
+	        if (this.presentationFiles != null) {
+	        	if(this.presentationFiles.getSize()>0) {
+	        		MrqsImagenesGrp mrqsPresentaciones = new MrqsImagenesGrp(); 
+	        		mrqsPresentaciones.setTituloSuperior(this.presentMrqsImagenesGrp.getTituloSuperior());
+	        		mrqsPresentaciones.setTituloInferior(this.presentMrqsImagenesGrp.getTituloInferior());
+	                List<MrqsImagenes> listMrqsPresentaciones = new ArrayList<MrqsImagenes>();
+	                
+	        		for (UploadedFile f : this.presentationFiles.getFiles()) {
+		            	
+	        			byte[] byteContent = f.getContent(); 
+	        			
+		            	System.out.println(f.getFileName());
+		            	MrqsImagenes presentacionImagen = new MrqsImagenes(); 
+		            	
+		            	presentacionImagen.setNombreImagen(f.getFileName());
+		            	presentacionImagen.setImagenContent(byteContent);
+		            	presentacionImagen.setImagenBase64(new String(Base64.getEncoder().encode(byteContent)));
+		        		
+		        			StreamedContent streamedContent = DefaultStreamedContent.builder()
+		        		                                                            .contentType(f.getContentType())
+		        		                                                            .stream(() -> {
+		        		                                                            	  try(InputStream is = f.getInputStream()) {
+		        		                                                      				return is;	
+		        			                                                      	     } catch (IOException e) {
+		        			                                                      			e.printStackTrace();
+		        			                                                      			return null; 
+		        			                                                      		} 
+		        		                                                              })
+		        		                                                             .build()
+		        		                                                             ;
+		        		presentacionImagen.setImagenStreamed(streamedContent);
+		        			
+		        		listMrqsPresentaciones.add(presentacionImagen); 
+		        		
+		                FacesMessage message = new FacesMessage("Aviso", f.getFileName() + " ha sido subido");
+		                FacesContext.getCurrentInstance().addMessage(null, message);
+		            }
+	        		
+	        		mrqsPresentaciones.setListMrqsImagenes(listMrqsPresentaciones);
+	        		this.listPresentMrqsImagenesGrp.add(mrqsPresentaciones);
+	                
+	        	}
+	           	
+	        	
+	        }
+	        System.out.println("Sale uploadMultiple");
+	    }
+	 
+	/**************************************************************
+	public void handleFileUpload(FileUploadEvent event) {
+		UploadedFile file = event.getFile();
+		System.out.println(file.getFileName());
+		MrqsPresentaciones mrqsPresentaciones = new MrqsPresentaciones(); 
+		mrqsPresentaciones.setNombreImagen(file.getFileName());
+		mrqsPresentaciones.setPresentacionBase64(new String(Base64.getEncoder().encode(file.getContent())));
+		
+			StreamedContent streamedContent = DefaultStreamedContent.builder()
+		                                                            .contentType(file.getContentType())
+		                                                            .stream(() -> {
+		                                                            	  try {
+		                                                      				return file.getInputStream();	
+			                                                      	     } catch (IOException e) {
+			                                                      			e.printStackTrace();
+			                                                      			return null; 
+			                                                      		} 
+		                                                              })
+		                                                             .build()
+		                                                             ;
+		mrqsPresentaciones.setPresentacionStreamed(streamedContent);
+			
+		listMrqsPresentaciones.add(mrqsPresentaciones); 
+		System.out.println("Sale handleFileUpload");
+    }
+    **********************************************/
 	
 	
 	public MrqsPreguntasHdrV1 getMrqsPreguntasHdrV1ForAction() {
@@ -806,6 +935,32 @@ public class UpdateFTAMrqForm {
 
 	public void setIdxOM(int idxOM) {
 		this.idxOM = idxOM;
+	}
+
+	public UploadedFiles getPresentationFiles() {
+		return presentationFiles;
+	}
+
+	public void setPresentationFiles(UploadedFiles presentationFiles) {
+		System.out.println("Entra setPresentationFiles");
+		this.presentationFiles = presentationFiles;
+		System.out.println("Sale setPresentationFiles");
+	}
+
+	public MrqsImagenesGrp getPresentMrqsImagenesGrp() {
+		return presentMrqsImagenesGrp;
+	}
+
+	public void setPresentMrqsImagenesGrp(MrqsImagenesGrp presentMrqsImagenesGrp) {
+		this.presentMrqsImagenesGrp = presentMrqsImagenesGrp;
+	}
+
+	public List<MrqsImagenesGrp> getListPresentMrqsImagenesGrp() {
+		return listPresentMrqsImagenesGrp;
+	}
+
+	public void setListPresentMrqsImagenesGrp(List<MrqsImagenesGrp> listPresentMrqsImagenesGrp) {
+		this.listPresentMrqsImagenesGrp = listPresentMrqsImagenesGrp;
 	}
 
 }

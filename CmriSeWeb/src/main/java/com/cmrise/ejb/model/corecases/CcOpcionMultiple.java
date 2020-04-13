@@ -6,19 +6,15 @@ public class CcOpcionMultiple implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private int lineNumber; 
 	private long numero; 
 	private long numeroFta; 
 	private boolean estatus; 
 	private String textoRespuesta; 
 	private String textoExplicacion;
+	private int numeroLinea; 
+	private int idxTemp; 
 	
-	public int getLineNumber() {
-		return lineNumber;
-	}
-	public void setLineNumber(int lineNumber) {
-		this.lineNumber = lineNumber;
-	}
+	
 	public long getNumero() {
 		return numero;
 	}
@@ -48,6 +44,18 @@ public class CcOpcionMultiple implements Serializable{
 	}
 	public void setTextoExplicacion(String textoExplicacion) {
 		this.textoExplicacion = textoExplicacion;
+	}
+	public int getNumeroLinea() {
+		return numeroLinea;
+	}
+	public void setNumeroLinea(int numeroLinea) {
+		this.numeroLinea = numeroLinea;
+	}
+	public int getIdxTemp() {
+		return idxTemp;
+	}
+	public void setIdxTemp(int idxTemp) {
+		this.idxTemp = idxTemp;
 	} 
 
 }

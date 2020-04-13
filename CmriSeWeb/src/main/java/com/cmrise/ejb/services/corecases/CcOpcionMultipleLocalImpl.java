@@ -29,4 +29,9 @@ public class CcOpcionMultipleLocalImpl implements CcOpcionMultipleLocal {
 		ccOpcionMultipleDao.update(pNumero, pCcOpcionMultipleDto);
 	}
 
+	@Override
+	public void delete(long pNumero) {
+		ccOpcionMultipleDao.delete(pNumero); 
+	}
+
 }

@@ -10,8 +10,10 @@ public  class Utilitarios {
 	public static final String SOCIEDAD ="CMRI - Consejo Mexicano de Radiolog\u00eda e Imagen";
 	public static final String INITIAL_STATUS_MRQ ="PARA_REVISAR";
 	public static final String INITIAL_STATUS_CC_EXAM="EN_EL_TRABAJO";
+	public static final String LIMIT_RESP_TEXTO_LIBRE = "LIMIT_RESP_TEXTO_LIBRE";
 	public static final String RESP_TEXTO_LIBRE = "RESP_TEXTO_LIBRE"; 
 	public static final String OPCION_MULTIPLE = "OPCION_MULTIPLE";
+	
 	public static final String WRONG_CORRECT = "WRONG_CORRECT"; 
 	public static final String PROP_SCORING = "PROP_SCORING"; 
 	public static final String INCLUDED_WORDS ="INCLUDED_WORDS"; 
@@ -26,7 +28,15 @@ public  class Utilitarios {
 	public static final String EE_EN_PROGRESO = "EN_PROGRESO"; /*Estatus Examen EN_PROGRESO*/
 	public static final String EE_TERMINADO = "TERMINADO"; /*Estatus Examen TERMINADO*/
 	public static final String EE_CALIFCADO = "CALIFCADO"; /*Estatus Examen CALIFCADO*/
-	
+	public static final String JPG = "JPG"; 
+	public static final String DCM = "DCM"; 
+	public static final String INTRODUCCION ="INTRODUCCION"; 
+	public static final String CONCLUSION ="CONCUSION";
+    public static final String FS_MRQS = "C:\\CmriSeFs\\MRQs"; /** File System MRQS **/
+    public static final String FS_CORE_CASES = "C:\\CmriSeFs\\CoreCases"; /** File System MRQS **/
+    
+    public static final String DEFAULT_THEME ="turquoise";
+    
 	public  java.sql.Date toSqlDate(java.util.Date pUtilDate){
 		 java.sql.Date retval = null; 
 		 if(null!=pUtilDate) {

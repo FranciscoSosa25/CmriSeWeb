@@ -13,8 +13,10 @@ import javax.servlet.http.HttpSession;
 
 import com.cmrise.ejb.helpers.GuestPreferences;
 import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
+import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
+import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
 import com.cmrise.utils.Utilitarios;
@@ -53,15 +55,25 @@ public class MrqPreviewForm {
 	private String correctAnswers="0 Respuesta(s) correctas"; 
 	private String wrongAnswers="0 Respuesta(s) incorrectas"; 
 	
+	/********************************************************************
+	 * Attributos Imagenes 
+	 */
 	
-	@ManagedProperty(value="#{guestPreferences}")
-	GuestPreferences guestPreferences; 
+	private List<MrqsImagenesGrp> listPresentMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
+	
 	
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal; 
 	
 	@Inject 
 	MrqsOpcionMultipleLocal mrqsOpcionMultipleLocal; 
+	
+	@Inject 
+	MrqsImagenesGrpLocal mrqsImagenesGrpLocal;
+	
+	@ManagedProperty(value="#{guestPreferences}")
+	GuestPreferences guestPreferences; 
+	
 	
 	@PostConstruct
 	public void init() {
@@ -88,6 +100,10 @@ public class MrqPreviewForm {
 	         this.totalCorrectAnswers = mrqsOpcionMultipleLocal.totalCorrectAnswers(mrqsPreguntasHdrV2Dto.getNumeroMpf()); 
 	     }
 	     this.setQuestionView(true);
+	     
+	     listPresentMrqsImagenesGrp =  mrqsImagenesGrpLocal.findByFta(mrqsPreguntasHdrV2Dto.getNumeroMpf(),Utilitarios.INTRODUCCION);
+         
+	     
 	     System.out.println("Sale MrqPreviewForm init()");
 	}		 
 	
@@ -420,6 +436,14 @@ public class MrqPreviewForm {
 
 	public void setMetodoPuntuacion(String metodoPuntuacion) {
 		this.metodoPuntuacion = metodoPuntuacion;
+	}
+
+	public List<MrqsImagenesGrp> getListPresentMrqsImagenesGrp() {
+		return listPresentMrqsImagenesGrp;
+	}
+
+	public void setListPresentMrqsImagenesGrp(List<MrqsImagenesGrp> listPresentMrqsImagenesGrp) {
+		this.listPresentMrqsImagenesGrp = listPresentMrqsImagenesGrp;
 	}
 	
 	

@@ -1,8 +1,8 @@
 package com.cmrise.ejb.model.corecases;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 
 public class CcHdrV1 implements Serializable {
@@ -15,8 +15,8 @@ public class CcHdrV1 implements Serializable {
 	private String estatus;
 	private String estatusDesc;
 	private String etiquetas;
-	private Timestamp fechaActualizacion;
-	private Timestamp fechaCreacion;
+	private Date fechaActualizacion;
+	private Date fechaCreacion;
 	private Date fechaEfectivaDesde;
 	private Date fechaEfectivaHasta;
 	private String historialClinico;
@@ -27,6 +27,9 @@ public class CcHdrV1 implements Serializable {
 	private String sociedad;
 	private String tema;
 	private String temaDesc;
+	
+	private List<CcPreguntasHdrV1> listCcPreguntasHdrV1; 
+	
 	
 	public long getActualizadoPor() {
 		return actualizadoPor;
@@ -64,16 +67,16 @@ public class CcHdrV1 implements Serializable {
 	public void setEtiquetas(String etiquetas) {
 		this.etiquetas = etiquetas;
 	}
-	public Timestamp getFechaActualizacion() {
+	public Date getFechaActualizacion() {
 		return fechaActualizacion;
 	}
-	public void setFechaActualizacion(Timestamp fechaActualizacion) {
+	public void setFechaActualizacion(Date fechaActualizacion) {
 		this.fechaActualizacion = fechaActualizacion;
 	}
-	public Timestamp getFechaCreacion() {
+	public Date getFechaCreacion() {
 		return fechaCreacion;
 	}
-	public void setFechaCreacion(Timestamp fechaCreacion) {
+	public void setFechaCreacion(Date fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 	public Date getFechaEfectivaDesde() {
@@ -135,6 +138,12 @@ public class CcHdrV1 implements Serializable {
 	}
 	public void setTemaDesc(String temaDesc) {
 		this.temaDesc = temaDesc;
+	}
+	public List<CcPreguntasHdrV1> getListCcPreguntasHdrV1() {
+		return listCcPreguntasHdrV1;
+	}
+	public void setListCcPreguntasHdrV1(List<CcPreguntasHdrV1> listCcPreguntasHdrV1) {
+		this.listCcPreguntasHdrV1 = listCcPreguntasHdrV1;
 	}
 
 	
