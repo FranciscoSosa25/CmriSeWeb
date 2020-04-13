@@ -4,25 +4,106 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
-
+<ui:define name="xxhrwjs">
+<script type="text/javascript">
+function handleCreateRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.createIn) {
+		 PF('createCandidatoDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+    }else{
+    	 PF('createCandidatoDialogWV').hide();
+    }	
+}
+function handleDeleteRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.deleteIn) {
+		 PF('deleteCandidatoDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+   }else{
+   	 PF('deleteCandidatoDialogWV').hide();
+   }	
+}
+function handleUpdateRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.updateIn) {
+		 PF('updateCandidatoDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+  }else{
+  	 PF('updateCandidatoDialogWV').hide();
+  }	
+}
+</script>
+</ui:define>
 <ui:define name="content">
 <h1>Gestionar Nuevos Candidatos</h1>
 <h:form id="ReadOnlyForm">
- <p:dataTable var="admonUsuario" value="#{admonUsuariosForm.listAdmonUsuarios}" emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+ <p:dataTable var="admonCandidatos" value="#{createMrqsCandidatesForm.listAdmonCandidatosV1}" emptyMessage="Sin resultados"  paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">Candidatos</f:facet>
    <p:column headerText="Nombre">
-    <h:outputText value="#{admonUsuario.nombre}"/>
+    <h:outputText value="#{admonCandidatos.nombreCompletoUsuario}"/>
    </p:column>
-   <p:column headerText="Apellido Paterno">
-    <h:outputText value="#{admonUsuario.apellidoPaterno}"/>
-   </p:column>
-   <p:column headerText="Apellido Materno">
-    <h:outputText value="#{admonUsuario.apellidoMaterno}"/>
+   <p:column headerText="Curp">
+    <h:outputText value="#{admonCandidatos.curp}"/>
    </p:column>
     <p:column headerText="Correo Electronico">
-    <h:outputText value="#{admonUsuario.correoElectronico}"/>
+    <h:outputText value="#{admonCandidatos.correoElectronico}"/>
    </p:column>
+     <p:column  headerText="Opciones">
+  	 <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteCandidatoDialogWV').show();" ajax="true"/>
+     </p:column>
+     <f:facet name="footer">
+           <div class="ui-g">
+             <div class="ui-g-12 ui-lg-12" style="text-align: right;">
+                 <p:commandButton id="RegistrarBtn" value="Nuevo Candidato" icon="fa fa-plus" onclick="PF('createCandidatoDialogWV').show();" />
+              </div>
+            </div>
+        </f:facet> 
   </p:dataTable>
   </h:form>
+  <h:form id="CreateForm">
+ <f:passThroughAttribute name="autocomplete" value="off"/>
+  <p:dialog id="createCandidatoDialogId" widgetVar="createCandidatoDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Crear Candidato">
+   <p:panelGrid id="createPanelID" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+       <p:outputLabel for="numeroRol" value="Rol"/>
+      	<p:selectOneMenu id="numeroRol" value="#{createMrqsCandidatesForm.numeroRol}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" readOnly="true">
+      		<f:selectItem itemLabel="Seleccione un Rol" itemValue="" />
+      		<f:selectItems value="#{selectsHelper.selectAdmonRolesItems}" />
+      </p:selectOneMenu>
+      	<p:message for="numeroRol"/>
+     <p:outputLabel for="curp" value="CURP"/>
+	 	<p:inputText id="curp" value="#{createMrqsCandidatesForm.curp}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%">
+	  	<f:validateLength minimum="18" />
+	 </p:inputText> 
+	 <p:message for="curp"/>
+	 <p:outputLabel for="nombre" value="Nombre"/>
+	 	<p:inputText id="nombre" value="#{createMrqsCandidatesForm.nombre}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
+	 <p:message for="nombre"/>
+	 <p:outputLabel for="apellidoPaterno" value="Apellido Paterno"/>
+	 	<p:inputText id="apellidoPaterno" value="#{createMrqsCandidatesForm.apellidoPaterno}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
+	 <p:message for="apellidoPaterno"/>
+	 	<p:outputLabel for="apellidoMaterno" value="Apellido Materno"/>
+	 	<p:inputText id="apellidoMaterno" value="#{createMrqsCandidatesForm.apellidoMaterno}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
+	 <p:message for="apellidoMaterno"/>
+	 <p:outputLabel for="contrasenia" value="Contraseña"/>
+     	<p:password id="contrasenia" value="#{createMrqsCandidatesForm.contrasenia}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+     <p:message for="contrasenia"/>
+      <p:outputLabel for="fechaEfectivaDesdeInput" value="Desde"/>
+	  	<p:calendar id="fechaEfectivaDesdeInput" value="#{createMrqsCandidatesForm.fechaEfectivaDesde}"  locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+      	<p:message for="fechaEfectivaDesdeInput"/>
+      <p:outputLabel for="fechaEfectivaHastaInput" value="Hasta"/>
+      	<p:calendar id="fechaEfectivaHastaInput" value="#{createMrqsCandidatesForm.fechaEfectivaHasta}"  locale="es" pattern="dd/MM/yyyy" mask="true" />
+      	<p:message for="fechaEfectivaHastaInput"/>
+       <f:facet name="footer">
+        <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CreateBtn" update="createPanelID ReadOnlyForm" value="Aceptar" actionListener="#{createMrqsCandidatesForm.create()}" oncomplete="handleCreateRequest(xhr, status, args)"  />
+              </div>
+             <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('createCandidatoDialogWV').hide();" />
+              </div>
+            </div>
+           </f:facet>
+   </p:panelGrid>   
+  </p:dialog>
+  </h:form>
+      
 </ui:define>
 </ui:composition>    

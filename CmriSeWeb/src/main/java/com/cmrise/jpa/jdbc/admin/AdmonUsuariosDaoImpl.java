@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.cmrise.jpa.dao.admin.AdmonUsuariosDao;
+import com.cmrise.jpa.dto.admin.AdmonCandidatosV1Dto;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosDto;
 import com.cmrise.jpa.dto.admin.KeysDto;
 import com.cmrise.utils.Utilitarios;
@@ -139,9 +140,11 @@ public class AdmonUsuariosDaoImpl implements AdmonUsuariosDao {
 
 
 	@Override
-	public List<AdmonUsuariosDto> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<AdmonCandidatosV1Dto> findAll() {
+		String strQuery = "SELECT a FROM AdmonCandidatosV1Dto a"; 
+	Query query = em.createQuery(strQuery);
+	return query.getResultList();
+		
 	}
-
 }
+	

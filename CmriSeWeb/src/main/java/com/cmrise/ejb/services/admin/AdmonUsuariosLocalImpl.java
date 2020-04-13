@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.cmrise.jpa.dao.admin.AdmonUsuariosDao;
+import com.cmrise.jpa.dto.admin.AdmonCandidatosV1Dto;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosDto;
 import com.cmrise.jpa.dto.admin.KeysDto;
 
@@ -48,9 +49,12 @@ public class AdmonUsuariosLocalImpl implements AdmonUsuariosLocal {
 	}
 
 	@Override
-	public List<AdmonUsuariosDto> findAll() {
+	public List<AdmonCandidatosV1Dto> findAll() {
 		return admonUsuariosDao.findAll();
-		}
+	}
+
+
+	
 	}
 
 

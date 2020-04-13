@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.cmrise.jpa.dto.admin.AdmonCandidatosV1Dto;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosDto;
 import com.cmrise.jpa.dto.admin.KeysDto;
 
@@ -17,5 +18,9 @@ public interface AdmonUsuariosLocal {
 	public List<KeysDto> findKeys();
 	public List<AdmonUsuariosDto> findTop500ByFilters(long pNumeroCcExamen
 			                                         ,String strClave);
-	public List<AdmonUsuariosDto> findAll();
+	
+	public List<AdmonCandidatosV1Dto>findAll();
+	
+	
+
 }
