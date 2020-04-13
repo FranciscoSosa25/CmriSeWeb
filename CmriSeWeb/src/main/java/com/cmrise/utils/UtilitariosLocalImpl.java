@@ -1,5 +1,7 @@
 package com.cmrise.utils;
 
+import java.util.Base64;
+
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
@@ -57,5 +59,7 @@ public class UtilitariosLocalImpl implements UtilitariosLocal {
 	    	 return 0;
 	     }	
 		return retval;
-	} 
+	}
+	
+
 }

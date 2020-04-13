@@ -108,7 +108,7 @@
 	    <p:commandButton value="Crear" update="questionInformationForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createQuestionCoreCaseForm.create()}"/>
 	   </div>
 	   <div class="ui-g-12 ui-md-6 ui-lg-2">
-	     <p:commandButton value="Cancelar"/>
+	     <p:commandButton value="Cancelar" immediate="true" action="Preguntas-Update-CoreCase"/>
 	   </div>
 	  </div>
 	</h:form>

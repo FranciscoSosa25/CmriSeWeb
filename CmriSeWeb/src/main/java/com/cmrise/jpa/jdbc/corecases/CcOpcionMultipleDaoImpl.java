@@ -47,6 +47,13 @@ public class CcOpcionMultipleDaoImpl implements CcOpcionMultipleDao {
 		ccOpcionMultipleDto.setEstatus(pCcOpcionMultipleDto.isEstatus());
 		ccOpcionMultipleDto.setTextoExplicacion(pCcOpcionMultipleDto.getTextoExplicacion());
 		ccOpcionMultipleDto.setTextoRespuesta(pCcOpcionMultipleDto.getTextoRespuesta());
+		ccOpcionMultipleDto.setNumeroLinea(pCcOpcionMultipleDto.getNumeroLinea());
+	}
+
+	@Override
+	public void delete(long pNumero) {
+		CcOpcionMultipleDto ccOpcionMultipleDto = em.find(CcOpcionMultipleDto.class, pNumero);
+		em.remove(ccOpcionMultipleDto);
 	}
 
 }

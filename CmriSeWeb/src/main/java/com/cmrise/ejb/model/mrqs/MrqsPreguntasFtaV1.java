@@ -14,6 +14,8 @@ public class MrqsPreguntasFtaV1 implements Serializable {
 	private String metodoPuntuacion; 
 	private String valorPuntuacion; 
 	private String respuestaCorrecta;
+	private boolean singleAnswerMode; 
+	private boolean suffleAnswerOrder; 
 	
 	public long getNumero() {
 		return numero;
@@ -62,6 +64,18 @@ public class MrqsPreguntasFtaV1 implements Serializable {
 	}
 	public void setRespuestaCorrecta(String respuestaCorrecta) {
 		this.respuestaCorrecta = respuestaCorrecta;
+	}
+	public boolean isSingleAnswerMode() {
+		return singleAnswerMode;
+	}
+	public void setSingleAnswerMode(boolean singleAnswerMode) {
+		this.singleAnswerMode = singleAnswerMode;
+	}
+	public boolean isSuffleAnswerOrder() {
+		return suffleAnswerOrder;
+	}
+	public void setSuffleAnswerOrder(boolean suffleAnswerOrder) {
+		this.suffleAnswerOrder = suffleAnswerOrder;
 	} 
 	
 

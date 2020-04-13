@@ -70,14 +70,22 @@ public class CandExamRespuestasDaoImpl implements CandExamRespuestasDao {
 			                            ,long pNumeroGrupo
 			                            ,long pNumeroPreguntaHdr
 			                            ,long pNumeroPreguntaFta) {
+		CandExamRespuestasDto candExamRespuestasDto = new CandExamRespuestasDto(); 
 		String strQuery ="SELECT c FROM CandExamRespuestasDto c WHERE c.numeroCandExamen="+pNumeroCandExamen;
 		strQuery = strQuery+" AND c.numeroGrupo="+pNumeroGrupo; 
 		strQuery = strQuery+" AND c.numeroPreguntaHdr="+pNumeroPreguntaHdr; 
 		strQuery = strQuery+" AND c.numeroPreguntaFta="+pNumeroPreguntaFta; 
+		try {
 		Query query = em.createQuery(strQuery);
-		
-		CandExamRespuestasDto candExamRespuestasDto = (CandExamRespuestasDto)query.getSingleResult(); 
-		return candExamRespuestasDto;
+		candExamRespuestasDto = (CandExamRespuestasDto)query.getSingleResult(); 
+		}catch(javax.persistence.NoResultException nre) {
+			System.out.println("CandExamRespuestasDaoImpl findDto Exception:"+nre.getMessage());
+			System.out.println("pNumeroCandExamen:"+pNumeroCandExamen);
+			System.out.println("pNumeroGrupo:"+pNumeroGrupo);
+			System.out.println("pNumeroPreguntaHdr:"+pNumeroPreguntaHdr);
+			System.out.println("pNumeroPreguntaFta:"+pNumeroPreguntaFta);
+		}
+		return candExamRespuestasDto; 
 	}
 
 	@Override

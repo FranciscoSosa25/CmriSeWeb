@@ -1,7 +1,6 @@
 package com.cmrise.ejb.backing.corecases;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -15,16 +14,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.cmrise.ejb.helpers.GuestPreferences;
+import com.cmrise.ejb.model.corecases.CcHdrV1;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
 import com.cmrise.ejb.services.corecases.CcHdrLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasHdrLocal;
 import com.cmrise.jpa.dto.corecases.CcHdrDto;
-import com.cmrise.jpa.dto.corecases.CcHdrV1Dto;
-import com.cmrise.jpa.dto.corecases.CcPreguntasHdrV1Dto;
 
 @ManagedBean
 @ViewScoped
 public class UpdateCoreCaseForm {
+
+   private CcHdrV1 ccHdrV1; 	
+	
    private long numeroCcHdr;
    private String estatusCc;  
    private String nombreCc;
@@ -42,11 +43,11 @@ public class UpdateCoreCaseForm {
    
    @Inject 
    CcPreguntasHdrLocal ccPreguntasHdrLocal;
-   @ManagedProperty(value="#{guestPreferences}")
-	GuestPreferences guestPreferences; 
-	
    
-   @PostConstruct
+   @ManagedProperty(value="#{guestPreferences}")
+   GuestPreferences guestPreferences; 
+	
+     @PostConstruct
 	 public void init() {
 		 System.out.println("Entra "+this.getClass()+" init()");
 		 FacesContext context = FacesContext.getCurrentInstance(); 
@@ -71,32 +72,18 @@ public class UpdateCoreCaseForm {
 	 
    
   private void refreshEntity() {
-	CcHdrV1Dto ccHdrV1Dto = ccHdrLocal.findByNumero(this.numeroCcHdr);
-	this.setEstatusCc(ccHdrV1Dto.getEstatus());
-	this.setNombreCc(ccHdrV1Dto.getNombre());
-	this.setTemaCc(ccHdrV1Dto.getTema());
-	this.setHistorialClinicoCc(ccHdrV1Dto.getHistorialClinico());
-	this.setDescripcionTecnicaCc(ccHdrV1Dto.getDescripcionTecnica());
-	this.setNotaCc(ccHdrV1Dto.getNota());
-	this.setOpcionInseguraCc(ccHdrV1Dto.getOpcionInsegura());
-	this.setEtiquetasCc(ccHdrV1Dto.getEtiquetas());
+	ccHdrV1 = ccHdrLocal.findByNumeroObjMod(this.numeroCcHdr);
+	this.setEstatusCc(ccHdrV1.getEstatus());
+	this.setNombreCc(ccHdrV1.getNombre());
+	this.setTemaCc(ccHdrV1.getTema());
+	this.setHistorialClinicoCc(ccHdrV1.getHistorialClinico());
+	this.setDescripcionTecnicaCc(ccHdrV1.getDescripcionTecnica());
+	this.setNotaCc(ccHdrV1.getNota());
+	this.setOpcionInseguraCc(ccHdrV1.isOpcionInsegura());
+	this.setEtiquetasCc(ccHdrV1.getEtiquetas());
 	
-	List<CcPreguntasHdrV1Dto> listCcPreguntasHdrV1Dto =  ccPreguntasHdrLocal.findListByNumeroCcHdr(ccHdrV1Dto.getNumero());
-	Iterator<CcPreguntasHdrV1Dto> iterlistCcPreguntasHdrV1Dto = listCcPreguntasHdrV1Dto.iterator();
-	listCcPreguntasHdrV1 = new ArrayList<CcPreguntasHdrV1>();
-	while(iterlistCcPreguntasHdrV1Dto.hasNext()) {
-    	CcPreguntasHdrV1Dto  ccPreguntasHdrV1Dto= iterlistCcPreguntasHdrV1Dto.next(); 
-    	CcPreguntasHdrV1 ccPreguntasHdrV1 = new CcPreguntasHdrV1();
-    	ccPreguntasHdrV1.setNumero(ccPreguntasHdrV1Dto.getNumero());
-    	ccPreguntasHdrV1.setNumeroCcHdr(ccPreguntasHdrV1Dto.getNumeroCcHdr());
-    	ccPreguntasHdrV1.setTitulo(ccPreguntasHdrV1Dto.getTitulo());
-    	ccPreguntasHdrV1.setTipoPreguntaDesc(ccPreguntasHdrV1Dto.getTipoPreguntaDesc());
-    	ccPreguntasHdrV1.setEstatusDesc(ccPreguntasHdrV1Dto.getEstatusDesc());
-    	ccPreguntasHdrV1.setMaxPuntuacion(ccPreguntasHdrV1Dto.getMaxPuntuacion());
-    	ccPreguntasHdrV1.setEtiquetas(ccPreguntasHdrV1Dto.getEtiquetas());
-    	listCcPreguntasHdrV1.add(ccPreguntasHdrV1);
-    }
-    
+	listCcPreguntasHdrV1 = ccHdrV1.getListCcPreguntasHdrV1();
+	
   }
 
 
@@ -249,6 +236,16 @@ public GuestPreferences getGuestPreferences() {
 
 public void setGuestPreferences(GuestPreferences guestPreferences) {
 	this.guestPreferences = guestPreferences;
+}
+
+
+public CcHdrV1 getCcHdrV1() {
+	return ccHdrV1;
+}
+
+
+public void setCcHdrV1(CcHdrV1 ccHdrV1) {
+	this.ccHdrV1 = ccHdrV1;
 }
 
 }

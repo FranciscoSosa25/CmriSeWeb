@@ -51,6 +51,8 @@ public class CcOpcionMultipleDto implements Serializable {
 	@Column(name="TEXTO_EXPLICACION")
 	private String textoExplicacion; 
 	
+	@Column(name="NUMERO_LINEA")
+	private int numeroLinea; 
 	
 	public long getNumero() {
 		return this.numero;
@@ -138,6 +140,14 @@ public class CcOpcionMultipleDto implements Serializable {
 
 	public void setTextoRespuesta(String textoRespuesta) {
 		this.textoRespuesta = textoRespuesta;
+	}
+
+	public int getNumeroLinea() {
+		return numeroLinea;
+	}
+
+	public void setNumeroLinea(int numeroLinea) {
+		this.numeroLinea = numeroLinea;
 	}
 	
 }

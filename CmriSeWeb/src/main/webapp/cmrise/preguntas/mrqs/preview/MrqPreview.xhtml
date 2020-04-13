@@ -93,9 +93,10 @@ function handleUpdateRequest(xhr, status, args){
    </div>
  </div>
   <div class="ui-g-12 ui-md-9 ui-g-nopad">
+      
      <div class="ui-g-12 ui-md-12">
         <div class="ui-g-12 ui-md-12">
-           <div class="ui-g-12 ui-md-8">
+          <div class="ui-g-12 ui-md-8">
             <h3>Pregunta > #{mrqPreviewForm.textoPregunta}</h3>
            </div>
            <div class="ui-g-12 ui-md-4">
@@ -103,6 +104,21 @@ function handleUpdateRequest(xhr, status, args){
              <p:commandButton value="Saltar" style="margin-left:15px;" action="#{mrqPreviewForm.skip()}" rendered="#{mrqPreviewForm.questionView}" immediate="true"/>
              <p:commandButton value="Continuar" style="margin-left:15px;" action="#{mrqPreviewForm.proceed()}" rendered="#{mrqPreviewForm.answerView}"/>
            </div>
+           
+            <ui:repeat var="imagenesGrupo" value="#{mrqPreviewForm.listPresentMrqsImagenesGrp}" varStatus="status">
+		      <div class="ui-g-12">
+		       <h3>#{imagenesGrupo.tituloSuperior}</h3>
+		      </div>
+		      <div class="ui-g-12">
+		       <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
+		         <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="max-width: 300px; max-height: 300px;" />
+		       </ui:repeat>
+		      </div>
+		      <div class="ui-g-12">
+		       <h3>#{imagenesGrupo.tituloInferior}</h3>
+		      </div>
+		    </ui:repeat>
+           
            <div class="ui-g-12 ui-md-12">
               <h3>#{mrqPreviewForm.textoSugerencias}</h3>
            </div>

@@ -29,6 +29,8 @@ public class CcPreguntasHdrV1 implements Serializable{
 	private String temaPreguntaDesc; 
 	private String estatusDesc;
 	private BigDecimal maxPuntuacion;
+
+	private CcPreguntasFtaV1 ccPreguntasFtaV1; 
 	
 	public long getNumero() {
 		return numero;
@@ -149,6 +151,12 @@ public class CcPreguntasHdrV1 implements Serializable{
 	}
 	public void setNumeroCcHdr(long numeroCcHdr) {
 		this.numeroCcHdr = numeroCcHdr;
+	}
+	public CcPreguntasFtaV1 getCcPreguntasFtaV1() {
+		return ccPreguntasFtaV1;
+	}
+	public void setCcPreguntasFtaV1(CcPreguntasFtaV1 ccPreguntasFtaV1) {
+		this.ccPreguntasFtaV1 = ccPreguntasFtaV1;
 	}
 	
 

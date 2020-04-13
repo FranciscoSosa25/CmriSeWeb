@@ -8,16 +8,30 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.cmrise.ejb.model.corecases.CcHdrForAction;
+import com.cmrise.ejb.model.corecases.CcHdrV1;
+import com.cmrise.ejb.model.corecases.CcPreguntasFtaV1;
+import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
 import com.cmrise.jpa.dao.corecases.CcHdrDao;
+import com.cmrise.jpa.dao.corecases.CcPreguntasFtaDao;
+import com.cmrise.jpa.dao.corecases.CcPreguntasHdrDao;
 import com.cmrise.jpa.dto.admin.KeysDto;
 import com.cmrise.jpa.dto.corecases.CcHdrDto;
 import com.cmrise.jpa.dto.corecases.CcHdrV1Dto;
+import com.cmrise.jpa.dto.corecases.CcPreguntasFtaV1Dto;
+import com.cmrise.jpa.dto.corecases.CcPreguntasHdrV1Dto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
 
 @Stateless 
 public class CcHdrLocalImpl implements CcHdrLocal {
 
 	@Inject 
 	CcHdrDao ccHdrDao; 
+	
+	@Inject 
+	CcPreguntasHdrDao  ccPreguntasHdrDao;
+	
+	@Inject 
+	CcPreguntasFtaDao  ccPreguntasFtaDao;
 	
 	@Override
 	public void insert(CcHdrDto pCcHdrDto) {
@@ -79,6 +93,64 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 				retval.add(ccHdrForAction); 
 			}
 		}	
+		return retval;
+	}
+
+	@Override
+	public CcHdrV1 findByNumeroObjMod(long pNumeroCcHdr) {
+		CcHdrV1 retval = new CcHdrV1(); 
+		CcHdrV1Dto ccHdrV1Dto = ccHdrDao.findByNumero(pNumeroCcHdr); 
+		retval.setNumero(ccHdrV1Dto.getNumero());
+		retval.setNombre(ccHdrV1Dto.getNombre());
+		retval.setTema(ccHdrV1Dto.getTema());
+		retval.setTemaDesc(ccHdrV1Dto.getTemaDesc());
+		retval.setHistorialClinico(ccHdrV1Dto.getHistorialClinico());
+		retval.setDescripcionTecnica(ccHdrV1Dto.getDescripcionTecnica());
+		retval.setOpcionInsegura(ccHdrV1Dto.getOpcionInsegura());
+		retval.setEtiquetas(ccHdrV1Dto.getEtiquetas());
+		retval.setNota(ccHdrV1Dto.getNota());
+		retval.setEstatus(ccHdrV1Dto.getEstatus());
+		retval.setEstatusDesc(ccHdrV1Dto.getEstatusDesc());
+		retval.setSociedad(ccHdrV1Dto.getSociedad());
+		retval.setFechaEfectivaDesde(new java.util.Date(ccHdrV1Dto.getFechaEfectivaDesde().getTime()));
+		retval.setFechaEfectivaHasta(new java.util.Date(ccHdrV1Dto.getFechaEfectivaHasta().getTime()));
+		
+		List<CcPreguntasHdrV1Dto> listCcPreguntasHdrV1Dto =  ccPreguntasHdrDao.findListByNumeroCcHdr(pNumeroCcHdr); 
+		
+		List<CcPreguntasHdrV1> listCcPreguntasHdrV1 = new ArrayList<CcPreguntasHdrV1>();
+	 	for(CcPreguntasHdrV1Dto i :listCcPreguntasHdrV1Dto) {
+	 		CcPreguntasHdrV1 ccPreguntasHdrV1 = new CcPreguntasHdrV1();
+	 		ccPreguntasHdrV1.setNumero(i.getNumero());
+	     	ccPreguntasHdrV1.setNumeroCcHdr(i.getNumeroCcHdr());
+	     	ccPreguntasHdrV1.setTitulo(i.getTitulo());
+	     	ccPreguntasHdrV1.setTipoPregunta(i.getTipoPregunta());
+	     	ccPreguntasHdrV1.setTipoPreguntaDesc(i.getTipoPreguntaDesc());
+	     	ccPreguntasHdrV1.setTemaPregunta(i.getTemaPregunta());
+	     	ccPreguntasHdrV1.setTemaPreguntaDesc(i.getTemaPreguntaDesc());
+	     	ccPreguntasHdrV1.setEstatus(i.getEstatus());
+	     	ccPreguntasHdrV1.setEstatusDesc(i.getEstatusDesc());
+	     	ccPreguntasHdrV1.setMaxPuntuacion(i.getMaxPuntuacion());
+	     	ccPreguntasHdrV1.setEtiquetas(i.getEtiquetas());
+	     	
+	     	CcPreguntasFtaV1 ccPreguntasFtaV1 = new CcPreguntasFtaV1(); 
+	     	CcPreguntasFtaV1Dto ccPreguntasFtaV1Dto =  ccPreguntasFtaDao.findDtoByNumeroHdr(i.getNumero()); 
+	     	ccPreguntasFtaV1.setNumero(ccPreguntasFtaV1Dto.getNumero());
+	     	ccPreguntasFtaV1.setNumeroHdr(ccPreguntasFtaV1Dto.getNumeroHdr());
+	     	ccPreguntasFtaV1.setTituloPregunta(ccPreguntasFtaV1Dto.getTituloPregunta()); 
+	     	ccPreguntasFtaV1.setTextoPregunta(ccPreguntasFtaV1Dto.getTextoPregunta());
+	     	ccPreguntasFtaV1.setTextoSugerencias(ccPreguntasFtaV1Dto.getTextoSugerencias());
+	     	ccPreguntasFtaV1.setRespuestaCorrecta(ccPreguntasFtaV1Dto.getRespuestaCorrecta());
+	     	ccPreguntasFtaV1.setSingleAnswerMode(ccPreguntasFtaV1Dto.isSingleAnswerMode());
+	     	ccPreguntasFtaV1.setSuffleAnswerOrder(ccPreguntasFtaV1Dto.isSuffleAnswerOrder());
+	     	
+	     	ccPreguntasHdrV1.setCcPreguntasFtaV1(ccPreguntasFtaV1);
+	     	
+	     	listCcPreguntasHdrV1.add(ccPreguntasHdrV1);
+	 	}
+	 	
+	 	retval.setListCcPreguntasHdrV1(listCcPreguntasHdrV1);
+	 	
+		
 		return retval;
 	}
 

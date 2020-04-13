@@ -64,6 +64,9 @@
 		<f:selectItems value="#{selectsHelper.selectTemaDePreguntaItems}" />
 		</p:selectOneMenu>
 		<p:message for="topic"/>
+		<p:outputLabel for="society" value="Sociedad"/>
+		<p:inputText  id="society" value="#{updateCoreCaseForm.ccHdrV1.sociedad}" readonly="true" style="width:100%"/>
+		<p:message for="society"/>
 		<p:outputLabel for="clinicalHistory" value="Historial Clinico"/>
 		<p:inputTextarea  id="clinicalHistory" value="#{updateCoreCaseForm.historialClinicoCc}" rows="4" style="width:100%"/>
 		<p:message  for="clinicalHistory"/>

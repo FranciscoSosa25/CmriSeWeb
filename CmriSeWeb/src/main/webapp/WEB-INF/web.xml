@@ -24,6 +24,12 @@
       <param-value>poseidon-#{guestPreferences.theme}</param-value>
       <!--<param-value>apollo-blue-light</param-value>-->
  </context-param>
+ 
+ <context-param>
+    <param-name>primefaces.UPLOADER</param-name>
+    <param-value>auto</param-value>
+</context-param>
+ 
  <servlet>
   <servlet-name>Faces Servlet</servlet-name>
   <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -67,4 +73,16 @@
     <filter-name>UserRoleFilter</filter-name>  
     <url-pattern>/cmrise/*</url-pattern> 
 </filter-mapping> 
+
+<filter>
+    <filter-name>PrimeFaces FileUpload Filter</filter-name>
+    <filter-class>
+    org.primefaces.webapp.filter.FileUploadFilter
+    </filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>PrimeFaces FileUpload Filter</filter-name>
+    <servlet-name>Faces Servlet</servlet-name>
+</filter-mapping>
+
 </web-app>
