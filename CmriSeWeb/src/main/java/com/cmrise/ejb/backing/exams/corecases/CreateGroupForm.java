@@ -73,9 +73,7 @@ public class CreateGroupForm {
 			listLongs.add(ccHdrForAction.getNumero());
 			
 			CcExamAsignacionesDto ccExamAsignacionesDto = new CcExamAsignacionesDto();
-			CcExamenesDto ccExamenesDto = new CcExamenesDto(); 
-			ccExamenesDto.setNumero(this.numeroCcExamen);
-			ccExamAsignacionesDto.setCcExamene(ccExamenesDto);
+			ccExamAsignacionesDto.setNumeroCcExamen(this.numeroCcExamen);
 			ccExamAsignacionesDto.setNumeroCoreCase(ccHdrForAction.getNumero());
 			ccExamAsignacionesDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
 			ccExamAsignacionesDto.setFechaEfectivaHasta(Utilitarios.endOfTime);

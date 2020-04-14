@@ -12,8 +12,13 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
+import com.cmrise.ejb.model.corecases.CcHdrV1;
+import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
 import com.cmrise.ejb.model.exams.CcExamAsignaciones;
+import com.cmrise.ejb.model.exams.CcExamenes;
 import com.cmrise.ejb.services.exams.CcExamAsignacionesLocal;
 import com.cmrise.ejb.services.exams.CcExamenesLocal;
 import com.cmrise.jpa.dto.exams.CcExamenesDto;
@@ -51,6 +56,9 @@ public class UpdateTestExamForm {
 	
 	private List<CcExamAsignaciones> listCcExamAsignaciones = new ArrayList<CcExamAsignaciones>(); 
 	
+	private TreeNode rootCcExamAsignaciones;
+	private TreeNode selectedNode;
+	
 	@Inject 
 	UtilitariosLocal utilitariosLocal; 
 	
@@ -73,35 +81,53 @@ public class UpdateTestExamForm {
 	 }
 
 	private void refreshEntity() {
-		CcExamenesDto ccExamenesDto = ccExamenesLocal.findById(this.getNumeroCcExamen()); 
-		this.setEstatus(ccExamenesDto.getEstatus());
-		this.setTitulo(ccExamenesDto.getTitulo());
-		this.setNombre(ccExamenesDto.getNombre());
-		this.setDescripcion(ccExamenesDto.getDescripcion());
-		this.setTipoPregunta(ccExamenesDto.getTipoPregunta());
-		this.setTipoExamen(ccExamenesDto.getTipoExamen());
-		this.setTema(ccExamenesDto.getTema());
-		this.setComentarios(ccExamenesDto.getComentarios());
-		this.setVisibilidad(ccExamenesDto.getVisibilidad());
+		CcExamenes ccExamenesObjMod = ccExamenesLocal.findByNumeroObjMod(this.getNumeroCcExamen()); 
+		
+		this.setEstatus(ccExamenesObjMod.getEstatus());
+		this.setTitulo(ccExamenesObjMod.getTitulo());
+		this.setNombre(ccExamenesObjMod.getNombre());
+		this.setDescripcion(ccExamenesObjMod.getDescripcion());
+		this.setTipoPregunta(ccExamenesObjMod.getTipoPregunta());
+		this.setTipoExamen(ccExamenesObjMod.getTipoExamen());
+		this.setTema(ccExamenesObjMod.getTema());
+		this.setComentarios(ccExamenesObjMod.getComentarios());
+		this.setVisibilidad(ccExamenesObjMod.getVisibilidad());
+		/*
 		this.setFechaEfectivaDesde(utilitariosLocal.toUtilDate(ccExamenesDto.getFechaEfectivaDesde()));
 		if(Utilitarios.endOfTime.equals(ccExamenesDto.getFechaEfectivaHasta())) {
 			this.setFechaEfectivaHasta(null);
 		}else {
 			this.setFechaEfectivaHasta(utilitariosLocal.toUtilDate(ccExamenesDto.getFechaEfectivaHasta()));
 		}
-		this.setLimiteTiempo(ccExamenesDto.getTiempoLimite());
-		this.setSaltarPreguntas(ccExamenesDto.getSaltarPreguntas());
-		this.setSaltarCasos(ccExamenesDto.getSaltarCasos());
-		this.setMostrarRespuestas(ccExamenesDto.getMostrarRespuestas());
-		this.setTienePassmark(ccExamenesDto.getTienePassmark());
-		this.setAleatorioGrupo(ccExamenesDto.getAleatorioGrupo());
-		this.setAleatorioPreguntas(ccExamenesDto.getAleatorioPreguntas());
-		this.setSeleccionCasosAleatorios(ccExamenesDto.getSeleccionCasosAleatorios());
-		this.setMensajeFinalizacion(ccExamenesDto.getMensajeFinalizacion());
-		this.setConfirmacionAsistencia(ccExamenesDto.getConfirmacionAsistencia());
-		this.setDiploma(ccExamenesDto.getDiploma());
+		*/
+		this.setLimiteTiempo(ccExamenesObjMod.getTiempoLimite());
+		this.setSaltarPreguntas(ccExamenesObjMod.getSaltarPreguntas());
+		this.setSaltarCasos(ccExamenesObjMod.getSaltarCasos());
+		this.setMostrarRespuestas(ccExamenesObjMod.getMostrarRespuestas());
+		this.setTienePassmark(ccExamenesObjMod.getTienePassmark());
+		this.setAleatorioGrupo(ccExamenesObjMod.getAleatorioGrupo());
+		this.setAleatorioPreguntas(ccExamenesObjMod.getAleatorioPreguntas());
+		this.setSeleccionCasosAleatorios(ccExamenesObjMod.getSeleccionCasosAleatorios());
+		this.setMensajeFinalizacion(ccExamenesObjMod.getMensajeFinalizacion());
+		this.setConfirmacionAsistencia(ccExamenesObjMod.getConfirmacionAsistencia());
+		this.setDiploma(ccExamenesObjMod.getDiploma());
 		
-		listCcExamAsignaciones = ccExamAsignacionesLocal.findByNumeroExamenWD(this.getNumeroCcExamen());
+		//listCcExamAsignaciones = ccExamAsignacionesLocal.findByNumeroExamenWD(this.getNumeroCcExamen());
+		listCcExamAsignaciones = ccExamenesObjMod.getListCcExamAsignaciones(); 
+		
+		rootCcExamAsignaciones = new DefaultTreeNode("Root", null);
+		if(null!=listCcExamAsignaciones) {
+			for(CcExamAsignaciones i:listCcExamAsignaciones) {
+				CcHdrV1 ccHdrV1 = i.getCcHdrV1(); 
+				TreeNode nodeCcExamAsignaciones = new DefaultTreeNode("cCExamAsignacion",ccHdrV1, rootCcExamAsignaciones);
+				List<CcPreguntasHdrV1>  listCcPreguntasHdrV1 = ccHdrV1.getListCcPreguntasHdrV1(); 
+				if(null!=listCcPreguntasHdrV1) {
+					for(CcPreguntasHdrV1 j:listCcPreguntasHdrV1) {
+						TreeNode nodeCcPreguntasHdrV1 = new DefaultTreeNode("cCPreguntaHdr",j, nodeCcExamAsignaciones);
+					}
+				}
+			}
+		}
 		
 	}
 	
@@ -369,6 +395,23 @@ public class UpdateTestExamForm {
 
 	public void setNombreCaso(String nombreCaso) {
 		this.nombreCaso = nombreCaso;
+	}
+
+
+	public TreeNode getSelectedNode() {
+		return selectedNode;
+	}
+
+	public void setSelectedNode(TreeNode selectedNode) {
+		this.selectedNode = selectedNode;
+	}
+
+	public TreeNode getRootCcExamAsignaciones() {
+		return rootCcExamAsignaciones;
+	}
+
+	public void setRootCcExamAsignaciones(TreeNode rootCcExamAsignaciones) {
+		this.rootCcExamAsignaciones = rootCcExamAsignaciones;
 	}
 	 
 }

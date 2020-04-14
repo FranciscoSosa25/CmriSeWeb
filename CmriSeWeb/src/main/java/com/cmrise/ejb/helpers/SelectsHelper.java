@@ -81,7 +81,7 @@ public class SelectsHelper {
 	}
 	
 	private void environmentTipoPreguntaCoreCase() {
-		this.selectTipoPreguntaItems = new ArrayList<SelectItem>();
+		this.selectTipoPreguntaCoreCaseItems = new ArrayList<SelectItem>();
 		List<TablasUtilitariasValoresDto> listTipoPreguntaValores =  tablasUtilitariasValoresLocal.findByTipoTabla("TIPO_PREGUNTA");  
 		Iterator<TablasUtilitariasValoresDto> iterTipoPreguntaValores = listTipoPreguntaValores.iterator(); 
 		while(iterTipoPreguntaValores.hasNext()) {
@@ -90,13 +90,13 @@ public class SelectsHelper {
 			 &&!"RESP_TEXTO_LIBRE".equals(tablasUtilitariasValoresDto.getCodigoTabla())
 			  ) {
 			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
-			this.selectTipoPreguntaItems.add(selectItem); 
+			this.selectTipoPreguntaCoreCaseItems.add(selectItem); 
 			}
 		}
 	}
 	
 	public List<SelectItem> getSelectTipoPreguntaCoreCaseItems(){
-		return this.selectTipoPreguntaItems; 
+		return this.selectTipoPreguntaCoreCaseItems; 
 	}
 	
 	private void environmentTemaDePregunta() {

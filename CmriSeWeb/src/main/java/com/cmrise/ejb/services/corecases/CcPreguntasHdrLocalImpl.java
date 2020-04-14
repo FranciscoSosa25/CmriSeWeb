@@ -91,20 +91,22 @@ public class CcPreguntasHdrLocalImpl implements CcPreguntasHdrLocal {
 			 ccPreguntasFtaV1.setSuffleAnswerOrder(ccPreguntasFtaV1Dto.isSuffleAnswerOrder());
 			 
 			 List<CcOpcionMultipleDto> listCcOpcionMultipleDto =  ccOpcionMultipleDao.findByNumeroFta(ccPreguntasFtaV1Dto.getNumero());
-			 List<CcOpcionMultiple> listCcOpcionMultiple = new ArrayList<CcOpcionMultiple>(); 
-			 for(CcOpcionMultipleDto i:listCcOpcionMultipleDto) {
-				 System.out.println("*");
-				 CcOpcionMultiple ccOpcionMultiple = new CcOpcionMultiple(); 
-	        	 ccOpcionMultiple.setNumeroLinea(i.getNumeroLinea());
-	        	 ccOpcionMultiple.setEstatus(i.isEstatus());
-	        	 ccOpcionMultiple.setNumero(i.getNumero());
-	        	 ccOpcionMultiple.setNumeroFta(i.getNumeroFta());
-	        	 ccOpcionMultiple.setTextoExplicacion(i.getTextoExplicacion());
-	        	 ccOpcionMultiple.setTextoRespuesta(i.getTextoRespuesta());
-	        	 listCcOpcionMultiple.add(ccOpcionMultiple); 
-	        	 ccPreguntasFtaV1.setListCcOpcionMultiple(listCcOpcionMultiple);
+			 if(null!=listCcOpcionMultipleDto) {
+				 List<CcOpcionMultiple> listCcOpcionMultiple = new ArrayList<CcOpcionMultiple>(); 
+				 for(CcOpcionMultipleDto i:listCcOpcionMultipleDto) {
+					 System.out.println("*");
+					 CcOpcionMultiple ccOpcionMultiple = new CcOpcionMultiple(); 
+		        	 ccOpcionMultiple.setNumeroLinea(i.getNumeroLinea());
+		        	 ccOpcionMultiple.setEstatus(i.isEstatus());
+		        	 ccOpcionMultiple.setNumero(i.getNumero());
+		        	 ccOpcionMultiple.setNumeroFta(i.getNumeroFta());
+		        	 ccOpcionMultiple.setTextoExplicacion(i.getTextoExplicacion());
+		        	 ccOpcionMultiple.setTextoRespuesta(i.getTextoRespuesta());
+		        	 listCcOpcionMultiple.add(ccOpcionMultiple); 
+				 }
+				 ccPreguntasFtaV1.setListCcOpcionMultiple(listCcOpcionMultiple);	 
 			 }
-			
+			 
 			 retval.setCcPreguntasFtaV1(ccPreguntasFtaV1);
 			 
 		 }

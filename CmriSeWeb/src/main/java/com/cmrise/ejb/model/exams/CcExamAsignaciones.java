@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.cmrise.ejb.model.corecases.CcHdrV1;
+
 public class CcExamAsignaciones implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -27,7 +29,9 @@ public class CcExamAsignaciones implements Serializable {
 	private String etiquetas; 
 	private String tipoPregunta; 
 	private long numeroPreguntaHdr; 
+	private long numeroCcExamen; 
 	
+	private CcHdrV1 ccHdrV1; 
 
 	public CcExamAsignaciones() {
 	}
@@ -182,6 +186,22 @@ public class CcExamAsignaciones implements Serializable {
 
 	public void setNumeroPreguntaHdr(long numeroPreguntaHdr) {
 		this.numeroPreguntaHdr = numeroPreguntaHdr;
+	}
+
+	public CcHdrV1 getCcHdrV1() {
+		return ccHdrV1;
+	}
+
+	public void setCcHdrV1(CcHdrV1 ccHdrV1) {
+		this.ccHdrV1 = ccHdrV1;
+	}
+
+	public long getNumeroCcExamen() {
+		return numeroCcExamen;
+	}
+
+	public void setNumeroCcExamen(long numeroCcExamen) {
+		this.numeroCcExamen = numeroCcExamen;
 	}
 
 	

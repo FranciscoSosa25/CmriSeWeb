@@ -103,10 +103,6 @@ public class CcExamenesDto implements Serializable {
 	@Column(name="VISIBILIDAD")
 	private String visibilidad;
 
-	//bi-directional many-to-one association to CcExamAsignacionesDto
-	@OneToMany(mappedBy="ccExamene")
-	private List<CcExamAsignacionesDto> ccExamAsignaciones;
-
 	public CcExamenesDto() {
 	}
 
@@ -334,26 +330,5 @@ public class CcExamenesDto implements Serializable {
 		this.visibilidad = visibilidad;
 	}
 
-	public List<CcExamAsignacionesDto> getCcExamAsignaciones() {
-		return this.ccExamAsignaciones;
-	}
-
-	public void setCcExamAsignaciones(List<CcExamAsignacionesDto> ccExamAsignaciones) {
-		this.ccExamAsignaciones = ccExamAsignaciones;
-	}
-
-	public CcExamAsignacionesDto addCcExamAsignacione(CcExamAsignacionesDto ccExamAsignacione) {
-		getCcExamAsignaciones().add(ccExamAsignacione);
-		ccExamAsignacione.setCcExamene(this);
-
-		return ccExamAsignacione;
-	}
-
-	public CcExamAsignacionesDto removeCcExamAsignacione(CcExamAsignacionesDto ccExamAsignacione) {
-		getCcExamAsignaciones().remove(ccExamAsignacione);
-		ccExamAsignacione.setCcExamene(null);
-
-		return ccExamAsignacione;
-	}
 
 }

@@ -9,14 +9,17 @@ import javax.inject.Inject;
 
 import com.cmrise.ejb.model.corecases.CcHdrForAction;
 import com.cmrise.ejb.model.corecases.CcHdrV1;
+import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
 import com.cmrise.ejb.model.corecases.CcPreguntasFtaV1;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
 import com.cmrise.jpa.dao.corecases.CcHdrDao;
+import com.cmrise.jpa.dao.corecases.CcOpcionMultipleDao;
 import com.cmrise.jpa.dao.corecases.CcPreguntasFtaDao;
 import com.cmrise.jpa.dao.corecases.CcPreguntasHdrDao;
 import com.cmrise.jpa.dto.admin.KeysDto;
 import com.cmrise.jpa.dto.corecases.CcHdrDto;
 import com.cmrise.jpa.dto.corecases.CcHdrV1Dto;
+import com.cmrise.jpa.dto.corecases.CcOpcionMultipleDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaV1Dto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasHdrV1Dto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
@@ -32,6 +35,9 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 	
 	@Inject 
 	CcPreguntasFtaDao  ccPreguntasFtaDao;
+	
+	@Inject 
+	CcOpcionMultipleDao ccOpcionMultipleDao; 
 	
 	@Override
 	public void insert(CcHdrDto pCcHdrDto) {
@@ -142,6 +148,23 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 	     	ccPreguntasFtaV1.setRespuestaCorrecta(ccPreguntasFtaV1Dto.getRespuestaCorrecta());
 	     	ccPreguntasFtaV1.setSingleAnswerMode(ccPreguntasFtaV1Dto.isSingleAnswerMode());
 	     	ccPreguntasFtaV1.setSuffleAnswerOrder(ccPreguntasFtaV1Dto.isSuffleAnswerOrder());
+	     	
+	     	 
+	     	List<CcOpcionMultipleDto> listCcOpcionMultipleDto =  ccOpcionMultipleDao.findByNumeroFta(ccPreguntasFtaV1Dto.getNumero());
+			if(null!=listCcOpcionMultipleDto) {
+				List<CcOpcionMultiple> listCcOpcionMultiple = new ArrayList<CcOpcionMultiple>(); 
+				 for(CcOpcionMultipleDto j:listCcOpcionMultipleDto) {
+					 CcOpcionMultiple ccOpcionMultiple = new CcOpcionMultiple(); 
+		        	 ccOpcionMultiple.setNumeroLinea(j.getNumeroLinea());
+		        	 ccOpcionMultiple.setEstatus(j.isEstatus());
+		        	 ccOpcionMultiple.setNumero(j.getNumero());
+		        	 ccOpcionMultiple.setNumeroFta(j.getNumeroFta());
+		        	 ccOpcionMultiple.setTextoExplicacion(j.getTextoExplicacion());
+		        	 ccOpcionMultiple.setTextoRespuesta(j.getTextoRespuesta());
+		        	 listCcOpcionMultiple.add(ccOpcionMultiple); 
+		         }
+				 ccPreguntasFtaV1.setListCcOpcionMultiple(listCcOpcionMultiple);
+			}
 	     	
 	     	ccPreguntasHdrV1.setCcPreguntasFtaV1(ccPreguntasFtaV1);
 	     	
