@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.cmrise.ejb.helpers.GuestPreferences;
 import com.cmrise.ejb.model.corecases.CcHdrV1;
+import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
 import com.cmrise.ejb.model.corecases.CcPreguntasFtaV1;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
 import com.cmrise.ejb.services.corecases.CcHdrLocal;
@@ -31,6 +32,7 @@ public class CoreCasePreviewForm {
 	private List<CcPreguntasHdrV1> listCcPreguntasHdrV1 = new ArrayList<CcPreguntasHdrV1>();
 	private CcPreguntasHdrV1 ccPreguntasHdrV1 = new CcPreguntasHdrV1(); 
 	private CcPreguntasFtaV1 ccPreguntasFtaV1 = new CcPreguntasFtaV1(); 
+	private List<CcOpcionMultiple> listCcOpcionMultiple = new ArrayList<CcOpcionMultiple>(); 
 	
 	private boolean multipleChoice; 
 	private boolean limitedFreeTextAnswer;
@@ -39,6 +41,9 @@ public class CoreCasePreviewForm {
 	private boolean answerView; 
 	private boolean singleAnswerMode;
 	private boolean suffleAnswerOrder; 
+	
+	private String respuestaPreguntaCandidato;
+	private String[] respuestasPreguntaCandidato;
 	
 	@Inject 
 	CcHdrLocal ccHdrLocal; 
@@ -60,6 +65,7 @@ public class CoreCasePreviewForm {
 			 if(i.getNumero()==longNumeroCcPreguntaHdrSV) {
 				 ccPreguntasHdrV1 = i; 
 				 ccPreguntasFtaV1 = i.getCcPreguntasFtaV1();
+				 listCcOpcionMultiple = ccPreguntasFtaV1.getListCcOpcionMultiple(); 
 				 break;
 			 }
 		 }
@@ -67,6 +73,7 @@ public class CoreCasePreviewForm {
 			 for(CcPreguntasHdrV1 i:listCcPreguntasHdrV1) {
 				 ccPreguntasHdrV1 = i; 
 				 ccPreguntasFtaV1 = i.getCcPreguntasFtaV1();
+				 listCcOpcionMultiple = ccPreguntasFtaV1.getListCcOpcionMultiple(); 
 				 break;
 			 }
 		 }
@@ -78,10 +85,10 @@ public class CoreCasePreviewForm {
 			 this.setLimitedFreeTextAnswer(true);
 		 }else if(Utilitarios.OPCION_MULTIPLE.equals(ccPreguntasHdrV1.getTipoPregunta())) {
 			 this.setMultipleChoice(true);
+			 this.setSingleAnswerMode(ccPreguntasFtaV1.isSingleAnswerMode());
 		 }
 		 
 		 this.setQuestionView(true);
-		 
 		 
 	}
 	
@@ -239,6 +246,36 @@ public class CoreCasePreviewForm {
 
 	public void setSuffleAnswerOrder(boolean suffleAnswerOrder) {
 		this.suffleAnswerOrder = suffleAnswerOrder;
+	}
+
+
+	public String getRespuestaPreguntaCandidato() {
+		return respuestaPreguntaCandidato;
+	}
+
+
+	public void setRespuestaPreguntaCandidato(String respuestaPreguntaCandidato) {
+		this.respuestaPreguntaCandidato = respuestaPreguntaCandidato;
+	}
+
+
+	public String[] getRespuestasPreguntaCandidato() {
+		return respuestasPreguntaCandidato;
+	}
+
+
+	public void setRespuestasPreguntaCandidato(String[] respuestasPreguntaCandidato) {
+		this.respuestasPreguntaCandidato = respuestasPreguntaCandidato;
+	}
+
+
+	public List<CcOpcionMultiple> getListCcOpcionMultiple() {
+		return listCcOpcionMultiple;
+	}
+
+
+	public void setListCcOpcionMultiple(List<CcOpcionMultiple> listCcOpcionMultiple) {
+		this.listCcOpcionMultiple = listCcOpcionMultiple;
 	}
 
 }

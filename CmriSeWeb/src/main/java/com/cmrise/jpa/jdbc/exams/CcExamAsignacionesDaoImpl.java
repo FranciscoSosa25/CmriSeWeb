@@ -74,4 +74,11 @@ public class CcExamAsignacionesDaoImpl implements CcExamAsignacionesDao {
 		return query.getResultList();
 	}
 
+	@Override
+	public List<CcExamAsignacionesDto> findByNumeroExamenDtos(long pNumeroCcExamen) {
+		String strQuery = "SELECT c FROM CcExamAsignacionesDto c WHERE c.numeroCcExamen = "+pNumeroCcExamen; 
+		Query query = em.createQuery(strQuery); 
+		return query.getResultList();
+	}
+
 }

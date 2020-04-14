@@ -7,5 +7,6 @@ public interface CcExamAsignacionesDao {
 
 	public long insert(CcExamAsignacionesDto pCcExamAsignacionesDto);
 	public List<Object> findByNumeroExamenWD(long pNumeroExamen);
-	
+	public List<CcExamAsignacionesDto> findByNumeroExamenDtos(long pNumeroCcExamen);
+
 }

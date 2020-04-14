@@ -36,11 +36,22 @@
       <f:facet name="header">
 	       Grupo de Preguntas
 	     </f:facet>
+	     
+	     <p:tree value="#{updateTestExamForm.rootCcExamAsignaciones}" var="node" style="width:100%" selectionMode="single" selection="#{updateTestExamForm.selectedNode}" dynamic="true">
+         <!-- <p:ajax event="select" update=":updateMrqsExamGroupForm:messages" listener="#{updateMrqsExamForm.onNodeSelect}" /> -->
+        <p:treeNode type="cCExamAsignacion">
+            <h:outputText value="#{node.nombre}" />
+        </p:treeNode>
+        <p:treeNode type="cCPreguntaHdr">
+            <h:outputText value="#{node.titulo}" />
+        </p:treeNode>
+      </p:tree>    
+	     
 	     <p:dataList var="ccExamAsignacionDL"  value="#{updateTestExamForm.listCcExamAsignaciones}"  type="definition" responsive="true">
 	       <f:facet name="caption">Hola</f:facet>
 	       <p:column>
 	         <p:commandLink action="#{updateTestExamForm.updatePregunta(ccExamAsignacionDL)}">
-	         <h:outputText value="#{ccExamAsignacionDL.tituloPregunta}" />
+	         <h:outputText value="#{ccExamAsignacionDL.ccHdrV1.tema}" />
 	         </p:commandLink>
 	       </p:column>
 	     </p:dataList>

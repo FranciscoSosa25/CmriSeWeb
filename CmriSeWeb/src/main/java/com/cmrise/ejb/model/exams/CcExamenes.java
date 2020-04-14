@@ -2,6 +2,7 @@ package com.cmrise.ejb.model.exams;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 public class CcExamenes implements Serializable {
@@ -41,6 +42,8 @@ public class CcExamenes implements Serializable {
 	private String visibilidad;
 	private String visibilidadDesc; 
 
+	private List<CcExamAsignaciones> listCcExamAsignaciones; 
+	
 	public long getNumero() {
 		return this.numero;
 	}
@@ -295,6 +298,14 @@ public class CcExamenes implements Serializable {
 
 	public void setEstatusDesc(String estatusDesc) {
 		this.estatusDesc = estatusDesc;
+	}
+
+	public List<CcExamAsignaciones> getListCcExamAsignaciones() {
+		return listCcExamAsignaciones;
+	}
+
+	public void setListCcExamAsignaciones(List<CcExamAsignaciones> listCcExamAsignaciones) {
+		this.listCcExamAsignaciones = listCcExamAsignaciones;
 	}
 
 

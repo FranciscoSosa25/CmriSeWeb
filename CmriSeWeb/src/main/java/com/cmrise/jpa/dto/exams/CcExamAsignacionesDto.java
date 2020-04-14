@@ -41,10 +41,8 @@ public class CcExamAsignacionesDto implements Serializable {
 	@Column(name="NUMERO_CORE_CASE")
 	private long numeroCoreCase;
 
-	//bi-directional many-to-one association to CcExamenesDto
-	@ManyToOne
-	@JoinColumn(name="NUMERO_CC_EXAMEN")
-	private CcExamenesDto ccExamene;
+	@Column(name="NUMERO_CC_EXAMEN")
+	private long numeroCcExamen; 
 
 	public CcExamAsignacionesDto() {
 	}
@@ -113,12 +111,13 @@ public class CcExamAsignacionesDto implements Serializable {
 		this.numeroCoreCase = numeroCoreCase;
 	}
 
-	public CcExamenesDto getCcExamene() {
-		return this.ccExamene;
+	public long getNumeroCcExamen() {
+		return numeroCcExamen;
 	}
 
-	public void setCcExamene(CcExamenesDto ccExamene) {
-		this.ccExamene = ccExamene;
+	public void setNumeroCcExamen(long numeroCcExamen) {
+		this.numeroCcExamen = numeroCcExamen;
 	}
+
 
 }

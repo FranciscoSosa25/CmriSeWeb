@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.cmrise.ejb.model.exams.CcExamenes;
 import com.cmrise.jpa.dto.exams.CcExamenesDto;
 import com.cmrise.jpa.dto.exams.CcExamenesV1Dto;
 
@@ -15,4 +16,6 @@ public interface CcExamenesLocal {
 	public void delete(long pNumero); 
 	public CcExamenesDto findById(long pNumero); 
 	public void update(long pNumero,CcExamenesDto pCcExamenesDto);
+	public CcExamenes findByNumeroObjMod(long numeroCcExamen);
+	
 }
