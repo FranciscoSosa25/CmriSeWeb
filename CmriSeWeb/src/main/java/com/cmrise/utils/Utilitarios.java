@@ -36,6 +36,7 @@ public  class Utilitarios {
     public static final String FS_CORE_CASES = "C:\\CmriSeFs\\CoreCases"; /** File System MRQS **/
     
     public static final String DEFAULT_THEME ="turquoise";
+	
     
 	public  java.sql.Date toSqlDate(java.util.Date pUtilDate){
 		 java.sql.Date retval = null; 
