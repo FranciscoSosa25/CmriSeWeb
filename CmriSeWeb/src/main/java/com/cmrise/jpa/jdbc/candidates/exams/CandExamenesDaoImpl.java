@@ -70,8 +70,8 @@ public class CandExamenesDaoImpl implements CandExamenesDao {
 	}
 
 	@Override
-	public List<CandExamenesV2Dto> findByCURP(String pCurp) {
-		String strQuery="SELECT c FROM CandExamenesV2Dto c WHERE c.curp like '%"+pCurp+"%'"; 
+	public List<CandExamenesV2Dto> findByCURP(String pCurp, String pNombreUsuario,String pApellidoPaterno,String pApellidoMaterno) {
+		String strQuery="SELECT c FROM CandExamenesV2Dto c WHERE c.curp like '%"+pCurp+"%'AND C.nombreUsuario like '%"+pNombreUsuario+"%'AND C.apellidoPaterno like '%"+pApellidoPaterno+"%'AND C.apellidoMaterno like '%"+pApellidoMaterno+"%'"; 
 		Query query = em.createQuery(strQuery);
 		return query.getResultList();
 	}

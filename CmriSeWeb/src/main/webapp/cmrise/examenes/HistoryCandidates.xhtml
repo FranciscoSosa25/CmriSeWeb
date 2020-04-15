@@ -13,12 +13,28 @@
  <p:fieldset legend="Buscar Candidato" toggleable="true" toggleSpeed="500" style="margin-bottom:20px" collapsed="true" >
   <p:ajax event="toggle" />
   <p:panel id="SearchPanel" >
-  <div class="ui-g ui-fluid">
-    <div class="ui-g-12 ui-lg-3" style="width: 100%; margin-top: 5px;">
+  <div class="ui-g ui-fluid" style="width: 100%; margin-top: 5px;">
+    <div class="ui-g-6 ui-lg-3" >
          <p:outputLabel   value="CURP Candidato:" />
          <p:inputText id="curp_candidato" value="#{historyCandidatesForm.curp}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
          <p:message for="curp_candidato"/>
-    </div>
+      </div>
+   
+           <div class="ui-g-6 ui-lg-3">
+         <p:outputLabel   value="Nombre Candidato:" />
+          <p:inputText id="nombre_usuario" value="#{historyCandidatesForm.nombreUsuario}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
+         <p:message for="nombre_usuario"/>
+   </div>
+      <div class="ui-g-6 ui-lg-3">
+         <p:outputLabel   value="Apellido Paterno:" />
+         <p:inputText id="apellido_paterno" value="#{historyCandidatesForm.apellidoPaterno}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
+         <p:message for="apellido_paterno"/>
+   </div>
+         <div class="ui-g-6 ui-lg-3">
+         <p:outputLabel   value="Apellido Materno:" />
+         <p:inputText id="apellido_materno" value="#{historyCandidatesForm.apellidoMaterno}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
+         <p:message for="apellido_materno"/>
+   </div>
     </div>
        <div class="ui-g">
        <div class="ui-g-12 ui-lg-12" style="text-align: right;">
