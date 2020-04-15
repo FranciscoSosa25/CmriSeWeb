@@ -27,7 +27,7 @@
  <div class="ui-g-10">
  </div>
  <div class="ui-g-2">
-  <p:commandButton value="Gestionar Candidatos" action="#{updateGroupForm.gestionarCandidatos()}"/>
+  <p:commandButton value="Gestionar Candidatos" update="updateForm" action="#{updateGroupForm.gestionarCandidatos()}"/>
  </div>
 </div>
 <div class="ui-g">
@@ -46,15 +46,6 @@
             <h:outputText value="#{node.titulo}" />
         </p:treeNode>
       </p:tree>    
-	     
-	     <p:dataList var="ccExamAsignacionDL"  value="#{updateTestExamForm.listCcExamAsignaciones}"  type="definition" responsive="true">
-	       <f:facet name="caption">Hola</f:facet>
-	       <p:column>
-	         <p:commandLink action="#{updateTestExamForm.updatePregunta(ccExamAsignacionDL)}">
-	         <h:outputText value="#{ccExamAsignacionDL.ccHdrV1.tema}" />
-	         </p:commandLink>
-	       </p:column>
-	     </p:dataList>
       <p:commandButton  title="Nuevo"  value="Agregar Nuevo Grupo" icon="pi pi-plus" action="#{updateTestExamForm.addCoreCaseGroup()}"/>
      </p:panel>
     </div>

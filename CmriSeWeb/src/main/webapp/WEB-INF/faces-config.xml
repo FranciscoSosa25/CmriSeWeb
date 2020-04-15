@@ -142,6 +142,11 @@
 			<redirect />
 		</navigation-case>
 		<navigation-case>
+			<from-outcome>Assign-CoreCases-Candidates</from-outcome>
+			<to-view-id>/cmrise/examenes/corecases/AssignCoreCasesCandidates.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
 			<from-outcome>Exams-CoreCases-Create-Candidate</from-outcome>
 			<to-view-id>/cmrise/examenes/corecases/CreateCandidate.xhtml</to-view-id>
 			<redirect />
@@ -167,6 +172,11 @@
 		<navigation-case>
 			<from-outcome>Candidates-MRQs-Exam</from-outcome>
 			<to-view-id>/candidates/exams/MRQsExam.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Candidates-CoreCases-Exam</from-outcome>
+			<to-view-id>/candidates/exams/CoreCasesExam.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>

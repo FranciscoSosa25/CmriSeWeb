@@ -53,7 +53,7 @@ public class UpdateGroupForm {
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		session.setAttribute("NumeroCcExamenSV", this.getNumeroCcExamen());
-		return "Exams-CoreCases-Manage-Candidates"; 
+		return "Assign-CoreCases-Candidates"; 
 	}
 	
 	public long getNumeroCcExamen() {

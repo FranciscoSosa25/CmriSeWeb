@@ -105,6 +105,7 @@ public class AdmonUsuariosRolesDaoImpl implements AdmonUsuariosRolesDao {
 							"      ,[APELLIDO_MATERNO]\r" + 
 							"      ,[CORREO_ELECTRONICO]\r" + 
 							"      ,[CONTRASENIA]\r" + 
+							"      ,[CURP]\r" + 
 							"  FROM [dbo].[ADMON_USUARIOS_ROLES_V1]\r" + 
 							" WHERE NOMBRE_ROL = '"+Utilitarios.ROL_ALUMNO+"'\r" + 
 							"   AND [NUMERO_USUARIO] NOT IN ( SELECT NUMERO_USUARIO\r" + 

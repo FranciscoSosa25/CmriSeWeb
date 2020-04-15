@@ -29,6 +29,7 @@ public class AdmonUsuariosRolesV1 implements Serializable {
 	private String apellidoMaterno;
 	private String correoElectronico; 
 	private String contrasenia; 
+	private String curp; 
 	
 	public long getActualizadoPor() {
 		return actualizadoPor;
@@ -161,6 +162,12 @@ public class AdmonUsuariosRolesV1 implements Serializable {
 	}
 	public void setContrasenia(String contrasenia) {
 		this.contrasenia = contrasenia;
+	}
+	public String getCurp() {
+		return curp;
+	}
+	public void setCurp(String curp) {
+		this.curp = curp;
 	}
 	
 

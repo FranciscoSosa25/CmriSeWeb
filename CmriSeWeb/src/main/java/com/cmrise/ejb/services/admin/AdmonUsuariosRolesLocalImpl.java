@@ -100,6 +100,9 @@ public class AdmonUsuariosRolesLocalImpl implements AdmonUsuariosRolesLocal {
 				if(row[11] instanceof String) { /** [CONTRASENIA] **/
 					admonUsuariosRolesV1.setContrasenia((String)row[11]);
 				}
+				if(row[12] instanceof String) { /** [CURP] **/
+					admonUsuariosRolesV1.setCurp((String)row[12]);
+				}
 				retval.add(admonUsuariosRolesV1); 
 			}
 		}
