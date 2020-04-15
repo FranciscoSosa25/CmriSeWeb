@@ -19,6 +19,7 @@ import com.cmrise.jpa.dto.corecases.CcPreguntasHdrV1Dto;
 import com.cmrise.jpa.dto.exams.CcExamAsignacionesDto;
 import com.cmrise.jpa.dto.exams.CcExamenesDto;
 import com.cmrise.jpa.dto.exams.CcExamenesV1Dto;
+import com.cmrise.utils.Utilitarios;
 
 @Stateless
 public class CcExamenesLocalImpl implements CcExamenesLocal {
@@ -91,7 +92,11 @@ public class CcExamenesLocalImpl implements CcExamenesLocal {
 		retval.setTema(ccExamenesDto.getTema());
 		retval.setSociedad(ccExamenesDto.getSociedad());
 		retval.setFechaEfectivaDesde(new java.util.Date(ccExamenesDto.getFechaEfectivaDesde().getTime()));
-		retval.setFechaEfectivaHasta(new java.util.Date(ccExamenesDto.getFechaEfectivaHasta().getTime()));
+		if(Utilitarios.endOfTime.equals(ccExamenesDto.getFechaEfectivaHasta())) {
+			retval.setFechaEfectivaHasta(null);
+		}else {
+			retval.setFechaEfectivaHasta(new java.util.Date(ccExamenesDto.getFechaEfectivaHasta().getTime()));
+		}
 		
 		List<CcExamAsignacionesDto> listCcExamAsignacionesDto  = ccExamAsignacionesDao.findByNumeroExamenDtos(pNumeroCcExamen); 
 		if(null!=listCcExamAsignacionesDto) {

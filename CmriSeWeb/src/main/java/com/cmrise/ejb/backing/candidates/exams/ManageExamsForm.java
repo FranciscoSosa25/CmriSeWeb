@@ -183,17 +183,29 @@ private UserLogin userLogin;
 	    		   }
 	    	   }
 	       }
+	     
+	       FacesContext context = FacesContext.getCurrentInstance(); 
+		   HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		   System.out.println("put NumeroCandExamenSV:"+pCandExamenesV2.getNumero());
+		   System.out.println("put NumeroMrqsExamenSV:"+pCandExamenesV2.getNumeroExamen());
+		   session.setAttribute("NumeroCandExamenSV",pCandExamenesV2.getNumero());
+		   session.setAttribute("NumeroMrqsExamenSV", pCandExamenesV2.getNumeroExamen());
+		   session.removeAttribute("NumeroMglSV"); /** CAUSA CONFLICTOS en la siguiente pagina 07042020 **/
+		   return "Candidates-MRQs-Exam"; 	
+		  
 	   }else if(Utilitarios.CORE_CASES.equals(pCandExamenesV2.getTipo())) {
-		   
+		   FacesContext context = FacesContext.getCurrentInstance(); 
+		   HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		   System.out.println("put NumeroCandExamenSV:"+pCandExamenesV2.getNumero());
+		   System.out.println("put NumeroMrqsExamenSV:"+pCandExamenesV2.getNumeroExamen());
+		   session.setAttribute("NumeroCandExamenSV",pCandExamenesV2.getNumero());
+		   session.setAttribute("NumeroMrqsExamenSV", pCandExamenesV2.getNumeroExamen());
+		   session.removeAttribute("NumeroMglSV"); /** CAUSA CONFLICTOS en la siguiente pagina 07042020 **/
+		   return "Candidates-MRQs-Exam"; 	
 	   }
-	   FacesContext context = FacesContext.getCurrentInstance(); 
-	   HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-	   System.out.println("put NumeroCandExamenSV:"+pCandExamenesV2.getNumero());
-	   System.out.println("put NumeroMrqsExamenSV:"+pCandExamenesV2.getNumeroExamen());
-	   session.setAttribute("NumeroCandExamenSV",pCandExamenesV2.getNumero());
-	   session.setAttribute("NumeroMrqsExamenSV", pCandExamenesV2.getNumeroExamen());
-	   session.removeAttribute("NumeroMglSV"); /** CAUSA CONFLICTOS en la siguiente pagina 07042020 **/
-	  return "Candidates-MRQs-Exam"; 	
+	  
+	   return "Candidates-Manage-Exams"; 
+	   
 	}
 	
 	public void refreshEntity() {

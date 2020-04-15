@@ -92,14 +92,8 @@ public class UpdateTestExamForm {
 		this.setTema(ccExamenesObjMod.getTema());
 		this.setComentarios(ccExamenesObjMod.getComentarios());
 		this.setVisibilidad(ccExamenesObjMod.getVisibilidad());
-		/*
-		this.setFechaEfectivaDesde(utilitariosLocal.toUtilDate(ccExamenesDto.getFechaEfectivaDesde()));
-		if(Utilitarios.endOfTime.equals(ccExamenesDto.getFechaEfectivaHasta())) {
-			this.setFechaEfectivaHasta(null);
-		}else {
-			this.setFechaEfectivaHasta(utilitariosLocal.toUtilDate(ccExamenesDto.getFechaEfectivaHasta()));
-		}
-		*/
+		this.setFechaEfectivaDesde(ccExamenesObjMod.getFechaEfectivaDesde());
+		this.setFechaEfectivaHasta(ccExamenesObjMod.getFechaEfectivaHasta());
 		this.setLimiteTiempo(ccExamenesObjMod.getTiempoLimite());
 		this.setSaltarPreguntas(ccExamenesObjMod.getSaltarPreguntas());
 		this.setSaltarCasos(ccExamenesObjMod.getSaltarCasos());
