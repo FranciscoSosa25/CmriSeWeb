@@ -103,9 +103,9 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 	}
 
 	@Override
-	public List<CandExamenesV2> findByCURP(String pCurp) {
+	public List<CandExamenesV2> findByCURP(String pCurp,String pNombreUsuario, String pApellidoPaterno,String pApellidoMaterno) {
 		List<CandExamenesV2> retval = new ArrayList<CandExamenesV2>(); 
-		List<CandExamenesV2Dto> listCandExamenesV2Dto = candExamenesDao.findByCURP(pCurp); 
+		List<CandExamenesV2Dto> listCandExamenesV2Dto = candExamenesDao.findByCURP(pCurp,pNombreUsuario,pApellidoPaterno,pApellidoMaterno); 
 		for(CandExamenesV2Dto candExamenesV2Dto:listCandExamenesV2Dto) {
 			CandExamenesV2 candExamenesV2 = dtoV2ToObjMod(candExamenesV2Dto);
 			retval.add(candExamenesV2); 

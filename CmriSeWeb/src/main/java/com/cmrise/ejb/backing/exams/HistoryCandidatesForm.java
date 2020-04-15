@@ -20,6 +20,9 @@ public class HistoryCandidatesForm {
 	private List<CandExamenesV2> listHistoCandV2 = new ArrayList<CandExamenesV2>();
 	
 	private String curp; 
+	private String nombreUsuario; 
+	private String apellidoMaterno;
+	private String apellidoPaterno;
 	
 	@Inject
 	CandExamenesLocal candExamenesLocal;
@@ -30,7 +33,7 @@ public class HistoryCandidatesForm {
 		 }		 
 		
 	    public void findByCURP() {
-	    	 listHistoCandV2 = candExamenesLocal.findByCURP(this.curp); 
+	    	 listHistoCandV2 = candExamenesLocal.findByCURP(this.curp,this.nombreUsuario,this.apellidoPaterno,this.apellidoMaterno); 
 	    }
 	    
 		public void refreshEntity() {
@@ -62,5 +65,25 @@ public class HistoryCandidatesForm {
 		public void setCurp(String curp) {
 			this.curp = curp;
 		}
-		
+		public String getNombreUsuario() {
+			return nombreUsuario;
+		}
+
+		public void setNombreUsuario(String nombreUsuario) {
+			this.nombreUsuario = nombreUsuario;
+		}
+		public String getApellidoPaterno() {
+			return apellidoPaterno;
+		}
+
+		public void setApellidoPaterno(String apellidoPaterno) {
+			this.apellidoPaterno = apellidoPaterno;
+		}
+		public String getApellidoMaterno() {
+			return apellidoMaterno;
+		}
+
+		public void setApellidoMaterno(String apellidoMaterno) {
+			this.apellidoMaterno = apellidoMaterno;
+		}
 }
