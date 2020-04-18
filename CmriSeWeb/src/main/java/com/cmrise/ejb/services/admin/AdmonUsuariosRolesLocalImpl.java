@@ -37,6 +37,11 @@ public class AdmonUsuariosRolesLocalImpl implements AdmonUsuariosRolesLocal {
 	public List<AdmonUsuariosRolesV1Dto> findAll() {
 		return admonUsuariosRolesDao.findAll();
 	}
+	
+	@Override
+	public List<AdmonUsuariosRolesV1Dto> findCand() {
+		return admonUsuariosRolesDao.findAll();
+	}
 
 	@Override
 	public int validaUsuarioRol(long pNumeroUsuario, long pNumeroRol) {

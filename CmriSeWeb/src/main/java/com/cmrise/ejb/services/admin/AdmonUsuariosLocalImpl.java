@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import com.cmrise.jpa.dao.admin.AdmonUsuariosDao;
 import com.cmrise.jpa.dto.admin.AdmonCandidatosV1Dto;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosDto;
+import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesV1Dto;
 import com.cmrise.jpa.dto.admin.KeysDto;
 
 @Stateless 
@@ -49,12 +50,14 @@ public class AdmonUsuariosLocalImpl implements AdmonUsuariosLocal {
 	}
 
 	@Override
-	public List<AdmonCandidatosV1Dto> findAll() {
+	public List<AdmonUsuariosRolesV1Dto> findAll() {
 		return admonUsuariosDao.findAll();
 	}
 
+	public List<AdmonUsuariosRolesV1Dto> findCand(){
+	return admonUsuariosDao.findCand();
 
-	
+}
 	}
 
 

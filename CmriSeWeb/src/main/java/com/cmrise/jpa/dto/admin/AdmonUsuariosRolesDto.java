@@ -37,6 +37,12 @@ public class AdmonUsuariosRolesDto implements Serializable {
 
 	@Column(name="FECHA_EFECTIVA_HASTA")
 	private Date fechaEfectivaHasta;
+	
+	@Column(name="ESTADO")
+	private String estado;
+	
+	@Column(name="SEDE_HOSPITAL")
+	private String sedeHospital;
 
 	//bi-directional many-to-one association to AdmonRolesDto
 	@ManyToOne
@@ -123,7 +129,19 @@ public class AdmonUsuariosRolesDto implements Serializable {
 	public void setAdmonUsuario(AdmonUsuariosDto admonUsuario) {
 		this.admonUsuario = admonUsuario;
 	}
+	public String getSedeHospital() {
+		return this.sedeHospital;
+	}
 
+	public void setSedeHospital(String sedeHospital) {
+		this.sedeHospital = sedeHospital;
+	}
+	public String getEstado() {
+		return this.estado;
+	}
 
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
 
 }

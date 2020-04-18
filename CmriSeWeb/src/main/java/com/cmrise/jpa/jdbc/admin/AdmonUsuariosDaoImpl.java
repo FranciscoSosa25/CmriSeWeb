@@ -14,6 +14,7 @@ import javax.persistence.Query;
 import com.cmrise.jpa.dao.admin.AdmonUsuariosDao;
 import com.cmrise.jpa.dto.admin.AdmonCandidatosV1Dto;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosDto;
+import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesV1Dto;
 import com.cmrise.jpa.dto.admin.KeysDto;
 import com.cmrise.utils.Utilitarios;
 
@@ -140,11 +141,17 @@ public class AdmonUsuariosDaoImpl implements AdmonUsuariosDao {
 
 
 	@Override
-	public List<AdmonCandidatosV1Dto> findAll() {
-		String strQuery = "SELECT a FROM AdmonCandidatosV1Dto a"; 
+	public List<AdmonUsuariosRolesV1Dto> findAll() {
+		String strQuery = "SELECT a FROM AdmonUsuariosRolesV1Dto a"; 
 	Query query = em.createQuery(strQuery);
 	return query.getResultList();
 		
+	}
+	
+	public List<AdmonUsuariosRolesV1Dto> findCand() {
+		String strQuery = "SELECT a FROM AdmonUsuariosRolesV1Dto a WHERE NUMERO_ROL='1'"; 
+	Query query = em.createQuery(strQuery);
+	return query.getResultList();
 	}
 }
 	

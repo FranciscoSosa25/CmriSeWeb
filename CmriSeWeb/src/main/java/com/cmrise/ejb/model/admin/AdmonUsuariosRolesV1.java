@@ -30,6 +30,9 @@ public class AdmonUsuariosRolesV1 implements Serializable {
 	private String correoElectronico; 
 	private String contrasenia; 
 	private String curp; 
+	private String sedeHospital;
+	private String estado;
+	
 	
 	public long getActualizadoPor() {
 		return actualizadoPor;
@@ -169,6 +172,22 @@ public class AdmonUsuariosRolesV1 implements Serializable {
 	public void setCurp(String curp) {
 		this.curp = curp;
 	}
+	
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	public String getSedeHospital() {
+		return this.sedeHospital;
+	}
+
+	public void setSedeHospital(String sedeHospital) {
+		this.sedeHospital = sedeHospital;
+	}
+	
 	
 
 }

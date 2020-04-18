@@ -16,12 +16,14 @@ import org.primefaces.PrimeFaces;
 
 import com.cmrise.ejb.model.admin.AdmonCandidatosV1;
 import com.cmrise.ejb.model.admin.AdmonUsuarios;
+import com.cmrise.ejb.model.admin.AdmonUsuariosRolesV1;
 import com.cmrise.ejb.services.admin.AdmonUsuariosLocal;
 import com.cmrise.ejb.services.admin.AdmonUsuariosRolesLocal;
 import com.cmrise.jpa.dto.admin.AdmonCandidatosV1Dto;
 import com.cmrise.jpa.dto.admin.AdmonRolesDto;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosDto;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesDto;
+import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesV1Dto;
 import com.cmrise.utils.Utilitarios;
 import com.cmrise.utils.UtilitariosLocal;
 
@@ -29,7 +31,8 @@ import com.cmrise.utils.UtilitariosLocal;
 @ViewScoped
 public class CreateMrqsCandidatesForm {
 	
-	    private List<AdmonCandidatosV1> listAdmonCandidatosV1 = new ArrayList<AdmonCandidatosV1>();
+	    private List<AdmonUsuariosRolesV1Dto> listAdmonUsuariosRolesV1Dto = new ArrayList<AdmonUsuariosRolesV1Dto>();
+	    private List<AdmonUsuarios> listAdmonUsuarios = new ArrayList<AdmonUsuarios>();
 	    private long numeroRol;
 		private long numeroUsuario;
 		private Date fechaEfectivaDesde;
@@ -40,6 +43,8 @@ public class CreateMrqsCandidatesForm {
 	    private String contrasenia; 
 	    private String correoElectronico;
 	    private String curp; 
+	    private String estado; 
+	    private String sedeHospital; 
 		private AdmonUsuarios admonUsuariosForAction = new AdmonUsuarios();
 	    
 	    @Inject 
@@ -59,23 +64,38 @@ public class CreateMrqsCandidatesForm {
 		 }		
 		
 	    public void refreshEntity() {
-	    	 List<AdmonCandidatosV1Dto> listAdmonCandidatosV1Dto = admonUsuariosLocal.findAll(); 
-			 Iterator<AdmonCandidatosV1Dto> itertAdmonCandidatosV1Dto = listAdmonCandidatosV1Dto.iterator();
-				while(itertAdmonCandidatosV1Dto.hasNext()) {
-				AdmonCandidatosV1Dto admonCandidatosV1Dto = itertAdmonCandidatosV1Dto.next(); 
-				AdmonCandidatosV1 admonCandidatosV1 = new AdmonCandidatosV1();
-				System.out.println("Entra admonCandidatos");
-				admonCandidatosV1.setNumeroUsuario(admonCandidatosV1Dto.getNumeroUsuario());
-				admonCandidatosV1.setNumeroRol(admonCandidatosV1Dto.getNumeroRol());
-				admonCandidatosV1.setNombreCompletoUsuario(admonCandidatosV1Dto.getNombreCompletoUsuario());
-				admonCandidatosV1.setCorreoElectronico(admonCandidatosV1Dto.getCorreoElectronico());
-				admonCandidatosV1.setCurp(admonCandidatosV1Dto.getCurp());
-				
+	    	 List<AdmonUsuariosRolesV1Dto> listAdmonUsuariosRolesV1Dto = admonUsuariosLocal.findCand(); 
+			 Iterator<AdmonUsuariosRolesV1Dto> itertAAdmonUsuariosRolesV1Dto = listAdmonUsuariosRolesV1Dto.iterator();
+			 listAdmonUsuarios = new ArrayList<AdmonUsuarios>();
+				while(itertAAdmonUsuariosRolesV1Dto.hasNext()) {
+				AdmonUsuariosRolesV1Dto admonUsuariosRolesV1Dto = itertAAdmonUsuariosRolesV1Dto.next(); 
+				AdmonUsuarios admonUsuarios = new AdmonUsuarios();
+				System.out.println("Entra admonUsuarios");
+				admonUsuarios.setNumero(admonUsuariosRolesV1Dto.getNumeroUsuario());
 				System.out.println("admonCandidatosV1.getNumeroRol()");
+				admonUsuarios.setNumeroRol(admonUsuariosRolesV1Dto.getNumeroRol());
+				admonUsuarios.setNombre(admonUsuariosRolesV1Dto.getNombreUsuario());
+				admonUsuarios.setApellidoPaterno(admonUsuariosRolesV1Dto.getApellidoPaterno());
+				admonUsuarios.setApellidoMaterno(admonUsuariosRolesV1Dto.getApellidoMaterno());
+				admonUsuarios.setCorreoElectronico(admonUsuariosRolesV1Dto.getCorreoElectronico());
+				admonUsuarios.setFechaEfectivaDesde(utilitariosLocal.toUtilDate(admonUsuariosRolesV1Dto.getFedAu()));
+				if(Utilitarios.endOfTime.equals(admonUsuariosRolesV1Dto.getFehAu())) {
+					admonUsuarios.setFechaEfectivaHasta(null);	
+				}else {
+					admonUsuarios.setFechaEfectivaHasta(utilitariosLocal.toUtilDate(admonUsuariosRolesV1Dto.getFehAu()));	
+				}
+				
+				admonUsuarios.setCurp(admonUsuariosRolesV1Dto.getCurp());
+				admonUsuarios.setEstado(admonUsuariosRolesV1Dto.getEstado());
+				admonUsuarios.setSedeHospital(admonUsuariosRolesV1Dto.getSedeHospital());
+				admonUsuarios.setNumeroRol(admonUsuariosRolesV1Dto.getNumeroRol());
+				admonUsuarios.setNombreRol(admonUsuariosRolesV1Dto.getNombreRol());
+				
+
 				System.out.println("admonCandidatosV1.getCorreoElectronico()");
 				System.out.println("admonCandidatosV1.getCurp()");
 				System.out.println("Sale admonCandidatos");
-				listAdmonCandidatosV1.add(admonCandidatosV1);
+				listAdmonUsuarios.add(admonUsuarios);
 	    
 			}
 	    }
@@ -89,6 +109,8 @@ public class CreateMrqsCandidatesForm {
 			admonUsuariosDto.setApellidoMaterno(this.apellidoMaterno);
 			admonUsuariosDto.setContrasenia(this.contrasenia);
 			admonUsuariosDto.setCorreoElectronico(this.correoElectronico);
+			admonUsuariosDto.setEstado(this.estado);
+			admonUsuariosDto.setSedeHospital(this.sedeHospital);
 			 java.sql.Date sqlFechaEfectivaDesde = null; 
 			 java.sql.Date sqlFechaEfectivaHasta = null; 
 			 if(null!=fechaEfectivaDesde) {
@@ -167,15 +189,6 @@ public class CreateMrqsCandidatesForm {
 		}
 	
 
-		public List<AdmonCandidatosV1> getListAdmonCandidatosV1() {
-			return listAdmonCandidatosV1;
-		}
-
-
-		public void setListAdmonCandidatosV1(List<AdmonCandidatosV1> listAdmonCandidatosV1) {
-			this.listAdmonCandidatosV1 = listAdmonCandidatosV1;
-		}
-
 		public long getNumeroRol() {
 			return numeroRol;
 		}
@@ -229,5 +242,35 @@ public class CreateMrqsCandidatesForm {
 
 		public void setCurp(String curp) {
 			this.curp = curp;
+		}
+		
+		public String getSedeHospital() {
+			return this.sedeHospital;
+		}
+
+		public void setSedeHospital(String sedeHospital) {
+			this.sedeHospital = sedeHospital;
+		}
+		
+		public String getEstado() {
+			return estado;
+		}
+
+		public void setEstado(String estado) {
+			this.estado = estado;
+		}
+
+		public List<AdmonUsuariosRolesV1Dto> getListAdmonUsuariosRolesV1Dto() {
+			return listAdmonUsuariosRolesV1Dto;
+		}
+
+		public void setListAdmonUsuariosRolesV1(List<AdmonUsuariosRolesV1Dto> listAdmonUsuariosRolesV1Dto) {
+			this.listAdmonUsuariosRolesV1Dto = listAdmonUsuariosRolesV1Dto;
+		}
+		public List<AdmonUsuarios> getListAdmonUsuarios() {
+			return listAdmonUsuarios;
+		}
+		public void setListAdmonUsuarios(List<AdmonUsuarios> listAdmonUsuarios) {
+			this.listAdmonUsuarios = listAdmonUsuarios;
 		}
 }

@@ -28,5 +28,7 @@ public interface AdmonUsuariosRolesLocal {
 	 public AdmonUsuariosRolesV1Dto findLoginUsusarioRol(String pCurp
 											           , String pRol
 											           , String pContrasenia
-											            ); 
+											            );
+	public List<AdmonUsuariosRolesV1Dto> findCand(); 
+	
 }

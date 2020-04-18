@@ -10,6 +10,7 @@ public interface AdmonUsuariosRolesDao {
  public void delete(long pNumero);
  public void update(long pNumero,AdmonUsuariosRolesDto pAdmonUsuariosRolesDto);
  public List<AdmonUsuariosRolesV1Dto> findAll();
+ public List<AdmonUsuariosRolesV1Dto> findCand();
  public int validaUsuarioRol(long pNumeroUsuario
 		                    ,long pNumeroRol
 		                    );

@@ -43,6 +43,8 @@ public class SelectsHelper {
 	private List<SelectItem> selectScoringMethodItems; 
 	private List<SelectItem> selectTipoPreguntaExamenItems; 
 	private List<SelectItem> selectTipoPreguntaCoreCaseItems; 
+	private List<SelectItem> selectEstadosMexicoItems;
+	private List<SelectItem> selectSedeHospitalItems;
 	
 	@PostConstruct
     public void init() {
@@ -58,10 +60,44 @@ public class SelectsHelper {
        environmentScoringMethod();
        environmentTipoPreguntaExamen();
        environmentTipoPreguntaCoreCase();
+       environmentEstadosMexico();
+       environmentSedeHospital();
        System.out.println("Sale SelectsHelper init()");
     }
 	
+
+	private void environmentEstadosMexico() {
+		this.selectEstadosMexicoItems = new ArrayList<SelectItem>();
+		List<TablasUtilitariasValoresDto> listEstadosMexico =  tablasUtilitariasValoresLocal.findByTipoTabla("ESTADOS_MEXICO");  
+		Iterator<TablasUtilitariasValoresDto> iterEstadosMexico = listEstadosMexico.iterator(); 
+		while(iterEstadosMexico.hasNext()) {
+			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterEstadosMexico.next();
+			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+			this.selectEstadosMexicoItems.add(selectItem); 
+		}
+	}
 	
+	
+	public List<SelectItem> getSelectEstadosMexico(){
+		
+		return this.selectEstadosMexicoItems; 
+	}
+	
+	private void environmentSedeHospital() {
+		this.selectSedeHospitalItems = new ArrayList<SelectItem>();
+		List<TablasUtilitariasValoresDto> listTipoPreguntaValores =  tablasUtilitariasValoresLocal.findByTipoTabla("SEDES_HOSPITALARIAS");  
+		Iterator<TablasUtilitariasValoresDto> iterTipoPreguntaValores = listTipoPreguntaValores.iterator(); 
+		while(iterTipoPreguntaValores.hasNext()) {
+			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterTipoPreguntaValores.next();
+			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+			this.selectSedeHospitalItems.add(selectItem); 
+		}
+	}
+	
+	public List<SelectItem> getSelectSedeHospital(){
+		
+		return this.selectSedeHospitalItems; 
+	}
 	
 
 	private void environmentTipoPregunta() {
@@ -232,6 +268,7 @@ public class SelectsHelper {
 		return lselectAdmonRolesItems; 
 	}
 	
+	
 	public List<SelectItem> getSelectAdmonUsuariosItems(){
 		List<SelectItem> lselectAdmonUsuariosItems = new ArrayList<SelectItem>();
 		List<KeysDto> listAdmonUsuariosDto = admonUsuariosLocal.findKeys(); 
@@ -271,6 +308,6 @@ public class SelectsHelper {
 		}
 	}
 
-	
+
 
 }

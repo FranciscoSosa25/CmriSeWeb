@@ -11,6 +11,8 @@ public class AdmonCandidatosV1 implements Serializable {
 	private long numeroUsuario;
 	private String curp;
 	private String correoElectronico; 
+	private String sedeHospital;
+	private String estado;
 	
 	
 	public String getNombreCompletoUsuario() {
@@ -43,6 +45,22 @@ public class AdmonCandidatosV1 implements Serializable {
 	public void setCurp(String curp) {
 		this.curp = curp;
 	}
+	public String getSedeHospital() {
+		return this.sedeHospital;
+	}
+
+	public void setSedeHospital(String sedeHospital) {
+		this.sedeHospital = sedeHospital;
+	}
+	
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
 
 
 }

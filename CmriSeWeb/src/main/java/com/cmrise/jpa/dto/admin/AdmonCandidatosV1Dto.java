@@ -32,6 +32,14 @@ public class AdmonCandidatosV1Dto implements Serializable {
 	
 	@Column(name="CURP")
 	private String curp; 
+	
+	@Column(name="ESTADO")
+	private String estado; 
+	
+	@Column(name="SEDE_HOSPITAL")
+	private String sedeHospital; 
+	
+	
 
 	public AdmonCandidatosV1Dto() {
 	}
@@ -79,5 +87,21 @@ public class AdmonCandidatosV1Dto implements Serializable {
 	public void setCurp(String curp) {
 		this.curp = curp;
 	}
+	public String getSedeHospital() {
+		return this.sedeHospital;
+	}
+
+	public void setSedeHospital(String sedeHospital) {
+		this.sedeHospital = sedeHospital;
+	}
+	
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
 
 }

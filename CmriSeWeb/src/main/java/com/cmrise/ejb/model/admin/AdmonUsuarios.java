@@ -22,6 +22,8 @@ public class AdmonUsuarios implements Serializable {
 	private long numeroRol; 
 	private String nombreRol; 
 	private String curp; 
+	private String estado;
+	private String sedeHospital;
 	
 	public long getNumero() {
 		return numero;
@@ -112,6 +114,21 @@ public class AdmonUsuarios implements Serializable {
 	}
 	public void setCurp(String curp) {
 		this.curp = curp;
+	}
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	
+	public String getSedeHospital() {
+		return this.sedeHospital;
+	}
+
+	public void setSedeHospital(String sedeHospital) {
+		this.sedeHospital = sedeHospital;
 	}
 	
 

@@ -86,6 +86,13 @@ public class AdmonUsuariosRolesV1Dto implements Serializable {
 	
 	@Column(name="CURP")
 	private String curp; 
+	
+	@Column(name="ESTADO")
+	private String estado; 
+	
+	@Column(name="SEDE_HOSPITAL")
+	private String sedeHospital; 
+
 
 	public AdmonUsuariosRolesV1Dto() {
 	}
@@ -273,5 +280,21 @@ public class AdmonUsuariosRolesV1Dto implements Serializable {
 	public void setCurp(String curp) {
 		this.curp = curp;
 	}
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	public String getSedeHospital() {
+		return this.sedeHospital;
+	}
+
+	public void setSedeHospital(String sedeHospital) {
+		this.sedeHospital = sedeHospital;
+	}
+	
+	
 
 }

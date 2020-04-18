@@ -6,6 +6,10 @@
                 template="/WEB-INF/template/template.xhtml">
                 
 <ui:define name="content">
+ <p:breadCrumb>
+    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
+         <p:menuitem value="Historial de Candidatos" url="#"/>
+</p:breadCrumb>
 <h1>Historial de Candidatos</h1>
 
 <h:form id="SearchForm">

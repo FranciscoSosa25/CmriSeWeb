@@ -61,7 +61,7 @@ public class AdmonUsuariosForm {
 			AdmonUsuarios admonUsuarios = new AdmonUsuarios();
 			admonUsuarios.setNumero(admonUsuariosRolesV1Dto.getNumeroUsuario());
 			admonUsuarios.setCurp(admonUsuariosRolesV1Dto.getCurp());
-			admonUsuarios.setNombre(admonUsuariosRolesV1Dto.getNombreUsuario());
+			admonUsuarios.setNombre(admonUsuariosRolesV1Dto.getNombreCompletoUsuario());
 			admonUsuarios.setApellidoPaterno(admonUsuariosRolesV1Dto.getApellidoPaterno());
 			admonUsuarios.setApellidoMaterno(admonUsuariosRolesV1Dto.getApellidoMaterno());
 			admonUsuarios.setContrasenia(admonUsuariosRolesV1Dto.getContrasenia());
