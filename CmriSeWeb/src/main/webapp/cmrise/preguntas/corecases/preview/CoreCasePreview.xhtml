@@ -108,6 +108,28 @@ function handleUpdateRequest(xhr, status, args){
              <p:commandButton value="Saltar" style="margin-left:15px"/>
            </div>
          
+           <!--   
+           <ui:repeat var="imagenesGrupo" value="#{coreCasePreviewForm.listPresentCcImagenesGrp}" varStatus="status">
+		      <div class="ui-g-12 ui-md-12">
+		       <h3>#{imagenesGrupo.tituloSuperior}</h3>
+		      </div>
+		      <div class="ui-g-12 ui-md-12">
+		       <ui:repeat var="imagenes" value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
+		         <h:graphicImage value="data:image/jpg;base64,#{imagenes.jpgBase64}" style="max-width: 300px; max-height: 300px;" />
+		       </ui:repeat>
+		      </div>
+		    </ui:repeat>
+		    -->
+		    
+               <ui:repeat var="imagenesGrupo" value="#{coreCasePreviewForm.listPresentCcImagenesGrp}" varStatus="status">
+		          <div class="ui-g-12 ui-md-12">
+		         <p:galleria value="#{imagenesGrupo.listCcImagenes}" var="image" panelWidth="400" panelHeight="400" showFilmstrip="true" transitionInterval="1000" >
+			      <p:graphicImage value="#{image.jpgStreamedContent}" stream="false" style="max-width: 100%; max-height: 100%;" alt="#{image.nombreImagen}" title="#{image.nombreImagen}" />
+			      </p:galleria>
+			      </div>
+			   </ui:repeat>
+            
+       
             <div class="ui-g-12 ui-md-12 card">
 		        <h1 style="font-weight: bold;">#{coreCasePreviewForm.ccPreguntasFtaV1.textoPregunta}</h1>
 		        <h3>(#{coreCasePreviewForm.ccPreguntasFtaV1.textoSugerencias})</h3>

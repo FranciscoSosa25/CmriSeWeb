@@ -34,9 +34,10 @@ public  class Utilitarios {
 	public static final String CONCLUSION ="CONCUSION";
     public static final String FS_MRQS = "C:\\CmriSeFs\\MRQs"; /** File System MRQS **/
     public static final String FS_CORE_CASES = "C:\\CmriSeFs\\CoreCases"; /** File System MRQS **/
-    
     public static final String DEFAULT_THEME ="turquoise";
-	
+    public static final String JPG_SUFFIX =".jpg"; 
+    public static final String THUMBNAIL_SUFFIX = "_thumbnail"+JPG_SUFFIX;
+    
     
 	public  java.sql.Date toSqlDate(java.util.Date pUtilDate){
 		 java.sql.Date retval = null; 

@@ -11,4 +11,5 @@ import com.cmrise.jpa.dto.exams.CcExamAsignacionesDto;
 public interface CcExamAsignacionesLocal {
 	public long insert(CcExamAsignacionesDto pCcExamAsignacionesDto);
 	public List<CcExamAsignaciones> findByNumeroExamenWD(long pNumeroExamen);
+	public List<CcExamAsignaciones> findByNumeroExamenObjMod(long pNumeroExamen);
 }

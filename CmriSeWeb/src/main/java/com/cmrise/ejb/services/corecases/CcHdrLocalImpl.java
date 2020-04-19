@@ -1,32 +1,52 @@
 package com.cmrise.ejb.services.corecases;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
+import com.cmrise.dicom.attribute.DicomAttributeReaderService;
+import com.cmrise.dicom.image.DicomImageReaderService;
+import com.cmrise.dicom.image.SaveJpegFileService;
 import com.cmrise.ejb.model.corecases.CcHdrForAction;
 import com.cmrise.ejb.model.corecases.CcHdrV1;
 import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
 import com.cmrise.ejb.model.corecases.CcPreguntasFtaV1;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
+import com.cmrise.ejb.model.corecases.img.CcImagenes;
+import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
 import com.cmrise.jpa.dao.corecases.CcHdrDao;
 import com.cmrise.jpa.dao.corecases.CcOpcionMultipleDao;
 import com.cmrise.jpa.dao.corecases.CcPreguntasFtaDao;
 import com.cmrise.jpa.dao.corecases.CcPreguntasHdrDao;
+import com.cmrise.jpa.dao.corecases.img.CcImagenesDao;
+import com.cmrise.jpa.dao.corecases.img.CcImagenesGrpDao;
 import com.cmrise.jpa.dto.admin.KeysDto;
 import com.cmrise.jpa.dto.corecases.CcHdrDto;
 import com.cmrise.jpa.dto.corecases.CcHdrV1Dto;
 import com.cmrise.jpa.dto.corecases.CcOpcionMultipleDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaV1Dto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasHdrV1Dto;
-import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
+import com.cmrise.jpa.dto.corecases.img.CcImagenesDto;
+import com.cmrise.jpa.dto.corecases.img.CcImagenesGrpDto;
+import com.cmrise.utils.Utilitarios;
 
 @Stateless 
 public class CcHdrLocalImpl implements CcHdrLocal {
 
+	
 	@Inject 
 	CcHdrDao ccHdrDao; 
 	
@@ -38,6 +58,12 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 	
 	@Inject 
 	CcOpcionMultipleDao ccOpcionMultipleDao; 
+	
+	@Inject 
+	CcImagenesGrpDao ccImagenesGrpDao; 
+	
+	@Inject 
+	CcImagenesDao ccImagenesDao; 
 	
 	@Override
 	public void insert(CcHdrDto pCcHdrDto) {
@@ -166,6 +192,72 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 				 ccPreguntasFtaV1.setListCcOpcionMultiple(listCcOpcionMultiple);
 			}
 	     	
+			List<CcImagenesGrp> localListCcImagenesGrp = new ArrayList<CcImagenesGrp>(); 
+			
+			List<CcImagenesGrpDto> listCcImagenesGrpDto = ccImagenesGrpDao.findByFta(ccPreguntasFtaV1Dto.getNumero()
+					                                                                ,Utilitarios.INTRODUCCION
+					                                                                ); 
+			if(null!=listCcImagenesGrpDto) {
+			  
+				for(CcImagenesGrpDto j:listCcImagenesGrpDto) {
+					System.out.println("*Paso1*");
+					CcImagenesGrp ccImagenesGrp = new CcImagenesGrp();
+					ccImagenesGrp.setNumero(j.getNumero());
+					ccImagenesGrp.setSeccion(j.getSeccion());
+					ccImagenesGrp.setTipo(j.getTipo());
+					ccImagenesGrp.setTituloSuperior(j.getTituloSuperior());
+					ccImagenesGrp.setTituloInferior(j.getTituloInferior());
+					ccImagenesGrp.setTexto(j.getTexto());
+					
+					List<CcImagenes> listCcImagenes = new ArrayList<CcImagenes>(); 
+					List<CcImagenesDto> listCcImagenesDto = ccImagenesDao.findByGrp(j.getNumero()); 
+					for(CcImagenesDto k:listCcImagenesDto) {
+						System.out.println("*Paso2*"); 
+						CcImagenes ccImagenes = new CcImagenes(); 
+						ccImagenes.setNumero(k.getNumero());
+						ccImagenes.setNumeroGrp(k.getNumeroGrp());
+						ccImagenes.setNombreImagen(k.getNombreImagen());
+						ccImagenes.setRutaImagen(k.getRutaImagen());
+						String strJpgRuta  = k.getRutaImagen()+"\\"+k.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX); 
+						String strThumbailRuta  = k.getRutaImagen()+"\\"+k.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX); 
+						
+						try {
+							/** byte[] bytesArray = Files.readAllBytes(Paths.get(j.getRutaImagen()+"\\"+j.getNombreImagen())); **/
+							/** ccImagenes.setImagenContent(bytesArray); **/
+							byte[] bytesArray = Files.readAllBytes(Paths.get(strJpgRuta));
+							ccImagenes.setJpgContent(bytesArray);
+							ccImagenes.setJpgBase64(new String(Base64.getEncoder().encode(bytesArray)));
+							bytesArray = Files.readAllBytes(Paths.get(strThumbailRuta));
+							ccImagenes.setThumbailContent(bytesArray);
+							ccImagenes.setThumbailBase64(new String(Base64.getEncoder().encode(bytesArray)));
+							
+							StreamedContent streamedContent = DefaultStreamedContent.builder()
+                                    .contentType("image/png")
+                                    .stream(() -> {
+	                                    	try {
+												byte[] bytesArray2 = Files.readAllBytes(Paths.get(strJpgRuta));
+												InputStream is = new ByteArrayInputStream(bytesArray2);
+	                              				return is;	
+											} catch (IOException e) {
+												e.printStackTrace();
+											}
+	                                    	    return null; 
+                                  	     })
+                                     .build()
+                                     ;
+							ccImagenes.setJpgStreamedContent(streamedContent);
+							
+						} catch (IOException ie) {
+						   System.out.println("IOException :"+ie.getMessage());
+						}
+						listCcImagenes.add(ccImagenes);
+					}
+					ccImagenesGrp.setListCcImagenes(listCcImagenes);
+					localListCcImagenesGrp.add(ccImagenesGrp); 
+				}
+				ccPreguntasFtaV1.setListCcImagenesGrp(localListCcImagenesGrp);
+			} /*** END if(null!=listCcImagenesGrpDto) { **/
+			
 	     	ccPreguntasHdrV1.setCcPreguntasFtaV1(ccPreguntasFtaV1);
 	     	
 	     	listCcPreguntasHdrV1.add(ccPreguntasHdrV1);

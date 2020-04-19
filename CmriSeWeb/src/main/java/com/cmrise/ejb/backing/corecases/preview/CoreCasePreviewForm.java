@@ -17,6 +17,7 @@ import com.cmrise.ejb.model.corecases.CcHdrV1;
 import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
 import com.cmrise.ejb.model.corecases.CcPreguntasFtaV1;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
+import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
 import com.cmrise.ejb.services.corecases.CcHdrLocal;
 import com.cmrise.utils.Utilitarios;
 
@@ -45,6 +46,12 @@ public class CoreCasePreviewForm {
 	private String respuestaPreguntaCandidato;
 	private String[] respuestasPreguntaCandidato;
 	
+	/********************************************************************
+	 * Attributos Imagenes 
+	 */
+	
+	private List<CcImagenesGrp> listPresentCcImagenesGrp = new ArrayList<CcImagenesGrp>(); 
+	
 	@Inject 
 	CcHdrLocal ccHdrLocal; 
 
@@ -56,7 +63,7 @@ public class CoreCasePreviewForm {
 	     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 	     Object obNumeroCcHdr= session.getAttribute("NumeroCcHdrSV");
 	     this.numeroCcHdr = Utilitarios.objToLong(obNumeroCcHdr);
-	     refreshEntity();
+	     refreshEntity(); /** Inicializa Objetos **/
 	     Object objNumeroCcPreguntaHdrSV= session.getAttribute("NumeroCcPreguntaHdrSV");
 		 long  longNumeroCcPreguntaHdrSV = Utilitarios.objToLong(objNumeroCcPreguntaHdrSV); 
 		 System.out.println("longNumeroCcPreguntaHdrSV:"+longNumeroCcPreguntaHdrSV);
@@ -66,6 +73,7 @@ public class CoreCasePreviewForm {
 				 ccPreguntasHdrV1 = i; 
 				 ccPreguntasFtaV1 = i.getCcPreguntasFtaV1();
 				 listCcOpcionMultiple = ccPreguntasFtaV1.getListCcOpcionMultiple(); 
+				 listPresentCcImagenesGrp = ccPreguntasFtaV1.getListCcImagenesGrp();
 				 break;
 			 }
 		 }
@@ -74,6 +82,7 @@ public class CoreCasePreviewForm {
 				 ccPreguntasHdrV1 = i; 
 				 ccPreguntasFtaV1 = i.getCcPreguntasFtaV1();
 				 listCcOpcionMultiple = ccPreguntasFtaV1.getListCcOpcionMultiple(); 
+				 listPresentCcImagenesGrp = ccPreguntasFtaV1.getListCcImagenesGrp();
 				 break;
 			 }
 		 }
@@ -276,6 +285,16 @@ public class CoreCasePreviewForm {
 
 	public void setListCcOpcionMultiple(List<CcOpcionMultiple> listCcOpcionMultiple) {
 		this.listCcOpcionMultiple = listCcOpcionMultiple;
+	}
+
+
+	public List<CcImagenesGrp> getListPresentCcImagenesGrp() {
+		return listPresentCcImagenesGrp;
+	}
+
+
+	public void setListPresentCcImagenesGrp(List<CcImagenesGrp> listPresentCcImagenesGrp) {
+		this.listPresentCcImagenesGrp = listPresentCcImagenesGrp;
 	}
 
 }

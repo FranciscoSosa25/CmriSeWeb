@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
+
 public class CcPreguntasFtaV1 implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -23,6 +25,7 @@ public class CcPreguntasFtaV1 implements Serializable{
 	private boolean singleAnswerMode; 
 	private boolean suffleAnswerOrder; 
 	private List<CcOpcionMultiple> listCcOpcionMultiple; 
+	private List<CcImagenesGrp> listCcImagenesGrp; 
 	
 	public long getNumero() {
 		return this.numero;
@@ -142,6 +145,14 @@ public class CcPreguntasFtaV1 implements Serializable{
 
 	public void setListCcOpcionMultiple(List<CcOpcionMultiple> listCcOpcionMultiple) {
 		this.listCcOpcionMultiple = listCcOpcionMultiple;
+	}
+
+	public List<CcImagenesGrp> getListCcImagenesGrp() {
+		return listCcImagenesGrp;
+	}
+
+	public void setListCcImagenesGrp(List<CcImagenesGrp> listCcImagenesGrp) {
+		this.listCcImagenesGrp = listCcImagenesGrp;
 	}
 
 	

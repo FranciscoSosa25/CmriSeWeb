@@ -1,6 +1,7 @@
 package com.cmrise.dicom.image;
 
 import org.apache.log4j.Logger;
+import org.dcm4che3.imageio.plugins.dcm.DicomImageReadParam;
 
 import com.cmrise.dicom.exception.CantReadImageFromDicomFileException;
 import com.cmrise.dicom.exception.InvalidParameterException;
@@ -26,8 +27,12 @@ public class DicomImageReaderService {
         log.info("Call to generateBufferedImage with " );
 
         try {
-            Iterator<ImageReader> iterator = ImageIO.getImageReadersByFormatName("DICOM");
-
+        	 log.info("DicomImageReaderService generateBufferedImage Paso1");
+        	Iterator<ImageReader> iterator = ImageIO.getImageReadersByFormatName("DICOM");
+        	
+        	System.out.println("iterator:"+iterator);
+        	
+            log.info("DicomImageReaderService generateBufferedImage Paso2");
 	        if (null == inputStream) {
 
 	            log.error("inputStream is null");
@@ -35,18 +40,23 @@ public class DicomImageReaderService {
 	            throw new InvalidParameterException("inputStream", "inputStream is null");
 	        }
 
+	        System.out.println("iterator.hasNext():"+iterator.hasNext());
+	        
 	        while (iterator.hasNext()) {
-
+              
                 ImageReader imageReader = iterator.next();
-
-	            ImageReadParam imageReadParam = imageReader.getDefaultReadParam();
-
+                DicomImageReadParam imageReadParam = (DicomImageReadParam)imageReader.getDefaultReadParam();
+	            /**ImageReadParam imageReadParam = imageReader.getDefaultReadParam(); **/
+                System.out.println("imageReadParam:"+imageReadParam);
 	            try {
+	            	 log.info("DicomImageReaderService generateBufferedImage Paso3");
 	                ImageInputStream iss = ImageIO.createImageInputStream(inputStream);
-
+	                log.info("DicomImageReaderService generateBufferedImage Paso4");
 	                imageReader.setInput(iss, false);
 
+	                log.info("DicomImageReaderService generateBufferedImage Paso5");
                     BufferedImage result = imageReader.read(0, imageReadParam);
+                    log.info("DicomImageReaderService generateBufferedImage Paso6");
 
 	                iss.close();
 
@@ -57,6 +67,7 @@ public class DicomImageReaderService {
 	                    log.error("Could not read image");
 	                }
 
+	                log.error("Sale DicomImageReaderService generateBufferedImage");
                     return result;
 
 	            } catch (Exception e) {

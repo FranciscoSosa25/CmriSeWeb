@@ -12,12 +12,18 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.primefaces.model.file.UploadedFile;
+import org.primefaces.model.file.UploadedFiles;
+
 import com.cmrise.ejb.helpers.GuestPreferences;
 import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
+import com.cmrise.ejb.model.corecases.img.CcImagenes;
+import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
 import com.cmrise.ejb.services.corecases.CcOpcionMultipleLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasFtaLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasHdrLocal;
+import com.cmrise.ejb.services.corecases.img.CcImagenesGrpLocal;
 import com.cmrise.jpa.dto.corecases.CcOpcionMultipleDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaV1Dto;
@@ -58,6 +64,15 @@ public class UpdateQuestionFtaCoreCaseForm {
 	private int idxOM = 0; 
 	private CcOpcionMultiple ccOpcionMultipleForAction = new CcOpcionMultiple(); 
 	
+	/************************************************************************
+	 * Archivos E Imagenes
+	 */
+	
+	private UploadedFiles presentationFiles;
+	private CcImagenesGrp presentCcImagenesGrp = new CcImagenesGrp(); 
+	private List<CcImagenesGrp> listPresentCcImagenesGrp = new ArrayList<CcImagenesGrp>(); 
+	
+	
 	@Inject 
 	UtilitariosLocal utilitariosLocal; 
 	
@@ -69,6 +84,9 @@ public class UpdateQuestionFtaCoreCaseForm {
 	
 	@Inject 
 	CcOpcionMultipleLocal  ccOpcionMultipleLocal; 
+	
+	@Inject 
+	CcImagenesGrpLocal ccImagenesGrpLocal;
 	
 	@ManagedProperty(value="#{guestPreferences}")
 	GuestPreferences guestPreferences; 
@@ -151,6 +169,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 	         
 	         System.out.println("ccPreguntasFtaV1Dto.getNumero():"+ccPreguntasFtaV1Dto.getNumero());
 	         listCcOpcionMultiple = ccPreguntasHdrV1ForAction.getCcPreguntasFtaV1().getListCcOpcionMultiple(); 
+	         listPresentCcImagenesGrp =  ccImagenesGrpLocal.findByFta(lNumeroCcFta,Utilitarios.INTRODUCCION);
 	         
 	     }else {
 	    	 this.setFtaRecord(false);
@@ -219,6 +238,12 @@ public class UpdateQuestionFtaCoreCaseForm {
 				}
 			} /** END if(null!=listCcOpcionMultiple) { **/
 			
+			for(CcImagenesGrp ccImagenesGrp:listPresentCcImagenesGrp) {
+				ccImagenesGrp.setTipo(Utilitarios.CORE_CASES);
+				ccImagenesGrp.setSeccion(Utilitarios.INTRODUCCION);
+				updateImagenesGrp(this.getNumeroFtaRecord(),ccImagenesGrp);   
+			 }
+			
 			
 		}else {
 			CcPreguntasFtaDto ccPreguntasFtaDto = new CcPreguntasFtaDto();
@@ -254,6 +279,22 @@ public class UpdateQuestionFtaCoreCaseForm {
 		refreshEntity();      
 	}
 	
+	private void updateImagenesGrp(long pNumeroFta
+			                     , CcImagenesGrp pCcImagenesGrp
+			                     ) {
+       if(0!=pCcImagenesGrp.getNumero()) {
+			
+		}else {
+			insertaImagenesGrp(pNumeroFta,pCcImagenesGrp); 
+		}
+	}
+
+	private void insertaImagenesGrp(long pNumeroFta
+			                      , CcImagenesGrp pCcImagenesGrp
+			                      ) {
+		ccImagenesGrpLocal.insert(pNumeroFta,pCcImagenesGrp);
+	}
+
 	public String updatePregunta(CcPreguntasHdrV1 pCcPreguntasHdrV1) {
 		  FacesContext context = FacesContext.getCurrentInstance(); 
 		  HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
@@ -306,6 +347,35 @@ public class UpdateQuestionFtaCoreCaseForm {
 	     System.out.println("Sale saveAndPreview()");
 	    return "CoreCase-Preview"; 
 	}
+	
+	 public void uploadMultiple() {
+		 System.out.println("Entra uploadMultiple");
+	        if (this.presentationFiles != null) {
+	        	if(this.presentationFiles.getSize()>0) {
+	        		
+	        		CcImagenesGrp ccPresentaciones = new CcImagenesGrp(); 
+	        		ccPresentaciones.setTituloSuperior(this.presentCcImagenesGrp.getTituloSuperior());
+	        		ccPresentaciones.setTituloInferior(this.presentCcImagenesGrp.getTituloInferior());
+	                List<CcImagenes> lListCcPresentaciones = new ArrayList<CcImagenes>();
+	                
+	        		for (UploadedFile f : this.presentationFiles.getFiles()) {
+		            	
+	        			byte[] byteContent = f.getContent(); 
+	        			
+		            	System.out.println(f.getFileName());
+		            	CcImagenes presentacionImagen = new CcImagenes(); 
+		            	
+		            	presentacionImagen.setNombreImagen(f.getFileName());
+		            	presentacionImagen.setImagenContent(byteContent);
+		            	lListCcPresentaciones.add(presentacionImagen);
+	        		}
+	        	   
+	        		ccPresentaciones.setListCcImagenes(lListCcPresentaciones);
+                    this.listPresentCcImagenesGrp.add(ccPresentaciones);	        		
+	        	}
+	        }
+	     System.out.println("Sale uploadMultiple");
+	 }
 	
 	public String getTituloPreguntaHdr() {
 		return tituloPreguntaHdr;
@@ -469,6 +539,30 @@ public class UpdateQuestionFtaCoreCaseForm {
 
 	public void setCcOpcionMultipleForAction(CcOpcionMultiple ccOpcionMultipleForAction) {
 		this.ccOpcionMultipleForAction = ccOpcionMultipleForAction;
+	}
+
+	public UploadedFiles getPresentationFiles() {
+		return presentationFiles;
+	}
+
+	public void setPresentationFiles(UploadedFiles presentationFiles) {
+		this.presentationFiles = presentationFiles;
+	}
+
+	public CcImagenesGrp getPresentCcImagenesGrp() {
+		return presentCcImagenesGrp;
+	}
+
+	public void setPresentCcImagenesGrp(CcImagenesGrp presentCcImagenesGrp) {
+		this.presentCcImagenesGrp = presentCcImagenesGrp;
+	}
+
+	public List<CcImagenesGrp> getListPresentCcImagenesGrp() {
+		return listPresentCcImagenesGrp;
+	}
+
+	public void setListPresentCcImagenesGrp(List<CcImagenesGrp> listPresentCcImagenesGrp) {
+		this.listPresentCcImagenesGrp = listPresentCcImagenesGrp;
 	}
 	
 }
