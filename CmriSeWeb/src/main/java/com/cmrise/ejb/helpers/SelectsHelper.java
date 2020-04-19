@@ -78,7 +78,7 @@ public class SelectsHelper {
 	}
 	
 	
-	public List<SelectItem> getSelectEstadosMexico(){
+	public List<SelectItem> getSelectEstadosMexicoItems(){
 		
 		return this.selectEstadosMexicoItems; 
 	}
