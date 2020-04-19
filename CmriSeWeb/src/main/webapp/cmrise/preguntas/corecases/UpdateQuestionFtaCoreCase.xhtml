@@ -43,6 +43,38 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
                 
 <ui:define name="content">
 <h1>#{updateQuestionFtaCoreCaseForm.tituloPreguntaHdr}</h1>
+
+<p:dialog id="presentationDialogId" widgetVar="presentationDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Agregar Imagenes">
+ <h:form id="presentationForm" enctype="multipart/form-data">
+  <p:growl id="messages" showDetail="true" />       
+     
+    <div class="ui-g">
+    <div class="ui-g-12">
+       <p:outputLabel for="tituloSuperiorId" value="Título Superior" />
+    </div>
+    <div class="ui-g-12">
+      <p:inputText id="tituloSuperiorId" style="width:60%" value="#{updateQuestionFtaCoreCaseForm.presentCcImagenesGrp.tituloSuperior}" />
+    </div>
+    <div class="ui-g-12">
+      <p:message for="tituloSuperiorId"/>
+    </div>
+     <div class="ui-g-12">
+     <p:fileUpload id="presentatioFilesID" value="#{updateQuestionFtaCoreCaseForm.presentationFiles}"  label="Seleccionar" mode="simple"  multiple="true"  allowTypes="/(\.|\/)(dcm)$/" update="presentationForm" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+    </div>
+     <div class="ui-g-12">
+      <p:message for="presentatioFilesID"/>
+    </div>
+    <div class="ui-g-6">
+     <p:commandButton value="Procesar"  action="#{updateQuestionFtaCoreCaseForm.uploadMultiple}" update="presentationForm" ajax="false" />
+    </div>
+    <div class="ui-g-6">
+      <p:commandButton value="Cancelar"  onclick="PF('presentationDialogWV').hide();" />
+    </div>
+  </div>
+  
+</h:form>
+</p:dialog> 
+
 <h:form id="updateQuestionMultipleChoiceForm" rendered="#{updateQuestionFtaCoreCaseForm.multipleChoice}">
 <div class="ui-g">
  <div class="ui-g-2">
@@ -136,14 +168,16 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 	    <p:message for="internalComments"/>  
 	  </div>
 	  </div>
+	  
 	  <p:panel header="ELEMENTOS DE PRESENTACIÓN - INTRODUCCIÓN">
-	  <f:facet name="actions">
-	  <p:splitButton immediate="true" title="Nuevo"  value="Agregar Nuevo Elemento" icon="pi pi-plus">
-	  <p:menuitem value="Agregar Nuevo Texto"/>
-	  <p:menuitem value="Agregar Nueva Imagen"/>
-	  </p:splitButton>
-	  </f:facet>
+	   <f:facet name="actions">
+	    <p:splitButton immediate="true" title="Nuevo"  value="Agregar Nuevo Elemento" icon="pi pi-plus">
+	    <p:menuitem value="Agregar Nuevo Texto"/>
+	    <p:menuitem value="Agregar Series Dicom" onclick="PF('presentationDialogWV').show();" />
+	   </p:splitButton>
+	   </f:facet>
 	  </p:panel>
+	  
 	   <p:panelGrid columns="3" layout="grid" styleClass="customPanelGrid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
 	      <f:facet name="header">
 	     PREGUNTA DE OPCIÓN MÚLTIPLE
@@ -343,9 +377,26 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 	    <f:facet name="actions">
 	      <p:splitButton immediate="true" title="Nuevo"  value="Agregar Nuevo Elemento" icon="pi pi-plus">
 	       <p:menuitem value="Agregar Nuevo Texto"/>
-	       <p:menuitem value="Agregar Nueva Imagen"/>
+	       <p:menuitem value="Agregar Series Dicom" onclick="PF('presentationDialogWV').show();" />
 	      </p:splitButton>
 	     </f:facet>
+	    
+	     <ui:repeat var="imagenesGrupo" value="#{updateQuestionFtaCoreCaseForm.listPresentCcImagenesGrp}" varStatus="status">
+	     <div class="ui-g">
+	      <div class="ui-g-12">
+	       <h3>#{imagenesGrupo.tituloSuperior}</h3>
+	      </div>
+	      <div class="ui-g-12">
+	       <ui:repeat var="imagenes" value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
+	         <h:graphicImage value="data:image/jpg;base64,#{imagenes.thumbailBase64}" style="max-width: 300px; max-height: 300px;" />
+	       </ui:repeat>
+	      </div>
+	      <div class="ui-g-12">
+	       <h3>#{imagenesGrupo.tituloInferior}</h3>
+	      </div>
+	     </div>
+	    </ui:repeat>
+	    
 	    </p:panel>
 	    
 	   <p:panel id="FreeTextAnswerQuestionUpdatePanel" header="PREGUNTA DE TEXTO LIBRE">

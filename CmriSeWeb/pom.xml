@@ -75,7 +75,50 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
+        <dependency>
+			<groupId>org.dcm4che</groupId>
+			<artifactId>dcm4che-imageio</artifactId>
+			<version>5.20.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.dcm4che</groupId>
+			<artifactId>dcm4che-imageio-rle</artifactId>
+			<version>5.20.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.dcm4che</groupId>
+			<artifactId>dcm4che-image</artifactId>
+			<version>5.20.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+        <dependency>
+			<groupId>org.dcm4che</groupId>
+			<artifactId>dcm4che-imageio-opencv</artifactId>
+			<version>5.20.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -97,6 +140,11 @@
 		    <version>1.2.17</version>
 		</dependency>
 
+        <dependency>
+        	<groupId>com.sun.media</groupId>
+        	<artifactId>jai_imageio</artifactId>
+        	<version>1.2-pre-dr-b04</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>

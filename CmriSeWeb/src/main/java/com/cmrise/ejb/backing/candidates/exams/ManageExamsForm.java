@@ -15,6 +15,9 @@ import javax.servlet.http.HttpSession;
 import com.cmrise.ejb.helpers.UserLogin;
 import com.cmrise.ejb.model.candidates.exams.CandExamenesV2;
 import com.cmrise.ejb.model.candidates.exams.Examinations;
+import com.cmrise.ejb.model.corecases.CcHdrV1;
+import com.cmrise.ejb.model.corecases.CcPreguntasFtaV1;
+import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
 import com.cmrise.ejb.model.exams.CcExamAsignaciones;
 import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
 import com.cmrise.ejb.model.exams.MrqsGrupoLines;
@@ -194,14 +197,39 @@ private UserLogin userLogin;
 		   return "Candidates-MRQs-Exam"; 	
 		  
 	   }else if(Utilitarios.CORE_CASES.equals(pCandExamenesV2.getTipo())) {
+		   
+		   List<CcExamAsignaciones> lListCcExamAsignaciones = ccExamAsignacionesLocal.findByNumeroExamenObjMod(pCandExamenesV2.getNumeroExamen()); 
+		   for(CcExamAsignaciones i:lListCcExamAsignaciones) {
+			   CcHdrV1 ccHdrV1 = i.getCcHdrV1();
+			   List<CcPreguntasHdrV1> listCcPreguntasHdrV1 = ccHdrV1.getListCcPreguntasHdrV1(); 
+			   for(CcPreguntasHdrV1 j:listCcPreguntasHdrV1) {
+				   CcPreguntasFtaV1 ccPreguntasFtaV1 = j.getCcPreguntasFtaV1(); 
+				   int intValidaRegistro = candExamRespuestasLocal.validaRegistro(pCandExamenesV2.getNumero()
+													                             ,ccHdrV1.getNumero()
+													                             ,j.getNumero()
+													                             ,ccPreguntasFtaV1.getNumero()
+													                            );
+					System.out.println("intValidaRegistro:"+intValidaRegistro);
+					if(0==intValidaRegistro) {
+					CandExamRespuestasDto candExamRespuestasDto = new CandExamRespuestasDto();
+					candExamRespuestasDto.setNumeroCandExamen(pCandExamenesV2.getNumero());
+					candExamRespuestasDto.setNumeroGrupo(ccHdrV1.getNumero());
+					candExamRespuestasDto.setNumeroPreguntaHdr(j.getNumero());
+					candExamRespuestasDto.setNumeroPreguntaFta(ccPreguntasFtaV1.getNumero());
+					candExamRespuestasDto.setCreadoPor(userLogin.getNumeroUsuario());
+					candExamRespuestasDto.setActualizadoPor(userLogin.getNumeroUsuario());
+					candExamRespuestasLocal.insert(candExamRespuestasDto); 
+					}
+			   }
+		   }
 		   FacesContext context = FacesContext.getCurrentInstance(); 
 		   HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		   System.out.println("put NumeroCandExamenSV:"+pCandExamenesV2.getNumero());
 		   System.out.println("put NumeroMrqsExamenSV:"+pCandExamenesV2.getNumeroExamen());
 		   session.setAttribute("NumeroCandExamenSV",pCandExamenesV2.getNumero());
-		   session.setAttribute("NumeroMrqsExamenSV", pCandExamenesV2.getNumeroExamen());
+		   session.setAttribute("NumeroCcExamenSV", pCandExamenesV2.getNumeroExamen());
 		   session.removeAttribute("NumeroMglSV"); /** CAUSA CONFLICTOS en la siguiente pagina 07042020 **/
-		   return "Candidates-MRQs-Exam"; 	
+		   return "Candidates-CoreCases-Exam"; 	
 	   }
 	  
 	   return "Candidates-Manage-Exams"; 
