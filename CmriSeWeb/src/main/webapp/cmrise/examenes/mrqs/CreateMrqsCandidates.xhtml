@@ -92,15 +92,14 @@ function handleUpdateRequest(xhr, status, args){
 	 	<p:outputLabel for="apellidoMaterno" value="Apellido Materno"/>
 	 	<p:inputText id="apellidoMaterno" value="#{createMrqsCandidatesForm.apellidoMaterno}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
 	 <p:message for="apellidoMaterno"/>
-	     <p:outputLabel for="correoElectronico" value="correoElectronico"/>
+	     <p:outputLabel for="correoElectronico" value="Correo Electronico"/>
 	 	<p:inputText id="correoElectronico" value="#{createMrqsCandidatesForm.correoElectronico}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
-	 <p:message for="estado"/>
+	 <p:message for="correoElectronico"/>
 	 <p:outputLabel for="contrasenia" value="Contraseña"/>
      	<p:password id="contrasenia" value="#{createMrqsCandidatesForm.contrasenia}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" />
      <p:message for="contrasenia"/>
-     
 	   <p:outputLabel for="estado" value="Estado" />
-  		<p:selectOneMenu id="estado" value="#{createMrqsCandidatesForm.estado}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  		<p:selectOneMenu id="estado" value="#{createMrqsCandidatesForm.estado}" required="false" requiredMessage="#{msgs['globalForm.requiredMessage']}">
   			<f:selectItem itemLabel="Seleccione un estado" itemValue="" />
   			<f:selectItems value="#{selectsHelper.selectEstadosMexicoItems}" />
  	    </p:selectOneMenu>
@@ -108,7 +107,7 @@ function handleUpdateRequest(xhr, status, args){
 	   <p:outputLabel for="sedeHospital" value="Sede Hospitalaria" />
   		<p:selectOneMenu id="sedeHospital" value="#{createMrqsCandidatesForm.sedeHospital}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
   			<f:selectItem itemLabel="Seleccione una Sede Hospitalaria" itemValue="" />
-  			<f:selectItems value="#{selectsHelper.selectEstadosMexicoItems}" />
+  			<f:selectItems value="#{selectsHelper.selectSedeHospitalItems}" />
  	    </p:selectOneMenu>
  	     <p:message for="sedeHospital"/>
       <p:outputLabel for="fechaEfectivaDesdeInput" value="Desde"/>

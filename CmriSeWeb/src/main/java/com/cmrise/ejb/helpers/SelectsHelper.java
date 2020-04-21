@@ -94,7 +94,7 @@ public class SelectsHelper {
 		}
 	}
 	
-	public List<SelectItem> getSelectSedeHospital(){
+	public List<SelectItem> getSelectSedeHospitalItems(){
 		
 		return this.selectSedeHospitalItems; 
 	}
