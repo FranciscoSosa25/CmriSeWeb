@@ -26,10 +26,10 @@
 <f:passThroughAttribute name="autocomplete" value="off"/>
 <p:panelGrid id="tituloPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
   <p:outputLabel for="publicTitle" value="Título Público"/>
-  <p:inputText id="publicTitle" value="#{createMrqsExamForm.titulo}" style="width:100%" maxlength="200"/>
+  <p:inputText id="publicTitle" value="#{createMrqsExamForm.titulo}" style="width:100%" maxlength="200" required="true"/>
   <p:message for="publicTitle"/>
   <p:outputLabel for="nameInternal" value="Nombre (Interno)"/>
-  <p:inputText id="nameInternal" value="#{createMrqsExamForm.nombre}" style="width:100%" maxlength="200"/>
+  <p:inputText id="nameInternal" value="#{createMrqsExamForm.nombre}" style="width:100%" maxlength="200" />
   <p:message for="nameInternal"/>
   <p:outputLabel for="description" value="Descripción"/>
   <p:inputTextarea  id="description" value="#{createMrqsExamForm.descripcion}"  rows="4" style="width:100%" maxlength="300"/>
@@ -78,7 +78,7 @@
 </p:panelGrid>
 
 <p:panelGrid id="tiempoLimitePanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
- <p:outputLabel  for="timeLimit" value="Límite de Tiempo" />
+ <p:outputLabel  for="timeLimit" value="Límite de Tiempo en minutos" />
  <p:spinner id="timeLimit" value="#{createMrqsExamForm.limiteTiempo}" />
  <p:message  for="timeLimit"/>
  <p:outputLabel for="canSkipQuestions"  value="¿Puede Saltar Preguntas?" />
