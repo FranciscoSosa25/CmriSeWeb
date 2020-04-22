@@ -48,7 +48,11 @@ public class MrqsPreguntasHdrLocalImpl implements MrqsPreguntasHdrLocal {
 	public MrqsPreguntasHdrDto copyPaste(long pNumero) {
 		return mrqsPreguntasHdrDao.copyPaste(pNumero);
 	}
-
+	
+	/*@Override
+	public List<MrqsPreguntasHdrV1> findByTituloPregunta(String pTituloPregunta) {
+		return mrqsPreguntasHdrDao.findByTituloPregunta(pTituloPregunta);
+	}*/
 	@Override
 	public MrqsPreguntasHdrV2Dto findV2ByNumeroHdr(long pNumeroHdr) {
 		return mrqsPreguntasHdrDao.findV2ByNumeroHdr(pNumeroHdr);

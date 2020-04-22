@@ -28,8 +28,10 @@ import java.util.Iterator;
 @ManagedBean
 @ViewScoped
 public class ManageMrqsForm {
+	private String titulo;
 
 	private List<MrqsPreguntasHdrV1> listMrqsPreguntasHdrV1 = new ArrayList<MrqsPreguntasHdrV1>();
+	/*private List<MrqsPreguntasHdrV1Dto> listMrqsPreguntasHdrV1Dto = new ArrayList<MrqsPreguntasHdrV1Dto>();*/
 	private MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForAction = new MrqsPreguntasHdrV1();
 	
 	@Inject 
@@ -76,6 +78,10 @@ public class ManageMrqsForm {
 		mrqsPreguntasHdrV1ForAction.setEstatusDesc(pMrqsPreguntasHdrV1.getEstatusDesc());
 		mrqsPreguntasHdrV1ForAction.setEtiquetas(pMrqsPreguntasHdrV1.getEtiquetas());
 	}
+	
+	/*public void findByTituloPregunta() {
+		 listMrqsPreguntasHdrV1 = mrqsPreguntasHdrLocal.findByTituloPregunta(this.titulo); 
+	}*/
 	
     public void delete() {
 		boolean deleteIn = false; 
@@ -152,5 +158,11 @@ public class ManageMrqsForm {
 	public void setMrqsPreguntasHdrV1ForAction(MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForAction) {
 		this.mrqsPreguntasHdrV1ForAction = mrqsPreguntasHdrV1ForAction;
 	}
-	
+	public String getTitulo() {
+		return this.titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
 }
