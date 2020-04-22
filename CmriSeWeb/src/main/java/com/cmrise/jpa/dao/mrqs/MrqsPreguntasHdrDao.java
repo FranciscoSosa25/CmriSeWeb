@@ -1,5 +1,6 @@
 package com.cmrise.jpa.dao.mrqs;
 
+import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
@@ -16,5 +17,5 @@ public interface MrqsPreguntasHdrDao {
 	public MrqsPreguntasHdrDto copyPaste(long pNumero);
 	public MrqsPreguntasHdrV2Dto findV2ByNumeroHdr(long pNumeroHdr); 
 	public List<Object> findWithFilterExam(long pNumeroExamen); 
-	
+	/* public List<MrqsPreguntasHdrV1> findByTituloPregunta(String ptituloPregunta);*/
 }

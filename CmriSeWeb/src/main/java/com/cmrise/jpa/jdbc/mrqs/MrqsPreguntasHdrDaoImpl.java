@@ -8,7 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.jpa.dao.mrqs.MrqsPreguntasHdrDao;
+import com.cmrise.jpa.dto.candidates.exams.CandExamenesV2Dto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
@@ -70,11 +72,21 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 		System.out.println(retval);
 		return retval;
 	}
+	
+	/*@Override
+	public List<MrqsPreguntasHdrV1> findByTituloPregunta(String pTituloPregunta) {
+
+		String strQuery="SELECT m FROM MrqsPreguntasHdrV1Dto m WHERE m.titulo like '%"+pTituloPregunta+"%'"; 
+		Query query = em.createQuery(strQuery);
+		return query.getResultList();
+		
+	}*/
+
 
 	@Override
 	public MrqsPreguntasHdrDto copyPaste(long pNumero) {
 		MrqsPreguntasHdrDto copy =em.find(MrqsPreguntasHdrDto.class, pNumero);
-		MrqsPreguntasHdrDto mrqsPreguntasHdrDto = new MrqsPreguntasHdrDto();
+		MrqsPreguntasHdrDto mrqsPreguntasHdrDto = new MrqsPreguntasHdrDto(); 
 		Query q = em.createNativeQuery("SELECT NEXT VALUE FOR dbo.MRQS_PREGUNTAS_HDR_S");
 		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
 		mrqsPreguntasHdrDto.setNumero(lNumeroS.longValue());

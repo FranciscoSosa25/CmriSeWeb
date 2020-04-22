@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.cmrise.ejb.model.candidates.exams.CandExamenesV2;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.jpa.dao.mrqs.MrqsPreguntasHdrDao;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesV1Dto;
@@ -22,4 +23,5 @@ public interface MrqsPreguntasHdrLocal {
 	public MrqsPreguntasHdrDto copyPaste(long pNumero);
 	public MrqsPreguntasHdrV2Dto findV2ByNumeroHdr(long pNumeroHdr); 
 	public List<MrqsPreguntasHdrV1> findWithFilterExam(long pNumeroExamen);
+	/* public List<MrqsPreguntasHdrV1> findByTituloPregunta(String ptituloPregunta);*/
 }
