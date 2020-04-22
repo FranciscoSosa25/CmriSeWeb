@@ -240,6 +240,8 @@ public class SelectsHelper {
 		return  this.selectVisibilidadItems ; 
 	}
 	
+	
+	
 	private void environmentEstatusExamen() {
 		this.selectEstatusExamenItems = new ArrayList<SelectItem>();
 		List<TablasUtilitariasValoresDto> listEstatusExamenValores =  tablasUtilitariasValoresLocal.findByTipoTabla("ESTATUS_EXAMEN");  
@@ -254,6 +256,8 @@ public class SelectsHelper {
 	public List<SelectItem> getSelectEstatusExamenItems(){
 		return this.selectEstatusExamenItems; 
 	}
+	
+	
 	
 	
 	public List<SelectItem> getSelectAdmonRolesItems(){
