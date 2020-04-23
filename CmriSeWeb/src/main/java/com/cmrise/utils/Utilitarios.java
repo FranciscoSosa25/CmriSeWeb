@@ -1,5 +1,7 @@
 package com.cmrise.utils;
 
+import java.sql.Timestamp;
+import java.util.Date;
 
 public  class Utilitarios {
 
@@ -32,8 +34,9 @@ public  class Utilitarios {
 	public static final String DCM = "DCM"; 
 	public static final String INTRODUCCION ="INTRODUCCION"; 
 	public static final String CONCLUSION ="CONCUSION";
-    public static final String FS_MRQS = "C:\\CmriSeFs\\MRQs"; /** File System MRQS **/
-    public static final String FS_CORE_CASES = "C:\\CmriSeFs\\CoreCases"; /** File System MRQS **/
+	public static final String FS_ROOT = System.getProperty("os.name").contains("Windows Server")?"D:":"C:";
+    public static final String FS_MRQS = "\\CmriSeFs\\MRQs"; /** File System MRQS **/
+    public static final String FS_CORE_CASES = "\\CmriSeFs\\CoreCases"; /** File System MRQS **/
     public static final String DEFAULT_THEME ="turquoise";
     public static final String JPG_SUFFIX =".jpg"; 
     public static final String THUMBNAIL_SUFFIX = "_thumbnail"+JPG_SUFFIX;
@@ -84,6 +87,15 @@ public  class Utilitarios {
 	    	 return 0;
 	     }	
 		return retval;
+	}
+	public static Date sqlDateToUtilDate(java.sql.Date pFecha) {
+		return new java.util.Date(pFecha.getTime());
+	}
+	public static Timestamp utilDateToTimestamp(Date pFecha) {
+		return new java.sql.Timestamp(pFecha.getTime());
+	}
+	public static java.sql.Date utilDateToSqlDate(Date pFecha) {
+		return new java.sql.Date(pFecha.getTime());
 	} 
 	
 }

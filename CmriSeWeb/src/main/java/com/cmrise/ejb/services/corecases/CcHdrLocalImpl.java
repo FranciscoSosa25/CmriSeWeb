@@ -217,9 +217,9 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 						ccImagenes.setNumero(k.getNumero());
 						ccImagenes.setNumeroGrp(k.getNumeroGrp());
 						ccImagenes.setNombreImagen(k.getNombreImagen());
-						ccImagenes.setRutaImagen(k.getRutaImagen());
-						String strJpgRuta  = k.getRutaImagen()+"\\"+k.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX); 
-						String strThumbailRuta  = k.getRutaImagen()+"\\"+k.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX); 
+						ccImagenes.setRutaImagen(Utilitarios.FS_ROOT+k.getRutaImagen());
+						String strJpgRuta  = Utilitarios.FS_ROOT+k.getRutaImagen()+"\\"+k.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX); 
+						String strThumbailRuta  = Utilitarios.FS_ROOT+k.getRutaImagen()+"\\"+k.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX); 
 						
 						try {
 							/** byte[] bytesArray = Files.readAllBytes(Paths.get(j.getRutaImagen()+"\\"+j.getNombreImagen())); **/

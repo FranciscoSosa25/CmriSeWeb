@@ -1,8 +1,18 @@
 package com.cmrise.ejb.model.corecases.img;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.Date;
 
+import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
+
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 public class CcImagenes implements Serializable {
@@ -129,6 +139,20 @@ public class CcImagenes implements Serializable {
 	}
 
 	public StreamedContent getJpgStreamedContent() {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		/**
+		if(context.getCurrentPhaseId()==PhaseId.RENDER_RESPONSE) {
+			return new DefaultStreamedContent(); 
+		}
+		**/
+		jpgStreamedContent = DefaultStreamedContent.builder()
+                    .contentType("image/png")
+                    .stream(() -> {
+                    			InputStream is = new ByteArrayInputStream(getJpgContent());
+                  				return is;	
+					     })
+                     .build()
+                     ;
 		return jpgStreamedContent;
 	}
 

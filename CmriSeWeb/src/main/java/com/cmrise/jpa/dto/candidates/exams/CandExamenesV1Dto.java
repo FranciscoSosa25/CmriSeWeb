@@ -65,7 +65,11 @@ public class CandExamenesV1Dto implements Serializable {
 	@Column(name="DESCRIPCION_ROL")
 	private String descripcionRol; 
 	
+	@Column(name="CURP")
 	private String curp; 
+	
+	@Column(name="TOTAL_PUNTUACION")
+	private double totalPuntuacion; 
 	
 	public long getNumero() {
 		return this.numero;
@@ -202,6 +206,14 @@ public class CandExamenesV1Dto implements Serializable {
 
 	public void setCurp(String curp) {
 		this.curp = curp;
+	}
+
+	public double getTotalPuntuacion() {
+		return totalPuntuacion;
+	}
+
+	public void setTotalPuntuacion(double totalPuntuacion) {
+		this.totalPuntuacion = totalPuntuacion;
 	}
 	
 }

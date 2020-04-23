@@ -9,7 +9,7 @@ public interface MrqsImagenesDao {
 
 	public long insert(MrqsImagenesDto pMrqsImagenesDto);
 
-	public void insert(long numeroImagenesGrp
+	public long insert(long numeroImagenesGrp
 			         , MrqsImagenes mrqsImagenes);
 
 	public List<MrqsImagenesDto> findByGrp(long pNumeroGrp); 

@@ -1,27 +1,42 @@
 package com.cmrise.ejb.services.exams;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+
 import com.cmrise.ejb.model.corecases.CcHdrV1;
 import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
 import com.cmrise.ejb.model.corecases.CcPreguntasFtaV1;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
+import com.cmrise.ejb.model.corecases.img.CcImagenes;
+import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
 import com.cmrise.ejb.model.exams.CcExamAsignaciones;
 import com.cmrise.ejb.model.exams.CcExamenes;
 import com.cmrise.jpa.dao.corecases.CcHdrDao;
 import com.cmrise.jpa.dao.corecases.CcOpcionMultipleDao;
 import com.cmrise.jpa.dao.corecases.CcPreguntasFtaDao;
 import com.cmrise.jpa.dao.corecases.CcPreguntasHdrDao;
+import com.cmrise.jpa.dao.corecases.img.CcImagenesDao;
+import com.cmrise.jpa.dao.corecases.img.CcImagenesGrpDao;
 import com.cmrise.jpa.dao.exams.CcExamAsignacionesDao;
 import com.cmrise.jpa.dao.exams.CcExamenesDao;
 import com.cmrise.jpa.dto.corecases.CcHdrV1Dto;
 import com.cmrise.jpa.dto.corecases.CcOpcionMultipleDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaV1Dto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasHdrV1Dto;
+import com.cmrise.jpa.dto.corecases.img.CcImagenesDto;
+import com.cmrise.jpa.dto.corecases.img.CcImagenesGrpDto;
 import com.cmrise.jpa.dto.exams.CcExamAsignacionesDto;
 import com.cmrise.jpa.dto.exams.CcExamenesDto;
 import com.cmrise.jpa.dto.exams.CcExamenesV1Dto;
@@ -47,6 +62,12 @@ public class CcExamenesLocalImpl implements CcExamenesLocal {
 	
 	@Inject 
 	CcOpcionMultipleDao  ccOpcionMultipleDao; 
+	
+	@Inject 
+	CcImagenesGrpDao ccImagenesGrpDao; 
+	
+	@Inject 
+	CcImagenesDao ccImagenesDao; 
 	
 	@Override
 	public long insert(CcExamenesDto pCcExamenesDto) {
@@ -279,6 +300,76 @@ public class CcExamenesLocalImpl implements CcExamenesLocal {
 						     	}
 					     	}
 					    } /** END else if(Utilitarios.OPCION_MULTIPLE.equals(j.getTipoPregunta())) { **/
+				     	
+				     	
+				    	List<CcImagenesGrp> localListCcImagenesGrp = new ArrayList<CcImagenesGrp>(); 
+						
+						List<CcImagenesGrpDto> listCcImagenesGrpDto = ccImagenesGrpDao.findByFta(ccPreguntasFtaV1Dto.getNumero()
+								                                                                ,Utilitarios.INTRODUCCION
+								                                                                ); 
+						if(null!=listCcImagenesGrpDto) {
+						  
+							for(CcImagenesGrpDto k:listCcImagenesGrpDto) {
+								System.out.println("*Paso1*");
+								CcImagenesGrp ccImagenesGrp = new CcImagenesGrp();
+								ccImagenesGrp.setNumero(k.getNumero());
+								ccImagenesGrp.setSeccion(k.getSeccion());
+								ccImagenesGrp.setTipo(k.getTipo());
+								ccImagenesGrp.setTituloSuperior(k.getTituloSuperior());
+								ccImagenesGrp.setTituloInferior(k.getTituloInferior());
+								ccImagenesGrp.setTexto(k.getTexto());
+								
+								List<CcImagenes> listCcImagenes = new ArrayList<CcImagenes>(); 
+								List<CcImagenesDto> listCcImagenesDto = ccImagenesDao.findByGrp(k.getNumero()); 
+								for(CcImagenesDto l:listCcImagenesDto) {
+									System.out.println("*Paso2*"); 
+									CcImagenes ccImagenes = new CcImagenes(); 
+									ccImagenes.setNumero(l.getNumero());
+									ccImagenes.setNumeroGrp(l.getNumeroGrp());
+									ccImagenes.setNombreImagen(l.getNombreImagen());
+									ccImagenes.setRutaImagen(Utilitarios.FS_ROOT+l.getRutaImagen());
+									String strJpgRuta  = Utilitarios.FS_ROOT+l.getRutaImagen()+"\\"+l.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX); 
+									String strThumbailRuta  = Utilitarios.FS_ROOT+l.getRutaImagen()+"\\"+l.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX); 
+									
+									try {
+										/** byte[] bytesArray = Files.readAllBytes(Paths.get(j.getRutaImagen()+"\\"+j.getNombreImagen())); **/
+										/** ccImagenes.setImagenContent(bytesArray); **/
+										byte[] bytesArray = Files.readAllBytes(Paths.get(strJpgRuta));
+										ccImagenes.setJpgContent(bytesArray);
+										ccImagenes.setJpgBase64(new String(Base64.getEncoder().encode(bytesArray)));
+										bytesArray = Files.readAllBytes(Paths.get(strThumbailRuta));
+										ccImagenes.setThumbailContent(bytesArray);
+										ccImagenes.setThumbailBase64(new String(Base64.getEncoder().encode(bytesArray)));
+										/*******************************************************************************
+										StreamedContent streamedContent = DefaultStreamedContent.builder()
+			                                    .contentType("image/png")
+			                                    .stream(() -> {
+				                                    	try {
+															byte[] bytesArray2 = Files.readAllBytes(Paths.get(strJpgRuta));
+															InputStream is = new ByteArrayInputStream(bytesArray2);
+				                              				return is;	
+														} catch (IOException e) {
+															e.printStackTrace();
+														}
+				                                    	    return null; 
+			                                  	     })
+			                                     .build()
+			                                     ;
+										ccImagenes.setJpgStreamedContent(streamedContent);
+										********************************************************************************/
+										
+									} catch (IOException ie) {
+									   System.out.println("IOException :"+ie.getMessage());
+									}
+									listCcImagenes.add(ccImagenes);
+								}
+								ccImagenesGrp.setListCcImagenes(listCcImagenes);
+								localListCcImagenesGrp.add(ccImagenesGrp); 
+							}
+							ccPreguntasFtaV1.setListCcImagenesGrp(localListCcImagenesGrp);
+						} /*** END if(null!=listCcImagenesGrpDto) { **/
+				     	
+				     	
 				     } /** END for(CcPreguntasHdrV1Dto j :listCcPreguntasHdrV1Dto) { **/
 				 	ccHdrV1.setListCcPreguntasHdrV1(listCcPreguntasHdrV1);
 				}

@@ -8,6 +8,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
+
+import com.cmrise.ejb.model.admin.AdmonMateria;
+import com.cmrise.ejb.services.admin.AdmonMateriaLocal;
 import com.cmrise.ejb.services.admin.AdmonRolesLocal;
 import com.cmrise.ejb.services.admin.AdmonUsuariosLocal;
 import com.cmrise.ejb.services.admin.TablasUtilitariasValoresLocal;
@@ -31,6 +34,9 @@ public class SelectsHelper {
 	@Inject 
 	CcHdrLocal ccHdrLocal; 
 	
+	@Inject 
+	AdmonMateriaLocal admonMateriaLocal; 
+	
 	
 	private List<SelectItem> selectTipoPreguntaItems; 
 	private List<SelectItem> selectTipoExamenItems; 
@@ -45,6 +51,8 @@ public class SelectsHelper {
 	private List<SelectItem> selectTipoPreguntaCoreCaseItems; 
 	private List<SelectItem> selectEstadosMexicoItems;
 	private List<SelectItem> selectSedeHospitalItems;
+	private List<SelectItem> selectAdmonExamenesItems; 
+	private List<SelectItem> selectAdmonMateriaItems; 
 	
 	@PostConstruct
     public void init() {
@@ -62,9 +70,40 @@ public class SelectsHelper {
        environmentTipoPreguntaCoreCase();
        environmentEstadosMexico();
        environmentSedeHospital();
+       environmentAdmonExamenes();
+       environmentAdmonMateria(); 
        System.out.println("Sale SelectsHelper init()");
     }
 	
+	private void environmentAdmonMateria() {
+		this.selectAdmonMateriaItems =  new ArrayList<SelectItem>();
+		List<AdmonMateria> listAdmonMateria = admonMateriaLocal.findAll(); 
+		for(AdmonMateria i:listAdmonMateria) {
+			SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
+			this.selectAdmonMateriaItems.add(selectItem); 
+		}
+		
+	}
+	
+	public List<SelectItem> getSelectAdmonMateriaItems() {
+		return selectAdmonMateriaItems;
+	}
+
+
+	private void environmentAdmonExamenes() {
+		this.selectAdmonExamenesItems = new ArrayList<SelectItem>();
+		List<TablasUtilitariasValoresDto> listAdmonExamenes =  tablasUtilitariasValoresLocal.findByTipoTabla("ADMON_EXAMENES");  
+		Iterator<TablasUtilitariasValoresDto> iterAdmonExamenes = listAdmonExamenes.iterator(); 
+		while(iterAdmonExamenes.hasNext()) {
+			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterAdmonExamenes.next();
+			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+			this.selectAdmonExamenesItems.add(selectItem); 
+		}
+	}
+	
+	public List<SelectItem> getSelectAdmonExamenesItems() {
+		return this.selectAdmonExamenesItems; 
+	}
 
 	private void environmentEstadosMexico() {
 		this.selectEstadosMexicoItems = new ArrayList<SelectItem>();
@@ -311,7 +350,5 @@ public class SelectsHelper {
 			this.selectTipoPreguntaExamenItems.add(selectItem); 
 		}
 	}
-
-
 
 }

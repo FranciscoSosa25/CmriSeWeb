@@ -36,7 +36,7 @@ public class MrqsImagenesDaoImpl implements MrqsImagenesDao {
 	}
 
 	@Override
-	public void insert(long pNumeroImagenesGrp
+	public long insert(long pNumeroImagenesGrp
 			          , MrqsImagenes pMrqsImagenes) {
 		MrqsImagenesDto mrqsImagenesDto = new MrqsImagenesDto();
 		mrqsImagenesDto.setNumeroGrp(pNumeroImagenesGrp);
@@ -46,6 +46,7 @@ public class MrqsImagenesDaoImpl implements MrqsImagenesDao {
 		insert(mrqsImagenesDto);
 		System.out.println("V2 mrqsImagenesDto.getRutaImagen():"+mrqsImagenesDto.getRutaImagen());
 		pMrqsImagenes.setRutaImagen(mrqsImagenesDto.getRutaImagen());
+		return  mrqsImagenesDto.getNumero(); 
 	}
 
 	@Override

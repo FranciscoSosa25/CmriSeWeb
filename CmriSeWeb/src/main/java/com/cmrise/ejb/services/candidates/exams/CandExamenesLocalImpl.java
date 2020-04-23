@@ -42,6 +42,7 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 			candExamenesV1.setNombreCompletoUsuario(candExamenesV1Dto.getNombreCompletoUsuario());
 			candExamenesV1.setCurp(candExamenesV1Dto.getCurp());
 			candExamenesV1.setEstatus(candExamenesV1Dto.getEstatus());
+			candExamenesV1.setTotalPuntuacion(candExamenesV1Dto.getTotalPuntuacion());
 			retval.add(candExamenesV1); 
 		}
 		return retval;

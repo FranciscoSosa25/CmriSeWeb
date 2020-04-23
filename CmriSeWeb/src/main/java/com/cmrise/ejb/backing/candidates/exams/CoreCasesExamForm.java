@@ -19,6 +19,7 @@ import com.cmrise.ejb.model.corecases.CcHdrV1;
 import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
 import com.cmrise.ejb.model.corecases.CcPreguntasFtaV1;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
+import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
 import com.cmrise.ejb.model.exams.CcExamAsignaciones;
 import com.cmrise.ejb.model.exams.CcExamenes;
 import com.cmrise.ejb.services.candidates.exams.CandExamRespuestasLocal;
@@ -49,6 +50,11 @@ public class CoreCasesExamForm {
 	private boolean suffleAnswerOrder; 
 	private String respuestaCandidato; 
 	private String[] respuestasPreguntaCandidato;
+	
+	/********************************************************************
+	 * Attributos Imagenes 
+	 */
+	private List<CcImagenesGrp> listPresentCcImagenesGrp = new ArrayList<CcImagenesGrp>(); 
 	
 	@Inject
 	UtilitariosLocal utilitariosLocal; 
@@ -111,6 +117,7 @@ public class CoreCasesExamForm {
 						    	this.setSingleAnswerMode(true);
 						    }	
 						}
+						this.setListPresentCcImagenesGrp(j.getCcPreguntasFtaV1().getListCcImagenesGrp());
 						break; 
 					}
 					break; 
@@ -157,6 +164,7 @@ public class CoreCasesExamForm {
 						    	this.setSingleAnswerMode(true);
 						    }	
 						}
+						this.setListPresentCcImagenesGrp(j.getCcPreguntasFtaV1().getListCcImagenesGrp());
 						stopFlag = true; 
 					}
 					if(stopFlag) {
@@ -319,5 +327,15 @@ public class CoreCasesExamForm {
 
 	public void setListCcOpcionMultiple(List<CcOpcionMultiple> listCcOpcionMultiple) {
 		this.listCcOpcionMultiple = listCcOpcionMultiple;
+	}
+
+
+	public List<CcImagenesGrp> getListPresentCcImagenesGrp() {
+		return listPresentCcImagenesGrp;
+	}
+
+
+	public void setListPresentCcImagenesGrp(List<CcImagenesGrp> listPresentCcImagenesGrp) {
+		this.listPresentCcImagenesGrp = listPresentCcImagenesGrp;
 	}
 }
