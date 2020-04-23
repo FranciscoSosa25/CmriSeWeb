@@ -457,7 +457,9 @@ public class UpdateFTAMrqForm {
 	
 	private void insertaImagenesGrp(long pNumetoFta
 			                       ,MrqsImagenesGrp pMrqsImagenesGrp) {
+		System.out.println("pMrqsImagenesGrp.getNumero():"+pMrqsImagenesGrp.getNumero());
 		mrqsImagenesGrpLocal.insert(pNumetoFta,pMrqsImagenesGrp);
+		System.out.println("pMrqsImagenesGrp.getNumero():"+pMrqsImagenesGrp.getNumero());
 	}
 	
 	public String cancel() {

@@ -51,7 +51,8 @@ public class MrqsImagenesGrpLocalImpl implements MrqsImagenesGrpLocal {
 		for(MrqsImagenes mrqsImagenes:pMrqsImagenesGrp.getListMrqsImagenes()) {
 			mrqsImagenes.setRutaImagen(Utilitarios.FS_MRQS+"\\"+pNumetoFta+"\\"+numeroImagenesGrp);
 			System.out.println("V1 mrqsImagenes.getRutaImagen():"+mrqsImagenes.getRutaImagen());
-			mrqsImagenesDao.insert(numeroImagenesGrp,mrqsImagenes); 
+			long numeroMrqImagen = mrqsImagenesDao.insert(numeroImagenesGrp,mrqsImagenes); 
+			pMrqsImagenesGrp.setNumero(numeroMrqImagen);
 			System.out.println("V2 mrqsImagenes.getRutaImagen():"+mrqsImagenes.getRutaImagen());
 			System.out.println("*");
 			File directory =new File(mrqsImagenes.getRutaImagen()); 
@@ -107,9 +108,9 @@ public class MrqsImagenesGrpLocalImpl implements MrqsImagenesGrpLocal {
 				mrqsImagenes.setNumero(j.getNumero());
 				mrqsImagenes.setNumeroGrp(j.getNumeroGrp());
 				mrqsImagenes.setNombreImagen(j.getNombreImagen());
-				mrqsImagenes.setRutaImagen(j.getRutaImagen());
+				mrqsImagenes.setRutaImagen(Utilitarios.FS_ROOT+j.getRutaImagen());
 				try {
-					byte[] bytesArray = Files.readAllBytes(Paths.get(j.getRutaImagen()+"\\"+j.getNombreImagen()));
+					byte[] bytesArray = Files.readAllBytes(Paths.get(Utilitarios.FS_ROOT+j.getRutaImagen()+"\\"+j.getNombreImagen()));
 					mrqsImagenes.setImagenContent(bytesArray);
 					mrqsImagenes.setImagenBase64(new String(Base64.getEncoder().encode(bytesArray)));
 				} catch (IOException ie) {

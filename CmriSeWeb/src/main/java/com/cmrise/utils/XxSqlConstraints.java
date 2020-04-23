@@ -24,6 +24,8 @@ public class XxSqlConstraints {
 	public static final String ADMON_USUARIOS_U2 = "ADMON_USUARIOS_U1";
 	public static final String ADMON_USUARIOS_U2_DESC = "Ya existe este curp";
 	
+	public static final String ADMON_MATERIA_U1 = "No se puede agregar una materia duplicada:";
+	
 	
 	
 }

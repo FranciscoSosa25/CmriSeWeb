@@ -26,7 +26,7 @@ public class ExamenesDaoImpl implements ExamenesDao {
 				"      ,ME.[NOMBRE]\r" + 
 				"      ,ME.[DESCRIPCION]\r" + 
 				"      ,ME.[TIEMPO_LIMITE]\r" + 
-				"	  ,(SELECT COUNT(1) FROM CAND_EXAMENES WHERE NUMERO_EXAMEN = ME.NUMERO) TOTAL_CANDIDADATOS\r" + 
+				"	  ,(SELECT COUNT(1) FROM CAND_EXAMENES TMP WHERE TMP.NUMERO_EXAMEN = ME.NUMERO AND TMP.TIPO='MRQS') TOTAL_CANDIDADATOS\r" + 
 				"	  ,'MRQs' TIPO_EXAMEN_DESC\r" + 
 				"	  ,ME.FECHA_EFECTIVA_DESDE\r" + 
 				"	  ,CE.TIPO TIPO_EXAMEN_CODE\r" + 
@@ -40,7 +40,7 @@ public class ExamenesDaoImpl implements ExamenesDao {
 				"      ,CCE.[NOMBRE]\r" + 
 				"      ,CCE.[DESCRIPCION]\r" + 
 				"      ,CCE.[TIEMPO_LIMITE]\r" + 
-				"	  ,(SELECT COUNT(1) FROM CAND_EXAMENES WHERE NUMERO_EXAMEN = CCE.NUMERO) TOTAL_CANDIDADATOS\r" + 
+				"	  ,(SELECT COUNT(1) FROM CAND_EXAMENES TMP WHERE TMP.NUMERO_EXAMEN = CCE.NUMERO AND TMP.TIPO='CORE_CASES') TOTAL_CANDIDADATOS\r" + 
 				"	  ,'Casos Clinicos' TIPO_EXAMEN_DESC\r" + 
 				"	  ,CCE.FECHA_EFECTIVA_DESDE\r" + 
 				"	  ,CE.TIPO TIPO_EXAMEN_CODE\r" + 
