@@ -32,6 +32,21 @@
 			<redirect />
 		</navigation-case>
 		<navigation-case>
+			<from-outcome>Admon-Examenes</from-outcome>
+			<to-view-id>/cmrise/admin/AdmonExamenes.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Admon-Examenes-Detail</from-outcome>
+			<to-view-id>/cmrise/admin/AdmonExamenesDetail.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Admon-Materias</from-outcome>
+			<to-view-id>/cmrise/admin/AdmonMaterias.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
 			<from-outcome>PaginaPrincipal</from-outcome>
 			<to-view-id>/cmrise/principal.xhtml</to-view-id>
 			<redirect />

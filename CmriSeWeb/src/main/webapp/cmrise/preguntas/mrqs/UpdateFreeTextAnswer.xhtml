@@ -66,20 +66,12 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
        <p:outputLabel for="tituloSuperiorId" value="Título Superior" />
     </div>
     <div class="ui-g-12">
-      <p:inputText id="tituloSuperiorId" style="width:60%" value="#{updateFTAMrqForm.presentMrqsImagenesGrp.tituloSuperior}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+      <p:inputText id="tituloSuperiorId" style="width:60%" value="#{updateFTAMrqForm.presentMrqsImagenesGrp.tituloSuperior}" />
     </div>
     <div class="ui-g-12">
       <p:message for="tituloSuperiorId"/>
     </div>
-     <div class="ui-g-12">
-       <p:outputLabel for="tituloInferiorId" value="Título Inferior" />
-    </div>
-    <div class="ui-g-12">
-      <p:inputText id="tituloInferiorId" style="width:60%" value="#{updateFTAMrqForm.presentMrqsImagenesGrp.tituloInferior}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-    </div>
-     <div class="ui-g-12">
-      <p:message for="tituloInferiorId"/>
-    </div>
+    
      <div class="ui-g-12">
      <p:fileUpload id="presentatioFilesID" value="#{updateFTAMrqForm.presentationFiles}"  label="Seleccionar" mode="simple"  multiple="true"  allowTypes="/(\.|\/)(jpg)$/" update="presentationForm" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
     </div>
@@ -199,9 +191,6 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
        <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
          <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="max-width: 300px; max-height: 300px;" />
        </ui:repeat>
-      </div>
-      <div class="ui-g-12">
-       <h3>#{imagenesGrupo.tituloInferior}</h3>
       </div>
      </div>
     </ui:repeat>
@@ -442,9 +431,23 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
    <f:facet name="actions">
       <p:splitButton immediate="true" title="Nuevo"  value="Agregar Nuevo Elemento" icon="pi pi-plus">
        <p:menuitem value="Agregar Nuevo Texto"/>
-       <p:menuitem value="Agregar Nueva Imagen"/>
+       <p:menuitem value="Agregar Nueva Imagen" onclick="PF('presentationDialogWV').show();"/>
       </p:splitButton>
    </f:facet>
+    
+    <div class="ui-g"> 
+    <ui:repeat var="imagenesGrupo" value="#{updateFTAMrqForm.listPresentMrqsImagenesGrp}" varStatus="status">
+    <div class="ui-g-12">
+       <h3>#{imagenesGrupo.tituloSuperior}</h3>
+      </div>
+      <div class="ui-g-12">
+       <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
+         <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="max-width: 300px; max-height: 300px;" />
+       </ui:repeat>
+      </div>
+    </ui:repeat>
+    </div>
+   
   </p:panel>
  
   <p:panel id="multipleChoiceQuestionUpdatePanel" header="PREGUNTA DE OPCIÓN MÚLTIPLE">

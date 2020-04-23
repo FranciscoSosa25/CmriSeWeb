@@ -176,6 +176,18 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 	    <p:menuitem value="Agregar Series Dicom" onclick="PF('presentationDialogWV').show();" />
 	   </p:splitButton>
 	   </f:facet>
+	    <ui:repeat var="imagenesGrupo" value="#{updateQuestionFtaCoreCaseForm.listPresentCcImagenesGrp}" varStatus="status">
+	     <div class="ui-g">
+	      <div class="ui-g-12">
+	       <h3>#{imagenesGrupo.tituloSuperior}</h3>
+	      </div>
+	      <div class="ui-g-12">
+	       <ui:repeat var="imagenes" value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
+	         <h:graphicImage value="data:image/jpg;base64,#{imagenes.thumbailBase64}" style="max-width: 300px; max-height: 300px;" />
+	       </ui:repeat>
+	      </div>
+	     </div>
+	    </ui:repeat>
 	  </p:panel>
 	  
 	   <p:panelGrid columns="3" layout="grid" styleClass="customPanelGrid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
@@ -390,9 +402,6 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 	       <ui:repeat var="imagenes" value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
 	         <h:graphicImage value="data:image/jpg;base64,#{imagenes.thumbailBase64}" style="max-width: 300px; max-height: 300px;" />
 	       </ui:repeat>
-	      </div>
-	      <div class="ui-g-12">
-	       <h3>#{imagenesGrupo.tituloInferior}</h3>
 	      </div>
 	     </div>
 	    </ui:repeat>

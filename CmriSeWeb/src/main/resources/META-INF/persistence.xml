@@ -12,7 +12,7 @@
 		<class>com.cmrise.jpa.dto.corecases.CcPreguntasHdrDto</class>
 		<class>com.cmrise.jpa.dto.corecases.CcHdrV1Dto</class>
 		<properties>
-			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.show_sql" value="false" />
 		</properties>
 	</persistence-unit>
 </persistence>

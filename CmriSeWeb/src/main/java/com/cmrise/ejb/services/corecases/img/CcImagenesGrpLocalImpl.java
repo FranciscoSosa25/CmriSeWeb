@@ -65,14 +65,17 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 			/****************************************************************************************
 			 **************************************************************************************** COMIENZA DCM
 			 */
+			
 			ccImagenes.setRutaImagen(Utilitarios.FS_CORE_CASES+"\\"+pNumetoFta+"\\"+numeroImagenesGrp);
 			System.out.println("V1 mrqsImagenes.getRutaImagen():"+ccImagenes.getRutaImagen());
 			ccImagenesDao.insert(numeroImagenesGrp,ccImagenes); 
 			System.out.println("V2 mrqsImagenes.getRutaImagen():"+ccImagenes.getRutaImagen());
 			System.out.println("*");
-			File directory =new File(ccImagenes.getRutaImagen()); 
+			System.out.println("Utilitarios.FS_ROOT+ccImagenes.getRutaImagen():"+Utilitarios.FS_ROOT+ccImagenes.getRutaImagen());
+			File directory =new File(Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()); 
 			directory.mkdirs(); 
-			String strRutaImgDcm = ccImagenes.getRutaImagen()+"\\"+ccImagenes.getNombreImagen(); 
+			System.out.println("Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+\"\\\\\"+ccImagenes.getNombreImagen():"+Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+"\\"+ccImagenes.getNombreImagen());
+			String strRutaImgDcm = Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+"\\"+ccImagenes.getNombreImagen(); 
 			File destination = new File(strRutaImgDcm); 
 		    System.out.println("**");
 		    System.out.println("mrqsImagenes.getImagenContent():"+ccImagenes.getImagenContent());
@@ -86,11 +89,11 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 		     **************************************************************************************** FINALIZA DCM 
 		     */
 		    
-		    String strRutaImgJpg =ccImagenes.getRutaImagen()+"\\"+ccImagenes.getNombreImagen().replace(".dcm", ".jpg"); 
+		    String strRutaImgJpg =Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+"\\"+ccImagenes.getNombreImagen().replace(".dcm", ".jpg"); 
 		    
 		    InputStream inputStream;
 			try {
-				inputStream = new FileInputStream(ccImagenes.getRutaImagen()+"\\"+ccImagenes.getNombreImagen());
+				inputStream = new FileInputStream(Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+"\\"+ccImagenes.getNombreImagen());
 				setOutputStream(inputStream);
 				//Validate the file
 				String xml = dicomAttributeReaderService.readAttributes(getInputStream());

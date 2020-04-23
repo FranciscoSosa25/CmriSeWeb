@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+<ui:define name="content">
+<h:form id="MateriasForm">
+<p:growl id="msgs" showDetail="true"/>
+<h1>Administración Examenes</h1>
+<p:dataTable var="examen" value="#{admonExamenesForm.examenesHdr}">
+<p:column headerText="Nombre" >
+<p:inputText id="nombre" value="#{examen.nombre}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:98%"/>
+<p:message for="nombre"/>
+</p:column>
+<p:column headerText="Tipo">
+ <p:selectOneMenu id="tipoExamen" value="#{examen.tipoExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  <f:selectItem itemLabel="Seleccione ..." itemValue="" />
+  <f:selectItems value="#{selectsHelper.selectAdmonExamenesItems}" />
+  </p:selectOneMenu>
+  <p:message for="tipoExamen"/>
+</p:column>
+<p:column headerText="Fecha Effectiva Desde">
+<p:calendar id="fechaEfectivaDesdeInput" value="#{examen.fechaEfectivaDesde}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+<p:message for="fechaEfectivaDesdeInput"/>
+</p:column>
+<p:column headerText="Fecha Effectiva Hasta">
+<p:calendar id="fechaEfectivaHastaInput" value="#{examen.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy" mask="true" />
+<p:message for="fechaEfectivaHastaInput"/>
+</p:column>
+ <p:column  headerText="Opciones" style="width:200px">
+  <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteMateriaDialogWV').show();" ajax="true" actionListener="#{admonMateriasForm.selectForAction(examen)}"/>
+  <p:commandButton style="margin-left: 10px;" value="Gestionar Materias" action="#{admonExamenesForm.toAdmonExamenesDetail(examen)}"/>
+ </p:column>
+</p:dataTable>
+
+<div class="ui-g">
+         <div class="ui-g-12">
+             <p:commandButton value="Agregar Examen" style="margin-left: 10px;"  styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonExamenesForm.onAddNew()}" />
+             <p:commandButton value="Guardar Cambios" style="margin-left: 10px;" styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonExamenesForm.saveAndUpdate()}" />
+         </div>
+     </div>
+
+</h:form>
+
+</ui:define>                     
+</ui:composition>
