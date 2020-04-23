@@ -73,14 +73,15 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 		return retval;
 	}
 	
-	/*@Override
-	public List<MrqsPreguntasHdrV1> findByTituloPregunta(String pTituloPregunta) {
+	@Override
+	public List<MrqsPreguntasHdrV1Dto> findByTituloPregunta(String pTituloPregunta) {
 
 		String strQuery="SELECT m FROM MrqsPreguntasHdrV1Dto m WHERE m.titulo like '%"+pTituloPregunta+"%'"; 
 		Query query = em.createQuery(strQuery);
 		return query.getResultList();
+	
 		
-	}*/
+	}
 
 
 	@Override

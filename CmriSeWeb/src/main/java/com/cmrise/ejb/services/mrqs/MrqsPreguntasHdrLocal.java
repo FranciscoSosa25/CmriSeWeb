@@ -23,5 +23,5 @@ public interface MrqsPreguntasHdrLocal {
 	public MrqsPreguntasHdrDto copyPaste(long pNumero);
 	public MrqsPreguntasHdrV2Dto findV2ByNumeroHdr(long pNumeroHdr); 
 	public List<MrqsPreguntasHdrV1> findWithFilterExam(long pNumeroExamen);
-	/* public List<MrqsPreguntasHdrV1> findByTituloPregunta(String ptituloPregunta);*/
+	public List<MrqsPreguntasHdrV1Dto> findByTituloPregunta(String ptituloPregunta);
 }
