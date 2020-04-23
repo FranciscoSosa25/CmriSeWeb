@@ -170,7 +170,8 @@ public class UpdateMrqsExamForm {
 		mrqsExamenesLocal.update(this.getNumeroMrqsExamen(), mrqsExamenesDto);
 		refreshEntity(); 
 		updateIn = true; 
-		PrimeFaces.current().ajax().addCallbackParam("updateIn", updateIn);
+		
+				PrimeFaces.current().ajax().addCallbackParam("updateIn", updateIn);
 		System.out.println("Sale UpdateTestExamForm update()");
 	}
 	

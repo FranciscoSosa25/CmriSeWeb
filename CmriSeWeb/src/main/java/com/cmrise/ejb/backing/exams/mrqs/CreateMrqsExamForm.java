@@ -2,6 +2,7 @@ package com.cmrise.ejb.backing.exams.mrqs;
 
 import java.util.Date;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -80,8 +81,10 @@ public class CreateMrqsExamForm {
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		session.setAttribute("NumeroMrqsExamenSV", numeroMrqsExamen);  
-		
+		context.addMessage(null, new FacesMessage("se creo correctamente el examen","Correctamente") );
 		return "Exams-MRQs-Update"; 
+		 
+	
 	}
 	
 	public String getTitulo() {
