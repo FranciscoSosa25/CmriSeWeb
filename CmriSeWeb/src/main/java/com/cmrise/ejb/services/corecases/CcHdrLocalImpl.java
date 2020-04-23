@@ -130,6 +130,7 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 
 	@Override
 	public CcHdrV1 findByNumeroObjMod(long pNumeroCcHdr) {
+		System.out.println("Entra findByNumeroObjMod pNumeroCcHdr:"+pNumeroCcHdr);
 		CcHdrV1 retval = new CcHdrV1(); 
 		CcHdrV1Dto ccHdrV1Dto = ccHdrDao.findByNumero(pNumeroCcHdr); 
 		retval.setNumero(ccHdrV1Dto.getNumero());
@@ -220,6 +221,8 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 						ccImagenes.setRutaImagen(Utilitarios.FS_ROOT+k.getRutaImagen());
 						String strJpgRuta  = Utilitarios.FS_ROOT+k.getRutaImagen()+"\\"+k.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX); 
 						String strThumbailRuta  = Utilitarios.FS_ROOT+k.getRutaImagen()+"\\"+k.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX); 
+						System.out.println("strJpgRuta:"+strJpgRuta);
+						System.out.println("strThumbailRuta:"+strThumbailRuta);
 						
 						try {
 							/** byte[] bytesArray = Files.readAllBytes(Paths.get(j.getRutaImagen()+"\\"+j.getNombreImagen())); **/
@@ -265,7 +268,7 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 	 	
 	 	retval.setListCcPreguntasHdrV1(listCcPreguntasHdrV1);
 	 	
-		
+	 	System.out.println("Sale findByNumeroObjMod pNumeroCcHdr:"+pNumeroCcHdr);
 		return retval;
 	}
 
