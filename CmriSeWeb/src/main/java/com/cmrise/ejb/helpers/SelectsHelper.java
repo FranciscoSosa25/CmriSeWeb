@@ -145,8 +145,11 @@ public class SelectsHelper {
 		Iterator<TablasUtilitariasValoresDto> iterTipoPreguntaValores = listTipoPreguntaValores.iterator(); 
 		while(iterTipoPreguntaValores.hasNext()) {
 			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterTipoPreguntaValores.next();
+			if(!"LIMIT_RESP_TEXTO_LIBRE".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+			 ) {
 			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
 			this.selectTipoPreguntaItems.add(selectItem); 
+			}
 		}
 	}
 	

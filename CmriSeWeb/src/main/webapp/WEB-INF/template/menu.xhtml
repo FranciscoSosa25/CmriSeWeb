@@ -27,12 +27,12 @@
                         <p:submenu label="Administracion" icon="fa fa-fw fa-bars">
 				            <p:menuitem value="Configuración" outcome="Admin-TablasUtilitariasvalores" icon="fa fa-group"/>
 				            <p:menuitem value="Usuarios" outcome="Admin-Usuarios" icon="fa fa-user-plus" rendered="false"/>
-				            <p:menuitem value="Administración Roles" outcome="Admon-Roles" icon="fa fa-group"/>
-				            <p:menuitem value="Administración Usuarios" outcome="Admon-Usuarios" icon="fa fa-user-plus"/>
-				            <p:menuitem value="Administración Usuarios Roles" outcome="Admon-Usuarios-Roles" icon="fa fa-user-secret" rendered="false"/>
+				            <p:menuitem value="Roles" outcome="Admon-Roles" icon="fa fa-group"/>
+				            <p:menuitem value="Usuarios" outcome="Admon-Usuarios" icon="fa fa-user-plus"/>
+				            <p:menuitem value="Usuarios Roles" outcome="Admon-Usuarios-Roles" icon="fa fa-user-secret" rendered="false"/>
 				            <p:menuitem value="Asignacion de Roles" outcome="Admin-RolesUsuarios" icon="fa fa-user-secret" rendered="false"/>
-				            <p:menuitem value="Administración Materias" outcome="Admon-Materias" icon="fa fa-book" rendered="true"/>
-				            <p:menuitem value="Administración Examenes" outcome="Admon-Examenes" icon="fa fa-graduation-cap" rendered="true"/>
+				            <p:menuitem value="Materias" outcome="Admon-Materias" icon="fa fa-book" rendered="true"/>
+				            <p:menuitem value="Examenes" outcome="Admon-Examenes" icon="fa fa-graduation-cap" rendered="true"/>
 				          </p:submenu>
 				          <p:submenu label="Preguntas" icon="fa fa-fw fa-align-right">
 				            <p:menuitem value="Gestionar MRQs" outcome="Preguntas-ManageNewMrqs"/>
@@ -76,10 +76,10 @@
 				             <p:menuitem value="Gestionar Candidatos" action="#{menuForm.fpExamsCoreCasesManageCandidates()}"/>
 				            </p:submenu>  
 				          </p:submenu>
-				          <p:submenu label="Archivos DICOM" icon="fa fa-fw fa-certificate">
+				          <p:submenu label="Archivos DICOM" icon="fa fa-fw fa-certificate" rendered="false">
 				           <p:menuitem value="Leer archivo DICOM" outcome="Dicom-Leer-Archivo"/>
 				          </p:submenu>
-				          <p:submenu label="Candidatos" icon="fa fa-fw fa-gg">
+				          <p:submenu label="Candidatos" icon="fa fa-fw fa-gg" rendered="false">
 				            <p:menuitem value="Gestionar Examenes" action="#{menuForm.fpCandidatesManageExams()}"/>
 				            <p:submenu label="Fast Path" icon="fa fa-fw fa-gg" rendered="false">
 				             <p:menuitem value="Examen" action="#{menuForm.fpCandidatesExamen()}"/>
@@ -94,7 +94,7 @@
                         Hoy
                         
                         <p:progressBar value="80" labelTemplate=""  displayOnly="true"/>
-                        En General
+                         En General
                     </div>
                     -->
                 </div>

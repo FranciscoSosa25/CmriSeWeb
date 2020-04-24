@@ -108,7 +108,7 @@ function handleUpdateRequest(xhr, status, args){
   		<p:selectOneMenu id="sedeHospital" value="#{createMrqsCandidatesForm.sedeHospital}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
   			<f:selectItem itemLabel="Seleccione una Sede Hospitalaria" itemValue="" />
 
-  			<f:selectItems value="#{selectsHelper.selectSedeHospital}" />
+  			<f:selectItems value="#{selectsHelper.selectSedeHospitalItems}" />
 
  	    </p:selectOneMenu>
  	     <p:message for="sedeHospital"/>
