@@ -31,7 +31,7 @@ public class ManageMrqsForm {
 	private String titulo;
 
 	private List<MrqsPreguntasHdrV1> listMrqsPreguntasHdrV1 = new ArrayList<MrqsPreguntasHdrV1>();
-	/*private List<MrqsPreguntasHdrV1Dto> listMrqsPreguntasHdrV1Dto = new ArrayList<MrqsPreguntasHdrV1Dto>();*/
+	private List<MrqsPreguntasHdrV1Dto> listMrqsPreguntasHdrV1Dto = new ArrayList<MrqsPreguntasHdrV1Dto>();
 	private MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForAction = new MrqsPreguntasHdrV1();
 	
 	@Inject 
@@ -79,9 +79,10 @@ public class ManageMrqsForm {
 		mrqsPreguntasHdrV1ForAction.setEtiquetas(pMrqsPreguntasHdrV1.getEtiquetas());
 	}
 	
-	/*public void findByTituloPregunta() {
-		 listMrqsPreguntasHdrV1 = mrqsPreguntasHdrLocal.findByTituloPregunta(this.titulo); 
-	}*/
+	
+	public void findByTituloPregunta() {
+		listMrqsPreguntasHdrV1Dto = mrqsPreguntasHdrLocal.findByTituloPregunta(this.titulo); 
+	}
 	
     public void delete() {
 		boolean deleteIn = false; 

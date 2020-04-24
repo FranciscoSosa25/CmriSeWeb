@@ -34,7 +34,6 @@ function handleDuplicateRequest(xhr, status, args){
 </script>
 </ui:define>
 
-
                 
 <ui:define name="content">
 <h:form id="ReadOnlyForm">
@@ -43,6 +42,31 @@ function handleDuplicateRequest(xhr, status, args){
       <p:menuitem value="MRQs" url="#" />
   </p:breadCrumb>
 <h1>Gestionar Nuevas MRQs</h1>
+
+<h:form id="SearchForm"> 
+<f:passThroughAttribute name="autocomplete" value="off"/> 
+ <p:fieldset legend="Buscar Pregunta" toggleable="true" toggleSpeed="500" style="margin-bottom:20px" collapsed="true" > 
+  <p:ajax event="toggle" /> 
+  <p:panel id="SearchPanel" > 
+  <div class="ui-g ui-fluid" style="width: 100%; margin-top: 5px;"> 
+    <div class="ui-g-6 ui-lg-3" > 
+         <p:outputLabel   value="Titulo Pregunta:" /> 
+         <p:inputText id="titulo_pregunta" value="#{manageMrqsForm.titulo}" style="width: 100%; margin-top: 5px;"  maxlength="50" /> 
+         <p:message for="titulo_pregunta"/> 
+         </div> 
+        </div> 
+     <div class="ui-g"> 
+        <div class="ui-g-12 ui-lg-12" style="text-align: right;"> 
+         <p:commandButton value="Cancelar"> 
+       <p:ajax update="SearchPanel" resetValues="true" /> 
+       </p:commandButton> 
+        <p:commandButton value="Consultar"    update="ReadOnlyForm" style="margin-left: 10px;"/> 
+       </div> 
+     </div> 
+  </p:panel> 
+  </p:fieldset> 
+</h:form> 
+
 <p:growl id="growl"  />
 <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva MRQ" icon="pi pi-plus" action="Preguntas-CreateNewMrqs"/>
  <p:dataTable var="preguntasHdrV1"  value="#{manageMrqsForm.listMrqsPreguntasHdrV1}"  paginator="true" rows="50" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
