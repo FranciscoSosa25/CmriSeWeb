@@ -27,11 +27,12 @@
 
 <p:breadCrumb>
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-    <p:menuitem value="Gestionar Pruebas/Examenes" url="ManageTestExam.xhtml"/>
+    <p:menuitem value="Examenes Casos Clinicos" url="ManageTestExam.xhtml"/>
+    <p:menuitem value="Actualizar Caso Clinico" outcome="Exams-CoreCases-Update"/>
      <p:menuitem value="Crear Grupos de Casos Principales" url="#"/>
 
 </p:breadCrumb>
-<h1>Crear Grupo de Casos Principales</h1>
+<h1>Crear Grupo de Casos Clinicos</h1>
 <h:form id="updateForm">
 <div class="ui-g">
     <div class="ui-g-2 ui-g-nopad">
@@ -53,9 +54,9 @@
     <div class="ui-g-10 ui-g-nopad">
       <p:panel layout="grid" >
       <f:facet name="header">
-       <h3>SELECCIÓN DE CASO PRINCIPAL</h3>
+       <h3>SELECCIÓN DE CASO CLINICO</h3>
       </f:facet>
-       <p:outputLabel for="coreCase"  value="Ingrese o Seleccione un Caso Principal"/>
+       <p:outputLabel for="coreCase"  value="Ingrese o Seleccione un Caso Clinico"/>
         <p:selectManyMenu id="coreCase" value="#{createGroupForm.selectedCcHdrForAction}" converter="ccHdrForActionCoverter" var="cC" filter="true" filterMatchMode="contains" showCheckbox="true">
           <f:selectItems value="#{createGroupForm.listCcHdrForAction}" var="cCTmp" itemLabel="#{cCTmp.nombre}" itemValue="#{cCTmp}" />
           <p:column>

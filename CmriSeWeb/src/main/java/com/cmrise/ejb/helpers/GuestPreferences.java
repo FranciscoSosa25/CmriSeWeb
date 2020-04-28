@@ -32,7 +32,7 @@ public class GuestPreferences implements Serializable {
     
     private String theme = Utilitarios.DEFAULT_THEME;
         
-    private String menuLayout = "static";
+    private String menuLayout = "horizontal";
     
     private boolean orientationRTL;
         
