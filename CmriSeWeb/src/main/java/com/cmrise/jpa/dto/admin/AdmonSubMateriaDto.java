@@ -1,24 +1,46 @@
-package com.cmrise.ejb.model.admin;
+package com.cmrise.jpa.dto.admin;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 
-public class AdmonExamenLine implements Serializable {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="ADMON_SUBMATERIA")
+@NamedQuery(name="AdmonSubMateriaDto.findAll", query="SELECT a FROM AdmonSubMateriaDto a")
+public class AdmonSubMateriaDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@Column(name="NUMERO")
 	private long numero;
-	private long actualizadoPor;
-	private long creadoPor;
-	private Date fechaActualizacion;
-	private Date fechaCreacion;
-	private Date fechaEfectivaDesde;
-	private Date fechaEfectivaHasta;
-	private long numeroExamen; 
-	private long numeroMateria; 
-	private int idxTemp; 
-	private AdmonMateriaHdr admonMateriaHdr; 
 	
+	@Column(name="ACTUALIZADO_POR")
+	private long actualizadoPor;
+
+	@Column(name="CREADO_POR")
+	private long creadoPor;
+
+	@Column(name="FECHA_ACTUALIZACION")
+	private Timestamp fechaActualizacion;
+
+	@Column(name="FECHA_CREACION")
+	private Timestamp fechaCreacion;
+
+	@Column(name="FECHA_EFECTIVA_DESDE")
+	private Date fechaEfectivaDesde;
+
+	@Column(name="FECHA_EFECTIVA_HASTA")
+	private Date fechaEfectivaHasta;
+	
+	@Column(name="NOMBRE")
+	private String nombre; 
 	
 	public long getNumero() {
 		return this.numero;
@@ -44,19 +66,19 @@ public class AdmonExamenLine implements Serializable {
 		this.creadoPor = creadoPor;
 	}
 
-	public Date getFechaActualizacion() {
+	public Timestamp getFechaActualizacion() {
 		return this.fechaActualizacion;
 	}
 
-	public void setFechaActualizacion(Date fechaActualizacion) {
+	public void setFechaActualizacion(Timestamp fechaActualizacion) {
 		this.fechaActualizacion = fechaActualizacion;
 	}
 
-	public Date getFechaCreacion() {
+	public Timestamp getFechaCreacion() {
 		return this.fechaCreacion;
 	}
 
-	public void setFechaCreacion(Date fechaCreacion) {
+	public void setFechaCreacion(Timestamp fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 
@@ -76,35 +98,12 @@ public class AdmonExamenLine implements Serializable {
 		this.fechaEfectivaHasta = fechaEfectivaHasta;
 	}
 
-	public long getNumeroExamen() {
-		return numeroExamen;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setNumeroExamen(long numeroExamen) {
-		this.numeroExamen = numeroExamen;
-	}
-
-	public long getNumeroMateria() {
-		return numeroMateria;
-	}
-
-	public void setNumeroMateria(long numeroMateria) {
-		this.numeroMateria = numeroMateria;
-	}
-
-	public AdmonMateriaHdr getAdmonMateria() {
-		return admonMateriaHdr;
-	}
-
-	public void setAdmonMateria(AdmonMateriaHdr admonMateriaHdr) {
-		this.admonMateriaHdr = admonMateriaHdr;
-	}
-
-	public int getIdxTemp() {
-		return idxTemp;
-	}
-
-	public void setIdxTemp(int idxTemp) {
-		this.idxTemp = idxTemp;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 }
+

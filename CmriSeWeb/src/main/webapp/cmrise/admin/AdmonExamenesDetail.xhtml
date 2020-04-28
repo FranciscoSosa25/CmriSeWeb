@@ -20,10 +20,11 @@ function handleDeleteRequest(xhr, status, args){
                 
 <ui:define name="content">
 <h:form id="ExamenesMateriasForm">
+<p:growl id="msgs" showDetail="true"/>
 <h1>Gestionar Materias de Examenes</h1>
 <div class="ui-g">
          <div class="ui-g-12">
-             <p:commandButton value="Regresar" style="margin-left: 10px;"  styleClass="ui-priority-primary"   action="#{admonExamenesForm.backAdmonExamenes()}" />
+             <p:commandButton value="Regresar"  immediate="true" style="margin-left: 10px;"  styleClass="ui-priority-primary"   action="#{admonExamenesForm.backAdmonExamenes()}" />
          </div>
      </div>
 <p:dataTable var="examenLine" value="#{admonExamenesDetailForm.examenesLines}">

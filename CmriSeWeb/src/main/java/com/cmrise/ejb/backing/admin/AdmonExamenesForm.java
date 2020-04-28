@@ -55,6 +55,7 @@ public class AdmonExamenesForm {
 	public void onAddNew() {
 		idxExamen = idxExamen+1; 
 		AdmonExamenHdr admonExamenHdr = new AdmonExamenHdr(); 
+		admonExamenHdr.setFechaEfectivaDesde(new java.util.Date());
 		admonExamenHdr.setCreadoPor(userLogin.getNumeroUsuario());
 		admonExamenHdr.setActualizadoPor(userLogin.getNumeroUsuario());
 		admonExamenHdr.setIdxTemp(idxExamen);

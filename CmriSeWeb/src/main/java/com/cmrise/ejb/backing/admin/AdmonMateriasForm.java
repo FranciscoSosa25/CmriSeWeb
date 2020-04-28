@@ -10,12 +10,14 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.PrimeFaces;
 
 import com.cmrise.ejb.helpers.UserLogin;
-import com.cmrise.ejb.model.admin.AdmonMateria;
-import com.cmrise.ejb.services.admin.AdmonMateriaLocal;
+import com.cmrise.ejb.model.admin.AdmonMateriaHdr;
+import com.cmrise.ejb.services.admin.AdmonMateriaHdrLocal;
 import com.cmrise.utils.XxSqlConstraints;
 
 
@@ -23,15 +25,15 @@ import com.cmrise.utils.XxSqlConstraints;
 @ViewScoped
 public class AdmonMateriasForm {
 
-	private List<AdmonMateria> materias = new ArrayList<AdmonMateria>();
-    private AdmonMateria admonMateriaForAction = new AdmonMateria(); 
+	private List<AdmonMateriaHdr> materias = new ArrayList<AdmonMateriaHdr>();
+    private AdmonMateriaHdr admonMateriaForAction = new AdmonMateriaHdr(); 
 	private int idxMateria =0; 
     
     @ManagedProperty(value="#{userLogin}")
 	private UserLogin userLogin; 
 
     @Inject 
-    AdmonMateriaLocal admonMateriaLocal; 
+    AdmonMateriaHdrLocal admonMateriaHdrLocal; 
 
     
 
@@ -43,28 +45,29 @@ public class AdmonMateriasForm {
 	 }		 
 	
 	public void refreshEntity() {
-		materias = admonMateriaLocal.findAll();
+		materias = admonMateriaHdrLocal.findAll();
 	}
     
 	public void onAddNew() {
 		System.out.println("userLogin.getNumeroUsuario():"+userLogin.getNumeroUsuario());
 		idxMateria = idxMateria+1; 
-		AdmonMateria admonMateria = new AdmonMateria(); 
-		admonMateria.setCreadoPor(userLogin.getNumeroUsuario());
-		admonMateria.setActualizadoPor(userLogin.getNumeroUsuario());
-		admonMateria.setIdxTemp(idxMateria);
-		materias.add(admonMateria);
+		AdmonMateriaHdr admonMateriaHdr = new AdmonMateriaHdr(); 
+		admonMateriaHdr.setFechaEfectivaDesde(new java.util.Date());
+		admonMateriaHdr.setCreadoPor(userLogin.getNumeroUsuario());
+		admonMateriaHdr.setActualizadoPor(userLogin.getNumeroUsuario());
+		admonMateriaHdr.setIdxTemp(idxMateria);
+		materias.add(admonMateriaHdr);
 	}
 	
 	public void saveAndUpdate() {
 		boolean exceptions = false; 
-	 for(AdmonMateria i:materias) {
+	 for(AdmonMateriaHdr i:materias) {
 		 
 		 if(0!=i.getNumero()) {
 			 if(i.isaChange()) {
 				 i.setFechaActualizacion(new java.util.Date());
 				 i.setActualizadoPor(userLogin.getNumeroUsuario());
-				 admonMateriaLocal.update(i); 
+				 admonMateriaHdrLocal.update(i); 
 			 }
 		 }else {
 			 i.setFechaCreacion(new java.util.Date());
@@ -72,7 +75,7 @@ public class AdmonMateriasForm {
 			 i.setCreadoPor(userLogin.getNumeroUsuario());
 			 i.setActualizadoPor(userLogin.getNumeroUsuario());
 			 try {
-			 admonMateriaLocal.insert(i);
+			 admonMateriaHdrLocal.insert(i);
 			 }catch(Exception e) {
 				 Throwable throwable = e.getCause();
 				 while(null!=throwable) {
@@ -87,7 +90,7 @@ public class AdmonMateriasForm {
 				 }
 			 } /** END  }catch(Exception e) { **/
 		 }
-	 }	/** END  for(AdmonMateria i:materias) { **/
+	 }	/** END  for(AdmonMateriaHdr i:materias) { **/
 	 
 	  if(!exceptions) {
 	  FacesMessage msg = new FacesMessage("Se Agregaron", "Los Cambios");
@@ -96,7 +99,7 @@ public class AdmonMateriasForm {
 	 
 	}
 	
-	public void selectForAction(AdmonMateria pAdmonMateria) {
+	public void selectForAction(AdmonMateriaHdr pAdmonMateria) {
 		if(0!=pAdmonMateria.getNumero()) {
 			admonMateriaForAction.setNumero(pAdmonMateria.getNumero());	
 		}else {
@@ -106,37 +109,52 @@ public class AdmonMateriasForm {
 	
 	public void delete() {
 		boolean deleteIn = false;
-		AdmonMateria admonMateria = null; 
+		AdmonMateriaHdr admonMateriaHdr = null; 
 		if(0!=admonMateriaForAction.getNumero()) {
-			for(AdmonMateria i:materias) {
+			for(AdmonMateriaHdr i:materias) {
 				if(i.getNumero()==admonMateriaForAction.getNumero()) {
-					admonMateriaLocal.delete(admonMateriaForAction.getNumero());
+					admonMateriaHdrLocal.delete(admonMateriaForAction.getNumero());
 					deleteIn = true;
 					PrimeFaces.current().ajax().addCallbackParam("deleteIn", deleteIn);
-					admonMateria = i; 
+					admonMateriaHdr = i; 
 					break; 
 				}
 			}	
 		}else {
-			for(AdmonMateria i:materias) {
+			for(AdmonMateriaHdr i:materias) {
 				if(i.getIdxTemp()==admonMateriaForAction.getIdxTemp()) {
 					deleteIn = true;
 					PrimeFaces.current().ajax().addCallbackParam("deleteIn", deleteIn);
-					admonMateria = i; 
+					admonMateriaHdr = i; 
 					break; 
 				}
 			}	
 		}
-		if(null!=admonMateria) {
-			materias.remove(admonMateria); 
+		if(null!=admonMateriaHdr) {
+			materias.remove(admonMateriaHdr); 
 		}
 	}
 	
-	public List<AdmonMateria> getMaterias() {
+	public String toAdmonMateriaDetail(AdmonMateriaHdr pAdmonMateriaHdr) {
+		System.out.println("Entra toAdmonMateriaDetail");
+		String accion = null; 
+		if(0==pAdmonMateriaHdr.getNumero()) {
+			 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Antes de continuar hay que guardar"));
+	    }else {
+	    	 FacesContext context = FacesContext.getCurrentInstance();  
+	    	 HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest(); 
+		     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		     session.setAttribute("NumeroAdmonMateriaSV", pAdmonMateriaHdr.getNumero());
+		     accion = "Admon-Materias-Detail"; 
+	    }
+		return accion; 
+	}
+	
+	public List<AdmonMateriaHdr> getMaterias() {
 		return materias;
 	}
 
-	public void setMaterias(List<AdmonMateria> materias) {
+	public void setMaterias(List<AdmonMateriaHdr> materias) {
 		this.materias = materias;
 	} 
 	
@@ -147,11 +165,11 @@ public class AdmonMateriasForm {
 		this.userLogin = userLogin;
 	}
 
-	public AdmonMateria getAdmonMateriaForAction() {
+	public AdmonMateriaHdr getAdmonMateriaForAction() {
 		return admonMateriaForAction;
 	}
 
-	public void setAdmonMateriaForAction(AdmonMateria admonMateriaForAction) {
+	public void setAdmonMateriaForAction(AdmonMateriaHdr admonMateriaForAction) {
 		this.admonMateriaForAction = admonMateriaForAction;
 	}	
 }

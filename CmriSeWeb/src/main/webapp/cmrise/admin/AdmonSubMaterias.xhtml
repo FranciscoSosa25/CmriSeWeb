@@ -9,10 +9,10 @@
 <script type="text/javascript">
 function handleDeleteRequest(xhr, status, args){
 	 if(args.validationFailed|| !args.deleteIn) {
-		 PF('deleteMateriaDialogWV').jq.effect("shake", {times:5}, 100);
+		 PF('deleteSubMateriaDialogWV').jq.effect("shake", {times:5}, 100);
 		 argsValidationFailed(); 
   }else{
-  	 PF('deleteMateriaDialogWV').hide();
+  	 PF('deleteSubMateriaDialogWV').hide();
   }	
 }
 </script>
@@ -20,10 +20,10 @@ function handleDeleteRequest(xhr, status, args){
 
 
 <ui:define name="content">
-<h:form id="MateriasForm">
+<h:form id="SubMateriasForm">
 <p:growl id="msgs" showDetail="true"/>
-<h1>Administración Materias</h1>
-<p:dataTable var="materia" value="#{admonMateriasForm.materias}">
+<h1>Administración SubMaterias</h1>
+<p:dataTable var="materia" value="#{admonSubMateriasForm.subMaterias}">
  <p:column headerText="Nombre" >
   <p:inputText id="nombre" value="#{materia.nombre}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:98%"/>
   <p:message for="nombre"/>
@@ -36,28 +36,27 @@ function handleDeleteRequest(xhr, status, args){
          <p:calendar id="fechaEfectivaHastaInput" value="#{materia.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy" mask="true" />
          <p:message for="fechaEfectivaHastaInput"/>
       </p:column>
-      <p:column  headerText="Opciones" style="width:230px">
-      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteMateriaDialogWV').show();" ajax="true" actionListener="#{admonMateriasForm.selectForAction(materia)}"/>
-      <p:commandButton value="Gestionar SubMaterias" style="margin-left: 10px;" action="#{admonMateriasForm.toAdmonMateriaDetail(materia)}"/>
+      <p:column  headerText="Opciones">
+      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteSubMateriaDialogWV').show();" ajax="true" actionListener="#{admonSubMateriasForm.selectForAction(materia)}"/>
      </p:column>
 </p:dataTable>
 <div class="ui-g">
          <div class="ui-g-12">
-             <p:commandButton value="Agregar Materia" style="margin-left: 10px;"  styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonMateriasForm.onAddNew()}" />
-             <p:commandButton value="Guardar Cambios" style="margin-left: 10px;" styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonMateriasForm.saveAndUpdate()}" />
+             <p:commandButton value="Agregar SubMateria" style="margin-left: 10px;"  styleClass="ui-priority-primary"  update="SubMateriasForm" action="#{admonSubMateriasForm.onAddNew()}" />
+             <p:commandButton value="Guardar Cambios" style="margin-left: 10px;" styleClass="ui-priority-primary"  update="SubMateriasForm" action="#{admonSubMateriasForm.saveAndUpdate()}" />
          </div>
      </div>
 </h:form>
 
 <h:form id="DeleteForm">
-   <p:dialog id="deleteMateriaDialogId" widgetVar="deleteMateriaDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Materia">
+   <p:dialog id="deleteMateriaDialogId" widgetVar="deleteSubMateriaDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Materia">
     <h2>#{msgs['globalForm.deleteMessage']}</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeleteBtn" update="MateriasForm" value="Aceptar" actionListener="#{admonMateriasForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
+                 <p:commandButton id="DeleteBtn" update="SubMateriasForm" value="Aceptar" actionListener="#{admonSubMateriasForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
               </div>
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('deleteMateriaDialogWV').hide();" />
+                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('deleteSubMateriaDialogWV').hide();" />
               </div>
      </div>
    </p:dialog>

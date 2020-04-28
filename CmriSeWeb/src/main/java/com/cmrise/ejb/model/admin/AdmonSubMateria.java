@@ -3,10 +3,9 @@ package com.cmrise.ejb.model.admin;
 import java.io.Serializable;
 import java.util.Date;
 
-public class AdmonExamenLine implements Serializable {
+public class AdmonSubMateria implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
 	private long numero;
 	private long actualizadoPor;
 	private long creadoPor;
@@ -14,11 +13,9 @@ public class AdmonExamenLine implements Serializable {
 	private Date fechaCreacion;
 	private Date fechaEfectivaDesde;
 	private Date fechaEfectivaHasta;
-	private long numeroExamen; 
-	private long numeroMateria; 
+	private String nombre; 
 	private int idxTemp; 
-	private AdmonMateriaHdr admonMateriaHdr; 
-	
+	private boolean aChange;
 	
 	public long getNumero() {
 		return this.numero;
@@ -76,28 +73,17 @@ public class AdmonExamenLine implements Serializable {
 		this.fechaEfectivaHasta = fechaEfectivaHasta;
 	}
 
-	public long getNumeroExamen() {
-		return numeroExamen;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setNumeroExamen(long numeroExamen) {
-		this.numeroExamen = numeroExamen;
-	}
-
-	public long getNumeroMateria() {
-		return numeroMateria;
-	}
-
-	public void setNumeroMateria(long numeroMateria) {
-		this.numeroMateria = numeroMateria;
-	}
-
-	public AdmonMateriaHdr getAdmonMateria() {
-		return admonMateriaHdr;
-	}
-
-	public void setAdmonMateria(AdmonMateriaHdr admonMateriaHdr) {
-		this.admonMateriaHdr = admonMateriaHdr;
+	public void setNombre(String pNombre) {
+		if(null!=pNombre&&null!=getNombre()) {
+			if(!pNombre.equals(getNombre())) {
+				  this.setaChange(true);	
+		  }	
+		}
+		this.nombre = pNombre;
 	}
 
 	public int getIdxTemp() {
@@ -107,4 +93,14 @@ public class AdmonExamenLine implements Serializable {
 	public void setIdxTemp(int idxTemp) {
 		this.idxTemp = idxTemp;
 	}
+
+	public boolean isaChange() {
+		return aChange;
+	}
+
+	public void setaChange(boolean aChange) {
+		this.aChange = aChange;
+	}
 }
+
+
