@@ -12,7 +12,7 @@ import com.cmrise.jpa.dao.admin.AdmonExamenHdrDao;
 import com.cmrise.jpa.dao.admin.AdmonExamenLineDao;
 import com.cmrise.jpa.dto.admin.AdmonExamenHdrDto;
 import com.cmrise.jpa.dto.admin.AdmonExamenLineDto;
-import com.cmrise.jpa.dto.admin.AdmonMateriaDto;
+import com.cmrise.jpa.dto.admin.AdmonMateriaHdrDto;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless 

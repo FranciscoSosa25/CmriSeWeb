@@ -29,8 +29,8 @@ function handleDeleteRequest(xhr, status, args){
      <p:menuitem value="Casos Clínicos" url="#"/>
 	
 </p:breadCrumb>
-<h1>GESTIONAR NUEVOS CASOS CLINICOS</h1>
- <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nuevo Caso Clínico" icon="pi pi-plus" action="Preguntas-Create-CoreCase" style="text-align:right;"/>
+<h1>Casos Clinicos</h1>
+ <p:commandButton immediate="true" title="Nuevo"  value="Nuevo Caso Clínico" icon="pi pi-plus" action="Preguntas-Create-CoreCase" style="text-align:right;"/>
 <h:form id="ReadOnlyForm">
  <p:dataTable var="ccHdrV1"  value="#{manageCoreCasesForm.listCcHdrV1}"  paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">

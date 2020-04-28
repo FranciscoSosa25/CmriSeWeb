@@ -57,6 +57,7 @@ public class AdmonExamenesDetailForm {
 		idxExamenLine = idxExamenLine+1; 
 		AdmonExamenLine admonExamenLine = new AdmonExamenLine(); 
 		System.out.println("numeroAdmonExamen:"+numeroAdmonExamen);
+		admonExamenLine.setFechaEfectivaDesde(new java.util.Date());
 		admonExamenLine.setNumeroExamen(numeroAdmonExamen);
 		admonExamenLine.setCreadoPor(userLogin.getNumeroUsuario());
 		admonExamenLine.setActualizadoPor(userLogin.getNumeroUsuario());

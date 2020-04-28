@@ -42,6 +42,12 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 </ui:define>                
                 
 <ui:define name="content">
+<p:breadCrumb>
+    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
+     <p:menuitem value="Casos clínicos" outcome= "Preguntas-Manage-CoreCases" />
+     <p:menuitem value="Actualizar Caso Clínico" outcome="Preguntas-Update-CoreCase"/>
+     <p:menuitem value="Actualizar Pregunta" url="#"/>
+</p:breadCrumb>
 <h1>#{updateQuestionFtaCoreCaseForm.tituloPreguntaHdr}</h1>
 
 <p:dialog id="presentationDialogId" widgetVar="presentationDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Agregar Imagenes">

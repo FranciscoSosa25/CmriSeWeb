@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="content">
+<h:form id="MateriasDetailForm">
+<p:growl id="msgs" showDetail="true"/>
+<h1>Gestionar SubMaterias</h1>
+<div class="ui-g">
+         <div class="ui-g-12">
+             <p:commandButton value="Regresar" immediate="true" style="margin-left: 10px;"  styleClass="ui-priority-primary"   action="#{admonMateriasDetailForm.backAdmonMaterias()}" />
+         </div>
+     </div>
+<p:dataTable var="materiaLine" value="#{admonMateriasDetailForm.materiasLines}">
+   <p:column headerText="Materia">
+     <p:selectOneMenu id="materia" value="#{materiaLine.numeroSubmateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+	  <f:selectItem itemLabel="Seleccione ..." itemValue="" />
+	  <f:selectItems value="#{selectsHelper.selectAdmonSubMateriaItems}" />
+	  </p:selectOneMenu>
+	  <p:message for="materia"/>
+   </p:column>
+   <p:column headerText="Fecha Effectiva Desde">
+            <p:calendar id="fechaEfectivaDesdeInput" value="#{materiaLine.fechaEfectivaDesde}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+            <p:message for="fechaEfectivaDesdeInput"/>
+      </p:column>
+       <p:column headerText="Fecha Effectiva Hasta">
+         <p:calendar id="fechaEfectivaHastaInput" value="#{materiaLine.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy" mask="true" />
+         <p:message for="fechaEfectivaHastaInput"/>
+      </p:column>
+      <p:column  headerText="Opciones">
+      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" update="MateriasDetailForm" oncomplete="PF('deleteDialogWV').show();" ajax="true" immediate="true" actionListener="#{admonMateriasDetailForm.selectForActionLine(materiaLine)}"/>
+     </p:column>
+</p:dataTable>  
+<div class="ui-g">
+    <div class="ui-g-12">
+        <p:commandButton value="Agregar Materia" style="margin-left: 10px;"  styleClass="ui-priority-primary"  update="MateriasDetailForm" action="#{admonMateriasDetailForm.onAddNewLine()}" />
+        <p:commandButton value="Guardar Cambios" style="margin-left: 10px;" styleClass="ui-priority-primary"  update="MateriasDetailForm" action="#{admonMateriasDetailForm.saveAndUpdateLine()}" />
+    </div>
+</div>
+</h:form>
+</ui:define>
+</ui:composition>                
