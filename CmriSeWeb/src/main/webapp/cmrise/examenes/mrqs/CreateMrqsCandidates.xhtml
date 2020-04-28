@@ -35,8 +35,10 @@ function handleUpdateRequest(xhr, status, args){
 <ui:define name="content">
 <p:breadCrumb>
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-         <p:menuitem value="Gestionar Pruebas/Examenes" url="ManageMrqsExams.xhtml"/>
-     <p:menuitem value="Actualizar Examen MRQ" url="#"/>
+         <p:menuitem value="Examenes de preguntas" outcome="ManageMrqsExams.xhtml"/>
+     <p:menuitem value="Actualizar Examen de preguntas" outcome="Exams-MRQs-Update"/>
+      <p:menuitem value="Candidatos de examen de preguntas" url="#"/>
+     
 </p:breadCrumb>
 <h1>Gestionar Nuevos Candidatos</h1>
 <h:form id="ReadOnlyForm">

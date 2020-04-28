@@ -18,16 +18,17 @@
 <ui:define name="content">
 <p:breadCrumb>
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="Crear Pregunta Caso Pricipal" url="#"/>
+     <p:menuitem value="Casos clínicos" outcome= "Preguntas-Manage-CoreCases" />
+     <p:menuitem value="Crear Pregunta Caso Clinico" url="#"/>
 </p:breadCrumb>
-<h1>Crear Pregunta Caso Principal</h1>
+<h1>Crear Pregunta Caso Clinico</h1>
 
 <div class="ui-g">
  <div class="ui-g-2">
    <h:form id="arbolPrincipalForm" >
    <p:panelGrid  columns="1" layout="grid">
      <f:facet name="header">
-        <div class="xxdivTree">Arbol Caso Principal</div>
+        <div class="xxdivTree">Arbol Caso Clinico</div>
      </f:facet>
       <p:dataList var="ccPreguntasHdrV1" value="#{createQuestionCoreCaseForm.listCcPreguntasHdrV1}" type="definition" responsive="true">
        <f:facet name="caption">#{updateCoreCaseForm.nombreCc}</f:facet>

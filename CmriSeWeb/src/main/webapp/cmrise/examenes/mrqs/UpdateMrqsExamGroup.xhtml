@@ -28,6 +28,12 @@
 
                     
 <ui:define name="content">
+<p:breadCrumb>
+ <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
+         <p:menuitem value="Examenes de preguntas" url="ManageMrqsExams.xhtml"/>
+     <p:menuitem value="Actualizar Examen de preguntas" outcome="Exams-MRQs-Update"/>
+     <p:menuitem value="Actualizar Grupo de preguntas" url="#"/>
+</p:breadCrumb>
 <h1>#{updateMrqsExamGroupForm.tituloGrupo}</h1>
 <h:form id="updateMrqsExamGroupForm">
 <p:growl id="messages" showDetail="true" />
