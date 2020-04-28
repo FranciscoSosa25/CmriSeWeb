@@ -11,9 +11,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="ADMON_MATERIA")
-@NamedQuery(name="AdmonMateriaDto.findAll", query="SELECT a FROM AdmonMateriaDto a")
-public class AdmonMateriaDto implements Serializable {
+@Table(name="ADMON_MATERIA_HDR")
+@NamedQuery(name="AdmonMateriaHdrDto.findAll", query="SELECT a FROM AdmonMateriaHdrDto a")
+public class AdmonMateriaHdrDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

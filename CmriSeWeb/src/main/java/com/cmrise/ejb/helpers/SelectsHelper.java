@@ -9,9 +9,11 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
-import com.cmrise.ejb.model.admin.AdmonMateria;
-import com.cmrise.ejb.services.admin.AdmonMateriaLocal;
+import com.cmrise.ejb.model.admin.AdmonMateriaHdr;
+import com.cmrise.ejb.model.admin.AdmonSubMateria;
+import com.cmrise.ejb.services.admin.AdmonMateriaHdrLocal;
 import com.cmrise.ejb.services.admin.AdmonRolesLocal;
+import com.cmrise.ejb.services.admin.AdmonSubMateriaLocal;
 import com.cmrise.ejb.services.admin.AdmonUsuariosLocal;
 import com.cmrise.ejb.services.admin.TablasUtilitariasValoresLocal;
 import com.cmrise.ejb.services.corecases.CcHdrLocal;
@@ -35,8 +37,10 @@ public class SelectsHelper {
 	CcHdrLocal ccHdrLocal; 
 	
 	@Inject 
-	AdmonMateriaLocal admonMateriaLocal; 
+	AdmonMateriaHdrLocal admonMateriaHdrLocal; 
 	
+	@Inject 
+	AdmonSubMateriaLocal admonSubMateriaLocal; 
 	
 	private List<SelectItem> selectTipoPreguntaItems; 
 	private List<SelectItem> selectTipoExamenItems; 
@@ -53,6 +57,7 @@ public class SelectsHelper {
 	private List<SelectItem> selectSedeHospitalItems;
 	private List<SelectItem> selectAdmonExamenesItems; 
 	private List<SelectItem> selectAdmonMateriaItems; 
+	private List<SelectItem> selectAdmonSubMateriaItems; 
 	
 	@PostConstruct
     public void init() {
@@ -72,13 +77,28 @@ public class SelectsHelper {
        environmentSedeHospital();
        environmentAdmonExamenes();
        environmentAdmonMateria(); 
+       environmentAdmonSubMateria(); 
        System.out.println("Sale SelectsHelper init()");
     }
 	
+	private void environmentAdmonSubMateria() {
+		this.selectAdmonSubMateriaItems =  new ArrayList<SelectItem>();
+		List<AdmonSubMateria> listAdmonSubMateria = admonSubMateriaLocal.findAll(); 
+		for(AdmonSubMateria i:listAdmonSubMateria) {
+			SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
+			this.selectAdmonSubMateriaItems.add(selectItem); 
+		}
+		
+	}
+	
+	public List<SelectItem> getSelectAdmonSubMateriaItems() {
+		return selectAdmonSubMateriaItems;
+	}
+	
 	private void environmentAdmonMateria() {
 		this.selectAdmonMateriaItems =  new ArrayList<SelectItem>();
-		List<AdmonMateria> listAdmonMateria = admonMateriaLocal.findAll(); 
-		for(AdmonMateria i:listAdmonMateria) {
+		List<AdmonMateriaHdr> listAdmonMateria = admonMateriaHdrLocal.findAll(); 
+		for(AdmonMateriaHdr i:listAdmonMateria) {
 			SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
 			this.selectAdmonMateriaItems.add(selectItem); 
 		}

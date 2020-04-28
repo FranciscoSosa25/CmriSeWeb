@@ -29,7 +29,7 @@ public class AdmonExamenLineLocalImpl implements AdmonExamenLineLocal {
 		admonExamenLineDto.setNumeroExamen(pAdmonExamenLine.getNumeroExamen());
 		admonExamenLineDto.setNumeroMateria(pAdmonExamenLine.getNumeroMateria());
 		admonExamenLineDto.setFechaEfectivaDesde(Utilitarios.utilDateToSqlDate(pAdmonExamenLine.getFechaEfectivaDesde()));
-		if(null==admonExamenLineDto.getFechaEfectivaHasta()) {
+		if(null==pAdmonExamenLine.getFechaEfectivaHasta()) {
 			admonExamenLineDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
 		}else {
 			admonExamenLineDto.setFechaEfectivaHasta(Utilitarios.utilDateToSqlDate(pAdmonExamenLine.getFechaEfectivaHasta()));

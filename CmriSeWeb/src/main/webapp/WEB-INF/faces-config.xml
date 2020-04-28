@@ -47,6 +47,16 @@
 			<redirect />
 		</navigation-case>
 		<navigation-case>
+			<from-outcome>Admon-Materias-Detail</from-outcome>
+			<to-view-id>/cmrise/admin/AdmonMateriasDetail.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>Admon-SubMaterias</from-outcome>
+			<to-view-id>/cmrise/admin/AdmonSubMaterias.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
 			<from-outcome>PaginaPrincipal</from-outcome>
 			<to-view-id>/cmrise/principal.xhtml</to-view-id>
 			<redirect />
