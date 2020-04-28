@@ -4,6 +4,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:po="http://primefaces.org/poseidon">
+  
 
 	<div class="topbar clearfix">
 
@@ -31,18 +32,27 @@
 				</a>
 
 					<ul class="poseidon-menu animated">
-						<li role="menuitem"><a href="#"> <i
-								class="fa fa-fw fa-user"></i> <span>Perfil</span>
-						</a></li>
-						<li role="menuitem"><a href="#"> <i
-								class="fa fa-fw fa-user-secret"></i> <span>Privacidad</span>
-						</a></li>
-						<li role="menuitem"><a href="#"> <i
-								class="fa fa-fw fa-cog"></i> <span>Configuraciones</span>
-						</a></li>
-					
-						<li role="menuitem"><a href="#"> <i
-								class="fa fa-fw fa-sign-out"></i> <span>Cerrar Sesión</span>
+
+					 
+<!-- 						<li role="menuitem"><a href="#"> <i -->
+<!-- 								class="fa fa-fw fa-user"></i> <span>Perfil</span> -->
+<!-- 						</a></li> -->
+<!-- 						<li role="menuitem"><a href="#"> <i -->
+<!-- 								class="fa fa-fw fa-user-secret"></i> <span>Privacidad</span> -->
+<!-- 						</a></li> -->
+<!-- 						<li role="menuitem"><a href="#"> <i -->
+<!-- 								class="fa fa-fw fa-cog"></i> <span>Configuraciones</span> -->
+<!-- 						</a></li> -->
+						<li role="menuitem"><a href="#"> 
+						  <h:form>
+						     
+						   <p:commandLink action="#{indexForm.logout()}" ajax="false"><i
+						 class="fa fa-fw fa-sign-out" ></i>  <span>Cerrar Sesión</span>
+						   
+						  </p:commandLink>
+						
+						    </h:form>
+
 						</a></li>
 					</ul></li>
 					<!--
