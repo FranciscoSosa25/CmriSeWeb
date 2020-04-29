@@ -34,7 +34,14 @@ function handleDuplicateRequest(xhr, status, args){
 </script>
 </ui:define>
                                  
-<ui:define name="content">
+<ui:define name="content"
+<h:form id="ReadOnlyForm">
+ <p:breadCrumb>
+  		<p:menuitem value="Inicio" outcome="PaginaPrincipal"/>
+      <p:menuitem value="Preguntas" url="#" />
+  </p:breadCrumb>
+<!-- <h1>Preguntas</h1> -->
+
 
 <h:form id="SearchForm"> 
 <f:passThroughAttribute name="autocomplete" value="off"/> 
@@ -65,10 +72,12 @@ function handleDuplicateRequest(xhr, status, args){
   </p:fieldset> 
 </h:form>
 
-<h:form id="ReadOnlyForm">
-<h1>Preguntas</h1>
-<p:growl id="growl"/>
-<p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva MRQ" icon="pi pi-plus" action="Preguntas-CreateNewMrqs"/>
+
+<p:growl id="growl"  />
+<p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Pregunta" icon="pi pi-plus" action="Preguntas-CreateNewMrqs"/>
+
+
+
  <p:dataTable var="preguntasHdrV1"  value="#{manageMrqsForm.listMrqsPreguntasHdrV1}"  paginator="true" rows="50" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">Preguntas</f:facet>
     <p:column headerText="Categoria Examen">

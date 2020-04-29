@@ -36,6 +36,9 @@ function handleUpdateRequest(xhr, status, args){
 
 <ui:define name="content">
 <h1>Administración Roles</h1>
+<h2>
+ <p:commandButton id="RegistrarBtn" value="Registrar Rol" icon="fa fa-plus" style="text-align: left;" onclick="PF('createRolDialogWV').show();" />
+ </h2>
 <h:form id="ReadOnlyForm">
  <p:dataTable var="admonRol" value="#{admonRolesForm.listAdmonRoles}" emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">ROLES</f:facet>
@@ -61,9 +64,7 @@ function handleUpdateRequest(xhr, status, args){
    </p:column>
      <f:facet name="footer">
            <div class="ui-g">
-             <div class="ui-g-12 ui-lg-12" style="text-align: right;">
-                 <p:commandButton id="RegistrarBtn" value="Registrar Rol" icon="fa fa-plus" onclick="PF('createRolDialogWV').show();" />
-              </div>
+             
             </div>
         </f:facet>    
  </p:dataTable>

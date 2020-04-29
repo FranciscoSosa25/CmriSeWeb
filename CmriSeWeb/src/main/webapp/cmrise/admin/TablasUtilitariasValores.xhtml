@@ -35,17 +35,17 @@ function handleDeleteRequest(xhr, status, args){
 </script>
 </ui:define>
 
-<ui:define name="buscar">
- <p:commandButton immediate="true" title="Buscar"  value="Buscar" icon="pi pi-search" onclick="PF('BuscarTablUtilValoDialogWV').show();"/>
-</ui:define>
+<!-- <ui:define name="buscar"> -->
+<!--  <p:commandButton immediate="true" title="Buscar"  value="Buscar" icon="pi pi-search" onclick="PF('BuscarTablUtilValoDialogWV').show();"/> -->
+<!-- </ui:define> -->
 
-<ui:define name="nuevo">
- <p:commandButton immediate="true" title="Nuevo"  value="Nuevo" icon="pi pi-plus" actionListener="#{tablasUtilitariasValoresForm.nuevo()}" update="NuevoTablUtilValo"/>
-</ui:define>
+<!-- <ui:define name="nuevo"> -->
+<!--  <p:commandButton immediate="true" title="Nuevo"  value="Nuevo" icon="pi pi-plus" actionListener="#{tablasUtilitariasValoresForm.nuevo()}" update="NuevoTablUtilValo"/> -->
+<!-- </ui:define> -->
 
-<ui:define name="guardar">
- <p:commandButton  title="Guardar" value="Guardar" icon="pi pi-save" onclick="guardarFn();" />
-</ui:define>
+<!-- <ui:define name="guardar"> -->
+<!--  <p:commandButton  title="Guardar" value="Guardar" icon="pi pi-save" onclick="guardarFn();" /> -->
+<!-- </ui:define> -->
 
 
 
@@ -58,6 +58,12 @@ function handleDeleteRequest(xhr, status, args){
 </p:breadCrumb>
   <h:form id="NuevoTablUtilValo">
    <f:passThroughAttribute name="autocomplete" value="off"/>
+   <h1>
+   <p:commandButton value="Agregar Linea" styleClass="ui-priority-primary" update="NuevoTablUtilValo" actionListener="#{tablasUtilitariasValoresForm.agregarLinea()}" oncomplete="handleAgregarLineaRequest(xhr, status, args)"/>
+   <p:commandButton immediate="true" title="Buscar"  value="Buscar" icon="pi pi-search" onclick="PF('BuscarTablUtilValoDialogWV').show();"/>
+   <p:commandButton immediate="true" title="Nuevo"  value="Nuevo" icon="pi pi-plus" actionListener="#{tablasUtilitariasValoresForm.nuevo()}" update="NuevoTablUtilValo"/>
+   <p:commandButton  title="Guardar" value="Guardar" icon="pi pi-save" onclick="guardarFn();" />
+     </h1>
      <p:outputLabel for="tipo" value="Tipo Tabla"/>
      <p:inputText id="tipo" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" value="#{tablasUtilitariasValoresForm.tipoTabla}"/>
      <p:message for="tipo"/>
@@ -92,7 +98,7 @@ function handleDeleteRequest(xhr, status, args){
      
      <div class="ui-g">
          <div class="ui-g-12">
-             <p:commandButton value="Agregar Linea" styleClass="ui-priority-primary" update="NuevoTablUtilValo" actionListener="#{tablasUtilitariasValoresForm.agregarLinea()}" oncomplete="handleAgregarLineaRequest(xhr, status, args)"/>
+             
          </div>
      </div>
      
