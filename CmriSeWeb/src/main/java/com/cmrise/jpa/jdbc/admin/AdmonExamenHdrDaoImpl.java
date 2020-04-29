@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import com.cmrise.ejb.model.admin.AdmonExamenHdr;
 import com.cmrise.jpa.dao.admin.AdmonExamenHdrDao;
@@ -39,6 +40,14 @@ public class AdmonExamenHdrDaoImpl implements AdmonExamenHdrDao {
 	public AdmonExamenHdrDto findByNumero(long pNumero) {
 		AdmonExamenHdrDto AdmonExamenHdrDto = em.find(AdmonExamenHdrDto.class, pNumero); 
 		return AdmonExamenHdrDto;
+	}
+
+	@Override
+	public List<AdmonExamenHdrDto> findByTipo(String pTipo) {
+		String strQuery = "SELECT a FROM AdmonExamenHdrDto a WHERE :pCurrentDate BETWEEN a.fechaEfectivaDesde and a.fechaEfectivaHasta AND a.tipoExamen='"+pTipo+"'"; 
+		Query query = em.createQuery(strQuery);
+		query.setParameter("pCurrentDate",new java.util.Date(),TemporalType.DATE); 
+		return query.getResultList();
 	}
 
 }

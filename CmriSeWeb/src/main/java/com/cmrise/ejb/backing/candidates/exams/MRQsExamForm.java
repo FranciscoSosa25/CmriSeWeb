@@ -22,7 +22,6 @@ import com.cmrise.ejb.model.exams.MrqsGrupoLines;
 import com.cmrise.ejb.model.exams.MrqsGrupoLinesV2;
 import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
-import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV2;
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
 import com.cmrise.ejb.services.candidates.exams.CandExamRespuestasLocal;
 import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;

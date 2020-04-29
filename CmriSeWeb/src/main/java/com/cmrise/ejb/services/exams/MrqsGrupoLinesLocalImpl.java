@@ -45,12 +45,12 @@ public class MrqsGrupoLinesLocalImpl implements MrqsGrupoLinesLocal {
 		List<MrqsGrupoLinesV1Dto> listMrqsGrupoLinesV1Dto = mrqsGrupoLinesDao.findByNumeroHdrWD(pNumeroHdr);
 		for(MrqsGrupoLinesV1Dto mrqsGrupoLinesV1Dto:listMrqsGrupoLinesV1Dto) {
 			MrqsPreguntasHdrV1 mrqsPreguntasHdrV1 = new MrqsPreguntasHdrV1(); 
-			mrqsPreguntasHdrV1.setTitulo(mrqsGrupoLinesV1Dto.getTitulo());
+			mrqsPreguntasHdrV1.setTitulo(mrqsGrupoLinesV1Dto.getTituloPregunta());
 			mrqsPreguntasHdrV1.setNumero(mrqsGrupoLinesV1Dto.getNumero());
 			mrqsPreguntasHdrV1.setTipoPregunta(mrqsGrupoLinesV1Dto.getTipoPregunta());
 			mrqsPreguntasHdrV1.setTipoPreguntaDesc(mrqsGrupoLinesV1Dto.getTipoPreguntaDesc());
-			mrqsPreguntasHdrV1.setTemaPregunta(mrqsGrupoLinesV1Dto.getTemaPregunta());
-			mrqsPreguntasHdrV1.setTemaPreguntaDesc(mrqsGrupoLinesV1Dto.getTemaPreguntaDesc());
+			mrqsPreguntasHdrV1.setTemaPregunta("AdmonSubMateria");
+			mrqsPreguntasHdrV1.setTemaPreguntaDesc("AdmonSubMateriaDesc");
 			mrqsPreguntasHdrV1.setEstatus(mrqsGrupoLinesV1Dto.getEstatus());
 			mrqsPreguntasHdrV1.setEstatusDesc(mrqsGrupoLinesV1Dto.getEstatusDesc());
 			mrqsPreguntasHdrV1.setEtiquetas(mrqsGrupoLinesV1Dto.getEtiquetas());
@@ -85,14 +85,14 @@ public class MrqsGrupoLinesLocalImpl implements MrqsGrupoLinesLocal {
     public MrqsGrupoLinesV2 fromMglV2DtoMrqsPreguntasHdrV2(MrqsGrupoLinesV2Dto pMrqsGrupoLinesV2Dto) {
     	MrqsGrupoLinesV2 retval = new MrqsGrupoLinesV2(); 
     	
-    	retval.setTitulo(pMrqsGrupoLinesV2Dto.getTitulo());
+    	retval.setTitulo("AdmonMateria");
     	retval.setNumero(pMrqsGrupoLinesV2Dto.getNumero());
     	retval.setNumeroHdr(pMrqsGrupoLinesV2Dto.getNumeroHdr());
     	retval.setNumeroPregunta(pMrqsGrupoLinesV2Dto.getNumeroPregunta());
     	retval.setTipoPregunta(pMrqsGrupoLinesV2Dto.getTipoPregunta());
     	retval.setTipoPreguntaDesc(pMrqsGrupoLinesV2Dto.getTipoPreguntaDesc());
-    	retval.setTemaPregunta(pMrqsGrupoLinesV2Dto.getTemaPregunta());
-    	retval.setTemaPreguntaDesc(pMrqsGrupoLinesV2Dto.getTemaPreguntaDesc());
+    	retval.setTemaPregunta("AdmonSubMateria");
+    	retval.setTemaPreguntaDesc("AdmonSubMateriaDesc");
     	retval.setEstatus(pMrqsGrupoLinesV2Dto.getEstatus());
     	retval.setEstatusDesc(pMrqsGrupoLinesV2Dto.getEstatusDesc());
     	retval.setEtiquetas(pMrqsGrupoLinesV2Dto.getEtiquetas());

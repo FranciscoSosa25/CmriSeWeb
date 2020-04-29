@@ -49,20 +49,20 @@ public class MrqsPreguntasHdrDto implements Serializable {
 	@Column(name="FECHA_EFECTIVA_HASTA")
 	private Date fechaEfectivaHasta;
 
-	@Column(name="NOMBRE")
-	private String nombre;
+	@Column(name="ADMON_EXAMEN")
+	private long admonExamen;
 
 	@Column(name="SOCIEDAD")
 	private String sociedad;
 
-	@Column(name="TEMA_PREGUNTA")
-	private String temaPregunta;
+	@Column(name="ADMON_SUBMATERIA")
+	private long admonSubmateria;
 
 	@Column(name="TIPO_PREGUNTA")
 	private String tipoPregunta;
 
-	@Column(name="TITULO")
-	private String titulo;
+	@Column(name="ADMON_MATERIA")
+	private long admonMateria;
 
 	//bi-directional one-to-one association to MrqsPreguntasFtaDto
 	@OneToOne(mappedBy="mrqsPreguntasHdr1")
@@ -155,14 +155,6 @@ public class MrqsPreguntasHdrDto implements Serializable {
 		this.fechaEfectivaHasta = fechaEfectivaHasta;
 	}
 
-	public String getNombre() {
-		return this.nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
 	public String getSociedad() {
 		return this.sociedad;
 	}
@@ -171,28 +163,12 @@ public class MrqsPreguntasHdrDto implements Serializable {
 		this.sociedad = sociedad;
 	}
 
-	public String getTemaPregunta() {
-		return this.temaPregunta;
-	}
-
-	public void setTemaPregunta(String temaPregunta) {
-		this.temaPregunta = temaPregunta;
-	}
-
 	public String getTipoPregunta() {
 		return this.tipoPregunta;
 	}
 
 	public void setTipoPregunta(String tipoPregunta) {
 		this.tipoPregunta = tipoPregunta;
-	}
-
-	public String getTitulo() {
-		return this.titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
 	}
 
 	public MrqsPreguntasFtaDto getMrqsPreguntasFta() {
@@ -223,6 +199,30 @@ public class MrqsPreguntasHdrDto implements Serializable {
 		mrqsPreguntasFta.setMrqsPreguntasHdr2(null);
 
 		return mrqsPreguntasFta;
+	}
+
+	public long getAdmonExamen() {
+		return admonExamen;
+	}
+
+	public void setAdmonExamen(long admonExamen) {
+		this.admonExamen = admonExamen;
+	}
+
+	public long getAdmonMateria() {
+		return admonMateria;
+	}
+
+	public void setAdmonMateria(long admonMateria) {
+		this.admonMateria = admonMateria;
+	}
+
+	public long getAdmonSubmateria() {
+		return admonSubmateria;
+	}
+
+	public void setAdmonSubmateria(long admonSubmateria) {
+		this.admonSubmateria = admonSubmateria;
 	}
 
 	
