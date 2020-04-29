@@ -1,5 +1,6 @@
 package com.cmrise.ejb.services.admin;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +81,26 @@ public class AdmonMateriaHdrLocalImpl implements AdmonMateriaHdrLocal {
 	@Override
 	public void delete(long pNumero) {
 		admonMateriaHdrDao.delete(pNumero);
+	}
+
+	@Override
+	public List<AdmonMateriaHdr> findByNumeroAdmonExamen(long pAdmonExamen) {
+		List<AdmonMateriaHdr> retval = new ArrayList<AdmonMateriaHdr>(); 
+		List<Object> listObjects = admonMateriaHdrDao.findByNumeroAdmonExamen(pAdmonExamen); 
+		for(Object i:listObjects) {
+			if(i instanceof Object[]) {
+				AdmonMateriaHdr admonMateriaHdr = new AdmonMateriaHdr();
+				Object[] row = (Object[])i;
+				if(row[0] instanceof BigInteger) { /** NUMERO **/
+					admonMateriaHdr.setNumero(((BigInteger)row[0]).longValue());
+				}
+				if(row[1] instanceof String) { /** NOMBRE **/
+					admonMateriaHdr.setNombre((String)row[1]);
+				}
+				retval.add(admonMateriaHdr);
+			}
+		}
+		return retval;
 	}
 	
 

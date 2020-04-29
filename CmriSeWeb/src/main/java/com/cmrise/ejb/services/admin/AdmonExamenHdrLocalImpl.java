@@ -57,16 +57,7 @@ public class AdmonExamenHdrLocalImpl implements AdmonExamenHdrLocal {
 		List<AdmonExamenHdr> retval = new ArrayList<AdmonExamenHdr>();
 		List<AdmonExamenHdrDto> listAdmonExamenHdrDto = admonExamenHdrDao.findAll(); 
 		for(AdmonExamenHdrDto i:listAdmonExamenHdrDto) {
-			AdmonExamenHdr admonExamenHdr = new AdmonExamenHdr(); 
-			admonExamenHdr.setNumero(i.getNumero());
-			admonExamenHdr.setNombre(i.getNombre());
-			admonExamenHdr.setTipoExamen(i.getTipoExamen());
-			admonExamenHdr.setFechaEfectivaDesde(Utilitarios.sqlDateToUtilDate(i.getFechaEfectivaDesde()));
-			if(Utilitarios.endOfTime.compareTo(i.getFechaEfectivaHasta())==0) {
-				admonExamenHdr.setFechaEfectivaHasta(null);
-			}else {
-				admonExamenHdr.setFechaEfectivaHasta(Utilitarios.sqlDateToUtilDate(i.getFechaEfectivaHasta()));
-			}
+			AdmonExamenHdr admonExamenHdr = convertDtoToModel(i); 
 			
 			List<AdmonExamenLineDto> listAdmonExamenLineDto =  admonExamenLineDao.findByNumeroHdr(i.getNumero()); 
 			if(null!=listAdmonExamenLineDto) {
@@ -93,6 +84,31 @@ public class AdmonExamenHdrLocalImpl implements AdmonExamenHdrLocal {
 		admonExamenHdrDto.setTipoExamen(pAdmonExamenHdr.getTipoExamen());
 		admonExamenHdrDto.setActualizadoPor(pAdmonExamenHdr.getActualizadoPor());
 		admonExamenHdrDto.setFechaActualizacion(Utilitarios.utilDateToTimestamp(pAdmonExamenHdr.getFechaActualizacion()));
+	}
+
+	@Override
+	public List<AdmonExamenHdr> findByTipo(String pTipo) {
+		List<AdmonExamenHdr> retval = new ArrayList<AdmonExamenHdr>(); 
+		List<AdmonExamenHdrDto> listAdmonExamenHdrDto = admonExamenHdrDao.findByTipo(pTipo);
+		for(AdmonExamenHdrDto i:listAdmonExamenHdrDto) {
+			AdmonExamenHdr admonExamenHdr = convertDtoToModel(i); 
+			retval.add(admonExamenHdr);
+		}
+		return retval;
+	}
+
+	private AdmonExamenHdr convertDtoToModel(AdmonExamenHdrDto pAdmonExamenHdrDto) {
+		AdmonExamenHdr retval = new AdmonExamenHdr(); 
+		retval.setNumero(pAdmonExamenHdrDto.getNumero());
+		retval.setNombre(pAdmonExamenHdrDto.getNombre());
+		retval.setTipoExamen(pAdmonExamenHdrDto.getTipoExamen());
+		retval.setFechaEfectivaDesde(Utilitarios.sqlDateToUtilDate(pAdmonExamenHdrDto.getFechaEfectivaDesde()));
+		if(Utilitarios.endOfTime.compareTo(pAdmonExamenHdrDto.getFechaEfectivaHasta())==0) {
+			retval.setFechaEfectivaHasta(null);
+		}else {
+			retval.setFechaEfectivaHasta(Utilitarios.sqlDateToUtilDate(pAdmonExamenHdrDto.getFechaEfectivaHasta()));
+		}
+		return retval;
 	}
 
 	

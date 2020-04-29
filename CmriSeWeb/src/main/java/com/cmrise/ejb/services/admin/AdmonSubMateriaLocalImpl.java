@@ -1,15 +1,13 @@
 package com.cmrise.ejb.services.admin;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-
-import com.cmrise.ejb.model.admin.AdmonMateriaHdr;
 import com.cmrise.ejb.model.admin.AdmonSubMateria;
 import com.cmrise.jpa.dao.admin.AdmonSubMateriaDao;
-import com.cmrise.jpa.dto.admin.AdmonMateriaHdrDto;
 import com.cmrise.jpa.dto.admin.AdmonSubMateriaDto;
 import com.cmrise.utils.Utilitarios;
 
@@ -83,6 +81,26 @@ public class AdmonSubMateriaLocalImpl implements AdmonSubMateriaLocal {
 	public void delete(long numero) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<AdmonSubMateria> findByNumeroMateria(long pAdmonMateria) {
+		List<AdmonSubMateria> retval = new ArrayList<AdmonSubMateria>(); 
+		List<Object> listObjects = admonSubMateriaDao.findByNumeroExamen(pAdmonMateria);
+		for(Object i:listObjects) {
+			if(i instanceof Object[]) {
+				AdmonSubMateria admonSubMateria = new AdmonSubMateria();
+				Object[] row = (Object[])i;
+				if(row[0] instanceof BigInteger) { /** NUMERO **/
+					admonSubMateria.setNumero(((BigInteger)row[0]).longValue());
+				}
+				if(row[1] instanceof String) { /** NOMBRE **/
+					admonSubMateria.setNombre((String)row[1]);
+				}
+				retval.add(admonSubMateria);
+			}
+		}
+		return retval;
 	}
 	
 

@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,11 +23,17 @@ import org.primefaces.model.file.UploadedFile;
 import org.primefaces.model.file.UploadedFiles;
 
 import com.cmrise.ejb.helpers.GuestPreferences;
+import com.cmrise.ejb.model.admin.AdmonExamenHdr;
+import com.cmrise.ejb.model.admin.AdmonMateriaHdr;
+import com.cmrise.ejb.model.admin.AdmonSubMateria;
 import com.cmrise.ejb.model.mrqs.MrqsListasPalabras;
 import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenes;
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
+import com.cmrise.ejb.services.admin.AdmonExamenHdrLocal;
+import com.cmrise.ejb.services.admin.AdmonMateriaHdrLocal;
+import com.cmrise.ejb.services.admin.AdmonSubMateriaLocal;
 import com.cmrise.ejb.services.mrqs.MrqsListasPalabrasLocal;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
@@ -90,6 +97,14 @@ public class UpdateFTAMrqForm {
 	private MrqsImagenesGrp presentMrqsImagenesGrp = new MrqsImagenesGrp(); 
 	private List<MrqsImagenesGrp> listPresentMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
 	
+	
+	private List<AdmonExamenHdr> examenesHdr = new ArrayList<AdmonExamenHdr>();
+	private List<AdmonMateriaHdr> materiasHdr = new ArrayList<AdmonMateriaHdr>();
+	private List<AdmonSubMateria> subMaterias = new ArrayList<AdmonSubMateria>();
+	private List<SelectItem> selectExamenesHdr = new ArrayList<SelectItem>(); 
+	private List<SelectItem> selectMateriasHdr = new ArrayList<SelectItem>();  
+	private List<SelectItem> selectSubMaterias = new ArrayList<SelectItem>(); 
+	
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal;
 	
@@ -108,49 +123,25 @@ public class UpdateFTAMrqForm {
 	@Inject 
 	MrqsImagenesGrpLocal mrqsImagenesGrpLocal;
 	
+	@Inject 
+	AdmonExamenHdrLocal admonExamenHdrLocal; 
+	
+	@Inject 
+	AdmonMateriaHdrLocal admonMateriaHdrLocal; 
+	
+	@Inject 
+	AdmonSubMateriaLocal admonSubMateriaLocal; 
+	
 	@ManagedProperty(value="#{guestPreferences}")
 	GuestPreferences guestPreferences; 
-	
-	public void addOpcionMultiple() {
-		MrqsOpcionMultiple mrqsOpcionMultiple = new MrqsOpcionMultiple(); 
-		idxOM++; 
-		mrqsOpcionMultiple.setIdxTemp(idxOM);
-		listMrqsOpcionMultiple.add(mrqsOpcionMultiple);
-	}
-	
-	public void selectOpcionMultipleForAction(MrqsOpcionMultiple pMrqsOpcionMultiple) {
-		mrqsListasPalabrasForAction = new MrqsListasPalabras(); 
-		mrqsListasPalabrasForAction.setIdxTemp(pMrqsOpcionMultiple.getIdxTemp());
-		mrqsListasPalabrasForAction.setNumero(pMrqsOpcionMultiple.getNumero());
-	}
-	
-	public void deleteOpcionMultiple() {
-		boolean updateedDB = false; 
-		if(0!=mrqsListasPalabrasForAction.getIdxTemp()) {
-			for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
-				if(mrqsListasPalabrasForAction.getIdxTemp()==mrqsOpcionMultiple.getIdxTemp()) {
-					listMrqsOpcionMultiple.remove(mrqsOpcionMultiple); 
-					break; 
-				}
-			}
-		}else if(0!=mrqsListasPalabrasForAction.getNumero()) {
-			mrqsOpcionMultipleLocal.delete(mrqsListasPalabrasForAction.getNumero());
-			for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
-				if(mrqsListasPalabrasForAction.getNumero()==mrqsOpcionMultiple.getNumero()) {
-					listMrqsOpcionMultiple.remove(mrqsOpcionMultiple); 
-					break; 
-				}
-			}
-			updateedDB = true; 
-		}
-		
-	}
-	
 	
 	
 	@PostConstruct
 	public void init() {
 		 System.out.println("Entra UpdateFTAMrqForm init()");
+		 if(!Utilitarios.DEFAULT_THEME.equals(guestPreferences.getTheme())) {
+		 guestPreferences.setTheme(Utilitarios.DEFAULT_THEME);
+	     }
 		 FacesContext context = FacesContext.getCurrentInstance(); 
 	     HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest(); 
 	     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
@@ -168,7 +159,18 @@ public class UpdateFTAMrqForm {
 	    	 return;
 	     }
 	 
+	     examenesHdr = admonExamenHdrLocal.findByTipo(Utilitarios.MRQS); 
+		 selectExamenesHdr = new ArrayList<SelectItem>(); 
+		 for(AdmonExamenHdr i:examenesHdr) {
+			 SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
+			 selectExamenesHdr.add(selectItem); 
+		 }
+	     
 	     refreshEntity();
+	     
+	     onAdmonExamenChange(); 
+	     onAdmonMateriaChange(); 
+	     
 		 System.out.println("Sale UpdateFTAMrqForm init()");
 	 }		 
 	 
@@ -183,10 +185,10 @@ public class UpdateFTAMrqForm {
 		 }
 		 mrqsPreguntasHdrV1ForAction.setNumero(mrqsPreguntasHdrV1Dto.getNumero());
 		 mrqsPreguntasHdrV1ForAction.setEstatus(mrqsPreguntasHdrV1Dto.getEstatus());
-		 mrqsPreguntasHdrV1ForAction.setNombre(mrqsPreguntasHdrV1Dto.getNombre());
-		 mrqsPreguntasHdrV1ForAction.setTitulo(mrqsPreguntasHdrV1Dto.getTitulo());
+		 mrqsPreguntasHdrV1ForAction.setAdmonExamen(mrqsPreguntasHdrV1Dto.getAdmonExamen());
+		 mrqsPreguntasHdrV1ForAction.setAdmonMateria(mrqsPreguntasHdrV1Dto.getAdmonMateria());
+		 mrqsPreguntasHdrV1ForAction.setAdmonSubmateria(mrqsPreguntasHdrV1Dto.getAdmonSubmateria());
 		 mrqsPreguntasHdrV1ForAction.setTipoPregunta(mrqsPreguntasHdrV1Dto.getTipoPregunta());
-		 mrqsPreguntasHdrV1ForAction.setTemaPregunta(mrqsPreguntasHdrV1Dto.getTemaPregunta());
 		 mrqsPreguntasHdrV1ForAction.setEtiquetas(mrqsPreguntasHdrV1Dto.getEtiquetas());
 		 mrqsPreguntasHdrV1ForAction.setComentarios(mrqsPreguntasHdrV1Dto.getComentarios());
 		 
@@ -288,6 +290,67 @@ public class UpdateFTAMrqForm {
 		
 	}
 
+	
+	public void onAdmonExamenChange() {
+		System.out.println("mrqsPreguntasHdrV1ForAction.getAdmonExamen():"+mrqsPreguntasHdrV1ForAction.getAdmonExamen());
+		if(0!=mrqsPreguntasHdrV1ForAction.getAdmonExamen()) {
+			materiasHdr = admonMateriaHdrLocal.findByNumeroAdmonExamen(mrqsPreguntasHdrV1ForAction.getAdmonExamen()); 
+			selectMateriasHdr = new ArrayList<SelectItem>();  
+			for(AdmonMateriaHdr i:materiasHdr) {
+				 SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
+				 selectMateriasHdr.add(selectItem); 
+			}
+		}
+	}
+	
+	public void onAdmonMateriaChange() {
+		System.out.println("mrqsPreguntasHdrV1ForAction.getAdmonMateria():"+mrqsPreguntasHdrV1ForAction.getAdmonMateria());
+		if(0!=mrqsPreguntasHdrV1ForAction.getAdmonMateria()) {
+			subMaterias = admonSubMateriaLocal.findByNumeroMateria(mrqsPreguntasHdrV1ForAction.getAdmonMateria()); 
+			selectSubMaterias = new ArrayList<SelectItem>(); 
+			for(AdmonSubMateria i:subMaterias) {
+				System.out.println("*");
+				SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
+				selectSubMaterias.add(selectItem); 
+			}
+		}
+	}
+	
+	public void addOpcionMultiple() {
+		MrqsOpcionMultiple mrqsOpcionMultiple = new MrqsOpcionMultiple(); 
+		idxOM++; 
+		mrqsOpcionMultiple.setIdxTemp(idxOM);
+		listMrqsOpcionMultiple.add(mrqsOpcionMultiple);
+	}
+	
+	public void selectOpcionMultipleForAction(MrqsOpcionMultiple pMrqsOpcionMultiple) {
+		mrqsListasPalabrasForAction = new MrqsListasPalabras(); 
+		mrqsListasPalabrasForAction.setIdxTemp(pMrqsOpcionMultiple.getIdxTemp());
+		mrqsListasPalabrasForAction.setNumero(pMrqsOpcionMultiple.getNumero());
+	}
+	
+	public void deleteOpcionMultiple() {
+		boolean updateedDB = false; 
+		if(0!=mrqsListasPalabrasForAction.getIdxTemp()) {
+			for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
+				if(mrqsListasPalabrasForAction.getIdxTemp()==mrqsOpcionMultiple.getIdxTemp()) {
+					listMrqsOpcionMultiple.remove(mrqsOpcionMultiple); 
+					break; 
+				}
+			}
+		}else if(0!=mrqsListasPalabrasForAction.getNumero()) {
+			mrqsOpcionMultipleLocal.delete(mrqsListasPalabrasForAction.getNumero());
+			for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
+				if(mrqsListasPalabrasForAction.getNumero()==mrqsOpcionMultiple.getNumero()) {
+					listMrqsOpcionMultiple.remove(mrqsOpcionMultiple); 
+					break; 
+				}
+			}
+			updateedDB = true; 
+		}
+		
+	}
+	
 	public void update() {
 		
 		System.out.println("Entra UpdateFTAMrqForm update");
@@ -407,10 +470,10 @@ public class UpdateFTAMrqForm {
 		}
 		
 		mrqsPreguntasHdrDto.setEstatus(this.getMrqsPreguntasHdrV1ForAction().getEstatus());
-		mrqsPreguntasHdrDto.setNombre(this.getMrqsPreguntasHdrV1ForAction().getNombre());
-		mrqsPreguntasHdrDto.setTitulo(this.getMrqsPreguntasHdrV1ForAction().getTitulo());
+		mrqsPreguntasHdrDto.setAdmonExamen(this.getMrqsPreguntasHdrV1ForAction().getAdmonExamen());
+		mrqsPreguntasHdrDto.setAdmonMateria(this.getMrqsPreguntasHdrV1ForAction().getAdmonMateria());
+		mrqsPreguntasHdrDto.setAdmonSubmateria(this.getMrqsPreguntasHdrV1ForAction().getAdmonSubmateria());
 		mrqsPreguntasHdrDto.setTipoPregunta(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta());
-		mrqsPreguntasHdrDto.setTemaPregunta(this.getMrqsPreguntasHdrV1ForAction().getTemaPregunta());
 		mrqsPreguntasHdrDto.setEtiquetas(this.getMrqsPreguntasHdrV1ForAction().getEtiquetas());
 		mrqsPreguntasHdrDto.setComentarios(this.getMrqsPreguntasHdrV1ForAction().getComentarios());
 		mrqsPreguntasHdrLocal.update(this.getNumeroHdr(), mrqsPreguntasHdrDto);
@@ -963,6 +1026,54 @@ public class UpdateFTAMrqForm {
 
 	public void setListPresentMrqsImagenesGrp(List<MrqsImagenesGrp> listPresentMrqsImagenesGrp) {
 		this.listPresentMrqsImagenesGrp = listPresentMrqsImagenesGrp;
+	}
+
+	public List<AdmonExamenHdr> getExamenesHdr() {
+		return examenesHdr;
+	}
+
+	public void setExamenesHdr(List<AdmonExamenHdr> examenesHdr) {
+		this.examenesHdr = examenesHdr;
+	}
+
+	public List<AdmonMateriaHdr> getMateriasHdr() {
+		return materiasHdr;
+	}
+
+	public void setMateriasHdr(List<AdmonMateriaHdr> materiasHdr) {
+		this.materiasHdr = materiasHdr;
+	}
+
+	public List<AdmonSubMateria> getSubMaterias() {
+		return subMaterias;
+	}
+
+	public void setSubMaterias(List<AdmonSubMateria> subMaterias) {
+		this.subMaterias = subMaterias;
+	}
+
+	public List<SelectItem> getSelectExamenesHdr() {
+		return selectExamenesHdr;
+	}
+
+	public void setSelectExamenesHdr(List<SelectItem> selectExamenesHdr) {
+		this.selectExamenesHdr = selectExamenesHdr;
+	}
+
+	public List<SelectItem> getSelectMateriasHdr() {
+		return selectMateriasHdr;
+	}
+
+	public void setSelectMateriasHdr(List<SelectItem> selectMateriasHdr) {
+		this.selectMateriasHdr = selectMateriasHdr;
+	}
+
+	public List<SelectItem> getSelectSubMaterias() {
+		return selectSubMaterias;
+	}
+
+	public void setSelectSubMaterias(List<SelectItem> selectSubMaterias) {
+		this.selectSubMaterias = selectSubMaterias;
 	}
 
 }

@@ -84,7 +84,7 @@ public class MrqPreviewForm {
 	     this.setNumeroHdr(Utilitarios.objToLong(objMrqNumeroHdr)); 
 	     MrqsPreguntasHdrV2Dto  mrqsPreguntasHdrV2Dto = mrqsPreguntasHdrLocal.findV2ByNumeroHdr(this.getNumeroHdr()); 
 	     this.setNumetoFta(mrqsPreguntasHdrV2Dto.getNumeroMpf());
-	     this.setTituloPregunta(mrqsPreguntasHdrV2Dto.getTitulo());
+	     this.setTituloPregunta(mrqsPreguntasHdrV2Dto.getTituloPregunta());
 	     this.setTextoPregunta(mrqsPreguntasHdrV2Dto.getTextoPregunta());
 	     this.setTextoSugerencias(mrqsPreguntasHdrV2Dto.getTextoSugerencias());
 	     this.setRespuestaPreguntaSistema(mrqsPreguntasHdrV2Dto.getRespuestaCorrecta());
@@ -221,7 +221,7 @@ public class MrqPreviewForm {
 	}
 
 	public String skip() {
-		guestPreferences.setTheme("turquoise");
+		guestPreferences.setTheme(Utilitarios.DEFAULT_THEME);
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		session.setAttribute("NumeroHdrSV", this.getNumeroHdr());

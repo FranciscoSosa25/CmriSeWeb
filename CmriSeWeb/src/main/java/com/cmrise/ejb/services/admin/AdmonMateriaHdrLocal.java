@@ -14,6 +14,7 @@ public interface AdmonMateriaHdrLocal {
 	public void update(AdmonMateriaHdr i);
 	public void insert(AdmonMateriaHdr i);
 	public List<AdmonMateriaHdr> findAll();
-	public void delete(long numero); 
+	public void delete(long numero);
+	public List<AdmonMateriaHdr> findByNumeroAdmonExamen(long pAdmonExamen); 
 	
 }

@@ -23,8 +23,6 @@ import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
 import com.cmrise.ejb.model.exams.MrqsGrupoLines;
 import com.cmrise.ejb.services.admin.AdmonCcCandidatosLocal;
 import com.cmrise.ejb.services.candidates.exams.CandCcExamenesLocal;
-import com.cmrise.ejb.services.candidates.exams.CandCcPreguntasFtaLocal;
-import com.cmrise.ejb.services.candidates.exams.CandCcPreguntasHdrLocal;
 import com.cmrise.ejb.services.candidates.exams.CandExamRespuestasLocal;
 import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasFtaLocal;
@@ -33,8 +31,6 @@ import com.cmrise.ejb.services.exams.MrqsGrupoHdrLocal;
 import com.cmrise.ejb.services.exams.MrqsGrupoLinesLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.jpa.dto.candidates.exams.CandCcExamenesDto;
-import com.cmrise.jpa.dto.candidates.exams.CandCcPreguntasFtaDto;
-import com.cmrise.jpa.dto.candidates.exams.CandCcPreguntasHdrDto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamRespuestasDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaV1Dto;
 import com.cmrise.utils.Utilitarios;
@@ -56,12 +52,6 @@ CcPreguntasFtaLocal ccPreguntasFtaLocal;
 
 @Inject 
 CandCcExamenesLocal candCcExamenesLocal; 
-
-@Inject 
-CandCcPreguntasHdrLocal candCcPreguntasHdrLocal; 
-
-@Inject 
-CandCcPreguntasFtaLocal candCcPreguntasFtaLocal; 
 
 @Inject 
 CandExamenesLocal candExamenesLocal; 
@@ -132,25 +122,6 @@ private UserLogin userLogin;
 		long numeroCandCcExamen = candCcExamenesLocal.insert(candCcExamenesDto); 
 		
 		List<CcExamAsignaciones> listCcExamAsignaciones = ccExamAsignacionesLocal.findByNumeroExamenWD(pExaminations.getNumeroCcExamen()); 
-		
-		for(CcExamAsignaciones ccExamAsignaciones:listCcExamAsignaciones) {
-			CandCcPreguntasHdrDto candCcPreguntasHdrDto = new CandCcPreguntasHdrDto();
-			candCcPreguntasHdrDto.setNumeroCandCcExamen(numeroCandCcExamen);
-			candCcPreguntasHdrDto.setNumeroCcPreguntaHdr(ccExamAsignaciones.getNumeroPreguntaHdr());
-			candCcPreguntasHdrDto.setFechaEfectivaDesde(sysSqlFechaDesde);
-			candCcPreguntasHdrDto.setFechaEfectivaHasta(sqlFechaHasta);
-			long longNumeroCcPreguntaHdr = candCcPreguntasHdrLocal.insert(candCcPreguntasHdrDto); 
-			
-			CcPreguntasFtaV1Dto ccPreguntasFtaV1Dto = ccPreguntasFtaLocal.findDtoByNumeroHdr(ccExamAsignaciones.getNumeroPreguntaHdr()); 
-			CandCcPreguntasFtaDto candCcPreguntasFtaDto = new CandCcPreguntasFtaDto();
-			candCcPreguntasFtaDto.setNumeroCcCandPreguntaHdr(longNumeroCcPreguntaHdr);
-			candCcPreguntasFtaDto.setNumeroCcPreguntaFta(ccPreguntasFtaV1Dto.getNumero());
-			candCcPreguntasFtaDto.setFechaEfectivaDesde(sysSqlFechaDesde);
-			candCcPreguntasFtaDto.setFechaEfectivaHasta(sqlFechaHasta);
-			candCcPreguntasFtaDto.setRespuestaCorrecta(ccPreguntasFtaV1Dto.getRespuestaCorrecta());
-			candCcPreguntasFtaLocal.insert(candCcPreguntasFtaDto); 
-			
-		}
 		
 		  session.setAttribute("numeroCandCcExamenSV", numeroCandCcExamen);
 		  session.setAttribute("numeroCandCcPreguntaHdrSV", 0);

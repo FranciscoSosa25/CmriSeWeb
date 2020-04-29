@@ -15,6 +15,8 @@ public interface AdmonMateriaHdrDao {
 
 	public List<AdmonMateriaHdrDto> findAll();
 
-	public void delete(long pNumero); 
+	public void delete(long pNumero);
+
+	public List<Object> findByNumeroAdmonExamen(long pAdmonExamen); 
 	
 }

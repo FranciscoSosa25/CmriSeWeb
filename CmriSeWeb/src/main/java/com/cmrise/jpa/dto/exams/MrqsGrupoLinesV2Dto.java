@@ -44,10 +44,7 @@ public class MrqsGrupoLinesV2Dto  implements Serializable {
 	
 	@Column(name="NUMERO_PREGUNTA")
 	private long numeroPregunta; 
-	
-	@Column(name="TITULO")
-	private String titulo;
-	
+		
 	@Column(name="TIPO_PREGUNTA")
 	private String tipoPregunta; 
 	
@@ -60,11 +57,8 @@ public class MrqsGrupoLinesV2Dto  implements Serializable {
 	@Column(name="ESTATUS_DESC")
 	private String estatusDesc;
 	
-	@Column(name="TEMA_PREGUNTA")
-	private String temaPregunta; 
-	
-	@Column(name="TEMA_PREGUNTA_DESC")
-	private String temaPreguntaDesc; 
+	@Column(name="ADMON_SUBMATERIA")
+	private long admonSubmateria; 
 	
 	@Column(name="ETIQUETAS")
 	private String etiquetas; 
@@ -137,14 +131,6 @@ public class MrqsGrupoLinesV2Dto  implements Serializable {
 		this.numeroPregunta = numeroPregunta;
 	}
 
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
 	public String getTipoPregunta() {
 		return tipoPregunta;
 	}
@@ -175,22 +161,6 @@ public class MrqsGrupoLinesV2Dto  implements Serializable {
 
 	public void setEstatusDesc(String estatusDesc) {
 		this.estatusDesc = estatusDesc;
-	}
-
-	public String getTemaPregunta() {
-		return temaPregunta;
-	}
-
-	public void setTemaPregunta(String temaPregunta) {
-		this.temaPregunta = temaPregunta;
-	}
-
-	public String getTemaPreguntaDesc() {
-		return temaPreguntaDesc;
-	}
-
-	public void setTemaPreguntaDesc(String temaPreguntaDesc) {
-		this.temaPreguntaDesc = temaPreguntaDesc;
 	}
 
 	public String getEtiquetas() {
@@ -239,6 +209,14 @@ public class MrqsGrupoLinesV2Dto  implements Serializable {
 
 	public void setSuffleAnswerOrder(boolean suffleAnswerOrder) {
 		this.suffleAnswerOrder = suffleAnswerOrder;
+	}
+
+	public long getAdmonSubmateria() {
+		return admonSubmateria;
+	}
+
+	public void setAdmonSubmateria(long admonSubmateria) {
+		this.admonSubmateria = admonSubmateria;
 	}
 
 	

@@ -50,8 +50,8 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 	@Column(name="FECHA_EFECTIVA_HASTA")
 	private Date fechaEfectivaHasta;
 
-	@Column(name="NOMBRE")
-	private String nombre;
+    @Column(name="ADMON_EXAMEN")
+	private long admonExamen;
 
 	@Id
 	@Column(name="NUMERO")
@@ -60,11 +60,9 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 	@Column(name="SOCIEDAD")
 	private String sociedad;
 
-	@Column(name="TEMA_PREGUNTA")
-	private String temaPregunta;
+	@Column(name="ADMON_SUBMATERIA")
+	private long admonSubmateria;
 
-	@Column(name="TEMA_PREGUNTA_DESC")
-	private String temaPreguntaDesc;
 
 	@Column(name="TIPO_PREGUNTA")
 	private String tipoPregunta;
@@ -72,8 +70,8 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 	@Column(name="TIPO_PREGUNTA_DESC")
 	private String tipoPreguntaDesc;
 
-	@Column(name="TITULO")
-	private String titulo;
+	@Column(name="ADMON_MATERIA")
+	private long admonMateria;
 	
 	@Column(name="NUMERO_MPF")
 	private long numeroMpf;
@@ -99,6 +97,18 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 	@Column(name="METODO_PUNTUACION")
 	private String metodoPuntuacion; 
 	
+	
+	@Column(name="ADMON_EXAMEN_DESC")
+	private String admonExamenDesc; 
+	
+	@Column(name="ADMON_MATERIA_DESC")
+	private String admonMateriaDesc; 
+	
+	@Column(name="ADMON_SUBMATERIA_DESC")
+	private String admonSubmateriaDesc; 
+	
+	@Column(name="TITULO_PREGUNTA")
+	private String tituloPregunta; 
 	
 	public MrqsPreguntasHdrV2Dto() {
 	}
@@ -183,14 +193,6 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 		this.fechaEfectivaHasta = fechaEfectivaHasta;
 	}
 
-	public String getNombre() {
-		return this.nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
 	public long getNumero() {
 		return this.numero;
 	}
@@ -207,22 +209,6 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 		this.sociedad = sociedad;
 	}
 
-	public String getTemaPregunta() {
-		return this.temaPregunta;
-	}
-
-	public void setTemaPregunta(String temaPregunta) {
-		this.temaPregunta = temaPregunta;
-	}
-
-	public String getTemaPreguntaDesc() {
-		return this.temaPreguntaDesc;
-	}
-
-	public void setTemaPreguntaDesc(String temaPreguntaDesc) {
-		this.temaPreguntaDesc = temaPreguntaDesc;
-	}
-
 	public String getTipoPregunta() {
 		return this.tipoPregunta;
 	}
@@ -237,14 +223,6 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 
 	public void setTipoPreguntaDesc(String tipoPreguntaDesc) {
 		this.tipoPreguntaDesc = tipoPreguntaDesc;
-	}
-
-	public String getTitulo() {
-		return this.titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
 	}
 
 	public long getNumeroMpf() {
@@ -309,6 +287,62 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 
 	public void setMetodoPuntuacion(String metodoPuntuacion) {
 		this.metodoPuntuacion = metodoPuntuacion;
+	}
+
+	public long getAdmonExamen() {
+		return admonExamen;
+	}
+
+	public void setAdmonExamen(long admonExamen) {
+		this.admonExamen = admonExamen;
+	}
+
+	public long getAdmonSubmateria() {
+		return admonSubmateria;
+	}
+
+	public void setAdmonSubmateria(long admonSubmateria) {
+		this.admonSubmateria = admonSubmateria;
+	}
+
+	public long getAdmonMateria() {
+		return admonMateria;
+	}
+
+	public void setAdmonMateria(long admonMateria) {
+		this.admonMateria = admonMateria;
+	}
+
+	public String getAdmonExamenDesc() {
+		return admonExamenDesc;
+	}
+
+	public void setAdmonExamenDesc(String admonExamenDesc) {
+		this.admonExamenDesc = admonExamenDesc;
+	}
+
+	public String getAdmonMateriaDesc() {
+		return admonMateriaDesc;
+	}
+
+	public void setAdmonMateriaDesc(String admonMateriaDesc) {
+		this.admonMateriaDesc = admonMateriaDesc;
+	}
+
+	public String getAdmonSubmateriaDesc() {
+		return admonSubmateriaDesc;
+	}
+
+	public void setAdmonSubmateriaDesc(String admonSubmateriaDesc) {
+		this.admonSubmateriaDesc = admonSubmateriaDesc;
+	}
+
+	public String getTituloPregunta() {
+		return tituloPregunta;
+	}
+
+	public void setTituloPregunta(String tituloPregunta) {
+		this.tituloPregunta = tituloPregunta;
 	}
 
 }

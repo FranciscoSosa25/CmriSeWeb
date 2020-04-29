@@ -42,8 +42,8 @@ public class MrqsGrupoLinesV1Dto implements Serializable {
 	@Column(name="NUMERO_PREGUNTA")
 	private long numeroPregunta; 
 	
-	@Column(name="TITULO")
-	private String titulo;
+	@Column(name="ADMON_EXAMEN")
+	private long admonExamen;
 	
 	@Column(name="TIPO_PREGUNTA")
 	private String tipoPregunta; 
@@ -57,14 +57,14 @@ public class MrqsGrupoLinesV1Dto implements Serializable {
 	@Column(name="ESTATUS_DESC")
 	private String estatusDesc;
 	
-	@Column(name="TEMA_PREGUNTA")
-	private String temaPregunta; 
-	
-	@Column(name="TEMA_PREGUNTA_DESC")
-	private String temaPreguntaDesc; 
+	@Column(name="ADMON_SUBMATERIA")
+	private long admonSubmateria; 
 	
 	@Column(name="ETIQUETAS")
 	private String etiquetas; 
+	
+	@Column(name="TITULO_PREGUNTA")
+	private String tituloPregunta; 
 	
 	public long getNumero() {
 		return this.numero;
@@ -122,14 +122,6 @@ public class MrqsGrupoLinesV1Dto implements Serializable {
 		this.numeroPregunta = numeroPregunta;
 	}
 
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
 	public String getTipoPregunta() {
 		return tipoPregunta;
 	}
@@ -162,28 +154,36 @@ public class MrqsGrupoLinesV1Dto implements Serializable {
 		this.estatusDesc = estatusDesc;
 	}
 
-	public String getTemaPregunta() {
-		return temaPregunta;
-	}
-
-	public void setTemaPregunta(String temaPregunta) {
-		this.temaPregunta = temaPregunta;
-	}
-
-	public String getTemaPreguntaDesc() {
-		return temaPreguntaDesc;
-	}
-
-	public void setTemaPreguntaDesc(String temaPreguntaDesc) {
-		this.temaPreguntaDesc = temaPreguntaDesc;
-	}
-
 	public String getEtiquetas() {
 		return etiquetas;
 	}
 
 	public void setEtiquetas(String etiquetas) {
 		this.etiquetas = etiquetas;
+	}
+
+	public long getAdmonExamen() {
+		return admonExamen;
+	}
+
+	public void setAdmonExamen(long admonExamen) {
+		this.admonExamen = admonExamen;
+	}
+
+	public long getAdmonSubmateria() {
+		return admonSubmateria;
+	}
+
+	public void setAdmonSubmateria(long admonSubmateria) {
+		this.admonSubmateria = admonSubmateria;
+	}
+
+	public String getTituloPregunta() {
+		return tituloPregunta;
+	}
+
+	public void setTituloPregunta(String tituloPregunta) {
+		this.tituloPregunta = tituloPregunta;
 	}
 
 	

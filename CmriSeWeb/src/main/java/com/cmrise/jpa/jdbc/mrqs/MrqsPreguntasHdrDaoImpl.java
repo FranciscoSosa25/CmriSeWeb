@@ -7,10 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
-import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.jpa.dao.mrqs.MrqsPreguntasHdrDao;
-import com.cmrise.jpa.dto.candidates.exams.CandExamenesV2Dto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
@@ -23,7 +20,7 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 	EntityManager em;
 	
 	@Override
-	public void insert(MrqsPreguntasHdrDto pMrqsPreguntasHdrDto) {
+	public long insert(MrqsPreguntasHdrDto pMrqsPreguntasHdrDto) {
 		Query q = em.createNativeQuery("SELECT NEXT VALUE FOR dbo.MRQS_PREGUNTAS_HDR_S");
 		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
 		pMrqsPreguntasHdrDto.setNumero(lNumeroS.longValue());
@@ -34,6 +31,7 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 		pMrqsPreguntasHdrDto.setFechaCreacion(sqlsysdate);
 		pMrqsPreguntasHdrDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pMrqsPreguntasHdrDto);
+		return lNumeroS.longValue(); 
 	}
 
 	@Override
@@ -46,10 +44,10 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 	public void update(long pNumero, MrqsPreguntasHdrDto pMrqsPreguntasHdrDto) {
 		MrqsPreguntasHdrDto mrqsPreguntasHdrDto =em.find(MrqsPreguntasHdrDto.class, pNumero);
 		mrqsPreguntasHdrDto.setEstatus(pMrqsPreguntasHdrDto.getEstatus());
-		mrqsPreguntasHdrDto.setNombre(pMrqsPreguntasHdrDto.getNombre());
-		mrqsPreguntasHdrDto.setTitulo(pMrqsPreguntasHdrDto.getTitulo());
+		//mrqsPreguntasHdrDto.setNombre(pMrqsPreguntasHdrDto.getNombre());
+		//mrqsPreguntasHdrDto.setTitulo(pMrqsPreguntasHdrDto.getTitulo());
 		mrqsPreguntasHdrDto.setTipoPregunta(pMrqsPreguntasHdrDto.getTipoPregunta());
-		mrqsPreguntasHdrDto.setTemaPregunta(pMrqsPreguntasHdrDto.getTemaPregunta());
+		//mrqsPreguntasHdrDto.setTemaPregunta(pMrqsPreguntasHdrDto.getTemaPregunta());
 		mrqsPreguntasHdrDto.setEtiquetas(pMrqsPreguntasHdrDto.getEtiquetas());
 		mrqsPreguntasHdrDto.setComentarios(pMrqsPreguntasHdrDto.getComentarios());
 		
@@ -98,10 +96,10 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 		mrqsPreguntasHdrDto.setFechaCreacion(sqlsysdate);
 		mrqsPreguntasHdrDto.setFechaActualizacion(sqlsysdate);		
 		
-		mrqsPreguntasHdrDto.setNombre(copy.getNombre());
-		mrqsPreguntasHdrDto.setTitulo(copy.getTitulo());
+		//mrqsPreguntasHdrDto.setNombre(copy.getNombre());
+		//mrqsPreguntasHdrDto.setTitulo(copy.getTitulo());
 		mrqsPreguntasHdrDto.setTipoPregunta(copy.getTipoPregunta());
-		mrqsPreguntasHdrDto.setTemaPregunta(copy.getTemaPregunta());
+		//mrqsPreguntasHdrDto.setTemaPregunta(copy.getTemaPregunta());
 		mrqsPreguntasHdrDto.setEtiquetas(copy.getEtiquetas());
 		mrqsPreguntasHdrDto.setComentarios(copy.getComentarios());
 		mrqsPreguntasHdrDto.setEstatus(copy.getEstatus());

@@ -104,19 +104,37 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          </p:selectOneMenu>
           <p:message for="statusMrqs"/>
          </div>
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="internalName" value="Nombre Interno" />
+         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="admonExamen" value="Categoria Examen" />
         </div>
          <div class="ui-g-12 ui-md-9">
-          <p:inputText id="internalName" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.nombre}" placeholder="Nombre Interno"  maxlength="200" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-          <p:message for="internalName"/>
+          <p:selectOneMenu id="admonExamen" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.admonExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+           <p:ajax listener="#{updateFTAMrqForm.onAdmonExamenChange}" update="materia" />
+           <f:selectItem itemLabel="Seleccione..." itemValue="" />
+           <f:selectItems value="#{updateFTAMrqForm.selectExamenesHdr}" />
+          </p:selectOneMenu>
+          <p:message for="admonExamen"/>
          </div>
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="title" value="Titulo" />
+		 <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="materia" value="Materia" />
         </div>
          <div class="ui-g-12 ui-md-9">
-         <p:inputText id="title"  value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.titulo}" placeholder="Título"  maxlength="200" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-         <p:message for="title"/>
+          <p:selectOneMenu id="materia" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.admonMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <p:ajax listener="#{updateFTAMrqForm.onAdmonMateriaChange}" update="subMateria" />
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{updateFTAMrqForm.selectMateriasHdr}" />
+         </p:selectOneMenu>
+         <p:message for="materia"/>
+         </div>
+         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="subMateria" value="SubMateria" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:selectOneMenu id="subMateria" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.admonSubmateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{updateFTAMrqForm.selectSubMaterias}" />
+          </p:selectOneMenu>
+         <p:message for="subMateria"/>
          </div>
           <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="questionType" value="Tipo de Pregunta" />
@@ -127,16 +145,6 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
           <f:selectItems value="#{selectsHelper.selectTipoPreguntaItems}" />
          </p:selectOneMenu>
           <p:message for="questionType"/>
-         </div>
-          <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="topic" value="Tema de Pregunta" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-         <p:selectOneMenu id="topic"  value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.temaPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-          <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
-          <f:selectItems value="#{selectsHelper.selectTemaDePreguntaItems}" />
-         </p:selectOneMenu>
-         <p:message for="topic"/>
          </div>
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
           <p:outputLabel for="society" value="Sociedad" />
@@ -359,18 +367,36 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
           <p:message for="statusMrqs"/>
          </div>
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="internalName" value="Nombre Interno" />
+         <p:outputLabel for="admonExamen" value="Categoria Examen" />
         </div>
          <div class="ui-g-12 ui-md-9">
-          <p:inputText id="internalName" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.nombre}" placeholder="Nombre Interno"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-          <p:message for="internalName"/>
+          <p:selectOneMenu id="admonExamen" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.admonExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+           <p:ajax listener="#{updateFTAMrqForm.onAdmonExamenChange}" update="materia" />
+           <f:selectItem itemLabel="Seleccione..." itemValue="" />
+           <f:selectItems value="#{updateFTAMrqForm.selectExamenesHdr}" />
+          </p:selectOneMenu>
+          <p:message for="admonExamen"/>
          </div>
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="title" value="Titulo" />
+         <p:outputLabel for="materia" value="Materia" />
         </div>
          <div class="ui-g-12 ui-md-9">
-         <p:inputText id="title"  value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.titulo}" placeholder="Título"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-         <p:message for="title"/>
+          <p:selectOneMenu id="materia" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.admonMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <p:ajax listener="#{updateFTAMrqForm.onAdmonMateriaChange}" update="subMateria" />
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{updateFTAMrqForm.selectMateriasHdr}" />
+         </p:selectOneMenu>
+         <p:message for="materia"/>
+         </div>
+           <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="subMateria" value="SubMateria" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:selectOneMenu id="subMateria" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.admonSubmateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{updateFTAMrqForm.selectSubMaterias}" />
+          </p:selectOneMenu>
+         <p:message for="subMateria"/>
          </div>
           <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="questionType" value="Tipo de Pregunta" />
@@ -383,16 +409,6 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
           <p:message for="questionType"/>
          </div>
           <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="topic" value="Tema de Pregunta" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-         <p:selectOneMenu id="topic"  value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.temaPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-          <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
-          <f:selectItems value="#{selectsHelper.selectTemaDePreguntaItems}" />
-         </p:selectOneMenu>
-         <p:message for="topic"/>
-         </div>
-         <div class="ui-g-12 ui-md-3" style="text-align:right;">
           <p:outputLabel for="society" value="Sociedad" />
          </div>
           <div class="ui-g-12 ui-md-9">
@@ -563,7 +579,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
      <p:commandButton id="GuardarBtn" value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="growl updateQuestionMultipleChoiceForm:questionInfoUpdatePanel updateQuestionMultipleChoiceForm:multipleChoiceQuestionUpdatePanel" oncomplete="handleUpdateRequest(xhr, status, args)"/>
    </div>
    <div class="ui-g-12 ui-md-2 button-container" style="text-align:center">
-    <p:commandButton value="Guardar y Previsualizar" action="#{updateFTAMrqForm.saveAndPreview()}"/>
+    <p:commandButton value="Guardar y Previsualizar" action="#{updateFTAMrqForm.saveAndPreview()}" update="growl updateQuestionMultipleChoiceForm:questionInfoUpdatePanel updateQuestionMultipleChoiceForm:multipleChoiceQuestionUpdatePanel"/>
    </div>
    <div class="ui-g-12 ui-md-2 button-container" style="text-align:center">
     <p:commandButton value="Cancelar" action="#{updateFTAMrqForm.cancel()}" immediate="true"  />

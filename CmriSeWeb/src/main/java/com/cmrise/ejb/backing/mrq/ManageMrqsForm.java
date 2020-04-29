@@ -31,7 +31,6 @@ public class ManageMrqsForm {
 	private String titulo;
 
 	private List<MrqsPreguntasHdrV1> listMrqsPreguntasHdrV1 = new ArrayList<MrqsPreguntasHdrV1>();
-	private List<MrqsPreguntasHdrV1Dto> listMrqsPreguntasHdrV1Dto = new ArrayList<MrqsPreguntasHdrV1Dto>();
 	private MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForAction = new MrqsPreguntasHdrV1();
 	
 	@Inject 
@@ -59,12 +58,18 @@ public class ManageMrqsForm {
 			MrqsPreguntasHdrV1Dto mrqsPreguntasHdrV1Dto =iterMrqsPreguntasHdrV1Dto.next();
 			MrqsPreguntasHdrV1 mrqsPreguntasHdrV1 = new MrqsPreguntasHdrV1();
 			mrqsPreguntasHdrV1.setNumero(mrqsPreguntasHdrV1Dto.getNumero());
-			mrqsPreguntasHdrV1.setTitulo(mrqsPreguntasHdrV1Dto.getTitulo());
+			mrqsPreguntasHdrV1.setTitulo("AdmonMAteria");
 			mrqsPreguntasHdrV1.setTipoPregunta(mrqsPreguntasHdrV1Dto.getTipoPregunta());
 			mrqsPreguntasHdrV1.setTipoPreguntaDesc(mrqsPreguntasHdrV1Dto.getTipoPreguntaDesc());
-			mrqsPreguntasHdrV1.setTemaPreguntaDesc(mrqsPreguntasHdrV1Dto.getTemaPreguntaDesc());
+			mrqsPreguntasHdrV1.setTemaPreguntaDesc("AdmonSubMateriaDesc");
 			mrqsPreguntasHdrV1.setEstatusDesc(mrqsPreguntasHdrV1Dto.getEstatusDesc());
 			mrqsPreguntasHdrV1.setEtiquetas(mrqsPreguntasHdrV1Dto.getEtiquetas());
+			mrqsPreguntasHdrV1.setAdmonExamen(mrqsPreguntasHdrV1Dto.getAdmonExamen());
+			mrqsPreguntasHdrV1.setAdmonMateria(mrqsPreguntasHdrV1Dto.getAdmonMateria());
+			mrqsPreguntasHdrV1.setAdmonSubmateria(mrqsPreguntasHdrV1Dto.getAdmonSubmateria());
+			mrqsPreguntasHdrV1.setAdmonExamenDesc(mrqsPreguntasHdrV1Dto.getAdmonExamenDesc());
+			mrqsPreguntasHdrV1.setAdmonMateriaDesc(mrqsPreguntasHdrV1Dto.getAdmonMateriaDesc());
+			mrqsPreguntasHdrV1.setAdmonSubmateriaDesc(mrqsPreguntasHdrV1Dto.getAdmonSubmateriaDesc());
 			listMrqsPreguntasHdrV1.add(mrqsPreguntasHdrV1);
 		}
 	}
@@ -81,7 +86,7 @@ public class ManageMrqsForm {
 	
 	
 	public void findByTituloPregunta() {
-		listMrqsPreguntasHdrV1Dto = mrqsPreguntasHdrLocal.findByTituloPregunta(this.titulo); 
+		/** Sin Implementacion  29042020**/
 	}
 	
     public void delete() {
