@@ -40,6 +40,26 @@ public class AdmonSubMateriaDaoImpl implements AdmonSubMateriaDao {
 	public AdmonSubMateriaDto findByNumero(long numero) {
 		return em.find(AdmonSubMateriaDto.class, numero);
 	}
+
+	@Override
+	public List<Object> findByNumeroExamen(long pAdmonMateria) {
+		String strQuery = " SELECT A.[NUMERO]\r" + 
+						  "      ,A.[NOMBRE]\r" + 
+						  "      ,A.[FECHA_EFECTIVA_DESDE]\r" + 
+						  "      ,A.[FECHA_EFECTIVA_HASTA]\r" + 
+						  "      ,A.[CREADO_POR]\r" + 
+						  "      ,A.[FECHA_CREACION]\r" + 
+						  "      ,A.[ACTUALIZADO_POR]\r" + 
+						  "      ,A.[FECHA_ACTUALIZACION]\r" + 
+						  "  FROM [dbo].[ADMON_SUBMATERIA] A\r" + 
+						  "      ,[dbo].[ADMON_MATERIA_LINE] AML\r" + 
+						  " WHERE AML.NUMERO_SUBMATERIA = A.NUMERO\r" + 
+						  " AND GETDATE() BETWEEN A.FECHA_EFECTIVA_DESDE AND A.FECHA_EFECTIVA_HASTA\r" + 
+						  " AND GETDATE() BETWEEN AML.FECHA_EFECTIVA_DESDE AND AML.FECHA_EFECTIVA_HASTA\r" + 
+						  " AND AML.NUMERO_MATERIA_HDR = "+pAdmonMateria; 
+		Query query = em.createNativeQuery(strQuery); 
+		return query.getResultList();
+	}
 	
 
 }

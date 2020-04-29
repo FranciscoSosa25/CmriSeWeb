@@ -13,6 +13,7 @@ public interface AdmonSubMateriaLocal {
   public List<AdmonSubMateria> findAll();
   public void insert(AdmonSubMateria i);
   public void update(AdmonSubMateria i);
-  public void delete(long numero); 
+  public void delete(long numero);
+  public List<AdmonSubMateria> findByNumeroMateria(long pAdmonMateria); 
 
 }

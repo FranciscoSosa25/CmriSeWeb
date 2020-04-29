@@ -12,6 +12,7 @@ import com.cmrise.jpa.dao.mrqs.MrqsPreguntasHdrDao;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
+import com.cmrise.utils.Utilitarios;
 
 @Stateless 
 public class MrqsPreguntasHdrLocalImpl implements MrqsPreguntasHdrLocal {
@@ -103,6 +104,24 @@ public class MrqsPreguntasHdrLocalImpl implements MrqsPreguntasHdrLocal {
 			}
 		}	
 		return retval;
+	}
+
+	@Override
+	public long insert(MrqsPreguntasHdrV1 pMrqsPreguntasHdrV1) {
+		MrqsPreguntasHdrDto mrqsPreguntasHdrDto = new MrqsPreguntasHdrDto();
+		mrqsPreguntasHdrDto.setAdmonExamen(pMrqsPreguntasHdrV1.getAdmonExamen());
+		mrqsPreguntasHdrDto.setAdmonMateria(pMrqsPreguntasHdrV1.getAdmonMateria());
+		mrqsPreguntasHdrDto.setAdmonSubmateria(pMrqsPreguntasHdrV1.getAdmonSubmateria());
+		mrqsPreguntasHdrDto.setTipoPregunta(pMrqsPreguntasHdrV1.getTipoPregunta());
+		mrqsPreguntasHdrDto.setEtiquetas(pMrqsPreguntasHdrV1.getEtiquetas());
+		mrqsPreguntasHdrDto.setComentarios(pMrqsPreguntasHdrV1.getComentarios());
+		mrqsPreguntasHdrDto.setFechaEfectivaDesde(Utilitarios.utilDateToSqlDate(pMrqsPreguntasHdrV1.getFechaEfectivaDesde()));
+		mrqsPreguntasHdrDto.setFechaEfectivaHasta(Utilitarios.utilDateToSqlDate(pMrqsPreguntasHdrV1.getFechaEfectivaHasta()));
+		mrqsPreguntasHdrDto.setEstatus(pMrqsPreguntasHdrV1.getEstatus());
+		mrqsPreguntasHdrDto.setSociedad(pMrqsPreguntasHdrV1.getSociedad());
+		long numeroPreguntaHdr = mrqsPreguntasHdrDao.insert(mrqsPreguntasHdrDto); 
+		pMrqsPreguntasHdrV1.setNumero(mrqsPreguntasHdrDto.getNumero());
+		return mrqsPreguntasHdrDto.getNumero();
 	}
 
 }

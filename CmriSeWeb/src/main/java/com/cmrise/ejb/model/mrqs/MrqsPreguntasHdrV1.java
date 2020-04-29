@@ -25,6 +25,16 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 	private String tipoPregunta;
 	private String tipoPreguntaDesc;
 	private String titulo;
+	
+	private long admonExamen; 
+	private long admonMateria; 
+	private long admonSubmateria; 
+	
+	private String admonExamenDesc; 
+	private String admonMateriaDesc; 
+	private String admonSubmateriaDesc; 
+	
+	
 	public long getActualizadoPor() {
 		return actualizadoPor;
 	}
@@ -138,5 +148,41 @@ public class MrqsPreguntasHdrV1 implements Serializable {
     public String toString() {
         return "LINE"+this.numero;
     }
+	public long getAdmonExamen() {
+		return admonExamen;
+	}
+	public void setAdmonExamen(long admonExamen) {
+		this.admonExamen = admonExamen;
+	}
+	public long getAdmonMateria() {
+		return admonMateria;
+	}
+	public void setAdmonMateria(long admonMateria) {
+		this.admonMateria = admonMateria;
+	}
+	public long getAdmonSubmateria() {
+		return admonSubmateria;
+	}
+	public void setAdmonSubmateria(long admonSubmateria) {
+		this.admonSubmateria = admonSubmateria;
+	}
+	public String getAdmonExamenDesc() {
+		return admonExamenDesc;
+	}
+	public void setAdmonExamenDesc(String admonExamenDesc) {
+		this.admonExamenDesc = admonExamenDesc;
+	}
+	public String getAdmonMateriaDesc() {
+		return admonMateriaDesc;
+	}
+	public void setAdmonMateriaDesc(String admonMateriaDesc) {
+		this.admonMateriaDesc = admonMateriaDesc;
+	}
+	public String getAdmonSubmateriaDesc() {
+		return admonSubmateriaDesc;
+	}
+	public void setAdmonSubmateriaDesc(String admonSubmateriaDesc) {
+		this.admonSubmateriaDesc = admonSubmateriaDesc;
+	}
 	
 }

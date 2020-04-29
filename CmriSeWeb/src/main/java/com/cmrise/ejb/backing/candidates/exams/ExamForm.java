@@ -15,13 +15,9 @@ import javax.servlet.http.HttpSession;
 import com.cmrise.ejb.model.candidates.exams.CandCcExamenesV1;
 import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
 import com.cmrise.ejb.services.candidates.exams.CandCcExamenesLocal;
-import com.cmrise.ejb.services.candidates.exams.CandCcPreguntasFtaLocal;
-import com.cmrise.ejb.services.candidates.exams.CandCcPreguntasHdrLocal;
 import com.cmrise.ejb.services.corecases.CcOpcionMultipleLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasFtaLocal;
-import com.cmrise.jpa.dto.candidates.exams.CandCcPreguntasFtaDto;
 import com.cmrise.jpa.dto.corecases.CcOpcionMultipleDto;
-import com.cmrise.jpa.dto.corecases.CcPreguntasFtaDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaV2Dto;
 import com.cmrise.utils.Utilitarios;
 
@@ -58,11 +54,6 @@ public class ExamForm {
 	@Inject
 	CcPreguntasFtaLocal ccPreguntasFtaLocal; 
 	
-	@Inject 
-	CandCcPreguntasHdrLocal candCcPreguntasHdrLocal; 
-	
-	@Inject 
-	CandCcPreguntasFtaLocal candCcPreguntasFtaLocal; 
 	
 	@Inject 
 	CcOpcionMultipleLocal ccOpcionMultipleLocal; 
@@ -107,12 +98,7 @@ public class ExamForm {
 		
 		 this.nombreCcExamen = pCandCcExamenesV1.getNombreExamen();
 		 CcPreguntasFtaV2Dto ccPreguntasFtaV2Dto = ccPreguntasFtaLocal.findV2DtoByNumeroFta(pCandCcExamenesV1.getNumeroCpf()); 
-		 CandCcPreguntasFtaDto candCcPreguntasFtaDto = candCcPreguntasFtaLocal.findByNumero(pCandCcExamenesV1.getNumeroCcpf());
-		 this.setTituloPregunta(ccPreguntasFtaV2Dto.getTituloPregunta());
-		 this.setTextoPregunta(ccPreguntasFtaV2Dto.getTextoPregunta());
-		 this.setTextoSugerencias(ccPreguntasFtaV2Dto.getTextoSugerencias());
-		 this.setNumeroCcpf(pCandCcExamenesV1.getNumeroCcpf());
-		 this.setRespuestaPregunta(candCcPreguntasFtaDto.getRespuesta());
+		
 		 
 		 if(Utilitarios.OPCION_MULTIPLE.equals(ccPreguntasFtaV2Dto.getTipoPregunta())) {
 			 this.setMultipleChoice(true);
@@ -125,9 +111,7 @@ public class ExamForm {
 	
 	public void backAction() {
 		 System.out.println("Entra backAction");
-		 long previousNumero = candCcPreguntasHdrLocal.findPreviousNumber(this.getNumeroCandCcExamen()
-																          ,this.getNumeroCandCcPreguntaHdr()
-																          ); 
+		 long previousNumero = 0; 
 
 		System.out.println("previousNumero:"+previousNumero);
 		if(0==previousNumero) {
@@ -171,13 +155,8 @@ public class ExamForm {
     	 System.out.println("this.getRespuestaPregunta():"+this.getRespuestaPregunta());
     	 System.out.println("this.getTextoPregunta():"+this.getTextoPregunta());
     	 System.out.println("this.getTextoSugerencias():"+this.getTextoSugerencias());
-    	 candCcPreguntasFtaLocal.update(this.getNumeroCcpf()
-    			                      , this.getRespuestaPregunta()
-    			                      );
     	 
-    	    long nextNumero = candCcPreguntasHdrLocal.findNextNumber(this.getNumeroCandCcExamen()
-															        ,this.getNumeroCandCcPreguntaHdr()
-															         ); 
+    	    long nextNumero = 0;
 
 			System.out.println("nextNumero:"+nextNumero);
 			if(0==nextNumero) {
@@ -214,9 +193,7 @@ public class ExamForm {
 	}
 
     public void skipAction() {
-    	 long nextNumero = candCcPreguntasHdrLocal.findNextNumber(this.getNumeroCandCcExamen()
-														          ,this.getNumeroCandCcPreguntaHdr()
-														          ); 
+    	 long nextNumero = 0; 
     	 
     	 System.out.println("nextNumero:"+nextNumero);
     	 if(0==nextNumero) {

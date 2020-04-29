@@ -3,11 +3,7 @@ package com.cmrise.ejb.services.mrqs;
 import java.util.List;
 
 import javax.ejb.Local;
-
-import com.cmrise.ejb.model.candidates.exams.CandExamenesV2;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
-import com.cmrise.jpa.dao.mrqs.MrqsPreguntasHdrDao;
-import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesV1Dto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
@@ -24,4 +20,5 @@ public interface MrqsPreguntasHdrLocal {
 	public MrqsPreguntasHdrV2Dto findV2ByNumeroHdr(long pNumeroHdr); 
 	public List<MrqsPreguntasHdrV1> findWithFilterExam(long pNumeroExamen);
 	public List<MrqsPreguntasHdrV1Dto> findByTituloPregunta(String ptituloPregunta);
+	public long insert(MrqsPreguntasHdrV1 pMrqsPreguntasHdrV1);
 }

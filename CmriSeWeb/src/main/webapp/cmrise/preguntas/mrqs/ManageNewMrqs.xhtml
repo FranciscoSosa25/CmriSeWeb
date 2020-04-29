@@ -33,9 +33,8 @@ function handleDuplicateRequest(xhr, status, args){
 
 </script>
 </ui:define>
-
-                
-<ui:define name="content">
+                                 
+<ui:define name="content"
 <h:form id="ReadOnlyForm">
  <p:breadCrumb>
   		<p:menuitem value="Inicio" outcome="PaginaPrincipal"/>
@@ -43,8 +42,14 @@ function handleDuplicateRequest(xhr, status, args){
   </p:breadCrumb>
 <!-- <h1>Preguntas</h1> -->
 
+
 <h:form id="SearchForm"> 
 <f:passThroughAttribute name="autocomplete" value="off"/> 
+<p:breadCrumb>
+  		<p:menuitem value="Inicio" outcome="PaginaPrincipal"/>
+      <p:menuitem value="Preguntas" url="#" />
+  </p:breadCrumb>
+  
  <p:fieldset legend="Buscar Pregunta" toggleable="true" toggleSpeed="500" style="margin-bottom:20px" collapsed="true" > 
   <p:ajax event="toggle" /> 
   <p:panel id="SearchPanel" > 
@@ -65,23 +70,30 @@ function handleDuplicateRequest(xhr, status, args){
      </div> 
   </p:panel> 
   </p:fieldset> 
-</h:form> 
+</h:form>
+
 
 <p:growl id="growl"  />
 <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Pregunta" icon="pi pi-plus" action="Preguntas-CreateNewMrqs"/>
+
+
+
  <p:dataTable var="preguntasHdrV1"  value="#{manageMrqsForm.listMrqsPreguntasHdrV1}"  paginator="true" rows="50" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
-   <f:facet name="header">MRQs</f:facet>
-    <p:column headerText="Título">
-     <h:outputText value="#{preguntasHdrV1.titulo}" />
+   <f:facet name="header">Preguntas</f:facet>
+    <p:column headerText="Categoria Examen">
+     <h:outputText value="#{preguntasHdrV1.admonExamenDesc}" />
+    </p:column>
+    <p:column headerText="Materia">
+     <h:outputText value="#{preguntasHdrV1.admonMateriaDesc}" />
+    </p:column>
+    <p:column headerText="SubMateria">
+       <h:outputText value="#{preguntasHdrV1.admonSubmateriaDesc}" />
     </p:column>
     <p:column headerText="Tipo Pregunta">
        <h:outputText value="#{preguntasHdrV1.tipoPreguntaDesc}" />
     </p:column>
     <p:column headerText="Estatus">
         <h:outputText value="#{preguntasHdrV1.estatusDesc}" />
-    </p:column>
-    <p:column headerText="Tema">
-       <h:outputText value="#{preguntasHdrV1.temaPreguntaDesc}" />
     </p:column>
      <p:column headerText="Etiquetas">
         <h:outputText value="#{preguntasHdrV1.etiquetas}" />

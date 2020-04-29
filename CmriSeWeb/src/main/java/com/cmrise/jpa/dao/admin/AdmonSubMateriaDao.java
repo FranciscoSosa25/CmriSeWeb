@@ -9,5 +9,6 @@ public interface AdmonSubMateriaDao {
 	public long insert(AdmonSubMateriaDto pAdmonSubMateriaDto);
 	public List<AdmonSubMateriaDto> findAll();
 	public AdmonSubMateriaDto findByNumero(long numero);
+	public List<Object> findByNumeroExamen(long pAdmonMateria);
 	
 }

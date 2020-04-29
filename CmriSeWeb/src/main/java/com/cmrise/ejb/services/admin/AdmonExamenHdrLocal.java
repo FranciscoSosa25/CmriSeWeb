@@ -14,5 +14,6 @@ public interface AdmonExamenHdrLocal {
 	public long insert(AdmonExamenHdr i);
 	public List<AdmonExamenHdr> findAll();
 	public void update(AdmonExamenHdr i);
+	public List<AdmonExamenHdr> findByTipo(String pTipo);
 	
 }
