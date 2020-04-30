@@ -8,6 +8,10 @@
 <h:form id="MateriasForm">
 <p:growl id="msgs" showDetail="true"/>
 <h1>Administración Examenes</h1>
+<h2>
+ <p:commandButton value="Agregar Examen" style="margin-left: 10px;"  styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonExamenesForm.onAddNew()}" />
+  <p:commandButton value="Guardar Cambios" style="margin-left: 10px;" styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonExamenesForm.saveAndUpdate()}" />
+        </h2> 
 <p:dataTable var="examen" value="#{admonExamenesForm.examenesHdr}">
 <p:column headerText="Nombre" >
 <p:inputText id="nombre" value="#{examen.nombre}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:98%"/>
@@ -35,10 +39,7 @@
 </p:dataTable>
 
 <div class="ui-g">
-         <div class="ui-g-12">
-             <p:commandButton value="Agregar Examen" style="margin-left: 10px;"  styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonExamenesForm.onAddNew()}" />
-             <p:commandButton value="Guardar Cambios" style="margin-left: 10px;" styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonExamenesForm.saveAndUpdate()}" />
-         </div>
+         
      </div>
 
 </h:form>

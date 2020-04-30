@@ -34,7 +34,14 @@ function handleDuplicateRequest(xhr, status, args){
 </script>
 </ui:define>
                                  
-<ui:define name="content">
+<ui:define name="content"
+<h:form id="ReadOnlyForm">
+ <p:breadCrumb>
+  		<p:menuitem value="Inicio" outcome="PaginaPrincipal"/>
+      <p:menuitem value="Preguntas" url="#" />
+  </p:breadCrumb>
+<!-- <h1>Preguntas</h1> -->
+
 
 <h:form id="SearchForm"> 
 <f:passThroughAttribute name="autocomplete" value="off"/> 
@@ -64,6 +71,7 @@ function handleDuplicateRequest(xhr, status, args){
   </p:panel> 
   </p:fieldset> 
 </h:form>
+
 
 <h:form id="ReadOnlyForm">
 <h1>Preguntas</h1>
