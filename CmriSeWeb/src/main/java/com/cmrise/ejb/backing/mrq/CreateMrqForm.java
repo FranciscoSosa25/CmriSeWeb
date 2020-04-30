@@ -10,6 +10,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import com.cmrise.ejb.model.admin.AdmonExamenHdr;
 import com.cmrise.ejb.model.admin.AdmonMateriaHdr;
@@ -93,8 +94,9 @@ public class CreateMrqForm {
 		mrqsPreguntasHdrDto.setEstatus("PARA_REVISAR");
 		mrqsPreguntasHdrDto.setSociedad(Utilitarios.SOCIEDAD);
 		*/
+		long numeroPreguntaHdr = 0; 
 		try {
-		long numeroPreguntaHdr = mrqsPreguntasHdrLocal.insert(mrqsPreguntasHdrV1);
+			numeroPreguntaHdr = mrqsPreguntasHdrLocal.insert(mrqsPreguntasHdrV1);
 		}catch(Exception e) {
 			 Throwable throwable = e.getCause();
 			 while(null!=throwable) {
@@ -112,7 +114,10 @@ public class CreateMrqForm {
 		if(!exceptions) {
 			 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Se Agregaron", "Los Cambios");
 		     FacesContext.getCurrentInstance().addMessage(null, msg);
-		     retval = "Preguntas-ManageNewMrqs"; 
+		     FacesContext context = FacesContext.getCurrentInstance(); 
+			 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+			 session.setAttribute("NumeroHdrSV", numeroPreguntaHdr);
+			 retval = "Preguntas-UpdateFreeTextAnswer-NewMrqs"; 
 		}
 		return retval;
 	}

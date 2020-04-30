@@ -10,6 +10,8 @@ public interface MrqsImagenesGrpDao {
 
 	public List<MrqsImagenesGrpDto> findByFta(long pNumeroFta
 			                                 ,String pSeccion
-			                                 ); 
+			                                 );
+
+	public void deleteByNumeroFta(long pNumeroFta); 
 	
 }

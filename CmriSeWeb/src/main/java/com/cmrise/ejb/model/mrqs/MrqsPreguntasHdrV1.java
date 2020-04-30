@@ -34,6 +34,7 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 	private String admonMateriaDesc; 
 	private String admonSubmateriaDesc; 
 	
+	private boolean dependent; 
 	
 	public long getActualizadoPor() {
 		return actualizadoPor;
@@ -183,6 +184,12 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 	}
 	public void setAdmonSubmateriaDesc(String admonSubmateriaDesc) {
 		this.admonSubmateriaDesc = admonSubmateriaDesc;
+	}
+	public boolean isDependent() {
+		return dependent;
+	}
+	public void setDependent(boolean dependent) {
+		this.dependent = dependent;
 	}
 	
 }

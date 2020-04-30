@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.cmrise.jpa.dao.mrqs.img.MrqsImagenesGrpDao;
+import com.cmrise.jpa.dto.mrqs.img.MrqsImagenesDto;
 import com.cmrise.jpa.dto.mrqs.img.MrqsImagenesGrpDto;
 import com.cmrise.utils.Utilitarios;
 
@@ -41,6 +42,23 @@ public class MrqsImagenesGrpDaoImpl implements MrqsImagenesGrpDao {
 		String strQuery = "SELECT m FROM MrqsImagenesGrpDto m WHERE m.numeroFta = "+pNumeroFta+" AND m.seccion='"+pSeccion+"'"; 
 		Query query = em.createQuery(strQuery); 
 		return query.getResultList();
+	}
+
+	@Override
+	public void deleteByNumeroFta(long pNumeroFta) {
+		String strQuery = "SELECT m FROM MrqsImagenesGrpDto m WHERE m.numeroFta = "+pNumeroFta;  
+		Query query = em.createQuery(strQuery); 
+		List<MrqsImagenesGrpDto> listMrqsImagenesGrpDto = query.getResultList(); 
+		for(MrqsImagenesGrpDto i:listMrqsImagenesGrpDto) {
+			
+			String strQuery2 = "SELECT m FROM MrqsImagenesDto m WHERE m.numeroGrp="+i.getNumero();
+			Query query2 = em.createQuery(strQuery); 
+			List<MrqsImagenesDto> listMrqsImagenesDto = query2.getResultList(); 
+			for(MrqsImagenesDto j:listMrqsImagenesDto) {
+				em.remove(j);
+			}
+			em.remove(i);
+		}
 	}
 
 }

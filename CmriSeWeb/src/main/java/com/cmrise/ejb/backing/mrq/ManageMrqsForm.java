@@ -90,23 +90,32 @@ public class ManageMrqsForm {
 	}
 	
     public void delete() {
-		boolean deleteIn = false; 
-		long numeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsPreguntasHdrV1ForAction.getNumero());
-		if(0l!=numeroFta) { 
-			if(Utilitarios.OPCION_MULTIPLE.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
-				mrqsOpcionMultipleLocal.deleteByNumeroFta(numeroFta);
-			}
-			mrqsPreguntasFtaLocal.delete(numeroFta);
-			mrqsPreguntasHdrLocal.delete(mrqsPreguntasHdrV1ForAction.getNumero());
-			refreshEntity();
-			deleteIn = true;
-	    }else {
-	    	mrqsPreguntasHdrLocal.delete(mrqsPreguntasHdrV1ForAction.getNumero());
-			refreshEntity();
-			deleteIn = true;
-	    }
-		PrimeFaces.current().ajax().addCallbackParam("deleteIn", deleteIn);
-	}
+    	
+        String strDeleteMsg = mrqsPreguntasHdrLocal.delete(mrqsPreguntasHdrV1ForAction);
+        boolean deleteIn = false; 
+        if(mrqsPreguntasHdrV1ForAction.isDependent()) {
+        	FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!",strDeleteMsg);
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			PrimeFaces.current().ajax().addCallbackParam("deleteIn", deleteIn);
+			return;
+        }else {
+        	MrqsPreguntasHdrV1 forDelete=null; 
+        	for(MrqsPreguntasHdrV1 i:listMrqsPreguntasHdrV1) {
+        		if(mrqsPreguntasHdrV1ForAction.getNumero()==i.getNumero()) {
+        			forDelete = i; 
+        			break;
+        		}
+        	}
+        	if(null!=forDelete) {
+        		listMrqsPreguntasHdrV1.remove(forDelete); 
+            }
+        	
+        	deleteIn = true; 
+        	FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Precausion!",strDeleteMsg);
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			PrimeFaces.current().ajax().addCallbackParam("deleteIn", deleteIn);
+        }
+    }
    
   
 	public String update(MrqsPreguntasHdrV1 pMrqsPreguntasHdrV1) {
