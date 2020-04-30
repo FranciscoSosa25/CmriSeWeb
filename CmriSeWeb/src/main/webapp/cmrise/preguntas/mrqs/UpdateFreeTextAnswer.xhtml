@@ -323,15 +323,6 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
       </div>
  </p:panel>
  
- <p:panel header="ELEMENTOS DE PRESENTACIÓN - CONCLUSIÓN">
-  <f:facet name="actions">
-      <p:splitButton immediate="true" title="Nuevo"  value="Agregar Nuevo Elemento" icon="pi pi-plus">
-       <p:menuitem value="Agregar Nuevo Texto"/>
-       <p:menuitem value="Agregar Nueva Imagen"/>
-      </p:splitButton>
-   </f:facet>
- </p:panel>
-
  <div class="ui-g">
    <div class="ui-g-12 ui-md-2" style="text-align:center">
      <p:commandButton id="GuardarBtn" value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="growl updateQuestionFreeTextForm:questionInfoUpdatePanel updateQuestionFreeTextForm:FreeTextAnswerQuestionUpdatePanel" oncomplete="handleUpdateRequest(xhr, status, args)"/>

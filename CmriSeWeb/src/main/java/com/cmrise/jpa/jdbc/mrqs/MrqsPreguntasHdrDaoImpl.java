@@ -155,4 +155,14 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 		return query.getResultList();
 	}
 
+	@Override
+	public long countRecMGL(long pNumero) {
+		 String strQuery = "SELECT COUNT(1)\r" + 
+					 	   "  FROM [dbo].[MRQS_GRUPO_LINES]\r" + 
+					 	   " WHERE [NUMERO_PREGUNTA] = "+pNumero; 
+		 Query query = em.createNativeQuery(strQuery); 
+		 Integer integer = (Integer)query.getSingleResult();
+		return integer.longValue();
+	}
+
 }

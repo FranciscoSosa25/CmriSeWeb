@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import com.cmrise.jpa.dao.mrqs.MrqsListasPalabrasDao;
 import com.cmrise.jpa.dto.mrqs.MrqsListasPalabrasDto;
+import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.utils.Utilitarios;
 
 
@@ -53,6 +54,16 @@ public class MrqsListasPalabrasDaoImpl implements MrqsListasPalabrasDao {
 	public void delete(long pNumero) {
 		MrqsListasPalabrasDto mrqsListasPalabrasDto = em.find(MrqsListasPalabrasDto.class, pNumero);
 		em.remove(mrqsListasPalabrasDto);
+	}
+
+	@Override
+	public void deleteByNumeroFta(long numeroFta) {
+		String strQuery = "SELECT m FROM MrqsListasPalabrasDto m WHERE m.numeroFta ="+numeroFta; 
+		Query query = em.createQuery(strQuery); 
+		List<MrqsListasPalabrasDto> listMrqsListasPalabrasDto = query.getResultList(); 
+		for(MrqsListasPalabrasDto i:listMrqsListasPalabrasDto) {
+			em.remove(i);
+		}
 	}
 	
 	

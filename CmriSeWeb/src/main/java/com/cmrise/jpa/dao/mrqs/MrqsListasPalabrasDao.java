@@ -11,5 +11,6 @@ public interface MrqsListasPalabrasDao {
    public List<MrqsListasPalabrasDto> findByFta(long pNumeroFta
 		                                       ,String pTipoRegistro
 		                                       ); 
-   public void delete(long pNumero); 
+   public void delete(long pNumero);
+   public void deleteByNumeroFta(long numeroFta); 
 }

@@ -8,7 +8,11 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
+import com.cmrise.jpa.dao.mrqs.MrqsListasPalabrasDao;
+import com.cmrise.jpa.dao.mrqs.MrqsOpcionMultipleDao;
+import com.cmrise.jpa.dao.mrqs.MrqsPreguntasFtaDao;
 import com.cmrise.jpa.dao.mrqs.MrqsPreguntasHdrDao;
+import com.cmrise.jpa.dao.mrqs.img.MrqsImagenesGrpDao;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
@@ -19,6 +23,18 @@ public class MrqsPreguntasHdrLocalImpl implements MrqsPreguntasHdrLocal {
 
 	@Inject
 	MrqsPreguntasHdrDao mrqsPreguntasHdrDao; 
+	
+	@Inject
+	MrqsPreguntasFtaDao mrqsPreguntasFtaDao; 
+	
+	@Inject 
+	MrqsOpcionMultipleDao mrqsOpcionMultipleDao; 
+	
+	@Inject 
+	MrqsListasPalabrasDao mrqsListasPalabrasDao; 
+	
+	@Inject 
+	MrqsImagenesGrpDao mrqsImagenesGrpDao; 
 	
 	@Override
 	public void insert(MrqsPreguntasHdrDto pMrqsPreguntasHdrDto) {
@@ -122,6 +138,31 @@ public class MrqsPreguntasHdrLocalImpl implements MrqsPreguntasHdrLocal {
 		long numeroPreguntaHdr = mrqsPreguntasHdrDao.insert(mrqsPreguntasHdrDto); 
 		pMrqsPreguntasHdrV1.setNumero(mrqsPreguntasHdrDto.getNumero());
 		return mrqsPreguntasHdrDto.getNumero();
+	}
+
+	@Override
+	public String delete(MrqsPreguntasHdrV1 pMrqsPreguntasHdrV1) {
+		String retval = null; 
+		 System.out.println("pMrqsPreguntasHdrV1.getNumero():"+pMrqsPreguntasHdrV1.getNumero());
+	   	long countRecMGL = mrqsPreguntasHdrDao.countRecMGL(pMrqsPreguntasHdrV1.getNumero()); 
+	    System.out.println("countRecMGL:"+countRecMGL);
+	   	if(countRecMGL!=0) {
+	   		pMrqsPreguntasHdrV1.setDependent(true);
+	   		retval = "No se pueden borrar preguntas que se encuentran ligadas a examenes, porque se perderia el Historial"; 
+	   		return retval; 
+	   	}else {
+	   		pMrqsPreguntasHdrV1.setDependent(false);
+	   		long numeroFta = mrqsPreguntasFtaDao.findNumeroFtaByNumeroHdr(pMrqsPreguntasHdrV1.getNumero()); 
+	   		if(0!=numeroFta) {
+	   			mrqsOpcionMultipleDao.deleteByNumeroFta(numeroFta);
+	   			mrqsListasPalabrasDao.deleteByNumeroFta(numeroFta); 
+	   			mrqsImagenesGrpDao.deleteByNumeroFta(numeroFta); 
+	   			mrqsPreguntasFtaDao.delete(numeroFta);
+	   		}
+	   		mrqsPreguntasHdrDao.delete(pMrqsPreguntasHdrV1.getNumero());
+	   		retval ="Los datos se borraron correctamente"; 
+	   	}
+	   	return retval;
 	}
 
 }
