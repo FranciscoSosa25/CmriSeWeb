@@ -104,7 +104,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
           <p:message for="statusMrqs"/>
          </div>
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="admonExamen" value="Categoria Examen" />
+         <p:outputLabel for="admonExamen" value="Examen" />
         </div>
          <div class="ui-g-12 ui-md-9">
           <p:selectOneMenu id="admonExamen" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.admonExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
@@ -126,7 +126,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          <p:message for="materia"/>
          </div>
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="subMateria" value="SubMateria" />
+         <p:outputLabel for="subMateria" value="Clasificacion" />
         </div>
          <div class="ui-g-12 ui-md-9">
           <p:selectOneMenu id="subMateria" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.admonSubmateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
@@ -146,22 +146,22 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
           <p:message for="questionType"/>
          </div>
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
-          <p:outputLabel for="society" value="Sociedad" />
+          <p:outputLabel for="society" value="Diagnostico" />
          </div>
           <div class="ui-g-12 ui-md-9">
-            <p:inputText id="society" value="CMRI - Consejo Mexicano de Radiología e Imagen" style="width:100%" readonly="true" />
+            <p:inputText id="society"  style="width:100%" readonly="true" />
           </div>
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="tag" value="Etiqueta" />
+         <p:outputLabel for="tag" value="Bibliografia" />
         </div>
          <div class="ui-g-12 ui-md-9">
-           <div class="ui-inputgroup">
-           <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span>
+           <div class="ui-inputgroup"> 
+          <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span> 
            <p:inputText id="tag"  value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.etiquetas}" maxlength="500" style="width:100%"/>
            </div>
          </div>
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="internalComments" value="Comentarios Internos" />
+         <p:outputLabel for="internalComments" value="Notas" />
         </div>
          <div class="ui-g-12 ui-md-9">
           <p:textEditor id="internalComments" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.comentarios}" widgetVar="internalCommentsWV"  height="100" maxlength="1000">
@@ -178,8 +178,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 		</p:textEditor>
         </div>
      </div>
-   
- </p:panel>
+    </p:panel>
  </div>
 
 <div class="card">
@@ -364,7 +363,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
           <p:message for="statusMrqs"/>
          </div>
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="admonExamen" value="Categoria Examen" />
+         <p:outputLabel for="admonExamen" value="Examen" />
         </div>
          <div class="ui-g-12 ui-md-9">
           <p:selectOneMenu id="admonExamen" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.admonExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
@@ -386,7 +385,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          <p:message for="materia"/>
          </div>
            <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="subMateria" value="SubMateria" />
+         <p:outputLabel for="subMateria" value="Clasificacion" />
         </div>
          <div class="ui-g-12 ui-md-9">
           <p:selectOneMenu id="subMateria" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.admonSubmateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
@@ -406,22 +405,22 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
           <p:message for="questionType"/>
          </div>
           <div class="ui-g-12 ui-md-3" style="text-align:right;">
-          <p:outputLabel for="society" value="Sociedad" />
+          <p:outputLabel for="society" value="Diagnostico" />
          </div>
           <div class="ui-g-12 ui-md-9">
             <p:inputText id="society" value="CMRI - Consejo Mexicano de Radiología e Imagen" style="width:100%" readonly="true" />
           </div>
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="tag" value="Etiqueta" />
+         <p:outputLabel for="tag" value="Bibliografia" />
         </div>
          <div class="ui-g-12 ui-md-9">
            <div class="ui-inputgroup">
-           <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span>
+<!--            <span class="ui-inputgroup-addon"> <i class="fa fa-tag"></i></span> -->
            <p:inputText id="tag"  value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.etiquetas}" maxlength="255" style="width:100%"/>
            </div>
          </div>
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="internalComments" value="Comentarios Internos" />
+         <p:outputLabel for="internalComments" value="Notas" />
         </div>
          <div class="ui-g-12 ui-md-9">
           <p:textEditor id="internalComments" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.comentarios}" widgetVar="internalCommentsWV"  height="100">
@@ -460,7 +459,11 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="max-width: 300px; max-height: 300px;" />
        </ui:repeat>
       </div>
+     
     </ui:repeat>
+      <div class="ui-g-12 ui-md-2 button-container" style="text-align:center">
+    <p:commandButton value="Previsualizar " action="#{updateFTAMrqForm.saveAndPreview()}" update="growl updateQuestionMultipleChoiceForm:questionInfoUpdatePanel updateQuestionMultipleChoiceForm:multipleChoiceQuestionUpdatePanel"/>
+   </div>
     </div>
    
   </p:panel>
@@ -470,7 +473,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
   <p:panel id="multipleChoiceQuestionUpdatePanel" header="PREGUNTA DE OPCIÓN MÚLTIPLE">
    <div class="ui-g">
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel  value="Título de la pregunta" />
+         <p:outputLabel  value="pregunta" />
         </div>
          <div class="ui-g-12 ui-md-9">
           <p:inputText id="questionTitle" value="#{updateFTAMrqForm.tituloPregunta}" placeholder="Título de la pregunta"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
@@ -485,7 +488,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          </div>
          
            <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel  value="Texto de sugerencias" />
+         <p:outputLabel  value="Instrucciones" />
         </div>
          <div class="ui-g-12 ui-md-9">
           <p:inputText id="hintsText" value="#{updateFTAMrqForm.textoSugerencias}"   placeholder="(No use mas de 5 palabras)"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
@@ -511,15 +514,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          </p:selectOneMenu>
           <p:message for="scoringValue"/>
          </div>
-      </div>
-   </p:panel>
- </div>
- 
- <div class="card">
-  <p:panel id="multipleChoiceAnswersUpdatePanel" header="RESPUESTAS DE OPCIÓN MÚLTIPLE">
-   
-   <div  class="ui-g">
-       <div class="ui-g-12 ui-md-3" style="text-align:right;">
+                <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="singleMode" value="¿Modo de Respuesta Única?" />
         </div>
         <div class="ui-g-12 ui-md-9">
@@ -531,16 +526,56 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         <div class="ui-g-12 ui-md-9">
            <p:inputSwitch id="suffleOrder" onLabel="Si" offLabel="No" value="#{updateFTAMrqForm.suffleAnswerOrder}"/>
         </div>
+      </div>
+   </p:panel>
+ </div>
+ 
+ <div class="card">
+  <p:panel id="multipleChoiceAnswersUpdatePanel" header="RESPUESTAS DE OPCIÓN MÚLTIPLE">
+   
+   <div  class="ui-g">
+<!--        <div class="ui-g-12 ui-md-3" style="text-align:right;"> -->
+<!--            <p:outputLabel for="singleMode" value="¿Modo de Respuesta Única?" /> -->
+<!--         </div> -->
+<!--         <div class="ui-g-12 ui-md-9"> -->
+<!--            <p:inputSwitch id="singleMode" onLabel="Si" offLabel="No" value="#{updateFTAMrqForm.singleAnswerMode}"/> -->
+<!--         </div> -->
+<!--         <div class="ui-g-12 ui-md-3" style="text-align:right;"> -->
+<!--            <p:outputLabel for="suffleOrder" value="¿Orden de Respuestas Aleatorio?" /> -->
+<!--         </div> -->
+<!--         <div class="ui-g-12 ui-md-9"> -->
+<!--            <p:inputSwitch id="suffleOrder" onLabel="Si" offLabel="No" value="#{updateFTAMrqForm.suffleAnswerOrder}"/> -->
+<!--         </div> -->
         
-         <div class="ui-g-12">
+<!--          <div class="ui-g-12"> -->
+<!--          </div> -->
+  <div class="ui-g-12">
+  
+   <div class="ui-g-4" style="text-align:left;">
+   <h1>
+   <p:outputLabel id="correcta" value="correcta" />
+   </h1>
+   </div>
+  
+      <div class="ui-g-4" style="text-align:center;">
+      <h2>
+    <p:outputLabel id="respuestas" value="Respuestas"  />
+    </h2>
+     </div>
+      <div class="ui-g-4" style="text-align:right;">
+      <h3>
+       <p:commandButton immediate="true" title="Nuevo"  value="Agregar nueva respuesta" actionListener="#{updateFTAMrqForm.addOpcionMultiple()}" update="updateQuestionMultipleChoiceForm updateQuestionMultipleChoiceForm:multipleChoiceAnswersUpdatePanel"  icon="pi pi-plus" />
+         </h3>
          </div>
          
+    </div>
+   
         <ui:repeat var="mrqsOpcionMultiple" value="#{updateFTAMrqForm.listMrqsOpcionMultiple}">
         <div class="ui-g" style="border: 1px solid black;width:98%;margin-bottom: 5px;" >
         <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
-         <div class="ui-g-6">
-           <p:spinner value="#{mrqsOpcionMultiple.numeroLinea}" min="1" max="10" rotate="true" />
-         </div>
+<!--          <div class="ui-g-6"> -->
+<!--            <p:spinner value="#{mrqsOpcionMultiple.numeroLinea}" min="1" max="10" rotate="true" /> -->
+<!--          </div> -->
          <div class="ui-g-6">
           <p:inputSwitch onLabel="&#10003;" offLabel="&#215;" value="#{mrqsOpcionMultiple.estatus}" />
          </div>
@@ -548,20 +583,20 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
        <div class="ui-g-9 ui-g-nopad">
          <div class="ui-g-12">
            <div class="ui-g-2" style="text-align:right;">
-            <p:outputLabel for="answerText" value="Texto de Respuesta" />
+            <p:outputLabel for="answerText" value="" />
            </div>
            <div class="ui-g-10">
              <p:inputText id="answerText" style="width:99%;" value="#{mrqsOpcionMultiple.textoRespuesta}" />
            </div>
          </div>
-          <div class="ui-g-12">
-           <div class="ui-g-2" style="text-align:right;">
-            <p:outputLabel for="explanation" value="Explicación" />
-           </div>
-           <div class="ui-g-10">
-             <p:inputText id="explanation" style="width:99%;" value="#{mrqsOpcionMultiple.textoExplicacion}"/>
-           </div>
-         </div>
+<!--           <div class="ui-g-12"> -->
+<!--            <div class="ui-g-2" style="text-align:right;"> -->
+<!--             <p:outputLabel for="explanation" value="Explicación" /> -->
+<!--            </div> -->
+<!--            <div class="ui-g-10"> -->
+<!--              <p:inputText id="explanation" style="width:99%;" value="#{mrqsOpcionMultiple.textoExplicacion}"/> -->
+<!--            </div> -->
+<!--          </div> -->
        </div>
         <div class="ui-g-1 ui-g-nopad">
            <p:commandButton icon="pi pi-times" styleClass="red-button" oncomplete="PF('deleteOpcionMultipleWV').show();" actionListener="#{updateFTAMrqForm.selectOpcionMultipleForAction(mrqsOpcionMultiple)}"/>
@@ -569,9 +604,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
        </div> <!-- END div -->
         </ui:repeat>
         
-        <div class="ui-g-12">
-        <p:commandButton immediate="true" title="Nuevo"  value="Agregar nueva respuesta" actionListener="#{updateFTAMrqForm.addOpcionMultiple()}" update="updateQuestionMultipleChoiceForm updateQuestionMultipleChoiceForm:multipleChoiceAnswersUpdatePanel"  icon="pi pi-plus" />
-        </div>
+      
          
        </div>
   
@@ -584,17 +617,17 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
      <p:commandButton id="GuardarBtn" value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="growl updateQuestionMultipleChoiceForm:questionInfoUpdatePanel updateQuestionMultipleChoiceForm:multipleChoiceQuestionUpdatePanel" oncomplete="handleUpdateRequest(xhr, status, args)"/>
    </div>
    <div class="ui-g-12 ui-md-2 button-container" style="text-align:center">
-    <p:commandButton value="Guardar y Previsualizar" action="#{updateFTAMrqForm.saveAndPreview()}" update="growl updateQuestionMultipleChoiceForm:questionInfoUpdatePanel updateQuestionMultipleChoiceForm:multipleChoiceQuestionUpdatePanel"/>
+    <p:commandButton value="Previsualizar " action="#{updateFTAMrqForm.saveAndPreview()}" update="growl updateQuestionMultipleChoiceForm:questionInfoUpdatePanel updateQuestionMultipleChoiceForm:multipleChoiceQuestionUpdatePanel"/>
    </div>
    <div class="ui-g-12 ui-md-2 button-container" style="text-align:center">
-    <p:commandButton value="Cancelar" action="#{updateFTAMrqForm.cancel()}" immediate="true"  />
+    <p:commandButton value="Cerrar" action="#{updateFTAMrqForm.cancel()}" immediate="true"  />
    </div>
-   <div class="ui-g-12 ui-md-2 button-container" style="text-align:center">
-    <p:commandButton value="Duplicar" oncomplete="PF('duplicateMrqDialogWV').show();"/>
-   </div>
-   <div class="ui-g-12 ui-md-2 button-container" style="text-align:center">
-    <p:commandButton value="Borrar" oncomplete="PF('deleteRolDialogWV').show();"/>
-   </div>
+<!--    <div class="ui-g-12 ui-md-2 button-container" style="text-align:center"> -->
+<!--     <p:commandButton value="Duplicar" oncomplete="PF('duplicateMrqDialogWV').show();"/> -->
+<!--    </div> -->
+<!--    <div class="ui-g-12 ui-md-2 button-container" style="text-align:center"> -->
+<!--     <p:commandButton value="Borrar" oncomplete="PF('deleteRolDialogWV').show();"/> -->
+<!--    </div> -->
   </div>
  </div>
 </h:form>
