@@ -22,12 +22,13 @@ function handleDeleteRequest(xhr, status, args){
 <ui:define name="content">
 <h:form id="MateriasForm">
 <p:growl id="msgs" showDetail="true"/>
-<h1>Administración Materias</h1>
 <h2>
   <p:commandButton value="Agregar Materia" style="margin-left: 10px;"  styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonMateriasForm.onAddNew()}" />
   <p:commandButton value="Guardar Cambios" style="margin-left: 10px;" styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonMateriasForm.saveAndUpdate()}" />
    </h2> 
+   <div class="card">
 <p:dataTable var="materia" value="#{admonMateriasForm.materias}">
+<f:facet name="header">Materias</f:facet>
  <p:column headerText="Nombre" >
   <p:inputText id="nombre" value="#{materia.nombre}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:98%"/>
   <p:message for="nombre"/>
@@ -45,9 +46,9 @@ function handleDeleteRequest(xhr, status, args){
       <p:commandButton value="Gestionar SubMaterias" style="margin-left: 10px;" action="#{admonMateriasForm.toAdmonMateriaDetail(materia)}"/>
      </p:column>
 </p:dataTable>
+</div>
 <div class="ui-g">
-         
-     </div>
+    </div>
 </h:form>
 
 <h:form id="DeleteForm">

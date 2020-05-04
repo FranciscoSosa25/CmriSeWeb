@@ -40,7 +40,7 @@ function handleDuplicateRequest(xhr, status, args){
 <f:passThroughAttribute name="autocomplete" value="off"/> 
 <p:breadCrumb>
   		<p:menuitem value="Inicio" outcome="PaginaPrincipal"/>
-      <p:menuitem value="Preguntas" url="#" />
+      <p:menuitem value="Reactivos" url="#" />
   </p:breadCrumb>
   
  <p:fieldset legend="Buscar Pregunta" toggleable="true" toggleSpeed="500" style="margin-bottom:20px" collapsed="true" > 
@@ -67,11 +67,12 @@ function handleDuplicateRequest(xhr, status, args){
 
 
 <h:form id="ReadOnlyForm">
-<h1>Preguntas</h1>
+
+<div class="card">
 <p:growl id="growl" showDetail="true"/>
-<p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva MRQ" icon="pi pi-plus" action="Preguntas-CreateNewMrqs"/>
+<p:commandButton immediate="true" title="Nuevo"  value="Nuevo Reactivo" icon="pi pi-plus" action="Preguntas-CreateNewMrqs"/>
  <p:dataTable var="preguntasHdrV1"  value="#{manageMrqsForm.listMrqsPreguntasHdrV1}"  paginator="true" rows="50" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
-   <f:facet name="header">Preguntas</f:facet>
+   <f:facet name="header">Reactivos</f:facet>
     <p:column headerText="Categoria Examen">
      <h:outputText value="#{preguntasHdrV1.admonExamenDesc}" />
     </p:column>
@@ -81,7 +82,7 @@ function handleDuplicateRequest(xhr, status, args){
     <p:column headerText="SubMateria">
        <h:outputText value="#{preguntasHdrV1.admonSubmateriaDesc}" />
     </p:column>
-    <p:column headerText="Tipo Pregunta">
+    <p:column headerText="Tipo Reactivo">
        <h:outputText value="#{preguntasHdrV1.tipoPreguntaDesc}" />
     </p:column>
     <p:column headerText="Estatus">
@@ -96,8 +97,9 @@ function handleDuplicateRequest(xhr, status, args){
        <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteRolDialogWV').show();" ajax="true" actionListener="#{manageMrqsForm.selectForAction(preguntasHdrV1)}" title="Eliminar"/>
     </p:column>
  </p:dataTable>
+  </div>
  </h:form>
- 
+
  <h:form id="DuplicateForm">
   <p:dialog id="duplicateMrqDialogId" widgetVar="duplicateMrqDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Duplicar Registro">
    <h2>¿Seguro que quieres duplicar esta pregunta?</h2>

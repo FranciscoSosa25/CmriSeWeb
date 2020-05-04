@@ -18,13 +18,14 @@
 <ui:define name="content">
 <p:breadCrumb>
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-         <p:menuitem value="Examenes de preguntas" url="ManageMrqsExams.xhtml"/>
-     <p:menuitem value="Nuevo Examen de preguntas" url="#"/>
+         <p:menuitem value="Examenes de Reactivos" url="ManageMrqsExams.xhtml"/>
+     <p:menuitem value="Nuevo Examen de Reactivos" url="#"/>
 </p:breadCrumb>
- <h1>Nuevo Examen de Preguntas </h1>
 <h:form id="createForm">
+<div class="card">
 <f:passThroughAttribute name="autocomplete" value="off"/>
 <p:panelGrid id="tituloPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+<f:facet name="header">Examen de Reactivos</f:facet>
   <p:outputLabel for="publicTitle" value="Título Público"/>
   <p:inputText id="publicTitle" value="#{createMrqsExamForm.titulo}" style="width:100%" maxlength="200" required="true"/>
   <p:message for="publicTitle"/>
@@ -56,10 +57,11 @@
   <p:inputTextarea  id="internalComments" value="#{createMrqsExamForm.comentarios}" rows="4" style="width:100%" maxlength="500"/>
   <p:message  for="internalComments"/>
 </p:panelGrid>
+</div>
 
-<h3>OPCIONES DE PRUEBA/EXAMEN</h3>
-
+<div class="card">
 <p:panelGrid id="visibilityPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+<f:facet name="header">Opciones de Examen</f:facet>
   <p:outputLabel for="visibility" value="Visibilidad" />
   <p:selectOneMenu id="visibility" value="#{createMrqsExamForm.visibilidad}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
   <f:selectItem itemLabel="Seleccione ..." itemValue="" />
@@ -106,9 +108,11 @@
  <p:inputTextarea  id="finishingMessage" value="#{createMrqsExamForm.mensajeFinalizacion}" rows="4" style="width:100%" maxlength="500"/>
  <p:message  for="finishingMessage"/>
 </p:panelGrid>
+</div>
 
-<h3>OPCIONES DE DOCUMENTOS</h3>
+<div class="card">
 <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+<f:facet name="header">Opciones de Documentos</f:facet>
  <p:outputLabel for="generateConfirmationOfAttendance"  value="¿Generar Confirmación de Asistencia?" />
  <p:inputSwitch id="generateConfirmationOfAttendance" value="#{createMrqsExamForm.confirmacionAsistencia}" onLabel="&#10003;" offLabel="&#215;"/>
  <p:message  for="generateConfirmationOfAttendance"/>
@@ -116,7 +120,9 @@
  <p:inputSwitch id="generateDiploma" value="#{createMrqsExamForm.diploma}" onLabel="&#10003;" offLabel="&#215;"/>
  <p:message  for="generateDiploma"/>
 </p:panelGrid>
+</div>
 
+<div class="card">
 <div class="ui-g">
  <div class="ui-g-12 ui-md-6 ui-lg-2">
   <p:commandButton value="Crear" update="tituloPanelId visibilityPanelId disponibilidadPanelId tiempoLimitePanelId" action="#{createMrqsExamForm.create()}" oncomplete="handleCreateRequest(xhr, status, args)"/>
@@ -124,6 +130,7 @@
  <div class="ui-g-12 ui-md-6 ui-lg-2">
   <p:commandButton value="Cancelar" immediate="true" action="Exams-MRQs-Manage"/>
  </div>
+</div>
 </div>
 </h:form>
 </ui:define>

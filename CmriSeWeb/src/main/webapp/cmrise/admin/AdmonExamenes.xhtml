@@ -7,12 +7,13 @@
 <ui:define name="content">
 <h:form id="MateriasForm">
 <p:growl id="msgs" showDetail="true"/>
-<h1>Administración Examenes</h1>
 <h2>
  <p:commandButton value="Agregar Examen" style="margin-left: 10px;"  styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonExamenesForm.onAddNew()}" />
   <p:commandButton value="Guardar Cambios" style="margin-left: 10px;" styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonExamenesForm.saveAndUpdate()}" />
         </h2> 
+        <div class="card">
 <p:dataTable var="examen" value="#{admonExamenesForm.examenesHdr}">
+<f:facet name="header">Examenes</f:facet>
 <p:column headerText="Nombre" >
 <p:inputText id="nombre" value="#{examen.nombre}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:98%"/>
 <p:message for="nombre"/>
@@ -37,7 +38,7 @@
   <p:commandButton style="margin-left: 10px;" value="Gestionar Materias" action="#{admonExamenesForm.toAdmonExamenesDetail(examen)}"/>
  </p:column>
 </p:dataTable>
-
+</div>
 <div class="ui-g">
          
      </div>
