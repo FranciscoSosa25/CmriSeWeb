@@ -35,13 +35,18 @@ function handleUpdateRequest(xhr, status, args){
 <ui:define name="content">
 <p:breadCrumb>
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-         <p:menuitem value="Examenes de preguntas" outcome="ManageMrqsExams.xhtml"/>
-     <p:menuitem value="Actualizar Examen de preguntas" outcome="Exams-MRQs-Update"/>
-      <p:menuitem value="Candidatos de examen de preguntas" url="#"/>
+         <p:menuitem value="Examenes de reactivos" outcome="ManageMrqsExams.xhtml"/>
+     <p:menuitem value="Actualizar Examen de reactivos" outcome="Exams-MRQs-Update"/>
+      <p:menuitem value="Candidatos de examen de reactivos" url="#"/>
      
 </p:breadCrumb>
-<h1>Gestionar Nuevos Candidatos</h1>
+           <div class="ui-g">
+             <div class="ui-g-12 ui-lg-12" style="text-align: left;">
+                 <p:commandButton id="RegistrarBtn" value="Nuevo Candidato" icon="fa fa-plus" onclick="PF('createCandidatoDialogWV').show();" />
+              </div>
+            </div>
 <h:form id="ReadOnlyForm">
+<div class="card">
  <p:dataTable var="admonCandidatos" value="#{createMrqsCandidatesForm.listAdmonUsuarios}" emptyMessage="Sin resultados"  paginator="true" rows="30" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">Candidatos</f:facet>
      <p:column headerText="Nombre">
@@ -62,13 +67,11 @@ function handleUpdateRequest(xhr, status, args){
     <h:outputText value="#{admonCandidatos.sedeHospital}"/>
    </p:column>
      <f:facet name="footer">
-           <div class="ui-g">
-             <div class="ui-g-12 ui-lg-12" style="text-align: right;">
-                 <p:commandButton id="RegistrarBtn" value="Nuevo Candidato" icon="fa fa-plus" onclick="PF('createCandidatoDialogWV').show();" />
-              </div>
-            </div>
+
         </f:facet> 
   </p:dataTable>
+ </div> 
+  
   </h:form>
   <h:form id="CreateForm">
  <f:passThroughAttribute name="autocomplete" value="off"/>

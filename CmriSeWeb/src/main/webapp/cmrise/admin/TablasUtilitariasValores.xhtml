@@ -56,7 +56,9 @@ function handleDeleteRequest(xhr, status, args){
    
    
 </p:breadCrumb>
+
   <h:form id="NuevoTablUtilValo">
+
    <f:passThroughAttribute name="autocomplete" value="off"/>
    <h1>
    <p:commandButton value="Agregar Linea" styleClass="ui-priority-primary" update="NuevoTablUtilValo" actionListener="#{tablasUtilitariasValoresForm.agregarLinea()}" oncomplete="handleAgregarLineaRequest(xhr, status, args)"/>
@@ -64,6 +66,7 @@ function handleDeleteRequest(xhr, status, args){
    <p:commandButton immediate="true" title="Nuevo"  value="Nuevo" icon="pi pi-plus" actionListener="#{tablasUtilitariasValoresForm.nuevo()}" update="NuevoTablUtilValo"/>
    <p:commandButton  title="Guardar" value="Guardar" icon="pi pi-save" onclick="guardarFn();" />
      </h1>
+       <div class="card">
      <p:outputLabel for="tipo" value="Tipo Tabla"/>
      <p:inputText id="tipo" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" value="#{tablasUtilitariasValoresForm.tipoTabla}"/>
      <p:message for="tipo"/>
@@ -107,9 +110,9 @@ function handleDeleteRequest(xhr, status, args){
  
       <p:commandButton id="GuardarBtn" title="Guardar" value="Guardar" icon="pi pi-save" actionListener="#{tablasUtilitariasValoresForm.guardar()}" update="NuevoTablUtilValo" style="display:none" oncomplete="handleGuardarRequest(xhr, status, args)"/>
  
-     
+     </div>  
   </h:form>
-  
+
   <h:form id="BuscarTablUtilValo">
    <f:passThroughAttribute name="autocomplete" value="off"/>
    <p:dialog id="BuscarTablUtilValoDialogId" header="Buscar Tipo Tabla" widgetVar="BuscarTablUtilValoDialogWV" modal="true">

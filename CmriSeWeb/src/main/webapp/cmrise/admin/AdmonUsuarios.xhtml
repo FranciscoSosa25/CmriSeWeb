@@ -35,11 +35,11 @@ function handleUpdateRequest(xhr, status, args){
 </ui:define>
 
 <ui:define name="content">
-<h1>Administración Usuarios</h1>
 <h2>
-   <p:commandButton id="RegistrarBtn" value="Registrar Usuario" icon="fa fa-plus"  style="text-align: left;" onclick="PF('createUsuarioDialogWV').show();" />
+   <p:commandButton id="RegistrarBtn" value="Nuevo Usuario" icon="fa fa-plus"  style="text-align: left;" onclick="PF('createUsuarioDialogWV').show();" />
  </h2>             
 <h:form id="ReadOnlyForm">
+<div class="card">
  <p:dataTable var="admonUsuario" value="#{admonUsuariosForm.listAdmonUsuarios}"  emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">USUARIOS</f:facet>
     <p:column headerText="CURP" style="text-overflow: ellipsis; white-space: nowrap;width:150px" >
@@ -80,6 +80,7 @@ function handleUpdateRequest(xhr, status, args){
             </div>
         </f:facet> 
    </p:dataTable>
+   </div>
    </h:form>
 
 <h:form id="CreateForm">
