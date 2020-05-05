@@ -21,49 +21,141 @@
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
      <p:menuitem value="Casos clínicos" outcome= "Preguntas-Manage-CoreCases" />
      <p:menuitem value="Crear Caso Clínico" url="#"/>
-       
 </p:breadCrumb>
-<h1>Crear Caso Clínico</h1>
+
 <h:form id="createForm">
+<p:growl id="growl" showDetail="true"/>
+<h1>Crear Caso Clínico</h1>
 <h3>Información del Caso clínico</h3>
+  <p:panel>
+  <div class="ui-g">
+     <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="admonExamen" value="Examen" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:selectOneMenu id="admonExamen" value="#{createCoreCaseForm.ccHdrV1ForInsert.admonExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+           <p:ajax listener="#{createCoreCaseForm.onAdmonExamenChange}" update="materia" />
+           <f:selectItem itemLabel="Seleccione..." itemValue="" />
+           <f:selectItems value="#{createCoreCaseForm.selectExamenesHdr}" />
+          </p:selectOneMenu>
+          <p:message for="admonExamen"/>
+         </div>
+       </div>
+       
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="materia" value="Materia" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:selectOneMenu id="materia" value="#{createCoreCaseForm.ccHdrV1ForInsert.admonMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <p:ajax listener="#{createCoreCaseForm.onAdmonMateriaChange}" update="subMateria" />
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{createCoreCaseForm.selectMateriasHdr}" />
+         </p:selectOneMenu>
+         <p:message for="materia"/>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="subMateria" value="SubMateria" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:selectOneMenu id="subMateria" value="#{createCoreCaseForm.ccHdrV1ForInsert.admonSubMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{createCoreCaseForm.selectSubMaterias}" />
+         </p:selectOneMenu>
+         <p:message for="subMateria"/>
+         </div>
+       </div>
+       
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:calendar id="fechaElaboracion" value="#{createCoreCaseForm.ccHdrV1ForInsert.fechaElaboracion}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+         <p:message for="fechaElaboracion"/>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="creadoPor" value="¿Quien elabora la Pregunta?" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
+         <p:message for="creadoPor"/>
+         </div>
+       </div>
+        
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="clinicalHistory" value="Historial Clinico" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:inputTextarea  id="clinicalHistory" value="#{createCoreCaseForm.ccHdrV1ForInsert.historialClinico}" rows="4" style="width:100%"/>
+          <p:message  for="clinicalHistory"/>
+         </div>
+       </div>
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="descriptionOfTechnique" value="Descripción de la Técnica"/>
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:inputTextarea  id="descriptionOfTechnique" value="#{createCoreCaseForm.ccHdrV1ForInsert.descripcionTecnica}"  rows="4" style="width:100%"/>
+          <p:message  for="descriptionOfTechnique"/>
+         </div>
+       </div>
+       
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="showUnsafeOption"  value="¿Mostrar Opción Insegura?" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:inputSwitch id="showUnsafeOption" value="#{createCoreCaseForm.ccHdrV1ForInsert.opcionInsegura}"  onLabel="&#10003; SI" offLabel="&#215; NO"/>
+          <p:message  for="showUnsafeOption"/>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="tags" value="Etiquetas"/>
+        </div>
+         <div class="ui-g-12 ui-md-9">
+           <p:inputTextarea  id="tags" value="#{createCoreCaseForm.ccHdrV1ForInsert.etiquetas}"   rows="1" style="width:100%"/>
+           <p:message  for="tags"/>
+         </div>
+       </div>
+       
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+          <p:outputLabel for="note" value="Nota"/>
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:inputTextarea  id="note" value="#{createCoreCaseForm.ccHdrV1ForInsert.nota}"   rows="4" style="width:100%"/>
+           <p:message  for="note"/>
+         </div>
+       </div>     
+     </div>
+     
+     <div class="ui-g">
+	 <div class="ui-g-12 ui-md-6 ui-lg-2">
+	  <p:commandButton value="Agregar Caso Clínico" update="createForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createCoreCaseForm.create()}"/>
+	 </div>
+	 <div class="ui-g-12 ui-md-6 ui-lg-2">
+	  <p:commandButton value="Cancelar" process="@this" update="createForm" action="Preguntas-Manage-CoreCases" >
+	  <p:resetInput target="createForm"/>
+	   </p:commandButton>
+	 </div>
+	</div>
+     
+     </p:panel>  
+
  <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
-  <p:outputLabel for="internalName" value="Nombre"/>
-  <p:inputText id="internalName" value="#{createCoreCaseForm.nombre}" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-  <p:message for="internalName"/>
-  <p:outputLabel for="topic" value="Tema de Pregunta" />
-  <p:selectOneMenu id="topic" value="#{createCoreCaseForm.tema}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-  <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
-  <f:selectItems value="#{selectsHelper.selectTemaDePreguntaItems}" />
-  </p:selectOneMenu>
-  <p:message for="topic"/>
-  <p:outputLabel for="clinicalHistory" value="Historial Clinico"/>
-  <p:inputTextarea  id="clinicalHistory" value="#{createCoreCaseForm.historialClinico}" rows="4" style="width:100%"/>
-  <p:message  for="clinicalHistory"/>
-  <p:outputLabel for="descriptionOfTechnique" value="Descripción de la Técnica"/>
-  <p:inputTextarea  id="descriptionOfTechnique" value="#{createCoreCaseForm.descripcionTecnica}"  rows="4" style="width:100%"/>
-  <p:message  for="descriptionOfTechnique"/>
-  <p:outputLabel for="showUnsafeOption"  value="¿Mostrar Opción Insegura?" />
-  <p:inputSwitch id="showUnsafeOption" value="#{createCoreCaseForm.opcionInsegura}"  onLabel="&#10003; SI" offLabel="&#215; NO"/>
-  <p:message  for="showUnsafeOption"/>
-  <p:outputLabel for="tags" value="Etiquetas"/>
-  <p:inputTextarea  id="tags" value="#{createCoreCaseForm.etiquetas}"   rows="1" style="width:100%"/>
-  <p:message  for="tags"/>
-  <p:outputLabel for="note" value="Nota"/>
-  <p:inputTextarea  id="note" value="#{createCoreCaseForm.nota}"   rows="4" style="width:100%"/>
-  <p:message  for="note"/>
  </p:panelGrid>
  
- <div class="ui-g">
- <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Agregar Caso Clínico" update="createForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createCoreCaseForm.create()}"/>
- </div>
- <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Cancelar" process="@this" update="createForm" action="Preguntas-Manage-CoreCases" >
-  <p:resetInput target="createForm"/>
-   </p:commandButton>
- </div>
-</div>
-
 
 </h:form>
 </ui:define>

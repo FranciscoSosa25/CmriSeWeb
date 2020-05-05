@@ -25,12 +25,6 @@ public class CcPreguntasHdrDaoImpl implements CcPreguntasHdrDao {
 		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
 		long longNumeroS = lNumeroS.longValue(); 
 		pCcPreguntasHdrDto.setNumero(lNumeroS.longValue());
-		java.util.Date sysdate = new java.util.Date();
-		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
-		pCcPreguntasHdrDto.setCreadoPor((long)-1);
-		pCcPreguntasHdrDto.setActualizadoPor((long)-1);
-		pCcPreguntasHdrDto.setFechaCreacion(sqlsysdate);
-		pCcPreguntasHdrDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pCcPreguntasHdrDto);
 		return longNumeroS; 
 	}
@@ -44,11 +38,11 @@ public class CcPreguntasHdrDaoImpl implements CcPreguntasHdrDao {
 	@Override
 	public void update(long pNumero, CcPreguntasHdrDto pCcPreguntasHdrDto) {
 		CcPreguntasHdrDto ccPreguntasHdrDto = em.find(CcPreguntasHdrDto.class, pNumero);
-		ccPreguntasHdrDto.setNombre(pCcPreguntasHdrDto.getNombre());
-		ccPreguntasHdrDto.setTitulo(pCcPreguntasHdrDto.getTitulo());
+		//ccPreguntasHdrDto.setNombre(pCcPreguntasHdrDto.getNombre());
+		//ccPreguntasHdrDto.setTitulo(pCcPreguntasHdrDto.getTitulo());
 		ccPreguntasHdrDto.setEstatus(pCcPreguntasHdrDto.getEstatus());
 		ccPreguntasHdrDto.setTipoPregunta(pCcPreguntasHdrDto.getTipoPregunta());
-		ccPreguntasHdrDto.setTemaPregunta(pCcPreguntasHdrDto.getTemaPregunta());
+		//ccPreguntasHdrDto.setTemaPregunta(pCcPreguntasHdrDto.getTemaPregunta());
 		ccPreguntasHdrDto.setMaxPuntuacion(pCcPreguntasHdrDto.getMaxPuntuacion());
 		ccPreguntasHdrDto.setEtiquetas(pCcPreguntasHdrDto.getEtiquetas());
 		ccPreguntasHdrDto.setComentarios(pCcPreguntasHdrDto.getComentarios());

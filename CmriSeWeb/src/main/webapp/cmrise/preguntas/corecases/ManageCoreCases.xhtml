@@ -36,20 +36,28 @@ function handleDeleteRequest(xhr, status, args){
    <f:facet name="header">
    Casos Clínicos
    </f:facet>
+   <p:column headerText="ID" style="width:30px;">
+       <h:outputText value="#{ccHdrV1.numero}" />
+     </p:column>
     <p:column headerText="Nombre">
      <p:commandLink action="#{manageCoreCasesForm.update(ccHdrV1)}">
-      <h:outputText value="#{ccHdrV1.nombre}" />
+      <h:outputText value="#{ccHdrV1.admonExamenDesc}" />
      </p:commandLink>
     </p:column>
+     <p:column headerText="Materia">
+       <h:outputText value="#{ccHdrV1.admonMateriaDesc}" />
+     </p:column>
+      <p:column headerText="Clasificación">
+        <h:outputText value="#{ccHdrV1.admonSubMateriaDesc}" />
+     </p:column>
      <p:column headerText="Estatus">
        <h:outputText value="#{ccHdrV1.estatusDesc}" />
      </p:column>
-     <p:column headerText="Tema">
-        <h:outputText value="#{ccHdrV1.temaDesc}" />
-     </p:column>
-     <p:column headerText="Etiquetas">
-       <h:outputText value="#{ccHdrV1.etiquetas}" />
-     </p:column>
+     <p:column headerText="Elaboración">
+     <h:outputText value="#{ccHdrV1.fechaElaboracion}">
+      <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+     </h:outputText>
+   </p:column>     
      <p:column headerText="Acciones">
         <p:commandButton icon="fa fa-edit" style="margin-left: 10px;" action="#{manageCoreCasesForm.update(ccHdrV1)}"/>
         <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteRolDialogWV').show();" ajax="true" actionListener="#{manageCoreCasesForm.selectForAction(ccHdrV1)}"/>

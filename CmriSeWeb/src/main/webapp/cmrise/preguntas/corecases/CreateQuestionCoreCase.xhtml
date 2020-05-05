@@ -16,78 +16,146 @@
 </ui:define>
                 
 <ui:define name="content">
-<p:breadCrumb>
-    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="Casos clínicos" outcome= "Preguntas-Manage-CoreCases" />
-     <p:menuitem value="Crear Pregunta Caso Clinico" url="#"/>
-</p:breadCrumb>
-<h1>Crear Pregunta Caso Clinico</h1>
+<h:form id="casoClinicoForm">
+ <h1>Información del Caso Clínico</h1>
+ <p:growl id="growl" showDetail="true" life="5000" />  
+ <div class="ui-g">
+  <div class="ui-g-12 ui-md-12">
+  <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+   <p:outputLabel for="admonExamenDesc" value="Examen"/>
+   <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:98%" readonly="true"/>
+   <p:message for="admonExamenDesc"/>
+    <p:outputLabel for="admonMateriaDesc" value="Materia"/>
+   <p:inputText id="admonMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonMateriaDesc}" style="width:98%" readonly="true"/>
+   <p:message for="admonMateriaDesc"/>
+    <p:outputLabel for="admonSubMateriaDesc" value="Clasificación"/>
+   <p:inputText id="admonSubMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonSubMateriaDesc}" style="width:98%" readonly="true"/>
+   <p:message for="admonSubMateriaDesc"/>
+  </p:panelGrid> <!-- END Panel Grid -->
+  </div>
+</div>	
 
-<div class="ui-g">
- <div class="ui-g-2">
-   <h:form id="arbolPrincipalForm" >
-   <p:panelGrid  columns="1" layout="grid">
-     <f:facet name="header">
-        <div class="xxdivTree">Arbol Caso Clinico</div>
-     </f:facet>
-      <p:dataList var="ccPreguntasHdrV1" value="#{createQuestionCoreCaseForm.listCcPreguntasHdrV1}" type="definition" responsive="true">
-       <f:facet name="caption">#{updateCoreCaseForm.nombreCc}</f:facet>
-       <p:column>
-         <p:commandLink action="#{createQuestionCoreCaseForm.updatePregunta(ccPreguntasHdrV1)}">
-         <h:outputText value="#{ccPreguntasHdrV1.titulo}" />
-         </p:commandLink>
-       </p:column>
-     </p:dataList>
-     <p:commandButton immediate="true" title="Nuevo"  value="Nueva Pregunta" icon="pi pi-plus" action="#{createQuestionCoreCaseForm.nuevaPregunta()}"/>
-   </p:panelGrid>
-   <p:panelGrid  columns="1" layout="grid">
-     <f:facet name="header">
-        <div class="xxdivTree">Series Dicom</div>
-     </f:facet>
-     <p:commandButton immediate="true" title="Nuevo"  value="Nueva Serie" icon="pi pi-plus" action="Preguntas-Create-CoreCase"/>
-   </p:panelGrid>
-   </h:form>
- </div>
- <div class="ui-g-10">
-  <h:form id="createQuestionCoreCaseForm">
-    <p:panelGrid id="questionInformationForm" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
-      <p:outputLabel for="internalName" value="Nombre Interno" />
-      <p:inputText id="internalName" value="#{createQuestionCoreCaseForm.nombrePreguntaHdr}"  placeholder="Nombre Interno"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-      <p:message for="internalName"/>
-      <p:outputLabel for="title" value="Título en TOC" />
-      <p:inputText id="title" value="#{createQuestionCoreCaseForm.tituloPreguntaHdr}" placeholder="Título"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-      <p:message for="title"/>
-      <p:outputLabel for="questionType" value="Tipo de Pregunta" />
-      <p:selectOneMenu id="questionType" value="#{createQuestionCoreCaseForm.tipoPreguntaHdr}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-      <f:selectItem itemLabel="Seleccione un tipo de pregunta" itemValue="" />
-      <f:selectItems value="#{selectsHelper.selectTipoPreguntaCoreCaseItems}" />
-      </p:selectOneMenu>
-      <p:message for="questionType"/>
-      <p:outputLabel for="topic" value="Tema de Pregunta" />
-	  <p:selectOneMenu id="topic" value="#{createQuestionCoreCaseForm.temaPreguntaHdr}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-	  <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
-	  <f:selectItems value="#{selectsHelper.selectTemaDePreguntaItems}" />
-	  </p:selectOneMenu>
-	  <p:message for="topic"/>      
+ <p:carousel value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" headerText="Lista de Preguntas Casos Clínicos" var="pregunta" itemStyle="height:200px;text-align:center" numVisible="1" easing="easeOutBounce" style="width:98%" circular="true">
+     <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+       <p:outputLabel for="numero" value="ID"/>
+      <p:inputText id="numero" value="#{pregunta.numero}" style="width:98%" readonly="true"/>
+      <p:message for="numero"/>
+      <p:outputLabel for="admonExamenDesc" value="Examen"/>
+      <p:inputText id="admonExamenDesc" value="#{pregunta.admonExamenDesc}" style="width:98%" readonly="true"/>
+      <p:message for="admonExamenDesc"/>
+      <p:outputLabel for="admonMateriaDesc" value="Materia"/>
+      <p:inputText id="admonMateriaDesc" value="#{pregunta.admonMateriaDesc}" style="width:98%" readonly="true"/>
+      <p:message for="admonMateriaDesc"/>
+       <p:outputLabel for="admonSubMateriaDesc" value="Clasificación"/>
+      <p:inputText id="admonSubMateriaDesc" value="#{pregunta.admonSubMateriaDesc}" style="width:98%" readonly="true"/>
+      <p:message for="admonSubMateriaDesc"/>
+      <p:outputLabel for="tipoPreguntaDesc" value="Tipo Pregunta"/>
+      <p:inputText id="tipoPreguntaDesc" value="#{pregunta.tipoPreguntaDesc}" style="width:98%" readonly="true"/>
+      <p:message for="tipoPreguntaDesc"/>
     </p:panelGrid>
-    <div class="ui-g">
-	  <div class="ui-g-12 ui-md-6 ui-lg-2">
-	   <p:outputLabel for="tag" value="Etiqueta" />
-	  </div>
-	  <div class="ui-g-12 ui-md-6 ui-lg-8">
-	    <div class="ui-inputgroup">
-	    <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span>
-	    <p:inputText id="tag" value="#{createQuestionCoreCaseForm.etiquetasPreguntaHdr}" maxlength="500" style="width:100%"/>
-	    </div>
-	  </div>
-	  <div class="ui-g-12 ui-md-6 ui-lg-2">
-	    <p:message for="tag"/>  
-	  </div>
-	   <div class="ui-g-12 ui-md-6 ui-lg-2">
-	   <p:outputLabel for="internalComments" value="Comentarios Internos" />
-	  </div>
-	  <div class="ui-g-12 ui-md-6 ui-lg-8">
-	    <p:textEditor id="internalComments" value="#{createQuestionCoreCaseForm.comentariosPreguntaHdr}" widgetVar="internalCommentsWV"  height="100">
+ </p:carousel>   
+ 
+</h:form>
+
+
+<h:form id="createQuestionCoreCaseForm">
+<p:growl id="growl" showDetail="true" life="5000" /> 
+<h1>Crear Pregunta Caso Clinico</h1> 
+    <div class="ui-g card">
+      <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="admonExamen" value="Examen" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:selectOneMenu id="admonExamen" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.admonExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+           <p:ajax listener="#{createQuestionCoreCaseForm.onAdmonExamenChange}" update="materia" />
+           <f:selectItem itemLabel="Seleccione..." itemValue="" />
+           <f:selectItems value="#{createQuestionCoreCaseForm.selectExamenesHdr}" />
+          </p:selectOneMenu>
+          <p:message for="admonExamen"/>
+         </div>
+       </div>
+       
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="materia" value="Materia" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:selectOneMenu id="materia" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.admonMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <p:ajax listener="#{createQuestionCoreCaseForm.onAdmonMateriaChange}" update="subMateria" />
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{createQuestionCoreCaseForm.selectMateriasHdr}" />
+         </p:selectOneMenu>
+         <p:message for="materia"/>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="subMateria" value="SubMateria" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:selectOneMenu id="subMateria" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.admonSubMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{createQuestionCoreCaseForm.selectSubMaterias}" />
+         </p:selectOneMenu>
+         <p:message for="subMateria"/>
+         </div>
+       </div>
+        
+         <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:calendar id="fechaElaboracion" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.fechaElaboracion}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+         <p:message for="fechaElaboracion"/>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="creadoPor" value="¿Quien elabora la Pregunta?" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
+         <p:message for="creadoPor"/>
+         </div>
+       </div>
+       
+        
+           <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="questionType" value="Tipo de Pregunta" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:selectOneMenu id="questionType" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.tipoPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+         <f:selectItem itemLabel="Seleccione..." itemValue="" />
+         <f:selectItems value="#{selectsHelper.selectTipoPreguntaCoreCaseItems}" />
+          </p:selectOneMenu>
+         <p:message for="questionType"/>
+         </div>
+       </div>
+     
+        <div class="ui-g-12 ui-md-12" >
+         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="tag" value="Diagnostico" />
+         </div>
+          <div class="ui-g-12 ui-md-9">
+          <div class="ui-inputgroup">
+	      <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span>
+	      <p:inputText id="tag" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.etiquetas}" maxlength="500" style="width:100%"/>
+	      </div>
+         <p:message for="tag"/>  
+         </div>
+       </div>
+      
+         <div class="ui-g-12 ui-md-12" >
+         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+          <p:outputLabel for="internalComments" value="Notas" />
+         </div>
+          <div class="ui-g-12 ui-md-9">
+           <p:textEditor id="internalComments" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.comentarios}" widgetVar="internalCommentsWV"  height="100">
 		    <f:facet name="toolbar">
 		        <span class="ql-formats">
 		            <button class="ql-bold"></button>
@@ -98,22 +166,26 @@
 		            <button class="ql-orderedlist"></button>
 		        </span>
 		    </f:facet>
-		</p:textEditor>
-	  </div>
-	  <div class="ui-g-12 ui-md-6 ui-lg-2">
-	    <p:message for="internalComments"/>  
-	  </div>
-	  </div>
+	  	   </p:textEditor>
+	     <p:message for="internalComments"/>  
+         </div>
+       </div>
+      
+     </div>  
+    
+    <p:panelGrid id="questionInformationForm" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+    </p:panelGrid>
+    
 	  <div class="ui-g">
 	   <div class="ui-g-12 ui-md-6 ui-lg-2">
-	    <p:commandButton value="Crear" update="questionInformationForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createQuestionCoreCaseForm.create()}"/>
+	    <p:commandButton value="Crear" update="questionInformationForm createQuestionCoreCaseForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createQuestionCoreCaseForm.create()}"/>
 	   </div>
 	   <div class="ui-g-12 ui-md-6 ui-lg-2">
 	     <p:commandButton value="Cancelar" immediate="true" action="Preguntas-Update-CoreCase"/>
 	   </div>
 	  </div>
 	</h:form>
- </div> <!-- END <div class="ui-g-10"> -->
- </div> <!-- END <div class="ui-g"> -->
+	
+
 </ui:define>
 </ui:composition>

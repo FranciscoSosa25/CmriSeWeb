@@ -5,115 +5,56 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
                 
-
-
 <ui:define name="content">
-<p:breadCrumb>
-    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="Casos clínicos" outcome= "Preguntas-Manage-CoreCases" />
-     <p:menuitem value="Actualizar Caso Clínico" url="#"/>
-
-</p:breadCrumb>
-<h1>Actualizar Caso Clínico</h1>
 
 <h:form id="updateForm">
 <h3>Información del Caso Clínico</h3>
-
  <p:growl id="growl" showDetail="true" life="5000" />  
 
+ <div class="ui-g">
+  <div class="ui-g-12 ui-md-12">
+  <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+   <p:outputLabel for="admonExamenDesc" value="Examen"/>
+   <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:98%" readonly="true"/>
+   <p:message for="admonExamenDesc"/>
+    <p:outputLabel for="admonMateriaDesc" value="Materia"/>
+   <p:inputText id="admonMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonMateriaDesc}" style="width:98%" readonly="true"/>
+   <p:message for="admonMateriaDesc"/>
+    <p:outputLabel for="admonSubMateriaDesc" value="Clasificación"/>
+   <p:inputText id="admonSubMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonSubMateriaDesc}" style="width:98%" readonly="true"/>
+   <p:message for="admonSubMateriaDesc"/>
+  </p:panelGrid> <!-- END Panel Grid -->
+  </div>
+</div>		
 
+  <div class="ui-g">
+   <div class="ui-g-12 ui-md-12">
+   <p:commandButton immediate="true" title="Nuevo"  value="Nueva Pregunta" icon="pi pi-plus" action="#{updateCoreCaseForm.createCoreQuestion()}"/>
+   </div>
+  </div>
+  
+ <p:carousel value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" headerText="Lista de Preguntas Casos Clínicos" var="pregunta" itemStyle="height:98%;text-align:center" numVisible="1" easing="easeOutBounce" style="width:98%" circular="true">
+    <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+       <p:outputLabel for="numero" value="ID"/>
+      <p:inputText id="numero" value="#{pregunta.numero}" style="width:98%" readonly="true"/>
+      <p:message for="numero"/>
+      <p:outputLabel for="admonExamenDesc" value="Examen"/>
+      <p:inputText id="admonExamenDesc" value="#{pregunta.admonExamenDesc}" style="width:98%" readonly="true"/>
+      <p:message for="admonExamenDesc"/>
+      <p:outputLabel for="admonMateriaDesc" value="Materia"/>
+      <p:inputText id="admonMateriaDesc" value="#{pregunta.admonMateriaDesc}" style="width:98%" readonly="true"/>
+      <p:message for="admonMateriaDesc"/>
+       <p:outputLabel for="admonSubMateriaDesc" value="Clasificación"/>
+      <p:inputText id="admonSubMateriaDesc" value="#{pregunta.admonSubMateriaDesc}" style="width:98%" readonly="true"/>
+      <p:message for="admonSubMateriaDesc"/>
+      <p:outputLabel for="tipoPreguntaDesc" value="Tipo Pregunta"/>
+      <p:inputText id="tipoPreguntaDesc" value="#{pregunta.tipoPreguntaDesc}" style="width:98%" readonly="true"/>
+      <p:message for="tipoPreguntaDesc"/>
+      <p:commandButton value="Actualizar Pregunta" action="#{updateCoreCaseForm.updatePregunta(pregunta)}" immediate="true"></p:commandButton>
+    </p:panelGrid>
+ </p:carousel>   
+   
 
-<div class="ui-g">
- <div class="ui-g-2">
-   <p:panelGrid  columns="1" layout="grid">
-     <f:facet name="header">
-        <div class="xxdivTree">Arbol Caso Clinico</div>
-     </f:facet>
-     <p:dataList var="ccPreguntasHdrV1" value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" type="definition" responsive="true">
-       <f:facet name="caption"></f:facet> <!--#{updateCoreCaseForm.nombreCc} -->
-       <p:column>
-         <p:commandLink action="#{updateCoreCaseForm.updatePregunta(ccPreguntasHdrV1)}">
-         <h:outputText value="#{ccPreguntasHdrV1.titulo}" />
-         </p:commandLink>
-       </p:column>
-     </p:dataList>
-     <p:commandButton immediate="true" title="Nuevo"  value="Nueva Pregunta" icon="pi pi-plus" action="#{updateCoreCaseForm.createCoreQuestion()}"/>
-   </p:panelGrid>
-   <p:panelGrid  columns="1" layout="grid">
-     <f:facet name="header">
-        <div class="xxdivTree">Series Dicom</div>
-     </f:facet>
-     <p:commandButton immediate="true" title="Nuevo"  value="Nueva Serie" icon="pi pi-plus" action="Preguntas-Create-CoreCase"/>
-   </p:panelGrid>
- </div>
- <div class="ui-g-10">
-   <p:tabView>
-     <p:tab title="Informacion Caso Clínico">
-        <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
-		<p:outputLabel for="estatusCc" value="Estatus"/>
-	    <p:selectOneMenu id="estatusCc"  value="#{updateCoreCaseForm.estatusCc}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-		<f:selectItem itemLabel="Seleccione un Valor.." itemValue="" />
-	    <f:selectItems value="#{selectsHelper.selectEstatusMrqsItems}" />
-		</p:selectOneMenu>
-		<p:message for="estatusCc"/>
-		<p:outputLabel for="internalName" value="Nombre"/>
-		<p:inputText id="internalName"  value="#{updateCoreCaseForm.nombreCc}" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-		<p:message for="internalName"/>
-		<p:outputLabel for="topic" value="Tema de Pregunta" />
-		<p:selectOneMenu id="topic" value="#{updateCoreCaseForm.temaCc}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-		<f:selectItem itemLabel="Seleccione un tema" itemValue="" />
-		<f:selectItems value="#{selectsHelper.selectTemaDePreguntaItems}" />
-		</p:selectOneMenu>
-		<p:message for="topic"/>
-		<p:outputLabel for="society" value="Sociedad"/>
-		<p:inputText  id="society" value="#{updateCoreCaseForm.ccHdrV1.sociedad}" readonly="true" style="width:100%"/>
-		<p:message for="society"/>
-		<p:outputLabel for="clinicalHistory" value="Historial Clinico"/>
-		<p:inputTextarea  id="clinicalHistory" value="#{updateCoreCaseForm.historialClinicoCc}" rows="4" style="width:100%"/>
-		<p:message  for="clinicalHistory"/>
-		<p:outputLabel for="descriptionOfTechnique" value="Descrición de la Técnica"/>
-		<p:inputTextarea  id="descriptionOfTechnique" value="#{updateCoreCaseForm.descripcionTecnicaCc}"  rows="4" style="width:100%"/>
-		<p:message  for="descriptionOfTechnique"/>
-		<p:outputLabel for="showUnsafeOption"  value="¿Mostrar Opción Insegura?" />
-		<p:inputSwitch id="showUnsafeOption" value="#{updateCoreCaseForm.opcionInseguraCc}" onLabel="&#10003; SI" offLabel="&#215; NO"/>
-		<p:message  for="showUnsafeOption"/>
-		<p:outputLabel for="tags" value="Etiquetas"/>
-		<p:inputTextarea  id="tags"  value="#{updateCoreCaseForm.etiquetasCc}" rows="1" style="width:100%"/>
-		<p:message  for="tags"/>
-		<p:outputLabel for="note" value="Nota"/>
-		<p:inputTextarea  id="note"  rows="4" style="width:100%"/>
-		<p:message  for="note"/>
-		</p:panelGrid> <!-- END Panel Grid -->
-     </p:tab>
-      <p:tab title="Listas Archivos Dicom &amp; Preguntas">
-        <p:dataTable var="ccPreguntasHdrV1" value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
-          <f:facet name="header">
-		   Lista de Preguntas
-		  </f:facet>
-		    <p:column headerText="Titulo" style="white-space: nowrap">
-		      <p:commandLink action="#{updateCoreCaseForm.updatePregunta(ccPreguntasHdrV1)}" >
-		      <h:outputText value="#{ccPreguntasHdrV1.titulo}" />
-		      </p:commandLink>
-		    </p:column>
-		     <p:column headerText="Tipo Pregunta" style="white-space: nowrap">
-		      <h:outputText value="#{ccPreguntasHdrV1.tipoPreguntaDesc}" />
-		    </p:column>
-		     <p:column headerText="Estatus">
-		       <h:outputText value="#{ccPreguntasHdrV1.estatusDesc}" />
-		    </p:column>
-		     <p:column headerText="Max Puntuación">
-		       <h:outputText value="#{ccPreguntasHdrV1.maxPuntuacion}" />
-		    </p:column>
-		    <p:column headerText="Etiquetas">
-		      <h:outputText value="#{ccPreguntasHdrV1.etiquetas}" />
-		    </p:column>
-		    <p:column headerText="Acciones">
-		    </p:column>
-        </p:dataTable>
-     </p:tab>
-   </p:tabView>
- </div>
-</div>
  
  <div class="ui-g">
  <div class="ui-g-12 ui-md-6 ui-lg-2">

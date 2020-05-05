@@ -45,7 +45,6 @@ import com.cmrise.utils.Utilitarios;
 
 @Stateless 
 public class CcHdrLocalImpl implements CcHdrLocal {
-
 	
 	@Inject 
 	CcHdrDao ccHdrDao; 
@@ -82,8 +81,25 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 	}
 
 	@Override
-	public List<CcHdrV1Dto> findAll() {
-		return ccHdrDao.findAll();
+	public List<CcHdrV1> findAll() {
+		List<CcHdrV1> retval = new ArrayList<CcHdrV1>(); 
+		List<CcHdrV1Dto> listCcHdrV1Dto = ccHdrDao.findAll();
+		for(CcHdrV1Dto i:listCcHdrV1Dto) {
+			CcHdrV1 ccHdrV1 = new CcHdrV1(); 
+			ccHdrV1.setNumero(i.getNumero());
+			ccHdrV1.setAdmonExamen(i.getAdmonExamen());
+			ccHdrV1.setAdmonMateria(i.getAdmonMateria());
+			ccHdrV1.setAdmonSubMateria(i.getAdmonSubmateria());
+			ccHdrV1.setFechaElaboracion(Utilitarios.sqlDateToUtilDate(i.getFechaElaboracion()));
+			ccHdrV1.setAdmonExamenDesc(i.getAdmonExamenDesc());
+			ccHdrV1.setAdmonMateriaDesc(i.getAdmonMateriaDesc());
+			ccHdrV1.setAdmonSubMateriaDesc(i.getAdmonSubmateriaDesc());
+			ccHdrV1.setEstatus(i.getEstatus());
+			ccHdrV1.setEstatusDesc(i.getEstatusDesc());
+			retval.add(ccHdrV1); 
+		}
+		
+		return retval;
 	}
 
 	@Override
@@ -134,9 +150,6 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 		CcHdrV1 retval = new CcHdrV1(); 
 		CcHdrV1Dto ccHdrV1Dto = ccHdrDao.findByNumero(pNumeroCcHdr); 
 		retval.setNumero(ccHdrV1Dto.getNumero());
-		retval.setNombre(ccHdrV1Dto.getNombre());
-		retval.setTema(ccHdrV1Dto.getTema());
-		retval.setTemaDesc(ccHdrV1Dto.getTemaDesc());
 		retval.setHistorialClinico(ccHdrV1Dto.getHistorialClinico());
 		retval.setDescripcionTecnica(ccHdrV1Dto.getDescripcionTecnica());
 		retval.setOpcionInsegura(ccHdrV1Dto.getOpcionInsegura());
@@ -144,9 +157,14 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 		retval.setNota(ccHdrV1Dto.getNota());
 		retval.setEstatus(ccHdrV1Dto.getEstatus());
 		retval.setEstatusDesc(ccHdrV1Dto.getEstatusDesc());
-		retval.setSociedad(ccHdrV1Dto.getSociedad());
 		retval.setFechaEfectivaDesde(new java.util.Date(ccHdrV1Dto.getFechaEfectivaDesde().getTime()));
 		retval.setFechaEfectivaHasta(new java.util.Date(ccHdrV1Dto.getFechaEfectivaHasta().getTime()));
+	    retval.setAdmonExamen(ccHdrV1Dto.getAdmonExamen());
+	    retval.setAdmonMateria(ccHdrV1Dto.getAdmonMateria());
+	    retval.setAdmonSubMateria(ccHdrV1Dto.getAdmonSubmateria());
+	    retval.setAdmonExamenDesc(ccHdrV1Dto.getAdmonExamenDesc());
+	    retval.setAdmonMateriaDesc(ccHdrV1Dto.getAdmonMateriaDesc());
+	    retval.setAdmonSubMateriaDesc(ccHdrV1Dto.getAdmonSubmateriaDesc());
 		
 		List<CcPreguntasHdrV1Dto> listCcPreguntasHdrV1Dto =  ccPreguntasHdrDao.findListByNumeroCcHdr(pNumeroCcHdr); 
 		
@@ -155,15 +173,18 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 	 		CcPreguntasHdrV1 ccPreguntasHdrV1 = new CcPreguntasHdrV1();
 	 		ccPreguntasHdrV1.setNumero(i.getNumero());
 	     	ccPreguntasHdrV1.setNumeroCcHdr(i.getNumeroCcHdr());
-	     	ccPreguntasHdrV1.setTitulo(i.getTitulo());
 	     	ccPreguntasHdrV1.setTipoPregunta(i.getTipoPregunta());
 	     	ccPreguntasHdrV1.setTipoPreguntaDesc(i.getTipoPreguntaDesc());
-	     	ccPreguntasHdrV1.setTemaPregunta(i.getTemaPregunta());
-	     	ccPreguntasHdrV1.setTemaPreguntaDesc(i.getTemaPreguntaDesc());
 	     	ccPreguntasHdrV1.setEstatus(i.getEstatus());
 	     	ccPreguntasHdrV1.setEstatusDesc(i.getEstatusDesc());
 	     	ccPreguntasHdrV1.setMaxPuntuacion(i.getMaxPuntuacion());
 	     	ccPreguntasHdrV1.setEtiquetas(i.getEtiquetas());
+	     	ccPreguntasHdrV1.setAdmonExamen(i.getAdmonExamen());
+	     	ccPreguntasHdrV1.setAdmonMateria(i.getAdmonMateria());
+	     	ccPreguntasHdrV1.setAdmonSubMateria(i.getAdmonSubmateria());
+	     	ccPreguntasHdrV1.setAdmonExamenDesc(i.getAdmonExamenDesc());
+	     	ccPreguntasHdrV1.setAdmonMateriaDesc(i.getAdmonMateriaDesc());
+	     	ccPreguntasHdrV1.setAdmonSubMateriaDesc(i.getAdmonSubmateriaDesc());
 	     	
 	     	CcPreguntasFtaV1 ccPreguntasFtaV1 = new CcPreguntasFtaV1(); 
 	     	CcPreguntasFtaV1Dto ccPreguntasFtaV1Dto =  ccPreguntasFtaDao.findDtoByNumeroHdr(i.getNumero()); 
@@ -201,7 +222,6 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 			if(null!=listCcImagenesGrpDto) {
 			  
 				for(CcImagenesGrpDto j:listCcImagenesGrpDto) {
-					System.out.println("*Paso1*");
 					CcImagenesGrp ccImagenesGrp = new CcImagenesGrp();
 					ccImagenesGrp.setNumero(j.getNumero());
 					ccImagenesGrp.setSeccion(j.getSeccion());
@@ -213,7 +233,6 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 					List<CcImagenes> listCcImagenes = new ArrayList<CcImagenes>(); 
 					List<CcImagenesDto> listCcImagenesDto = ccImagenesDao.findByGrp(j.getNumero()); 
 					for(CcImagenesDto k:listCcImagenesDto) {
-						System.out.println("*Paso2*"); 
 						CcImagenes ccImagenes = new CcImagenes(); 
 						ccImagenes.setNumero(k.getNumero());
 						ccImagenes.setNumeroGrp(k.getNumeroGrp());
@@ -272,4 +291,28 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 		return retval;
 	}
 
+	@Override
+	public long insert(CcHdrV1 pCcHdrV1) {
+		CcHdrDto ccHdrDto = new CcHdrDto(); 
+		ccHdrDto.setAdmonExamen(pCcHdrV1.getAdmonExamen());
+		ccHdrDto.setAdmonMateria(pCcHdrV1.getAdmonMateria());
+		ccHdrDto.setAdmonSubmateria(pCcHdrV1.getAdmonSubMateria());
+		ccHdrDto.setFechaElaboracion(Utilitarios.utilDateToSqlDate(pCcHdrV1.getFechaElaboracion()));
+		ccHdrDto.setCreadoPor(pCcHdrV1.getCreadoPor());
+		ccHdrDto.setActualizadoPor(pCcHdrV1.getActualizadoPor());
+		ccHdrDto.setEstatus(pCcHdrV1.getEstatus());
+		ccHdrDto.setFechaCreacion(Utilitarios.utilDateToTimestamp(pCcHdrV1.getFechaCreacion()));
+		ccHdrDto.setFechaActualizacion(Utilitarios.utilDateToTimestamp(pCcHdrV1.getFechaActualizacion()));
+		ccHdrDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
+		ccHdrDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
+		ccHdrDto.setHistorialClinico(pCcHdrV1.getHistorialClinico());
+		ccHdrDto.setDescripcionTecnica(pCcHdrV1.getDescripcionTecnica());
+		ccHdrDto.setEtiquetas(pCcHdrV1.getEtiquetas());
+		ccHdrDto.setOpcionInsegura(pCcHdrV1.isOpcionInsegura());
+		ccHdrDao.insert(ccHdrDto);
+		pCcHdrV1.setNumero(ccHdrDto.getNumero());
+		return ccHdrDto.getNumero();
+	}
+
+	
 }

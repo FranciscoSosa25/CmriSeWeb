@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import com.cmrise.ejb.model.corecases.CcHdrV1;
 import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
 import com.cmrise.ejb.model.corecases.CcPreguntasFtaV1;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
@@ -17,6 +18,7 @@ import com.cmrise.jpa.dto.corecases.CcOpcionMultipleDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaV1Dto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasHdrDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasHdrV1Dto;
+import com.cmrise.utils.Utilitarios;
 
 @Stateless 
 public class CcPreguntasHdrLocalImpl implements CcPreguntasHdrLocal {
@@ -64,10 +66,6 @@ public class CcPreguntasHdrLocalImpl implements CcPreguntasHdrLocal {
 		CcPreguntasHdrV1Dto ccPreguntasHdrV1Dto = ccPreguntasHdrDao.findByNumero(pNumeroCcPreguntaHdr);
 		retval.setNumero(ccPreguntasHdrV1Dto.getNumero());
 		retval.setNumeroCcHdr(ccPreguntasHdrV1Dto.getNumeroCcHdr());
-		retval.setNombre(ccPreguntasHdrV1Dto.getNombre());
-		retval.setTitulo(ccPreguntasHdrV1Dto.getTitulo());
-		retval.setTemaPregunta(ccPreguntasHdrV1Dto.getTemaPregunta());
-		retval.setTemaPreguntaDesc(ccPreguntasHdrV1Dto.getTemaPreguntaDesc());
 		retval.setTipoPregunta(ccPreguntasHdrV1Dto.getTipoPregunta());
 		retval.setTipoPreguntaDesc(ccPreguntasHdrV1Dto.getTipoPreguntaDesc());
 		retval.setEstatus(ccPreguntasHdrV1Dto.getEstatus());
@@ -75,7 +73,11 @@ public class CcPreguntasHdrLocalImpl implements CcPreguntasHdrLocal {
 		retval.setMaxPuntuacion(ccPreguntasHdrV1Dto.getMaxPuntuacion());
 		retval.setEtiquetas(ccPreguntasHdrV1Dto.getEtiquetas());
 		retval.setComentarios(ccPreguntasHdrV1Dto.getComentarios());
-		retval.setSociedad(ccPreguntasHdrV1Dto.getSociedad());
+	    retval.setAdmonExamen(ccPreguntasHdrV1Dto.getAdmonExamen());
+	    retval.setAdmonMateria(ccPreguntasHdrV1Dto.getAdmonMateria());
+	    retval.setAdmonSubMateria(ccPreguntasHdrV1Dto.getAdmonSubmateria());
+	    retval.setFechaElaboracion(Utilitarios.sqlDateToUtilDate(ccPreguntasHdrV1Dto.getFechaElaboracion()));
+	    
 		
 		 long lNumeroCcFta = ccPreguntasFtaDao.finNumeroByHdr(ccPreguntasHdrV1Dto.getNumero());
 		 System.out.println("lNumeroCcFta*"+lNumeroCcFta);
@@ -114,6 +116,30 @@ public class CcPreguntasHdrLocalImpl implements CcPreguntasHdrLocal {
 		return retval;
 	}
 
+	@Override
+	public long insert(CcPreguntasHdrV1 pCcPreguntasHdrV1) {
+		CcPreguntasHdrDto ccPreguntasHdrDto = new CcPreguntasHdrDto();
+		ccPreguntasHdrDto.setEstatus(pCcPreguntasHdrV1.getEstatus());
+		ccPreguntasHdrDto.setNumeroCcHdr(pCcPreguntasHdrV1.getNumeroCcHdr());
+		ccPreguntasHdrDto.setAdmonExamen(pCcPreguntasHdrV1.getAdmonExamen());
+		ccPreguntasHdrDto.setAdmonMateria(pCcPreguntasHdrV1.getAdmonMateria());
+		ccPreguntasHdrDto.setAdmonSubmateria(pCcPreguntasHdrV1.getAdmonSubMateria());
+		ccPreguntasHdrDto.setFechaElaboracion(Utilitarios.utilDateToSqlDate(pCcPreguntasHdrV1.getFechaElaboracion()));
+		ccPreguntasHdrDto.setTipoPregunta(pCcPreguntasHdrV1.getTipoPregunta());
+		ccPreguntasHdrDto.setEtiquetas(pCcPreguntasHdrV1.getEtiquetas());
+		ccPreguntasHdrDto.setComentarios(pCcPreguntasHdrV1.getComentarios());
+		ccPreguntasHdrDto.setCreadoPor(pCcPreguntasHdrV1.getCreadoPor());
+		ccPreguntasHdrDto.setActualizadoPor(pCcPreguntasHdrV1.getActualizadoPor());
+		ccPreguntasHdrDto.setFechaCreacion(Utilitarios.utilDateToTimestamp(pCcPreguntasHdrV1.getFechaCreacion()));
+		ccPreguntasHdrDto.setFechaActualizacion(Utilitarios.utilDateToTimestamp(pCcPreguntasHdrV1.getFechaActualizacion()));
+		ccPreguntasHdrDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
+		ccPreguntasHdrDto.setFechaEfectivaHasta(Utilitarios.endOfTime);	
+		ccPreguntasHdrDao.insert(ccPreguntasHdrDto); 
+		pCcPreguntasHdrV1.setNumero(ccPreguntasHdrDto.getNumero());
+		return ccPreguntasHdrDto.getNumero();
+	}
+
+	
 	
 
 }

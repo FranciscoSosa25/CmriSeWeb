@@ -41,17 +41,8 @@ public class CcPreguntasHdrV1Dto implements Serializable {
 	@Column(name="FECHA_EFECTIVA_HASTA")
 	private Date fechaEfectivaHasta;
 	
-	@Column(name="NOMBRE")
-	private String nombre;
-	
-	@Column(name="TITULO")
-	private String titulo;
-	
 	@Column(name="TIPO_PREGUNTA")
 	private String tipoPregunta; 
-	
-	@Column(name="TEMA_PREGUNTA")
-	private String temaPregunta; 
 	
 	@Column(name="ETIQUETAS")
 	private String etiquetas; 
@@ -61,21 +52,36 @@ public class CcPreguntasHdrV1Dto implements Serializable {
 	
 	@Column(name="ESTATUS")
 	private String estatus; 
-	
-	@Column(name="SOCIEDAD")
-	private String sociedad; 
-	
+		
 	@Column(name="TIPO_PREGUNTA_DESC")
 	private String tipoPreguntaDesc; 
-	
-	@Column(name="TEMA_PREGUNTA_DESC")
-	private String temaPreguntaDesc; 
 	
 	@Column(name="ESTATUS_DESC")
 	private String estatusDesc;
 	
 	@Column(name="MAX_PUNTUACION")
 	private BigDecimal maxPuntuacion;
+		
+	@Column(name="ADMON_EXAMEN")
+	private long admonExamen; 
+	
+	@Column(name="ADMON_MATERIA")
+	private long admonMateria; 
+	
+	@Column(name="ADMON_SUBMATERIA")
+	private long admonSubmateria; 
+	
+	@Column(name="FECHA_ELABORACION")
+	private Date fechaElaboracion;
+	
+	@Column(name="ADMON_EXAMEN_DESC")
+	private String admonExamenDesc; 
+	
+	@Column(name="ADMON_MATERIA_DESC")
+	private String admonMateriaDesc; 
+	
+	@Column(name="ADMON_SUBMATERIA_DESC")
+	private String admonSubmateriaDesc; 
 	
 	public long getNumero() {
 		return this.numero;
@@ -133,22 +139,6 @@ public class CcPreguntasHdrV1Dto implements Serializable {
 		this.fechaEfectivaHasta = fechaEfectivaHasta;
 	}
 
-	
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
 
 	public String getTipoPregunta() {
 		return tipoPregunta;
@@ -158,13 +148,6 @@ public class CcPreguntasHdrV1Dto implements Serializable {
 		this.tipoPregunta = tipoPregunta;
 	}
 
-	public String getTemaPregunta() {
-		return temaPregunta;
-	}
-
-	public void setTemaPregunta(String temaPregunta) {
-		this.temaPregunta = temaPregunta;
-	}
 
 	public String getEtiquetas() {
 		return etiquetas;
@@ -190,28 +173,12 @@ public class CcPreguntasHdrV1Dto implements Serializable {
 		this.estatus = estatus;
 	}
 
-	public String getSociedad() {
-		return sociedad;
-	}
-
-	public void setSociedad(String sociedad) {
-		this.sociedad = sociedad;
-	}
-
 	public String getTipoPreguntaDesc() {
 		return tipoPreguntaDesc;
 	}
 
 	public void setTipoPreguntaDesc(String tipoPreguntaDesc) {
 		this.tipoPreguntaDesc = tipoPreguntaDesc;
-	}
-
-	public String getTemaPreguntaDesc() {
-		return temaPreguntaDesc;
-	}
-
-	public void setTemaPreguntaDesc(String temaPreguntaDesc) {
-		this.temaPreguntaDesc = temaPreguntaDesc;
 	}
 
 	public String getEstatusDesc() {
@@ -236,6 +203,62 @@ public class CcPreguntasHdrV1Dto implements Serializable {
 
 	public void setNumeroCcHdr(long numeroCcHdr) {
 		this.numeroCcHdr = numeroCcHdr;
+	}
+
+	public long getAdmonExamen() {
+		return admonExamen;
+	}
+
+	public void setAdmonExamen(long admonExamen) {
+		this.admonExamen = admonExamen;
+	}
+
+	public long getAdmonMateria() {
+		return admonMateria;
+	}
+
+	public void setAdmonMateria(long admonMateria) {
+		this.admonMateria = admonMateria;
+	}
+
+	public long getAdmonSubmateria() {
+		return admonSubmateria;
+	}
+
+	public void setAdmonSubmateria(long admonSubmateria) {
+		this.admonSubmateria = admonSubmateria;
+	}
+
+	public Date getFechaElaboracion() {
+		return fechaElaboracion;
+	}
+
+	public void setFechaElaboracion(Date fechaElaboracion) {
+		this.fechaElaboracion = fechaElaboracion;
+	}
+
+	public String getAdmonExamenDesc() {
+		return admonExamenDesc;
+	}
+
+	public void setAdmonExamenDesc(String admonExamenDesc) {
+		this.admonExamenDesc = admonExamenDesc;
+	}
+
+	public String getAdmonMateriaDesc() {
+		return admonMateriaDesc;
+	}
+
+	public void setAdmonMateriaDesc(String admonMateriaDesc) {
+		this.admonMateriaDesc = admonMateriaDesc;
+	}
+
+	public String getAdmonSubmateriaDesc() {
+		return admonSubmateriaDesc;
+	}
+
+	public void setAdmonSubmateriaDesc(String admonSubmateriaDesc) {
+		this.admonSubmateriaDesc = admonSubmateriaDesc;
 	}
 
 }

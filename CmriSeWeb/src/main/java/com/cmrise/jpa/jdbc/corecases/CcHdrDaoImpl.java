@@ -25,12 +25,6 @@ public class CcHdrDaoImpl implements CcHdrDao {
 		Query q = em.createNativeQuery("SELECT NEXT VALUE FOR dbo.CC_HDR_S");
 		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
 		pCcHdrDto.setNumero(lNumeroS.longValue());
-		java.util.Date sysdate = new java.util.Date();
-		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
-		pCcHdrDto.setCreadoPor((long)-1);
-		pCcHdrDto.setActualizadoPor((long)-1);
-		pCcHdrDto.setFechaCreacion(sqlsysdate);
-		pCcHdrDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pCcHdrDto);
 	}
 
@@ -44,9 +38,9 @@ public class CcHdrDaoImpl implements CcHdrDao {
 	public void update(long pNumero, CcHdrDto pCcHdrDto) {
 		CcHdrDto ccHdrDto = em.find(CcHdrDto.class, pNumero);
 		
-		ccHdrDto.setNombre(pCcHdrDto.getNombre());
+		//ccHdrDto.setNombre(pCcHdrDto.getNombre());
 		ccHdrDto.setEstatus(pCcHdrDto.getEstatus());
-		ccHdrDto.setTema(pCcHdrDto.getTema());
+		//ccHdrDto.setTema(pCcHdrDto.getTema());
 		ccHdrDto.setEtiquetas(pCcHdrDto.getEtiquetas());
 		ccHdrDto.setHistorialClinico(pCcHdrDto.getHistorialClinico());
 		ccHdrDto.setDescripcionTecnica(pCcHdrDto.getDescripcionTecnica());

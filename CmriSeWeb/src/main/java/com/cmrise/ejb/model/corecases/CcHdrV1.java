@@ -27,6 +27,13 @@ public class CcHdrV1 implements Serializable {
 	private String sociedad;
 	private String tema;
 	private String temaDesc;
+	private long admonExamen; 
+	private long admonMateria; 
+	private long admonSubMateria; 
+	private Date fechaElaboracion; 
+	private String admonExamenDesc; 
+	private String admonMateriaDesc; 
+	private String admonSubMateriaDesc; 
 	
 	private List<CcPreguntasHdrV1> listCcPreguntasHdrV1; 
 	
@@ -144,6 +151,49 @@ public class CcHdrV1 implements Serializable {
 	}
 	public void setListCcPreguntasHdrV1(List<CcPreguntasHdrV1> listCcPreguntasHdrV1) {
 		this.listCcPreguntasHdrV1 = listCcPreguntasHdrV1;
+	}
+	public long getAdmonExamen() {
+		return admonExamen;
+	}
+	public void setAdmonExamen(long admonExamen) {
+		this.admonExamen = admonExamen;
+	}
+	public long getAdmonMateria() {
+		return admonMateria;
+	}
+	public void setAdmonMateria(long admonMateria) {
+		this.admonMateria = admonMateria;
+	}
+
+	public Date getFechaElaboracion() {
+		return fechaElaboracion;
+	}
+	public void setFechaElaboracion(Date fechaElaboracion) {
+		this.fechaElaboracion = fechaElaboracion;
+	}
+	public long getAdmonSubMateria() {
+		return admonSubMateria;
+	}
+	public void setAdmonSubMateria(long admonSubMateria) {
+		this.admonSubMateria = admonSubMateria;
+	}
+	public String getAdmonExamenDesc() {
+		return admonExamenDesc;
+	}
+	public void setAdmonExamenDesc(String admonExamenDesc) {
+		this.admonExamenDesc = admonExamenDesc;
+	}
+	public String getAdmonMateriaDesc() {
+		return admonMateriaDesc;
+	}
+	public void setAdmonMateriaDesc(String admonMateriaDesc) {
+		this.admonMateriaDesc = admonMateriaDesc;
+	}
+	public String getAdmonSubMateriaDesc() {
+		return admonSubMateriaDesc;
+	}
+	public void setAdmonSubMateriaDesc(String admonSubMateriaDesc) {
+		this.admonSubMateriaDesc = admonSubMateriaDesc;
 	}
 
 	
