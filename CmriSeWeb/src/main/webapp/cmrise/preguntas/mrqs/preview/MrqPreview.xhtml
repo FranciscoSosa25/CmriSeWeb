@@ -71,17 +71,20 @@ function handleUpdateRequest(xhr, status, args){
 </ui:define>
                 
 <ui:define name="content">
-<h1>Previsualización MRQ</h1>
+<h1>Previsualización de Reactivo</h1>
 <h:form id="previewForm">
 <p:growl id="growl" showDetail="true" life="5000" />  
 <div class="ui-g">
+ <!-- 
  <div class="ui-g-12 ui-md-3">
+ 
    <div class="ui-g-12 ui-md-12" style="background-color: #4a4058;color: #fff;">
      <div class="ui-g-12" >
-     <h3>Pregunta</h3>
+     <h3>Reactivo</h3>
      <h1>#{mrqPreviewForm.tituloPregunta}</h1>
     </div>
    </div>
+   
    <div class="ui-g-12 ui-md-12" style="background-color: rgba(0, 0, 0, 0.3);color: #fff;">
    </div>  
    <div class="ui-g-12 ui-md-12" style="background-color: rgba(0, 0, 0, 0.3);color: #fff;">
@@ -91,14 +94,18 @@ function handleUpdateRequest(xhr, status, args){
     <h3>Pregunta</h3>
     <h3>#{mrqPreviewForm.tituloPregunta}</h3>
    </div>
+
  </div>
-  <div class="ui-g-12 ui-md-9 ui-g-nopad">
+     -->
+  <div class="ui-g-12 ui-md-12 ui-g-nopad">
       
      <div class="ui-g-12 ui-md-12">
         <div class="ui-g-12 ui-md-12">
+        <!-- 
           <div class="ui-g-12 ui-md-8">
             <h3>Pregunta > #{mrqPreviewForm.tituloPregunta}</h3>
            </div>
+            -->
            <div class="ui-g-12 ui-md-4">
              <p:commandButton value="Guardar y Procesar" update="previewForm" style="margin-left:15px;" actionListener="#{mrqPreviewForm.saveProceed()}" rendered="#{mrqPreviewForm.questionView}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
              <p:commandButton value="Saltar" style="margin-left:15px;" action="#{mrqPreviewForm.skip()}" rendered="#{mrqPreviewForm.questionView}" immediate="true"/>
