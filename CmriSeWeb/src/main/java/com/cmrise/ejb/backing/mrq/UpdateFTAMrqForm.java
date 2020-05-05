@@ -189,8 +189,12 @@ public class UpdateFTAMrqForm {
 		 mrqsPreguntasHdrV1ForAction.setAdmonMateria(mrqsPreguntasHdrV1Dto.getAdmonMateria());
 		 mrqsPreguntasHdrV1ForAction.setAdmonSubmateria(mrqsPreguntasHdrV1Dto.getAdmonSubmateria());
 		 mrqsPreguntasHdrV1ForAction.setTipoPregunta(mrqsPreguntasHdrV1Dto.getTipoPregunta());
-		 mrqsPreguntasHdrV1ForAction.setEtiquetas(mrqsPreguntasHdrV1Dto.getEtiquetas());
-		 mrqsPreguntasHdrV1ForAction.setComentarios(mrqsPreguntasHdrV1Dto.getComentarios());
+		 mrqsPreguntasHdrV1ForAction.setDiagnostico(mrqsPreguntasHdrV1Dto.getDiagnostico());
+		 mrqsPreguntasHdrV1ForAction.setNotas(mrqsPreguntasHdrV1Dto.getNotas());
+		 mrqsPreguntasHdrV1ForAction.setFechaElaboracion(Utilitarios.sqlDateToUtilDate(mrqsPreguntasHdrV1Dto.getFechaElaboracion()));
+		 mrqsPreguntasHdrV1ForAction.setBibliografia(mrqsPreguntasHdrV1Dto.getBibliografia());
+		 
+		 
 		 
 		 long lNumeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(this.getNumeroHdr()); 
 		 if(0l!=lNumeroFta) {
@@ -474,8 +478,10 @@ public class UpdateFTAMrqForm {
 		mrqsPreguntasHdrDto.setAdmonMateria(this.getMrqsPreguntasHdrV1ForAction().getAdmonMateria());
 		mrqsPreguntasHdrDto.setAdmonSubmateria(this.getMrqsPreguntasHdrV1ForAction().getAdmonSubmateria());
 		mrqsPreguntasHdrDto.setTipoPregunta(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta());
-		mrqsPreguntasHdrDto.setEtiquetas(this.getMrqsPreguntasHdrV1ForAction().getEtiquetas());
-		mrqsPreguntasHdrDto.setComentarios(this.getMrqsPreguntasHdrV1ForAction().getComentarios());
+		mrqsPreguntasHdrDto.setDiagnostico(this.getMrqsPreguntasHdrV1ForAction().getDiagnostico());
+		mrqsPreguntasHdrDto.setNotas(this.getMrqsPreguntasHdrV1ForAction().getNotas());
+		mrqsPreguntasHdrDto.setFechaElaboracion(Utilitarios.utilDateToSqlDate(this.getMrqsPreguntasHdrV1ForAction().getFechaElaboracion()));
+		mrqsPreguntasHdrDto.setBibliografia(this.getMrqsPreguntasHdrV1ForAction().getBibliografia());
 		mrqsPreguntasHdrLocal.update(this.getNumeroHdr(), mrqsPreguntasHdrDto);
 	
 		FacesContext context = FacesContext.getCurrentInstance();

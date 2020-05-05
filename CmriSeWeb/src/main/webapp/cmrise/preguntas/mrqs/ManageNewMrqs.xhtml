@@ -36,6 +36,7 @@ function handleDuplicateRequest(xhr, status, args){
                                  
 <ui:define name="content">
 
+<h:panelGroup rendered="false">
 <h:form id="SearchForm"> 
 <f:passThroughAttribute name="autocomplete" value="off"/> 
 <p:breadCrumb>
@@ -64,22 +65,25 @@ function handleDuplicateRequest(xhr, status, args){
   </p:panel> 
   </p:fieldset> 
 </h:form>
-
+</h:panelGroup>
 
 <h:form id="ReadOnlyForm">
 
 <div class="card">
 <p:growl id="growl" showDetail="true"/>
-<p:commandButton immediate="true" title="Nuevo"  value="Nuevo Reactivo" icon="pi pi-plus" action="Preguntas-CreateNewMrqs"/>
+<p:commandButton immediate="true" title="Nuevo"  value="Nuevo Reactivo" icon="pi pi-plus" action="Preguntas-CreateNewMrqs" style="margin:10px;"/>
  <p:dataTable var="preguntasHdrV1"  value="#{manageMrqsForm.listMrqsPreguntasHdrV1}"  paginator="true" rows="50" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">Reactivos</f:facet>
+    <p:column headerText="ID" style="width:20px;">
+     <h:outputText value="#{preguntasHdrV1.numero}" />
+    </p:column>
     <p:column headerText="Categoria Examen">
      <h:outputText value="#{preguntasHdrV1.admonExamenDesc}" />
     </p:column>
     <p:column headerText="Materia">
      <h:outputText value="#{preguntasHdrV1.admonMateriaDesc}" />
     </p:column>
-    <p:column headerText="SubMateria">
+    <p:column headerText="Clasificación">
        <h:outputText value="#{preguntasHdrV1.admonSubmateriaDesc}" />
     </p:column>
     <p:column headerText="Tipo Reactivo">
@@ -88,8 +92,8 @@ function handleDuplicateRequest(xhr, status, args){
     <p:column headerText="Estatus">
         <h:outputText value="#{preguntasHdrV1.estatusDesc}" />
     </p:column>
-     <p:column headerText="Etiquetas">
-        <h:outputText value="#{preguntasHdrV1.etiquetas}" />
+     <p:column headerText="Diagnostico">
+        <h:outputText value="#{preguntasHdrV1.diagnostico}" />
     </p:column>
      <p:column headerText="Acciones">
        <p:commandButton icon="fa fa-edit" style="margin-left: 10px;" action="#{manageMrqsForm.update(preguntasHdrV1)}" title="Editar"/>

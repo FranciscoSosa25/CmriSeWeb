@@ -60,8 +60,8 @@ public class MrqsGrupoLinesV2Dto  implements Serializable {
 	@Column(name="ADMON_SUBMATERIA")
 	private long admonSubmateria; 
 	
-	@Column(name="ETIQUETAS")
-	private String etiquetas; 
+	@Column(name="DIAGNOSTICO")
+	private String diagnostico; 
 	
 	@Column(name="TEXTO_PREGUNTA")
 	private String textoPregunta; 
@@ -163,14 +163,6 @@ public class MrqsGrupoLinesV2Dto  implements Serializable {
 		this.estatusDesc = estatusDesc;
 	}
 
-	public String getEtiquetas() {
-		return etiquetas;
-	}
-
-	public void setEtiquetas(String etiquetas) {
-		this.etiquetas = etiquetas;
-	}
-
 	public String getTextoPregunta() {
 		return textoPregunta;
 	}
@@ -217,6 +209,14 @@ public class MrqsGrupoLinesV2Dto  implements Serializable {
 
 	public void setAdmonSubmateria(long admonSubmateria) {
 		this.admonSubmateria = admonSubmateria;
+	}
+
+	public String getDiagnostico() {
+		return diagnostico;
+	}
+
+	public void setDiagnostico(String diagnostico) {
+		this.diagnostico = diagnostico;
 	}
 
 	

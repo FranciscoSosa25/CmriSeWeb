@@ -20,8 +20,8 @@ public class MrqsPreguntasHdrV1Dto implements Serializable {
 	@Column(name="ACTUALIZADO_POR")
 	private long actualizadoPor;
 
-	@Column(name="COMENTARIOS")
-	private String comentarios;
+	@Column(name="NOTAS")
+	private String notas;
 
 	@Column(name="CREADO_POR")
 	private long creadoPor;
@@ -32,8 +32,8 @@ public class MrqsPreguntasHdrV1Dto implements Serializable {
 	@Column(name="ESTATUS_DESC")
 	private String estatusDesc;
 
-	@Column(name="ETIQUETAS")
-	private String etiquetas;
+	@Column(name="DIAGNOSTICO")
+	private String diagnostico;
 
 	@Column(name="FECHA_ACTUALIZACION")
 	private Timestamp fechaActualizacion;
@@ -78,6 +78,12 @@ public class MrqsPreguntasHdrV1Dto implements Serializable {
 	@Column(name="ADMON_SUBMATERIA_DESC")
 	private String admonSubmateriaDesc; 
 
+	@Column(name="FECHA_ELABORACION")
+	private Date fechaElaboracion; 
+	
+	@Column(name="BIBLIOGRAFIA")
+	private String bibliografia; 
+	
 	public MrqsPreguntasHdrV1Dto() {
 	}
 
@@ -87,14 +93,6 @@ public class MrqsPreguntasHdrV1Dto implements Serializable {
 
 	public void setActualizadoPor(long actualizadoPor) {
 		this.actualizadoPor = actualizadoPor;
-	}
-
-	public String getComentarios() {
-		return this.comentarios;
-	}
-
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
 	}
 
 	public long getCreadoPor() {
@@ -119,14 +117,6 @@ public class MrqsPreguntasHdrV1Dto implements Serializable {
 
 	public void setEstatusDesc(String estatusDesc) {
 		this.estatusDesc = estatusDesc;
-	}
-
-	public String getEtiquetas() {
-		return this.etiquetas;
-	}
-
-	public void setEtiquetas(String etiquetas) {
-		this.etiquetas = etiquetas;
 	}
 
 	public Timestamp getFechaActualizacion() {
@@ -240,5 +230,38 @@ public class MrqsPreguntasHdrV1Dto implements Serializable {
 	public void setAdmonSubmateriaDesc(String admonSubmateriaDesc) {
 		this.admonSubmateriaDesc = admonSubmateriaDesc;
 	}
+
+	public String getNotas() {
+		return notas;
+	}
+
+	public void setNotas(String notas) {
+		this.notas = notas;
+	}
+
+	public String getDiagnostico() {
+		return diagnostico;
+	}
+
+	public void setDiagnostico(String diagnostico) {
+		this.diagnostico = diagnostico;
+	}
+
+	public Date getFechaElaboracion() {
+		return fechaElaboracion;
+	}
+
+	public void setFechaElaboracion(Date fechaElaboracion) {
+		this.fechaElaboracion = fechaElaboracion;
+	}
+
+	public String getBibliografia() {
+		return bibliografia;
+	}
+
+	public void setBibliografia(String bibliografia) {
+		this.bibliografia = bibliografia;
+	}
+
 
 }

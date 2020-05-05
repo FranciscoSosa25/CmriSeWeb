@@ -63,7 +63,7 @@ public class ManageMrqsForm {
 			mrqsPreguntasHdrV1.setTipoPreguntaDesc(mrqsPreguntasHdrV1Dto.getTipoPreguntaDesc());
 			mrqsPreguntasHdrV1.setTemaPreguntaDesc("AdmonSubMateriaDesc");
 			mrqsPreguntasHdrV1.setEstatusDesc(mrqsPreguntasHdrV1Dto.getEstatusDesc());
-			mrqsPreguntasHdrV1.setEtiquetas(mrqsPreguntasHdrV1Dto.getEtiquetas());
+			mrqsPreguntasHdrV1.setDiagnostico(mrqsPreguntasHdrV1Dto.getDiagnostico());
 			mrqsPreguntasHdrV1.setAdmonExamen(mrqsPreguntasHdrV1Dto.getAdmonExamen());
 			mrqsPreguntasHdrV1.setAdmonMateria(mrqsPreguntasHdrV1Dto.getAdmonMateria());
 			mrqsPreguntasHdrV1.setAdmonSubmateria(mrqsPreguntasHdrV1Dto.getAdmonSubmateria());
@@ -81,7 +81,7 @@ public class ManageMrqsForm {
 		mrqsPreguntasHdrV1ForAction.setTipoPreguntaDesc(pMrqsPreguntasHdrV1.getTipoPreguntaDesc());
 		mrqsPreguntasHdrV1ForAction.setTemaPreguntaDesc(pMrqsPreguntasHdrV1.getTemaPreguntaDesc());
 		mrqsPreguntasHdrV1ForAction.setEstatusDesc(pMrqsPreguntasHdrV1.getEstatusDesc());
-		mrqsPreguntasHdrV1ForAction.setEtiquetas(pMrqsPreguntasHdrV1.getEtiquetas());
+		mrqsPreguntasHdrV1ForAction.setDiagnostico(pMrqsPreguntasHdrV1.getDiagnostico());
 	}
 	
 	

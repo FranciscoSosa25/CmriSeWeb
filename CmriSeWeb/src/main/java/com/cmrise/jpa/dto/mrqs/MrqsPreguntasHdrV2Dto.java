@@ -23,8 +23,8 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 	@Column(name="ACTUALIZADO_POR")
 	private long actualizadoPor;
 
-	@Column(name="COMENTARIOS")
-	private String comentarios;
+	@Column(name="NOTAS")
+	private String notas;
 
 	@Column(name="CREADO_POR")
 	private long creadoPor;
@@ -35,8 +35,8 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 	@Column(name="ESTATUS_DESC")
 	private String estatusDesc;
 
-	@Column(name="ETIQUETAS")
-	private String etiquetas;
+	@Column(name="DIAGNOSTICO")
+	private String diagnostico;
 
 	@Column(name="FECHA_ACTUALIZACION")
 	private Timestamp fechaActualizacion;
@@ -121,14 +121,6 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 		this.actualizadoPor = actualizadoPor;
 	}
 
-	public String getComentarios() {
-		return this.comentarios;
-	}
-
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
-	}
-
 	public long getCreadoPor() {
 		return this.creadoPor;
 	}
@@ -151,14 +143,6 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 
 	public void setEstatusDesc(String estatusDesc) {
 		this.estatusDesc = estatusDesc;
-	}
-
-	public String getEtiquetas() {
-		return this.etiquetas;
-	}
-
-	public void setEtiquetas(String etiquetas) {
-		this.etiquetas = etiquetas;
 	}
 
 	public Timestamp getFechaActualizacion() {
@@ -343,6 +327,22 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 
 	public void setTituloPregunta(String tituloPregunta) {
 		this.tituloPregunta = tituloPregunta;
+	}
+
+	public String getNotas() {
+		return notas;
+	}
+
+	public void setNotas(String notas) {
+		this.notas = notas;
+	}
+
+	public String getDiagnostico() {
+		return diagnostico;
+	}
+
+	public void setDiagnostico(String diagnostico) {
+		this.diagnostico = diagnostico;
 	}
 
 }
