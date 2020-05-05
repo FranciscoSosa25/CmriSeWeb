@@ -29,10 +29,10 @@
      <p:menuitem value="Examenes de Reactivos" outcome="Exams-MRQs-Manage"/>
      <p:menuitem value="Actualizar Examen de Reactivos" url="#"/>
 </p:breadCrumb>
-
+<div class="card">
 <h:form id="updateForm">
 <p:growl id="messages" showDetail="true" />
-<div class="card">
+
 <div class="ui-g">
 <div class="ui-g-4">
 </div>
@@ -43,20 +43,19 @@
 <p:commandButton value="Asignar Candidados" immediate="true" action="#{updateMrqsExamForm.assignCandidates()}" icon="fa fa-recycle" style="width:100%"/>
 </div>
 </div>
-</div>
+
 <div class="ui-g"> 
     <div class="ui-g-12 ui-g-nopad">
-     <div class="card">
+    
       <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
-      <f:facet name="header" style="font-size: 40px">Actualizar Examen de Reactivos</f:facet>
   <p:outputLabel for="estatusExamen" value="Estatus Examen"/>
   <p:selectOneMenu id="estatusExamen" value="#{updateMrqsExamForm.estatus}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
   <f:selectItems value="#{selectsHelper.selectEstatusExamenItems}" />
   </p:selectOneMenu>
   <p:message for="estatusExamen"/>
 </p:panelGrid>
- </div>
-<div class="card">
+
+
 <p:panelGrid id="tituloPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
   <p:outputLabel for="publicTitle" value="Título Público"/>
   <p:inputText id="publicTitle" value="#{updateMrqsExamForm.titulo}"  style="width:100%"/>
@@ -90,10 +89,8 @@
   <p:message  for="internalComments"/>
  
 </p:panelGrid>
- </div>
-<div class="card">
+
 <p:panelGrid id="visibilityPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
-<f:facet name="header" style="font-size: 40px">Opciones de Examen</f:facet>
   <p:outputLabel for="visibility" value="Visibilidad" />
   <p:selectOneMenu id="visibility" value="#{updateMrqsExamForm.visibilidad}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
   <f:selectItem itemLabel="Seleccione ..." itemValue="" />
@@ -140,11 +137,9 @@
  <p:inputTextarea  id="finishingMessage" value="#{updateMrqsExamForm.mensajeFinalizacion}" rows="4" style="width:100%"/>
  <p:message  for="finishingMessage"/>
 </p:panelGrid>
-</div>
 
-<div class="card">
-<p:panelGrid columns="1" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2">
-      <f:facet name="header">Grupo de Preguntas</f:facet>
+
+<p:panelGrid columns="1" layout="grid" columnClasses="ui-g-12 ui-md-12 ui-lg-12">
 	   <p:tree value="#{updateMrqsExamForm.rootMrqsGrupo}" var="node" selectionMode="single" selection="#{updateMrqsExamForm.selectedNode}" dynamic="true">
          <p:ajax event="select" update=":updateForm:messages" listener="#{updateMrqsExamForm.onNodeSelect}" />
         <p:treeNode>
@@ -153,11 +148,8 @@
       </p:tree>    
 	  <p:commandButton  title="Nuevo"  value="Agregar Nuevo Grupo" update="MrqsGrupoHdrCreateForm" icon="pi pi-plus" actionListener="#{updateMrqsExamForm.initMrqGroup()}" oncomplete="PF('MrqsGrupoHdrCreateDialogWV').show();"/>
      </p:panelGrid>
-</div>
 
-<div class="card">
 <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
-      <f:facet name="header" style="font-size: 40px">Opciones de Documentos</f:facet>
  <p:outputLabel for="generateConfirmationOfAttendance"  value="¿Generar Confirmación de Asistencia?" />
  <p:inputSwitch id="generateConfirmationOfAttendance" value="#{updateMrqsExamForm.confirmacionAsistencia}" onLabel="&#10003;" offLabel="&#215;"/>
  <p:message  for="generateConfirmationOfAttendance"/>
@@ -176,9 +168,8 @@
 </div>
     </div>
 </div>
-</div>
 </h:form>
-
+</div>
 
 <h:form id="MrqsGrupoHdrCreateForm">
  <f:passThroughAttribute name="autocomplete" value="off"/>

@@ -20,11 +20,11 @@
 <p:growl id="growl" showDetail="true"/>
 <p:breadCrumb>
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="Preguntas" outcome="Preguntas-ManageNewMrqs"/>
-    <p:menuitem value="Nueva Pregunta" url="#" />
+     <p:menuitem value="Reactivos" outcome="Preguntas-ManageNewMrqs"/>
+    <p:menuitem value="Nuevo Reactivo" url="#" />
 </p:breadCrumb>
-<h1>Crear Pregunta</h1>
- <p:panel header="INFORMACIÓN DE LA PREGUNTA">
+<div class="card">
+ <p:panel>
    <div class="ui-g">
      <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
@@ -136,7 +136,9 @@
        </div>
    </div> <!--  <div class="ui-g"> -->
  </p:panel>
+ </div>
  
+ <div class="card">
  <div class="ui-g">
      <div class="ui-g-12 ui-md-1" >
        <p:commandButton value="Crear" update="createMrqForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createMrqForm.create()}"/>
@@ -146,6 +148,7 @@
          <p:resetInput target="createMrqForm"/>
         </p:commandButton>
      </div>
+  </div>
   </div>
 </h:form>  
 </ui:define>
