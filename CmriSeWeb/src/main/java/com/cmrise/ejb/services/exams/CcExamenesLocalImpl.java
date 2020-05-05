@@ -145,9 +145,9 @@ public class CcExamenesLocalImpl implements CcExamenesLocal {
 				CcHdrV1 ccHdrV1 = new CcHdrV1(); 
 				CcHdrV1Dto ccHdrV1Dto = ccHdrDao.findByNumero(i.getNumeroCoreCase()); 
 				ccHdrV1.setNumero(ccHdrV1Dto.getNumero());
-				ccHdrV1.setNombre(ccHdrV1Dto.getNombre());
-				ccHdrV1.setTema(ccHdrV1Dto.getTema());
-				ccHdrV1.setTemaDesc(ccHdrV1Dto.getTemaDesc());
+				//ccHdrV1.setNombre(ccHdrV1Dto.getNombre());
+				//ccHdrV1.setTema(ccHdrV1Dto.getTema());
+				//ccHdrV1.setTemaDesc(ccHdrV1Dto.getTemaDesc());
 				ccHdrV1.setHistorialClinico(ccHdrV1Dto.getHistorialClinico());
 				ccHdrV1.setDescripcionTecnica(ccHdrV1Dto.getDescripcionTecnica());
 				ccHdrV1.setOpcionInsegura(ccHdrV1Dto.getOpcionInsegura());
@@ -155,7 +155,7 @@ public class CcExamenesLocalImpl implements CcExamenesLocal {
 				ccHdrV1.setNota(ccHdrV1Dto.getNota());
 				ccHdrV1.setEstatus(ccHdrV1Dto.getEstatus());
 				ccHdrV1.setEstatusDesc(ccHdrV1Dto.getEstatusDesc());
-				ccHdrV1.setSociedad(ccHdrV1Dto.getSociedad());
+				//ccHdrV1.setSociedad(ccHdrV1Dto.getSociedad());
 				ccHdrV1.setFechaEfectivaDesde(new java.util.Date(ccHdrV1Dto.getFechaEfectivaDesde().getTime()));
 				ccHdrV1.setFechaEfectivaHasta(new java.util.Date(ccHdrV1Dto.getFechaEfectivaHasta().getTime()));
 				
@@ -166,11 +166,11 @@ public class CcExamenesLocalImpl implements CcExamenesLocal {
 				 		CcPreguntasHdrV1 ccPreguntasHdrV1 = new CcPreguntasHdrV1();
 				 		ccPreguntasHdrV1.setNumero(j.getNumero());
 				     	ccPreguntasHdrV1.setNumeroCcHdr(j.getNumeroCcHdr());
-				     	ccPreguntasHdrV1.setTitulo(j.getTitulo());
+				     //	ccPreguntasHdrV1.setTitulo(j.getTitulo());
 				     	ccPreguntasHdrV1.setTipoPregunta(j.getTipoPregunta());
 				     	ccPreguntasHdrV1.setTipoPreguntaDesc(j.getTipoPreguntaDesc());
-				     	ccPreguntasHdrV1.setTemaPregunta(j.getTemaPregunta());
-				     	ccPreguntasHdrV1.setTemaPreguntaDesc(j.getTemaPreguntaDesc());
+				    // 	ccPreguntasHdrV1.setTemaPregunta(j.getTemaPregunta());
+				    // 	ccPreguntasHdrV1.setTemaPreguntaDesc(j.getTemaPreguntaDesc());
 				     	ccPreguntasHdrV1.setEstatus(j.getEstatus());
 				     	ccPreguntasHdrV1.setEstatusDesc(j.getEstatusDesc());
 				     	ccPreguntasHdrV1.setMaxPuntuacion(j.getMaxPuntuacion());
@@ -236,9 +236,9 @@ public class CcExamenesLocalImpl implements CcExamenesLocal {
 				CcHdrV1 ccHdrV1 = new CcHdrV1(); 
 				CcHdrV1Dto ccHdrV1Dto = ccHdrDao.findByNumero(i.getNumeroCoreCase()); 
 				ccHdrV1.setNumero(ccHdrV1Dto.getNumero());
-				ccHdrV1.setNombre(ccHdrV1Dto.getNombre());
-				ccHdrV1.setTema(ccHdrV1Dto.getTema());
-				ccHdrV1.setTemaDesc(ccHdrV1Dto.getTemaDesc());
+			//	ccHdrV1.setNombre(ccHdrV1Dto.getNombre());
+			//	ccHdrV1.setTema(ccHdrV1Dto.getTema());
+			//	ccHdrV1.setTemaDesc(ccHdrV1Dto.getTemaDesc());
 				ccHdrV1.setHistorialClinico(ccHdrV1Dto.getHistorialClinico());
 				ccHdrV1.setDescripcionTecnica(ccHdrV1Dto.getDescripcionTecnica());
 				ccHdrV1.setOpcionInsegura(ccHdrV1Dto.getOpcionInsegura());
@@ -246,7 +246,7 @@ public class CcExamenesLocalImpl implements CcExamenesLocal {
 				ccHdrV1.setNota(ccHdrV1Dto.getNota());
 				ccHdrV1.setEstatus(ccHdrV1Dto.getEstatus());
 				ccHdrV1.setEstatusDesc(ccHdrV1Dto.getEstatusDesc());
-				ccHdrV1.setSociedad(ccHdrV1Dto.getSociedad());
+			//	ccHdrV1.setSociedad(ccHdrV1Dto.getSociedad());
 				ccHdrV1.setFechaEfectivaDesde(new java.util.Date(ccHdrV1Dto.getFechaEfectivaDesde().getTime()));
 				ccHdrV1.setFechaEfectivaHasta(new java.util.Date(ccHdrV1Dto.getFechaEfectivaHasta().getTime()));
 				
@@ -257,11 +257,11 @@ public class CcExamenesLocalImpl implements CcExamenesLocal {
 				 		CcPreguntasHdrV1 ccPreguntasHdrV1 = new CcPreguntasHdrV1();
 				 		ccPreguntasHdrV1.setNumero(j.getNumero());
 				     	ccPreguntasHdrV1.setNumeroCcHdr(j.getNumeroCcHdr());
-				     	ccPreguntasHdrV1.setTitulo(j.getTitulo());
+				   //  	ccPreguntasHdrV1.setTitulo(j.getTitulo());
 				     	ccPreguntasHdrV1.setTipoPregunta(j.getTipoPregunta());
 				     	ccPreguntasHdrV1.setTipoPreguntaDesc(j.getTipoPreguntaDesc());
-				     	ccPreguntasHdrV1.setTemaPregunta(j.getTemaPregunta());
-				     	ccPreguntasHdrV1.setTemaPreguntaDesc(j.getTemaPreguntaDesc());
+				  //   	ccPreguntasHdrV1.setTemaPregunta(j.getTemaPregunta());
+				  //   	ccPreguntasHdrV1.setTemaPreguntaDesc(j.getTemaPreguntaDesc());
 				     	ccPreguntasHdrV1.setEstatus(j.getEstatus());
 				     	ccPreguntasHdrV1.setEstatusDesc(j.getEstatusDesc());
 				     	ccPreguntasHdrV1.setMaxPuntuacion(j.getMaxPuntuacion());

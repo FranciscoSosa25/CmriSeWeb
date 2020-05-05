@@ -42,13 +42,274 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 </ui:define>                
                 
 <ui:define name="content">
-<p:breadCrumb>
-    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="Casos clínicos" outcome= "Preguntas-Manage-CoreCases" />
-     <p:menuitem value="Actualizar Caso Clínico" outcome="Preguntas-Update-CoreCase"/>
-     <p:menuitem value="Actualizar Pregunta" url="#"/>
-</p:breadCrumb>
-<h1>#{updateQuestionFtaCoreCaseForm.tituloPreguntaHdr}</h1>
+
+<h:form id="casoClinicoForm">
+<h1>Información del Caso Clínico</h1>
+<div class="ui-g">
+  <div class="ui-g-12 ui-md-12">
+  <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+   <p:outputLabel for="admonExamenDesc" value="Examen"/>
+   <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:98%" readonly="true"/>
+   <p:message for="admonExamenDesc"/>
+    <p:outputLabel for="admonMateriaDesc" value="Materia"/>
+   <p:inputText id="admonMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonMateriaDesc}" style="width:98%" readonly="true"/>
+   <p:message for="admonMateriaDesc"/>
+    <p:outputLabel for="admonSubMateriaDesc" value="Clasificación"/>
+   <p:inputText id="admonSubMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonSubMateriaDesc}" style="width:98%" readonly="true"/>
+   <p:message for="admonSubMateriaDesc"/>
+  </p:panelGrid> <!-- END Panel Grid -->
+  </div>
+</div>		
+</h:form>
+
+
+<h:form id="createQuestionCoreCaseForm">
+<p:growl id="growl" showDetail="true" life="5000" /> 
+<h1>Información de la Pregunta</h1> 
+    <div class="ui-g card">
+      <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="admonExamen" value="Examen" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:selectOneMenu id="admonExamen" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.admonExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+           <p:ajax listener="#{updateQuestionFtaCoreCaseForm.onAdmonExamenChange}" update="materia" />
+           <f:selectItem itemLabel="Seleccione..." itemValue="" />
+           <f:selectItems value="#{updateQuestionFtaCoreCaseForm.selectExamenesHdr}" />
+          </p:selectOneMenu>
+          <p:message for="admonExamen"/>
+         </div>
+       </div>
+       
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="materia" value="Materia" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:selectOneMenu id="materia" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.admonMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <p:ajax listener="#{updateQuestionFtaCoreCaseForm.onAdmonMateriaChange}" update="subMateria" />
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{updateQuestionFtaCoreCaseForm.selectMateriasHdr}" />
+         </p:selectOneMenu>
+         <p:message for="materia"/>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="subMateria" value="SubMateria" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:selectOneMenu id="subMateria" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.admonSubMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{updateQuestionFtaCoreCaseForm.selectSubMaterias}" />
+         </p:selectOneMenu>
+         <p:message for="subMateria"/>
+         </div>
+       </div>
+        
+         <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:calendar id="fechaElaboracion" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.fechaElaboracion}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+         <p:message for="fechaElaboracion"/>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="creadoPor" value="¿Quien elabora la Pregunta?" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
+         <p:message for="creadoPor"/>
+         </div>
+       </div>
+       
+        
+           <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="questionType" value="Tipo de Pregunta" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:selectOneMenu id="questionType" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.tipoPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+         <f:selectItem itemLabel="Seleccione..." itemValue="" />
+         <f:selectItems value="#{selectsHelper.selectTipoPreguntaCoreCaseItems}" />
+          </p:selectOneMenu>
+         <p:message for="questionType"/>
+         </div>
+       </div>
+     
+        <div class="ui-g-12 ui-md-12" >
+         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="tag" value="Diagnostico" />
+         </div>
+          <div class="ui-g-12 ui-md-9">
+          <div class="ui-inputgroup">
+	      <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span>
+	      <p:inputText id="tag" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.etiquetas}" maxlength="500" style="width:100%"/>
+	      </div>
+         <p:message for="tag"/>  
+         </div>
+       </div>
+      
+         <div class="ui-g-12 ui-md-12" >
+         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+          <p:outputLabel for="internalComments" value="Notas" />
+         </div>
+          <div class="ui-g-12 ui-md-9">
+           <p:textEditor id="internalComments" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.comentarios}" widgetVar="internalCommentsWV"  height="100">
+		    <f:facet name="toolbar">
+		        <span class="ql-formats">
+		            <button class="ql-bold"></button>
+		            <button class="ql-italic"></button>
+		            <button class="ql-underline"></button>
+		            <button class="ql-strike"></button>
+		            <button class="ql-unorderedlist"></button>
+		            <button class="ql-orderedlist"></button>
+		        </span>
+		    </f:facet>
+	  	   </p:textEditor>
+	     <p:message for="internalComments"/>  
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+          <div class="ui-g-12 ui-md-3" style="text-align:right;">
+           <p:splitButton immediate="true" title="Nuevo"  value="Imagenes" icon="pi pi-plus">
+		    <p:menuitem value="Agregar Series Dicom" onclick="PF('presentationDialogWV').show();" />
+		   </p:splitButton>
+          </div>
+          <div class="ui-g-12 ui-md-9" style="text-align:right;">
+            
+             <ui:repeat var="imagenesGrupo" value="#{updateQuestionFtaCoreCaseForm.listPresentCcImagenesGrp}" varStatus="status">
+		     <div class="ui-g">
+		      <div class="ui-g-12">
+		       <h3>#{imagenesGrupo.tituloSuperior}</h3>
+		      </div>
+		      <div class="ui-g-12">
+		       <ui:repeat var="imagenes" value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
+		         <h:graphicImage value="data:image/jpg;base64,#{imagenes.thumbailBase64}" style="max-width: 300px; max-height: 300px;" />
+		       </ui:repeat>
+		      </div>
+		     </div>
+		    </ui:repeat>
+            
+          </div>
+        </div>
+     </div>  
+    
+       <h:panelGroup rendered="#{updateQuestionFtaCoreCaseForm.multipleChoice}">
+         <h1>Pregunta de Opción Multiple</h1>
+       
+           <div class="ui-g card">
+	       <div class="ui-g-12 ui-md-12" >
+	        
+	        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+	        <p:outputLabel for="questionTitle" value="Título de la pregunta" />
+	        </div>
+	         <div class="ui-g-12 ui-md-9">
+	           <p:inputText id="questionTitle"  value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.tituloPregunta}" placeholder="Título de la pregunta"  maxlength="200" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+               <p:message for="questionTitle"/>
+	         </div>
+	        
+	         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+	          <p:outputLabel for="questionText"  value="Texto de la pregunta" />
+	        </div>
+	         <div class="ui-g-12 ui-md-9">
+	           <p:inputTextarea id="questionText" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.textoPregunta}"  style="width:100%" required="true" maxlength="500" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+               <p:message for="questionText"/>
+	         </div>
+	         
+	          <div class="ui-g-12 ui-md-3" style="text-align:right;">
+	         <p:outputLabel for="hintsText"  value="Texto de sugerencias" />
+	        </div>
+	         <div class="ui-g-12 ui-md-9">
+	           <p:inputText id="hintsText" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.textoSugerencias}" placeholder="(No use mas de 5 palabras)"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+                <p:message for="hintsText"/>
+	         </div>
+	       
+	       </div>
+	       
+	       <div class="ui-g-12 ui-md-3" style="text-align:right;">
+           <p:outputLabel for="singleMode" value="¿Modo de Respuesta Única?" />
+        </div>
+        <div class="ui-g-12 ui-md-9">
+           <p:inputSwitch id="singleMode" onLabel="Si" offLabel="No" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.singleAnswerMode}"/>
+        </div>
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+           <p:outputLabel for="suffleOrder" value="¿Orden de Respuestas Aleatorio?" />
+        </div>
+        <div class="ui-g-12 ui-md-9">
+           <p:inputSwitch id="suffleOrder" onLabel="Si" offLabel="No" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.suffleAnswerOrder}"/>
+        </div>
+	       
+	       
+	       <p:carousel value="#{updateQuestionFtaCoreCaseForm.listCcOpcionMultiple}" headerText="Lista de Respuestas" var="ccOpcionMultiple" itemStyle="height:98%;text-align:center" numVisible="1" easing="easeOutBounce" style="width:98%" circular="true">
+	         <div class="ui-g" style="border: 1px solid black;width:80%;margin-bottom: 5px;width:98%" >
+		        <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
+		         <div class="ui-g-6">
+		          <p:spinner id="numeroLinea" value="#{ccOpcionMultiple.numeroLinea}" min="1" max="10" rotate="true" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+		          <p:message for="numeroLinea"/>
+		         </div>
+		         <div class="ui-g-6">
+		          <p:inputSwitch onLabel="&#10003;" offLabel="&#215;" value="#{ccOpcionMultiple.estatus}" />
+		         </div>
+		        </div>
+		      
+                 <div class="ui-g-9 ui-g-nopad">
+		         <div class="ui-g-12">
+		           <div class="ui-g-2" style="text-align:right;">
+		            <p:outputLabel for="answerText" value="Texto de Respuesta" />
+		           </div>
+		           <div class="ui-g-10">
+		             <p:inputText id="answerText" style="width:99%;" value="#{ccOpcionMultiple.textoRespuesta}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+		             <p:message for="answerText"/>
+		           </div>
+		         </div>
+		          <div class="ui-g-12">
+		           <div class="ui-g-2" style="text-align:right;">
+		            <p:outputLabel for="explanation" value="Explicación" />
+		           </div>
+		           <div class="ui-g-10">
+		             <p:inputText id="explanation" style="width:99%;" value="#{ccOpcionMultiple.textoExplicacion}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+		             <p:message for="explanation"/>
+		           </div>
+		         </div>
+		         </div>
+		          <div class="ui-g-1 ui-g-nopad">
+		            <p:commandButton icon="pi pi-times" styleClass="red-button" oncomplete="PF('deleteOpcionMultipleWV').show();" actionListener="#{updateQuestionFtaCoreCaseForm.selectOpcionMultipleForAction(ccOpcionMultiple)}"/>
+		          </div>
+		         </div> <!-- END div -->  
+		         
+	       </p:carousel>
+	       
+	      </div>
+     
+        </h:panelGroup>
+        
+          <div class="ui-g">
+		   <div class="ui-g-12 ui-md-2" style="text-align:center">
+		     <p:commandButton value="Guardar"  update="informacionPreguntaPanelGridID MultipleChoiceAnswerQuestionUpdatePanel" action="#{updateQuestionFtaCoreCaseForm.update()}"  ajax="false"/>
+		   </div>
+		   <div class="ui-g-12 ui-md-3" style="text-align:center">
+		    <p:commandButton value="Guardar y Previsualizar"  update="createQuestionCoreCaseForm" action="#{updateQuestionFtaCoreCaseForm.saveAndPreview()}"/>
+		   </div>
+		   <div class="ui-g-12 ui-md-2" style="text-align:center">
+		    <p:commandButton value="Cancelar" immediate="true" action="Preguntas-Update-CoreCase" />
+		   </div>
+		   <div class="ui-g-12 ui-md-2" style="text-align:center">
+		    <p:commandButton value="Duplicar" immediate="true" update="createQuestionCoreCaseForm" action="#{updateQuestionFtaCoreCaseForm.duplicar()}" />
+		   </div>
+		   <div class="ui-g-12 ui-md-2" style="text-align:center">
+		    <p:commandButton value="Borrar" immediate="true" update="createQuestionCoreCaseForm" action="#{updateQuestionFtaCoreCaseForm.borrar()}"/>
+		   </div>
+		  </div>
+	  
+</h:form>
+
 
 <p:dialog id="presentationDialogId" widgetVar="presentationDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Agregar Imagenes">
  <h:form id="presentationForm" enctype="multipart/form-data">
@@ -81,401 +342,13 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 </h:form>
 </p:dialog> 
 
-<h:form id="updateQuestionMultipleChoiceForm" rendered="#{updateQuestionFtaCoreCaseForm.multipleChoice}">
-<div class="ui-g">
- <div class="ui-g-2">
-   <p:panelGrid  columns="1" layout="grid"  styleClass="customPanelGrid">
-     <f:facet name="header">
-       Arbol Caso Principal
-     </f:facet>
-     <p:dataList var="ccPreguntasHdrV1" value="#{updateQuestionFtaCoreCaseForm.listCcPreguntasHdrV1}" type="definition" responsive="true">
-       <f:facet name="caption">#{updateCoreCaseForm.nombreCc}</f:facet>
-       <p:column>
-         <p:commandLink action="#{updateQuestionFtaCoreCaseForm.updatePregunta(ccPreguntasHdrV1)}" ajax="false">
-         <h:outputText value="#{ccPreguntasHdrV1.titulo}" />
-         </p:commandLink>
-       </p:column>
-     </p:dataList>
-     <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Pregunta" icon="pi pi-plus" action="#{updateQuestionFtaCoreCaseForm.nuevaPregunta()}"/>
-   </p:panelGrid>
-   <p:panelGrid  columns="1" layout="grid"  styleClass="customPanelGrid">
-     <f:facet name="header">
-       Series Dicom
-     </f:facet>
-     <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Serie" icon="pi pi-plus" action="Preguntas-Create-CoreCase"/>
-   </p:panelGrid>
- </div>
- <div class="ui-g-10">
-    <p:panelGrid  id="informacionPreguntaPanelGridID" columns="3" layout="grid" styleClass="customPanelGrid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2" >
-     <f:facet name="header">
-       INFORMACIÓN DE PREGUNTA
-     </f:facet>
-         <p:outputLabel for="statusMrqs" value="Estado" />
-         <p:selectOneMenu id="statusMrqs" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.estatus}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-         <f:selectItems value="#{selectsHelper.selectEstatusMrqsItems}" />
-         </p:selectOneMenu>
-         <p:message for="statusMrqs"/>
-         <p:outputLabel for="internalName" value="Nombre Interno" />
-         <p:inputText id="internalName" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.nombre}" placeholder="Nombre Interno"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-         <p:message for="internalName"/>
-         <p:outputLabel for="title" value="Titulo" />
-         <p:inputText id="title"  value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.titulo}" placeholder="Título en TOC"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-         <p:message for="title"/>
-         <p:outputLabel for="questionType" value="Tipo de Pregunta" />
-         <p:selectOneMenu id="questionType" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.tipoPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-         <f:selectItem itemLabel="Seleccione un tipo de pregunta" itemValue="" />
-         <f:selectItems value="#{selectsHelper.selectTipoPreguntaCoreCaseItems}" />
-         </p:selectOneMenu>
-         <p:message for="questionType"/>
-         <p:outputLabel for="topic" value="Tema de Pregunta" />
-         <p:selectOneMenu id="topic" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.temaPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-         <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
-         <f:selectItems value="#{selectsHelper.selectTemaDePreguntaItems}" />
-         </p:selectOneMenu>
-         <p:message for="topic"/>
-         <p:outputLabel  for="maxScore" value="Maximo Puntaje" />
-         <p:spinner id="maxScore" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.maxPuntuacion}"   stepFactor="0.01" min="0" max="10"  />
-         <p:message for="maxScore"/>
-         <p:outputLabel for="society" value="Sociedad" />
-         <p:inputText id="society" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.sociedad}" style="width:100%" readonly="true" />
-         <p:message for="society"/>
-    </p:panelGrid>
-    <div class="ui-g">
-	  <div class="ui-g-12 ui-md-6 ui-lg-2">
-	   <p:outputLabel for="tag" value="Etiqueta" />
-	  </div>
-	  <div class="ui-g-12 ui-md-6 ui-lg-8">
-	    <div class="ui-inputgroup">
-	    <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span>
-	    <p:inputText id="tag" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.etiquetas}" maxlength="500" style="width:100%"/>
-	    </div>
-	  </div>
-	  <div class="ui-g-12 ui-md-6 ui-lg-2">
-	    <p:message for="tag"/>  
-	  </div>
-	   <div class="ui-g-12 ui-md-6 ui-lg-2">
-	   <p:outputLabel for="internalComments" value="Comentarios Internos" />
-	  </div>
-	  <div class="ui-g-12 ui-md-6 ui-lg-8">
-	    <p:textEditor id="internalComments" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.comentarios}" widgetVar="internalCommentsWV"  height="100">
-		    <f:facet name="toolbar">
-		        <span class="ql-formats">
-		            <button class="ql-bold"></button>
-		            <button class="ql-italic"></button>
-		            <button class="ql-underline"></button>
-		            <button class="ql-strike"></button>
-		            <button class="ql-unorderedlist"></button>
-		            <button class="ql-orderedlist"></button>
-		        </span>
-		    </f:facet>
-		</p:textEditor>
-	  </div>
-	  <div class="ui-g-12 ui-md-6 ui-lg-2">
-	    <p:message for="internalComments"/>  
-	  </div>
-	  </div>
-	  
-	  <p:panel header="ELEMENTOS DE PRESENTACIÓN - INTRODUCCIÓN">
-	   <f:facet name="actions">
-	    <p:splitButton immediate="true" title="Nuevo"  value="Agregar Nuevo Elemento" icon="pi pi-plus">
-	    <p:menuitem value="Agregar Nuevo Texto"/>
-	    <p:menuitem value="Agregar Series Dicom" onclick="PF('presentationDialogWV').show();" />
-	   </p:splitButton>
-	   </f:facet>
-	    <ui:repeat var="imagenesGrupo" value="#{updateQuestionFtaCoreCaseForm.listPresentCcImagenesGrp}" varStatus="status">
-	     <div class="ui-g">
-	      <div class="ui-g-12">
-	       <h3>#{imagenesGrupo.tituloSuperior}</h3>
-	      </div>
-	      <div class="ui-g-12">
-	       <ui:repeat var="imagenes" value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
-	         <h:graphicImage value="data:image/jpg;base64,#{imagenes.thumbailBase64}" style="max-width: 300px; max-height: 300px;" />
-	       </ui:repeat>
-	      </div>
-	     </div>
-	    </ui:repeat>
-	  </p:panel>
-	  
-	   <p:panelGrid columns="3" layout="grid" styleClass="customPanelGrid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
-	      <f:facet name="header">
-	     PREGUNTA DE OPCIÓN MÚLTIPLE
-	   </f:facet>
-	     <p:outputLabel  value="Título de la pregunta" />
-	     <p:inputText id="questionTitle"  value="#{updateQuestionFtaCoreCaseForm.tituloPreguntaFta}" placeholder="Título de la pregunta"  maxlength="200" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-         <p:message for="questionTitle"/>
-         <p:outputLabel for="questionText"  value="Texto de la pregunta" />
-         <p:inputTextarea id="questionText" value="#{updateQuestionFtaCoreCaseForm.textoPreguntaFta}"  style="width:100%" required="true" maxlength="500" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-         <p:message for="questionText"/>
-         <p:outputLabel for="hintsText"  value="Texto de sugerencias" />
-         <p:inputText id="hintsText" value="#{updateQuestionFtaCoreCaseForm.textoSugerenciasFta}" placeholder="(No use mas de 5 palabras)"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-         <p:message for="hintsText"/>
-         <p:outputLabel for="correctAnswer" value="Respuesta Correcta" />
-         <p:inputTextarea  id="correctAnswer" value="#{updateQuestionFtaCoreCaseForm.respuestaCorrecta}" rows="4" style="width:100%"/>
-         <p:message  for="correctAnswer"/>
-       </p:panelGrid>
-       
-       <p:panel id="multipleChoiceAnswersUpdatePanel" header="RESPUESTAS DE OPCIÓN MULTIPLE">
-      <div  class="ui-g">
-       <div class="ui-g-12 ui-md-3" style="text-align:right;">
-           <p:outputLabel for="singleMode" value="¿Modo de Respuesta Única?" />
-        </div>
-        <div class="ui-g-12 ui-md-9">
-           <p:inputSwitch id="singleMode" onLabel="Si" offLabel="No" value="#{updateQuestionFtaCoreCaseForm.singleAnswerMode}"/>
-        </div>
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-           <p:outputLabel for="suffleOrder" value="¿Orden de Respuestas Aleatorio?" />
-        </div>
-        <div class="ui-g-12 ui-md-9">
-           <p:inputSwitch id="suffleOrder" onLabel="Si" offLabel="No" value="#{updateQuestionFtaCoreCaseForm.suffleAnswerOrder}"/>
-        </div>
-        
-         <div class="ui-g-12">
-         </div>
-        
-        <ui:repeat var="ccOpcionMultiple" value="#{updateQuestionFtaCoreCaseForm.listCcOpcionMultiple}">
-        <div class="ui-g" style="border: 1px solid black;width:80%;margin-bottom: 5px;width:98%" >
-        <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
-         <div class="ui-g-6">
-          <p:spinner value="#{ccOpcionMultiple.numeroLinea}" min="1" max="10" rotate="true" />
-         </div>
-         <div class="ui-g-6">
-          <p:inputSwitch onLabel="&#10003;" offLabel="&#215;" value="#{ccOpcionMultiple.estatus}" />
-         </div>
-        </div>
-       <div class="ui-g-9 ui-g-nopad">
-         <div class="ui-g-12">
-           <div class="ui-g-2" style="text-align:right;">
-            <p:outputLabel for="answerText" value="Texto de Respuesta" />
-           </div>
-           <div class="ui-g-10">
-             <p:inputText id="answerText" style="width:99%;" value="#{ccOpcionMultiple.textoRespuesta}" />
-           </div>
-         </div>
-          <div class="ui-g-12">
-           <div class="ui-g-2" style="text-align:right;">
-            <p:outputLabel for="explanation" value="Explicación" />
-           </div>
-           <div class="ui-g-10">
-             <p:inputText id="explanation" style="width:99%;" value="#{ccOpcionMultiple.textoExplicacion}"/>
-           </div>
-         </div>
-         </div>
-          <div class="ui-g-1 ui-g-nopad">
-            <p:commandButton icon="pi pi-times" styleClass="red-button" oncomplete="PF('deleteOpcionMultipleWV').show();" actionListener="#{updateQuestionFtaCoreCaseForm.selectOpcionMultipleForAction(ccOpcionMultiple)}"/>
-          </div>
-         </div> <!-- END div -->  
-        </ui:repeat>
-        
-        <div class="ui-g-12">
-        <p:commandButton immediate="true" title="Nuevo"  value="Agregar nueva respuesta" actionListener="#{updateQuestionFtaCoreCaseForm.addOpcionMultiple()}" update="updateQuestionMultipleChoiceForm updateQuestionMultipleChoiceForm:multipleChoiceAnswersUpdatePanel"  icon="pi pi-plus" />
-        </div>
-       </div> 
-      </p:panel>
-       
-        <div class="ui-g">
-		   <div class="ui-g-12 ui-md-2" style="text-align:center">
-		     <p:commandButton value="Guardar"  update="informacionPreguntaPanelGridID MultipleChoiceAnswerQuestionUpdatePanel" action="#{updateQuestionFtaCoreCaseForm.update()}"  ajax="false"/>
-		   </div>
-		   <div class="ui-g-12 ui-md-3" style="text-align:center">
-		    <p:commandButton value="Guardar y Previsualizar" action="#{updateQuestionFtaCoreCaseForm.saveAndPreview()}"/>
-		   </div>
-		   <div class="ui-g-12 ui-md-2" style="text-align:center">
-		    <p:commandButton value="Cancelar" immediate="true" action="Preguntas-Update-CoreCase" />
-		   </div>
-		   <div class="ui-g-12 ui-md-2" style="text-align:center">
-		    <p:commandButton value="Duplicar"/>
-		   </div>
-		   <div class="ui-g-12 ui-md-2" style="text-align:center">
-		    <p:commandButton value="Borrar"/>
-		   </div>
-		  </div>
- </div> <!-- END <div class="ui-g-10"> -->
- </div> <!-- END <div class="ui-g"> -->
-</h:form>
-
-  <div class="ui-g">
- <div class="ui-g-2">
-  <h:form id="arbolPrincipalForm" rendered="#{updateQuestionFtaCoreCaseForm.limitedFreeTextAnswer}">
-   <p:panelGrid id="arbolPrincipalPanelId" columns="1" layout="grid"  styleClass="customPanelGrid">
-     <f:facet name="header">
-       Arbol Caso Principal
-     </f:facet>
-       <p:dataList var="ccPreguntasHdrV1" value="#{updateQuestionFtaCoreCaseForm.listCcPreguntasHdrV1}" type="definition" responsive="true">
-       <p:column>
-         <p:commandLink id="btnLink" action="#{updateQuestionFtaCoreCaseForm.updatePregunta(ccPreguntasHdrV1)}" ajax="false">
-           <h:outputText value="#{ccPreguntasHdrV1.titulo}" />
-         </p:commandLink>
-       </p:column>
-     </p:dataList>
-     <p:commandButton immediate="true" title="Nuevo"  value="Nueva Pregunta" icon="pi pi-plus" action="#{updateQuestionFtaCoreCaseForm.nuevaPregunta()}"/>
-   </p:panelGrid>
-   <p:panelGrid  columns="1" layout="grid"  styleClass="customPanelGrid">
-     <f:facet name="header">
-       Series Dicom
-     </f:facet>
-     <p:commandButton immediate="true" title="Nuevo"  value="Nueva Serie" icon="pi pi-plus" action="Preguntas-Create-CoreCase"/>
-   </p:panelGrid>
-   </h:form>
- </div>
- <div class="ui-g-10">
-   <h:form id="updateQuestionFreeTextForm" rendered="#{updateQuestionFtaCoreCaseForm.limitedFreeTextAnswer}">
-    <p:messages id="messages" showDetail="true" closable="true">
-        <p:autoUpdate />
-        <p:effect type="clip" event="load" delay="1000" />
-    </p:messages>
-    <p:panelGrid  id="informacionPreguntaPanelGridID" columns="3" layout="grid" styleClass="customPanelGrid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2" >
-     <f:facet name="header">
-       INFORMACIÓN DE PREGUNTA
-     </f:facet>
-         <p:outputLabel for="status" value="Estado" />
-         <p:selectOneMenu id="status" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.estatus}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-         <f:selectItems value="#{selectsHelper.selectEstatusMrqsItems}" />
-         </p:selectOneMenu>
-         <p:message for="status"/>
-         <p:outputLabel for="internalName" value="Nombre Interno" />
-         <p:inputText id="internalName"  value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.nombre}" placeholder="Nombre Interno"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-         <p:message for="internalName"/>
-         <p:outputLabel for="title" value="Titulo" />
-         <p:inputText id="title"  value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.titulo}" placeholder="Título en TOC"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-         <p:message for="title"/>
-         <p:outputLabel for="questionType" value="Tipo de Pregunta" />
-         <p:selectOneMenu id="questionType" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.tipoPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-         <f:selectItem itemLabel="Seleccione un tipo de pregunta" itemValue="" />
-         <f:selectItems value="#{selectsHelper.selectTipoPreguntaCoreCaseItems}" />
-         </p:selectOneMenu>
-         <p:message for="questionType"/>
-         <p:outputLabel for="topic" value="Tema de Pregunta" />
-         <p:selectOneMenu value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.temaPregunta}" id="topic" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-         <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
-         <f:selectItems value="#{selectsHelper.selectTemaDePreguntaItems}" />
-         </p:selectOneMenu>
-         <p:message for="topic"/>
-          <p:outputLabel  for="maxScore" value="Maximo Puntaje" />
-         <p:spinner id="maxScore" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.maxPuntuacion}" stepFactor="0.01" min="0" max="10"  />
-         <p:message for="maxScore"/>
-         <p:outputLabel for="society" value="Sociedad" />
-         <p:inputText id="society" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.sociedad}"  style="width:100%" readonly="true" />
-         <p:message for="society"/>
-     </p:panelGrid> <!-- End Panel Grid -->
-         <div class="ui-g">
-	  <div class="ui-g-12 ui-md-6 ui-lg-2">
-	   <p:outputLabel for="tag" value="Etiquetas" />
-	  </div>
-	  <div class="ui-g-12 ui-md-6 ui-lg-8">
-	    <div class="ui-inputgroup">
-	    <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span>
-	    <p:inputText id="tag" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.etiquetas}"  maxlength="255" style="width:100%"/>
-	    </div>
-	  </div>
-	  <div class="ui-g-12 ui-md-6 ui-lg-2">
-	    <p:message for="tag"/>  
-	  </div>
-	   <div class="ui-g-12 ui-md-6 ui-lg-2">
-	   <p:outputLabel for="internalComments" value="Comentarios Internos" />
-	  </div>
-	  <div class="ui-g-12 ui-md-6 ui-lg-8">
-	    <p:textEditor id="internalComments" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.comentarios}"  widgetVar="internalCommentsWV"  height="100">
-		    <f:facet name="toolbar">
-		        <span class="ql-formats">
-		            <button class="ql-bold"></button>
-		            <button class="ql-italic"></button>
-		            <button class="ql-underline"></button>
-		            <button class="ql-strike"></button>
-		            <button class="ql-unorderedlist"></button>
-		            <button class="ql-orderedlist"></button>
-		        </span>
-		    </f:facet>
-		</p:textEditor>
-	  </div>
-	  <div class="ui-g-12 ui-md-6 ui-lg-2">
-	    <p:message for="internalComments"/>  
-	  </div>
-	  </div>
-	   <p:panel header="ELEMENTOS DE PRESENTACIÓN - INTRODUCCIÓN">
-	    <f:facet name="actions">
-	      <p:splitButton immediate="true" title="Nuevo"  value="Agregar Nuevo Elemento" icon="pi pi-plus">
-	       <p:menuitem value="Agregar Nuevo Texto"/>
-	       <p:menuitem value="Agregar Series Dicom" onclick="PF('presentationDialogWV').show();" />
-	      </p:splitButton>
-	     </f:facet>
-	    
-	     <ui:repeat var="imagenesGrupo" value="#{updateQuestionFtaCoreCaseForm.listPresentCcImagenesGrp}" varStatus="status">
-	     <div class="ui-g">
-	      <div class="ui-g-12">
-	       <h3>#{imagenesGrupo.tituloSuperior}</h3>
-	      </div>
-	      <div class="ui-g-12">
-	       <ui:repeat var="imagenes" value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
-	         <h:graphicImage value="data:image/jpg;base64,#{imagenes.thumbailBase64}" style="max-width: 300px; max-height: 300px;" />
-	       </ui:repeat>
-	      </div>
-	     </div>
-	    </ui:repeat>
-	    
-	    </p:panel>
-	    
-	   <p:panel id="FreeTextAnswerQuestionUpdatePanel" header="PREGUNTA DE TEXTO LIBRE">
-	   <div class="ui-g">
-	       <div class="ui-g-12 ui-md-3" style="text-align:right;">
-	         <p:outputLabel  value="Título de la pregunta" />
-	        </div>
-	         <div class="ui-g-12 ui-md-9">
-	          <p:inputText id="questionTitle" value="#{updateQuestionFtaCoreCaseForm.tituloPreguntaFta}"  placeholder="Título de la pregunta"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-	          <p:message for="questionTitle"/>
-	         </div>
-	       <div class="ui-g-12 ui-md-3" style="text-align:right;">
-	         <p:outputLabel for="questionText"  value="Texto de la pregunta" />
-	        </div> 
-	         <div class="ui-g-12 ui-md-9">
-	          <p:inputTextarea id="questionText" value="#{updateQuestionFtaCoreCaseForm.textoPreguntaFta}"  style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-	          <p:message for="questionText"/>
-	         </div>
-	         
-	           <div class="ui-g-12 ui-md-3" style="text-align:right;">
-	         <p:outputLabel  value="Texto de sugerencias" />
-	        </div>
-	         <div class="ui-g-12 ui-md-9">
-	          <p:inputText id="hintsText"  value="#{updateQuestionFtaCoreCaseForm.textoSugerenciasFta}"  placeholder="(No use mas de 5 palabras)"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-	          <p:message for="hintsText"/>
-	         </div>
-	      
-	         
-	         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-	           <p:outputLabel for="correctAnswer" value="Respuesta Correcta" />
-	         </div>
-	         <div class="ui-g-12 ui-md-9">
-	          <p:inputText id="correctAnswer" value="#{updateQuestionFtaCoreCaseForm.respuestaCorrecta}" placeholder="Respuesta Correcta"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-	          <p:message for="correctAnswer"/>
-	         </div>
-	     </div>
-	   </p:panel>
-	  
-	   <div class="ui-g">
-	    <div class="ui-g-12 ui-md-2" style="text-align:center">
-	     <p:commandButton id="GuardarBtn" value="Guardar" update="informacionPreguntaPanelGridID FreeTextAnswerQuestionUpdatePanel" action="#{updateQuestionFtaCoreCaseForm.update()}"  ajax="false"/>
-	    </div>
-	    <div class="ui-g-12 ui-md-4" style="text-align:center">
-	    
-	    
-	     <p:commandButton value="Guardar y Previsualizar" action="#{updateQuestionFtaCoreCaseForm.saveAndPreview()}"/>
-	    </div>
-	    <div class="ui-g-12 ui-md-2" style="text-align:center">
-	     <p:commandButton value="Cancelar" immediate="true" action="Preguntas-Update-CoreCase"/>
-	    </div>
-	    <div class="ui-g-12 ui-md-2" style="text-align:center">
-	     <p:commandButton value="Borrar"/>
-	    </div>
-	  </div>
-    </h:form>	    
-  </div> <!-- End <div class="ui-g-10"> -->
- </div> <!-- END <div class="ui-g"> -->
 
  <h:form id="DeleteForm">
  <p:dialog id="deleteOpcionMultipleDialogId" widgetVar="deleteOpcionMultipleWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Registro">
    <h2>#{msgs['globalForm.deleteMessage']}</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeleteOpcMultBtn" value="Aceptar"   actionListener="#{updateQuestionFtaCoreCaseForm.deleteOpcionMultiple()}" update="updateQuestionMultipleChoiceForm:multipleChoiceAnswersUpdatePanel" oncomplete="PF('deleteOpcionMultipleWV').hide();"  />
+                 <p:commandButton id="DeleteOpcMultBtn" value="Aceptar"   actionListener="#{updateQuestionFtaCoreCaseForm.deleteOpcionMultiple()}"  oncomplete="PF('deleteOpcionMultipleWV').hide();"  />
               </div>
               <div class="ui-g-12 ui-lg-2" >
                  <p:commandButton id="CancelarOpcMultBtn"  value="Cancelar"  onclick="PF('deleteOpcionMultipleWV').hide();" />

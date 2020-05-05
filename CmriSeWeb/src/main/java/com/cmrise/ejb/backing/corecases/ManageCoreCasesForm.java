@@ -36,21 +36,23 @@ public class ManageCoreCasesForm {
 	 }		 
 	 
 	private void refreshEntity() {
-		List<CcHdrV1Dto> listCcHdrV1Dto = ccHdrLocal.findAll(); 
-		Iterator<CcHdrV1Dto> iterCcHdrV1Dto = listCcHdrV1Dto.iterator(); 
+		listCcHdrV1 = ccHdrLocal.findAll(); 
+		//List<CcHdrV1Dto> listCcHdrV1Dto = ccHdrLocal.findAll(); 
+		/**Iterator<CcHdrV1Dto> iterCcHdrV1Dto = listCcHdrV1Dto.iterator(); 
 		listCcHdrV1 = new ArrayList<CcHdrV1>();
 		while(iterCcHdrV1Dto.hasNext()) {
 			CcHdrV1Dto ccHdrV1Dto = iterCcHdrV1Dto.next(); 
 			CcHdrV1 ccHdrV1 = new CcHdrV1();
 			ccHdrV1.setNumero(ccHdrV1Dto.getNumero());
-			ccHdrV1.setNombre(ccHdrV1Dto.getNombre());
+			//ccHdrV1.setNombre(ccHdrV1Dto.getNombre());
 			ccHdrV1.setEstatus(ccHdrV1Dto.getEstatus());
 			ccHdrV1.setEstatusDesc(ccHdrV1Dto.getEstatusDesc());
-			ccHdrV1.setTema(ccHdrV1Dto.getTema());
-			ccHdrV1.setTemaDesc(ccHdrV1Dto.getTemaDesc());
+			//ccHdrV1.setTema(ccHdrV1Dto.getTema());
+			//ccHdrV1.setTemaDesc(ccHdrV1Dto.getTemaDesc());
 			ccHdrV1.setEtiquetas(ccHdrV1Dto.getEtiquetas());
 			listCcHdrV1.add(ccHdrV1);
 		}
+		**/
 	}
 
 	public String update(CcHdrV1 pCcHdrV1) {

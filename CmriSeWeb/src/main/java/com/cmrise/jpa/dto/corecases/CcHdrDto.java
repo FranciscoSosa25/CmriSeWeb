@@ -39,19 +39,12 @@ public class CcHdrDto implements Serializable {
 
 	@Column(name="FECHA_EFECTIVA_HASTA")
 	private Date fechaEfectivaHasta;
-
-	@Column(name="NOMBRE")
-	private String nombre;
-	
-	@Column(name="TEMA")
-	private String tema; 
 	
 	@Column(name="HISTORIAL_CLINICO")
 	private String historialClinico; 
 	
 	@Column(name="DESCRIPCION_TECNICA")
 	private String descripcionTecnica; 
-	
 	
 	@Column(name="OPCION_INSEGURA")
 	private boolean opcionInsegura; 
@@ -65,13 +58,19 @@ public class CcHdrDto implements Serializable {
 	@Column(name="ESTATUS")
 	private String estatus;
 	
-	@Column(name="SOCIEDAD")
-	private String sociedad;
+	@Column(name="ADMON_EXAMEN")
+	private long admonExamen;
 	
-	//bi-directional many-to-one association to CcPreguntasHdrDto
-	@OneToMany(mappedBy="ccHdr")
-	private List<CcPreguntasHdrDto> ccPreguntasHdrs;
-
+	@Column(name="ADMON_MATERIA")
+	private long admonMateria;
+	
+	@Column(name="ADMON_SUBMATERIA")
+	private long admonSubmateria;
+	
+	@Column(name="FECHA_ELABORACION")
+	private Date fechaElaboracion; 
+	
+	
 	public CcHdrDto() {
 	}
 
@@ -131,44 +130,6 @@ public class CcHdrDto implements Serializable {
 		this.fechaEfectivaHasta = fechaEfectivaHasta;
 	}
 
-	public List<CcPreguntasHdrDto> getCcPreguntasHdrs() {
-		return this.ccPreguntasHdrs;
-	}
-
-	public void setCcPreguntasHdrs(List<CcPreguntasHdrDto> ccPreguntasHdrs) {
-		this.ccPreguntasHdrs = ccPreguntasHdrs;
-	}
-
-	public CcPreguntasHdrDto addCcPreguntasHdr(CcPreguntasHdrDto ccPreguntasHdr) {
-		getCcPreguntasHdrs().add(ccPreguntasHdr);
-		ccPreguntasHdr.setCcHdr(this);
-
-		return ccPreguntasHdr;
-	}
-
-	public CcPreguntasHdrDto removeCcPreguntasHdr(CcPreguntasHdrDto ccPreguntasHdr) {
-		getCcPreguntasHdrs().remove(ccPreguntasHdr);
-		ccPreguntasHdr.setCcHdr(null);
-
-		return ccPreguntasHdr;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getTema() {
-		return tema;
-	}
-
-	public void setTema(String tema) {
-		this.tema = tema;
-	}
-
 	public String getHistorialClinico() {
 		return historialClinico;
 	}
@@ -217,12 +178,36 @@ public class CcHdrDto implements Serializable {
 		this.estatus = estatus;
 	}
 
-	public String getSociedad() {
-		return sociedad;
+	public long getAdmonExamen() {
+		return admonExamen;
 	}
 
-	public void setSociedad(String sociedad) {
-		this.sociedad = sociedad;
+	public void setAdmonExamen(long admonExamen) {
+		this.admonExamen = admonExamen;
+	}
+
+	public long getAdmonMateria() {
+		return admonMateria;
+	}
+
+	public void setAdmonMateria(long admonMateria) {
+		this.admonMateria = admonMateria;
+	}
+
+	public long getAdmonSubmateria() {
+		return admonSubmateria;
+	}
+
+	public void setAdmonSubmateria(long admonSubmateria) {
+		this.admonSubmateria = admonSubmateria;
+	}
+
+	public Date getFechaElaboracion() {
+		return fechaElaboracion;
+	}
+
+	public void setFechaElaboracion(Date fechaElaboracion) {
+		this.fechaElaboracion = fechaElaboracion;
 	}
 
 }

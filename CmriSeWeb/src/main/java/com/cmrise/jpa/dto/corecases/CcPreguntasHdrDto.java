@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.List;
 
 
 /**
@@ -42,17 +41,8 @@ public class CcPreguntasHdrDto implements Serializable {
 	@Column(name="FECHA_EFECTIVA_HASTA")
 	private Date fechaEfectivaHasta;
 	
-	@Column(name="NOMBRE")
-	private String nombre;
-	
-	@Column(name="TITULO")
-	private String titulo;
-	
 	@Column(name="TIPO_PREGUNTA")
 	private String tipoPregunta; 
-	
-	@Column(name="TEMA_PREGUNTA")
-	private String temaPregunta; 
 	
 	@Column(name="ETIQUETAS")
 	private String etiquetas; 
@@ -63,21 +53,25 @@ public class CcPreguntasHdrDto implements Serializable {
 	@Column(name="ESTATUS")
 	private String estatus; 
 	
-	@Column(name="SOCIEDAD")
-	private String sociedad; 
 	
 	@Column(name="MAX_PUNTUACION")
 	private BigDecimal maxPuntuacion;
 	
-	//bi-directional many-to-one association to CcPreguntasFtaDto
-	@OneToMany(mappedBy="ccPreguntasHdr")
-	private List<CcPreguntasFtaDto> ccPreguntasFtas;
-
-	//bi-directional many-to-one association to CcHdrDto
-	@ManyToOne
-	@JoinColumn(name="NUMERO_CC_HDR")
-	private CcHdrDto ccHdr;
-
+	@Column(name="NUMERO_CC_HDR")
+	private long numeroCcHdr;
+	
+	@Column(name="ADMON_EXAMEN")
+	private long admonExamen; 
+	
+	@Column(name="ADMON_MATERIA")
+	private long admonMateria; 
+	
+	@Column(name="ADMON_SUBMATERIA")
+	private long admonSubmateria; 
+	
+	@Column(name="FECHA_ELABORACION")
+	private Date fechaElaboracion;
+	
 	public CcPreguntasHdrDto() {
 	}
 
@@ -136,53 +130,7 @@ public class CcPreguntasHdrDto implements Serializable {
 	public void setFechaEfectivaHasta(Date fechaEfectivaHasta) {
 		this.fechaEfectivaHasta = fechaEfectivaHasta;
 	}
-
-	public List<CcPreguntasFtaDto> getCcPreguntasFtas() {
-		return this.ccPreguntasFtas;
-	}
-
-	public void setCcPreguntasFtas(List<CcPreguntasFtaDto> ccPreguntasFtas) {
-		this.ccPreguntasFtas = ccPreguntasFtas;
-	}
-
-	public CcPreguntasFtaDto addCcPreguntasFta(CcPreguntasFtaDto ccPreguntasFta) {
-		getCcPreguntasFtas().add(ccPreguntasFta);
-		ccPreguntasFta.setCcPreguntasHdr(this);
-
-		return ccPreguntasFta;
-	}
-
-	public CcPreguntasFtaDto removeCcPreguntasFta(CcPreguntasFtaDto ccPreguntasFta) {
-		getCcPreguntasFtas().remove(ccPreguntasFta);
-		ccPreguntasFta.setCcPreguntasHdr(null);
-
-		return ccPreguntasFta;
-	}
-
-	public CcHdrDto getCcHdr() {
-		return this.ccHdr;
-	}
-
-	public void setCcHdr(CcHdrDto ccHdr) {
-		this.ccHdr = ccHdr;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
+	
 	public String getTipoPregunta() {
 		return tipoPregunta;
 	}
@@ -191,13 +139,6 @@ public class CcPreguntasHdrDto implements Serializable {
 		this.tipoPregunta = tipoPregunta;
 	}
 
-	public String getTemaPregunta() {
-		return temaPregunta;
-	}
-
-	public void setTemaPregunta(String temaPregunta) {
-		this.temaPregunta = temaPregunta;
-	}
 
 	public String getEtiquetas() {
 		return etiquetas;
@@ -223,13 +164,6 @@ public class CcPreguntasHdrDto implements Serializable {
 		this.estatus = estatus;
 	}
 
-	public String getSociedad() {
-		return sociedad;
-	}
-
-	public void setSociedad(String sociedad) {
-		this.sociedad = sociedad;
-	}
 
 	public BigDecimal getMaxPuntuacion() {
 		return maxPuntuacion;
@@ -237,6 +171,46 @@ public class CcPreguntasHdrDto implements Serializable {
 
 	public void setMaxPuntuacion(BigDecimal maxPuntuacion) {
 		this.maxPuntuacion = maxPuntuacion;
+	}
+
+	public long getNumeroCcHdr() {
+		return numeroCcHdr;
+	}
+
+	public void setNumeroCcHdr(long numeroCcHdr) {
+		this.numeroCcHdr = numeroCcHdr;
+	}
+
+	public long getAdmonExamen() {
+		return admonExamen;
+	}
+
+	public void setAdmonExamen(long admonExamen) {
+		this.admonExamen = admonExamen;
+	}
+
+	public long getAdmonMateria() {
+		return admonMateria;
+	}
+
+	public void setAdmonMateria(long admonMateria) {
+		this.admonMateria = admonMateria;
+	}
+
+	public long getAdmonSubmateria() {
+		return admonSubmateria;
+	}
+
+	public void setAdmonSubmateria(long admonSubmateria) {
+		this.admonSubmateria = admonSubmateria;
+	}
+
+	public Date getFechaElaboracion() {
+		return fechaElaboracion;
+	}
+
+	public void setFechaElaboracion(Date fechaElaboracion) {
+		this.fechaElaboracion = fechaElaboracion;
 	}
 
 }

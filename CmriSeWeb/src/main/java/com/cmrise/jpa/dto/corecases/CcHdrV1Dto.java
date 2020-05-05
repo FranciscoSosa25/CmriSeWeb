@@ -49,10 +49,7 @@ public class CcHdrV1Dto implements Serializable {
 
 	@Column(name="HISTORIAL_CLINICO")
 	private String historialClinico;
-
-	@Column(name="NOMBRE")
-	private String nombre;
-
+	
 	@Column(name="NOTA")
 	private String nota;
 
@@ -63,15 +60,28 @@ public class CcHdrV1Dto implements Serializable {
 	@Column(name="OPCION_INSEGURA")
 	private boolean opcionInsegura;
 
-	@Column(name="SOCIEDAD")
-	private String sociedad;
-
-	@Column(name="TEMA")
-	private String tema;
-
-	@Column(name="TEMA_DESC")
-	private String temaDesc;
-
+	@Column(name="FECHA_ELABORACION")
+	private Date fechaElaboracion; 
+	
+	@Column(name="ADMON_EXAMEN")
+	private long admonExamen; 
+	
+	@Column(name="ADMON_MATERIA")
+	private long admonMateria; 
+	
+	@Column(name="ADMON_SUBMATERIA")
+	private long admonSubmateria; 
+	
+	@Column(name="ADMON_EXAMEN_DESC")
+	private String admonExamenDesc; 
+	
+	@Column(name="ADMON_MATERIA_DESC")
+	private String admonMateriaDesc; 
+	
+	@Column(name="ADMON_SUBMATERIA_DESC")
+	private String admonSubmateriaDesc; 
+	
+	
 	public CcHdrV1Dto() {
 	}
 
@@ -163,14 +173,6 @@ public class CcHdrV1Dto implements Serializable {
 		this.historialClinico = historialClinico;
 	}
 
-	public String getNombre() {
-		return this.nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
 	public String getNota() {
 		return this.nota;
 	}
@@ -195,28 +197,60 @@ public class CcHdrV1Dto implements Serializable {
 		this.opcionInsegura = opcionInsegura;
 	}
 
-	public String getSociedad() {
-		return this.sociedad;
+	public Date getFechaElaboracion() {
+		return fechaElaboracion;
 	}
 
-	public void setSociedad(String sociedad) {
-		this.sociedad = sociedad;
+	public void setFechaElaboracion(Date fechaElaboracion) {
+		this.fechaElaboracion = fechaElaboracion;
 	}
 
-	public String getTema() {
-		return this.tema;
+	public long getAdmonExamen() {
+		return admonExamen;
 	}
 
-	public void setTema(String tema) {
-		this.tema = tema;
+	public void setAdmonExamen(long admonExamen) {
+		this.admonExamen = admonExamen;
 	}
 
-	public String getTemaDesc() {
-		return this.temaDesc;
+	public long getAdmonMateria() {
+		return admonMateria;
 	}
 
-	public void setTemaDesc(String temaDesc) {
-		this.temaDesc = temaDesc;
+	public void setAdmonMateria(long admonMateria) {
+		this.admonMateria = admonMateria;
+	}
+
+	public long getAdmonSubmateria() {
+		return admonSubmateria;
+	}
+
+	public void setAdmonSubmateria(long admonSubmateria) {
+		this.admonSubmateria = admonSubmateria;
+	}
+
+	public String getAdmonExamenDesc() {
+		return admonExamenDesc;
+	}
+
+	public void setAdmonExamenDesc(String admonExamenDesc) {
+		this.admonExamenDesc = admonExamenDesc;
+	}
+
+	public String getAdmonMateriaDesc() {
+		return admonMateriaDesc;
+	}
+
+	public void setAdmonMateriaDesc(String admonMateriaDesc) {
+		this.admonMateriaDesc = admonMateriaDesc;
+	}
+
+	public String getAdmonSubmateriaDesc() {
+		return admonSubmateriaDesc;
+	}
+
+	public void setAdmonSubmateriaDesc(String admonSubmateriaDesc) {
+		this.admonSubmateriaDesc = admonSubmateriaDesc;
 	}
 
 }

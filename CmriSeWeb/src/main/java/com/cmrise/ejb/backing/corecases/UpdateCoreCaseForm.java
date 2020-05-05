@@ -25,17 +25,7 @@ import com.cmrise.jpa.dto.corecases.CcHdrDto;
 public class UpdateCoreCaseForm {
 
    private CcHdrV1 ccHdrV1; 	
-	
    private long numeroCcHdr;
-   private String estatusCc;  
-   private String nombreCc;
-   private String temaCc;
-   private String historialClinicoCc; 
-   private String descripcionTecnicaCc;
-   private String notaCc; 
-   private boolean opcionInseguraCc; 
-   private String etiquetasCc;
-
    private List<CcPreguntasHdrV1> listCcPreguntasHdrV1 = new ArrayList<CcPreguntasHdrV1>();
    
    @Inject 
@@ -73,15 +63,7 @@ public class UpdateCoreCaseForm {
    
   private void refreshEntity() {
 	ccHdrV1 = ccHdrLocal.findByNumeroObjMod(this.numeroCcHdr);
-	this.setEstatusCc(ccHdrV1.getEstatus());
-	this.setNombreCc(ccHdrV1.getNombre());
-	this.setTemaCc(ccHdrV1.getTema());
-	this.setHistorialClinicoCc(ccHdrV1.getHistorialClinico());
-	this.setDescripcionTecnicaCc(ccHdrV1.getDescripcionTecnica());
-	this.setNotaCc(ccHdrV1.getNota());
-	this.setOpcionInseguraCc(ccHdrV1.isOpcionInsegura());
-	this.setEtiquetasCc(ccHdrV1.getEtiquetas());
-	
+
 	listCcPreguntasHdrV1 = ccHdrV1.getListCcPreguntasHdrV1();
 	
   }
@@ -105,17 +87,17 @@ public class UpdateCoreCaseForm {
   
   public void actualizar () {
 	  System.out.println("Entra actualizar");
+	  /**
 	  CcHdrDto ccHdrDto = new CcHdrDto();
-	  ccHdrDto.setNombre(this.getNombreCc());
+	  //ccHdrDto.setNombre(this.getNombreCc());
 	  ccHdrDto.setEstatus(this.getEstatusCc());
-	  ccHdrDto.setTema(this.getTemaCc());
+	  //ccHdrDto.setTema(this.getTemaCc());
 	  ccHdrDto.setEtiquetas(this.getEtiquetasCc());
 	  ccHdrDto.setHistorialClinico(this.getHistorialClinicoCc());
 	  ccHdrDto.setDescripcionTecnica(this.getDescripcionTecnicaCc());
 	  ccHdrDto.setNota(this.getNotaCc());
-	
-	  
 	  ccHdrLocal.update(this.getNumeroCcHdr(), ccHdrDto);
+	  **/
 	  FacesContext context = FacesContext.getCurrentInstance();
       context.addMessage(null, new FacesMessage("Se actualizaron los datos correctamente", "Actualizacion correcta"));
 	  System.out.println("Sale Actualizar");
@@ -140,87 +122,6 @@ public long getNumeroCcHdr() {
  public void setNumeroCcHdr(long numeroCcHdr) {
 	this.numeroCcHdr = numeroCcHdr;
  }
-
-
-public String getEstatusCc() {
-	return estatusCc;
-}
-
-
-public void setEstatusCc(String estatusCc) {
-	this.estatusCc = estatusCc;
-}
-
-
-public String getNombreCc() {
-	return nombreCc;
-}
-
-
-public void setNombreCc(String nombreCc) {
-	this.nombreCc = nombreCc;
-}
-
-
-public String getTemaCc() {
-	return temaCc;
-}
-
-
-public void setTemaCc(String temaCc) {
-	this.temaCc = temaCc;
-}
-
-
-public String getHistorialClinicoCc() {
-	return historialClinicoCc;
-}
-
-
-public void setHistorialClinicoCc(String historialClinicoCc) {
-	this.historialClinicoCc = historialClinicoCc;
-}
-
-
-public String getDescripcionTecnicaCc() {
-	return descripcionTecnicaCc;
-}
-
-
-public void setDescripcionTecnicaCc(String descripcionTecnicaCc) {
-	this.descripcionTecnicaCc = descripcionTecnicaCc;
-}
-
-
-public String getNotaCc() {
-	return notaCc;
-}
-
-
-public void setNotaCc(String notaCc) {
-	this.notaCc = notaCc;
-}
-
-
-public boolean isOpcionInseguraCc() {
-	return opcionInseguraCc;
-}
-
-
-public void setOpcionInseguraCc(boolean opcionInseguraCc) {
-	this.opcionInseguraCc = opcionInseguraCc;
-}
-
-
-public String getEtiquetasCc() {
-	return etiquetasCc;
-}
-
-
-public void setEtiquetasCc(String etiquetasCc) {
-	this.etiquetasCc = etiquetasCc;
-}
-
 
 public List<CcPreguntasHdrV1> getListCcPreguntasHdrV1() {
 	return listCcPreguntasHdrV1;

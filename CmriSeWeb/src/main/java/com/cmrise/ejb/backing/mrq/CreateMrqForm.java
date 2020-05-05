@@ -123,7 +123,6 @@ public class CreateMrqForm {
 	}
 	
 	public void onAdmonExamenChange() {
-		System.out.println("admonExamen:"+admonExamen);
 		if(0!=admonExamen) {
 			materiasHdr = admonMateriaHdrLocal.findByNumeroAdmonExamen(admonExamen); 
 			selectMateriasHdr = new ArrayList<SelectItem>();  
@@ -135,7 +134,6 @@ public class CreateMrqForm {
 	}
 	
 	public void onAdmonMateriaChange() {
-		System.out.println("admonMateria:"+admonMateria);
 		if(0!=admonMateria) {
 			subMaterias = admonSubMateriaLocal.findByNumeroMateria(admonMateria); 
 			selectSubMaterias = new ArrayList<SelectItem>(); 
@@ -241,10 +239,6 @@ public class CreateMrqForm {
 	}
 	
 	public List<SelectItem>  getSelectSubMaterias() {
-		System.out.println("selectSubMaterias:"+selectSubMaterias);
-		if(null!=selectSubMaterias) {
-			System.out.println("selectSubMaterias.size():"+selectSubMaterias.size());
-		}
 		return this.selectSubMaterias; 
 	}
 	

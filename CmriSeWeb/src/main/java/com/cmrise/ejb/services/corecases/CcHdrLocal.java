@@ -17,10 +17,11 @@ public interface CcHdrLocal {
 	public void delete(long pNumero);
 	public void update(long pNumero
 			          ,CcHdrDto pCcHdrDto);
-	public List<CcHdrV1Dto> findAll();
+	public List<CcHdrV1> findAll();
 	public CcHdrV1Dto findByNumero(long pNumero);
 	public List<KeysDto> findKeys();
 	public List<CcHdrForAction> findCoreCasesForExam(long pNumeroExamen);
-	public CcHdrV1 findByNumeroObjMod(long pNumeroCcHdr); 
+	public CcHdrV1 findByNumeroObjMod(long pNumeroCcHdr);
+	public long insert(CcHdrV1 pCcHdrV1); 
 	
 }

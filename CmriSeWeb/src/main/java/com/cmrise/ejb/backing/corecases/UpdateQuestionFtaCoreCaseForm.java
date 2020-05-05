@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,10 +18,18 @@ import org.primefaces.model.file.UploadedFile;
 import org.primefaces.model.file.UploadedFiles;
 
 import com.cmrise.ejb.helpers.GuestPreferences;
+import com.cmrise.ejb.helpers.UserLogin;
+import com.cmrise.ejb.model.admin.AdmonExamenHdr;
+import com.cmrise.ejb.model.admin.AdmonMateriaHdr;
+import com.cmrise.ejb.model.admin.AdmonSubMateria;
 import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
+import com.cmrise.ejb.model.corecases.CcPreguntasFtaV1;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
 import com.cmrise.ejb.model.corecases.img.CcImagenes;
 import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
+import com.cmrise.ejb.services.admin.AdmonExamenHdrLocal;
+import com.cmrise.ejb.services.admin.AdmonMateriaHdrLocal;
+import com.cmrise.ejb.services.admin.AdmonSubMateriaLocal;
 import com.cmrise.ejb.services.corecases.CcOpcionMultipleLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasFtaLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasHdrLocal;
@@ -37,23 +47,22 @@ import com.cmrise.utils.UtilitariosLocal;
 public class UpdateQuestionFtaCoreCaseForm {
 	private long numeroCcHdr;
 	
-	private String tituloPreguntaHdr;
+	private List<AdmonExamenHdr> examenesHdr = new ArrayList<AdmonExamenHdr>();
+	private List<AdmonMateriaHdr> materiasHdr = new ArrayList<AdmonMateriaHdr>();
+	private List<AdmonSubMateria> subMaterias = new ArrayList<AdmonSubMateria>();
+	private List<SelectItem> selectExamenesHdr = new ArrayList<SelectItem>(); 
+	private List<SelectItem> selectMateriasHdr = new ArrayList<SelectItem>();  
+	private List<SelectItem> selectSubMaterias = new ArrayList<SelectItem>(); 
 	
 	private boolean multipleChoice; 
 	private boolean limitedFreeTextAnswer;
 	private boolean indicateImage;
 	
 	private CcPreguntasHdrV1 ccPreguntasHdrV1ForAction = new CcPreguntasHdrV1();
-	
+	private CcPreguntasFtaV1 ccPreguntasFtaV1ForUpdate = new CcPreguntasFtaV1(); 
 	
 	private boolean ftaRecord; 
-	private String tituloPreguntaFta;
-	private String textoPreguntaFta; 
-	private String textoSugerenciasFta; 
-	private String respuestaCorrecta; 
 	private long numeroFtaRecord;
-	private boolean singleAnswerMode;
-	private boolean suffleAnswerOrder; 
 	
 	private List<CcPreguntasHdrV1> listCcPreguntasHdrV1 = new ArrayList<CcPreguntasHdrV1>();
 	
@@ -73,6 +82,8 @@ public class UpdateQuestionFtaCoreCaseForm {
 	private List<CcImagenesGrp> listPresentCcImagenesGrp = new ArrayList<CcImagenesGrp>(); 
 	
 	
+	
+	
 	@Inject 
 	UtilitariosLocal utilitariosLocal; 
 	
@@ -90,6 +101,19 @@ public class UpdateQuestionFtaCoreCaseForm {
 	
 	@ManagedProperty(value="#{guestPreferences}")
 	GuestPreferences guestPreferences; 
+	
+    @Inject 
+	AdmonExamenHdrLocal admonExamenHdrLocal; 
+	
+	@Inject 
+	AdmonMateriaHdrLocal admonMateriaHdrLocal; 
+	
+	@Inject 
+	AdmonSubMateriaLocal admonSubMateriaLocal; 
+	
+	@ManagedProperty(value="#{userLogin}")
+	private UserLogin userLogin; 
+	
 	
 	@PostConstruct
     public void init() {
@@ -142,9 +166,18 @@ public class UpdateQuestionFtaCoreCaseForm {
 	     }
 	     this.setNumeroCcHdr(longNumeroCcHdr);
 	     ccPreguntasHdrV1ForAction  = ccPreguntasHdrLocal.findByNumeroObjMod(longNumeroCcPreguntaHdr);
+	  
+	     examenesHdr = admonExamenHdrLocal.findByTipo(Utilitarios.CORE_CASES); 
+		 selectExamenesHdr = new ArrayList<SelectItem>(); 
+		 for(AdmonExamenHdr i:examenesHdr) {
+			 SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
+			 selectExamenesHdr.add(selectItem); 
+		 }
+	     onAdmonExamenChange(); 
+	     onAdmonMateriaChange(); 
 	     
 	     
-	     this.setTituloPreguntaHdr(ccPreguntasHdrV1ForAction.getTitulo());
+	    // this.setTituloPreguntaHdr(ccPreguntasHdrV1ForAction.getTitulo());
 	     if(Utilitarios.LIMIT_RESP_TEXTO_LIBRE.equals(ccPreguntasHdrV1ForAction.getTipoPregunta())) {
 	    	 this.setLimitedFreeTextAnswer(true);
 	     }else if(Utilitarios.OPCION_MULTIPLE.equals(ccPreguntasHdrV1ForAction.getTipoPregunta())) {
@@ -158,16 +191,10 @@ public class UpdateQuestionFtaCoreCaseForm {
 	     System.out.println("lNumeroCcFta:"+lNumeroCcFta);
 	     if(0l!=lNumeroCcFta) {
 	    	 this.setFtaRecord(true);
-	    	 CcPreguntasFtaV1Dto ccPreguntasFtaV1Dto =ccPreguntasFtaLocal.findDtoByNumeroHdr(longNumeroCcPreguntaHdr);
-	         this.setTituloPreguntaFta(ccPreguntasFtaV1Dto.getTituloPregunta());
-	         this.setTextoPreguntaFta(ccPreguntasFtaV1Dto.getTextoPregunta());
-	         this.setTextoSugerenciasFta(ccPreguntasFtaV1Dto.getTextoSugerencias());
-	         this.setRespuestaCorrecta(ccPreguntasFtaV1Dto.getRespuestaCorrecta());
-	         this.setNumeroFtaRecord(ccPreguntasFtaV1Dto.getNumero());
-	         this.setSingleAnswerMode(ccPreguntasFtaV1Dto.isSingleAnswerMode());
-	         this.setSuffleAnswerOrder(ccPreguntasFtaV1Dto.isSuffleAnswerOrder());
-	         
-	         System.out.println("ccPreguntasFtaV1Dto.getNumero():"+ccPreguntasFtaV1Dto.getNumero());
+	    	 ccPreguntasFtaV1ForUpdate = ccPreguntasFtaLocal.findObjByNumeroHdr(longNumeroCcPreguntaHdr);
+	    	 System.out.println("ccPreguntasFtaV1ForUpdate.getNumero():"+ccPreguntasFtaV1ForUpdate.getNumero());
+	    	 System.out.println("ccPreguntasFtaV1ForUpdate.getTituloPregunta():"+ccPreguntasFtaV1ForUpdate.getTituloPregunta());
+	         this.setNumeroFtaRecord(ccPreguntasFtaV1ForUpdate.getNumero());
 	         listCcOpcionMultiple = ccPreguntasHdrV1ForAction.getCcPreguntasFtaV1().getListCcOpcionMultiple(); 
 	         listPresentCcImagenesGrp =  ccImagenesGrpLocal.findByFta(lNumeroCcFta,Utilitarios.INTRODUCCION);
 	         
@@ -183,7 +210,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 	 		CcPreguntasHdrV1 ccPreguntasHdrV1 = new CcPreguntasHdrV1();
 	 		ccPreguntasHdrV1.setNumero(ccPreguntasHdrV1DtoTmp.getNumero());
 	     	ccPreguntasHdrV1.setNumeroCcHdr(ccPreguntasHdrV1DtoTmp.getNumeroCcHdr());
-	     	ccPreguntasHdrV1.setTitulo(ccPreguntasHdrV1DtoTmp.getTitulo());
+	     //	ccPreguntasHdrV1.setTitulo(ccPreguntasHdrV1DtoTmp.getTitulo());
 	     	ccPreguntasHdrV1.setTipoPreguntaDesc(ccPreguntasHdrV1DtoTmp.getTipoPreguntaDesc());
 	     	ccPreguntasHdrV1.setEstatusDesc(ccPreguntasHdrV1DtoTmp.getEstatusDesc());
 	     	ccPreguntasHdrV1.setMaxPuntuacion(ccPreguntasHdrV1DtoTmp.getMaxPuntuacion());
@@ -195,11 +222,8 @@ public class UpdateQuestionFtaCoreCaseForm {
 	public void update() {
 		CcPreguntasHdrDto ccPreguntasHdrDto = new CcPreguntasHdrDto();
 		ccPreguntasHdrDto.setNumero(ccPreguntasHdrV1ForAction.getNumero());
-		ccPreguntasHdrDto.setNombre(ccPreguntasHdrV1ForAction.getNombre());
-		ccPreguntasHdrDto.setTitulo(ccPreguntasHdrV1ForAction.getTitulo());
 		ccPreguntasHdrDto.setEstatus(ccPreguntasHdrV1ForAction.getEstatus());
 		ccPreguntasHdrDto.setTipoPregunta(ccPreguntasHdrV1ForAction.getTipoPregunta());
-		ccPreguntasHdrDto.setTemaPregunta(ccPreguntasHdrV1ForAction.getTemaPregunta());
 		ccPreguntasHdrDto.setMaxPuntuacion(ccPreguntasHdrV1ForAction.getMaxPuntuacion());
 		ccPreguntasHdrDto.setEtiquetas(ccPreguntasHdrV1ForAction.getEtiquetas());
 		ccPreguntasHdrDto.setComentarios(ccPreguntasHdrV1ForAction.getComentarios());
@@ -207,12 +231,11 @@ public class UpdateQuestionFtaCoreCaseForm {
 		if(this.isFtaRecord()) {
 			CcPreguntasFtaDto ccPreguntasFtaDto = new CcPreguntasFtaDto();
 			ccPreguntasFtaDto.setCcPreguntasHdr(ccPreguntasHdrDto);
-			ccPreguntasFtaDto.setTituloPregunta(this.getTituloPreguntaFta());
-			ccPreguntasFtaDto.setTextoPregunta(this.getTextoPreguntaFta());
-			ccPreguntasFtaDto.setTextoSugerencias(this.getTextoSugerenciasFta());
-			ccPreguntasFtaDto.setRespuestaCorrecta(this.getRespuestaCorrecta());
-			ccPreguntasFtaDto.setSingleAnswerMode(this.singleAnswerMode);
-			ccPreguntasFtaDto.setSuffleAnswerOrder(this.suffleAnswerOrder);
+			ccPreguntasFtaDto.setTituloPregunta(ccPreguntasFtaV1ForUpdate.getTituloPregunta());
+			ccPreguntasFtaDto.setTextoPregunta(ccPreguntasFtaV1ForUpdate.getTextoPregunta());
+			ccPreguntasFtaDto.setTextoSugerencias(ccPreguntasFtaV1ForUpdate.getTextoSugerencias());
+			ccPreguntasFtaDto.setSingleAnswerMode(ccPreguntasFtaV1ForUpdate.isSingleAnswerMode());
+			ccPreguntasFtaDto.setSuffleAnswerOrder(ccPreguntasFtaV1ForUpdate.isSuffleAnswerOrder());
 			ccPreguntasFtaLocal.update(this.getNumeroFtaRecord(), ccPreguntasFtaDto);
 			
 			if(null!=listCcOpcionMultiple) {
@@ -248,14 +271,14 @@ public class UpdateQuestionFtaCoreCaseForm {
 		}else {
 			CcPreguntasFtaDto ccPreguntasFtaDto = new CcPreguntasFtaDto();
 			ccPreguntasFtaDto.setCcPreguntasHdr(ccPreguntasHdrDto);
-			ccPreguntasFtaDto.setTituloPregunta(this.getTituloPreguntaFta());
-			ccPreguntasFtaDto.setTextoPregunta(this.getTextoPreguntaFta());
-			ccPreguntasFtaDto.setTextoSugerencias(this.getTextoSugerenciasFta());
-			ccPreguntasFtaDto.setRespuestaCorrecta(this.getRespuestaCorrecta());
+			ccPreguntasFtaDto.setTituloPregunta(ccPreguntasFtaV1ForUpdate.getTituloPregunta());
+			ccPreguntasFtaDto.setTextoPregunta(ccPreguntasFtaV1ForUpdate.getTextoPregunta());
+			ccPreguntasFtaDto.setTextoSugerencias(ccPreguntasFtaV1ForUpdate.getTextoSugerencias());
+			//ccPreguntasFtaDto.setRespuestaCorrecta(this.getRespuestaCorrecta());
 			ccPreguntasFtaDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
 			ccPreguntasFtaDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
-			ccPreguntasFtaDto.setSingleAnswerMode(this.singleAnswerMode);
-			ccPreguntasFtaDto.setSuffleAnswerOrder(this.suffleAnswerOrder);
+			ccPreguntasFtaDto.setSingleAnswerMode(ccPreguntasFtaV1ForUpdate.isSingleAnswerMode());
+			ccPreguntasFtaDto.setSuffleAnswerOrder(ccPreguntasFtaV1ForUpdate.isSuffleAnswerOrder());
 			
 			long numeroPreguntaFta =ccPreguntasFtaLocal.insert(ccPreguntasFtaDto);
 			
@@ -277,6 +300,9 @@ public class UpdateQuestionFtaCoreCaseForm {
 		
 		ccPreguntasHdrLocal.update(ccPreguntasHdrV1ForAction.getNumero(), ccPreguntasHdrDto);
 		refreshEntity();      
+		FacesContext context = FacesContext.getCurrentInstance();
+	    context.addMessage(null, new FacesMessage("Se actualizaron los datos correctamente", "Actualizacion correcta"));
+		
 	}
 	
 	private void updateImagenesGrp(long pNumeroFta
@@ -377,14 +403,40 @@ public class UpdateQuestionFtaCoreCaseForm {
 	     System.out.println("Sale uploadMultiple");
 	 }
 	
-	public String getTituloPreguntaHdr() {
-		return tituloPreguntaHdr;
-	}
 
-	public void setTituloPreguntaHdr(String tituloPreguntaHdr) {
-		this.tituloPreguntaHdr = tituloPreguntaHdr;
+	 public void onAdmonExamenChange() {
+			if(0!=ccPreguntasHdrV1ForAction.getAdmonExamen()) {
+				materiasHdr = admonMateriaHdrLocal.findByNumeroAdmonExamen(ccPreguntasHdrV1ForAction.getAdmonExamen()); 
+				selectMateriasHdr = new ArrayList<SelectItem>();  
+				for(AdmonMateriaHdr i:materiasHdr) {
+					 SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
+					 selectMateriasHdr.add(selectItem); 
+				}
+			}
+		}
+		
+		public void onAdmonMateriaChange() {
+			if(0!=ccPreguntasHdrV1ForAction.getAdmonMateria()) {
+				subMaterias = admonSubMateriaLocal.findByNumeroMateria(ccPreguntasHdrV1ForAction.getAdmonMateria()); 
+				selectSubMaterias = new ArrayList<SelectItem>(); 
+				for(AdmonSubMateria i:subMaterias) {
+					System.out.println("*");
+					SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
+					selectSubMaterias.add(selectItem); 
+				}
+			}
+		}
+		
+	public void borrar() {
+		 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!","Aun sin implementacion");
+		 FacesContext.getCurrentInstance().addMessage(null, msg);
+	}	
+	
+	public void duplicar() {
+		 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!","Aun sin implementacion");
+		 FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
-
+		
 	public boolean isMultipleChoice() {
 		return multipleChoice;
 	}
@@ -427,38 +479,6 @@ public class UpdateQuestionFtaCoreCaseForm {
 
 	public void setCcPreguntasHdrV1ForAction(CcPreguntasHdrV1 pCcPreguntasHdrV1ForAction) {
 		ccPreguntasHdrV1ForAction = pCcPreguntasHdrV1ForAction;
-	}
-
-	public String getTituloPreguntaFta() {
-		return tituloPreguntaFta;
-	}
-
-	public void setTituloPreguntaFta(String tituloPreguntaFta) {
-		this.tituloPreguntaFta = tituloPreguntaFta;
-	}
-
-	public String getTextoPreguntaFta() {
-		return textoPreguntaFta;
-	}
-
-	public void setTextoPreguntaFta(String textoPreguntaFta) {
-		this.textoPreguntaFta = textoPreguntaFta;
-	}
-
-	public String getTextoSugerenciasFta() {
-		return textoSugerenciasFta;
-	}
-
-	public void setTextoSugerenciasFta(String textoSugerenciasFta) {
-		this.textoSugerenciasFta = textoSugerenciasFta;
-	}
-
-	public String getRespuestaCorrecta() {
-		return respuestaCorrecta;
-	}
-
-	public void setRespuestaCorrecta(String respuestaCorrecta) {
-		this.respuestaCorrecta = respuestaCorrecta;
 	}
 
 	public boolean isFtaRecord() {
@@ -509,22 +529,6 @@ public class UpdateQuestionFtaCoreCaseForm {
 		this.guestPreferences = guestPreferences;
 	}
 
-	public boolean isSingleAnswerMode() {
-		return singleAnswerMode;
-	}
-
-	public void setSingleAnswerMode(boolean singleAnswerMode) {
-		this.singleAnswerMode = singleAnswerMode;
-	}
-
-	public boolean isSuffleAnswerOrder() {
-		return suffleAnswerOrder;
-	}
-
-	public void setSuffleAnswerOrder(boolean suffleAnswerOrder) {
-		this.suffleAnswerOrder = suffleAnswerOrder;
-	}
-
 	public int getIdxOM() {
 		return idxOM;
 	}
@@ -564,5 +568,71 @@ public class UpdateQuestionFtaCoreCaseForm {
 	public void setListPresentCcImagenesGrp(List<CcImagenesGrp> listPresentCcImagenesGrp) {
 		this.listPresentCcImagenesGrp = listPresentCcImagenesGrp;
 	}
+
+	public List<AdmonExamenHdr> getExamenesHdr() {
+		return examenesHdr;
+	}
+
+	public void setExamenesHdr(List<AdmonExamenHdr> examenesHdr) {
+		this.examenesHdr = examenesHdr;
+	}
+
+	public List<AdmonMateriaHdr> getMateriasHdr() {
+		return materiasHdr;
+	}
+
+	public void setMateriasHdr(List<AdmonMateriaHdr> materiasHdr) {
+		this.materiasHdr = materiasHdr;
+	}
+
+	public List<AdmonSubMateria> getSubMaterias() {
+		return subMaterias;
+	}
+
+	public void setSubMaterias(List<AdmonSubMateria> subMaterias) {
+		this.subMaterias = subMaterias;
+	}
+
+	public List<SelectItem> getSelectExamenesHdr() {
+		return selectExamenesHdr;
+	}
+
+	public void setSelectExamenesHdr(List<SelectItem> selectExamenesHdr) {
+		this.selectExamenesHdr = selectExamenesHdr;
+	}
+
+	public List<SelectItem> getSelectMateriasHdr() {
+		return selectMateriasHdr;
+	}
+
+	public void setSelectMateriasHdr(List<SelectItem> selectMateriasHdr) {
+		this.selectMateriasHdr = selectMateriasHdr;
+	}
+
+	public List<SelectItem> getSelectSubMaterias() {
+		return selectSubMaterias;
+	}
+
+	public void setSelectSubMaterias(List<SelectItem> selectSubMaterias) {
+		this.selectSubMaterias = selectSubMaterias;
+	}
+	
+	
+	public UserLogin getUserLogin() {
+		return userLogin;
+	}
+	
+	public void setUserLogin(UserLogin userLogin) {
+		this.userLogin = userLogin;
+	}
+
+	public CcPreguntasFtaV1 getCcPreguntasFtaV1ForUpdate() {
+		return ccPreguntasFtaV1ForUpdate;
+	}
+
+	public void setCcPreguntasFtaV1ForUpdate(CcPreguntasFtaV1 ccPreguntasFtaV1ForUpdate) {
+		this.ccPreguntasFtaV1ForUpdate = ccPreguntasFtaV1ForUpdate;
+	}
+
 	
 }
