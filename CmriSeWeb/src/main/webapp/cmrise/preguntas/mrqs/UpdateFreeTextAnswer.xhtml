@@ -86,11 +86,11 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
   
 </h:form>
 </p:dialog> 
- 
+ <div class="card">
  <h:form id="updateQuestionFreeTextForm" rendered="#{updateFTAMrqForm.limitedFreeTextAnswer}">
  <p:growl id="growl" showDetail="true" life="5000" />  
 <div class="card">
- <p:panel id="questionInfoUpdatePanel" header="INFORMACIÓN DEL REACTIVO" >
+ <p:panel id="questionInfoUpdatePanel">
  
      <div class="ui-g">
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
@@ -205,10 +205,10 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
     
  </p:panel>
  
- </div>
+ </div><div class="card">
  
  
-<div class="card">
+
    <p:panel id="FreeTextAnswerQuestionUpdatePanel" header="PREGUNTA DE TEXTO LIBRE">
    <div class="ui-g">
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
@@ -218,6 +218,8 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
           <p:inputText id="questionTitle" value="#{updateFTAMrqForm.tituloPregunta}" placeholder="Título de la pregunta"  maxlength="200" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
           <p:message for="questionTitle"/>
          </div>
+         
+         <!-- 
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="questionText"  value="Texto de la pregunta" maxlength="500"/>
         </div> 
@@ -225,7 +227,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
           <p:inputTextarea id="questionText" value="#{updateFTAMrqForm.textoPregunta}"  style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
           <p:message for="questionText"/>
          </div>
-         
+          -->
            <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel  value="Texto de sugerencias" />
         </div>
@@ -349,8 +351,8 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 
 <h:form id="updateQuestionMultipleChoiceForm" rendered="#{updateFTAMrqForm.multipleChoice}">
 <p:growl id="growl" showDetail="true" life="5000" />  
-<div class="card">
-  <p:panel id="questionInfoUpdatePanel" header="INFORMACIÓN DE LA REACTIVO" >
+
+  <p:panel id="questionInfoUpdatePanel">
      <div class="ui-g">
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="statusMrqs" value="Estado" />
@@ -408,7 +410,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
           <p:outputLabel for="society" value="Diagnostico" />
          </div>
           <div class="ui-g-12 ui-md-9">
-            <p:inputText id="society" value="CMRI - Consejo Mexicano de Radiología e Imagen" style="width:100%" readonly="true" />
+            <p:inputText id="society" style="width:100%"/>
           </div>
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="tag" value="Bibliografia" />
@@ -438,10 +440,9 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         </div>
      </div>
  </p:panel>
- </div>
+
  
- <div class="card">
-  <p:panel header="ELEMENTOS DE PRESENTACIÓN - INTRODUCCIÓN">
+  <p:panel>
    <f:facet name="actions">
       <p:splitButton immediate="true" title="Nuevo"  value="Agregar Nuevo Elemento" icon="pi pi-plus">
        <p:menuitem value="Agregar Nuevo Texto"/>
@@ -467,18 +468,19 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
     </div>
    
   </p:panel>
- </div>
  
- <div class="card">
-  <p:panel id="multipleChoiceQuestionUpdatePanel" header="PREGUNTA DE OPCIÓN MÚLTIPLE">
+ 
+
+  <p:panel id="multipleChoiceQuestionUpdatePanel">
    <div class="ui-g">
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel  value="pregunta" />
+         <p:outputLabel  value="Pregunta" />
         </div>
          <div class="ui-g-12 ui-md-9">
           <p:inputText id="questionTitle" value="#{updateFTAMrqForm.tituloPregunta}" placeholder="Título de la pregunta"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
           <p:message for="questionTitle"/>
          </div>
+         <!-- 
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="questionText"  value="Texto de la pregunta" />
         </div> 
@@ -486,7 +488,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
           <p:inputTextarea id="questionText" value="#{updateFTAMrqForm.textoPregunta}"  style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
           <p:message for="questionText"/>
          </div>
-         
+          -->
            <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel  value="Instrucciones" />
         </div>
@@ -528,10 +530,9 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         </div>
       </div>
    </p:panel>
- </div>
+
  
- <div class="card">
-  <p:panel id="multipleChoiceAnswersUpdatePanel" header="RESPUESTAS DE OPCIÓN MÚLTIPLE">
+  <p:panel id="multipleChoiceAnswersUpdatePanel">
    
    <div  class="ui-g">
 <!--        <div class="ui-g-12 ui-md-3" style="text-align:right;"> -->
@@ -609,9 +610,8 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
        </div>
   
   </p:panel>
- </div>
- 
- <div class="card">
+
+
   <div class="ui-g">
    <div class="ui-g-12 ui-md-2 button-container" style="text-align:center">
      <p:commandButton id="GuardarBtn" value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="growl updateQuestionMultipleChoiceForm:questionInfoUpdatePanel updateQuestionMultipleChoiceForm:multipleChoiceQuestionUpdatePanel" oncomplete="handleUpdateRequest(xhr, status, args)"/>
@@ -629,9 +629,8 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 <!--     <p:commandButton value="Borrar" oncomplete="PF('deleteRolDialogWV').show();"/> -->
 <!--    </div> -->
   </div>
- </div>
 </h:form>
-
+ </div>
 
  <h:form id="DuplicateForm">
   <p:dialog id="duplicateMrqDialogId" widgetVar="duplicateMrqDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Duplicar Registro">
