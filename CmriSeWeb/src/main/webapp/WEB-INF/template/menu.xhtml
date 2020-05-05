@@ -12,7 +12,7 @@
                 <div class="nano-content menu-scroll-content">
                     <pp:menu widgetVar="me">
                         <p:menuitem id="om_dashboard" value="Inicio" icon="fa fa-fw fa-home" outcome="/dashboard"/>
-                        <p:submenu id="om_themes" label="Temas" icon="fa fa-fw fa-paint-brush" rendered="true">
+                        <p:submenu id="om_themes" label="Temas" icon="fa fa-fw fa-paint-brush" rendered="false">
                             <p:menuitem id="theme1" value="Tema Turquesa" icon="fa fa-fw fa-paint-brush" actionListener="#{guestPreferences.setTheme('turquoise')}" ajax="false" style="color:#00acac"/>
                             <p:menuitem id="theme2" value="Tema Azul" icon="fa fa-fw fa-paint-brush" actionListener="#{guestPreferences.setTheme('blue')}" ajax="false" style="color:#2f8ee5"/>
                             <p:menuitem id="theme3" value="Tema Purpura" icon="fa fa-fw fa-paint-brush" actionListener="#{guestPreferences.setTheme('purple')}" ajax="false" style="color:#6c76af"/>
