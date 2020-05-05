@@ -24,12 +24,6 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 		Query q = em.createNativeQuery("SELECT NEXT VALUE FOR dbo.MRQS_PREGUNTAS_HDR_S");
 		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
 		pMrqsPreguntasHdrDto.setNumero(lNumeroS.longValue());
-		java.util.Date sysdate = new java.util.Date();
-		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
-		pMrqsPreguntasHdrDto.setCreadoPor((long)-1);
-		pMrqsPreguntasHdrDto.setActualizadoPor((long)-1);
-		pMrqsPreguntasHdrDto.setFechaCreacion(sqlsysdate);
-		pMrqsPreguntasHdrDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pMrqsPreguntasHdrDto);
 		return lNumeroS.longValue(); 
 	}
@@ -44,12 +38,7 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 	public void update(long pNumero, MrqsPreguntasHdrDto pMrqsPreguntasHdrDto) {
 		MrqsPreguntasHdrDto mrqsPreguntasHdrDto =em.find(MrqsPreguntasHdrDto.class, pNumero);
 		mrqsPreguntasHdrDto.setEstatus(pMrqsPreguntasHdrDto.getEstatus());
-		//mrqsPreguntasHdrDto.setNombre(pMrqsPreguntasHdrDto.getNombre());
-		//mrqsPreguntasHdrDto.setTitulo(pMrqsPreguntasHdrDto.getTitulo());
 		mrqsPreguntasHdrDto.setTipoPregunta(pMrqsPreguntasHdrDto.getTipoPregunta());
-		//mrqsPreguntasHdrDto.setTemaPregunta(pMrqsPreguntasHdrDto.getTemaPregunta());
-		mrqsPreguntasHdrDto.setEtiquetas(pMrqsPreguntasHdrDto.getEtiquetas());
-		mrqsPreguntasHdrDto.setComentarios(pMrqsPreguntasHdrDto.getComentarios());
 		
 	}
 
@@ -96,12 +85,13 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 		mrqsPreguntasHdrDto.setFechaCreacion(sqlsysdate);
 		mrqsPreguntasHdrDto.setFechaActualizacion(sqlsysdate);		
 		
-		//mrqsPreguntasHdrDto.setNombre(copy.getNombre());
-		//mrqsPreguntasHdrDto.setTitulo(copy.getTitulo());
+		mrqsPreguntasHdrDto.setAdmonExamen(copy.getAdmonExamen());
+		mrqsPreguntasHdrDto.setAdmonMateria(copy.getAdmonMateria());
+		mrqsPreguntasHdrDto.setAdmonSubmateria(copy.getAdmonSubmateria());
+		mrqsPreguntasHdrDto.setDiagnostico(copy.getDiagnostico());
+		mrqsPreguntasHdrDto.setNotas(copy.getNotas());
+		mrqsPreguntasHdrDto.setBibliografia(copy.getBibliografia());
 		mrqsPreguntasHdrDto.setTipoPregunta(copy.getTipoPregunta());
-		//mrqsPreguntasHdrDto.setTemaPregunta(copy.getTemaPregunta());
-		mrqsPreguntasHdrDto.setEtiquetas(copy.getEtiquetas());
-		mrqsPreguntasHdrDto.setComentarios(copy.getComentarios());
 		mrqsPreguntasHdrDto.setEstatus(copy.getEstatus());
 		mrqsPreguntasHdrDto.setSociedad(copy.getSociedad());
 		mrqsPreguntasHdrDto.setFechaEfectivaDesde(copy.getFechaEfectivaDesde());
@@ -127,8 +117,8 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 						"      ,MPH.[TIPO_PREGUNTA_DESC]\r" + 
 						"      ,MPH.[TEMA_PREGUNTA]\r" + 
 						"      ,MPH.[TEMA_PREGUNTA_DESC]\r" + 
-						"      ,MPH.[ETIQUETAS]\r" + 
-						"      ,MPH.[COMENTARIOS]\r" + 
+						"      ,MPH.[DIAGNOSTICO]\r" + 
+						"      ,MPH.[NOTAS]\r" + 
 						"      ,MPH.[ESTATUS]\r" + 
 						"      ,MPH.[ESTATUS_DESC]\r" + 
 						"      ,MPH.[SOCIEDAD]\r" + 

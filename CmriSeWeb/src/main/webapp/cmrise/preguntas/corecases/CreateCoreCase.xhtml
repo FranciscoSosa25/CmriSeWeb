@@ -59,7 +59,7 @@
        
         <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="subMateria" value="SubMateria" />
+         <p:outputLabel for="subMateria" value="Clasificación" />
         </div>
          <div class="ui-g-12 ui-md-9">
          <p:selectOneMenu id="subMateria" value="#{createCoreCaseForm.ccHdrV1ForInsert.admonSubMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
@@ -82,7 +82,7 @@
        
         <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="creadoPor" value="¿Quien elabora la Pregunta?" />
+         <p:outputLabel for="creadoPor" value="Elabora" />
         </div>
          <div class="ui-g-12 ui-md-9">
          <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
@@ -121,7 +121,7 @@
        
         <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="tags" value="Etiquetas"/>
+         <p:outputLabel for="tags" value="Diagnostico"/>
         </div>
          <div class="ui-g-12 ui-md-9">
            <p:inputTextarea  id="tags" value="#{createCoreCaseForm.ccHdrV1ForInsert.etiquetas}"   rows="1" style="width:100%"/>
@@ -131,7 +131,7 @@
        
        <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-          <p:outputLabel for="note" value="Nota"/>
+          <p:outputLabel for="note" value="Notas"/>
         </div>
          <div class="ui-g-12 ui-md-9">
           <p:inputTextarea  id="note" value="#{createCoreCaseForm.ccHdrV1ForInsert.nota}"   rows="4" style="width:100%"/>

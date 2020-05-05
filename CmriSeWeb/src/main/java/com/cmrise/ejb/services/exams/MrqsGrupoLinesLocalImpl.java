@@ -53,7 +53,7 @@ public class MrqsGrupoLinesLocalImpl implements MrqsGrupoLinesLocal {
 			mrqsPreguntasHdrV1.setTemaPreguntaDesc("AdmonSubMateriaDesc");
 			mrqsPreguntasHdrV1.setEstatus(mrqsGrupoLinesV1Dto.getEstatus());
 			mrqsPreguntasHdrV1.setEstatusDesc(mrqsGrupoLinesV1Dto.getEstatusDesc());
-			mrqsPreguntasHdrV1.setEtiquetas(mrqsGrupoLinesV1Dto.getEtiquetas());
+			mrqsPreguntasHdrV1.setDiagnostico(mrqsGrupoLinesV1Dto.getDiagnostico());
 			retval.add(mrqsPreguntasHdrV1); 
 		}
 		return retval;
@@ -95,7 +95,7 @@ public class MrqsGrupoLinesLocalImpl implements MrqsGrupoLinesLocal {
     	retval.setTemaPreguntaDesc("AdmonSubMateriaDesc");
     	retval.setEstatus(pMrqsGrupoLinesV2Dto.getEstatus());
     	retval.setEstatusDesc(pMrqsGrupoLinesV2Dto.getEstatusDesc());
-    	retval.setEtiquetas(pMrqsGrupoLinesV2Dto.getEtiquetas());
+    	retval.setDiagnostico(pMrqsGrupoLinesV2Dto.getDiagnostico());
     	retval.setTextoPregunta(pMrqsGrupoLinesV2Dto.getTextoPregunta());
     	retval.setTextoSugerencias(pMrqsGrupoLinesV2Dto.getTextoSugerencias());
     	retval.setTituloGrupo(pMrqsGrupoLinesV2Dto.getTituloGrupo());

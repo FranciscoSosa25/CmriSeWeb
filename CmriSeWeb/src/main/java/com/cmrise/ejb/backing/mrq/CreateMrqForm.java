@@ -1,17 +1,20 @@
 package com.cmrise.ejb.backing.mrq;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import com.cmrise.ejb.helpers.UserLogin;
 import com.cmrise.ejb.model.admin.AdmonExamenHdr;
 import com.cmrise.ejb.model.admin.AdmonMateriaHdr;
 import com.cmrise.ejb.model.admin.AdmonSubMateria;
@@ -28,22 +31,14 @@ import com.cmrise.utils.XxSqlConstraints;
 @ViewScoped
 public class CreateMrqForm {
 
-	private String nombre;
-	private String titulo; 
-	private String tipoPregunta;
-	private String temaPregunta; 
-	private String etiquetas; 
-	private String comentarios;
 	private List<AdmonExamenHdr> examenesHdr = new ArrayList<AdmonExamenHdr>();
 	private List<AdmonMateriaHdr> materiasHdr = new ArrayList<AdmonMateriaHdr>();
 	private List<AdmonSubMateria> subMaterias = new ArrayList<AdmonSubMateria>();
 	private List<SelectItem> selectExamenesHdr = new ArrayList<SelectItem>(); 
 	private List<SelectItem> selectMateriasHdr = new ArrayList<SelectItem>();  
 	private List<SelectItem> selectSubMaterias = new ArrayList<SelectItem>(); 
-	private long admonExamen; 
-	private long admonMateria;
-	private long admonSubMateria; 
- 	
+	private MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForInsert = new MrqsPreguntasHdrV1(); 
+	
 	@Inject
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal; 
 	
@@ -56,6 +51,9 @@ public class CreateMrqForm {
 	@Inject 
 	AdmonSubMateriaLocal admonSubMateriaLocal; 
 	
+	@ManagedProperty(value="#{userLogin}")
+	private UserLogin userLogin; 
+	
 	 @PostConstruct
 	 public void init() {
 		 examenesHdr = admonExamenHdrLocal.findByTipo(Utilitarios.MRQS); 
@@ -64,6 +62,7 @@ public class CreateMrqForm {
 			 SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
 			 selectExamenesHdr.add(selectItem); 
 		 }
+		 mrqsPreguntasHdrV1ForInsert.setFechaElaboracion(new java.util.Date());
 	 }
 	
 	 
@@ -72,31 +71,15 @@ public class CreateMrqForm {
 		boolean exceptions = false; 
 		String retval = null; 
 		
-		MrqsPreguntasHdrV1 mrqsPreguntasHdrV1 = new MrqsPreguntasHdrV1(); 
-		mrqsPreguntasHdrV1.setAdmonExamen(this.admonExamen);
-		mrqsPreguntasHdrV1.setAdmonMateria(this.admonMateria);
-		mrqsPreguntasHdrV1.setAdmonSubmateria(this.admonSubMateria);
-		mrqsPreguntasHdrV1.setTipoPregunta(this.tipoPregunta);
-		mrqsPreguntasHdrV1.setEtiquetas(this.etiquetas);
-		mrqsPreguntasHdrV1.setComentarios(this.comentarios);
-		mrqsPreguntasHdrV1.setFechaEfectivaDesde(Utilitarios.startOfTime);
-		mrqsPreguntasHdrV1.setFechaEfectivaHasta(Utilitarios.endOfTime);
-		mrqsPreguntasHdrV1.setEstatus("PARA_REVISAR");
-		mrqsPreguntasHdrV1.setSociedad(Utilitarios.SOCIEDAD);
+		mrqsPreguntasHdrV1ForInsert.setCreadoPor(userLogin.getNumeroUsuario());
+		mrqsPreguntasHdrV1ForInsert.setActualizadoPor(userLogin.getNumeroUsuario());
+		mrqsPreguntasHdrV1ForInsert.setEstatus(Utilitarios.INITIAL_STATUS_MRQ);
+		mrqsPreguntasHdrV1ForInsert.setFechaCreacion(new java.util.Date());
+		mrqsPreguntasHdrV1ForInsert.setFechaActualizacion(new java.util.Date());
 		
-		/*
-		MrqsPreguntasHdrDto mrqsPreguntasHdrDto = new MrqsPreguntasHdrDto();
-		mrqsPreguntasHdrDto.setTipoPregunta(this.tipoPregunta);
-		mrqsPreguntasHdrDto.setEtiquetas(this.etiquetas);
-		mrqsPreguntasHdrDto.setComentarios(this.comentarios);
-		mrqsPreguntasHdrDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
-		mrqsPreguntasHdrDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
-		mrqsPreguntasHdrDto.setEstatus("PARA_REVISAR");
-		mrqsPreguntasHdrDto.setSociedad(Utilitarios.SOCIEDAD);
-		*/
 		long numeroPreguntaHdr = 0; 
 		try {
-			numeroPreguntaHdr = mrqsPreguntasHdrLocal.insert(mrqsPreguntasHdrV1);
+			numeroPreguntaHdr = mrqsPreguntasHdrLocal.insert(mrqsPreguntasHdrV1ForInsert);
 		}catch(Exception e) {
 			 Throwable throwable = e.getCause();
 			 while(null!=throwable) {
@@ -111,6 +94,7 @@ public class CreateMrqForm {
 				 }
 			 }
 		}
+		
 		if(!exceptions) {
 			 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Se Agregaron", "Los Cambios");
 		     FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -119,12 +103,13 @@ public class CreateMrqForm {
 			 session.setAttribute("NumeroHdrSV", numeroPreguntaHdr);
 			 retval = "Preguntas-UpdateFreeTextAnswer-NewMrqs"; 
 		}
+		
 		return retval;
 	}
 	
 	public void onAdmonExamenChange() {
-		if(0!=admonExamen) {
-			materiasHdr = admonMateriaHdrLocal.findByNumeroAdmonExamen(admonExamen); 
+		if(0!=mrqsPreguntasHdrV1ForInsert.getAdmonExamen()) {
+			materiasHdr = admonMateriaHdrLocal.findByNumeroAdmonExamen(mrqsPreguntasHdrV1ForInsert.getAdmonExamen()); 
 			selectMateriasHdr = new ArrayList<SelectItem>();  
 			for(AdmonMateriaHdr i:materiasHdr) {
 				 SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
@@ -134,8 +119,8 @@ public class CreateMrqForm {
 	}
 	
 	public void onAdmonMateriaChange() {
-		if(0!=admonMateria) {
-			subMaterias = admonSubMateriaLocal.findByNumeroMateria(admonMateria); 
+		if(0!=mrqsPreguntasHdrV1ForInsert.getAdmonMateria()) {
+			subMaterias = admonSubMateriaLocal.findByNumeroMateria(mrqsPreguntasHdrV1ForInsert.getAdmonMateria()); 
 			selectSubMaterias = new ArrayList<SelectItem>(); 
 			for(AdmonSubMateria i:subMaterias) {
 				System.out.println("*");
@@ -145,43 +130,7 @@ public class CreateMrqForm {
 		}
 	}
 	
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	public String getTitulo() {
-		return titulo;
-	}
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-	public String getTipoPregunta() {
-		return tipoPregunta;
-	}
-	public void setTipoPregunta(String tipoPregunta) {
-		this.tipoPregunta = tipoPregunta;
-	}
-	public String getTemaPregunta() {
-		return temaPregunta;
-	}
-	public void setTemaPregunta(String temaPregunta) {
-		this.temaPregunta = temaPregunta;
-	}
-	public String getEtiquetas() {
-		return etiquetas;
-	}
-	public void setEtiquetas(String etiquetas) {
-		this.etiquetas = etiquetas;
-	}
-	public String getComentarios() {
-		return comentarios;
-	}
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
-	}
-
+	
 	public List<AdmonExamenHdr> getExamenesHdr() {
 		return examenesHdr;
 	}
@@ -206,30 +155,6 @@ public class CreateMrqForm {
 		this.subMaterias = subMaterias;
 	} 
 	
-	public long getAdmonExamen() {
-		return admonExamen;
-	}
-
-	public void setAdmonExamen(long admonExamen) {
-		this.admonExamen = admonExamen;
-	}
-	
-	public long getAdmonMateria() {
-		return admonMateria;
-	}
-
-	public void setAdmonMateria(long admonMateria) {
-		this.admonMateria = admonMateria;
-	}
-
-	public long getAdmonSubMateria() {
-		return admonSubMateria;
-	}
-
-	public void setAdmonSubMateria(long admonSubMateria) {
-		this.admonSubMateria = admonSubMateria;
-	}
-
 	public List<SelectItem> getSelectExamenesHdr(){
 		return this.selectExamenesHdr; 
 	}
@@ -240,6 +165,22 @@ public class CreateMrqForm {
 	
 	public List<SelectItem>  getSelectSubMaterias() {
 		return this.selectSubMaterias; 
+	}
+
+	public MrqsPreguntasHdrV1 getMrqsPreguntasHdrV1ForInsert() {
+		return mrqsPreguntasHdrV1ForInsert;
+	}
+
+
+	public void setMrqsPreguntasHdrV1ForInsert(MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForInsert) {
+		this.mrqsPreguntasHdrV1ForInsert = mrqsPreguntasHdrV1ForInsert;
+	}
+	
+	public UserLogin getUserLogin() {
+		return userLogin;
+	}
+	public void setUserLogin(UserLogin userLogin) {
+		this.userLogin = userLogin;
 	}
 	
 }

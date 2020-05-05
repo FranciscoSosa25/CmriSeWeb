@@ -104,11 +104,11 @@ public class MrqsPreguntasHdrLocalImpl implements MrqsPreguntasHdrLocal {
 				if(row[6] instanceof String) { /**[TEMA_PREGUNTA_DESC]**/
 					mrqsPreguntasHdrV1.setTemaPreguntaDesc((String)row[6]);
 				}
-				if(row[7] instanceof String) { /**[ETIQUETAS]**/
-					mrqsPreguntasHdrV1.setEtiquetas((String)row[7]);
+				if(row[7] instanceof String) { /**[DIAGNOSTICO]**/
+					mrqsPreguntasHdrV1.setDiagnostico((String)row[7]);
 				}
-				if(row[8] instanceof String) { /**[COMENTARIOS]**/
-					mrqsPreguntasHdrV1.setComentarios((String)row[8]);
+				if(row[8] instanceof String) { /**[NOTAS]**/
+					mrqsPreguntasHdrV1.setNotas((String)row[8]);
 				}
 				if(row[9] instanceof String) { /**[ESTATUS]**/
 					mrqsPreguntasHdrV1.setEstatus((String)row[9]);
@@ -129,12 +129,20 @@ public class MrqsPreguntasHdrLocalImpl implements MrqsPreguntasHdrLocal {
 		mrqsPreguntasHdrDto.setAdmonMateria(pMrqsPreguntasHdrV1.getAdmonMateria());
 		mrqsPreguntasHdrDto.setAdmonSubmateria(pMrqsPreguntasHdrV1.getAdmonSubmateria());
 		mrqsPreguntasHdrDto.setTipoPregunta(pMrqsPreguntasHdrV1.getTipoPregunta());
-		mrqsPreguntasHdrDto.setEtiquetas(pMrqsPreguntasHdrV1.getEtiquetas());
-		mrqsPreguntasHdrDto.setComentarios(pMrqsPreguntasHdrV1.getComentarios());
-		mrqsPreguntasHdrDto.setFechaEfectivaDesde(Utilitarios.utilDateToSqlDate(pMrqsPreguntasHdrV1.getFechaEfectivaDesde()));
-		mrqsPreguntasHdrDto.setFechaEfectivaHasta(Utilitarios.utilDateToSqlDate(pMrqsPreguntasHdrV1.getFechaEfectivaHasta()));
+		mrqsPreguntasHdrDto.setDiagnostico(pMrqsPreguntasHdrV1.getDiagnostico());
+		mrqsPreguntasHdrDto.setNotas(pMrqsPreguntasHdrV1.getNotas());
+		mrqsPreguntasHdrDto.setFechaElaboracion(Utilitarios.utilDateToSqlDate(pMrqsPreguntasHdrV1.getFechaElaboracion()));
+		mrqsPreguntasHdrDto.setBibliografia(pMrqsPreguntasHdrV1.getBibliografia());
+		mrqsPreguntasHdrDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
+		mrqsPreguntasHdrDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
 		mrqsPreguntasHdrDto.setEstatus(pMrqsPreguntasHdrV1.getEstatus());
-		mrqsPreguntasHdrDto.setSociedad(pMrqsPreguntasHdrV1.getSociedad());
+		mrqsPreguntasHdrDto.setSociedad(Utilitarios.SOCIEDAD);
+		
+		mrqsPreguntasHdrDto.setCreadoPor(pMrqsPreguntasHdrV1.getCreadoPor());
+		mrqsPreguntasHdrDto.setActualizadoPor(pMrqsPreguntasHdrV1.getActualizadoPor());
+		mrqsPreguntasHdrDto.setFechaCreacion(Utilitarios.utilDateToTimestamp(pMrqsPreguntasHdrV1.getFechaCreacion()));
+		mrqsPreguntasHdrDto.setFechaActualizacion(Utilitarios.utilDateToTimestamp(pMrqsPreguntasHdrV1.getFechaActualizacion()));
+		
 		long numeroPreguntaHdr = mrqsPreguntasHdrDao.insert(mrqsPreguntasHdrDto); 
 		pMrqsPreguntasHdrV1.setNumero(mrqsPreguntasHdrDto.getNumero());
 		return mrqsPreguntasHdrDto.getNumero();

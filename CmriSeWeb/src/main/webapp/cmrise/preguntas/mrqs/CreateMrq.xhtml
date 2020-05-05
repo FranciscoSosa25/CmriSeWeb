@@ -28,10 +28,10 @@
    <div class="ui-g">
      <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="admonExamen" value="Categoria Examen" />
+         <p:outputLabel for="admonExamen" value="Examen" />
         </div>
          <div class="ui-g-12 ui-md-9">
-          <p:selectOneMenu id="admonExamen" value="#{createMrqForm.admonExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <p:selectOneMenu id="admonExamen" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.admonExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
            <p:ajax listener="#{createMrqForm.onAdmonExamenChange}" update="materia" />
            <f:selectItem itemLabel="Seleccione..." itemValue="" />
            <f:selectItems value="#{createMrqForm.selectExamenesHdr}" />
@@ -44,7 +44,7 @@
          <p:outputLabel for="materia" value="Materia" />
         </div>
          <div class="ui-g-12 ui-md-9">
-          <p:selectOneMenu id="materia" value="#{createMrqForm.admonMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <p:selectOneMenu id="materia" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.admonMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
           <p:ajax listener="#{createMrqForm.onAdmonMateriaChange}" update="subMateria" />
           <f:selectItem itemLabel="Seleccione..." itemValue="" />
           <f:selectItems value="#{createMrqForm.selectMateriasHdr}" />
@@ -54,22 +54,43 @@
        </div>
        <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="subMateria" value="SubMateria" />
+         <p:outputLabel for="subMateria" value="Clasificación" />
         </div>
          <div class="ui-g-12 ui-md-9">
-         <p:selectOneMenu id="subMateria" value="#{createMrqForm.admonSubMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+         <p:selectOneMenu id="subMateria" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.admonSubmateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
           <f:selectItem itemLabel="Seleccione..." itemValue="" />
           <f:selectItems value="#{createMrqForm.selectSubMaterias}" />
          </p:selectOneMenu>
          <p:message for="subMateria"/>
          </div>
        </div>
+       
+          <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:calendar id="fechaElaboracion" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.fechaElaboracion}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+         <p:message for="fechaElaboracion"/>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="creadoPor" value="Elabora" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
+         <p:message for="creadoPor"/>
+         </div>
+       </div>
+       
        <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="questionType" value="Tipo de Pregunta" />
         </div>
          <div class="ui-g-12 ui-md-9">
-         <p:selectOneMenu id="questionType" value="#{createMrqForm.tipoPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+         <p:selectOneMenu id="questionType" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.tipoPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
           <f:selectItem itemLabel="Seleccione..." itemValue="" />
           <f:selectItems value="#{selectsHelper.selectTipoPreguntaItems}" />
          </p:selectOneMenu>
@@ -78,22 +99,28 @@
        </div>
         <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="tag" value="Etiqueta" />
+         <p:outputLabel for="diagnostico" value="Diagnostico" />
         </div>
          <div class="ui-g-12 ui-md-9">
-           <div class="ui-inputgroup">
-           <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span>
-           <p:inputText id="tag" value="#{createMrqForm.etiquetas}" maxlength="255" style="width:100%"/>
-           </div>
+           <p:inputText id="diagnostico" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.diagnostico}" maxlength="255" style="width:100%"/>
          </div>
        </div>
        
         <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="internalComments" value="Comentarios Internos" />
+         <p:outputLabel for="bibliografia" value="Bibliografia" />
         </div>
          <div class="ui-g-12 ui-md-9">
-          <p:textEditor id="internalComments" value="#{createMrqForm.comentarios}" widgetVar="internalCommentsWV"  height="100">
+           <p:inputText id="bibliografia" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.bibliografia}" maxlength="255" style="width:100%"/>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="notas" value="Notas" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:textEditor id="notas" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.notas}" widgetVar="internalCommentsWV"  height="100">
 		    <f:facet name="toolbar">
 		        <span class="ql-formats">
 		            <button class="ql-bold"></button>

@@ -8,11 +8,9 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private long actualizadoPor;
-	private String comentarios;
 	private long creadoPor;
 	private String estatus;
 	private String estatusDesc;
-	private String etiquetas;
 	private Date fechaActualizacion;
 	private Date fechaCreacion;
 	private Date fechaEfectivaDesde;
@@ -25,14 +23,16 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 	private String tipoPregunta;
 	private String tipoPreguntaDesc;
 	private String titulo;
-	
 	private long admonExamen; 
 	private long admonMateria; 
 	private long admonSubmateria; 
-	
 	private String admonExamenDesc; 
 	private String admonMateriaDesc; 
 	private String admonSubmateriaDesc; 
+	private Date fechaElaboracion; 
+	private String diagnostico; 
+	private String notas; 
+	private String bibliografia; 
 	
 	private boolean dependent; 
 	
@@ -41,12 +41,6 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 	}
 	public void setActualizadoPor(long actualizadoPor) {
 		this.actualizadoPor = actualizadoPor;
-	}
-	public String getComentarios() {
-		return comentarios;
-	}
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
 	}
 	public long getCreadoPor() {
 		return creadoPor;
@@ -65,12 +59,6 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 	}
 	public void setEstatusDesc(String estatusDesc) {
 		this.estatusDesc = estatusDesc;
-	}
-	public String getEtiquetas() {
-		return etiquetas;
-	}
-	public void setEtiquetas(String etiquetas) {
-		this.etiquetas = etiquetas;
 	}
 	public Date getFechaActualizacion() {
 		return fechaActualizacion;
@@ -190,6 +178,30 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 	}
 	public void setDependent(boolean dependent) {
 		this.dependent = dependent;
+	}
+	public Date getFechaElaboracion() {
+		return fechaElaboracion;
+	}
+	public void setFechaElaboracion(Date fechaElaboracion) {
+		this.fechaElaboracion = fechaElaboracion;
+	}
+	public String getDiagnostico() {
+		return diagnostico;
+	}
+	public void setDiagnostico(String diagnostico) {
+		this.diagnostico = diagnostico;
+	}
+	public String getNotas() {
+		return notas;
+	}
+	public void setNotas(String notas) {
+		this.notas = notas;
+	}
+	public String getBibliografia() {
+		return bibliografia;
+	}
+	public void setBibliografia(String bibliografia) {
+		this.bibliografia = bibliografia;
 	}
 	
 }

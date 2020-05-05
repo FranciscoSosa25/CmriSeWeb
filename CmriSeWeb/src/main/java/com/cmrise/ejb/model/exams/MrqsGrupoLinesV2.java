@@ -22,7 +22,7 @@ public class MrqsGrupoLinesV2 implements Serializable {
 	private String estatusDesc;
 	private String temaPregunta; 
 	private String temaPreguntaDesc; 
-	private String etiquetas; 
+	private String diagnostico; 
 	private String textoPregunta; 
 	private String textoSugerencias; 
 	private boolean singleAnswerMode; 
@@ -140,14 +140,6 @@ public class MrqsGrupoLinesV2 implements Serializable {
 		this.temaPreguntaDesc = temaPreguntaDesc;
 	}
 
-	public String getEtiquetas() {
-		return etiquetas;
-	}
-
-	public void setEtiquetas(String etiquetas) {
-		this.etiquetas = etiquetas;
-	}
-
 	public String getTextoPregunta() {
 		return textoPregunta;
 	}
@@ -186,6 +178,14 @@ public class MrqsGrupoLinesV2 implements Serializable {
 
 	public void setSuffleAnswerOrder(boolean suffleAnswerOrder) {
 		this.suffleAnswerOrder = suffleAnswerOrder;
+	}
+
+	public String getDiagnostico() {
+		return diagnostico;
+	}
+
+	public void setDiagnostico(String diagnostico) {
+		this.diagnostico = diagnostico;
 	}
 
 	
