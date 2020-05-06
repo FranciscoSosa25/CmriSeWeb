@@ -177,18 +177,18 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          <p:outputLabel for="notas" value="Notas" />
         </div>
          <div class="ui-g-12 ui-md-9">
-          <p:textEditor id="notas" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.notas}" widgetVar="internalCommentsWV"  height="100" maxlength="1000">
-		    <f:facet name="toolbar">
-		        <span class="ql-formats">
-		            <button class="ql-bold"></button>
-		            <button class="ql-italic"></button>
-		            <button class="ql-underline"></button>
-		            <button class="ql-strike"></button>
-		            <button class="ql-unorderedlist"></button>
-		            <button class="ql-orderedlist"></button>
-		        </span>
-		    </f:facet>
-		</p:textEditor>
+          <p:inputTextarea id="notas" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.notas}"   maxlength="255" style="width:50%" />
+<!-- 		    <f:facet name="toolbar"> -->
+<!-- 		        <span class="ql-formats"> -->
+<!-- 		            <button class="ql-bold"></button> -->
+<!-- 		            <button class="ql-italic"></button> -->
+<!-- 		            <button class="ql-underline"></button> -->
+<!-- 		            <button class="ql-strike"></button> -->
+<!-- 		            <button class="ql-unorderedlist"></button> -->
+<!-- 		            <button class="ql-orderedlist"></button> -->
+<!-- 		        </span> -->
+<!-- 		    </f:facet> -->
+<!-- 		</p:textEditor> -->
         </div>
      </div>
  </div>
@@ -221,7 +221,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
    <div class="ui-g">
       
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="questionText"  value="Texto de la pregunta" maxlength="500"/>
+         <p:outputLabel for="questionText"  value="Texto de la pregunta" maxlength="250"/>
         </div> 
          <div class="ui-g-12 ui-md-9">
           <p:inputTextarea id="questionText" value="#{updateFTAMrqForm.textoPregunta}"  style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
@@ -313,10 +313,10 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
      <p:commandButton id="GuardarBtn" value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="updateQuestionFreeTextForm growl " oncomplete="handleUpdateRequest(xhr, status, args)"/>
    </div>
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-    <p:commandButton value="Guardar y Previsualizar" action="#{updateFTAMrqForm.saveAndPreview()}"/>
+    <p:commandButton value=" Previsualizar" action="#{updateFTAMrqForm.saveAndPreview()}"/>
    </div>
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-    <p:commandButton value="Cancelar" action="#{updateFTAMrqForm.cancel()}" immediate="true"/>
+    <p:commandButton value="Cerrar" action="#{updateFTAMrqForm.cancel()}" immediate="true"/>
    </div>
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
     <p:commandButton value="Duplicar" oncomplete="PF('duplicateMrqDialogWV').show();" rendered="false"/>
@@ -331,7 +331,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 <h:form id="updateQuestionMultipleChoiceForm" rendered="#{updateFTAMrqForm.multipleChoice}">
 <p:growl id="growl" showDetail="true" life="5000" />  
 <h1>INFORMACIÓN DEL REACTIVO</h1>
-<div class="card">
+ <div class="card">
      <div class="ui-g">
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="statusMrqs" value="Estado" />
@@ -396,7 +396,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          <p:outputLabel for="questionType" value="Tipo de Pregunta" />
         </div>
          <div class="ui-g-12 ui-md-9">
-         <p:selectOneMenu id="questionType" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.tipoPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+         <p:selectOneMenu id="questionType" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.tipoPregunta}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
           <f:selectItem itemLabel="Seleccione un tipo de pregunta" itemValue="" />
           <f:selectItems value="#{selectsHelper.selectTipoPreguntaItems}" />
          </p:selectOneMenu>
@@ -406,36 +406,36 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
           <p:outputLabel for="diagnostico" value="Diagnostico" />
          </div>
           <div class="ui-g-12 ui-md-9">
-            <p:inputText id="diagnostico" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.diagnostico}" style="width:100%"  />
+            <p:inputText id="diagnostico" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.diagnostico}" style="width:50%"  />
           </div>
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="bibliografia" value="Bibliografia" />
         </div>
          <div class="ui-g-12 ui-md-9">
-           <p:inputText id="bibliografia"  value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.bibliografia}" maxlength="255" style="width:100%"/>
+           <p:inputText id="bibliografia"  value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.bibliografia}" maxlength="255" style="width:50%"/>
          </div>
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="notas" value="Notas" />
         </div>
          <div class="ui-g-12 ui-md-9">
-          <p:textEditor id="notas" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.notas}" widgetVar="internalCommentsWV"  height="100">
-		    <f:facet name="toolbar">
-		        <span class="ql-formats">
-		            <button class="ql-bold"></button>
-		            <button class="ql-italic"></button>
-		            <button class="ql-underline"></button>
-		            <button class="ql-strike"></button>
-		            <button class="ql-unorderedlist"></button>
-		            <button class="ql-orderedlist"></button>
-		        </span>
-		    </f:facet>
-		</p:textEditor>
+          <p:inputTextarea id="notas" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.notas}"   maxlength="255" style="width:50%" />
+<!-- 		    <f:facet name="toolbar"> -->
+<!-- 		        <span class="ql-formats"> -->
+<!-- 		            <button class="ql-bold"></button> -->
+<!-- 		            <button class="ql-italic"></button> -->
+<!-- 		            <button class="ql-underline"></button> -->
+<!-- 		            <button class="ql-strike"></button> -->
+<!-- 		            <button class="ql-unorderedlist"></button> -->
+<!-- 		            <button class="ql-orderedlist"></button> -->
+<!-- 		        </span> -->
+<!-- 		    </f:facet> -->
+<!-- 		</p:textEditor> -->
         </div>
      </div>
- </div>
  
  
- <div class="ui-g card">
+ 
+ 
      <div class="ui-g-12 ui-md-12" >
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:splitButton immediate="true" title="Nuevo"  value="Imagenes" icon="pi pi-plus">
@@ -456,11 +456,11 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 	    </ui:repeat>
 	  </div>
     </div>        
-   </div>
+   
    
  
- <div class="card">
-   <div class="ui-g">
+ 
+<!--    <div class="ui-g"> -->
       
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="questionText"  value="Texto de la pregunta" />
@@ -509,12 +509,12 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         <div class="ui-g-12 ui-md-9">
            <p:inputSwitch id="suffleOrder" onLabel="Si" offLabel="No" value="#{updateFTAMrqForm.suffleAnswerOrder}"/>
         </div>
-      </div>
- </div>
+<!--       </div> -->
  
- <div class="card">
-   <div  class="ui-g">
-    <div class="ui-g-12">
+ 
+ 
+<!--    <div  class="ui-g"> -->
+<!--     <div class="ui-g-12"> -->
   
    <div class="ui-g-4" style="text-align:left;">
    <h1>
@@ -526,41 +526,44 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
       <h2>
     <p:outputLabel id="respuestas" value="Respuestas"  />
     </h2>
-     </div>
     </div>
+    
+    
+<!--      </div> -->
+<!--     </div> -->
    
         <ui:repeat var="mrqsOpcionMultiple" value="#{updateFTAMrqForm.listMrqsOpcionMultiple}">
-        <div class="ui-g" style="border: 1px solid black;width:98%;margin-bottom: 5px;" >
+        <div class="ui-g" style="width:90%;margin-bottom: 0.5px;" >
         <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
 
-         <div class="ui-g-6">
+         <div class="ui-g-9">
           <p:inputSwitch onLabel="&#10003;" offLabel="&#215;" value="#{mrqsOpcionMultiple.estatus}" />
          </div>
         </div>
-       <div class="ui-g-9 ui-g-nopad">
-         <div class="ui-g-12">
-           <div class="ui-g-2" style="text-align:right;">
-            <p:outputLabel for="answerText" value="" />
-           </div>
-           <div class="ui-g-10">
-             <p:inputText id="answerText" style="width:99%;" value="#{mrqsOpcionMultiple.textoRespuesta}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+<!--        <div class="ui-g-9 ui-g-nopad"> -->
+         <div class="ui-g-9">
+<!--            <div class"ui-g-2" style="text-align:center;"> -->
+<!--             <p:outputLabel for="answerText"  /> -->
+<!--            </div> -->
+<!--            <div class="ui-g-9" > -->
+             <p:inputText id="answerText" style="width:85%;" value="#{mrqsOpcionMultiple.textoRespuesta}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
              <p:message for="answerText"/>
-           </div>
-         </div>
+<!--            </div> -->
+<!--          </div> -->
 
        </div>
         <div class="ui-g-1 ui-g-nopad">
-           <p:commandButton icon="pi pi-times" styleClass="red-button" oncomplete="PF('deleteOpcionMultipleWV').show();" actionListener="#{updateFTAMrqForm.selectOpcionMultipleForAction(mrqsOpcionMultiple)}"/>
+           <p:commandButton icon="fa fa-trash"  oncomplete="PF('deleteOpcionMultipleWV').show();" actionListener="#{updateFTAMrqForm.selectOpcionMultipleForAction(mrqsOpcionMultiple)}"/>
         </div>
        </div> <!-- END div -->
         </ui:repeat>
-        
+           
       
          
-       </div>
- </div>
+<!--        </div> -->
  
- <div class="card">
+ 
+ 
   <div class="ui-g">
    <div class="ui-g-12 ui-md-2 button-container" style="text-align:center">
      <p:commandButton id="GuardarBtn" value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="updateQuestionMultipleChoiceForm growl " oncomplete="handleUpdateRequest(xhr, status, args)"/>
@@ -573,6 +576,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
    </div>
   </div>
  </div>
+ 
 </h:form>
 
 
