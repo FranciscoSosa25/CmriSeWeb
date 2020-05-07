@@ -1,7 +1,9 @@
 package com.cmrise.ejb.model.exams;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MrqsGrupoHdr implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -15,6 +17,8 @@ public class MrqsGrupoHdr implements Serializable {
 	private String titulo;
 	private String tema; 
 	private String comentarios; 
+	
+	private List<MrqsGrupoLines> listMrqsGrupoLines = new ArrayList<MrqsGrupoLines>(); 
 	
 	public long getNumero() {
 		return this.numero;
@@ -92,6 +96,14 @@ public class MrqsGrupoHdr implements Serializable {
     public String toString() {
         return "HDR"+this.numero;
     }
+
+	public List<MrqsGrupoLines> getListMrqsGrupoLines() {
+		return listMrqsGrupoLines;
+	}
+
+	public void setListMrqsGrupoLines(List<MrqsGrupoLines> listMrqsGrupoLines) {
+		this.listMrqsGrupoLines = listMrqsGrupoLines;
+	}
  
 	
 }

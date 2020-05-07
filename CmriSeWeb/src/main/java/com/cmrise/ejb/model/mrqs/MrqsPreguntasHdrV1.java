@@ -3,6 +3,8 @@ package com.cmrise.ejb.model.mrqs;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.cmrise.utils.Utilitarios;
+
 public class MrqsPreguntasHdrV1 implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -33,8 +35,12 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 	private String diagnostico; 
 	private String notas; 
 	private String bibliografia; 
-	
 	private boolean dependent; 
+	
+	private MrqsPreguntasFtaV1 mrqsPreguntasFtaV1 = new MrqsPreguntasFtaV1(); 
+	
+	private boolean respTextLibre;
+	private boolean opcionMultiple; 
 	
 	public long getActualizadoPor() {
 		return actualizadoPor;
@@ -118,6 +124,11 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 		return tipoPregunta;
 	}
 	public void setTipoPregunta(String tipoPregunta) {
+		if(Utilitarios.RESP_TEXTO_LIBRE.equals(tipoPregunta)) {
+			this.setRespTextLibre(true);
+		}else if(Utilitarios.OPCION_MULTIPLE.equals(tipoPregunta)) {
+			this.setOpcionMultiple(true);
+		}
 		this.tipoPregunta = tipoPregunta;
 	}
 	public String getTipoPreguntaDesc() {
@@ -202,6 +213,30 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 	}
 	public void setBibliografia(String bibliografia) {
 		this.bibliografia = bibliografia;
+	}
+	public MrqsPreguntasFtaV1 getMrqsPreguntasFtaV1() {
+		return mrqsPreguntasFtaV1;
+	}
+	public void setMrqsPreguntasFtaV1(MrqsPreguntasFtaV1 mrqsPreguntasFtaV1) {
+		this.mrqsPreguntasFtaV1 = mrqsPreguntasFtaV1;
+	}
+	public boolean isRespTextLibre() {
+		return respTextLibre;
+	}
+	public void setRespTextLibre(boolean respTextLibre) {
+		if(respTextLibre) {
+			setOpcionMultiple(false); 
+		}
+		this.respTextLibre = respTextLibre;
+	}
+	public boolean isOpcionMultiple() {
+		return opcionMultiple;
+	}
+	public void setOpcionMultiple(boolean opcionMultiple) {
+		if(opcionMultiple) {
+			setRespTextLibre(false);
+		}
+	 	this.opcionMultiple = opcionMultiple;
 	}
 	
 }

@@ -257,6 +257,13 @@
 			<to-view-id>/cmrise/examenes/mrqs/UpdateMrqsExamGroup.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>Preview-Examen-Reactivos</from-outcome>
+			<to-view-id>/cmrise/examenes/mrqs/preview/PreviewExamenReactivos.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
 		<navigation-case>
 			<from-outcome>Assign-MRQs-Candidates</from-outcome>
 			<to-view-id>/cmrise/examenes/mrqs/AssignMrqsCandidates.xhtml</to-view-id>

@@ -118,7 +118,7 @@ function handleUpdateRequest(xhr, status, args){
 		      </div>
 		      <div class="ui-g-12">
 		       <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
-		         <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="max-width: 300px; max-height: 300px;" />
+		         <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="max-width: 100%; max-height: 100%;" />
 		       </ui:repeat>
 		      </div>
 		      <div class="ui-g-12">

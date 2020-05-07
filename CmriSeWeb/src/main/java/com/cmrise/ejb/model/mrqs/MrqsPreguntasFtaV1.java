@@ -1,6 +1,10 @@
 package com.cmrise.ejb.model.mrqs;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
 
 public class MrqsPreguntasFtaV1 implements Serializable {
 
@@ -16,6 +20,10 @@ public class MrqsPreguntasFtaV1 implements Serializable {
 	private String respuestaCorrecta;
 	private boolean singleAnswerMode; 
 	private boolean suffleAnswerOrder; 
+	
+	private List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
+	private List<MrqsImagenesGrp> listMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
+	
 	
 	public long getNumero() {
 		return numero;
@@ -76,6 +84,18 @@ public class MrqsPreguntasFtaV1 implements Serializable {
 	}
 	public void setSuffleAnswerOrder(boolean suffleAnswerOrder) {
 		this.suffleAnswerOrder = suffleAnswerOrder;
+	}
+	public List<MrqsOpcionMultiple> getListMrqsOpcionMultiple() {
+		return listMrqsOpcionMultiple;
+	}
+	public void setListMrqsOpcionMultiple(List<MrqsOpcionMultiple> listMrqsOpcionMultiple) {
+		this.listMrqsOpcionMultiple = listMrqsOpcionMultiple;
+	}
+	public List<MrqsImagenesGrp> getListMrqsImagenesGrp() {
+		return listMrqsImagenesGrp;
+	}
+	public void setListMrqsImagenesGrp(List<MrqsImagenesGrp> listMrqsImagenesGrp) {
+		this.listMrqsImagenesGrp = listMrqsImagenesGrp;
 	} 
 	
 
