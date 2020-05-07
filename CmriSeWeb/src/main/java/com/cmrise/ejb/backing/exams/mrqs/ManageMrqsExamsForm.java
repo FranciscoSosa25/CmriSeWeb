@@ -76,7 +76,12 @@ public class ManageMrqsExamsForm {
 		System.out.println("Sale "+this.getClass()+" delete()");	
 	}
 
-	
+    public String toPreviewExamenReactivos(MrqsExamenes pMrqsExamenes) {
+    	 FacesContext context = FacesContext.getCurrentInstance(); 
+    	 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+    	 session.setAttribute("NumeroMrqsExamenSV", pMrqsExamenes.getNumero());
+        	return "Preview-Examen-Reactivos"; 
+    }	
 
 	public List<MrqsExamenes> getListMrqsExamenes() {
 		return listMrqsExamenes;

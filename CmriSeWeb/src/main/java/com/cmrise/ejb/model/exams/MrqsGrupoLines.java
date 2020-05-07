@@ -3,6 +3,8 @@ package com.cmrise.ejb.model.exams;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
+
 public class MrqsGrupoLines implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -16,6 +18,7 @@ public class MrqsGrupoLines implements Serializable {
 	private long numeroHdr; 
 	private long numeroPregunta; 
 	
+	private MrqsPreguntasHdrV1 mrqsPreguntasHdrV1 = new MrqsPreguntasHdrV1(); 
 	
 	public long getNumero() {
 		return this.numero;
@@ -71,6 +74,14 @@ public class MrqsGrupoLines implements Serializable {
 
 	public void setNumeroPregunta(long numeroPregunta) {
 		this.numeroPregunta = numeroPregunta;
+	}
+
+	public MrqsPreguntasHdrV1 getMrqsPreguntasHdrV1() {
+		return mrqsPreguntasHdrV1;
+	}
+
+	public void setMrqsPreguntasHdrV1(MrqsPreguntasHdrV1 mrqsPreguntasHdrV1) {
+		this.mrqsPreguntasHdrV1 = mrqsPreguntasHdrV1;
 	}
 
 }

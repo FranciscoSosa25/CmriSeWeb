@@ -17,6 +17,7 @@ public interface MrqsExamenesLocal {
 	public void delete(long pNumero);
 	public MrqsExamenesDto findById(long pNumero); 
 	public void update(long pNumero,MrqsExamenesDto pMrqsExamenesDto);
-	public MrqsExamenes findByIdWD(long pNumero); 
+	public MrqsExamenes findByIdWD(long pNumero);
+	public MrqsExamenes findObjMod(long pNumero); 
 	
 }

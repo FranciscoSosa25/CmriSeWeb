@@ -69,7 +69,7 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 			retval = ((BigInteger)object).longValue(); 
 		}
 		}catch(NoResultException nre) {
-			   System.out.println(this.getClass()+":No entity found for query");
+			   System.out.println(this.getClass()+": findNumeroFtaByNumeroHdr No entity found for query pNumeroHdr:"+pNumeroHdr);
 		}
 		
 		return retval;
@@ -106,6 +106,24 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 		mrqsPreguntasFtaDto.setFechaEfectivaHasta(copy.getFechaEfectivaHasta());
 		em.persist(mrqsPreguntasFtaDto);
 		return lNumeroS.longValue();
+	}
+
+	/** could not resolve property: numeroHdr of: com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto **/
+	@Override
+	public MrqsPreguntasFtaDto findDtoByNumeroHdr(long pNumeroHdr) {
+		 MrqsPreguntasFtaDto retval = new MrqsPreguntasFtaDto(); 
+		long numeroFta = findNumeroFtaByNumeroHdr(pNumeroHdr);  
+		if(0!=numeroFta) {
+			String strQuery = "SELECT m FROM MrqsPreguntasFtaDto m WHERE m.numero = "+numeroFta; 
+		    Query query = em.createQuery(strQuery); 
+		   
+		    try {
+		    	retval = (MrqsPreguntasFtaDto)query.getSingleResult(); 
+		    }catch(NoResultException nre) {
+		    	 System.out.println(this.getClass()+": findDtoByNumeroHdr No entity found for query pNumeroHdr:"+pNumeroHdr);
+		    }
+		}
+	    return retval; 
 	}
 
 }

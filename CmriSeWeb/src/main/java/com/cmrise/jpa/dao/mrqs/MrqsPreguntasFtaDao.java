@@ -11,5 +11,7 @@ public interface MrqsPreguntasFtaDao {
 	/** Metodo para validar si ya existe informacion en FTA por Header **/
 	public long findNumeroFtaByNumeroHdr(long pNumeroHdr); 
 	public MrqsPreguntasFtaDto findDtoByNumeroFta(long pNumeroFta);
-	public long copyPaste(long pNumero,MrqsPreguntasHdrDto pMrqsPreguntasHdrDto); 
+	public long copyPaste(long pNumero,MrqsPreguntasHdrDto pMrqsPreguntasHdrDto);
+	/** could not resolve property: numeroHdr of: com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto **/
+	public MrqsPreguntasFtaDto findDtoByNumeroHdr(long pNumeroHdr); 
 }

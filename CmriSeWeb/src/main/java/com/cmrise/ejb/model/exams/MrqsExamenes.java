@@ -1,7 +1,9 @@
 package com.cmrise.ejb.model.exams;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MrqsExamenes implements Serializable {
 
@@ -40,6 +42,8 @@ public class MrqsExamenes implements Serializable {
 	private String visibilidad;
 	private String visibilidadDesc; 
 
+	private List<MrqsGrupoHdr> listMrqsGrupoHdr = new ArrayList<MrqsGrupoHdr>(); 
+	
 	public long getNumero() {
 		return this.numero;
 	}
@@ -294,6 +298,14 @@ public class MrqsExamenes implements Serializable {
 
 	public void setEstatusDesc(String estatusDesc) {
 		this.estatusDesc = estatusDesc;
+	}
+
+	public List<MrqsGrupoHdr> getListMrqsGrupoHdr() {
+		return listMrqsGrupoHdr;
+	}
+
+	public void setListMrqsGrupoHdr(List<MrqsGrupoHdr> listMrqsGrupoHdr) {
+		this.listMrqsGrupoHdr = listMrqsGrupoHdr;
 	}
 
 }
