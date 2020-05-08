@@ -21,6 +21,17 @@
  }
  
  </script>
+<style type="text/css">
+   .customPanelGrid .ui-panelgrid-content {
+            align-items: center;
+            border: #ffffff
+    }
+    
+    .customTree .ui-tree {
+    		border: #000000;
+    		border-stlye: hidden;
+    }
+</style>
 </ui:define>
                 
 <ui:define name="content">
@@ -32,22 +43,26 @@
 <div class="card">
 <h:form id="updateForm">
 <p:growl id="messages" showDetail="true" />
+<h1>Informacion de Examen Reactivo</h1>
 
 <div class="ui-g">
-<div class="ui-g-4">
+
+<div class="ui-g-2">
+<p:commandButton value="Nuevos Candidados" immediate="true" action="#{updateMrqsExamForm.createNewCandidates()}" icon="fa fa-user-plus" style="width:100%"/>
 </div>
-<div class="ui-g-4">
-<p:commandButton value="Gestionar Nuevos Candidados" immediate="true" action="#{updateMrqsExamForm.createNewCandidates()}" icon="fa fa-user-plus" style="width:100%"/>
-</div>
-<div class="ui-g-4">
+<div class="ui-g-2">
 <p:commandButton value="Asignar Candidados" immediate="true" action="#{updateMrqsExamForm.assignCandidates()}" icon="fa fa-recycle" style="width:100%"/>
 </div>
 </div>
 
+
+
+
 <div class="ui-g"> 
+
     <div class="ui-g-12 ui-g-nopad">
     
-      <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+      <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2"  styleClass="customPanelGrid">
   <p:outputLabel for="estatusExamen" value="Estatus Examen"/>
   <p:selectOneMenu id="estatusExamen" value="#{updateMrqsExamForm.estatus}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
   <f:selectItems value="#{selectsHelper.selectEstatusExamenItems}" />
@@ -56,7 +71,7 @@
 </p:panelGrid>
 
 
-<p:panelGrid id="tituloPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+<p:panelGrid id="tituloPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2" class="tituloPanelId" styleClass="customPanelGrid">
   <p:outputLabel for="publicTitle" value="Título Público"/>
   <p:inputText id="publicTitle" value="#{updateMrqsExamForm.titulo}"  style="width:100%"/>
   <p:message for="publicTitle"/>
@@ -90,7 +105,7 @@
  
 </p:panelGrid>
 
-<p:panelGrid id="visibilityPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+<p:panelGrid id="visibilityPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2"  styleClass="customPanelGrid">
   <p:outputLabel for="visibility" value="Visibilidad" />
   <p:selectOneMenu id="visibility" value="#{updateMrqsExamForm.visibilidad}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
   <f:selectItem itemLabel="Seleccione ..." itemValue="" />
@@ -99,7 +114,7 @@
   <p:message  for="visibility"/>
 </p:panelGrid>
 
-<p:panelGrid id="disponibilidadPanelId" columns="6" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2">
+<p:panelGrid id="disponibilidadPanelId" columns="6" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2"  styleClass="customPanelGrid">
   <p:outputLabel for="fechaDisponibleDesdeInput" value="Disponible Desde" />
   <p:calendar id="fechaDisponibleDesdeInput" value="#{updateMrqsExamForm.fechaEfectivaDesde}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
   <p:message for="fechaDisponibleDesdeInput"/>
@@ -108,7 +123,7 @@
   <p:message for="fechaDisponibleHastaInput"/>
 </p:panelGrid>
 
-<p:panelGrid id="tiempoLimitePanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+<p:panelGrid id="tiempoLimitePanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2"  styleClass="customPanelGrid">
  <p:outputLabel  for="timeLimit" value="Límite de Tiempo en minutos" />
  <p:spinner id="timeLimit" value="#{updateMrqsExamForm.limiteTiempo}" />
  <p:message  for="timeLimit"/>
@@ -139,8 +154,8 @@
 </p:panelGrid>
 
 
-<p:panelGrid columns="1" layout="grid" columnClasses="ui-g-12 ui-md-12 ui-lg-12">
-	   <p:tree value="#{updateMrqsExamForm.rootMrqsGrupo}" var="node" selectionMode="single" selection="#{updateMrqsExamForm.selectedNode}" dynamic="true">
+<p:panelGrid columns="1" layout="grid" columnClasses="ui-g-12 ui-md-12 ui-lg-12" styleClass="customPanelGrid" >
+	   <p:tree value="#{updateMrqsExamForm.rootMrqsGrupo}" var="node" selectionMode="single" selection="#{updateMrqsExamForm.selectedNode}" dynamic="true"  style="width:100%;height:100%;border-width:0;">
          <p:ajax event="select" update=":updateForm:messages" listener="#{updateMrqsExamForm.onNodeSelect}" />
         <p:treeNode>
             <h:outputText value="#{node.titulo}" />
@@ -149,7 +164,7 @@
 	  <p:commandButton  title="Nuevo"  value="Agregar Nuevo Grupo" update="MrqsGrupoHdrCreateForm" icon="pi pi-plus" actionListener="#{updateMrqsExamForm.initMrqGroup()}" oncomplete="PF('MrqsGrupoHdrCreateDialogWV').show();"/>
      </p:panelGrid>
 
-<p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+<p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2" styleClass="customPanelGrid">
  <p:outputLabel for="generateConfirmationOfAttendance"  value="¿Generar Confirmación de Asistencia?" />
  <p:inputSwitch id="generateConfirmationOfAttendance" value="#{updateMrqsExamForm.confirmacionAsistencia}" onLabel="&#10003;" offLabel="&#215;"/>
  <p:message  for="generateConfirmationOfAttendance"/>
@@ -159,14 +174,16 @@
 </p:panelGrid>
 
 <div class="ui-g">
- <div class="ui-g-12 ui-md-6 ui-lg-2">
+
+ <div class="ui-g-12 ui-md-6 ui-lg-3">
   <p:commandButton value="Actualizar" update="tituloPanelId visibilityPanelId disponibilidadPanelId tiempoLimitePanelId" actionListener="#{updateMrqsExamForm.update()}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
  </div>
- <div class="ui-g-12 ui-md-6 ui-lg-2">
+ <div class="ui-g-12 ui-md-6 ui-lg-3">
   <p:commandButton value="Cancelar" action="#{updateMrqsExamForm.cancel()}" immediate="true"/>
  </div>
 </div>
-    </div>
+
+</div>
 </div>
 </h:form>
 </div>
@@ -188,10 +205,10 @@
   <p:inputTextarea  id="internalComments" value="#{updateMrqsExamForm.mrqsGrupoHdr.comentarios}"  rows="4" style="width:100%"/>
   <p:message  for="internalComments"/> 
   </p:panelGrid>
+  
   <div class="ui-g">
-   <div class="ui-g-4"></div>
-   <div class="ui-g-4"><p:commandButton value="Crear Grupo" update="MrqsGrupoHdrCreateForm:grupoHdrPanelId" action="#{updateMrqsExamForm.addMRQsGroup()}" oncomplete="handleCreateGrupoRequest(xhr, status, args)" style="width:100%"/></div>
-   <div class="ui-g-4"><p:commandButton value="Cerrar" onclick="PF('MrqsGrupoHdrCreateDialogWV').hide();" style="width:100%"/></div> 
+   <div class="ui-g-6"><p:commandButton value="Crear Grupo" update="MrqsGrupoHdrCreateForm:grupoHdrPanelId" action="#{updateMrqsExamForm.addMRQsGroup()}" oncomplete="handleCreateGrupoRequest(xhr, status, args)" style="width:100%"/></div>
+   <div class="ui-g-6"><p:commandButton value="Cerrar" onclick="PF('MrqsGrupoHdrCreateDialogWV').hide();" style="width:100%"/></div> 
    </div>
   </p:dialog>
 </h:form>
