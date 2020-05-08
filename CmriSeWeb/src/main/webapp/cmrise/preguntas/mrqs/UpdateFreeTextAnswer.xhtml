@@ -178,17 +178,6 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         </div>
          <div class="ui-g-12 ui-md-9">
           <p:inputTextarea id="notas" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.notas}"   maxlength="255" style="width:50%" />
-<!-- 		    <f:facet name="toolbar"> -->
-<!-- 		        <span class="ql-formats"> -->
-<!-- 		            <button class="ql-bold"></button> -->
-<!-- 		            <button class="ql-italic"></button> -->
-<!-- 		            <button class="ql-underline"></button> -->
-<!-- 		            <button class="ql-strike"></button> -->
-<!-- 		            <button class="ql-unorderedlist"></button> -->
-<!-- 		            <button class="ql-orderedlist"></button> -->
-<!-- 		        </span> -->
-<!-- 		    </f:facet> -->
-<!-- 		</p:textEditor> -->
         </div>
      </div>
  </div>
@@ -268,43 +257,28 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 
 <div class="card">
     <div class="ui-g">
-       <div class="ui-g-12 ui-md-6">
-        <p:panel styleClass="myPanelStyle1" >
-          <f:facet name="header" >PALABRAS INCLUIDAS</f:facet>
-          <p:dataGrid var="incWords" value="#{updateFTAMrqForm.listIncWmrqsListasPalabras}" columns="1" layout="grid"  >
-              <div class="ui-g-12 ui-md-12 ui-inputgroup">
-               <p:inputText value="#{incWords.palabra}" placeholder="Agregar palabra.." style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-                <p:commandButton icon="pi pi-times" styleClass="red-button" oncomplete="PF('deleteListasPalabrasWV').show();" actionListener="#{updateFTAMrqForm.selectWordForAction(incWords)}"/>     
+       <div class="ui-g-12 ui-md-12">
+           
+           <ui:repeat var="incWords" value="#{updateFTAMrqForm.listIncWmrqsListasPalabras}">
+              <div class="ui-g-12 ui-md-3" style="text-align:right;">
+		           <p:outputLabel for="respuestasAlternativas" value="Respuestas Alternativas" />
+		        </div> 
+              <div class="ui-g-12 ui-md-9">
+                <p:inputText id="respuestasAlternativas" value="#{incWords.palabra}" placeholder="Agregar respuesta ..." style="width:100%" />
               </div>
-               <div class="ui-g-12 ui-md-12">
-             <p:inputText value="#{incWords.sinonimos}" placeholder="Agregar sinonimos.." style="width:100%"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+           </ui:repeat>
+           
+           
+           <ui:repeat var="excWords" value="#{updateFTAMrqForm.listExcWmrqsListasPalabras}">
+              <div class="ui-g-12 ui-md-3" style="text-align:right;">
+                  <p:outputLabel for="respuestasIncorrectas" value="Respuestas Incorrectas" />
+               </div> 
+              <div class="ui-g-12 ui-md-9">
+                <p:inputText id="respuestasIncorrectas" value="#{excWords.palabra}" placeholder="Agregar respuesta ..." style="width:100%" />
               </div>
-             <div class="ui-g-12 ui-md-12">
-             <p:outputLabel value="Lista de sinónimos separados por comas"/>
-             </div>
-           </p:dataGrid>
-          <p:commandButton value="Agregar nueva palabra" actionListener="#{updateFTAMrqForm.addIncWord()}" update="updateQuestionFreeTextForm growl" style="margin:10px;"/>
-        </p:panel>
+           </ui:repeat>
        </div>
-        <div class="ui-g-12 ui-md-6">
-           <p:panel styleClass="myPanelStyle3" >
-           <f:facet name="header" >PALABRAS EXCLUIDAS</f:facet>
-             <p:dataGrid var="excWords" value="#{updateFTAMrqForm.listExcWmrqsListasPalabras}" columns="1" layout="grid">
-	            <div class="ui-g-12 ui-md-12 ui-inputgroup">
-               <p:inputText value="#{excWords.palabra}" placeholder="Agregar palabra.." style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-                <p:commandButton icon="pi pi-times" styleClass="red-button" oncomplete="PF('deleteListasPalabrasWV').show();" actionListener="#{updateFTAMrqForm.selectWordForAction(excWords)}"/>     
-              </div>
-               <div class="ui-g-12 ui-md-12">
-             <p:inputText value="#{excWords.sinonimos}" placeholder="Agregar sinonimos.." style="width:100%"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-              </div>
-             <div class="ui-g-12 ui-md-12">
-             <p:outputLabel value="Lista de sinónimos separados por comas"/>
-             </div>
-	          </p:dataGrid>
-            <p:commandButton value="Agregar nueva palabra" actionListener="#{updateFTAMrqForm.addExcWord()}" update="updateQuestionFreeTextForm growl" style="margin:10px;"/>
-           </p:panel>
-       </div>
-      </div>
+     </div>
  </div>
  
  <div class="card">
