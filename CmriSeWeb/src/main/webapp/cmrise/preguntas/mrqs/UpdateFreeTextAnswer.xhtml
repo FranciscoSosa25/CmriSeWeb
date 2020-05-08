@@ -84,9 +84,13 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
  
  <h:form id="updateQuestionFreeTextForm" rendered="#{updateFTAMrqForm.limitedFreeTextAnswer}">
  <p:growl id="growl" showDetail="true" life="5000" />  
- <h1>INFORMACIÓN DEL REACTIVO</h1>
+ 
 <div class="card">
+<h1>
+ <p:outputLabel  value="INFORMACION DEL REACTIVO" />
+</h1>
      <div class="ui-g">
+     
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="statusMrqs" value="Estado" />
         </div>
@@ -330,8 +334,11 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 
 <h:form id="updateQuestionMultipleChoiceForm" rendered="#{updateFTAMrqForm.multipleChoice}">
 <p:growl id="growl" showDetail="true" life="5000" />  
-<h1>INFORMACIÓN DEL REACTIVO</h1>
+
  <div class="card">
+ <h1>
+ <p:outputLabel  value="INFORMACIÓN DEL REACTIVO" />
+</h1>
      <div class="ui-g">
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="statusMrqs" value="Estado" />
@@ -522,7 +529,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
    </h1>
    </div>
   
-      <div class="ui-g-4" style="text-align:center;">
+      <div class="ui-g-4" style="width:5%; text-align:center;">
       <h2>
     <p:outputLabel id="respuestas" value="Respuestas"  />
     </h2>
@@ -534,10 +541,10 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
    
         <ui:repeat var="mrqsOpcionMultiple" value="#{updateFTAMrqForm.listMrqsOpcionMultiple}">
         <div class="ui-g" style="width:90%;margin-bottom: 0.5px;" >
-        <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
+        <div class="ui-g-2 ui-g-nopad" style="width:5%; text-align:center;">
 
          <div class="ui-g-9">
-          <p:inputSwitch onLabel="&#10003;" offLabel="&#215;" value="#{mrqsOpcionMultiple.estatus}" />
+          <p:inputSwitch onLabel="&#10003;" style="width:5%;" offLabel="&#215;" value="#{mrqsOpcionMultiple.estatus}" />
          </div>
         </div>
 <!--        <div class="ui-g-9 ui-g-nopad"> -->
@@ -546,7 +553,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 <!--             <p:outputLabel for="answerText"  /> -->
 <!--            </div> -->
 <!--            <div class="ui-g-9" > -->
-             <p:inputText id="answerText" style="width:85%;" value="#{mrqsOpcionMultiple.textoRespuesta}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+             <p:inputText id="answerText" style="width:98%;" value="#{mrqsOpcionMultiple.textoRespuesta}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
              <p:message for="answerText"/>
 <!--            </div> -->
 <!--          </div> -->
@@ -555,6 +562,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         <div class="ui-g-1 ui-g-nopad">
            <p:commandButton icon="fa fa-trash"  oncomplete="PF('deleteOpcionMultipleWV').show();" actionListener="#{updateFTAMrqForm.selectOpcionMultipleForAction(mrqsOpcionMultiple)}"/>
         </div>
+        
        </div> <!-- END div -->
         </ui:repeat>
            
@@ -563,20 +571,25 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 <!--        </div> -->
  
  
- 
-  <div class="ui-g">
-   <div class="ui-g-12 ui-md-2 button-container" style="text-align:center">
-     <p:commandButton id="GuardarBtn" value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="updateQuestionMultipleChoiceForm growl " oncomplete="handleUpdateRequest(xhr, status, args)"/>
+  <h3>
+
+  <div class="ui-g" style="text-align:right">
+
+   <div class="ui-g-12 ui-md-2 button-container" style=" width:25%;" >
+     <p:commandButton id="GuardarBtn"  value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="updateQuestionMultipleChoiceForm growl " oncomplete="handleUpdateRequest(xhr, status, args)"/>
    </div>
-   <div class="ui-g-12 ui-md-2 button-container" style="text-align:center">
+   <div class="ui-g-12 ui-md-2 button-container" style=" width:25%;" >
     <p:commandButton value="Previsualizar " action="#{updateFTAMrqForm.saveAndPreview()}" update="updateQuestionMultipleChoiceForm growl "/>
    </div>
-   <div class="ui-g-12 ui-md-2 button-container" style="text-align:center">
+   <div class="ui-g-12 ui-md-2 button-container" style=" width:25%;" >
     <p:commandButton value="Cerrar" action="#{updateFTAMrqForm.cancel()}" immediate="true"  />
    </div>
   </div>
- </div>
+
+ </h3>
  
+  </div>
+  
 </h:form>
 
 
