@@ -107,8 +107,8 @@ function handleUpdateRequest(xhr, status, args){
            </div>
             -->
            <div class="ui-g-12 ui-md-4">
-             <p:commandButton value="Guardar y Procesar" update="previewForm" style="margin-left:15px;" actionListener="#{mrqPreviewForm.saveProceed()}" rendered="#{mrqPreviewForm.questionView}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
-             <p:commandButton value="Saltar" style="margin-left:15px;" action="#{mrqPreviewForm.skip()}" rendered="#{mrqPreviewForm.questionView}" immediate="true"/>
+             <p:commandButton value="Siguiente" update="previewForm" style="margin-left:15px;" actionListener="#{mrqPreviewForm.saveProceed()}" rendered="#{mrqPreviewForm.questionView}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
+<!--              <p:commandButton value="Saltar" style="margin-left:15px;" action="#{mrqPreviewForm.skip()}" rendered="#{mrqPreviewForm.questionView}" immediate="true"/> -->
              <p:commandButton value="Continuar" style="margin-left:15px;" action="#{mrqPreviewForm.proceed()}" rendered="#{mrqPreviewForm.answerView}"/>
            </div>
            
