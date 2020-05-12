@@ -33,20 +33,11 @@ public class MrqsExamenesDto implements Serializable {
 	@Column(name="ALEATORIO_PREGUNTAS")
 	private boolean aleatorioPreguntas;
 
-	@Column(name="COMENTARIOS")
-	private String comentarios;
-
-	@Column(name="CONFIRMACION_ASISTENCIA")
-	private boolean confirmacionAsistencia;
-
 	@Column(name="CREADO_POR")
 	private long creadoPor;
 
 	@Column(name="DESCRIPCION")
 	private String descripcion;
-
-	@Column(name="DIPLOMA")
-	private boolean diploma;
 
 	@Column(name="ESTATUS")
 	private String estatus;
@@ -69,9 +60,6 @@ public class MrqsExamenesDto implements Serializable {
 	@Column(name="MOSTRAR_RESPUESTAS")
 	private boolean mostrarRespuestas;
 
-	@Column(name="NOMBRE")
-	private String nombre;
-
 	@Column(name="SALTAR_CASOS")
 	private boolean saltarCasos;
 
@@ -80,32 +68,19 @@ public class MrqsExamenesDto implements Serializable {
 
 	@Column(name="SELECCION_CASOS_ALEATORIOS")
 	private boolean seleccionCasosAleatorios;
-
-	@Column(name="SOCIEDAD")
-	private String sociedad;
-
-	@Column(name="TEMA")
-	private String tema;
-
+	
 	@Column(name="TIEMPO_LIMITE")
 	private short tiempoLimite;
-
-	@Column(name="TIENE_PASSMARK")
-	private boolean tienePassmark;
-
-	@Column(name="TIPO_EXAMEN")
-	private String tipoExamen;
-
-	@Column(name="TIPO_PREGUNTA")
-	private String tipoPregunta;
-
-	@Column(name="TITULO")
-	private String titulo;
 
 	@Column(name="VISIBILIDAD")
 	private String visibilidad;
 
-
+	@Column(name="ADMON_EXAMEN")
+	private long admonExamen; 
+	
+	@Column(name="FECHA_ELABORACION")
+	private Date fechaElaboracion; 
+	
 	public MrqsExamenesDto() {
 	}
 
@@ -141,21 +116,6 @@ public class MrqsExamenesDto implements Serializable {
 		this.aleatorioPreguntas = aleatorioPreguntas;
 	}
 
-	public String getComentarios() {
-		return this.comentarios;
-	}
-
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
-	}
-
-	public boolean getConfirmacionAsistencia() {
-		return this.confirmacionAsistencia;
-	}
-
-	public void setConfirmacionAsistencia(boolean confirmacionAsistencia) {
-		this.confirmacionAsistencia = confirmacionAsistencia;
-	}
 
 	public long getCreadoPor() {
 		return this.creadoPor;
@@ -173,14 +133,7 @@ public class MrqsExamenesDto implements Serializable {
 		this.descripcion = descripcion;
 	}
 
-	public boolean getDiploma() {
-		return this.diploma;
-	}
-
-	public void setDiploma(boolean diploma) {
-		this.diploma = diploma;
-	}
-
+	
 	public String getEstatus() {
 		return this.estatus;
 	}
@@ -237,13 +190,6 @@ public class MrqsExamenesDto implements Serializable {
 		this.mostrarRespuestas = mostrarRespuestas;
 	}
 
-	public String getNombre() {
-		return this.nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
 
 	public boolean getSaltarCasos() {
 		return this.saltarCasos;
@@ -269,22 +215,6 @@ public class MrqsExamenesDto implements Serializable {
 		this.seleccionCasosAleatorios = seleccionCasosAleatorios;
 	}
 
-	public String getSociedad() {
-		return this.sociedad;
-	}
-
-	public void setSociedad(String sociedad) {
-		this.sociedad = sociedad;
-	}
-
-	public String getTema() {
-		return this.tema;
-	}
-
-	public void setTema(String tema) {
-		this.tema = tema;
-	}
-
 	public short getTiempoLimite() {
 		return this.tiempoLimite;
 	}
@@ -293,44 +223,28 @@ public class MrqsExamenesDto implements Serializable {
 		this.tiempoLimite = tiempoLimite;
 	}
 
-	public boolean getTienePassmark() {
-		return this.tienePassmark;
-	}
-
-	public void setTienePassmark(boolean tienePassmark) {
-		this.tienePassmark = tienePassmark;
-	}
-
-	public String getTipoExamen() {
-		return this.tipoExamen;
-	}
-
-	public void setTipoExamen(String tipoExamen) {
-		this.tipoExamen = tipoExamen;
-	}
-
-	public String getTipoPregunta() {
-		return this.tipoPregunta;
-	}
-
-	public void setTipoPregunta(String tipoPregunta) {
-		this.tipoPregunta = tipoPregunta;
-	}
-
-	public String getTitulo() {
-		return this.titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
 	public String getVisibilidad() {
 		return this.visibilidad;
 	}
 
 	public void setVisibilidad(String visibilidad) {
 		this.visibilidad = visibilidad;
+	}
+
+	public long getAdmonExamen() {
+		return admonExamen;
+	}
+
+	public void setAdmonExamen(long admonExamen) {
+		this.admonExamen = admonExamen;
+	}
+
+	public Date getFechaElaboracion() {
+		return fechaElaboracion;
+	}
+
+	public void setFechaElaboracion(Date fechaElaboracion) {
+		this.fechaElaboracion = fechaElaboracion;
 	}
 
 }

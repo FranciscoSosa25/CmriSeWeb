@@ -13,11 +13,8 @@ public class MrqsExamenes implements Serializable {
 	private long actualizadoPor;
 	private boolean aleatorioGrupo;
 	private boolean aleatorioPreguntas;
-	private String comentarios;
-	private boolean confirmacionAsistencia;
 	private long creadoPor;
 	private String descripcion;
-	private boolean diploma;
 	private String estatus;
 	private String estatusDesc;
 	private Date fechaActualizacion;
@@ -26,22 +23,17 @@ public class MrqsExamenes implements Serializable {
 	private Date fechaEfectivaHasta;
 	private String mensajeFinalizacion;
 	private boolean mostrarRespuestas;
-	private String nombre;
 	private boolean saltarCasos;
 	private boolean saltarPreguntas;
 	private boolean seleccionCasosAleatorios;
-	private String sociedad;
-	private String tema;
 	private short tiempoLimite;
-	private boolean tienePassmark;
-	private String tipoExamen;
-	private String tipoExamenDesc; 
-	private String tipoPregunta;
-	private String tipoPreguntaDesc;
-	private String titulo;
 	private String visibilidad;
 	private String visibilidadDesc; 
-
+	private long admonExamen; 
+	private Date fechaElaboracion;
+	private String admonExamenDesc; 
+	private String elaborador; 
+	
 	private List<MrqsGrupoHdr> listMrqsGrupoHdr = new ArrayList<MrqsGrupoHdr>(); 
 	
 	public long getNumero() {
@@ -60,7 +52,7 @@ public class MrqsExamenes implements Serializable {
 		this.actualizadoPor = actualizadoPor;
 	}
 
-	public boolean getAleatorioGrupo() {
+	public boolean isAleatorioGrupo() {
 		return this.aleatorioGrupo;
 	}
 
@@ -68,28 +60,12 @@ public class MrqsExamenes implements Serializable {
 		this.aleatorioGrupo = aleatorioGrupo;
 	}
 
-	public boolean getAleatorioPreguntas() {
+	public boolean isAleatorioPreguntas() {
 		return this.aleatorioPreguntas;
 	}
 
 	public void setAleatorioPreguntas(boolean aleatorioPreguntas) {
 		this.aleatorioPreguntas = aleatorioPreguntas;
-	}
-
-	public String getComentarios() {
-		return this.comentarios;
-	}
-
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
-	}
-
-	public boolean getConfirmacionAsistencia() {
-		return this.confirmacionAsistencia;
-	}
-
-	public void setConfirmacionAsistencia(boolean confirmacionAsistencia) {
-		this.confirmacionAsistencia = confirmacionAsistencia;
 	}
 
 	public long getCreadoPor() {
@@ -106,14 +82,6 @@ public class MrqsExamenes implements Serializable {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-
-	public boolean getDiploma() {
-		return this.diploma;
-	}
-
-	public void setDiploma(boolean diploma) {
-		this.diploma = diploma;
 	}
 
 	public String getEstatus() {
@@ -164,7 +132,7 @@ public class MrqsExamenes implements Serializable {
 		this.mensajeFinalizacion = mensajeFinalizacion;
 	}
 
-	public boolean getMostrarRespuestas() {
+	public boolean isMostrarRespuestas() {
 		return this.mostrarRespuestas;
 	}
 
@@ -172,15 +140,7 @@ public class MrqsExamenes implements Serializable {
 		this.mostrarRespuestas = mostrarRespuestas;
 	}
 
-	public String getNombre() {
-		return this.nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public boolean getSaltarCasos() {
+	public boolean isSaltarCasos() {
 		return this.saltarCasos;
 	}
 
@@ -188,7 +148,7 @@ public class MrqsExamenes implements Serializable {
 		this.saltarCasos = saltarCasos;
 	}
 
-	public boolean getSaltarPreguntas() {
+	public boolean isSaltarPreguntas() {
 		return this.saltarPreguntas;
 	}
 
@@ -196,28 +156,12 @@ public class MrqsExamenes implements Serializable {
 		this.saltarPreguntas = saltarPreguntas;
 	}
 
-	public boolean getSeleccionCasosAleatorios() {
+	public boolean isSeleccionCasosAleatorios() {
 		return this.seleccionCasosAleatorios;
 	}
 
 	public void setSeleccionCasosAleatorios(boolean seleccionCasosAleatorios) {
 		this.seleccionCasosAleatorios = seleccionCasosAleatorios;
-	}
-
-	public String getSociedad() {
-		return this.sociedad;
-	}
-
-	public void setSociedad(String sociedad) {
-		this.sociedad = sociedad;
-	}
-
-	public String getTema() {
-		return this.tema;
-	}
-
-	public void setTema(String tema) {
-		this.tema = tema;
 	}
 
 	public short getTiempoLimite() {
@@ -228,37 +172,7 @@ public class MrqsExamenes implements Serializable {
 		this.tiempoLimite = tiempoLimite;
 	}
 
-	public boolean getTienePassmark() {
-		return this.tienePassmark;
-	}
 
-	public void setTienePassmark(boolean tienePassmark) {
-		this.tienePassmark = tienePassmark;
-	}
-
-	public String getTipoExamen() {
-		return this.tipoExamen;
-	}
-
-	public void setTipoExamen(String tipoExamen) {
-		this.tipoExamen = tipoExamen;
-	}
-
-	public String getTipoPregunta() {
-		return this.tipoPregunta;
-	}
-
-	public void setTipoPregunta(String tipoPregunta) {
-		this.tipoPregunta = tipoPregunta;
-	}
-
-	public String getTitulo() {
-		return this.titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
 
 	public String getVisibilidad() {
 		return this.visibilidad;
@@ -266,22 +180,6 @@ public class MrqsExamenes implements Serializable {
 
 	public void setVisibilidad(String visibilidad) {
 		this.visibilidad = visibilidad;
-	}
-
-	public String getTipoExamenDesc() {
-		return tipoExamenDesc;
-	}
-
-	public void setTipoExamenDesc(String tipoExamenDesc) {
-		this.tipoExamenDesc = tipoExamenDesc;
-	}
-
-	public String getTipoPreguntaDesc() {
-		return tipoPreguntaDesc;
-	}
-
-	public void setTipoPreguntaDesc(String tipoPreguntaDesc) {
-		this.tipoPreguntaDesc = tipoPreguntaDesc;
 	}
 
 	public String getVisibilidadDesc() {
@@ -306,6 +204,38 @@ public class MrqsExamenes implements Serializable {
 
 	public void setListMrqsGrupoHdr(List<MrqsGrupoHdr> listMrqsGrupoHdr) {
 		this.listMrqsGrupoHdr = listMrqsGrupoHdr;
+	}
+
+	public long getAdmonExamen() {
+		return admonExamen;
+	}
+
+	public void setAdmonExamen(long admonExamen) {
+		this.admonExamen = admonExamen;
+	}
+
+	public Date getFechaElaboracion() {
+		return fechaElaboracion;
+	}
+
+	public void setFechaElaboracion(Date fechaElaboracion) {
+		this.fechaElaboracion = fechaElaboracion;
+	}
+
+	public String getAdmonExamenDesc() {
+		return admonExamenDesc;
+	}
+
+	public void setAdmonExamenDesc(String admonExamenDesc) {
+		this.admonExamenDesc = admonExamenDesc;
+	}
+
+	public String getElaborador() {
+		return elaborador;
+	}
+
+	public void setElaborador(String elaborador) {
+		this.elaborador = elaborador;
 	}
 
 }

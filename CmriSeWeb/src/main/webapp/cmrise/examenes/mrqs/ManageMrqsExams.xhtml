@@ -11,38 +11,34 @@
 </ui:define>            
    
 <ui:define name="content">
-<!-- 
-<p:breadCrumb>
-    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="Examenes de Reactivos" url="#"/>
-</p:breadCrumb>
- -->
 
-<div class="card">
 <h2>
- <p:commandButton immediate="true" title="Nuevo"  value="Nueva Examen de Reactivos" icon="pi pi-plus" action="Exams-MRQs-Create"/>
+ <p:commandButton immediate="true" title="Nuevo"  value="Nuevo Examen de Reactivos" icon="pi pi-plus" action="Exams-MRQs-Create"/>
 </h2>
- <h:form id="ReadOnlyForm">
 
+ <h:form id="ReadOnlyForm">
+<div class="card">
  <p:dataTable var="mrqsExamenes" value="#{manageMrqsExamsForm.listMrqsExamenes}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
      <f:facet name="header" style="font-size: 40px">Examenes de Reactivos</f:facet>
    <p:column headerText="Id">
      <h:outputText value="#{mrqsExamenes.numero}" />
    </p:column>
-    <p:column headerText="Título Público">
-      <h:outputText value="#{mrqsExamenes.titulo}" />
-    </p:column>
-    <p:column headerText="Tipo Pregunta">
-      <h:outputText value="#{mrqsExamenes.tipoPreguntaDesc}" />
-    </p:column>
-     <p:column headerText="Tipo Examen">
-      <h:outputText value="#{mrqsExamenes.tipoExamenDesc}" />
+    <p:column headerText="Categoría">
+      <h:outputText value="#{mrqsExamenes.admonExamenDesc}" />
     </p:column>
     <p:column headerText="Visibilidad">
       <h:outputText value="#{mrqsExamenes.visibilidadDesc}" />
     </p:column>
     <p:column headerText="Estatus">
       <h:outputText value="#{mrqsExamenes.estatusDesc}" />
+    </p:column>
+     <p:column headerText="Elaboración">
+      <h:outputText value="#{mrqsExamenes.fechaElaboracion}" >
+       <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+      </h:outputText>
+    </p:column>
+     <p:column headerText="Elaborador">
+      <h:outputText value="#{mrqsExamenes.elaborador}" />
     </p:column>
      <p:column headerText="Acciones">
         <p:commandButton icon="fa fa-edit" style="margin-left: 10px;" action="#{manageMrqsExamsForm.update(mrqsExamenes)}"/>
@@ -51,9 +47,9 @@
      </p:column>
      
  </p:dataTable>
-
+</div>
  </h:form>
- </div>
+ 
   <h:form id="DeleteForm">
   <p:dialog id="deleteExamenDialogId" widgetVar="deleteExamenDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Registro">
    <h2>#{msgs['globalForm.deleteMessage']}</h2>

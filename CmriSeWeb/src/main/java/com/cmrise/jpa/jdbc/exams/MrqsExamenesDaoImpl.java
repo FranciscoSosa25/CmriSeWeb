@@ -25,12 +25,6 @@ public class MrqsExamenesDaoImpl implements MrqsExamenesDao {
 		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
 		long longNumeroS = lNumeroS.longValue(); 
 		pMrqsExamenesDto.setNumero(lNumeroS.longValue());
-		java.util.Date sysdate = new java.util.Date();
-		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
-		pMrqsExamenesDto.setCreadoPor((long)-1);
-		pMrqsExamenesDto.setActualizadoPor((long)-1);
-		pMrqsExamenesDto.setFechaCreacion(sqlsysdate);
-		pMrqsExamenesDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pMrqsExamenesDto);
 		return longNumeroS; 
 	}
@@ -65,13 +59,7 @@ public class MrqsExamenesDaoImpl implements MrqsExamenesDao {
 		MrqsExamenesDto mrqsExamenesDto  = em.find(MrqsExamenesDto.class, pNumero); 
 		System.out.println();
 		mrqsExamenesDto.setEstatus(pMrqsExamenesDto.getEstatus());
-		mrqsExamenesDto.setTitulo(pMrqsExamenesDto.getTitulo());
-		mrqsExamenesDto.setNombre(pMrqsExamenesDto.getNombre());
 		mrqsExamenesDto.setDescripcion(pMrqsExamenesDto.getDescripcion());
-		mrqsExamenesDto.setTipoPregunta(pMrqsExamenesDto.getTipoPregunta());
-		mrqsExamenesDto.setTipoExamen(pMrqsExamenesDto.getTipoExamen());
-		mrqsExamenesDto.setTema(pMrqsExamenesDto.getTema());
-		mrqsExamenesDto.setComentarios(pMrqsExamenesDto.getComentarios());
 		mrqsExamenesDto.setVisibilidad(pMrqsExamenesDto.getVisibilidad());
 		mrqsExamenesDto.setFechaEfectivaDesde(pMrqsExamenesDto.getFechaEfectivaDesde());
 		mrqsExamenesDto.setFechaEfectivaHasta(pMrqsExamenesDto.getFechaEfectivaHasta());
@@ -79,14 +67,18 @@ public class MrqsExamenesDaoImpl implements MrqsExamenesDao {
 		mrqsExamenesDto.setSaltarPreguntas(pMrqsExamenesDto.getSaltarPreguntas());
 		mrqsExamenesDto.setSaltarCasos(pMrqsExamenesDto.getSaltarCasos());
 		mrqsExamenesDto.setMostrarRespuestas(pMrqsExamenesDto.getMostrarRespuestas());
-		mrqsExamenesDto.setTienePassmark(pMrqsExamenesDto.getTienePassmark());
 		mrqsExamenesDto.setAleatorioGrupo(pMrqsExamenesDto.getAleatorioGrupo());
 		mrqsExamenesDto.setAleatorioPreguntas(pMrqsExamenesDto.getAleatorioPreguntas());
 		mrqsExamenesDto.setSeleccionCasosAleatorios(pMrqsExamenesDto.getSeleccionCasosAleatorios());
 		mrqsExamenesDto.setMensajeFinalizacion(pMrqsExamenesDto.getMensajeFinalizacion());
-		mrqsExamenesDto.setConfirmacionAsistencia(pMrqsExamenesDto.getConfirmacionAsistencia());
-		mrqsExamenesDto.setDiploma(pMrqsExamenesDto.getDiploma());
 		
+	}
+
+	@Override
+	public MrqsExamenesV1Dto findByNumeroWD(long pNumero) {
+		String strQuery = "SELECT m FROM MrqsExamenesV1Dto m WHERE m.numero="+pNumero;
+		Query query = em.createQuery(strQuery); 
+		return (MrqsExamenesV1Dto)query.getSingleResult();
 	}
 
 

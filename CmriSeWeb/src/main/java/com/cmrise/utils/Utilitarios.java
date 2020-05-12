@@ -97,6 +97,8 @@ public  class Utilitarios {
 	public static java.sql.Date utilDateToSqlDate(Date pFecha) {
 		return new java.sql.Date(pFecha.getTime());
 	}
-	
+	public static Date timestampDateToUtilDate(java.sql.Timestamp pFecha) {
+		return new java.util.Date(pFecha.getTime());
+	}
 	
 }

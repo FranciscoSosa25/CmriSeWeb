@@ -21,170 +21,202 @@
  }
  
  </script>
-<style type="text/css">
-   .customPanelGrid .ui-panelgrid-content {
-            align-items: center;
-            border: #ffffff
-    }
-    
-    .customTree .ui-tree {
-    		border: #000000;
-    		border-stlye: hidden;
-    }
-</style>
 </ui:define>
                 
 <ui:define name="content">
-<p:breadCrumb>
-    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="Examenes de Reactivos" outcome="Exams-MRQs-Manage"/>
-     <p:menuitem value="Actualizar Examen de Reactivos" url="#"/>
-</p:breadCrumb>
 <div class="card">
 <h:form id="updateForm">
 <p:growl id="messages" showDetail="true" />
-<h1>Informacion de Examen Reactivo</h1>
 
 <div class="ui-g">
-
-<div class="ui-g-2">
-<p:commandButton value="Nuevos Candidados" immediate="true" action="#{updateMrqsExamForm.createNewCandidates()}" icon="fa fa-user-plus" style="width:100%"/>
+<div class="ui-g-4">
 </div>
-<div class="ui-g-2">
-<p:commandButton value="Asignar Candidados" immediate="true" action="#{updateMrqsExamForm.assignCandidates()}" icon="fa fa-recycle" style="width:100%"/>
+<div class="ui-g-4">
+<p:commandButton value="Gestionar Nuevos Candidados" immediate="true" action="#{updateMrqsExamForm.createNewCandidates()}" icon="fa fa-user-plus" />
+</div>
+<div class="ui-g-4">
+<p:commandButton value="Asignar Candidados" immediate="true" action="#{updateMrqsExamForm.assignCandidates()}" icon="fa fa-recycle" />
 </div>
 </div>
-
-
-
 
 <div class="ui-g"> 
 
-    <div class="ui-g-12 ui-g-nopad">
+     <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="estatusExamen" value="Estado Examen"/>
+        </div>
+         <div class="ui-g-12 ui-md-9">
+		   <p:selectOneMenu id="estatusExamen" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.estatus}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+		  <f:selectItems value="#{selectsHelper.selectEstatusExamenItems}" />
+		  </p:selectOneMenu>
+          <p:message for="estatusExamen"/>
+         </div>
+       </div>
     
-      <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2"  styleClass="customPanelGrid">
-  <p:outputLabel for="estatusExamen" value="Estatus Examen"/>
-  <p:selectOneMenu id="estatusExamen" value="#{updateMrqsExamForm.estatus}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-  <f:selectItems value="#{selectsHelper.selectEstatusExamenItems}" />
-  </p:selectOneMenu>
-  <p:message for="estatusExamen"/>
-</p:panelGrid>
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="admonExamen" value="Examen" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:selectOneMenu id="admonExamen" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.admonExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+           <f:selectItem itemLabel="Seleccione..." itemValue="" />
+           <f:selectItems value="#{createMrqsExamForm.selectExamenesHdr}" />
+          </p:selectOneMenu>
+          <p:message for="admonExamen"/>
+         </div>
+       </div>
+       
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+          <p:outputLabel for="description" value="Descripción"/>
+        </div>
+         <div class="ui-g-12 ui-md-9">
+           <p:inputTextarea  id="description" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.descripcion}"  rows="1" style="width:100%" maxlength="300"/>
+           <p:message  for="description"/>
+         </div>
+       </div>
+       
+         <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" style="font-weight:bold;"/>
+        </div>
+         <div class="ui-g-12 ui-md-9">
+	      <h:outputText id="fechaElaboracion" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.fechaElaboracion}"  style="font-weight:bold;">
+	       <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+	      </h:outputText>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="creadoPor" value="Elaboró" style="font-weight:bold;" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <h:outputText id="creadoPor" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.elaborador}" style="font-weight:bold;" />
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+          <p:outputLabel for="visibility" value="Visibilidad" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:selectOneMenu id="visibility" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.visibilidad}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+		  <f:selectItem itemLabel="Seleccione ..." itemValue="" />
+		  <f:selectItems value="#{selectsHelper.selectVisibilidadItems}" />
+		  </p:selectOneMenu>
+		  <p:message  for="visibility"/>
+         </div>
+       </div>
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+            <p:outputLabel for="fechaDisponibleDesdeInput" value="Disponible Desde" />
+        </div>
+         <div class="ui-g-12 ui-md-3">
+            <p:calendar id="fechaDisponibleDesdeInput" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.fechaEfectivaDesde}" locale="es" pattern="dd/MM/yyyy HH:mm" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+   		   <p:message for="fechaDisponibleDesdeInput"/>
+         </div>
+          <div class="ui-g-12 ui-md-3" style="text-align:right;">
+            <p:outputLabel for="fechaDisponibleHastaInput" value="Disponible Hasta" />
+        </div>
+         <div class="ui-g-12 ui-md-3">
+           <p:calendar id="fechaDisponibleHastaInput" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy HH:mm" mask="true" disabled="true" />
+           <p:message for="fechaDisponibleHastaInput"/>
+         </div>
+       </div>
+       
+          <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel  for="timeLimit" value="Límite de Tiempo en minutos" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:spinner id="timeLimit" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.tiempoLimite}" />
+		  <p:message  for="timeLimit"/>
+         </div>
+       </div>
+       
+            <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+          <p:outputLabel for="canSkipQuestions"  value="¿Puede Saltar Preguntas?" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:inputSwitch id="canSkipQuestions" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.saltarPreguntas}" onLabel="&#10003;" offLabel="&#215;"/>
+		   <p:message  for="canSkipQuestions"/>
+         </div>
+       </div>
+       
+            <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+          <p:outputLabel for="canSkipCases"  value="¿Puede Saltar Casos?" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:inputSwitch id="canSkipCases" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.saltarCasos}" onLabel="&#10003;" offLabel="&#215;"/>
+		  <p:message  for="canSkipCases"/>
+         </div>
+       </div>
+       
+            <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="showAnswers"  value="¿Mostrar Respuestas?" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:inputSwitch id="showAnswers" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.mostrarRespuestas}" onLabel="&#10003;" offLabel="&#215;"/>
+		 <p:message  for="showAnswers"/>
+         </div>
+       </div>
+       
+            <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+          <p:outputLabel for="shufleGroupOrder"  value="¿Orden Aleatorio de Grupo?" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:inputSwitch id="shufleGroupOrder" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.aleatorioGrupo}" onLabel="&#10003;" offLabel="&#215;"/>
+         <p:message  for="shufleGroupOrder"/>
+         </div>
+       </div>
+       
+         <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+          <p:outputLabel for="shufleQuestionOrder"  value="¿Orden Aleatorio de Preguntas?" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:inputSwitch id="shufleQuestionOrder" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.aleatorioPreguntas}" onLabel="&#10003;" offLabel="&#215;"/>
+          <p:message  for="shufleQuestionOrder"/>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="randomCasesSelection"  value="¿Selección de Casos Aleatorios?" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:inputSwitch id="randomCasesSelection" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.seleccionCasosAleatorios}" onLabel="&#10003;" offLabel="&#215;"/>
+          <p:message  for="randomCasesSelection"/> 
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+          <p:outputLabel for="finishingMessage" value="Mensaje Final"/>
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:inputTextarea  id="finishingMessage" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.mensajeFinalizacion}" rows="1" style="width:100%" maxlength="500"/>
+          <p:message  for="finishingMessage"/>
+         </div>
+       </div>
+      
+</div>
 
-
-<p:panelGrid id="tituloPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2" class="tituloPanelId" styleClass="customPanelGrid">
-  <p:outputLabel for="publicTitle" value="Título Público"/>
-  <p:inputText id="publicTitle" value="#{updateMrqsExamForm.titulo}"  style="width:100%"/>
-  <p:message for="publicTitle"/>
-  <p:outputLabel for="nameInternal" value="Nombre (Interno)"/>
-  <p:inputText id="nameInternal" value="#{updateMrqsExamForm.nombre}" style="width:100%"/>
-  <p:message for="nameInternal"/>
-  <p:outputLabel for="description" value="Descripción"/>
-  <p:inputTextarea  id="description" value="#{updateMrqsExamForm.descripcion}" rows="4" style="width:100%"/>
-  <p:message  for="description"/>
-  <p:outputLabel for="questionType" value="Tipo de Pregunta" />
-  <p:selectOneMenu id="questionType" value="#{updateMrqsExamForm.tipoPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-  <f:selectItem itemLabel="Seleccione un tipo de pregunta" itemValue="" />
-  <f:selectItems value="#{selectsHelper.selectTipoPreguntaExamenItems}" />
-  </p:selectOneMenu>
-  <p:message for="questionType"/>
-  <p:outputLabel for="questionExam" value="Tipo de Examen" />
-  <p:selectOneMenu id="questionExam"  value="#{updateMrqsExamForm.tipoExamen}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-  <f:selectItem itemLabel="Seleccione un tipo de examen" itemValue="" />
-  <f:selectItems value="#{selectsHelper.selectTipoExamenItems}" />
-  </p:selectOneMenu>
-  <p:message for="questionExam"/>
-  <p:outputLabel for="topic" value="Tema" />
-  <p:selectOneMenu id="topic"  value="#{updateMrqsExamForm.tema}"   required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-  <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
-  <f:selectItems value="#{selectsHelper.selectTemaExamenItems}" />
-  </p:selectOneMenu>
-  <p:message for="topic"/>
-  <p:outputLabel for="internalComments" value="Comentarios Internos"/>
-  <p:inputTextarea  id="internalComments" value="#{updateMrqsExamForm.comentarios}"  rows="4" style="width:100%"/>
-  <p:message  for="internalComments"/>
- 
-</p:panelGrid>
-
-<p:panelGrid id="visibilityPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2"  styleClass="customPanelGrid">
-  <p:outputLabel for="visibility" value="Visibilidad" />
-  <p:selectOneMenu id="visibility" value="#{updateMrqsExamForm.visibilidad}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-  <f:selectItem itemLabel="Seleccione ..." itemValue="" />
-  <f:selectItems value="#{selectsHelper.selectVisibilidadItems}" />
-  </p:selectOneMenu>
-  <p:message  for="visibility"/>
-</p:panelGrid>
-
-<p:panelGrid id="disponibilidadPanelId" columns="6" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-2"  styleClass="customPanelGrid">
-  <p:outputLabel for="fechaDisponibleDesdeInput" value="Disponible Desde" />
-  <p:calendar id="fechaDisponibleDesdeInput" value="#{updateMrqsExamForm.fechaEfectivaDesde}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-  <p:message for="fechaDisponibleDesdeInput"/>
-  <p:outputLabel value="Disponible Hasta" />
-  <p:calendar id="fechaDisponibleHastaInput" value="#{updateMrqsExamForm.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy" mask="true" />
-  <p:message for="fechaDisponibleHastaInput"/>
-</p:panelGrid>
-
-<p:panelGrid id="tiempoLimitePanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2"  styleClass="customPanelGrid">
- <p:outputLabel  for="timeLimit" value="Límite de Tiempo en minutos" />
- <p:spinner id="timeLimit" value="#{updateMrqsExamForm.limiteTiempo}" />
- <p:message  for="timeLimit"/>
- <p:outputLabel for="canSkipQuestions"  value="¿Puede Saltar Preguntas?" />
- <p:inputSwitch id="canSkipQuestions" value="#{updateMrqsExamForm.saltarPreguntas}" onLabel="&#10003;" offLabel="&#215;"/>
- <p:message  for="canSkipQuestions"/>
- <p:outputLabel for="canSkipCases"  value="¿Puede Saltar Casos?" />
- <p:inputSwitch id="canSkipCases" value="#{updateMrqsExamForm.saltarCasos}" onLabel="&#10003;" offLabel="&#215;"/>
- <p:message  for="canSkipCases"/>
- <p:outputLabel for="showAnswers"  value="¿Mostrar Respuestas?" />
- <p:inputSwitch id="showAnswers" value="#{updateMrqsExamForm.mostrarRespuestas}" onLabel="&#10003;" offLabel="&#215;"/>
- <p:message  for="showAnswers"/>
- <p:outputLabel for="hasPassmark"  value="¿Tiene Passmark?" />
- <p:inputSwitch id="hasPassmark" value="#{updateMrqsExamForm.tienePassmark}" onLabel="&#10003;" offLabel="&#215;"/>
- <p:message  for="hasPassmark"/>
- <p:outputLabel for="shufleGroupOrder"  value="¿Orden Aleatorio de Grupo?" />
- <p:inputSwitch id="shufleGroupOrder" value="#{updateMrqsExamForm.aleatorioGrupo}" onLabel="&#10003;" offLabel="&#215;"/>
- <p:message  for="shufleGroupOrder"/>
- <p:outputLabel for="shufleQuestionOrder"  value="¿Orden Aleatorio de Preguntas?" />
- <p:inputSwitch id="shufleQuestionOrder" value="#{updateMrqsExamForm.aleatorioPreguntas}" onLabel="&#10003;" offLabel="&#215;"/>
- <p:message  for="shufleQuestionOrder"/>
- <p:outputLabel for="randomCasesSelection"  value="¿Selección de Casos Aleatorios?" />
- <p:inputSwitch id="randomCasesSelection" value="#{updateMrqsExamForm.seleccionCasosAleatorios}" onLabel="&#10003;" offLabel="&#215;"/>
- <p:message  for="randomCasesSelection"/> 
- <p:outputLabel for="finishingMessage" value="Mensaje Final"/>
- <p:inputTextarea  id="finishingMessage" value="#{updateMrqsExamForm.mensajeFinalizacion}" rows="4" style="width:100%"/>
- <p:message  for="finishingMessage"/>
-</p:panelGrid>
-
-
-<p:panelGrid columns="1" layout="grid" columnClasses="ui-g-12 ui-md-12 ui-lg-12" styleClass="customPanelGrid" >
-	   <p:tree value="#{updateMrqsExamForm.rootMrqsGrupo}" var="node" selectionMode="single" selection="#{updateMrqsExamForm.selectedNode}" dynamic="true"  style="width:100%;height:100%;border-width:0;">
-         <p:ajax event="select" update=":updateForm:messages" listener="#{updateMrqsExamForm.onNodeSelect}" />
-        <p:treeNode>
-            <h:outputText value="#{node.titulo}" />
-        </p:treeNode>
-      </p:tree>    
-	  <p:commandButton  title="Nuevo"  value="Agregar Nuevo Grupo" update="MrqsGrupoHdrCreateForm" icon="pi pi-plus" actionListener="#{updateMrqsExamForm.initMrqGroup()}" oncomplete="PF('MrqsGrupoHdrCreateDialogWV').show();"/>
-     </p:panelGrid>
-
-<p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2" styleClass="customPanelGrid">
- <p:outputLabel for="generateConfirmationOfAttendance"  value="¿Generar Confirmación de Asistencia?" />
- <p:inputSwitch id="generateConfirmationOfAttendance" value="#{updateMrqsExamForm.confirmacionAsistencia}" onLabel="&#10003;" offLabel="&#215;"/>
- <p:message  for="generateConfirmationOfAttendance"/>
- <p:outputLabel for="generateDiploma"  value="¿Generar Diploma?" />
- <p:inputSwitch id="generateDiploma" value="#{updateMrqsExamForm.diploma}" onLabel="&#10003;" offLabel="&#215;"/>
- <p:message  for="generateDiploma"/>
-</p:panelGrid>
 
 <div class="ui-g">
-
- <div class="ui-g-12 ui-md-6 ui-lg-3">
-  <p:commandButton value="Actualizar" update="tituloPanelId visibilityPanelId disponibilidadPanelId tiempoLimitePanelId" actionListener="#{updateMrqsExamForm.update()}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
+ <div class="ui-g-12 ui-md-6 ui-lg-2">
+  <p:commandButton value="Actualizar" update="updateForm" actionListener="#{updateMrqsExamForm.update()}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
  </div>
- <div class="ui-g-12 ui-md-6 ui-lg-3">
+ <div class="ui-g-12 ui-md-6 ui-lg-2">
   <p:commandButton value="Cancelar" action="#{updateMrqsExamForm.cancel()}" immediate="true"/>
  </div>
 </div>
 
-</div>
-</div>
 </h:form>
 </div>
 
@@ -205,10 +237,10 @@
   <p:inputTextarea  id="internalComments" value="#{updateMrqsExamForm.mrqsGrupoHdr.comentarios}"  rows="4" style="width:100%"/>
   <p:message  for="internalComments"/> 
   </p:panelGrid>
-  
   <div class="ui-g">
-   <div class="ui-g-6"><p:commandButton value="Crear Grupo" update="MrqsGrupoHdrCreateForm:grupoHdrPanelId" action="#{updateMrqsExamForm.addMRQsGroup()}" oncomplete="handleCreateGrupoRequest(xhr, status, args)" style="width:100%"/></div>
-   <div class="ui-g-6"><p:commandButton value="Cerrar" onclick="PF('MrqsGrupoHdrCreateDialogWV').hide();" style="width:100%"/></div> 
+   <div class="ui-g-4"></div>
+   <div class="ui-g-4"><p:commandButton value="Crear Grupo" update="MrqsGrupoHdrCreateForm:grupoHdrPanelId" action="#{updateMrqsExamForm.addMRQsGroup()}" oncomplete="handleCreateGrupoRequest(xhr, status, args)" style="width:100%"/></div>
+   <div class="ui-g-4"><p:commandButton value="Cerrar" onclick="PF('MrqsGrupoHdrCreateDialogWV').hide();" style="width:100%"/></div> 
    </div>
   </p:dialog>
 </h:form>

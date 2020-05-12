@@ -1,14 +1,23 @@
 package com.cmrise.ejb.backing.exams.mrqs;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import com.cmrise.ejb.helpers.UserLogin;
+import com.cmrise.ejb.model.admin.AdmonExamenHdr;
+import com.cmrise.ejb.model.exams.MrqsExamenes;
+import com.cmrise.ejb.services.admin.AdmonExamenHdrLocal;
 import com.cmrise.ejb.services.exams.MrqsExamenesLocal;
 import com.cmrise.jpa.dto.exams.MrqsExamenesDto;
 import com.cmrise.utils.Utilitarios;
@@ -17,28 +26,10 @@ import com.cmrise.utils.UtilitariosLocal;
 @ManagedBean
 @ViewScoped
 public class CreateMrqsExamForm {
-	private String titulo; 
-	private String nombre; 
-	private String descripcion; 
-	private String tipoPregunta; 
-	private String tipoExamen; 
-	private String tema; 
-	private String comentarios; 
-	private String visibilidad; 
-	private Date fechaEfectivaDesde; 
-	private Date fechaEfectivaHasta; 
-	private short limiteTiempo; 
-	private boolean saltarPreguntas; 
-	private boolean saltarCasos; 
-	private boolean mostrarRespuestas; 
-	private boolean tienePassmark; 
-	private boolean aleatorioGrupo; 
-	private boolean aleatorioPreguntas; 
-	private boolean seleccionCasosAleatorios; 
-	private String mensajeFinalizacion; 
-	private boolean confirmacionAsistencia; 
-	private boolean diploma;
 	
+	private List<AdmonExamenHdr> examenesHdr = new ArrayList<AdmonExamenHdr>();
+	private List<SelectItem> selectExamenesHdr = new ArrayList<SelectItem>(); 
+	private MrqsExamenes mrqsExamenesForInsert = new MrqsExamenes(); 
 	
 	@Inject
 	MrqsExamenesLocal mrqsExamenesLocal; 
@@ -46,172 +37,72 @@ public class CreateMrqsExamForm {
 	@Inject 
 	UtilitariosLocal utilitariosLocal; 
 	
+	@Inject 
+	AdmonExamenHdrLocal admonExamenHdrLocal; 
+	
+	@ManagedProperty(value="#{userLogin}")
+	private UserLogin userLogin; 
+	
+	 @PostConstruct
+	 public void init() {
+		 examenesHdr = admonExamenHdrLocal.findByTipo(Utilitarios.MRQS); 
+		 selectExamenesHdr = new ArrayList<SelectItem>(); 
+		 for(AdmonExamenHdr i:examenesHdr) {
+			 SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
+			 selectExamenesHdr.add(selectItem); 
+		 }
+		 mrqsExamenesForInsert.setFechaElaboracion(new java.util.Date());
+	 }
+	
 	public String create() {
-		MrqsExamenesDto mrqsExamenesDto = new MrqsExamenesDto();
 		
-		mrqsExamenesDto.setTitulo(this.getTitulo());
-		mrqsExamenesDto.setNombre(this.getNombre());
-		mrqsExamenesDto.setDescripcion(this.getDescripcion());
-		mrqsExamenesDto.setTipoPregunta(this.getTipoPregunta());
-		mrqsExamenesDto.setTipoExamen(this.getTipoExamen());
-		mrqsExamenesDto.setTema(this.getTema());
-		mrqsExamenesDto.setComentarios(this.getComentarios());
-		mrqsExamenesDto.setVisibilidad(this.getVisibilidad());
-		mrqsExamenesDto.setFechaEfectivaDesde(utilitariosLocal.toSqlTimestamp(this.getFechaEfectivaDesde()));
-		if(null!=this.getFechaEfectivaHasta()) {
-			mrqsExamenesDto.setFechaEfectivaHasta(utilitariosLocal.toSqlTimestamp(this.getFechaEfectivaHasta()));
-		}else {
-			mrqsExamenesDto.setFechaEfectivaHasta(Utilitarios.endOfTimeTimestamp);
-		}
-		mrqsExamenesDto.setTiempoLimite(this.getLimiteTiempo());
-		mrqsExamenesDto.setSaltarPreguntas(this.isSaltarPreguntas());
-		mrqsExamenesDto.setSaltarCasos(this.isSaltarCasos());
-		mrqsExamenesDto.setMostrarRespuestas(this.isMostrarRespuestas());
-		mrqsExamenesDto.setTienePassmark(this.isTienePassmark());
-		mrqsExamenesDto.setAleatorioGrupo(this.isAleatorioGrupo());
-		mrqsExamenesDto.setAleatorioPreguntas(this.isAleatorioPreguntas());
-		mrqsExamenesDto.setSeleccionCasosAleatorios(this.isSeleccionCasosAleatorios());
-		mrqsExamenesDto.setMensajeFinalizacion(this.getMensajeFinalizacion());
-		mrqsExamenesDto.setConfirmacionAsistencia(this.isConfirmacionAsistencia());
-		mrqsExamenesDto.setDiploma(this.isDiploma());
-		mrqsExamenesDto.setSociedad(Utilitarios.SOCIEDAD);
-		mrqsExamenesDto.setEstatus(Utilitarios.INITIAL_STATUS_CC_EXAM);
-		long numeroMrqsExamen = mrqsExamenesLocal.insert(mrqsExamenesDto); 
+		mrqsExamenesForInsert.setCreadoPor(userLogin.getNumeroUsuario());
+		mrqsExamenesForInsert.setActualizadoPor(userLogin.getNumeroUsuario());
+		mrqsExamenesForInsert.setFechaCreacion(new java.util.Date());
+		mrqsExamenesForInsert.setFechaActualizacion(new java.util.Date());
 		
+		long numeroMrqExamen = mrqsExamenesLocal.insert(mrqsExamenesForInsert); 
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-		session.setAttribute("NumeroMrqsExamenSV", numeroMrqsExamen);  
+		session.setAttribute("NumeroMrqsExamenSV", numeroMrqExamen);  
 		context.addMessage(null, new FacesMessage("se creo correctamente el examen","Correctamente") );
 		return "Exams-MRQs-Update"; 
 		 
 	
 	}
 	
-	public String getTitulo() {
-		return titulo;
+	
+
+	public List<AdmonExamenHdr> getExamenesHdr() {
+		return examenesHdr;
 	}
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+
+	public void setExamenesHdr(List<AdmonExamenHdr> examenesHdr) {
+		this.examenesHdr = examenesHdr;
 	}
-	public String getNombre() {
-		return nombre;
+
+	public List<SelectItem> getSelectExamenesHdr() {
+		return selectExamenesHdr;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+
+	public void setSelectExamenesHdr(List<SelectItem> selectExamenesHdr) {
+		this.selectExamenesHdr = selectExamenesHdr;
 	}
-	public String getDescripcion() {
-		return descripcion;
+
+	public MrqsExamenes getMrqsExamenesForInsert() {
+		return mrqsExamenesForInsert;
 	}
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-	public String getTipoPregunta() {
-		return tipoPregunta;
-	}
-	public void setTipoPregunta(String tipoPregunta) {
-		this.tipoPregunta = tipoPregunta;
-	}
-	public String getTipoExamen() {
-		return tipoExamen;
-	}
-	public void setTipoExamen(String tipoExamen) {
-		this.tipoExamen = tipoExamen;
-	}
-	public String getTema() {
-		return tema;
-	}
-	public void setTema(String tema) {
-		this.tema = tema;
-	}
-	public String getComentarios() {
-		return comentarios;
-	}
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
-	}
-	public String getVisibilidad() {
-		return visibilidad;
-	}
-	public void setVisibilidad(String visibilidad) {
-		this.visibilidad = visibilidad;
-	}
-	public Date getFechaEfectivaDesde() {
-		return fechaEfectivaDesde;
-	}
-	public void setFechaEfectivaDesde(Date fechaEfectivaDesde) {
-		this.fechaEfectivaDesde = fechaEfectivaDesde;
-	}
-	public Date getFechaEfectivaHasta() {
-		return fechaEfectivaHasta;
-	}
-	public void setFechaEfectivaHasta(Date fechaEfectivaHasta) {
-		this.fechaEfectivaHasta = fechaEfectivaHasta;
-	}
-	public short getLimiteTiempo() {
-		return limiteTiempo;
-	}
-	public void setLimiteTiempo(short limiteTiempo) {
-		this.limiteTiempo = limiteTiempo;
-	}
-	public boolean isSaltarPreguntas() {
-		return saltarPreguntas;
-	}
-	public void setSaltarPreguntas(boolean saltarPreguntas) {
-		this.saltarPreguntas = saltarPreguntas;
-	}
-	public boolean isSaltarCasos() {
-		return saltarCasos;
-	}
-	public void setSaltarCasos(boolean saltarCasos) {
-		this.saltarCasos = saltarCasos;
-	}
-	public boolean isMostrarRespuestas() {
-		return mostrarRespuestas;
-	}
-	public void setMostrarRespuestas(boolean mostrarRespuestas) {
-		this.mostrarRespuestas = mostrarRespuestas;
-	}
-	public boolean isTienePassmark() {
-		return tienePassmark;
-	}
-	public void setTienePassmark(boolean tienePassmark) {
-		this.tienePassmark = tienePassmark;
-	}
-	public boolean isAleatorioGrupo() {
-		return aleatorioGrupo;
-	}
-	public void setAleatorioGrupo(boolean aleatorioGrupo) {
-		this.aleatorioGrupo = aleatorioGrupo;
-	}
-	public boolean isAleatorioPreguntas() {
-		return aleatorioPreguntas;
-	}
-	public void setAleatorioPreguntas(boolean aleatorioPreguntas) {
-		this.aleatorioPreguntas = aleatorioPreguntas;
-	}
-	public boolean isSeleccionCasosAleatorios() {
-		return seleccionCasosAleatorios;
-	}
-	public void setSeleccionCasosAleatorios(boolean seleccionCasosAleatorios) {
-		this.seleccionCasosAleatorios = seleccionCasosAleatorios;
-	}
-	public String getMensajeFinalizacion() {
-		return mensajeFinalizacion;
-	}
-	public void setMensajeFinalizacion(String mensajeFinalizacion) {
-		this.mensajeFinalizacion = mensajeFinalizacion;
-	}
-	public boolean isConfirmacionAsistencia() {
-		return confirmacionAsistencia;
-	}
-	public void setConfirmacionAsistencia(boolean confirmacionAsistencia) {
-		this.confirmacionAsistencia = confirmacionAsistencia;
-	}
-	public boolean isDiploma() {
-		return diploma;
-	}
-	public void setDiploma(boolean diploma) {
-		this.diploma = diploma;
+
+	public void setMrqsExamenesForInsert(MrqsExamenes mrqsExamenesForInsert) {
+		this.mrqsExamenesForInsert = mrqsExamenesForInsert;
 	} 
+	
+	public UserLogin getUserLogin() {
+		return userLogin;
+	}
+	public void setUserLogin(UserLogin userLogin) {
+		this.userLogin = userLogin;
+	}
+	
 	
 }
