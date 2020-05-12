@@ -58,6 +58,7 @@ public class SelectsHelper {
 	private List<SelectItem> selectAdmonExamenesItems; 
 	private List<SelectItem> selectAdmonMateriaItems; 
 	private List<SelectItem> selectAdmonSubMateriaItems; 
+	private List<SelectItem> selectInstruccionesItems; 
 	
 	@PostConstruct
     public void init() {
@@ -78,6 +79,7 @@ public class SelectsHelper {
        environmentAdmonExamenes();
        environmentAdmonMateria(); 
        environmentAdmonSubMateria(); 
+       enviromentInstrucciones();
        System.out.println("Sale SelectsHelper init()");
     }
 	
@@ -158,7 +160,21 @@ public class SelectsHelper {
 		return this.selectSedeHospitalItems; 
 	}
 	
-
+	private void enviromentInstrucciones() {
+		this.selectInstruccionesItems = new ArrayList<SelectItem>();
+		List<TablasUtilitariasValoresDto> listInstruccionesValores =  tablasUtilitariasValoresLocal.findByTipoTabla("INSTRUCCIONES");  
+		Iterator<TablasUtilitariasValoresDto> iterInstruccionesValores = listInstruccionesValores.iterator(); 
+		while(iterInstruccionesValores.hasNext()) {
+			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterInstruccionesValores.next();
+			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+			this.selectInstruccionesItems.add(selectItem); 
+		}
+	}
+	
+	public List<SelectItem> getSelectInstruccionesItems(){
+		
+		return this.selectInstruccionesItems; 
+	}
 	private void environmentTipoPregunta() {
 		this.selectTipoPreguntaItems = new ArrayList<SelectItem>();
 		List<TablasUtilitariasValoresDto> listTipoPreguntaValores =  tablasUtilitariasValoresLocal.findByTipoTabla("TIPO_PREGUNTA");  

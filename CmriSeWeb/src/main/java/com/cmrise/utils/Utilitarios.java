@@ -37,7 +37,7 @@ public  class Utilitarios {
 	public static final String FS_ROOT = System.getProperty("os.name").contains("Windows Server")?"D:":"C:";
     public static final String FS_MRQS = "\\CmriSeFs\\MRQs"; /** File System MRQS **/
     public static final String FS_CORE_CASES = "\\CmriSeFs\\CoreCases"; /** File System MRQS **/
-    public static final String DEFAULT_THEME ="orange";
+    public static final String DEFAULT_THEME ="deep-purple";
     public static final String JPG_SUFFIX =".jpg"; 
     public static final String THUMBNAIL_SUFFIX = "_thumbnail"+JPG_SUFFIX;
     
