@@ -457,7 +457,9 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          <p:outputLabel  value="Instrucciones" />
         </div>
          <div class="ui-g-12 ui-md-9">
-          <p:inputText id="hintsText" value="#{updateFTAMrqForm.textoSugerencias}"   placeholder="(No use mas de 5 palabras)"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+          <p:selectOneMenu id="hintsText" value="#{updateFTAMrqForm.textoSugerencias}"   placeholder="(No use mas de 5 palabras)"   style="width:30%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
+         <f:selectItems value="#{selectsHelper.selectInstruccionesItems}" />
+             </p:selectOneMenu>
           <p:message for="hintsText"/>
          </div>
          
@@ -535,9 +537,9 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 <!--          </div> -->
 
        </div>
-        <div class="ui-g-1 ui-g-nopad">
-           <p:commandButton icon="fa fa-trash"  oncomplete="PF('deleteOpcionMultipleWV').show();" actionListener="#{updateFTAMrqForm.selectOpcionMultipleForAction(mrqsOpcionMultiple)}"/>
-        </div>
+<!--         <div class="ui-g-1 ui-g-nopad"> -->
+<!--            <p:commandButton icon="fa fa-trash"  oncomplete="PF('deleteOpcionMultipleWV').show();" actionListener="#{updateFTAMrqForm.selectOpcionMultipleForAction(mrqsOpcionMultiple)}"/> -->
+<!--         </div> -->
         
        </div> <!-- END div -->
         </ui:repeat>
