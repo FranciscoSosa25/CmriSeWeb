@@ -838,11 +838,11 @@ body.main-body {
   background-color: #D9E0E7;
 }
 body a {
-  color: #7e57c2;
+  color: #2D0D86;
   text-decoration: none;
 }
 body a:hover {
-  color: #8c6ac9;
+  color: #2D0D86;
 }
 
 .layout-mask {
@@ -862,7 +862,7 @@ body a:hover {
   z-index: 100;
   width: 100%;
   height: 75px;
-  background-color: #ffffff;
+  background-color: #2d0d86;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
 }
 .layout-wrapper .topbar .logo {
@@ -878,7 +878,7 @@ body a:hover {
   padding: 12px 20px 0px 35px;
   height: 75px;
   width: 250px;
-  background-color: #7e57c2;
+  background-color: #2D0D86;
   float: left;
   -moz-transition: background-color 0.3s;
   -o-transition: background-color 0.3s;
@@ -994,7 +994,7 @@ body a:hover {
 }
 .layout-wrapper .layout-menu-container .search-input input:focus {
   outline: 0 none;
-  border: 1px solid #7e57c2;
+  border: 1px solid #2D0D86;
   -webkit-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
@@ -1036,7 +1036,7 @@ body a:hover {
   margin-left: 0px;
 }
 .layout-wrapper.menu-layout-overlay.layout-menu-overlay-active .topbar .topbar-left {
-  background-color: #7e57c2;
+  background-color: #2D0D86;
 }
 .layout-wrapper.menu-layout-overlay.layout-menu-overlay-active .topbar .topbar-left .logo {
   background-image: url("#{resource['poseidon-layout:images/logo-white.png']}");
@@ -1128,7 +1128,7 @@ body a:hover {
   height: 16px;
   margin-right: 6px;
   text-align: center;
-  background-color: #7e57c2;
+  background-color: #2D0D86;
   color: #ffffff;
   font-size: 12px;
   font-weight: 700;
@@ -1139,13 +1139,13 @@ body a:hover {
   margin-top: 3px;
 }
 .layout-wrapper .layout-menu li a:hover {
-  background-color: #444d56;
+  background-color: #2D0D86;
 }
 .layout-wrapper .layout-menu li.active-menuitem > a {
-  color: #7e57c2;
+  color: #2D0D86;
 }
 .layout-wrapper .layout-menu li.active-menuitem > a i {
-  color: #7e57c2;
+  color: #2D0D86;
 }
 .layout-wrapper .layout-menu li.active-menuitem > a i.menuitem-toggle-icon {
   -webkit-transform: rotate(-180deg);
@@ -1156,7 +1156,7 @@ body a:hover {
 }
 .layout-wrapper .layout-menu li.active-menuitem > a .menuitem-badge {
   background-color: #ffffff;
-  color: #7e57c2;
+  color: #2D0D86;
 }
 .layout-wrapper .layout-menu li ul {
   background-color: #1a2229;
@@ -1169,7 +1169,7 @@ body a:hover {
   margin-top: 0px;
 }
 .layout-wrapper .layout-menu > li.active-menuitem > a {
-  background-color: #7e57c2;
+  background-color: #2D0D86;
   color: #ffffff;
 }
 .layout-wrapper .layout-menu > li.active-menuitem > a i {
@@ -1520,7 +1520,7 @@ body a:hover {
 
 .ajax-loader {
   font-size: 32px;
-  color: #7e57c2;
+  color: #2D0D86;
 }
 
 @media (min-width: 1025px) {
@@ -1547,7 +1547,7 @@ body a:hover {
     position: absolute;
     right: -5px;
     top: -5px;
-    background-color: #7e57c2;
+    background-color: #2D0D86;
     color: #ffffff;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
@@ -1565,7 +1565,7 @@ body a:hover {
     transition: color 0.3s;
   }
   .layout-wrapper .topbar-items > li .topbar-icon:hover {
-    color: #7e57c2;
+    color: #2D0D86;
   }
   .layout-wrapper .topbar-items > li.profile-item .profile-image {
     width: 36px;
@@ -1652,7 +1652,7 @@ body a:hover {
     box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
-    background-color: #ffffff;
+    background-color: #2D0D86;
   }
   .layout-wrapper.menu-layout-horizontal .topbar .topbar-left .logo {
     background-image: url("#{resource['poseidon-layout:images/logo-black.png']}");
@@ -1718,7 +1718,7 @@ body a:hover {
     margin: 0 auto;
   }
   .layout-wrapper.menu-layout-horizontal .layout-menu-container .layout-menu > li > a:hover {
-    background-color: #c9cdd2;
+    background-color: #2D0D86;
   }
   .layout-wrapper.menu-layout-horizontal .layout-menu-container .layout-menu > li > ul {
     z-index: 100;
@@ -1749,11 +1749,11 @@ body a:hover {
     background-color: #f0f3f5;
   }
   .layout-wrapper.menu-layout-horizontal .layout-menu-container .layout-menu > li > ul li.active-menuitem > a {
-    color: #7e57c2;
+    color: #2D0D86;
     background-color: #e8e8e8;
   }
   .layout-wrapper.menu-layout-horizontal .layout-menu-container .layout-menu > li.active-menuitem > a {
-    background-color: #7e57c2;
+    background-color: #2D0D86;
     color: #ffffff;
   }
   .layout-wrapper.menu-layout-horizontal .layout-menu-container .layout-menu > li.active-menuitem > a i {
@@ -1907,7 +1907,7 @@ body a:hover {
     transition: background-color 0.3s;
   }
   .layout-wrapper .topbar .topbar-right .topbar-items > li.active-top-menu > a {
-    background-color: #7e57c2;
+    background-color: #2D0D86;
     color: #ffffff;
   }
   .layout-wrapper .topbar .topbar-right .topbar-items > li.active-top-menu > ul {
