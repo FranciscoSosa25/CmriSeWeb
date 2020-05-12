@@ -13,5 +13,6 @@ public interface MrqsExamenesDao {
 	public void delete(long pNumero);
 	public MrqsExamenesDto findById(long pNumero); 
 	public void update(long pNumero,MrqsExamenesDto pMrqsExamenesDto);
+	public MrqsExamenesV1Dto findByNumeroWD(long pNumero);
 	
 }

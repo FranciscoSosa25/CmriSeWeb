@@ -39,7 +39,7 @@ import com.cmrise.utils.Utilitarios;
 
 @Stateless
 public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
-
+	
 	@Inject 
 	MrqsExamenesDao mrqsExamenesDao; 
 	
@@ -99,7 +99,6 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 		MrqsExamenesDto mrqsExamenesDto = mrqsExamenesDao.findById(pNumero);
 		MrqsExamenes retval = new MrqsExamenes(); 
 		retval.setNumero(mrqsExamenesDto.getNumero());
-		retval.setTitulo(mrqsExamenesDto.getTitulo());
 		return retval;
 	}
 
@@ -108,7 +107,6 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 		MrqsExamenes retval = new MrqsExamenes(); 
 		MrqsExamenesDto mrqsExamenesDto = mrqsExamenesDao.findById(pNumero);
 		retval.setNumero(mrqsExamenesDto.getNumero());
-		retval.setTitulo(mrqsExamenesDto.getTitulo());
 		
 		List<MrqsGrupoHdrDto> listMrqsGrupoHdrDto = mrqsGrupoHdrDao.findByNumeroExamen(pNumero); 
 		if(null!=listMrqsGrupoHdrDto) {
@@ -201,6 +199,100 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 		
 		
 		return retval;
+	}
+
+	@Override
+	public long insert(MrqsExamenes pMrqsExamenes) {
+		
+       MrqsExamenesDto mrqsExamenesDto = new MrqsExamenesDto();
+		
+       mrqsExamenesDto.setCreadoPor(pMrqsExamenes.getCreadoPor());
+       mrqsExamenesDto.setActualizadoPor(pMrqsExamenes.getActualizadoPor());
+       mrqsExamenesDto.setFechaCreacion(Utilitarios.utilDateToTimestamp(pMrqsExamenes.getFechaCreacion()));
+       mrqsExamenesDto.setFechaActualizacion(Utilitarios.utilDateToTimestamp(pMrqsExamenes.getFechaActualizacion()));
+       
+		mrqsExamenesDto.setDescripcion(pMrqsExamenes.getDescripcion());
+		mrqsExamenesDto.setVisibilidad(pMrqsExamenes.getVisibilidad());
+		mrqsExamenesDto.setFechaEfectivaDesde(Utilitarios.utilDateToTimestamp(pMrqsExamenes.getFechaEfectivaDesde()));
+		if(null!=pMrqsExamenes.getFechaEfectivaHasta()) {
+			mrqsExamenesDto.setFechaEfectivaHasta(Utilitarios.utilDateToTimestamp(pMrqsExamenes.getFechaEfectivaHasta()));
+		}else {
+			mrqsExamenesDto.setFechaEfectivaHasta(Utilitarios.endOfTimeTimestamp);
+		}
+		mrqsExamenesDto.setTiempoLimite(pMrqsExamenes.getTiempoLimite());
+		mrqsExamenesDto.setSaltarPreguntas(pMrqsExamenes.isSaltarPreguntas());
+		mrqsExamenesDto.setSaltarCasos(pMrqsExamenes.isSaltarCasos());
+		mrqsExamenesDto.setMostrarRespuestas(pMrqsExamenes.isMostrarRespuestas());
+		mrqsExamenesDto.setAleatorioGrupo(pMrqsExamenes.isAleatorioGrupo());
+		mrqsExamenesDto.setAleatorioPreguntas(pMrqsExamenes.isAleatorioPreguntas());
+		mrqsExamenesDto.setSeleccionCasosAleatorios(pMrqsExamenes.isSeleccionCasosAleatorios());
+		mrqsExamenesDto.setMensajeFinalizacion(pMrqsExamenes.getMensajeFinalizacion());
+		mrqsExamenesDto.setEstatus(Utilitarios.INITIAL_STATUS_CC_EXAM);
+		mrqsExamenesDto.setFechaElaboracion(Utilitarios.utilDateToSqlDate(pMrqsExamenes.getFechaElaboracion()));
+		mrqsExamenesDto.setAdmonExamen(pMrqsExamenes.getAdmonExamen());
+		
+		
+		long numeroMrqsExamen = mrqsExamenesDao.insert(mrqsExamenesDto);
+		pMrqsExamenes.setNumero(mrqsExamenesDto.getNumero()); 
+		return numeroMrqsExamen;
+	}
+
+	@Override
+	public MrqsExamenes findByNumeroWD(long pNumero) {
+		MrqsExamenes retval = new MrqsExamenes(); 
+		MrqsExamenesV1Dto mrqsExamenesV1Dto = mrqsExamenesDao.findByNumeroWD(pNumero); 
+		
+		retval.setNumero(mrqsExamenesV1Dto.getNumero());
+		retval.setElaborador(mrqsExamenesV1Dto.getElaborador());
+		retval.setFechaElaboracion(Utilitarios.sqlDateToUtilDate(mrqsExamenesV1Dto.getFechaElaboracion()));
+		retval.setAdmonExamen(mrqsExamenesV1Dto.getAdmonExamen());
+		retval.setEstatus(mrqsExamenesV1Dto.getEstatus());
+		retval.setDescripcion(mrqsExamenesV1Dto.getDescripcion());
+		retval.setVisibilidad(mrqsExamenesV1Dto.getVisibilidad());
+		retval.setFechaEfectivaDesde(Utilitarios.timestampDateToUtilDate(mrqsExamenesV1Dto.getFechaEfectivaDesde()));
+		if(Utilitarios.endOfTimeTimestamp.equals(mrqsExamenesV1Dto.getFechaEfectivaHasta())) {
+			retval.setFechaEfectivaHasta(null);
+		}else {
+			retval.setFechaEfectivaHasta(Utilitarios.timestampDateToUtilDate(mrqsExamenesV1Dto.getFechaEfectivaHasta()));
+		}
+		retval.setTiempoLimite(mrqsExamenesV1Dto.getTiempoLimite());
+		retval.setSaltarPreguntas(mrqsExamenesV1Dto.getSaltarPreguntas());
+		retval.setSaltarCasos(mrqsExamenesV1Dto.getSaltarCasos());
+		retval.setMostrarRespuestas(mrqsExamenesV1Dto.getMostrarRespuestas());
+		retval.setAleatorioGrupo(mrqsExamenesV1Dto.getAleatorioGrupo());
+		retval.setAleatorioPreguntas(mrqsExamenesV1Dto.getAleatorioPreguntas());
+		retval.setSeleccionCasosAleatorios(mrqsExamenesV1Dto.getSeleccionCasosAleatorios());
+		
+		
+		return retval;
+	}
+
+	@Override
+	public void update(MrqsExamenes pMrqsExamenesForUpdate) {
+		MrqsExamenesDto mrqsExamenesDto = new MrqsExamenesDto();
+		mrqsExamenesDto.setNumero(pMrqsExamenesForUpdate.getNumero());
+		mrqsExamenesDto.setEstatus(pMrqsExamenesForUpdate.getEstatus());
+		
+		mrqsExamenesDto.setAdmonExamen(pMrqsExamenesForUpdate.getAdmonExamen());
+		
+		mrqsExamenesDto.setDescripcion(pMrqsExamenesForUpdate.getDescripcion());
+		mrqsExamenesDto.setVisibilidad(pMrqsExamenesForUpdate.getVisibilidad());
+		mrqsExamenesDto.setFechaEfectivaDesde(Utilitarios.utilDateToTimestamp(pMrqsExamenesForUpdate.getFechaEfectivaDesde()));
+		if(null!=pMrqsExamenesForUpdate.getFechaEfectivaHasta()) {
+			mrqsExamenesDto.setFechaEfectivaHasta(Utilitarios.utilDateToTimestamp(pMrqsExamenesForUpdate.getFechaEfectivaHasta()));
+		}else {
+			mrqsExamenesDto.setFechaEfectivaHasta(Utilitarios.endOfTimeTimestamp);
+		}
+		mrqsExamenesDto.setTiempoLimite(pMrqsExamenesForUpdate.getTiempoLimite());
+		mrqsExamenesDto.setSaltarPreguntas(pMrqsExamenesForUpdate.isSaltarPreguntas());
+		mrqsExamenesDto.setSaltarCasos(pMrqsExamenesForUpdate.isSaltarCasos());
+		mrqsExamenesDto.setMostrarRespuestas(pMrqsExamenesForUpdate.isMostrarRespuestas());
+		mrqsExamenesDto.setAleatorioGrupo(pMrqsExamenesForUpdate.isAleatorioGrupo());
+		mrqsExamenesDto.setAleatorioPreguntas(pMrqsExamenesForUpdate.isAleatorioPreguntas());
+		mrqsExamenesDto.setSeleccionCasosAleatorios(pMrqsExamenesForUpdate.isSeleccionCasosAleatorios());
+		mrqsExamenesDto.setMensajeFinalizacion(pMrqsExamenesForUpdate.getMensajeFinalizacion());
+		mrqsExamenesDao.update(pMrqsExamenesForUpdate.getNumero(), mrqsExamenesDto);
+		
 	}
 
 	

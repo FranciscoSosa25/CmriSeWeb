@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -80,6 +81,8 @@ public class AdmonExamenesDetailForm {
 			}
 		}
 		System.out.println("Sale saveAndUpdateLine");
+		FacesMessage msg = new FacesMessage("Se Agregaron", "Los Cambios");
+	    FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
 	

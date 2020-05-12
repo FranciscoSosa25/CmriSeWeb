@@ -15,6 +15,7 @@ import org.primefaces.PrimeFaces;
 import com.cmrise.ejb.model.exams.MrqsExamenes;
 import com.cmrise.ejb.services.exams.MrqsExamenesLocal;
 import com.cmrise.jpa.dto.exams.MrqsExamenesV1Dto;
+import com.cmrise.utils.Utilitarios;
 
 @ManagedBean
 @ViewScoped
@@ -40,13 +41,13 @@ public class ManageMrqsExamsForm {
 	    	MrqsExamenes ccExamenes = new MrqsExamenes();
 	    	System.out.println("ccExamenesDto.getNumero():"+ccExamenesV1Dto.getNumero());
 	    	ccExamenes.setNumero(ccExamenesV1Dto.getNumero());
-	    	ccExamenes.setTitulo(ccExamenesV1Dto.getTitulo());
-	    	ccExamenes.setTipoPreguntaDesc(ccExamenesV1Dto.getTipoPreguntaDesc());
-	    	ccExamenes.setTipoExamenDesc(ccExamenesV1Dto.getTipoExamenDesc());
 	    	ccExamenes.setVisibilidad(ccExamenesV1Dto.getVisibilidad());
 	    	ccExamenes.setVisibilidadDesc(ccExamenesV1Dto.getVisibilidadDesc());
 	    	ccExamenes.setEstatus(ccExamenesV1Dto.getEstatus());
 	    	ccExamenes.setEstatusDesc(ccExamenesV1Dto.getEstatusDesc());
+	    	ccExamenes.setFechaElaboracion(Utilitarios.sqlDateToUtilDate(ccExamenesV1Dto.getFechaElaboracion()));
+	    	ccExamenes.setAdmonExamenDesc(ccExamenesV1Dto.getAdmonExamenDesc());
+	    	ccExamenes.setElaborador(ccExamenesV1Dto.getElaborador());
 	    	listMrqsExamenes.add(ccExamenes); 
 	    }
 	} 
