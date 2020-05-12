@@ -46,7 +46,7 @@ public class GuestPreferences implements Serializable {
         themeColors.put("pink", "#f16383");
         themeColors.put("light-blue", "#63c9f1");
         themeColors.put("green", "#57c279");
-        themeColors.put("deep-purple", "#7e57c2");
+        themeColors.put("deep-purple", "#2D0D86");
     }
     
 	public String getTheme() {		
