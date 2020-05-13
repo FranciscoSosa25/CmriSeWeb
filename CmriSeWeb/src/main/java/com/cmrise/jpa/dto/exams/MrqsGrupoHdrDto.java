@@ -39,14 +39,12 @@ public class MrqsGrupoHdrDto  implements Serializable {
 	@Column(name="NUMERO_EXAMEN")
 	private long numeroExamen; 
 	
-	@Column(name="TITULO")
-	private String titulo;
-	
-	@Column(name="TEMA")
-	private String tema; 
-	
+
 	@Column(name="COMENTARIOS")
 	private String comentarios; 
+	
+	@Column(name="ADMON_MATERIA")
+	private long admonMateria; 
 	
 	public long getNumero() {
 		return this.numero;
@@ -96,28 +94,21 @@ public class MrqsGrupoHdrDto  implements Serializable {
 		this.numeroExamen = numeroExamen;
 	}
 
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
-	public String getTema() {
-		return tema;
-	}
-
-	public void setTema(String tema) {
-		this.tema = tema;
-	}
-
+	
 	public String getComentarios() {
 		return comentarios;
 	}
 
 	public void setComentarios(String comentarios) {
 		this.comentarios = comentarios;
+	}
+
+	public long getAdmonMateria() {
+		return admonMateria;
+	}
+
+	public void setAdmonMateria(long admonMateria) {
+		this.admonMateria = admonMateria;
 	}
 
 	

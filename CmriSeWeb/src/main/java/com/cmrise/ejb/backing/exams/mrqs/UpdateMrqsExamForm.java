@@ -142,8 +142,6 @@ public class UpdateMrqsExamForm {
 	public String addMRQsGroup() {
 		
 		MrqsGrupoHdrDto mrqsGrupoHdrDto = new MrqsGrupoHdrDto(); 
-		mrqsGrupoHdrDto.setTitulo(mrqsGrupoHdr.getTitulo());
-		mrqsGrupoHdrDto.setTema(mrqsGrupoHdr.getTema());
 		mrqsGrupoHdrDto.setComentarios(mrqsGrupoHdr.getComentarios());
 		mrqsGrupoHdrDto.setNumeroExamen(this.getNumeroMrqsExamen());
 		mrqsGrupoHdrLocal.insert(mrqsGrupoHdrDto); 

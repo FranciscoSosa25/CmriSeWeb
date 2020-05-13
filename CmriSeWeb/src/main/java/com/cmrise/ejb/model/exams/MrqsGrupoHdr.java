@@ -14,9 +14,8 @@ public class MrqsGrupoHdr implements Serializable {
 	private Date fechaActualizacion;
 	private Date fechaCreacion;
 	private long numeroExamen; 
-	private String titulo;
-	private String tema; 
 	private String comentarios; 
+    private long admonMateria; 
 	
 	private List<MrqsGrupoLines> listMrqsGrupoLines = new ArrayList<MrqsGrupoLines>(); 
 	
@@ -68,22 +67,6 @@ public class MrqsGrupoHdr implements Serializable {
 		this.numeroExamen = numeroExamen;
 	}
 
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
-	public String getTema() {
-		return tema;
-	}
-
-	public void setTema(String tema) {
-		this.tema = tema;
-	}
-
 	public String getComentarios() {
 		return comentarios;
 	}
@@ -103,6 +86,14 @@ public class MrqsGrupoHdr implements Serializable {
 
 	public void setListMrqsGrupoLines(List<MrqsGrupoLines> listMrqsGrupoLines) {
 		this.listMrqsGrupoLines = listMrqsGrupoLines;
+	}
+
+	public long getAdmonMateria() {
+		return admonMateria;
+	}
+
+	public void setAdmonMateria(long admonMateria) {
+		this.admonMateria = admonMateria;
 	}
  
 	

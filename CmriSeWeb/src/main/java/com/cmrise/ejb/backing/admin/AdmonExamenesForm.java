@@ -78,6 +78,8 @@ public class AdmonExamenesForm {
 				 admonExamenHdrLocal.insert(i); 
 			}
 		}
+		  FacesMessage msg = new FacesMessage("Se Agregaron", "Los Cambios");
+	      FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
 	

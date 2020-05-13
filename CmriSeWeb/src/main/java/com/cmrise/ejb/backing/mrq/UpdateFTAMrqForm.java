@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Iterator;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -34,11 +35,13 @@ import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
 import com.cmrise.ejb.services.admin.AdmonExamenHdrLocal;
 import com.cmrise.ejb.services.admin.AdmonMateriaHdrLocal;
 import com.cmrise.ejb.services.admin.AdmonSubMateriaLocal;
+import com.cmrise.ejb.services.admin.TablasUtilitariasValoresLocal;
 import com.cmrise.ejb.services.mrqs.MrqsListasPalabrasLocal;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
 import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
+import com.cmrise.jpa.dto.admin.TablasUtilitariasValoresDto;
 import com.cmrise.jpa.dto.mrqs.MrqsListasPalabrasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto;
@@ -105,6 +108,13 @@ public class UpdateFTAMrqForm {
 	private List<SelectItem> selectMateriasHdr = new ArrayList<SelectItem>();  
 	private List<SelectItem> selectSubMaterias = new ArrayList<SelectItem>(); 
 	
+	/**** 
+	 * Instrucciones
+	 */
+	
+	private List<SelectItem> selectInstruccionesItems; 
+	private List<SelectItem> selectScoringMethodItems; 
+	
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal;
 	
@@ -135,6 +145,8 @@ public class UpdateFTAMrqForm {
 	@ManagedProperty(value="#{guestPreferences}")
 	GuestPreferences guestPreferences; 
 	
+	@Inject 
+	TablasUtilitariasValoresLocal tablasUtilitariasValoresLocal; 
 	
 	@PostConstruct
 	public void init() {
@@ -170,7 +182,8 @@ public class UpdateFTAMrqForm {
 	     
 	     onAdmonExamenChange(); 
 	     onAdmonMateriaChange(); 
-	     
+	     enviromentInstrucciones();
+	     environmentScoringMethod(); 
 		 System.out.println("Sale UpdateFTAMrqForm init()");
 	 }		 
 	 
@@ -272,6 +285,56 @@ public class UpdateFTAMrqForm {
 		 System.out.println("Sale UpdateFTAMrqForm refreshEntity()");
 	}
 
+	private void enviromentInstrucciones() {
+		this.selectInstruccionesItems = new ArrayList<SelectItem>();
+		List<TablasUtilitariasValoresDto> listInstruccionesValores =  tablasUtilitariasValoresLocal.findByTipoTabla("INSTRUCCIONES",mrqsPreguntasHdrV1ForAction.getTipoPregunta());  
+		Iterator<TablasUtilitariasValoresDto> iterInstruccionesValores = listInstruccionesValores.iterator(); 
+		while(iterInstruccionesValores.hasNext()) {
+			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterInstruccionesValores.next();
+			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getDescripcion()); 
+			this.selectInstruccionesItems.add(selectItem); 
+		}
+	}
+	
+	public List<SelectItem> getSelectInstruccionesItems(){
+		
+		return this.selectInstruccionesItems; 
+	}
+	
+	private void environmentScoringMethod() {
+		this.selectScoringMethodItems = new ArrayList<SelectItem>();
+		List<TablasUtilitariasValoresDto> listScoringMethodValores =  tablasUtilitariasValoresLocal.findByTipoTabla("SCORING_METHOD");  
+		Iterator<TablasUtilitariasValoresDto> iterScoringMethodValores = listScoringMethodValores.iterator(); 
+		if("OPCION_MULTIPLE".equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
+			while(iterScoringMethodValores.hasNext()) {
+				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
+				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+				  ||"PROP_SCORING".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+					) {
+					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+					this.selectScoringMethodItems.add(selectItem); 	
+				  }
+			}	
+		}
+		
+		if("RESP_TEXTO_LIBRE".equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
+			while(iterScoringMethodValores.hasNext()) {
+				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
+				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+				 	) {
+					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+					this.selectScoringMethodItems.add(selectItem); 	
+				  }
+			}	
+		}
+		
+		
+	}
+	
+	public List<SelectItem> getSelectScoringMethodItems(){
+		return this.selectScoringMethodItems; 
+	}
+	
 	private void initListMrqsOpcionMultiple() {
 		listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
 		int lineNumber = 1; 

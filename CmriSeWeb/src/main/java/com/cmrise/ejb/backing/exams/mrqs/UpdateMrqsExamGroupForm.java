@@ -55,9 +55,11 @@ public class UpdateMrqsExamGroupForm {
 		this.numeroMrqsExamen = utilitariosLocal.objToLong(objNumeroMrqsExamenSV); 
 		this.numeroMrqsGrupo = utilitariosLocal.objToLong(objNumeroMrqsGrupoSV); 
 		MrqsGrupoHdrDto mrqsGrupoHdrDto = mrqsGrupoHdrLocal.findByNumero(this.numeroMrqsGrupo); 
+		/**
 		this.setTituloGrupo(mrqsGrupoHdrDto.getTitulo());
 		mrqsGrupoHdr.setTitulo(mrqsGrupoHdrDto.getTitulo());
 		mrqsGrupoHdr.setTema(mrqsGrupoHdrDto.getTema());
+		**/
 		mrqsGrupoHdr.setComentarios(mrqsGrupoHdrDto.getComentarios());
 	   
 		refreshEntitys(); 
@@ -88,8 +90,10 @@ public class UpdateMrqsExamGroupForm {
 	
 	public String updateMRQsGroup() {
 		MrqsGrupoHdrDto mrqsGrupoHdrDto = new MrqsGrupoHdrDto(); 
+		/**
 		mrqsGrupoHdrDto.setTitulo(mrqsGrupoHdr.getTitulo());
 		mrqsGrupoHdrDto.setTema(mrqsGrupoHdr.getTema());
+		**/
 		mrqsGrupoHdrDto.setComentarios(mrqsGrupoHdr.getComentarios());
 		mrqsGrupoHdrLocal.update(this.getNumeroMrqsGrupo(), mrqsGrupoHdrDto);
 		FacesContext context = FacesContext.getCurrentInstance(); 

@@ -6,41 +6,6 @@
                 template="/WEB-INF/template/template.xhtml">
 
  <ui:define name="content">
- <p:breadCrumb>
-    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-         <p:menuitem value="Historial de Examenes" url="#"/>
-</p:breadCrumb>
-<h:form id="SearchForm">
-<f:passThroughAttribute name="autocomplete" value="off"/>
- <p:fieldset legend="Buscar Examen" toggleable="true" toggleSpeed="500" style="margin-bottom:20px" collapsed="true" >
-  <p:ajax event="toggle" />
-  <p:panel id="SearchPanel" >
-  <div class="ui-g ui-fluid" style="width: 100%; margin-top: 5px;">
-    <div class="ui-g-6 ui-lg-3" >
-         <p:outputLabel   value="Titulo Examen:" />
-         <p:inputText id="titulo_examen" value="#{historyExamsForm.tituloExamen}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
-         <p:message for="titulo_examen"/>
-         </div>
-            <div class="ui-g-6 ui-lg-3" >
-         <p:outputLabel   value="Tipo Examen:" />
-         <p:inputText id="tipo_examen" value="#{historyExamsForm.tipoExamen}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
-         <p:message for="tipo_examen"/>
-    </div>
-
-  
-    
-    </div>
-       <div class="ui-g">
-       <div class="ui-g-12 ui-lg-12" style="text-align: right;">
-        <p:commandButton value="Cancelar">
-         <p:ajax update="SearchPanel" resetValues="true" />
-        </p:commandButton>
-        <p:commandButton value="Consultar" actionListener="#{historyExamsForm.findByTituloExamen()}"  update="ReadOnlyForm" style="margin-left: 10px;"/>
-       </div>
-     </div>
-  </p:panel>
- </p:fieldset>
-</h:form>
 
 <h:form id="ReadOnlyForm">
  <p:dataTable var="examen" value="#{historyExamsForm.listExamenes}" emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >

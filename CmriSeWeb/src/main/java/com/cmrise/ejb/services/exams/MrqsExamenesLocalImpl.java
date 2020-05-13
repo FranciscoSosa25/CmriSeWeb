@@ -114,7 +114,7 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 			for(MrqsGrupoHdrDto i:listMrqsGrupoHdrDto) {
 				MrqsGrupoHdr mrqsGrupoHdr = new MrqsGrupoHdr(); 
 				mrqsGrupoHdr.setNumero(i.getNumero());
-				mrqsGrupoHdr.setTitulo(i.getTitulo());
+				mrqsGrupoHdr.setAdmonMateria(i.getAdmonMateria());
 				
 				List<MrqsGrupoLinesDto> listMrqsGrupoLinesDto = mrqsGrupoLinesDao.findByNumeroHdr(i.getNumero());
 				if(null!=listMrqsGrupoLinesDto) {
