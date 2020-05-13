@@ -34,7 +34,7 @@ public class MrqsGrupoHdrLocalImpl implements MrqsGrupoHdrLocal {
 			MrqsGrupoHdr mrqsGrupoHdr = new MrqsGrupoHdr();
 			mrqsGrupoHdr.setNumero(mrqsGrupoHdrDto.getNumero());
 			mrqsGrupoHdr.setNumeroExamen(mrqsGrupoHdrDto.getNumeroExamen());
-			mrqsGrupoHdr.setTitulo(mrqsGrupoHdrDto.getTitulo());
+			mrqsGrupoHdr.setAdmonMateria(mrqsGrupoHdrDto.getAdmonMateria());
 			retval.add(mrqsGrupoHdr); 
 		}
 		return retval;

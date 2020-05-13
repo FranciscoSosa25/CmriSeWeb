@@ -4,9 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.PrimeFaces;
 
@@ -28,6 +33,15 @@ public class TablasUtilitariasValoresForm {
 	
 	@Inject 
 	TablasUtilitariasValoresLocal tablasUtilitariasValoresLocal; 
+	
+	 @PostConstruct
+	 public void init() {
+		 FacesContext context = FacesContext.getCurrentInstance();  
+    	 HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest(); 
+	     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+	     tipoTabla = (String)session.getAttribute("tablaUtilitariaSV"); 
+	     listTabUtilVal = tablasUtilitariasValoresLocal.findObjModByTipoTabla(tipoTabla); 
+	 }
 	
     public void increment() {
     	countRec++;
@@ -93,6 +107,8 @@ public class TablasUtilitariasValoresForm {
 				}
 			}
 		}
+		  FacesMessage msg = new FacesMessage("Se Agregaron", "Los Cambios");
+	      FacesContext.getCurrentInstance().addMessage(null, msg);
 		System.out.println("Sale guardar");
 	}
 	
@@ -159,6 +175,10 @@ public class TablasUtilitariasValoresForm {
     	buscar(); 
 		deleteIn = true; 
 		PrimeFaces.current().ajax().addCallbackParam("deleteIn", deleteIn);
+    }
+    
+    public String regresar() {
+    	return "Manage-TablasUtilitariasvalores"; 
     }
     
 	public List<TablasUtilitariasValores> getListTabUtilVal() {

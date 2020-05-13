@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+<ui:define name="content">
+
+<h:form id="ReadOnlyForm">
+<p:dataTable var="tabla" value="#{manageTablasUtilitariasForm.listTablasUtilitariasValoresV1}">
+<f:facet name="header">Listas Utilitarias</f:facet>
+<p:column  headerText="Lista">
+ <h:outputText value="#{tabla.tipoTabla}"></h:outputText>
+</p:column>
+<p:column  headerText="Número de Registros">
+ <h:outputText value="#{tabla.numeroRegistros}"></h:outputText>
+</p:column>
+<p:column  headerText="Acciones" style="text-align:center;">
+  <p:commandButton value="Administrar Registros" immediate="true" action="#{manageTablasUtilitariasForm.toRegistros(tabla)}"/>
+</p:column>
+</p:dataTable>
+<p:commandButton value="Agregar Lista" icon="fa fa-plus" style="margin:20px;" onclick="PF('NuevaListaDialogWV').show();" />
+</h:form>
+
+   <p:dialog id="NuevaListaDialogId" header="Crear Nueva Lista" widgetVar="NuevaListaDialogWV" modal="true">
+   <h:form id="NuevaListaForm">
+   <f:passThroughAttribute name="autocomplete" value="off"/>
+       <div class="ui-g">
+       <div class="ui-g-12 ui-md-12">
+             <p:outputLabel for="tipoTabla" value="Nombre de la Lista"/>
+	         <p:inputText id="tipoTabla" value="#{manageTablasUtilitariasForm.tipoTabla}" style="width:100%" maxlength="30" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+	         <p:message for="tipoTabla"/>      
+       </div>
+       </div>
+        <div class="ui-g">
+        <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
+         <p:commandButton value="Crear" update="NuevaListaForm"  action="#{manageTablasUtilitariasForm.nuevaLista()}"  /> 
+        </div>
+         <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
+        <p:commandButton value="Cancelar" type="reset"   onclick="PF('NuevaListaDialogWV').hide();" /> 
+        </div>
+        </div>
+   </h:form>
+   </p:dialog> 
+  
+</ui:define>
+</ui:composition>

@@ -224,11 +224,12 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          </div>
          
            <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel  value="Texto de sugerencias" />
+         <p:outputLabel  value="Instrucciones" />
         </div>
          <div class="ui-g-12 ui-md-9">
-          <p:inputText id="hintsText" value="#{updateFTAMrqForm.textoSugerencias}"   placeholder="(No use mas de 5 palabras)"  maxlength="500" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-          <p:message for="hintsText"/>
+         <p:selectOneMenu id="hintsText" value="#{updateFTAMrqForm.textoSugerencias}"   style="width:30%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
+           <f:selectItems value="#{updateFTAMrqForm.selectInstruccionesItems}" />
+          </p:selectOneMenu>
          </div>
          
           <div class="ui-g-12 ui-md-3" style="text-align:right;">
@@ -236,7 +237,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         </div>
         <div class="ui-g-12 ui-md-9">
          <p:selectOneMenu id="scoringMethod" value="#{updateFTAMrqForm.metodoPuntuacion}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"  >
-          <f:selectItem itemValue="WRONG_CORRECT" itemLabel="Correcto - Incorrecto"/>
+          <f:selectItems value="#{updateFTAMrqForm.selectScoringMethodItems}" />
          </p:selectOneMenu>
           <p:message for="scoringMethod"/>
          </div>
@@ -402,17 +403,6 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         </div>
          <div class="ui-g-12 ui-md-9">
           <p:inputTextarea id="notas" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.notas}"   maxlength="255" style="width:50%" />
-<!-- 		    <f:facet name="toolbar"> -->
-<!-- 		        <span class="ql-formats"> -->
-<!-- 		            <button class="ql-bold"></button> -->
-<!-- 		            <button class="ql-italic"></button> -->
-<!-- 		            <button class="ql-underline"></button> -->
-<!-- 		            <button class="ql-strike"></button> -->
-<!-- 		            <button class="ql-unorderedlist"></button> -->
-<!-- 		            <button class="ql-orderedlist"></button> -->
-<!-- 		        </span> -->
-<!-- 		    </f:facet> -->
-<!-- 		</p:textEditor> -->
         </div>
      </div>
  
@@ -442,9 +432,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
    
    
  
- 
-<!--    <div class="ui-g"> -->
-      
+       
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="questionText"  value="Texto de la pregunta" />
         </div> 
@@ -457,9 +445,9 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          <p:outputLabel  value="Instrucciones" />
         </div>
          <div class="ui-g-12 ui-md-9">
-          <p:selectOneMenu id="hintsText" value="#{updateFTAMrqForm.textoSugerencias}"   placeholder="(No use mas de 5 palabras)"   style="width:30%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
-         <f:selectItems value="#{selectsHelper.selectInstruccionesItems}" />
-             </p:selectOneMenu>
+          <p:selectOneMenu id="hintsText" value="#{updateFTAMrqForm.textoSugerencias}"   style="width:30%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
+           <f:selectItems value="#{updateFTAMrqForm.selectInstruccionesItems}" />
+          </p:selectOneMenu>
           <p:message for="hintsText"/>
          </div>
          
@@ -468,7 +456,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         </div>
         <div class="ui-g-12 ui-md-9">
          <p:selectOneMenu id="scoringMethod" value="#{updateFTAMrqForm.metodoPuntuacion}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"  >
-         <f:selectItems value="#{selectsHelper.selectScoringMethodItems}" />
+         <f:selectItems value="#{updateFTAMrqForm.selectScoringMethodItems}" />
          </p:selectOneMenu>
           <p:message for="scoringMethod"/>
          </div>

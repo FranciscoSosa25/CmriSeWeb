@@ -12,6 +12,11 @@
 			<redirect />
 		</navigation-case>
 		<navigation-case>
+			<from-outcome>Manage-TablasUtilitariasvalores</from-outcome>
+			<to-view-id>/cmrise/admin/ManageTablasUtilitarias.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
 			<from-outcome>Admin-Usuarios</from-outcome>
 			<to-view-id>/cmrise/admin/Usuarios.xhtml</to-view-id>
 			<redirect />

@@ -35,41 +35,20 @@ function handleDeleteRequest(xhr, status, args){
 </script>
 </ui:define>
 
-<!-- <ui:define name="buscar"> -->
-<!--  <p:commandButton immediate="true" title="Buscar"  value="Buscar" icon="pi pi-search" onclick="PF('BuscarTablUtilValoDialogWV').show();"/> -->
-<!-- </ui:define> -->
-
-<!-- <ui:define name="nuevo"> -->
-<!--  <p:commandButton immediate="true" title="Nuevo"  value="Nuevo" icon="pi pi-plus" actionListener="#{tablasUtilitariasValoresForm.nuevo()}" update="NuevoTablUtilValo"/> -->
-<!-- </ui:define> -->
-
-<!-- <ui:define name="guardar"> -->
-<!--  <p:commandButton  title="Guardar" value="Guardar" icon="pi pi-save" onclick="guardarFn();" /> -->
-<!-- </ui:define> -->
-
-
-
 <ui:define name="content">
-<p:breadCrumb>
-    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="Tablas Utilitarias" url="#"/>
-   
-   
-</p:breadCrumb>
 
   <h:form id="NuevoTablUtilValo">
-
+  <p:growl id="msgs" showDetail="true"/>
    <f:passThroughAttribute name="autocomplete" value="off"/>
    <h1>
-   <p:commandButton value="Agregar Linea" styleClass="ui-priority-primary" update="NuevoTablUtilValo" actionListener="#{tablasUtilitariasValoresForm.agregarLinea()}" oncomplete="handleAgregarLineaRequest(xhr, status, args)"/>
-   <p:commandButton immediate="true" title="Buscar"  value="Buscar" icon="pi pi-search" onclick="PF('BuscarTablUtilValoDialogWV').show();"/>
-   <p:commandButton immediate="true" title="Nuevo"  value="Nuevo" icon="pi pi-plus" actionListener="#{tablasUtilitariasValoresForm.nuevo()}" update="NuevoTablUtilValo"/>
-   <p:commandButton  title="Guardar" value="Guardar" icon="pi pi-save" onclick="guardarFn();" />
+   <p:commandButton immediate="true" title="Buscar"  value="Buscar" icon="pi pi-search" onclick="PF('BuscarTablUtilValoDialogWV').show();" rendered="false"/>
+   <p:commandButton immediate="true" title="Nuevo"  value="Nuevo" icon="pi pi-plus" actionListener="#{tablasUtilitariasValoresForm.nuevo()}" update="NuevoTablUtilValo" rendered="false"/>
      </h1>
-       <div class="card">
-     <p:outputLabel for="tipo" value="Tipo Tabla"/>
-     <p:inputText id="tipo" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" value="#{tablasUtilitariasValoresForm.tipoTabla}"/>
-     <p:message for="tipo"/>
+     <div class="card">
+     <h1 style="font-weight:bold;">
+     <h:outputLabel for="tipo" value="Lista:" />
+     <h:outputText value="#{tablasUtilitariasValoresForm.tipoTabla}" />
+     </h1>
      <p:dataTable var="tabUtilVal" value="#{tablasUtilitariasValoresForm.listTabUtilVal}" editable="true" editMode="cell" widgetVar="DataTableUtilValoWV" >
         <p:column headerText="Codigo">
           <p:inputText id="codigoInput" value="#{tabUtilVal.codigoTabla}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
@@ -99,11 +78,6 @@ function handleDeleteRequest(xhr, status, args){
          </p:column>
      </p:dataTable>
      
-     <div class="ui-g">
-         <div class="ui-g-12">
-             
-         </div>
-     </div>
      
       <p:remoteCommand name="anterior" update="NuevoTablUtilValo" action="#{tablasUtilitariasValoresForm.registroAnterior()}" />
       <p:remoteCommand name="siguiente" update="NuevoTablUtilValo" action="#{tablasUtilitariasValoresForm.registroSiguiente()}" />
@@ -111,6 +85,16 @@ function handleDeleteRequest(xhr, status, args){
       <p:commandButton id="GuardarBtn" title="Guardar" value="Guardar" icon="pi pi-save" actionListener="#{tablasUtilitariasValoresForm.guardar()}" update="NuevoTablUtilValo" style="display:none" oncomplete="handleGuardarRequest(xhr, status, args)"/>
  
      </div>  
+     
+        <div class="ui-g">
+         <div class="ui-g-12">
+              <p:commandButton value="Regresar" icon="fa fa-backward" immediate="true"  style="margin:10px 20px 10px 20px;" action="#{tablasUtilitariasValoresForm.regresar()}"/>
+              <p:commandButton value="Agregar Linea" styleClass="ui-priority-primary" update="NuevoTablUtilValo" actionListener="#{tablasUtilitariasValoresForm.agregarLinea()}" oncomplete="handleAgregarLineaRequest(xhr, status, args)" style="margin:10px 20px 10px 20px;"/>
+              <p:commandButton  title="Guardar" value="Guardar" icon="pi pi-save" onclick="guardarFn();" style="margin:10px 20px 10px 20px;"/>
+         </div>
+     </div>
+  
+     
   </h:form>
 
   <h:form id="BuscarTablUtilValo">

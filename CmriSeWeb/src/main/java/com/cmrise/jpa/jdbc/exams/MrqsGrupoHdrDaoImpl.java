@@ -61,8 +61,7 @@ public class MrqsGrupoHdrDaoImpl implements MrqsGrupoHdrDao {
 	@Override
 	public void update(long pNumero, MrqsGrupoHdrDto pMrqsGrupoHdrDto) {
 		MrqsGrupoHdrDto mrqsGrupoHdrDto = em.find(MrqsGrupoHdrDto.class, pNumero); 
-		mrqsGrupoHdrDto.setTitulo(pMrqsGrupoHdrDto.getTitulo());
-		mrqsGrupoHdrDto.setTema(pMrqsGrupoHdrDto.getTema());
+		mrqsGrupoHdrDto.setAdmonMateria(pMrqsGrupoHdrDto.getAdmonMateria());
 		mrqsGrupoHdrDto.setComentarios(pMrqsGrupoHdrDto.getComentarios());
 	}
 

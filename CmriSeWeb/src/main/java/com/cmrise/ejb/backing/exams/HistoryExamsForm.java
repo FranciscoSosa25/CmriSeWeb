@@ -19,7 +19,6 @@ import com.cmrise.ejb.services.exams.ExamenesLocal;
 public class HistoryExamsForm {
 	
 	private List<Examenes> listExamenes = new ArrayList<Examenes>(); 
-	private String tituloExamen; 
 	private String tipoExamen; 
 	
 	@Inject
@@ -48,12 +47,9 @@ public class HistoryExamsForm {
 	}    
 	
 	public void findByTituloExamen() {
-		 listExamenes = examenesLocal.findByTituloExamen(this.tituloExamen,this.tipoExamen); 
+      System.out.println("Sin Implementacion");
 	}
-	/*public void findByTipoExamen() {
-		 listExamenes = examenesLocal.findByTipoExamen(this.tipoExamen); 
-	}*/
-	
+
 	public List<Examenes> getListExamenes() {
 		return listExamenes;
 	}
@@ -61,14 +57,6 @@ public class HistoryExamsForm {
 	public void setListExamenes(List<Examenes> listExamenes) {
 		this.listExamenes = listExamenes;
 	}
-
-	public String getTituloExamen() {
-		return tituloExamen;
-	}
-
-	public void setTituloExamen(String tituloExamen) {
-		this.tituloExamen = tituloExamen;
-	} 
 
 	public String getTipoExamen() {
 		return tipoExamen;

@@ -117,7 +117,7 @@ public class MRQsExamForm {
 			if(0==numeroMgl) {
 				for(MrqsGrupoHdr idxHdr:listMrqsGrupoHdr) {
 					mrqsGrupoHdr.setNumero(idxHdr.getNumero());
-					mrqsGrupoHdr.setTitulo(idxHdr.getTitulo());
+				/*	mrqsGrupoHdr.setTitulo(idxHdr.getTitulo());*/
 					List<MrqsGrupoLinesV2> listMrqsGrupoLinesV2 = mrqsGrupoLinesLocal.findByNumeroHdrWDV2(idxHdr.getNumero());
 					for(MrqsGrupoLinesV2 idx:listMrqsGrupoLinesV2) {
 						System.out.println("idx.getTextoPregunta():"+idx.getTextoPregunta());
@@ -159,7 +159,7 @@ public class MRQsExamForm {
 				MrqsGrupoLinesV2 tmp = mrqsGrupoLinesLocal.findByNumeroV2(numeroMgl);
 				
 				mrqsGrupoHdr.setNumero(tmp.getNumeroHdr());
-				mrqsGrupoHdr.setTitulo(tmp.getTituloGrupo());
+			/*	mrqsGrupoHdr.setTitulo(tmp.getTituloGrupo()); */
 				
 				mrqsGrupoLinesV2.setNumero(tmp.getNumero());
 				mrqsGrupoLinesV2.setTitulo(tmp.getTitulo());

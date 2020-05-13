@@ -56,5 +56,24 @@ public class TablasUtilitariasValoresDaoImpl implements TablasUtilitariasValores
 		em.remove(tablasUtilitariasValoresDto);
 	}
 
+	@Override
+	public List<Object> findAllByGroup() {
+		String strQuery = "SELECT [TIPO_TABLA]\r\n" + 
+						"      ,COUNT(1) NUMERO_REGISTROS\r\n" + 
+						"  FROM [dbo].[TABLAS_UTILITARIAS_VALORES]\r\n" + 
+						"  GROUP BY [TIPO_TABLA]"; 
+		Query query = em.createNativeQuery(strQuery); 
+		List<Object> retval = query.getResultList(); 
+		return retval;
+	}
+
+	@Override
+	public List<TablasUtilitariasValoresDto> findByTipoTabla(String pTipoTabla, String pTipoPregunta) {
+		String strQuery = "SELECT t FROM TablasUtilitariasValoresDto t where t.tipoTabla like '%"+pTipoTabla+"%' and t.significado like '%"+pTipoPregunta+"%'";
+		Query query = em.createQuery(strQuery); 
+		List<TablasUtilitariasValoresDto> retval = query.getResultList(); 
+		return retval;
+	}
+
 	
 }
