@@ -43,6 +43,15 @@
   clear: both;
 }
 
+
+.commandButton {
+	background: #2D0D86;
+	border-radius: 2px;
+	 -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+	
+}
+
 .card {
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
