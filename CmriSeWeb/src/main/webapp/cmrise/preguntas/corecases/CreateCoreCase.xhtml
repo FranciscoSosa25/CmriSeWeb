@@ -17,7 +17,7 @@
                 
                 
 <ui:define name="content">
-<p:breadCrumb>
+<p:breadCrumb style="background-color: #2D0D86;">
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
      <p:menuitem value="Casos clínicos" outcome= "Preguntas-Manage-CoreCases" />
      <p:menuitem value="Crear Caso Clínico" url="#"/>
@@ -142,10 +142,10 @@
      
      <div class="ui-g">
 	 <div class="ui-g-12 ui-md-6 ui-lg-2">
-	  <p:commandButton value="Agregar Caso Clínico" update="createForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createCoreCaseForm.create()}"/>
+	  <p:commandButton value="Agregar Caso Clínico" update="createForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createCoreCaseForm.create()}" style="background: #2D0D86;"/>
 	 </div>
 	 <div class="ui-g-12 ui-md-6 ui-lg-2">
-	  <p:commandButton value="Cancelar" process="@this" update="createForm" action="Preguntas-Manage-CoreCases" >
+	  <p:commandButton value="Cancelar" process="@this" update="createForm" action="Preguntas-Manage-CoreCases" style="background: #2D0D86;" >
 	  <p:resetInput target="createForm"/>
 	   </p:commandButton>
 	 </div>

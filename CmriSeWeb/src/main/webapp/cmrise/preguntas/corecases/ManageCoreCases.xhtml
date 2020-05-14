@@ -24,13 +24,13 @@ function handleDeleteRequest(xhr, status, args){
  </ui:define>
                 
 <ui:define name="content">
-<p:breadCrumb>
+<p:breadCrumb style="background-color :#2D0D86;">
     <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
      <p:menuitem value="Casos Clínicos" url="#"/>
 	
 </p:breadCrumb>
 <h1>Casos Clinicos</h1>
- <p:commandButton immediate="true" title="Nuevo"  value="Nuevo Caso Clínico" icon="pi pi-plus" action="Preguntas-Create-CoreCase" style="text-align:right;"/>
+ <p:commandButton immediate="true" title="Nuevo"  value="Nuevo Caso Clínico" icon="pi pi-plus" action="Preguntas-Create-CoreCase" style="text-align:right; background: #2D0D86;"/>
 <h:form id="ReadOnlyForm">
  <p:dataTable var="ccHdrV1"  value="#{manageCoreCasesForm.listCcHdrV1}"  paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">
@@ -59,8 +59,8 @@ function handleDeleteRequest(xhr, status, args){
      </h:outputText>
    </p:column>     
      <p:column headerText="Acciones">
-        <p:commandButton icon="fa fa-edit" style="margin-left: 10px;" action="#{manageCoreCasesForm.update(ccHdrV1)}"/>
-        <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteRolDialogWV').show();" ajax="true" actionListener="#{manageCoreCasesForm.selectForAction(ccHdrV1)}"/>
+        <p:commandButton icon="fa fa-edit" style="margin-left: 10px; background: #2D0D86;" action="#{manageCoreCasesForm.update(ccHdrV1)}"/>
+        <p:commandButton icon="fa fa-trash" style="margin-left: 10px; background: #2D0D86;"  oncomplete="PF('deleteRolDialogWV').show();" ajax="true" actionListener="#{manageCoreCasesForm.selectForAction(ccHdrV1)}"/>
      </p:column>
    </p:dataTable>
   </h:form>
@@ -70,10 +70,10 @@ function handleDeleteRequest(xhr, status, args){
    <h2>¿Esta seguro de que desea borrar este registro?</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeleteBtn" update="ReadOnlyForm" value="Aceptar" actionListener="#{manageCoreCasesForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
+                 <p:commandButton id="DeleteBtn" update="ReadOnlyForm" style="background: #2D0D86;" value="Aceptar" actionListener="#{manageCoreCasesForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
               </div>
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('deleteRolDialogWV').hide();" />
+                 <p:commandButton id="CancelarBtn" style="background: #2D0D86;" value="Cancelar"  onclick="PF('deleteRolDialogWV').hide();" />
               </div>
      </div>
   </p:dialog>
