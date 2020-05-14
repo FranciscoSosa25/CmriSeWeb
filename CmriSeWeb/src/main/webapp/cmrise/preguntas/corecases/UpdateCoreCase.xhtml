@@ -29,7 +29,7 @@
 
   <div class="ui-g">
    <div class="ui-g-12 ui-md-12">
-   <p:commandButton immediate="true" title="Nuevo"  value="Nueva Pregunta" icon="pi pi-plus" action="#{updateCoreCaseForm.createCoreQuestion()}"/>
+   <p:commandButton immediate="true" title="Nuevo"  value="Nueva Pregunta" icon="pi pi-plus" action="#{updateCoreCaseForm.createCoreQuestion()}" style="background: #2D0D86;"/>
    </div>
   </div>
   
@@ -59,17 +59,17 @@
  <div class="ui-g">
  <div class="ui-g-12 ui-md-6 ui-lg-2">
 
-  <p:commandButton value="Guardar" update="updateForm" actionListener= "#{updateCoreCaseForm.actualizar()}"/>
+  <p:commandButton value="Guardar" update="updateForm" actionListener= "#{updateCoreCaseForm.actualizar()}" style="background: #2D0D86;"/>
 
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Guardar y Previsualizar" update="updateForm" action="#{updateCoreCaseForm.saveAndPreview()}"/>
+  <p:commandButton value="Guardar y Previsualizar" update="updateForm" action="#{updateCoreCaseForm.saveAndPreview()}" style="background: #2D0D86;"/>
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Cancelar" action="Preguntas-Manage-CoreCases" immediate="true"/>
+  <p:commandButton value="Cancelar" action="Preguntas-Manage-CoreCases" immediate="true" style="background: #2D0D86;"/>
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Borrar"/>
+  <p:commandButton value="Borrar" style="background: #2D0D86;"/>
  </div>
 </div>
 </h:form>

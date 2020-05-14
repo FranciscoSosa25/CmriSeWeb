@@ -13,7 +13,7 @@
 <ui:define name="content">
 
 <h2>
- <p:commandButton immediate="true" title="Nuevo"  value="Nuevo Examen de Reactivos" icon="pi pi-plus" action="Exams-MRQs-Create"/>
+ <p:commandButton immediate="true" title="Nuevo"  value="Nuevo Examen de Reactivos" icon="pi pi-plus" action="Exams-MRQs-Create" style="background: #2D0D86;"/>
 </h2>
 
  <h:form id="ReadOnlyForm">
@@ -41,9 +41,9 @@
       <h:outputText value="#{mrqsExamenes.elaborador}" />
     </p:column>
      <p:column headerText="Acciones">
-        <p:commandButton icon="fa fa-edit" style="margin-left: 10px;" action="#{manageMrqsExamsForm.update(mrqsExamenes)}"/>
-        <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteExamenDialogWV').show();" ajax="true" actionListener="#{manageMrqsExamsForm.selectForAction(mrqsExamenes)}"/>
-        <p:commandButton icon="fa fa-eye" style="margin-left: 10px;" action="#{manageMrqsExamsForm.toPreviewExamenReactivos(mrqsExamenes)}"/>
+        <p:commandButton icon="fa fa-edit" style="margin-left: 10px; background: #2D0D86;" action="#{manageMrqsExamsForm.update(mrqsExamenes)}"/>
+        <p:commandButton icon="fa fa-trash" style="margin-left: 10px; background: #2D0D86;" oncomplete="PF('deleteExamenDialogWV').show();" ajax="true" actionListener="#{manageMrqsExamsForm.selectForAction(mrqsExamenes)}"/>
+        <p:commandButton icon="fa fa-eye" style="margin-left: 10px; background: #2D0D86;" action="#{manageMrqsExamsForm.toPreviewExamenReactivos(mrqsExamenes)}"/>
      </p:column>
      
  </p:dataTable>
@@ -55,10 +55,10 @@
    <h2>#{msgs['globalForm.deleteMessage']}</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeleteBtn" update="ReadOnlyForm" value="Aceptar" actionListener="#{manageMrqsExamsForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
+                 <p:commandButton id="DeleteBtn" update="ReadOnlyForm" value="Aceptar" actionListener="#{manageMrqsExamsForm.delete()}" background: #2D0D86; oncomplete="handleDeleteRequest(xhr, status, args)"  />
               </div>
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('deleteExamenDialogWV').hide();" />
+                 <p:commandButton id="CancelarBtn"  value="Cancelar" style="background: #2D0D86;" onclick="PF('deleteExamenDialogWV').hide();" />
               </div>
      </div>
   </p:dialog>
