@@ -31,6 +31,7 @@ public class MrqsImagenesDaoImpl implements MrqsImagenesDao {
 		pMrqsImagenesDto.setFechaCreacion(sqlsysdate);
 		pMrqsImagenesDto.setFechaActualizacion(sqlsysdate);
 		pMrqsImagenesDto.setRutaImagen(pMrqsImagenesDto.getRutaImagen()+"\\"+lNumeroS.longValue());
+		pMrqsImagenesDto.setContentType(pMrqsImagenesDto.getContentType());
 		em.persist(pMrqsImagenesDto);
 		return lNumeroS.longValue();
 	}
@@ -42,10 +43,12 @@ public class MrqsImagenesDaoImpl implements MrqsImagenesDao {
 		mrqsImagenesDto.setNumeroGrp(pNumeroImagenesGrp);
 		mrqsImagenesDto.setNombreImagen(pMrqsImagenes.getNombreImagen());
 		mrqsImagenesDto.setRutaImagen(pMrqsImagenes.getRutaImagen());
+		mrqsImagenesDto.setContentType(pMrqsImagenes.getContentType());
 		System.out.println("V1 mrqsImagenesDto.getRutaImagen():"+mrqsImagenesDto.getRutaImagen());
 		insert(mrqsImagenesDto);
 		System.out.println("V2 mrqsImagenesDto.getRutaImagen():"+mrqsImagenesDto.getRutaImagen());
 		pMrqsImagenes.setRutaImagen(mrqsImagenesDto.getRutaImagen());
+		
 		return  mrqsImagenesDto.getNumero(); 
 	}
 

@@ -41,6 +41,9 @@ public class MrqsImagenesDto implements Serializable {
 	@Column(name="NUMERO_GRP")
 	private long numeroGrp; 
 	
+	@Column(name="CONTENT_TYPE")
+	private String contentType; 
+	
 	public long getNumero() {
 		return this.numero;
 	}
@@ -103,6 +106,14 @@ public class MrqsImagenesDto implements Serializable {
 
 	public void setNumeroGrp(long numeroGrp) {
 		this.numeroGrp = numeroGrp;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
 	}
 
 }

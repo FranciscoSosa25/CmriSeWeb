@@ -1,8 +1,11 @@
 package com.cmrise.ejb.model.mrqs.img;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 public class MrqsImagenes implements Serializable {
@@ -17,9 +20,13 @@ public class MrqsImagenes implements Serializable {
 	private String nombreImagen; 
 	private String rutaImagen; 
 	private StreamedContent imagenStreamed; 
+	private StreamedContent videoStreamed; 
 	private String imagenBase64; 
 	private byte[] imagenContent; 
 	private long numeroGrp; 
+	private String contentType; 
+	private boolean image; 
+	private boolean video; 
 	
 	public long getNumero() {
 		return this.numero;
@@ -107,6 +114,54 @@ public class MrqsImagenes implements Serializable {
 
 	public void setNumeroGrp(long numeroGrp) {
 		this.numeroGrp = numeroGrp;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+
+	public StreamedContent getVideoStreamed() {
+		if(video) {
+		videoStreamed = DefaultStreamedContent.builder()
+        .contentType(getContentType())
+        .stream(() -> {
+        			InputStream is = new ByteArrayInputStream(getImagenContent());
+      				return is;	
+		     })
+         .build()
+         ;
+		}
+		return videoStreamed;
+	}
+
+	public void setVideoStreamed(StreamedContent videoStreamed) {
+		this.videoStreamed = videoStreamed;
+	}
+
+	public boolean isImage() {
+		return image;
+	}
+
+	public void setImage(boolean image) {
+		if(image) {
+			setVideo(false);
+		}
+		this.image = image;
+	}
+
+	public boolean isVideo() {
+		return video;
+	}
+
+	public void setVideo(boolean video) {
+		if(video) {
+			setImage(false); 
+		}
+		this.video = video;
 	}
 
 }

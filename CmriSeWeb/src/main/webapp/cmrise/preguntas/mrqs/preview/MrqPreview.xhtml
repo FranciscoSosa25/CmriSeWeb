@@ -75,40 +75,13 @@ function handleUpdateRequest(xhr, status, args){
 <h:form id="previewForm">
 <p:growl id="growl" showDetail="true" life="5000" />  
 <div class="ui-g">
- <!-- 
- <div class="ui-g-12 ui-md-3">
- 
-   <div class="ui-g-12 ui-md-12" style="background-color: #4a4058;color: #fff;">
-     <div class="ui-g-12" >
-     <h3>Reactivo</h3>
-     <h1>#{mrqPreviewForm.tituloPregunta}</h1>
-    </div>
-   </div>
-   
-   <div class="ui-g-12 ui-md-12" style="background-color: rgba(0, 0, 0, 0.3);color: #fff;">
-   </div>  
-   <div class="ui-g-12 ui-md-12" style="background-color: rgba(0, 0, 0, 0.3);color: #fff;">
-    <h1>Tabla de Contenidos</h1>
-   </div>
-   <div class="ui-g-12 ui-md-12" style="background-color: #343633;color: #fff;">
-    <h3>Pregunta</h3>
-    <h3>#{mrqPreviewForm.tituloPregunta}</h3>
-   </div>
 
- </div>
-     -->
   <div class="ui-g-12 ui-md-12 ui-g-nopad">
       
      <div class="ui-g-12 ui-md-12">
         <div class="ui-g-12 ui-md-12">
-        <!-- 
-          <div class="ui-g-12 ui-md-8">
-            <h3>Pregunta > #{mrqPreviewForm.tituloPregunta}</h3>
-           </div>
-            -->
            <div class="ui-g-12 ui-md-4">
              <p:commandButton value="Siguiente" update="previewForm" style="margin-left:15px;" actionListener="#{mrqPreviewForm.saveProceed()}" rendered="#{mrqPreviewForm.questionView}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
-<!--              <p:commandButton value="Saltar" style="margin-left:15px;" action="#{mrqPreviewForm.skip()}" rendered="#{mrqPreviewForm.questionView}" immediate="true"/> -->
              <p:commandButton value="Continuar" style="margin-left:15px;" action="#{mrqPreviewForm.proceed()}" rendered="#{mrqPreviewForm.answerView}"/>
            </div>
            
@@ -118,7 +91,14 @@ function handleUpdateRequest(xhr, status, args){
 		      </div>
 		      <div class="ui-g-12">
 		       <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
-		         <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="max-width: 100%; max-height: 100%;" />
+		        <h:panelGroup layout="block" rendered="#{imagenes.image}">
+		        <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="width: 50%;height:50%;" />
+		       </h:panelGroup>
+		       <h:panelGroup layout="block" rendered="#{imagenes.video}">
+		         <video width="320" height="240" controls="controls" style="width: 50%;height:50%;" >
+				  <source src="data:#{imagenes.contentType};base64,#{imagenes.imagenBase64}" />
+			     </video>
+		        </h:panelGroup> 
 		       </ui:repeat>
 		      </div>
 		      <div class="ui-g-12">
