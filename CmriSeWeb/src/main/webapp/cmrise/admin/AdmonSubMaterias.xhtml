@@ -23,8 +23,8 @@ function handleDeleteRequest(xhr, status, args){
 <h:form id="SubMateriasForm">
 <p:growl id="msgs" showDetail="true"/>
 <h2>
-             <p:commandButton value="Agregar SubMateria" style="margin-left: 10px;"  styleClass="ui-priority-primary"  update="SubMateriasForm" action="#{admonSubMateriasForm.onAddNew()}" />
-             <p:commandButton value="Guardar Cambios" style="margin-left: 10px;" styleClass="ui-priority-primary"  update="SubMateriasForm" action="#{admonSubMateriasForm.saveAndUpdate()}" />
+             <p:commandButton value="Agregar SubMateria" style="margin-left: 10px; BackGround:#2D0D86;"  styleClass="ui-priority-primary"  update="SubMateriasForm" action="#{admonSubMateriasForm.onAddNew()}" />
+             <p:commandButton value="Guardar Cambios" style="margin-left: 10px; BackGround:#2D0D86;" styleClass="ui-priority-primary"  update="SubMateriasForm" action="#{admonSubMateriasForm.saveAndUpdate()}" />
          </h2>
 <div class="card">
 <p:dataTable var="materia" value="#{admonSubMateriasForm.subMaterias}">
@@ -42,7 +42,7 @@ function handleDeleteRequest(xhr, status, args){
          <p:message for="fechaEfectivaHastaInput"/>
       </p:column>
       <p:column  headerText="Opciones">
-      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteSubMateriaDialogWV').show();" ajax="true" actionListener="#{admonSubMateriasForm.selectForAction(materia)}"/>
+      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86;" oncomplete="PF('deleteSubMateriaDialogWV').show();" ajax="true" actionListener="#{admonSubMateriasForm.selectForAction(materia)}"/>
      </p:column>
 </p:dataTable>
 </div>
@@ -56,10 +56,10 @@ function handleDeleteRequest(xhr, status, args){
     <h2>#{msgs['globalForm.deleteMessage']}</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeleteBtn" update="SubMateriasForm" value="Aceptar" actionListener="#{admonSubMateriasForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
+                 <p:commandButton id="DeleteBtn" style="BackGround:#2D0D86;"  update="SubMateriasForm" value="Aceptar" actionListener="#{admonSubMateriasForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
               </div>
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('deleteSubMateriaDialogWV').hide();" />
+                 <p:commandButton id="CancelarBtn" style="BackGround:#2D0D86;"  value="Cancelar"  onclick="PF('deleteSubMateriaDialogWV').hide();" />
               </div>
      </div>
    </p:dialog>

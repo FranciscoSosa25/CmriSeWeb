@@ -37,7 +37,7 @@ function handleUpdateRequest(xhr, status, args){
 <ui:define name="content">
 <h2>
 
- <p:commandButton id="RegistrarBtn" value="Nuevo Rol" icon="fa fa-plus" style="text-align: left;" onclick="PF('createRolDialogWV').show();" />
+ <p:commandButton id="RegistrarBtn" value="Nuevo Rol" icon="fa fa-plus" style="text-align: left;BackGround:#2D0D86;" onclick="PF('createRolDialogWV').show();" />
  </h2>
 <h:form id="ReadOnlyForm">
 <div class="card">
@@ -61,8 +61,8 @@ function handleUpdateRequest(xhr, status, args){
      </h:outputText>
    </p:column> 
    <p:column  headerText="Opciones">
-      <p:commandButton icon="fa fa-edit" style="margin-left: 10px;" update="UpdateForm" oncomplete="PF('updateRolDialogWV').show();" ajax="true" actionListener="#{admonRolesForm.selectForAction(admonRol)}"/>
-      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteRolDialogWV').show();" ajax="true" actionListener="#{admonRolesForm.selectForAction(admonRol)}"/>
+      <p:commandButton icon="fa fa-edit" style="margin-left: 10px;BackGround:#2D0D86;" update="UpdateForm" oncomplete="PF('updateRolDialogWV').show();" ajax="true" actionListener="#{admonRolesForm.selectForAction(admonRol)}"/>
+      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86;" oncomplete="PF('deleteRolDialogWV').show();" ajax="true" actionListener="#{admonRolesForm.selectForAction(admonRol)}"/>
    </p:column>
      <f:facet name="footer">
            <div class="ui-g">
@@ -92,10 +92,10 @@ function handleUpdateRequest(xhr, status, args){
       <f:facet name="footer">
         <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CreateBtn" update="createPanelID ReadOnlyForm" value="Aceptar" actionListener="#{admonRolesForm.create()}" oncomplete="handleCreateRequest(xhr, status, args)"  />
+                 <p:commandButton id="CreateBtn" style="BackGround:#2D0D86;" update="createPanelID ReadOnlyForm" value="Aceptar" actionListener="#{admonRolesForm.create()}" oncomplete="handleCreateRequest(xhr, status, args)"  />
               </div>
              <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('createRolDialogWV').hide();" />
+                 <p:commandButton id="CancelarBtn" style="BackGround:#2D0D86;" value="Cancelar"  onclick="PF('createRolDialogWV').hide();" />
               </div>
             </div>
       </f:facet>
@@ -108,10 +108,10 @@ function handleUpdateRequest(xhr, status, args){
    <h2>¿Esta seguro de que desea borrar este registro?</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeleteBtn" update="ReadOnlyForm" value="Aceptar" actionListener="#{admonRolesForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
+                 <p:commandButton id="DeleteBtn" style="BackGround:#2D0D86;" update="ReadOnlyForm" value="Aceptar" actionListener="#{admonRolesForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
               </div>
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('deleteRolDialogWV').hide();" />
+                 <p:commandButton id="CancelarBtn" style="BackGround:#2D0D86;" value="Cancelar"  onclick="PF('deleteRolDialogWV').hide();" />
               </div>
      </div>
   </p:dialog>
@@ -136,10 +136,10 @@ function handleUpdateRequest(xhr, status, args){
       <f:facet name="footer">
         <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CreateBtn" update="updatePanelID ReadOnlyForm" value="Aceptar" actionListener="#{admonRolesForm.update()}" oncomplete="handleUpdateRequest(xhr, status, args)"  />
+                 <p:commandButton id="CreateBtn" style="BackGround:#2D0D86;" update="updatePanelID ReadOnlyForm" value="Aceptar" actionListener="#{admonRolesForm.update()}" oncomplete="handleUpdateRequest(xhr, status, args)"  />
               </div>
              <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('updateRolDialogWV').hide();" />
+                 <p:commandButton id="CancelarBtn" style="BackGround:#2D0D86;" value="Cancelar"  onclick="PF('updateRolDialogWV').hide();" />
               </div>
             </div>
       </f:facet>

@@ -16,10 +16,10 @@
  <h:outputText value="#{tabla.numeroRegistros}"></h:outputText>
 </p:column>
 <p:column  headerText="Acciones" style="text-align:center;">
-  <p:commandButton value="Administrar Registros" immediate="true" action="#{manageTablasUtilitariasForm.toRegistros(tabla)}"/>
+  <p:commandButton value="Administrar Registros" style="BackGround:#2D0D86;" immediate="true" action="#{manageTablasUtilitariasForm.toRegistros(tabla)}"/>
 </p:column>
 </p:dataTable>
-<p:commandButton value="Agregar Lista" icon="fa fa-plus" style="margin:20px;" onclick="PF('NuevaListaDialogWV').show();" />
+<p:commandButton value="Agregar Lista"  icon="fa fa-plus" style="margin:20px;BackGround:#2D0D86;" onclick="PF('NuevaListaDialogWV').show();" />
 </h:form>
 
    <p:dialog id="NuevaListaDialogId" header="Crear Nueva Lista" widgetVar="NuevaListaDialogWV" modal="true">
@@ -34,10 +34,10 @@
        </div>
         <div class="ui-g">
         <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
-         <p:commandButton value="Crear" update="NuevaListaForm"  action="#{manageTablasUtilitariasForm.nuevaLista()}"  /> 
+         <p:commandButton value="Crear" style="BackGround:#2D0D86" update="NuevaListaForm"  action="#{manageTablasUtilitariasForm.nuevaLista()}"  /> 
         </div>
          <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
-        <p:commandButton value="Cancelar" type="reset"   onclick="PF('NuevaListaDialogWV').hide();" /> 
+        <p:commandButton value="Cancelar" style="BackGround:#2D0D86;" type="reset"   onclick="PF('NuevaListaDialogWV').hide();" /> 
         </div>
         </div>
    </h:form>

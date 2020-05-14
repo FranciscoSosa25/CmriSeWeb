@@ -421,8 +421,10 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
  
      <div class="ui-g-12 ui-md-12" >
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-           <p:commandButton value="Recurso Multimedia" icon="pi pi-plus" onclick="PF('presentationDialogWV').show();" />
+
+           <p:commandButton value="Recurso Multimedia" icon="pi pi-plus" onclick="PF('presentationDialogWV').show();" style=" BackGround:#2D0D86;" />
        </div>
+
 	   
 	   
 	   <div class="ui-g-12 ui-md-9"> 
@@ -517,7 +519,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         <div class="ui-g-2 ui-g-nopad" style="width:5%; text-align:center;">
 
          <div class="ui-g-9">
-          <p:inputSwitch onLabel="&#10003;" style="width:5%;" offLabel="&#215;" value="#{mrqsOpcionMultiple.estatus}" />
+          <p:inputSwitch onLabel="&#10003;" style="width:5%;BackGround:#2D0D86;" offLabel="&#215;" value="#{mrqsOpcionMultiple.estatus}" />
          </div>
         </div>
          <div class="ui-g-9">
@@ -533,13 +535,13 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
   
     <div class="ui-g"> 
    <div class="ui-g-12 ui-md-2 button-container" style=" width:25%;" >
-     <p:commandButton id="GuardarBtn"  value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="updateQuestionMultipleChoiceForm growl " oncomplete="handleUpdateRequest(xhr, status, args)"/>
+     <p:commandButton id="GuardarBtn"  value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="updateQuestionMultipleChoiceForm growl " style="BackGround:#2D0D86;" oncomplete="handleUpdateRequest(xhr, status, args)"/>
    </div>
    <div class="ui-g-12 ui-md-2 button-container" style=" width:25%;" >
-    <p:commandButton value="Previsualizar " action="#{updateFTAMrqForm.saveAndPreview()}" update="updateQuestionMultipleChoiceForm growl "/>
+    <p:commandButton value="Previsualizar " action="#{updateFTAMrqForm.saveAndPreview()}" style="BackGround:#2D0D86;" update="updateQuestionMultipleChoiceForm growl "/>
    </div>
    <div class="ui-g-12 ui-md-2 button-container" style=" width:25%;" >
-    <p:commandButton value="Cerrar" action="#{updateFTAMrqForm.cancel()}" immediate="true"  />
+    <p:commandButton value="Cerrar" action="#{updateFTAMrqForm.cancel()}" immediate="true" style="BackGround:#2D0D86;" />
    </div>
    </div>
  
@@ -555,10 +557,10 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
    <h2>¿Seguro que quieres duplicar esta pregunta?</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeleteBtn" value="Aceptar" action="#{updateFTAMrqForm.duplicate()}"   />
+                 <p:commandButton id="DeleteBtn" value="Aceptar" action="#{updateFTAMrqForm.duplicate()}" style="BackGround:#2D0D86;"  />
               </div>
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('duplicateMrqDialogWV').hide();" />
+                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('duplicateMrqDialogWV').hide();" style="BackGround:#2D0D86;"/>
               </div>
      </div>
   </p:dialog>
@@ -570,10 +572,10 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
    <h2>#{msgs['globalForm.deleteMessage']}</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeleteFtaBtn" value="Aceptar"   action="#{updateFTAMrqForm.delete()}"  />
+                 <p:commandButton id="DeleteFtaBtn" value="Aceptar"   action="#{updateFTAMrqForm.delete()}"  style="BackGround:#2D0D86;"/>
               </div>
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CancelarFtaBtn"  value="Cancelar"  onclick="PF('deleteRolDialogWV').hide();" />
+                 <p:commandButton id="CancelarFtaBtn"  value="Cancelar"  onclick="PF('deleteRolDialogWV').hide();" style="BackGround:#2D0D86;" />
               </div>
      </div>
   </p:dialog>
@@ -581,7 +583,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
    <h2>#{msgs['globalForm.deleteMessage']}</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeleteListPalabBtn" value="Aceptar"   actionListener="#{updateFTAMrqForm.deleteWord()}" update="updateQuestionFreeTextForm" oncomplete="PF('deleteListasPalabrasWV').hide();"  />
+                 <p:commandButton id="DeleteListPalabBtn" value="Aceptar"   actionListener="#{updateFTAMrqForm.deleteWord()}" update="updateQuestionFreeTextForm" oncomplete="PF('deleteListasPalabrasWV').hide();" style="BackGround:#2D0D86;"  />
               </div>
               <div class="ui-g-12 ui-lg-2" >
                  <p:commandButton id="CancelarListPalabBtn"  value="Cancelar"  onclick="PF('deleteListasPalabrasWV').hide();" />
@@ -592,10 +594,10 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
    <h2>#{msgs['globalForm.deleteMessage']}</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeleteOpcMultBtn" value="Aceptar"   actionListener="#{updateFTAMrqForm.deleteOpcionMultiple()}" update="updateQuestionMultipleChoiceForm" oncomplete="PF('deleteOpcionMultipleWV').hide();"  />
+                 <p:commandButton id="DeleteOpcMultBtn" value="Aceptar"   actionListener="#{updateFTAMrqForm.deleteOpcionMultiple()}" update="updateQuestionMultipleChoiceForm" oncomplete="PF('deleteOpcionMultipleWV').hide();" style="BackGround:#2D0D86;" />
               </div>
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CancelarOpcMultBtn"  value="Cancelar"  onclick="PF('deleteOpcionMultipleWV').hide();" />
+                 <p:commandButton id="CancelarOpcMultBtn"  value="Cancelar"  onclick="PF('deleteOpcionMultipleWV').hide();" style="BackGround:#2D0D86;"/>
               </div>
      </div>
   </p:dialog>
