@@ -784,7 +784,8 @@ public class UpdateFTAMrqForm {
 		            	presentacionImagen.setNombreImagen(f.getFileName());
 		            	presentacionImagen.setImagenContent(byteContent);
 		            	presentacionImagen.setImagenBase64(new String(Base64.getEncoder().encode(byteContent)));
-		        		
+		            	presentacionImagen.setContentType(f.getContentType());
+		            	
 		        			StreamedContent streamedContent = DefaultStreamedContent.builder()
 		        		                                                            .contentType(f.getContentType())
 		        		                                                            .stream(() -> {
@@ -797,7 +798,13 @@ public class UpdateFTAMrqForm {
 		        		                                                              })
 		        		                                                             .build()
 		        		                                                             ;
-		        		presentacionImagen.setImagenStreamed(streamedContent);
+		        		if(f.getContentType().contains("image")) {
+		        			presentacionImagen.setImagenStreamed(streamedContent);
+		        			presentacionImagen.setImage(true);
+			        	}else if(f.getContentType().contains("video")) {
+			        		presentacionImagen.setVideo(true);
+			        		presentacionImagen.setVideoStreamed(streamedContent);
+		        		}
 		        			
 		        		listMrqsPresentaciones.add(presentacionImagen); 
 		        		
