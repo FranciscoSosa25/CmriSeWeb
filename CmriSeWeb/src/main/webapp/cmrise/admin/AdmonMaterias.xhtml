@@ -38,15 +38,15 @@ function handleDeleteRequest(xhr, status, args){
          <p:calendar id="fechaEfectivaHastaInput" value="#{materia.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy" mask="true" />
          <p:message for="fechaEfectivaHastaInput"/>
       </p:column>
-      <p:column  headerText="Opciones" style="width:230px">
-      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteMateriaDialogWV').show();" ajax="true" actionListener="#{admonMateriasForm.selectForAction(materia)}"/>
-      <p:commandButton value="Gestionar SubMaterias" style="margin-left: 10px;" action="#{admonMateriasForm.toAdmonMateriaDetail(materia)}"/>
+      <p:column  headerText="Opciones" style="width:230px;">
+      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86;" oncomplete="PF('deleteMateriaDialogWV').show();" ajax="true" actionListener="#{admonMateriasForm.selectForAction(materia)}"/>
+      <p:commandButton value="Gestionar SubMaterias" style="margin-left: 10px;BackGround:#2D0D86;" action="#{admonMateriasForm.toAdmonMateriaDetail(materia)}"/>
      </p:column>
 </p:dataTable>
 </div>
  <div class="ui-g">
-  <p:commandButton value="Agregar Materia" style="margin-left: 10px;"  styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonMateriasForm.onAddNew()}" />
-  <p:commandButton value="Guardar Cambios" style="margin-left: 10px;" styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonMateriasForm.saveAndUpdate()}" />
+  <p:commandButton value="Agregar Materia" style="margin-left: 10px;BackGround:#2D0D86;"  styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonMateriasForm.onAddNew()}" />
+  <p:commandButton value="Guardar Cambios" style="margin-left: 10px;BackGround:#2D0D86;" styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonMateriasForm.saveAndUpdate()}" />
  </div>
 </h:form>
 
@@ -55,10 +55,10 @@ function handleDeleteRequest(xhr, status, args){
     <h2>#{msgs['globalForm.deleteMessage']}</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeleteBtn" update="MateriasForm" value="Aceptar" actionListener="#{admonMateriasForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
+                 <p:commandButton id="DeleteBtn" style="BackGround:#2D0D86;" update="MateriasForm" value="Aceptar" actionListener="#{admonMateriasForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
               </div>
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('deleteMateriaDialogWV').hide();" />
+                 <p:commandButton id="CancelarBtn" style="BackGround:#2D0D86;"  value="Cancelar"  onclick="PF('deleteMateriaDialogWV').hide();" />
               </div>
      </div>
    </p:dialog>

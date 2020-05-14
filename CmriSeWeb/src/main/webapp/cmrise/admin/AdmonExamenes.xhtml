@@ -8,8 +8,8 @@
 <h:form id="MateriasForm">
 <p:growl id="msgs" showDetail="true"/>
 <h2>
- <p:commandButton value="Agregar Examen" style="margin-left: 10px;"  styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonExamenesForm.onAddNew()}" />
-  <p:commandButton value="Guardar Cambios" style="margin-left: 10px;" styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonExamenesForm.saveAndUpdate()}" />
+ <p:commandButton value="Agregar Examen" style="margin-left: 10px;BackGround:#2D0D86;"  styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonExamenesForm.onAddNew()}" />
+  <p:commandButton value="Guardar Cambios" style="margin-left: 10px;BackGround:#2D0D86;" styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonExamenesForm.saveAndUpdate()}" />
         </h2> 
         <div class="card">
 <p:dataTable var="examen" value="#{admonExamenesForm.examenesHdr}">
@@ -34,8 +34,8 @@
 <p:message for="fechaEfectivaHastaInput"/>
 </p:column>
  <p:column  headerText="Opciones" style="width:200px">
-  <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteMateriaDialogWV').show();" ajax="true" actionListener="#{admonMateriasForm.selectForAction(examen)}"/>
-  <p:commandButton style="margin-left: 10px;" value="Gestionar Materias" action="#{admonExamenesForm.toAdmonExamenesDetail(examen)}"/>
+  <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86;" oncomplete="PF('deleteMateriaDialogWV').show();" ajax="true" actionListener="#{admonMateriasForm.selectForAction(examen)}"/>
+  <p:commandButton style="margin-left: 10px;BackGround:#2D0D86;" value="Gestionar Materias" action="#{admonExamenesForm.toAdmonExamenesDetail(examen)}"/>
  </p:column>
 </p:dataTable>
 </div>

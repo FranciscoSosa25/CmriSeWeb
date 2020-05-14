@@ -10,7 +10,7 @@
 <p:growl id="msgs" showDetail="true"/>
 <div class="ui-g">
          <div class="ui-g-12">
-             <p:commandButton value="Regresar" immediate="true" style="margin-left: 10px;"  styleClass="ui-priority-primary"   action="#{admonMateriasDetailForm.backAdmonMaterias()}" />
+             <p:commandButton value="Regresar" immediate="true" style="margin-left: 10px;BackGround:#2D0D86;"  styleClass="ui-priority-primary"   action="#{admonMateriasDetailForm.backAdmonMaterias()}" />
          </div>
      </div>
      <div class="card">
@@ -32,14 +32,14 @@
          <p:message for="fechaEfectivaHastaInput"/>
       </p:column>
       <p:column  headerText="Opciones">
-      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" update="MateriasDetailForm" oncomplete="PF('deleteDialogWV').show();" ajax="true" immediate="true" actionListener="#{admonMateriasDetailForm.selectForActionLine(materiaLine)}"/>
+      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86;" update="MateriasDetailForm" oncomplete="PF('deleteDialogWV').show();" ajax="true" immediate="true" actionListener="#{admonMateriasDetailForm.selectForActionLine(materiaLine)}"/>
      </p:column>
 </p:dataTable>  
 </div>
 <div class="ui-g">
     <div class="ui-g-12">
-        <p:commandButton value="Agregar Materia" style="margin-left: 10px;"  styleClass="ui-priority-primary"  update="MateriasDetailForm" action="#{admonMateriasDetailForm.onAddNewLine()}" />
-        <p:commandButton value="Guardar Cambios" style="margin-left: 10px;" styleClass="ui-priority-primary"  update="MateriasDetailForm" action="#{admonMateriasDetailForm.saveAndUpdateLine()}" />
+        <p:commandButton value="Agregar Materia" style="margin-left: 10px;BackGround:#2D0D86;"  styleClass="ui-priority-primary"  update="MateriasDetailForm" action="#{admonMateriasDetailForm.onAddNewLine()}" />
+        <p:commandButton value="Guardar Cambios" style="margin-left: 10px;BackGround:#2D0D86;" styleClass="ui-priority-primary"  update="MateriasDetailForm" action="#{admonMateriasDetailForm.saveAndUpdateLine()}" />
     </div>
 </div>
 </h:form>

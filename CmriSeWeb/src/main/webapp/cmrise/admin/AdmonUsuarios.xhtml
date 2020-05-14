@@ -36,7 +36,7 @@ function handleUpdateRequest(xhr, status, args){
 
 <ui:define name="content">
 <h2>
-   <p:commandButton id="RegistrarBtn" value="Nuevo Usuario" icon="fa fa-plus"  style="text-align: left;" onclick="PF('createUsuarioDialogWV').show();" />
+   <p:commandButton id="RegistrarBtn" value="Nuevo Usuario" icon="fa fa-plus"  style="text-align: left; BackGround:#2D0D86;" onclick="PF('createUsuarioDialogWV').show();" />
  </h2>             
 <h:form id="ReadOnlyForm">
 <div class="card">
@@ -71,10 +71,10 @@ function handleUpdateRequest(xhr, status, args){
      </h:outputText>
    </p:column> 
    <p:column  headerText="Opciones" style="text-overflow: ellipsis; white-space: nowrap;width:100px" >
-      <p:commandButton icon="fa fa-edit" style="margin-left: 10px;" update="UpdateForm" oncomplete="PF('updateUsuarioDialogWV').show();" ajax="true" actionListener="#{admonUsuariosForm.selectForAction(admonUsuario)}"/>
-      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteUsuarioDialogWV').show();" ajax="true" actionListener="#{admonUsuariosForm.selectForAction(admonUsuario)}"/>
+      <p:commandButton icon="fa fa-edit" style="margin-left: 10px;BackGround:#2D0D86;" update="UpdateForm" oncomplete="PF('updateUsuarioDialogWV').show();" ajax="true" actionListener="#{admonUsuariosForm.selectForAction(admonUsuario)}"/>
+      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86;" oncomplete="PF('deleteUsuarioDialogWV').show();" ajax="true" actionListener="#{admonUsuariosForm.selectForAction(admonUsuario)}"/>
    </p:column>
-     <f:facet name="footer">
+     <f:facet name="footer" >
            <div class="ui-g">
              
             </div>
@@ -122,10 +122,10 @@ function handleUpdateRequest(xhr, status, args){
       <f:facet name="footer">
         <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CreateBtn" update="createPanelID ReadOnlyForm" value="Aceptar" actionListener="#{admonUsuariosForm.create()}" oncomplete="handleCreateRequest(xhr, status, args)"  />
+                 <p:commandButton id="CreateBtn" style="BackGround:#2D0D86;" update="createPanelID ReadOnlyForm" value="Aceptar" actionListener="#{admonUsuariosForm.create()}" oncomplete="handleCreateRequest(xhr, status, args)"  />
               </div>
              <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('createUsuarioDialogWV').hide();" />
+                 <p:commandButton id="CancelarBtn"  style="BackGround:#2D0D86;" value="Cancelar"  onclick="PF('createUsuarioDialogWV').hide();" />
               </div>
             </div>
       </f:facet>
@@ -172,10 +172,10 @@ function handleUpdateRequest(xhr, status, args){
       <f:facet name="footer">
         <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="UpdateBtn" update="updatePanelID ReadOnlyForm" value="Aceptar" actionListener="#{admonUsuariosForm.update()}" oncomplete="handleUpdateRequest(xhr, status, args)"  />
+                 <p:commandButton id="UpdateBtn"  style="BackGround:#2D0D86;" update="updatePanelID ReadOnlyForm" value="Aceptar" actionListener="#{admonUsuariosForm.update()}" oncomplete="handleUpdateRequest(xhr, status, args)"  />
               </div>
              <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('updateUsuarioDialogWV').hide();" />
+                 <p:commandButton id="CancelarBtn"  style="BackGround:#2D0D86;"  value="Cancelar"  onclick="PF('updateUsuarioDialogWV').hide();" />
               </div>
             </div>
       </f:facet>
@@ -188,10 +188,10 @@ function handleUpdateRequest(xhr, status, args){
     <h2>#{msgs['globalForm.deleteMessage']}</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeleteBtn" update="ReadOnlyForm" value="Aceptar" actionListener="#{admonUsuariosForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
+                 <p:commandButton id="DeleteBtn"  style="BackGround:#2D0D86;" update="ReadOnlyForm" value="Aceptar" actionListener="#{admonUsuariosForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
               </div>
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('deleteUsuarioDialogWV').hide();" />
+                 <p:commandButton id="CancelarBtn"  style="BackGround:#2D0D86;"  value="Cancelar"  onclick="PF('deleteUsuarioDialogWV').hide();" />
               </div>
      </div>
    </p:dialog>
