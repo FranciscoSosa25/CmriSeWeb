@@ -6,13 +6,20 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.PrimeFaces;
 
+import com.cmrise.ejb.model.admin.AdmonExamenHdr;
+import com.cmrise.ejb.model.admin.AdmonMateriaHdr;
+import com.cmrise.ejb.model.admin.AdmonSubMateria;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
+import com.cmrise.ejb.services.admin.AdmonExamenHdrLocal;
+import com.cmrise.ejb.services.admin.AdmonMateriaHdrLocal;
+import com.cmrise.ejb.services.admin.AdmonSubMateriaLocal;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
@@ -28,10 +35,18 @@ import java.util.Iterator;
 @ManagedBean
 @ViewScoped
 public class ManageMrqsForm {
-	private String titulo;
-
+	
+	private List<AdmonExamenHdr> examenesHdr = new ArrayList<AdmonExamenHdr>();
+	private List<AdmonMateriaHdr> materiasHdr = new ArrayList<AdmonMateriaHdr>();
+	private List<AdmonSubMateria> subMaterias = new ArrayList<AdmonSubMateria>();
+	private List<SelectItem> selectExamenesHdr = new ArrayList<SelectItem>(); 
+	private List<SelectItem> selectMateriasHdr = new ArrayList<SelectItem>();  
+	private List<SelectItem> selectSubMaterias = new ArrayList<SelectItem>(); 
 	private List<MrqsPreguntasHdrV1> listMrqsPreguntasHdrV1 = new ArrayList<MrqsPreguntasHdrV1>();
 	private MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForAction = new MrqsPreguntasHdrV1();
+	private long admonExamen; 
+	private long admonMateria; 
+	private long admonSubmateria; 
 	
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal;
@@ -42,10 +57,26 @@ public class ManageMrqsForm {
 	@Inject 
 	MrqsOpcionMultipleLocal  mrqsOpcionMultipleLocal; 
 	
+	@Inject 
+	AdmonExamenHdrLocal admonExamenHdrLocal; 
+	
+	@Inject 
+	AdmonMateriaHdrLocal admonMateriaHdrLocal; 
+	
+	@Inject 
+	AdmonSubMateriaLocal admonSubMateriaLocal; 
 	
 	 @PostConstruct
 	 public void init() {
 		 System.out.println("Entra ManageMrqsForm init()");
+		 
+		 examenesHdr = admonExamenHdrLocal.findByTipo(Utilitarios.MRQS); 
+		 selectExamenesHdr = new ArrayList<SelectItem>(); 
+		 for(AdmonExamenHdr i:examenesHdr) {
+			 SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
+			 selectExamenesHdr.add(selectItem); 
+		 }
+		 
 		 refreshEntity();
 		 System.out.println("Sale ManageMrqsForm init()");
 	 }		 
@@ -158,6 +189,30 @@ public class ManageMrqsForm {
 		System.out.println("Sale "+this.getClass()+" duplicate");
 	}
 	
+	
+	public void onAdmonExamenChange() {
+		if(0!=admonExamen) {
+			materiasHdr = admonMateriaHdrLocal.findByNumeroAdmonExamen(admonExamen); 
+			selectMateriasHdr = new ArrayList<SelectItem>();  
+			for(AdmonMateriaHdr i:materiasHdr) {
+				 SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
+				 selectMateriasHdr.add(selectItem); 
+			}
+		}
+	}
+	
+	public void onAdmonMateriaChange() {
+		if(0!=admonMateria) {
+			subMaterias = admonSubMateriaLocal.findByNumeroMateria(admonMateria); 
+			selectSubMaterias = new ArrayList<SelectItem>(); 
+			for(AdmonSubMateria i:subMaterias) {
+				System.out.println("*");
+				SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
+				selectSubMaterias.add(selectItem); 
+			}
+		}
+	}
+	
 	public List<MrqsPreguntasHdrV1> getListMrqsPreguntasHdrV1() {
 		return listMrqsPreguntasHdrV1;
 	}
@@ -173,11 +228,77 @@ public class ManageMrqsForm {
 	public void setMrqsPreguntasHdrV1ForAction(MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForAction) {
 		this.mrqsPreguntasHdrV1ForAction = mrqsPreguntasHdrV1ForAction;
 	}
-	public String getTitulo() {
-		return this.titulo;
+
+	public List<AdmonExamenHdr> getExamenesHdr() {
+		return examenesHdr;
 	}
 
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+	public void setExamenesHdr(List<AdmonExamenHdr> examenesHdr) {
+		this.examenesHdr = examenesHdr;
 	}
+
+	public List<AdmonMateriaHdr> getMateriasHdr() {
+		return materiasHdr;
+	}
+
+	public void setMateriasHdr(List<AdmonMateriaHdr> materiasHdr) {
+		this.materiasHdr = materiasHdr;
+	}
+
+	public List<AdmonSubMateria> getSubMaterias() {
+		return subMaterias;
+	}
+
+	public void setSubMaterias(List<AdmonSubMateria> subMaterias) {
+		this.subMaterias = subMaterias;
+	}
+
+	public List<SelectItem> getSelectExamenesHdr() {
+		return selectExamenesHdr;
+	}
+
+	public void setSelectExamenesHdr(List<SelectItem> selectExamenesHdr) {
+		this.selectExamenesHdr = selectExamenesHdr;
+	}
+
+	public List<SelectItem> getSelectMateriasHdr() {
+		return selectMateriasHdr;
+	}
+
+	public void setSelectMateriasHdr(List<SelectItem> selectMateriasHdr) {
+		this.selectMateriasHdr = selectMateriasHdr;
+	}
+
+	public List<SelectItem> getSelectSubMaterias() {
+		return selectSubMaterias;
+	}
+
+	public void setSelectSubMaterias(List<SelectItem> selectSubMaterias) {
+		this.selectSubMaterias = selectSubMaterias;
+	}
+
+	public long getAdmonExamen() {
+		return admonExamen;
+	}
+
+	public void setAdmonExamen(long admonExamen) {
+		this.admonExamen = admonExamen;
+	}
+
+	public long getAdmonMateria() {
+		return admonMateria;
+	}
+
+	public void setAdmonMateria(long admonMateria) {
+		this.admonMateria = admonMateria;
+	}
+
+	public long getAdmonSubmateria() {
+		return admonSubmateria;
+	}
+
+	public void setAdmonSubmateria(long admonSubmateria) {
+		this.admonSubmateria = admonSubmateria;
+	}
+
 }

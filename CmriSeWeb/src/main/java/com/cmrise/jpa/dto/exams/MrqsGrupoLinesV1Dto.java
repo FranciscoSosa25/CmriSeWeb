@@ -66,6 +66,9 @@ public class MrqsGrupoLinesV1Dto implements Serializable {
 	@Column(name="TITULO_PREGUNTA")
 	private String tituloPregunta; 
 	
+	@Column(name="ADMON_SUBMATERIA_DESC")
+	private String admonSubmateriaDesc; 
+	
 	public long getNumero() {
 		return this.numero;
 	}
@@ -184,6 +187,14 @@ public class MrqsGrupoLinesV1Dto implements Serializable {
 
 	public void setDiagnostico(String diagnostico) {
 		this.diagnostico = diagnostico;
+	}
+
+	public String getAdmonSubmateriaDesc() {
+		return admonSubmateriaDesc;
+	}
+
+	public void setAdmonSubmateriaDesc(String admonSubmateriaDesc) {
+		this.admonSubmateriaDesc = admonSubmateriaDesc;
 	}
 
 	

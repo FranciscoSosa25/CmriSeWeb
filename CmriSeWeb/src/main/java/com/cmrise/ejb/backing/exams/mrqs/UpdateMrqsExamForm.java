@@ -21,11 +21,13 @@ import org.primefaces.model.TreeNode;
 
 import com.cmrise.ejb.helpers.UserLogin;
 import com.cmrise.ejb.model.admin.AdmonExamenHdr;
+import com.cmrise.ejb.model.admin.AdmonMateriaHdr;
 import com.cmrise.ejb.model.exams.CcExamAsignaciones;
 import com.cmrise.ejb.model.exams.MrqsExamenes;
 import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.ejb.services.admin.AdmonExamenHdrLocal;
+import com.cmrise.ejb.services.admin.AdmonMateriaHdrLocal;
 import com.cmrise.ejb.services.exams.MrqsExamenesLocal;
 import com.cmrise.ejb.services.exams.MrqsGrupoHdrLocal;
 import com.cmrise.ejb.services.exams.MrqsGrupoLinesLocal;
@@ -38,14 +40,15 @@ import com.cmrise.utils.UtilitariosLocal;
 @ViewScoped
 public class UpdateMrqsExamForm {
 	private List<AdmonExamenHdr> examenesHdr = new ArrayList<AdmonExamenHdr>();
+	private List<AdmonMateriaHdr> materiasHdr = new ArrayList<AdmonMateriaHdr>();
 	private List<SelectItem> selectExamenesHdr = new ArrayList<SelectItem>(); 
+	private List<SelectItem> selectMateriasHdr = new ArrayList<SelectItem>();  
+	
 	private MrqsExamenes mrqsExamenesForUpdate = new MrqsExamenes(); 
 	
 	private long numeroMrqsExamen;
 	
-	private MrqsGrupoHdr mrqsGrupoHdr = new MrqsGrupoHdr(); 
-	private List<MrqsGrupoHdr> listMrqsGrupoHdr = new ArrayList<MrqsGrupoHdr>(); 
-	private List<MrqsPreguntasHdrV1> listMrqsGrupoPreguntas = new ArrayList<MrqsPreguntasHdrV1>();
+	private MrqsGrupoHdr mrqsGrupoHdrForInsert = new MrqsGrupoHdr(); 
 	
 	
 	private TreeNode rootMrqsGrupo;
@@ -66,6 +69,9 @@ public class UpdateMrqsExamForm {
 	@Inject 
 	AdmonExamenHdrLocal admonExamenHdrLocal; 
 	
+	@Inject 
+	AdmonMateriaHdrLocal admonMateriaHdrLocal; 
+	
 	@ManagedProperty(value="#{userLogin}")
 	private UserLogin userLogin; 
 	
@@ -80,7 +86,7 @@ public class UpdateMrqsExamForm {
 			 SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
 			 selectExamenesHdr.add(selectItem); 
 		 }
-		
+	  
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		Object objNumeroMrqsExamen = session.getAttribute("NumeroMrqsExamenSV");
@@ -92,7 +98,9 @@ public class UpdateMrqsExamForm {
 
 	private void refreshEntity() {
 		mrqsExamenesForUpdate = mrqsExamenesLocal.findByNumeroWD(this.getNumeroMrqsExamen()); 
-	 
+		onAdmonExamenChange(); 
+		
+		/***************************************************************************
 		rootMrqsGrupo = new DefaultTreeNode("Root", null);
 		listMrqsGrupoHdr = mrqsGrupoHdrLocal.findByNumeroExamen(this.getNumeroMrqsExamen()); 
 		for(MrqsGrupoHdr mrqsGrupoHdr:listMrqsGrupoHdr) {
@@ -102,6 +110,7 @@ public class UpdateMrqsExamForm {
 				TreeNode nodeGrupoPreguntaHdr = new DefaultTreeNode(mrqsPreguntasHdrV1, nodeGrupoHdr);
 			}
 		}
+		************************************************************/
 		
 	}
 	
@@ -131,20 +140,26 @@ public class UpdateMrqsExamForm {
 	}
     
 	
-	public void initMrqGroup() {
-		/*
-		mrqsGrupoHdr.setTitulo(this.getTitulo());
-		mrqsGrupoHdr.setTema(this.getTema());
-		mrqsGrupoHdr.setComentarios(this.getComentarios());
-		*/
+	public void onAdmonExamenChange() {
+		if(0!=mrqsExamenesForUpdate.getAdmonExamen()) {
+			materiasHdr = admonMateriaHdrLocal.findByNumeroAdmonExamen(mrqsExamenesForUpdate.getAdmonExamen()); 
+			selectMateriasHdr = new ArrayList<SelectItem>();  
+			for(AdmonMateriaHdr i:materiasHdr) {
+				 SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
+				 selectMateriasHdr.add(selectItem); 
+			}
+		}
 	}
 	
+	
+	
 	public String addMRQsGroup() {
-		
-		MrqsGrupoHdrDto mrqsGrupoHdrDto = new MrqsGrupoHdrDto(); 
-		mrqsGrupoHdrDto.setComentarios(mrqsGrupoHdr.getComentarios());
-		mrqsGrupoHdrDto.setNumeroExamen(this.getNumeroMrqsExamen());
-		mrqsGrupoHdrLocal.insert(mrqsGrupoHdrDto); 
+		mrqsGrupoHdrForInsert.setCreadoPor(userLogin.getNumeroUsuario());
+		mrqsGrupoHdrForInsert.setActualizadoPor(userLogin.getNumeroUsuario());
+		mrqsGrupoHdrForInsert.setFechaCreacion(new java.util.Date());
+		mrqsGrupoHdrForInsert.setFechaActualizacion(new java.util.Date());
+		mrqsGrupoHdrForInsert.setNumeroExamen(mrqsExamenesForUpdate.getNumero());
+		long numeroMrqGrupo = mrqsGrupoHdrLocal.insert(mrqsGrupoHdrForInsert); 
 		return "Exams-MRQs-Update"; 
 	}
 	
@@ -181,6 +196,21 @@ public class UpdateMrqsExamForm {
 	}
 	
 	
+	public String onMateriaSelect(MrqsGrupoHdr pMrqsGrupoHdr) {
+		 FacesContext context = FacesContext.getCurrentInstance();
+		 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		 session.setAttribute("NumeroMrqsExamenSV", this.getNumeroMrqsExamen());
+		 session.setAttribute("NumeroMrqsGrupoSV", pMrqsGrupoHdr.getNumero());
+		 return "Exams-MRQs-Update-Group"; 
+	}
+	
+	public String toPreviewExamenReactivos() {
+   	 FacesContext context = FacesContext.getCurrentInstance(); 
+   	 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+   	 session.setAttribute("NumeroMrqsExamenSV", mrqsExamenesForUpdate.getNumero());
+       	return "Preview-Examen-Reactivos"; 
+    }	
+	
 	public String cancel() {
 		return "Exams-MRQs-Manage"; 
 	}
@@ -193,23 +223,6 @@ public class UpdateMrqsExamForm {
 		this.numeroMrqsExamen = numeroMrqsExamen;
 	}
 
-	
-	public MrqsGrupoHdr getMrqsGrupoHdr() {
-		return mrqsGrupoHdr;
-	}
-
-	public void setMrqsGrupoHdr(MrqsGrupoHdr mrqsGrupoHdr) {
-		this.mrqsGrupoHdr = mrqsGrupoHdr;
-	}
-
-	public List<MrqsGrupoHdr> getListMrqsGrupoHdr() {
-		return listMrqsGrupoHdr;
-	}
-
-	public void setListMrqsGrupoHdr(List<MrqsGrupoHdr> listMrqsGrupoHdr) {
-		this.listMrqsGrupoHdr = listMrqsGrupoHdr;
-	}
-
 	public TreeNode getRootMrqsGrupo() {
 		return rootMrqsGrupo;
 	}
@@ -220,14 +233,6 @@ public class UpdateMrqsExamForm {
 
 	public void setSelectedNode(TreeNode selectedNode) {
 		this.selectedNode = selectedNode;
-	}
-
-	public List<MrqsPreguntasHdrV1> getListMrqsGrupoPreguntas() {
-		return listMrqsGrupoPreguntas;
-	}
-
-	public void setListMrqsGrupoPreguntas(List<MrqsPreguntasHdrV1> listMrqsGrupoPreguntas) {
-		this.listMrqsGrupoPreguntas = listMrqsGrupoPreguntas;
 	}
 
 	public List<AdmonExamenHdr> getExamenesHdr() {
@@ -259,6 +264,30 @@ public class UpdateMrqsExamForm {
 	}
 	public void setUserLogin(UserLogin userLogin) {
 		this.userLogin = userLogin;
+	}
+
+	public List<AdmonMateriaHdr> getMateriasHdr() {
+		return materiasHdr;
+	}
+
+	public void setMateriasHdr(List<AdmonMateriaHdr> materiasHdr) {
+		this.materiasHdr = materiasHdr;
+	}
+
+	public List<SelectItem> getSelectMateriasHdr() {
+		return selectMateriasHdr;
+	}
+
+	public void setSelectMateriasHdr(List<SelectItem> selectMateriasHdr) {
+		this.selectMateriasHdr = selectMateriasHdr;
+	}
+
+	public MrqsGrupoHdr getMrqsGrupoHdrForInsert() {
+		return mrqsGrupoHdrForInsert;
+	}
+
+	public void setMrqsGrupoHdrForInsert(MrqsGrupoHdr mrqsGrupoHdrForInsert) {
+		this.mrqsGrupoHdrForInsert = mrqsGrupoHdrForInsert;
 	}
 	 
 }

@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import com.cmrise.jpa.dao.exams.MrqsGrupoHdrDao;
 import com.cmrise.jpa.dto.exams.MrqsGrupoHdrDto;
+import com.cmrise.jpa.dto.exams.MrqsGrupoHdrV1Dto;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless
@@ -25,12 +26,6 @@ public class MrqsGrupoHdrDaoImpl implements MrqsGrupoHdrDao {
 		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
 		long longNumeroS = lNumeroS.longValue(); 
 		pMrqsGrupoHdrDto.setNumero(lNumeroS.longValue());
-		java.util.Date sysdate = new java.util.Date();
-		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
-		pMrqsGrupoHdrDto.setCreadoPor((long)-1);
-		pMrqsGrupoHdrDto.setActualizadoPor((long)-1);
-		pMrqsGrupoHdrDto.setFechaCreacion(sqlsysdate);
-		pMrqsGrupoHdrDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pMrqsGrupoHdrDto);
 		return longNumeroS; 
 	}
@@ -63,6 +58,22 @@ public class MrqsGrupoHdrDaoImpl implements MrqsGrupoHdrDao {
 		MrqsGrupoHdrDto mrqsGrupoHdrDto = em.find(MrqsGrupoHdrDto.class, pNumero); 
 		mrqsGrupoHdrDto.setAdmonMateria(pMrqsGrupoHdrDto.getAdmonMateria());
 		mrqsGrupoHdrDto.setComentarios(pMrqsGrupoHdrDto.getComentarios());
+	}
+
+
+	@Override
+	public List<MrqsGrupoHdrV1Dto> findByNumeroExamenWD(long pNumero) {
+		String strQuery = "SELECT m FROM MrqsGrupoHdrV1Dto m WHERE m.numeroExamen="+pNumero;
+		Query query = em.createQuery(strQuery); 
+		return query.getResultList();
+	}
+
+
+	@Override
+	public MrqsGrupoHdrV1Dto findByNumeroWD(long pNumeroMrqsGrupo) {
+		String strQuery = "SELECT m FROM MrqsGrupoHdrV1Dto m WHERE m.numero="+pNumeroMrqsGrupo;
+		Query query = em.createQuery(strQuery); 
+		return (MrqsGrupoHdrV1Dto)query.getSingleResult();
 	}
 
 }

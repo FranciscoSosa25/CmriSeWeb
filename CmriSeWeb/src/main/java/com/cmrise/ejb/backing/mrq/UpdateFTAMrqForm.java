@@ -459,6 +459,7 @@ public class UpdateFTAMrqForm {
 				mrqsOpcionMultipleDto.setNumeroFta(lNumeroFta);
 				mrqsOpcionMultipleDto.setNumeroLinea(mrqsOpcionMultiple.getNumeroLinea());
 				mrqsOpcionMultipleLocal.insert(mrqsOpcionMultipleDto); 
+				mrqsOpcionMultiple.setNumero(mrqsOpcionMultipleDto.getNumero());
 			}
 			
 			for(MrqsListasPalabras mrqsListasPalabras:listIncWmrqsListasPalabras) {

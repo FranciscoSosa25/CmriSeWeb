@@ -10,7 +10,7 @@
 <p:growl id="msgs" showDetail="true"/>
 <div class="ui-g">
          <div class="ui-g-12">
-             <p:commandButton value="Regresar" immediate="true" style="margin-left: 10px;BackGround:#2D0D86;"  styleClass="ui-priority-primary"   action="#{admonMateriasDetailForm.backAdmonMaterias()}" />
+             <p:commandButton icon="fa fa-backward" value="Regresar" immediate="true" style="margin-left: 10px;BackGround:#2D0D86;"  styleClass="ui-priority-primary"   action="#{admonMateriasDetailForm.backAdmonMaterias()}" />
          </div>
      </div>
      <div class="card">
@@ -38,8 +38,8 @@
 </div>
 <div class="ui-g">
     <div class="ui-g-12">
-        <p:commandButton value="Agregar Materia" style="margin-left: 10px;BackGround:#2D0D86;"  styleClass="ui-priority-primary"  update="MateriasDetailForm" action="#{admonMateriasDetailForm.onAddNewLine()}" />
-        <p:commandButton value="Guardar Cambios" style="margin-left: 10px;BackGround:#2D0D86;" styleClass="ui-priority-primary"  update="MateriasDetailForm" action="#{admonMateriasDetailForm.saveAndUpdateLine()}" />
+        <p:commandButton icon="fa fa-plus" value="Agregar Materia" style="margin-left: 10px;BackGround:#2D0D86;"  styleClass="ui-priority-primary"  update="MateriasDetailForm" action="#{admonMateriasDetailForm.onAddNewLine()}" />
+        <p:commandButton icon="fa fa-save" value="Guardar Cambios" style="margin-left: 10px;BackGround:#2D0D86;" styleClass="ui-priority-primary"  update="MateriasDetailForm" action="#{admonMateriasDetailForm.saveAndUpdateLine()}" />
     </div>
 </div>
 </h:form>

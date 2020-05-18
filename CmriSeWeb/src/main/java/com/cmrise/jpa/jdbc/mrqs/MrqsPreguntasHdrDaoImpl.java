@@ -111,12 +111,8 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 	@Override
 	public List<Object> findWithFilterExam(long pNumeroExamen) {
 		String strQuery ="SELECT MPH.[NUMERO]\r\n" + 
-						"      ,MPH.[NOMBRE]\r" + 
-						"      ,MPH.[TITULO]\r" + 
 						"      ,MPH.[TIPO_PREGUNTA]\r" + 
 						"      ,MPH.[TIPO_PREGUNTA_DESC]\r" + 
-						"      ,MPH.[TEMA_PREGUNTA]\r" + 
-						"      ,MPH.[TEMA_PREGUNTA_DESC]\r" + 
 						"      ,MPH.[DIAGNOSTICO]\r" + 
 						"      ,MPH.[NOTAS]\r" + 
 						"      ,MPH.[ESTATUS]\r" + 
@@ -127,8 +123,12 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 						"      ,MPH.[CREADO_POR]\r" + 
 						"      ,MPH.[FECHA_CREACION]\r" + 
 						"      ,MPH.[ACTUALIZADO_POR]\r" + 
-						"      ,MPH.[FECHA_ACTUALIZACION]\r" + 
-						"  FROM [dbo].[MRQS_PREGUNTAS_HDR_V1] MPH\r" + 
+						"      ,MPH.[FECHA_ACTUALIZACION]\r" +
+						"      ,MPH.[ADMON_MATERIA_DESC]\r" +
+						"      ,MPH.[ADMON_SUBMATERIA_DESC]\r" +
+						"      ,MPH.[FECHA_ELABORACION]\r" +
+						"      ,MPH.[ELABORADOR]\r" +
+						"  FROM [dbo].[MRQS_PREGUNTAS_HDR_V2] MPH\r" + 
 						" WHERE [NUMERO] NOT IN ( SELECT MGL.NUMERO_PREGUNTA\r" + 
 						"						   FROM MRQS_GRUPO_LINES MGL\r" + 
 						"							   ,MRQS_GRUPO_HDR MGH\r" + 
@@ -153,6 +153,47 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 		 Query query = em.createNativeQuery(strQuery); 
 		 Integer integer = (Integer)query.getSingleResult();
 		return integer.longValue();
+	}
+
+	@Override
+	public List<Object> findWithFilterExam(long pNumeroMrqsExamen
+			                             , long pAdmonExamen
+			                             , long pAdmonMateria) {
+				String strQuery ="SELECT MPH.[NUMERO]\r\n" + 
+						"      ,MPH.[TIPO_PREGUNTA]\r" + 
+						"      ,MPH.[TIPO_PREGUNTA_DESC]\r" + 
+						"      ,MPH.[DIAGNOSTICO]\r" + 
+						"      ,MPH.[NOTAS]\r" + 
+						"      ,MPH.[ESTATUS]\r" + 
+						"      ,MPH.[ESTATUS_DESC]\r" + 
+						"      ,MPH.[SOCIEDAD]\r" + 
+						"      ,MPH.[FECHA_EFECTIVA_DESDE]\r" + 
+						"      ,MPH.[FECHA_EFECTIVA_HASTA]\r" + 
+						"      ,MPH.[CREADO_POR]\r" + 
+						"      ,MPH.[FECHA_CREACION]\r" + 
+						"      ,MPH.[ACTUALIZADO_POR]\r" + 
+						"      ,MPH.[FECHA_ACTUALIZACION]\r" +
+						"      ,MPH.[ADMON_MATERIA_DESC]\r" +
+						"      ,MPH.[ADMON_SUBMATERIA_DESC]\r" +
+						"      ,MPH.[FECHA_ELABORACION]\r" +
+						"      ,MPH.[ELABORADOR]\r" +
+						"  FROM [dbo].[MRQS_PREGUNTAS_HDR_V2] MPH\r" + 
+						" WHERE [NUMERO] NOT IN ( SELECT MGL.NUMERO_PREGUNTA\r" + 
+						"						   FROM MRQS_GRUPO_LINES MGL\r" + 
+						"							   ,MRQS_GRUPO_HDR MGH\r" + 
+						"							   ,MRQS_EXAMENES ME\r" + 
+						"						  WHERE ME.NUMERO = MGH.NUMERO_EXAMEN\r" + 
+						"							AND MGH.NUMERO = MGL.NUMERO_HDR\r" + 
+						"							AND ME.NUMERO = "+pNumeroMrqsExamen+"\r" + 
+						"							)\r"+
+						" AND EXISTS( SELECT 1 \r" + 
+						"               FROM MRQS_PREGUNTAS_FTA MPF\r" + 
+						"		       WHERE MPF.NUMERO_HDR = MPH.NUMERO)\r"+
+						" AND MPH.ADMON_EXAMEN = "+pAdmonExamen+"\r"+
+						" AND MPH.ADMON_MATERIA = "+pAdmonMateria
+						; 
+		Query query = em.createNativeQuery(strQuery); 
+		return query.getResultList();
 	}
 
 }

@@ -116,18 +116,8 @@
          <p:outputLabel for="notas" value="Notas" />
         </div>
          <div class="ui-g-12 ui-md-9">
-          <p:textEditor id="notas" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.notas}" widgetVar="internalCommentsWV"  height="100">
-		    <f:facet name="toolbar">
-		        <span class="ql-formats">
-		            <button class="ql-bold"></button>
-		            <button class="ql-italic"></button>
-		            <button class="ql-underline"></button>
-		            <button class="ql-strike"></button>
-		            <button class="ql-unorderedlist"></button>
-		            <button class="ql-orderedlist"></button>
-		        </span>
-		    </f:facet>
-		</p:textEditor>
+          <p:inputTextarea  id="notas" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.notas}" rows="1" maxlength="255" style="width:100%"/>
+          <p:message for="notas" />
         </div>
        </div>
    </div> <!--  <div class="ui-g"> -->
@@ -137,10 +127,10 @@
  <div class="card">
  <div class="ui-g">
      <div class="ui-g-12 ui-md-1" >
-       <p:commandButton value="Crear" update="createMrqForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createMrqForm.create()}"/>
+       <p:commandButton icon="fa fa-save" value="Crear" update="createMrqForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createMrqForm.create()}"/>
      </div>
       <div class="ui-g-12 ui-md-1" >
-        <p:commandButton value="Cancelar" process="@this" update="createMrqForm" action="Preguntas-ManageNewMrqs">
+        <p:commandButton icon="fa fa-backward" value="Cancelar" process="@this" update="createMrqForm" action="Preguntas-ManageNewMrqs">
          <p:resetInput target="createMrqForm"/>
         </p:commandButton>
      </div>

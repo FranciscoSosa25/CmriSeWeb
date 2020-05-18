@@ -10,8 +10,10 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import com.cmrise.ejb.model.exams.MrqsExamenes;
 import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
+import com.cmrise.ejb.services.exams.MrqsExamenesLocal;
 import com.cmrise.ejb.services.exams.MrqsGrupoHdrLocal;
 import com.cmrise.ejb.services.exams.MrqsGrupoLinesLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
@@ -23,7 +25,8 @@ import com.cmrise.utils.UtilitariosLocal;
 @ViewScoped
 public class UpdateMrqsExamGroupForm {
 
-	private MrqsGrupoHdr mrqsGrupoHdr = new MrqsGrupoHdr(); 
+	private MrqsExamenes mrqsExamenesForRead = new MrqsExamenes();  
+	private MrqsGrupoHdr mrqsGrupoHdrForUpdate = new MrqsGrupoHdr(); 
 	private String tituloGrupo;
 	private long numeroMrqsExamen; 
 	private long numeroMrqsGrupo;
@@ -35,6 +38,9 @@ public class UpdateMrqsExamGroupForm {
 	
 	@Inject 
 	UtilitariosLocal utilitariosLocal; 
+	
+	@Inject 
+	MrqsExamenesLocal mrqsExamenesLocal; 
 	
 	@Inject 
 	MrqsGrupoHdrLocal mrqsGrupoHdrLocal; 
@@ -54,13 +60,15 @@ public class UpdateMrqsExamGroupForm {
 		Object objNumeroMrqsGrupoSV = session.getAttribute("NumeroMrqsGrupoSV");
 		this.numeroMrqsExamen = utilitariosLocal.objToLong(objNumeroMrqsExamenSV); 
 		this.numeroMrqsGrupo = utilitariosLocal.objToLong(objNumeroMrqsGrupoSV); 
+		mrqsExamenesForRead = mrqsExamenesLocal.findByNumeroForRead(this.numeroMrqsExamen); 
+		mrqsGrupoHdrForUpdate = mrqsGrupoHdrLocal.findByNumeroWD(this.numeroMrqsGrupo); 
 		MrqsGrupoHdrDto mrqsGrupoHdrDto = mrqsGrupoHdrLocal.findByNumero(this.numeroMrqsGrupo); 
 		/**
 		this.setTituloGrupo(mrqsGrupoHdrDto.getTitulo());
 		mrqsGrupoHdr.setTitulo(mrqsGrupoHdrDto.getTitulo());
 		mrqsGrupoHdr.setTema(mrqsGrupoHdrDto.getTema());
 		**/
-		mrqsGrupoHdr.setComentarios(mrqsGrupoHdrDto.getComentarios());
+		mrqsGrupoHdrForUpdate.setComentarios(mrqsGrupoHdrDto.getComentarios());
 	   
 		refreshEntitys(); 
 		
@@ -69,7 +77,11 @@ public class UpdateMrqsExamGroupForm {
 	
 	public void refreshEntitys() {
 		listMrqsGrupoPreguntas = mrqsGrupoLinesLocal.findByNumeroHdrWD(this.getNumeroMrqsGrupo()); 
-		listMrqsPreguntasHdrV1 = mrqsPreguntasHdrLocal.findWithFilterExam(this.getNumeroMrqsExamen()); 
+		/* listMrqsPreguntasHdrV1 = mrqsPreguntasHdrLocal.findWithFilterExam(this.getNumeroMrqsExamen()); */
+		listMrqsPreguntasHdrV1 = mrqsPreguntasHdrLocal.findWithFilterExam(this.getNumeroMrqsExamen()
+				                                                         ,mrqsExamenesForRead.getAdmonExamen()
+				                                                         ,mrqsGrupoHdrForUpdate.getAdmonMateria()
+				                                                         ); 
 	}
 	 
 	public String addMRQsQuestions() {
@@ -94,7 +106,7 @@ public class UpdateMrqsExamGroupForm {
 		mrqsGrupoHdrDto.setTitulo(mrqsGrupoHdr.getTitulo());
 		mrqsGrupoHdrDto.setTema(mrqsGrupoHdr.getTema());
 		**/
-		mrqsGrupoHdrDto.setComentarios(mrqsGrupoHdr.getComentarios());
+		mrqsGrupoHdrDto.setComentarios(mrqsGrupoHdrForUpdate.getComentarios());
 		mrqsGrupoHdrLocal.update(this.getNumeroMrqsGrupo(), mrqsGrupoHdrDto);
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
@@ -180,12 +192,20 @@ public class UpdateMrqsExamGroupForm {
 		this.mrqPreguntaForAction = mrqPreguntaForAction;
 	}
 
-	public MrqsGrupoHdr getMrqsGrupoHdr() {
-		return mrqsGrupoHdr;
+	public MrqsGrupoHdr getMrqsGrupoHdrForUpdate() {
+		return mrqsGrupoHdrForUpdate;
 	}
 
-	public void setMrqsGrupoHdr(MrqsGrupoHdr mrqsGrupoHdr) {
-		this.mrqsGrupoHdr = mrqsGrupoHdr;
+	public void setMrqsGrupoHdrForUpdate(MrqsGrupoHdr mrqsGrupoHdrForUpdate) {
+		this.mrqsGrupoHdrForUpdate = mrqsGrupoHdrForUpdate;
+	}
+
+	public MrqsExamenes getMrqsExamenesForRead() {
+		return mrqsExamenesForRead;
+	}
+
+	public void setMrqsExamenesForRead(MrqsExamenes mrqsExamenesForRead) {
+		this.mrqsExamenesForRead = mrqsExamenesForRead;
 	} 
 	 
 

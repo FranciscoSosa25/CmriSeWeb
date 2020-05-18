@@ -22,4 +22,8 @@ public interface MrqsPreguntasHdrLocal {
 	public List<MrqsPreguntasHdrV1Dto> findByTituloPregunta(String ptituloPregunta);
 	public long insert(MrqsPreguntasHdrV1 pMrqsPreguntasHdrV1);
 	public String delete(MrqsPreguntasHdrV1 pMrqsPreguntasHdrV1);
+	public List<MrqsPreguntasHdrV1> findWithFilterExam(long pNumeroMrqsExamen
+			                                         , long pAdmonExamen
+			                                         , long pAdmonMateria
+			                                         );
 }

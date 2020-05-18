@@ -10,7 +10,9 @@ import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
 import com.cmrise.jpa.dao.exams.MrqsGrupoHdrDao;
 import com.cmrise.jpa.dao.exams.MrqsGrupoLinesDao;
 import com.cmrise.jpa.dto.exams.MrqsGrupoHdrDto;
+import com.cmrise.jpa.dto.exams.MrqsGrupoHdrV1Dto;
 import com.cmrise.jpa.dto.exams.MrqsGrupoLinesDto;
+import com.cmrise.utils.Utilitarios;
 
 @Stateless
 public class MrqsGrupoHdrLocalImpl implements MrqsGrupoHdrLocal {
@@ -57,6 +59,30 @@ public class MrqsGrupoHdrLocalImpl implements MrqsGrupoHdrLocal {
 	@Override
 	public void update(long pNumero, MrqsGrupoHdrDto pMrqsGrupoHdrDto) {
 		mrqsGrupoHdrDao.update(pNumero, pMrqsGrupoHdrDto);
+	}
+
+	@Override
+	public long insert(MrqsGrupoHdr pMrqsGrupoHdrForInsert) {
+		MrqsGrupoHdrDto mrqsGrupoHdrDto = new MrqsGrupoHdrDto(); 
+		mrqsGrupoHdrDto.setCreadoPor(pMrqsGrupoHdrForInsert.getCreadoPor());
+		mrqsGrupoHdrDto.setFechaCreacion(Utilitarios.utilDateToTimestamp(pMrqsGrupoHdrForInsert.getFechaCreacion()));
+		mrqsGrupoHdrDto.setActualizadoPor(pMrqsGrupoHdrForInsert.getActualizadoPor());
+		mrqsGrupoHdrDto.setFechaActualizacion(Utilitarios.utilDateToTimestamp(pMrqsGrupoHdrForInsert.getFechaActualizacion()));
+		mrqsGrupoHdrDto.setNumeroExamen(pMrqsGrupoHdrForInsert.getNumeroExamen());
+		mrqsGrupoHdrDto.setAdmonMateria(pMrqsGrupoHdrForInsert.getAdmonMateria());
+		mrqsGrupoHdrDao.insert(mrqsGrupoHdrDto); 
+		pMrqsGrupoHdrForInsert.setNumero(mrqsGrupoHdrDto.getNumero());
+		return mrqsGrupoHdrDto.getNumero();
+	}
+
+	@Override
+	public MrqsGrupoHdr findByNumeroWD(long pNumeroMrqsGrupo) {
+		MrqsGrupoHdr mrqsGrupoHdr = new MrqsGrupoHdr(); 
+		MrqsGrupoHdrV1Dto mrqsGrupoHdrV1Dto = mrqsGrupoHdrDao.findByNumeroWD(pNumeroMrqsGrupo); 
+		mrqsGrupoHdr.setNumero(mrqsGrupoHdrV1Dto.getNumero());
+		mrqsGrupoHdr.setAdmonMateria(mrqsGrupoHdrV1Dto.getAdmonMateria());
+		mrqsGrupoHdr.setAdmonMateriaDesc(mrqsGrupoHdrV1Dto.getAdmonMateriaDesc());
+		return mrqsGrupoHdr;
 	}
 
 }

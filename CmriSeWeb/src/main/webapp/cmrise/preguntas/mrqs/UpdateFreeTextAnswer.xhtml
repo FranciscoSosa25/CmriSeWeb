@@ -301,13 +301,13 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
  <div class="card">
  <div class="ui-g">
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-     <p:commandButton id="GuardarBtn" value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="updateQuestionFreeTextForm growl " oncomplete="handleUpdateRequest(xhr, status, args)"/>
+     <p:commandButton id="GuardarBtn" icon="fa fa-save" value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="updateQuestionFreeTextForm growl " oncomplete="handleUpdateRequest(xhr, status, args)"/>
    </div>
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-    <p:commandButton value=" Previsualizar" action="#{updateFTAMrqForm.saveAndPreview()}"/>
+    <p:commandButton icon="fa fa-eye" value="Previsualizar" action="#{updateFTAMrqForm.saveAndPreview()}"/>
    </div>
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-    <p:commandButton value="Cerrar" action="#{updateFTAMrqForm.cancel()}" immediate="true"/>
+    <p:commandButton icon="fa fa-backward" value="Cerrar" action="#{updateFTAMrqForm.cancel()}" immediate="true"/>
    </div>
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
     <p:commandButton value="Duplicar" oncomplete="PF('duplicateMrqDialogWV').show();" rendered="false"/>
@@ -535,13 +535,13 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
   
     <div class="ui-g"> 
    <div class="ui-g-12 ui-md-2 button-container" style=" width:25%;" >
-     <p:commandButton id="GuardarBtn"  value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="updateQuestionMultipleChoiceForm growl " style="BackGround:#2D0D86;" oncomplete="handleUpdateRequest(xhr, status, args)"/>
+     <p:commandButton id="GuardarBtn" icon="fa fa-save" value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="updateQuestionMultipleChoiceForm growl " style="BackGround:#2D0D86;" oncomplete="handleUpdateRequest(xhr, status, args)"/>
    </div>
    <div class="ui-g-12 ui-md-2 button-container" style=" width:25%;" >
-    <p:commandButton value="Previsualizar " action="#{updateFTAMrqForm.saveAndPreview()}" style="BackGround:#2D0D86;" update="updateQuestionMultipleChoiceForm growl "/>
+    <p:commandButton icon="fa fa-eye" value="Previsualizar " action="#{updateFTAMrqForm.saveAndPreview()}" style="BackGround:#2D0D86;" update="updateQuestionMultipleChoiceForm growl "/>
    </div>
    <div class="ui-g-12 ui-md-2 button-container" style=" width:25%;" >
-    <p:commandButton value="Cerrar" action="#{updateFTAMrqForm.cancel()}" immediate="true" style="BackGround:#2D0D86;" />
+    <p:commandButton icon="fa fa-backward" value="Cerrar" action="#{updateFTAMrqForm.cancel()}" immediate="true" style="BackGround:#2D0D86;" />
    </div>
    </div>
  

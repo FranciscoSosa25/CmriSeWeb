@@ -56,12 +56,12 @@ public class PreviewExamenReactivosForm {
 		 Object objNumeroMrqsExamenSV = session.getAttribute("NumeroMrqsExamenSV"); 
 	     long numeroMrqsExamenSV = Utilitarios.objToLong(objNumeroMrqsExamenSV); 
 	     System.out.println("numeroMrqsExamenSV:"+numeroMrqsExamenSV);
-	     mrqsExamen = mrqsExamenesLocal.findByIdWD(numeroMrqsExamenSV); 
+	    
 	     mrqsExamen = mrqsExamenesLocal.findObjMod(numeroMrqsExamenSV); 
 	}
 
 	public String backExamenesReactivos() {
-		return "Preguntas-ManageNewMrqs"; 
+		return "Exams-MRQs-Update"; 
 	}
 	
 	public MrqsExamenes getMrqsExamen() {

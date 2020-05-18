@@ -81,41 +81,7 @@ public class MrqsPreguntasHdrLocalImpl implements MrqsPreguntasHdrLocal {
 		List<Object> listObjects = mrqsPreguntasHdrDao.findWithFilterExam(pNumeroExamen); 
 		for(Object object:listObjects) {
 			if(object instanceof Object[]) {
-				MrqsPreguntasHdrV1 mrqsPreguntasHdrV1 = new MrqsPreguntasHdrV1(); 
-				Object[] row = (Object[]) object;
-				if(row[0] instanceof BigInteger) { /** [NUMERO] **/
-					mrqsPreguntasHdrV1.setNumero(((BigInteger)row[0]).longValue());
-				}
-				if(row[1] instanceof String) { /** [NOMBRE] **/
-					mrqsPreguntasHdrV1.setNombre((String)row[1]);
-				}
-				if(row[2] instanceof String) { /** [TITULO] **/
-					mrqsPreguntasHdrV1.setTitulo((String)row[2]);
-				}
-				if(row[3] instanceof String) { /**[TIPO_PREGUNTA]**/
-					mrqsPreguntasHdrV1.setTipoPregunta((String)row[3]);
-				}
-				if(row[4] instanceof String) { /**[TIPO_PREGUNTA_DESC]**/
-					mrqsPreguntasHdrV1.setTipoPreguntaDesc((String)row[4]);
-				}
-				if(row[5] instanceof String) { /**[TEMA_PREGUNTA]**/
-					mrqsPreguntasHdrV1.setTemaPregunta((String)row[5]);
-				}
-				if(row[6] instanceof String) { /**[TEMA_PREGUNTA_DESC]**/
-					mrqsPreguntasHdrV1.setTemaPreguntaDesc((String)row[6]);
-				}
-				if(row[7] instanceof String) { /**[DIAGNOSTICO]**/
-					mrqsPreguntasHdrV1.setDiagnostico((String)row[7]);
-				}
-				if(row[8] instanceof String) { /**[NOTAS]**/
-					mrqsPreguntasHdrV1.setNotas((String)row[8]);
-				}
-				if(row[9] instanceof String) { /**[ESTATUS]**/
-					mrqsPreguntasHdrV1.setEstatus((String)row[9]);
-				}
-				if(row[10] instanceof String) { /**[ESTATUS_DESC]**/
-					mrqsPreguntasHdrV1.setEstatusDesc((String)row[10]);
-				}
+				MrqsPreguntasHdrV1 mrqsPreguntasHdrV1 = objectToModel(object); 
 				retval.add(mrqsPreguntasHdrV1);
 			}
 		}	
@@ -171,6 +137,61 @@ public class MrqsPreguntasHdrLocalImpl implements MrqsPreguntasHdrLocal {
 	   		retval ="Los datos se borraron correctamente"; 
 	   	}
 	   	return retval;
+	}
+
+	private MrqsPreguntasHdrV1 objectToModel(Object pObject) {
+		MrqsPreguntasHdrV1 mrqsPreguntasHdrV1 = new MrqsPreguntasHdrV1(); 
+		Object[] row = (Object[]) pObject;
+		if(row[0] instanceof BigInteger) { /** [NUMERO] **/
+			mrqsPreguntasHdrV1.setNumero(((BigInteger)row[0]).longValue());
+		}
+		if(row[1] instanceof String) { /**[TIPO_PREGUNTA]**/
+			mrqsPreguntasHdrV1.setTipoPregunta((String)row[1]);
+		}
+		if(row[2] instanceof String) { /**[TIPO_PREGUNTA_DESC]**/
+			mrqsPreguntasHdrV1.setTipoPreguntaDesc((String)row[2]);
+		}
+		if(row[3] instanceof String) { /**[DIAGNOSTICO]**/
+			mrqsPreguntasHdrV1.setDiagnostico((String)row[3]);
+		}
+		if(row[4] instanceof String) { /**[NOTAS]**/
+			mrqsPreguntasHdrV1.setNotas((String)row[4]);
+		}
+		if(row[5] instanceof String) { /**[ESTATUS]**/
+			mrqsPreguntasHdrV1.setEstatus((String)row[5]);
+		}
+		if(row[6] instanceof String) { /**[ESTATUS_DESC]**/
+			mrqsPreguntasHdrV1.setEstatusDesc((String)row[6]);
+		}
+		if(row[14] instanceof String) { /**[ADMON_MATERIA_DESC]**/
+			mrqsPreguntasHdrV1.setAdmonMateriaDesc((String)row[14]);
+		}
+		if(row[15] instanceof String) { /**[ADMON_SUBMATERIA_DESC]**/
+			mrqsPreguntasHdrV1.setAdmonSubmateriaDesc((String)row[15]);
+		}
+		if(row[16] instanceof java.sql.Date) { /**[FECHA_ELABORACION]**/
+			mrqsPreguntasHdrV1.setFechaElaboracion(Utilitarios.sqlDateToUtilDate((java.sql.Date)row[16]));
+		}
+		if(row[17] instanceof String) { /**[ELABORADOR]**/
+			mrqsPreguntasHdrV1.setElaborador((String)row[17]);
+		}
+		return mrqsPreguntasHdrV1; 
+	}
+	
+	@Override
+	public List<MrqsPreguntasHdrV1> findWithFilterExam(long pNumeroMrqsExamen, long pAdmonExamen, long pAdmonMateria) {
+		List<MrqsPreguntasHdrV1> retval = new ArrayList<MrqsPreguntasHdrV1>();
+		List<Object> listObjects = mrqsPreguntasHdrDao.findWithFilterExam(pNumeroMrqsExamen
+				                                                         ,pAdmonExamen
+				                                                         ,pAdmonMateria
+				                                                         ); 
+		for(Object object:listObjects) {
+			if(object instanceof Object[]) {
+				MrqsPreguntasHdrV1 mrqsPreguntasHdrV1 = objectToModel(object); 
+				retval.add(mrqsPreguntasHdrV1);
+			}
+		}	
+		return retval;
 	}
 
 }

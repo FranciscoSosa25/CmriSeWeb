@@ -36,6 +36,7 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 	private String notas; 
 	private String bibliografia; 
 	private boolean dependent; 
+	private String elaborador; 
 	
 	private MrqsPreguntasFtaV1 mrqsPreguntasFtaV1 = new MrqsPreguntasFtaV1(); 
 	
@@ -237,6 +238,12 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 			setRespTextLibre(false);
 		}
 	 	this.opcionMultiple = opcionMultiple;
+	}
+	public String getElaborador() {
+		return elaborador;
+	}
+	public void setElaborador(String elaborador) {
+		this.elaborador = elaborador;
 	}
 	
 }
