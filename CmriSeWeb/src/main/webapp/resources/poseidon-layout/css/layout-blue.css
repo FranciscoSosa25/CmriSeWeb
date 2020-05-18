@@ -835,7 +835,8 @@ body {
   height: 100%;
 }
 body.main-body {
-  background-color: #D9E0E7;
+  /* background-color: #D9E0E7; */
+  background-color: #ffffff;
 }
 body a {
   color: #2f8ee5;
