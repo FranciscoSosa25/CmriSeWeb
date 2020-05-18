@@ -17,11 +17,14 @@
                 
 <ui:define name="content">
 <h:form id="casoClinicoForm">
- <h1>Información del Caso Clínico</h1>
- <p:growl id="growl" showDetail="true" life="5000" />  
+
+  <h1>Información del Caso Clínico</h1>
+ <p:growl id="growl" showDetail="true" life="6000" />  
+
  <div class="ui-g">
   <div class="ui-g-12 ui-md-12">
   <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+   
    <p:outputLabel for="admonExamenDesc" value="Examen"/>
    <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:98%" readonly="true"/>
    <p:message for="admonExamenDesc"/>
@@ -54,14 +57,14 @@
       <p:message for="tipoPreguntaDesc"/>
     </p:panelGrid>
  </p:carousel>   
- 
+
 </h:form>
 
 
 <h:form id="createQuestionCoreCaseForm">
 <p:growl id="growl" showDetail="true" life="5000" /> 
-<h1>Crear Pregunta Caso Clinico</h1> 
-    <div class="ui-g card">
+<!-- <h1>Crear Pregunta Caso Clinico</h1>  -->
+    <div class="ui-g card">  
       <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="admonExamen" value="Examen" />
@@ -143,47 +146,55 @@
          </div>
           <div class="ui-g-12 ui-md-9">
           <div class="ui-inputgroup">
-	      <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span>
+<!-- 	      <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span> -->
 	      <p:inputText id="tag" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.etiquetas}" maxlength="500" style="width:100%"/>
 	      </div>
          <p:message for="tag"/>  
          </div>
        </div>
+       
+           <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="bibliografia" value="Bibliografia" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+           <p:inputText id="bibliografia"   maxlength="255" style="width:50%"/>
+         </div>
       
          <div class="ui-g-12 ui-md-12" >
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
           <p:outputLabel for="internalComments" value="Notas" />
          </div>
           <div class="ui-g-12 ui-md-9">
-           <p:textEditor id="internalComments" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.comentarios}" widgetVar="internalCommentsWV"  height="100">
-		    <f:facet name="toolbar">
-		        <span class="ql-formats">
-		            <button class="ql-bold"></button>
-		            <button class="ql-italic"></button>
-		            <button class="ql-underline"></button>
-		            <button class="ql-strike"></button>
-		            <button class="ql-unorderedlist"></button>
-		            <button class="ql-orderedlist"></button>
-		        </span>
-		    </f:facet>
-	  	   </p:textEditor>
+           <p:inputTextarea id="internalComments" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.comentarios}"    maxlength="255" style="width:50%" />
+<!-- 		    <f:facet name="toolbar"> -->
+<!-- 		        <span class="ql-formats"> -->
+<!-- 		            <button class="ql-bold"></button> -->
+<!-- 		            <button class="ql-italic"></button> -->
+<!-- 		            <button class="ql-underline"></button> -->
+<!-- 		            <button class="ql-strike"></button> -->
+<!-- 		            <button class="ql-unorderedlist"></button> -->
+<!-- 		            <button class="ql-orderedlist"></button> -->
+<!-- 		        </span> -->
+<!-- 		    </f:facet> -->
+<!-- 	  	   </p:textEditor> -->
 	     <p:message for="internalComments"/>  
          </div>
        </div>
       
-     </div>  
+
     
     <p:panelGrid id="questionInformationForm" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
     </p:panelGrid>
     
-	  <div class="ui-g">
-	   <div class="ui-g-12 ui-md-6 ui-lg-2">
-	    <p:commandButton value="Crear" update="questionInformationForm createQuestionCoreCaseForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createQuestionCoreCaseForm.create()}"/>
+	  <div class="ui-g" style="text-align:left; width:10%">
+	   <div class="ui-g-12 ui-md-6 ui-lg-10">
+	    <p:commandButton value="Crear" update="questionInformationForm createQuestionCoreCaseForm" oncomplete="handleCreateRequest(xhr, status, args)"  action="#{createQuestionCoreCaseForm.create()}"/>
 	   </div>
 	   <div class="ui-g-12 ui-md-6 ui-lg-2">
-	     <p:commandButton value="Cancelar" immediate="true" action="Preguntas-Update-CoreCase"/>
+	     <p:commandButton value="Cancelar" immediate="true"  action="Preguntas-Update-CoreCase"/>
 	   </div>
 	  </div>
+	       </div>  
 	</h:form>
 	
 
