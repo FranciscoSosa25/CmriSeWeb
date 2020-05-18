@@ -22,6 +22,43 @@
  
  </script>
 </ui:define>
+
+ <ui:define name="xxhrwcss">
+ <style type="text/css">
+        .cars-datalist .text-column p:last-child{
+            color:#757575;
+        }
+        
+        .cars-datalist .car-item {
+            padding: 8px 14px;
+        }
+        
+        .cars-datalist .car-item img, .cars-datalist .car-item .car-details {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 14px;
+        }
+        
+        .cars-datalist .car-item button {
+            float: right;
+        }
+        
+        .cars-datalist ul {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .ui-car-display td:last-child {
+            font-weight: 700;
+        }
+    
+    @media (max-width:640px) {
+        .cars-datalist .text-column {
+            text-align: center;
+        }
+    }
+    </style>
+</ui:define>
                 
 <ui:define name="content">
 <div class="card">
@@ -210,45 +247,78 @@
 
 <div class="ui-g">
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Actualizar" update="updateForm" actionListener="#{updateMrqsExamForm.update()}" oncomplete="handleUpdateRequest(xhr, status, args)" style="background: #2D0D86;"/>
+  <p:commandButton value="Actualizar" icon="fa fa-save" update="updateForm" actionListener="#{updateMrqsExamForm.update()}" oncomplete="handleUpdateRequest(xhr, status, args)" style="background: #2D0D86;"/>
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Cancelar" action="#{updateMrqsExamForm.cancel()}" immediate="true" style="background: #2D0D86;"/>
+  <p:commandButton value="Visualizar" icon="fa fa-eye" immediate="true" style="background: #2D0D86;" action="#{updateMrqsExamForm.toPreviewExamenReactivos()}" />
+ </div>
+ <div class="ui-g-12 ui-md-6 ui-lg-2">
+  <p:commandButton value="Cancelar" icon="fa fa-backward" action="#{updateMrqsExamForm.cancel()}" immediate="true" style="background: #2D0D86;"/>
  </div>
 </div>
 
- <div class="ui-g">
-  <h1>Gestionar Materias</h1>
- </div>
  
-
 </h:form>
 </div>
 
-<h:form id="MrqsGrupoHdrCreateForm">
+<h:form id="MateriasForm">
+   <div class="ui-g card">
+     <div class="ui-g-12">
+                    <p:dataGrid var="materia" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.listMrqsGrupoHdr}" columns="3" layout="grid"
+                                    rows="6" paginator="true" id="cars"
+                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
+                            <f:facet name="header">
+                               Materias
+                            </f:facet>
+                            <p:panel header="#{materia.admonMateriaDesc}" style="text-align:center;font-weight:bold;">
+                                <h:panelGrid columns="1" style="width:100%">
+                                    <h:outputText value="Número de reactivos:#{materia.numeroReactivos}" style="font-weight:bold;" />
+                                    <h:outputText value="Elaborador:#{materia.elaborador}" style="font-weight:bold;"/>
+                                </h:panelGrid>
+                              <p:commandButton value="Gestionar Reactivos" icon="fa fa-edit" action="#{updateMrqsExamForm.onMateriaSelect(materia)}" immediate="true"/>
+                            </p:panel>
+                        </p:dataGrid>
+                </div>
+    <div class="ui-g-12">
+      <p:commandButton icon="fa fa-plus" value="Nueva" immediate="true"  oncomplete="PF('MrqsGrupoHdrCreateDialogWV').show();" />
+    </div>
+   </div>
+</h:form>
+
+ <p:dialog id="MrqsGrupoHdrCreateDialogId" widgetVar="MrqsGrupoHdrCreateDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Seleccionar Materia">
+ <h:form id="MrqsGrupoHdrCreateForm">
  <f:passThroughAttribute name="autocomplete" value="off"/>
- <p:dialog id="MrqsGrupoHdrCreateDialogId" widgetVar="MrqsGrupoHdrCreateDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Crear Grupo">
-  <p:panelGrid id="grupoHdrPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
-  <p:outputLabel for="publicTitle" value="Título"/>
-  <p:inputText id="publicTitle" value="#{updateMrqsExamForm.mrqsGrupoHdr.titulo}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:100%"/>
-  <p:message for="publicTitle"/>
-  <p:outputLabel for="topic" value="Tema" />
-  <p:selectOneMenu id="topic"  value="#{updateMrqsExamForm.mrqsGrupoHdr.tema}"   required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-  <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
-  <f:selectItems value="#{selectsHelper.selectTemaExamenItems}" />
-  </p:selectOneMenu>
-  <p:message for="topic"/>
-  <p:outputLabel for="internalComments" value="Comentarios"/>
-  <p:inputTextarea  id="internalComments" value="#{updateMrqsExamForm.mrqsGrupoHdr.comentarios}"  rows="4" style="width:100%"/>
-  <p:message  for="internalComments"/> 
-  </p:panelGrid>
+  <div class="ui-g">
+   <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="materia" value="Materia" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:selectOneMenu id="materia" value="#{updateMrqsExamForm.mrqsGrupoHdrForInsert.admonMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{updateMrqsExamForm.selectMateriasHdr}" />
+         </p:selectOneMenu>
+         <p:message for="materia"/>
+         </div>
+    </div>
+    <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="internalComments" value="Comentarios"/>
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:inputTextarea  id="internalComments" value="#{updateMrqsExamForm.mrqsGrupoHdrForInsert.comentarios}"  rows="1" style="width:100%"/>
+         <p:message  for="internalComments"/> 
+         </div>
+    </div>
+  </div>
+  
   <div class="ui-g">
    <div class="ui-g-4"></div>
-   <div class="ui-g-4"><p:commandButton value="Crear Grupo" update="MrqsGrupoHdrCreateForm:grupoHdrPanelId" action="#{updateMrqsExamForm.addMRQsGroup()}" oncomplete="handleCreateGrupoRequest(xhr, status, args)" style="width:100%"/></div>
-   <div class="ui-g-4"><p:commandButton value="Cerrar" onclick="PF('MrqsGrupoHdrCreateDialogWV').hide();" style="width:100%"/></div> 
+   <div class="ui-g-4"><p:commandButton value="Guardar" icon="fa fa-plus" update="MrqsGrupoHdrCreateForm" action="#{updateMrqsExamForm.addMRQsGroup()}" oncomplete="handleCreateGrupoRequest(xhr, status, args)" style="width:100%"/></div>
+   <div class="ui-g-4"><p:commandButton value="Cancelar" icon="fa fa-backward" onclick="PF('MrqsGrupoHdrCreateDialogWV').hide();" style="width:100%"/></div> 
    </div>
-  </p:dialog>
-</h:form>
+   </h:form>
+ </p:dialog>
 
 </ui:define>
 </ui:composition>

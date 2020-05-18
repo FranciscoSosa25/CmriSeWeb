@@ -29,6 +29,7 @@ import com.cmrise.jpa.dao.mrqs.img.MrqsImagenesGrpDao;
 import com.cmrise.jpa.dto.exams.MrqsExamenesDto;
 import com.cmrise.jpa.dto.exams.MrqsExamenesV1Dto;
 import com.cmrise.jpa.dto.exams.MrqsGrupoHdrDto;
+import com.cmrise.jpa.dto.exams.MrqsGrupoHdrV1Dto;
 import com.cmrise.jpa.dto.exams.MrqsGrupoLinesDto;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto;
@@ -105,16 +106,19 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 	@Override
 	public MrqsExamenes findObjMod(long pNumero) {
 		MrqsExamenes retval = new MrqsExamenes(); 
-		MrqsExamenesDto mrqsExamenesDto = mrqsExamenesDao.findById(pNumero);
-		retval.setNumero(mrqsExamenesDto.getNumero());
+		MrqsExamenesV1Dto mrqsExamenesV1Dto =  mrqsExamenesDao.findByNumeroWD(pNumero); 
+		retval.setNumero(mrqsExamenesV1Dto.getNumero());
+		retval.setAdmonExamen(mrqsExamenesV1Dto.getAdmonExamen());
+		retval.setAdmonExamenDesc(mrqsExamenesV1Dto.getAdmonExamenDesc());
 		
-		List<MrqsGrupoHdrDto> listMrqsGrupoHdrDto = mrqsGrupoHdrDao.findByNumeroExamen(pNumero); 
-		if(null!=listMrqsGrupoHdrDto) {
+		List<MrqsGrupoHdrV1Dto> listMrqsGrupoHdrV1Dto = mrqsGrupoHdrDao.findByNumeroExamenWD(pNumero); 
+		if(null!=listMrqsGrupoHdrV1Dto) {
 			List<MrqsGrupoHdr> listMrqsGrupoHdr = new ArrayList<MrqsGrupoHdr>(); 
-			for(MrqsGrupoHdrDto i:listMrqsGrupoHdrDto) {
+			for(MrqsGrupoHdrV1Dto i:listMrqsGrupoHdrV1Dto) {
 				MrqsGrupoHdr mrqsGrupoHdr = new MrqsGrupoHdr(); 
 				mrqsGrupoHdr.setNumero(i.getNumero());
 				mrqsGrupoHdr.setAdmonMateria(i.getAdmonMateria());
+				mrqsGrupoHdr.setAdmonMateriaDesc(i.getAdmonMateriaDesc());
 				
 				List<MrqsGrupoLinesDto> listMrqsGrupoLinesDto = mrqsGrupoLinesDao.findByNumeroHdr(i.getNumero());
 				if(null!=listMrqsGrupoLinesDto) {
@@ -166,6 +170,7 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 												mrqsImagenes.setNumeroGrp(l.getNumeroGrp());
 												mrqsImagenes.setNombreImagen(l.getNombreImagen());
 												mrqsImagenes.setRutaImagen(Utilitarios.FS_ROOT+l.getRutaImagen());
+												mrqsImagenes.setContentType(l.getContentType());
 												try {
 													byte[] bytesArray = Files.readAllBytes(Paths.get(Utilitarios.FS_ROOT+l.getRutaImagen()+"\\"+l.getNombreImagen()));
 													mrqsImagenes.setImagenContent(bytesArray);
@@ -263,6 +268,21 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 		retval.setAleatorioPreguntas(mrqsExamenesV1Dto.getAleatorioPreguntas());
 		retval.setSeleccionCasosAleatorios(mrqsExamenesV1Dto.getSeleccionCasosAleatorios());
 		
+		List<MrqsGrupoHdrV1Dto> listMrqsGrupoHdrV1Dto =  mrqsGrupoHdrDao.findByNumeroExamenWD(pNumero); 
+		if(null!=listMrqsGrupoHdrV1Dto) {
+			List<MrqsGrupoHdr> listMrqsGrupoHdr = new ArrayList<MrqsGrupoHdr>(); 
+			for(MrqsGrupoHdrV1Dto i:listMrqsGrupoHdrV1Dto) {
+				MrqsGrupoHdr mrqsGrupoHdr = new MrqsGrupoHdr(); 
+				mrqsGrupoHdr.setNumero(i.getNumero());
+				mrqsGrupoHdr.setNumeroExamen(i.getNumeroExamen());
+				mrqsGrupoHdr.setAdmonMateria(i.getAdmonMateria());
+				mrqsGrupoHdr.setAdmonMateriaDesc(i.getAdmonMateriaDesc());
+				mrqsGrupoHdr.setNumeroReactivos(i.getNumeroReactivos());
+				mrqsGrupoHdr.setElaborador(i.getElaborador());
+				listMrqsGrupoHdr.add(mrqsGrupoHdr); 
+			}	
+			retval.setListMrqsGrupoHdr(listMrqsGrupoHdr);
+		}
 		
 		return retval;
 	}
@@ -293,6 +313,16 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 		mrqsExamenesDto.setMensajeFinalizacion(pMrqsExamenesForUpdate.getMensajeFinalizacion());
 		mrqsExamenesDao.update(pMrqsExamenesForUpdate.getNumero(), mrqsExamenesDto);
 		
+	}
+
+	@Override
+	public MrqsExamenes findByNumeroForRead(long pNumeroMrqsExamen) {
+		MrqsExamenes retval = new MrqsExamenes(); 
+		MrqsExamenesV1Dto mrqsExamenesV1Dto =  mrqsExamenesDao.findByNumeroWD(pNumeroMrqsExamen); 
+		retval.setNumero(mrqsExamenesV1Dto.getNumero());
+		retval.setAdmonExamen(mrqsExamenesV1Dto.getAdmonExamen());
+		retval.setAdmonExamenDesc(mrqsExamenesV1Dto.getAdmonExamenDesc());
+		return retval;
 	}
 
 	

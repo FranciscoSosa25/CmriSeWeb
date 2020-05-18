@@ -18,4 +18,8 @@ public interface MrqsPreguntasHdrDao {
 	public List<Object> findWithFilterExam(long pNumeroExamen); 
 	public List<MrqsPreguntasHdrV1Dto> findByTituloPregunta(String ptituloPregunta);
 	public long countRecMGL(long pNumero);
+	public List<Object> findWithFilterExam(long pNumeroMrqsExamen
+			                             , long pAdmonExamen
+			                             , long pAdmonMateria
+			                             );
 }

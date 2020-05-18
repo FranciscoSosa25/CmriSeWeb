@@ -21,6 +21,7 @@ public interface MrqsExamenesLocal {
 	public MrqsExamenes findObjMod(long pNumero);
 	public long insert(MrqsExamenes pMrqsExamenes);
 	public MrqsExamenes findByNumeroWD(long pNumero);
-	public void update(MrqsExamenes mrqsExamenesForUpdate); 
+	public void update(MrqsExamenes mrqsExamenesForUpdate);
+	public MrqsExamenes findByNumeroForRead(long pNumeroMrqsExamen); 
 	
 }

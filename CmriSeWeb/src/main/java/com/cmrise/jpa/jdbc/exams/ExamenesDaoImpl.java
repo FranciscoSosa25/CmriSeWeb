@@ -18,7 +18,6 @@ public class ExamenesDaoImpl implements ExamenesDao {
 	EntityManager em;
 	
 	
-	
 	@Override
 	public List<Object> findAll() {
 		String strQuery ="SELECT DISTINCT ME.[NUMERO]\r" + 

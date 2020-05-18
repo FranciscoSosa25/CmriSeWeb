@@ -12,5 +12,7 @@ public interface MrqsGrupoHdrLocal {
 	public List<MrqsGrupoHdr> findByNumeroExamen(long pNumeroExamen); 
 	public MrqsGrupoHdrDto findByNumero(long pNumero); 
 	public void delete(long pNumero); 
-	public void update(long pNumero, MrqsGrupoHdrDto pMrqsGrupoHdrDto); 
+	public void update(long pNumero, MrqsGrupoHdrDto pMrqsGrupoHdrDto);
+	public long insert(MrqsGrupoHdr pMrqsGrupoHdrForInsert);
+	public MrqsGrupoHdr findByNumeroWD(long pNumeroMrqsGrupo); 
 }

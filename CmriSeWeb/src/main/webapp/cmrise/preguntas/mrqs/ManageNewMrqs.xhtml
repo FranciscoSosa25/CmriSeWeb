@@ -36,54 +36,43 @@ function handleDuplicateRequest(xhr, status, args){
                                  
 <ui:define name="content">
 
-<h:panelGroup rendered="false">
-<h:form id="SearchForm"> 
-<f:passThroughAttribute name="autocomplete" value="off"/> 
-<p:breadCrumb>
-  		<p:menuitem value="Inicio" outcome="PaginaPrincipal"/>
-      <p:menuitem value="Reactivos" url="#" />
-  </p:breadCrumb>
-  
- <p:fieldset legend="Buscar Pregunta" toggleable="true" toggleSpeed="500" style="margin-bottom:20px" collapsed="true" > 
-  <p:ajax event="toggle" /> 
-  <p:panel id="SearchPanel" > 
-  <div class="ui-g ui-fluid" style="width: 100%; margin-top: 5px;"> 
-    <div class="ui-g-6 ui-lg-3" > 
-         <p:outputLabel   value="Titulo Pregunta:" /> 
-         <p:inputText id="titulo_pregunta" value="#{manageMrqsForm.titulo}" style="width: 100%; margin-top: 5px;"  maxlength="50" /> 
-         <p:message for="titulo_pregunta"/> 
-         </div> 
-        </div> 
-     <div class="ui-g"> 
-        <div class="ui-g-12 ui-lg-12" style="text-align: right;"> 
-         <p:commandButton value="Cancelar"> 
-       <p:ajax update="SearchPanel" resetValues="true" /> 
-       </p:commandButton> 
-        <p:commandButton value="Consultar"    update="ReadOnlyForm" style="margin-left: 10px;"/> 
-       </div> 
-     </div> 
-  </p:panel> 
-  </p:fieldset> 
-</h:form>
-</h:panelGroup>
-
 <h:form id="ReadOnlyForm">
 
 <div class="card ">
 <p:growl id="growl" showDetail="true"/>
 <p:commandButton immediate="true" title="Nuevo" value="Nuevo Reactivo" icon="pi pi-plus" action="Preguntas-CreateNewMrqs" style="margin:10px;BackGround:#2D0D86;"/>
- <p:dataTable var="preguntasHdrV1"  value="#{manageMrqsForm.listMrqsPreguntasHdrV1}"  paginator="true" rows="50" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+ <p:dataTable var="preguntasHdrV1"  widgetVar="preguntasHdrV1WV" value="#{manageMrqsForm.listMrqsPreguntasHdrV1}"  paginator="true" rows="50" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">Reactivos</f:facet>
     <p:column headerText="ID" style="width:20px;">
      <h:outputText value="#{preguntasHdrV1.numero}" />
     </p:column>
-    <p:column headerText="Categoria Examen">
-     <h:outputText value="#{preguntasHdrV1.admonExamenDesc}" />
+     <p:column filterBy="#{preguntasHdrV1.admonExamen}" headerText="Categoría Examen" filterMatchMode="exact">
+      <f:facet name="filter"> 
+         <p:selectOneMenu onchange="PF('preguntasHdrV1WV').filter()" value="#{manageMrqsForm.admonExamen}"  styleClass="custom-filter">
+           <p:ajax listener="#{manageMrqsForm.onAdmonExamenChange}" update="materia"  />
+           <f:selectItem itemLabel="Seleccione..." itemValue="" />
+           <f:selectItems value="#{manageMrqsForm.selectExamenesHdr}" />
+          </p:selectOneMenu>
+         </f:facet>
+      <h:outputText value="#{preguntasHdrV1.admonExamenDesc}" />
     </p:column>
-    <p:column headerText="Materia">
-     <h:outputText value="#{preguntasHdrV1.admonMateriaDesc}" />
+    <p:column filterBy="#{preguntasHdrV1.admonMateria}" headerText="Materia" filterMatchMode="exact">
+       <f:facet name="filter"> 
+       <p:selectOneMenu onchange="PF('preguntasHdrV1WV').filter()" id="materia" value="#{manageMrqsForm.admonMateria}" >
+          <p:ajax listener="#{manageMrqsForm.onAdmonMateriaChange}" update="subMateria" />
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{manageMrqsForm.selectMateriasHdr}" />
+         </p:selectOneMenu>
+        </f:facet>
+        <h:outputText value="#{preguntasHdrV1.admonMateriaDesc}" /> 
     </p:column>
-    <p:column headerText="Clasificación">
+    <p:column filterBy="#{preguntasHdrV1.admonSubmateria}" headerText="Clasificación" filterMatchMode="exact">
+        <f:facet name="filter"> 
+        <p:selectOneMenu onchange="PF('preguntasHdrV1WV').filter()" id="subMateria" value="#{manageMrqsForm.admonSubmateria}" >
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{manageMrqsForm.selectSubMaterias}" />
+         </p:selectOneMenu>
+        </f:facet>
        <h:outputText value="#{preguntasHdrV1.admonSubmateriaDesc}" />
     </p:column>
     <p:column headerText="Tipo Reactivo">

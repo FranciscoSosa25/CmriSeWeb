@@ -54,6 +54,8 @@ public class MrqsGrupoLinesLocalImpl implements MrqsGrupoLinesLocal {
 			mrqsPreguntasHdrV1.setEstatus(mrqsGrupoLinesV1Dto.getEstatus());
 			mrqsPreguntasHdrV1.setEstatusDesc(mrqsGrupoLinesV1Dto.getEstatusDesc());
 			mrqsPreguntasHdrV1.setDiagnostico(mrqsGrupoLinesV1Dto.getDiagnostico());
+			mrqsPreguntasHdrV1.setAdmonSubmateria(mrqsGrupoLinesV1Dto.getAdmonSubmateria());
+			mrqsPreguntasHdrV1.setAdmonSubmateriaDesc(mrqsGrupoLinesV1Dto.getAdmonSubmateriaDesc());
 			retval.add(mrqsPreguntasHdrV1); 
 		}
 		return retval;

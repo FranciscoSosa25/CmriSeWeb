@@ -33,13 +33,7 @@ function handleUpdateRequest(xhr, status, args){
 </script>
 </ui:define>
 <ui:define name="content">
-<p:breadCrumb>
-    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-         <p:menuitem value="Examenes de reactivos" outcome="ManageMrqsExams.xhtml"/>
-     <p:menuitem value="Actualizar Examen de reactivos" outcome="Exams-MRQs-Update"/>
-      <p:menuitem value="Candidatos de examen de reactivos" url="#"/>
-     
-</p:breadCrumb>
+
            <div class="ui-g">
              <div class="ui-g-12 ui-lg-12" style="text-align: left;">
                  <p:commandButton id="RegistrarBtn" value="Nuevo Candidato" icon="fa fa-plus" onclick="PF('createCandidatoDialogWV').show();" />

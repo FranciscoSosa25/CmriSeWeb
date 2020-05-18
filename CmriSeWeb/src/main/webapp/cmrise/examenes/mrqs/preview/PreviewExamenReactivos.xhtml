@@ -26,10 +26,12 @@
 			body{
 			 background: white;
 			}
+			/*
 			header{
 			position: fixed;
             top: 0;
 			}
+			*/
 	    </style>
       </h:head>
 <body>
@@ -45,7 +47,7 @@
      <div class="ui-g-1">
     </div>
      <div class="ui-g-10" style="background:#014689; font-size: 30px;color:#fff">
-       #{previewExamenReactivosForm.mrqsExamen.titulo}
+       #{previewExamenReactivosForm.mrqsExamen.admonExamenDesc}
     </div>
    
  </div>
@@ -55,28 +57,30 @@
  <div class="ui-g">
    <div class="ui-g-1">
     </div>
-     <div class="ui-g-10">
+     <div class="ui-g-10" >
       <ui:repeat var="grupoReactivos" value="#{previewExamenReactivosForm.mrqsExamen.listMrqsGrupoHdr}">
             <div class="ui-g-12">
-              Grupo:#{grupoReactivos.numero} - #{grupoReactivos.titulo}
-              
+              #{grupoReactivos.admonMateriaDesc}
                <ui:repeat var="lineaReactivo" value="#{grupoReactivos.listMrqsGrupoLines}">
-                   <div class="ui-g-12">
-                    Linea Reactivo: #{lineaReactivo.numero}
-                   </div>
-                   
-		             <ui:repeat var="imagenesGrupo" value="#{lineaReactivo.mrqsPreguntasHdrV1.mrqsPreguntasFtaV1.listMrqsImagenesGrp}" varStatus="status">
+                  <ui:repeat var="imagenesGrupo" value="#{lineaReactivo.mrqsPreguntasHdrV1.mrqsPreguntasFtaV1.listMrqsImagenesGrp}" varStatus="status">
 				      <div class="ui-g-12">
 				       <h3>#{imagenesGrupo.tituloSuperior}</h3>
 				      </div>
 				      <div class="ui-g-12">
 				       <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
-				         <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="max-width: 100%; max-height: 100%;" />
+				        <h:panelGroup layout="block" rendered="#{imagenes.image}">
+				        <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="width: 100%;height:100%;" />
+				       </h:panelGroup>
+				       <h:panelGroup layout="block" rendered="#{imagenes.video}">
+				         <video width="320" height="240" controls="controls" style="width: 100%;height:100%;" >
+						  <source src="data:#{imagenes.contentType};base64,#{imagenes.imagenBase64}" />
+					     </video>
+				        </h:panelGroup> 
 				       </ui:repeat>
 				      </div>
 				    </ui:repeat>
                    
-                   <div class="ui-g-12" style="color:#dc143c; font-weight: 900;">
+                   <div class="ui-g-12" style="color:#014689; font-weight: 900;">
                       #{lineaReactivo.mrqsPreguntasHdrV1.mrqsPreguntasFtaV1.textoPregunta}
                    </div>
                    

@@ -120,8 +120,13 @@ public class MrqsImagenes implements Serializable {
 		return contentType;
 	}
 
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
+	public void setContentType(String pContentType) {
+		if(pContentType.contains("video")) {
+			this.setVideo(true);
+		}else if(pContentType.contains("image")) {
+			this.setImage(true);
+		}
+		this.contentType = pContentType;
 	}
 
 	public StreamedContent getVideoStreamed() {

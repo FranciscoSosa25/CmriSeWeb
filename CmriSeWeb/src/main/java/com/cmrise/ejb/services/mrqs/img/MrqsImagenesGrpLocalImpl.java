@@ -116,14 +116,7 @@ public class MrqsImagenesGrpLocalImpl implements MrqsImagenesGrpLocal {
 				} catch (IOException ie) {
 				   System.out.println("IOException :"+ie.getMessage());
 				}
-				System.out.println("j.getContentType():"+j.getContentType());
 				mrqsImagenes.setContentType(j.getContentType());
-				if(j.getContentType().contains("video")) {
-					System.out.println("*Video*");
-					mrqsImagenes.setVideo(true);
-				}else if(j.getContentType().contains("image")) {
-					mrqsImagenes.setImage(true);
-				}
 				listMrqsImagenes.add(mrqsImagenes);
 			}
 			mrqsImagenesGrp.setListMrqsImagenes(listMrqsImagenes);
