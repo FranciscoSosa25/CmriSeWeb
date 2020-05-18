@@ -67,6 +67,17 @@ function handleUpdateRequest(xhr, status, args){
         background-color: #d43f3a;
         border-color: #d9534f;
     }
+    
+    .zoom {
+  transition: transform .2s; /* Animation */
+}
+
+.zoom:hover {
+  transform: scale(2.0); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+    
+    
+    
 </style>
 </ui:define>
                 
@@ -80,18 +91,15 @@ function handleUpdateRequest(xhr, status, args){
       
      <div class="ui-g-12 ui-md-12">
         <div class="ui-g-12 ui-md-12">
-           <div class="ui-g-12 ui-md-4">
-             <p:commandButton value="Siguiente" update="previewForm" style="margin-left:15px;" actionListener="#{mrqPreviewForm.saveProceed()}" rendered="#{mrqPreviewForm.questionView}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
-             <p:commandButton value="Continuar" style="margin-left:15px;" action="#{mrqPreviewForm.proceed()}" rendered="#{mrqPreviewForm.answerView}"/>
-           </div>
+
            
             <ui:repeat var="imagenesGrupo" value="#{mrqPreviewForm.listPresentMrqsImagenesGrp}" varStatus="status">
 		      <div class="ui-g-12">
 		       <h3>#{imagenesGrupo.tituloSuperior}</h3>
 		      </div>
 		      <div class="ui-g-12">
-		       <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
-		        <h:panelGroup layout="block" rendered="#{imagenes.image}">
+		       <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status" >
+		        <h:panelGroup layout="block" rendered="#{imagenes.image}" >
 		        <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="width: 50%;height:50%;" />
 		       </h:panelGroup>
 		       <h:panelGroup layout="block" rendered="#{imagenes.video}">
@@ -108,6 +116,10 @@ function handleUpdateRequest(xhr, status, args){
            
            <div class="ui-g-12 ui-md-12">
               <h3>#{mrqPreviewForm.textoPregunta}</h3>
+           </div>
+           
+           <div class="ui-g-12 ui-md-12">
+              <h5>#{mrqPreviewForm.textoSugerencias}</h5>
            </div>
            <h:panelGroup layout="block" rendered="#{mrqPreviewForm.limitedFreeTextAnswer and mrqPreviewForm.questionView}">
            <div class="ui-g-12 ui-md-12" >
@@ -225,6 +237,13 @@ function handleUpdateRequest(xhr, status, args){
 		            </ui:repeat>
 		      </div>
              </h:panelGroup>  
+             
+             
+          		     <div class="ui-g-12 ui-md-4">
+             <p:commandButton value="Siguiente" update="previewForm" style="margin-left:15px;" actionListener="#{mrqPreviewForm.saveProceed()}" rendered="#{mrqPreviewForm.questionView}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
+             <p:commandButton value="Continuar" style="margin-left:15px;" action="#{mrqPreviewForm.proceed()}" rendered="#{mrqPreviewForm.answerView}"/>
+           </div>  
+            
             
              <h:panelGroup layout="block" rendered="#{mrqPreviewForm.multipleChoice and mrqPreviewForm.answerView and not mrqPreviewForm.singleAnswerMode}">
 		      <div class="ui-g-12 ui-md-12 xXinstructions">
@@ -259,6 +278,7 @@ function handleUpdateRequest(xhr, status, args){
 		             </div>
 		            </ui:repeat>
 		      </div>
+
              </h:panelGroup>
             
         </div>

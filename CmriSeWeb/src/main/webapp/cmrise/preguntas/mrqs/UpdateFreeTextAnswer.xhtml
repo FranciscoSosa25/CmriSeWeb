@@ -269,6 +269,15 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
           <p:inputText id="correctAnswer" value="#{updateFTAMrqForm.respuestaCorrecta}" placeholder="Respuesta Correcta"  maxlength="500" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
           <p:message for="correctAnswer"/>
          </div>
+         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+           <p:outputLabel for="limiteCaracteres" value="Limite de caracteres" />
+        </div>
+        <div class="ui-g-12 ui-md-9">
+         <p:selectOneMenu id="limiteCaracteres" required="false" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
+          <f:selectItems/>
+         </p:selectOneMenu>
+          <p:message for="limiteCaracteres"/>
+         </div>
      </div>
 </div>
 
@@ -488,6 +497,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          </p:selectOneMenu>
           <p:message for="scoringValue"/>
          </div>
+
                 <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="singleMode" value="¿Modo de Respuesta Única?" />
         </div>

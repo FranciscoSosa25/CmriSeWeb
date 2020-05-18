@@ -208,13 +208,14 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 	       <div class="ui-g-12 ui-md-12" >
 	        
 	        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-	        <p:outputLabel for="questionTitle" value="Título de la pregunta" />
+	        <p:outputLabel for="questionTitle" value="Cuadro Clinico" />
 	        </div>
 	         <div class="ui-g-12 ui-md-9">
-	           <p:inputText id="questionTitle"  value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.tituloPregunta}" placeholder="Título de la pregunta"  maxlength="200" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+	           <p:inputText id="questionTitle"  value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.tituloPregunta}" maxlength="200" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
                <p:message for="questionTitle"/>
 	         </div>
 	        
+	        <!-- 
 	         <div class="ui-g-12 ui-md-3" style="text-align:right;">
 	          <p:outputLabel for="questionText"  value="Texto de la pregunta" />
 	        </div>
@@ -222,12 +223,12 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 	           <p:inputTextarea id="questionText" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.textoPregunta}"  style="width:100%" required="true" maxlength="500" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
                <p:message for="questionText"/>
 	         </div>
-	         
+	          -->
 	          <div class="ui-g-12 ui-md-3" style="text-align:right;">
-	         <p:outputLabel for="hintsText"  value="Texto de sugerencias" />
+	         <p:outputLabel for="hintsText"  value="Instrucciones" />
 	        </div>
 	         <div class="ui-g-12 ui-md-9">
-	           <p:inputText id="hintsText" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.textoSugerencias}" placeholder="(No use mas de 5 palabras)"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+	           <p:inputText id="hintsText" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.textoSugerencias}" maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
                 <p:message for="hintsText"/>
 	         </div>
 	       
@@ -262,13 +263,14 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
                  <div class="ui-g-9 ui-g-nopad">
 		         <div class="ui-g-12">
 		           <div class="ui-g-2" style="text-align:right;">
-		            <p:outputLabel for="answerText" value="Texto de Respuesta" />
+		            <p:outputLabel for="answerText" value="Respuesta" />
 		           </div>
 		           <div class="ui-g-10">
 		             <p:inputText id="answerText" style="width:99%;" value="#{ccOpcionMultiple.textoRespuesta}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
 		             <p:message for="answerText"/>
 		           </div>
 		         </div>
+		         <!-- 
 		          <div class="ui-g-12">
 		           <div class="ui-g-2" style="text-align:right;">
 		            <p:outputLabel for="explanation" value="Explicación" />
@@ -278,6 +280,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 		             <p:message for="explanation"/>
 		           </div>
 		         </div>
+		          -->
 		         </div>
 		          <div class="ui-g-1 ui-g-nopad">
 		            <p:commandButton icon="pi pi-times" styleClass="red-button" oncomplete="PF('deleteOpcionMultipleWV').show();" actionListener="#{updateQuestionFtaCoreCaseForm.selectOpcionMultipleForAction(ccOpcionMultiple)}"/>
