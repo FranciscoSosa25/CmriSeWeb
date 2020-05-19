@@ -846,7 +846,7 @@ body {
 body.main-body {
   /*background-color: #D9E0E7;
   background-color: #747272;*/
-  background-color: #ffffff;
+  background-color:  #D9E0E7;
   
   
 }
@@ -1579,6 +1579,7 @@ body a:hover {
   }
   .layout-wrapper .topbar-items > li .topbar-icon:hover {
     color: #2D0D86;
+
   }
   .layout-wrapper .topbar-items > li.profile-item .profile-image {
     width: 36px;
@@ -1619,6 +1620,7 @@ body a:hover {
     -o-transition: background-color 0.3s;
     -webkit-transition: background-color 0.3s;
     transition: background-color 0.3s;
+   
   }
   .layout-wrapper .topbar-items > li.active-top-menu > ul {
     display: block;
@@ -1681,7 +1683,7 @@ body a:hover {
     height: auto;
     padding-left: 18px;
     /*Aqui menu-horizonal */
-    background-color: #ffffff;
+    background-color:  #D9E0E7;
     -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
     -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
