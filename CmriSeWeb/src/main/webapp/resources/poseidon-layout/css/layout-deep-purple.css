@@ -847,6 +847,8 @@ body.main-body {
   /*background-color: #D9E0E7;
   background-color: #747272;*/
   background-color: #ffffff;
+  
+  
 }
 body a {
   color: #2D0D86;
@@ -1678,7 +1680,8 @@ body a:hover {
     top: 75px;
     height: auto;
     padding-left: 18px;
-    background-color: #f0f3f5;
+    /*Aqui menu-horizonal */
+    background-color: #ffffff;
     -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
     -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
