@@ -61,6 +61,8 @@
 </ui:define>
                 
 <ui:define name="content">
+<p:carousel  headerText="EDITAR EXAMEN REACTIVO"     style="width:100%" >
+        </p:carousel>
 <div class="card">
 <h:form id="updateForm">
 <p:growl id="messages" showDetail="true" />
@@ -263,7 +265,9 @@
 </div>
 
 <h:form id="MateriasForm">
+
    <div class="ui-g card">
+    
    <div class="ui-g-2">
       <p:commandButton  icon="fa fa-plus" value="Agregar Materia" immediate="true"  oncomplete="PF('MrqsGrupoHdrCreateDialogWV').show();" style="background: #2D0D86;" />
     </div>
