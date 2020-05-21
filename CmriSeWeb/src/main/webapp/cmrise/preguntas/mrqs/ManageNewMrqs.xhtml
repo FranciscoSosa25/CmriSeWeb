@@ -42,7 +42,7 @@ function handleDuplicateRequest(xhr, status, args){
 <p:growl id="growl" showDetail="true"/>
 <p:commandButton immediate="true" title="Nuevo" value="Nuevo Reactivo" icon="pi pi-plus" action="Preguntas-CreateNewMrqs" style="margin:10px;BackGround:#2D0D86;"/>
  <p:dataTable var="preguntasHdrV1"  widgetVar="preguntasHdrV1WV" value="#{manageMrqsForm.listMrqsPreguntasHdrV1}"  paginator="true" rows="50" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
-   <f:facet name="header">Reactivos</f:facet>
+   <f:facet name="header">REACTIVOS</f:facet>
     <p:column headerText="ID" style="width:20px;">
      <h:outputText value="#{preguntasHdrV1.numero}" />
     </p:column>

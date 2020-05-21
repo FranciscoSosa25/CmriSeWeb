@@ -44,9 +44,12 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 <ui:define name="content">
 
 <h:form id="casoClinicoForm">
-<h1>Información del Caso Clínico</h1>
+<!-- <h1>Información del Caso Clínico</h1> -->
+
 <div class="ui-g">
   <div class="ui-g-12 ui-md-12">
+   <p:carousel  headerText="INFORMACION DEL CASO CLINICO"     style="width:100%" >
+        </p:carousel>
   <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
    <p:outputLabel for="admonExamenDesc" value="Examen"/>
    <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:98%" readonly="true"/>
@@ -65,7 +68,9 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 
 <h:form id="createQuestionCoreCaseForm">
 <p:growl id="growl" showDetail="true" life="5000" /> 
-<h1>Información de la Pregunta</h1> 
+<!-- <h1>Información de la Pregunta</h1>  -->
+ <p:carousel  headerText="INFORMACION DE LA PREGUNTA"     style="width:100%" >
+        </p:carousel>
     <div class="ui-g card">
       <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
@@ -146,40 +151,46 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="tag" value="Diagnostico" />
          </div>
+    
           <div class="ui-g-12 ui-md-9">
           <div class="ui-inputgroup">
-	      <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span>
-	      <p:inputText id="tag" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.etiquetas}" maxlength="500" style="width:100%"/>
+<!-- 	      <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span> -->
+	      <p:inputText id="tag" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.etiquetas}" maxlength="500" style="width:50%"/>
 	      </div>
          <p:message for="tag"/>  
          </div>
        </div>
-      
+           <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="bibliografia" value="Bibliografia" />
+        </div>
+         <div class="ui-g-12 ui-md-3">
+           <p:inputText id="bibliografia" maxlength="255" style="width:155%"/>
+         </div>
          <div class="ui-g-12 ui-md-12" >
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
           <p:outputLabel for="internalComments" value="Notas" />
          </div>
           <div class="ui-g-12 ui-md-9">
-           <p:textEditor id="internalComments" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.comentarios}" widgetVar="internalCommentsWV"  height="100">
-		    <f:facet name="toolbar">
-		        <span class="ql-formats">
-		            <button class="ql-bold"></button>
-		            <button class="ql-italic"></button>
-		            <button class="ql-underline"></button>
-		            <button class="ql-strike"></button>
-		            <button class="ql-unorderedlist"></button>
-		            <button class="ql-orderedlist"></button>
-		        </span>
-		    </f:facet>
-	  	   </p:textEditor>
+           <p:inputTextarea id="internalComments" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.comentarios}"  maxlength="255" style="width:50%" />
+<!-- 		    <f:facet name="toolbar"> -->
+<!-- 		        <span class="ql-formats"> -->
+<!-- 		            <button class="ql-bold"></button> -->
+<!-- 		            <button class="ql-italic"></button> -->
+<!-- 		            <button class="ql-underline"></button> -->
+<!-- 		            <button class="ql-strike"></button> -->
+<!-- 		            <button class="ql-unorderedlist"></button> -->
+<!-- 		            <button class="ql-orderedlist"></button> -->
+<!-- 		        </span> -->
+<!-- 		    </f:facet> -->
+<!-- 	  	   </p:textEditor> -->
 	     <p:message for="internalComments"/>  
          </div>
        </div>
        
         <div class="ui-g-12 ui-md-12" >
           <div class="ui-g-12 ui-md-3" style="text-align:right;">
-           <p:splitButton immediate="true" title="Nuevo"  value="Imagenes" icon="pi pi-plus">
-		    <p:menuitem value="Agregar Series Dicom" onclick="PF('presentationDialogWV').show();" />
+           <p:splitButton immediate="true" title="Nuevo"  value="Agregar Multimedia" style="BackGround:#2D0D86;" icon="pi pi-plus">
+		    <p:menuitem value="Series Dicom" onclick="PF('presentationDialogWV').show();" />
 		   </p:splitButton>
           </div>
           <div class="ui-g-12 ui-md-9" style="text-align:right;">
@@ -202,8 +213,9 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
      </div>  
     
        <h:panelGroup rendered="#{updateQuestionFtaCoreCaseForm.multipleChoice}">
-         <h1>Pregunta de Opción Multiple</h1>
-       
+<!--          <h1>Pregunta de Opción Multiple</h1> -->
+        <p:carousel  headerText="PREGUNTA OPCION MULTIPLE"     style="width:100%" >
+        </p:carousel>
            <div class="ui-g card">
 	       <div class="ui-g-12 ui-md-12" >
 	        
@@ -295,20 +307,20 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         
           <div class="ui-g">
 		   <div class="ui-g-12 ui-md-2" style="text-align:center">
-		     <p:commandButton value="Guardar"  update="informacionPreguntaPanelGridID MultipleChoiceAnswerQuestionUpdatePanel" action="#{updateQuestionFtaCoreCaseForm.update()}"  ajax="false"/>
+		     <p:commandButton value="Guardar" icon="fa fa-save" style="BackGround:#2D0D86;" update="informacionPreguntaPanelGridID MultipleChoiceAnswerQuestionUpdatePanel" action="#{updateQuestionFtaCoreCaseForm.update()}"  ajax="false"/>
 		   </div>
 		   <div class="ui-g-12 ui-md-3" style="text-align:center">
-		    <p:commandButton value="Guardar y Previsualizar"  update="createQuestionCoreCaseForm" action="#{updateQuestionFtaCoreCaseForm.saveAndPreview()}"/>
+		    <p:commandButton value=" Previsualizar" icon="fa fa-eye" style="BackGround:#2D0D86;"  update="createQuestionCoreCaseForm" action="#{updateQuestionFtaCoreCaseForm.saveAndPreview()}"/>
 		   </div>
 		   <div class="ui-g-12 ui-md-2" style="text-align:center">
-		    <p:commandButton value="Cancelar" immediate="true" action="Preguntas-Update-CoreCase" />
+		    <p:commandButton value="Cerrar" icon="fa fa-backward" style="BackGround:#2D0D86;" immediate="true" action="Preguntas-Update-CoreCase" />
 		   </div>
-		   <div class="ui-g-12 ui-md-2" style="text-align:center">
-		    <p:commandButton value="Duplicar" immediate="true" update="createQuestionCoreCaseForm" action="#{updateQuestionFtaCoreCaseForm.duplicar()}" />
-		   </div>
-		   <div class="ui-g-12 ui-md-2" style="text-align:center">
-		    <p:commandButton value="Borrar" immediate="true" update="createQuestionCoreCaseForm" action="#{updateQuestionFtaCoreCaseForm.borrar()}"/>
-		   </div>
+<!-- 		   <div class="ui-g-12 ui-md-2" style="text-align:center"> -->
+<!-- 		    <p:commandButton value="Duplicar" immediate="true" update="createQuestionCoreCaseForm" action="#{updateQuestionFtaCoreCaseForm.duplicar()}" /> -->
+<!-- 		   </div> -->
+<!-- 		   <div class="ui-g-12 ui-md-2" style="text-align:center"> -->
+<!-- 		    <p:commandButton value="Borrar" immediate="true" update="createQuestionCoreCaseForm" action="#{updateQuestionFtaCoreCaseForm.borrar()}"/> -->
+<!-- 		   </div> -->
 		  </div>
 	  
 </h:form>

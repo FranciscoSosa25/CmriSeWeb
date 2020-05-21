@@ -17,16 +17,18 @@
                 
                 
 <ui:define name="content">
-<p:breadCrumb style="background-color: #2D0D86;">
-    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="Casos clínicos" outcome= "Preguntas-Manage-CoreCases" />
-     <p:menuitem value="Crear Caso Clínico" url="#"/>
-</p:breadCrumb>
+<!-- <p:breadCrumb style="background-color: #2D0D86;"> -->
+<!--     <p:menuitem value="Inicio" outcome="PaginaPrincipal" /> -->
+<!--      <p:menuitem value="Casos clínicos" outcome= "Preguntas-Manage-CoreCases" /> -->
+<!--      <p:menuitem value="Crear Caso Clínico" url="#"/> -->
+<!-- </p:breadCrumb> -->
 
 <h:form id="createForm">
 <p:growl id="growl" showDetail="true"/>
-<h1>Crear Caso Clínico</h1>
-<h3>Información del Caso clínico</h3>
+<!-- <h1>Crear Caso Clínico</h1> -->
+ <p:carousel  headerText="NUEVO CASO CLINICO"     style="width:100%" >
+        </p:carousel>
+<!-- <h3>Información del Caso clínico</h3> -->
   <p:panel>
   <div class="ui-g">
      <div class="ui-g-12 ui-md-12" >
@@ -142,7 +144,7 @@
      
      <div class="ui-g">
 	 <div class="ui-g-12 ui-md-6 ui-lg-2">
-	  <p:commandButton value="Agregar Caso Clínico" update="createForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createCoreCaseForm.create()}" style="background: #2D0D86;"/>
+	  <p:commandButton value="Agregar Caso Clínico" icon="fa fa-plus"  update="createForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createCoreCaseForm.create()}" style="background: #2D0D86;"/>
 	 </div>
 	 <div class="ui-g-12 ui-md-6 ui-lg-2">
 	  <p:commandButton value="Cancelar" process="@this" update="createForm" action="Preguntas-Manage-CoreCases" style="background: #2D0D86;" >
