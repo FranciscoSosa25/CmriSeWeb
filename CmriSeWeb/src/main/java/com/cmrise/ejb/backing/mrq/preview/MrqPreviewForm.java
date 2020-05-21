@@ -86,7 +86,7 @@ public class MrqPreviewForm {
 	     this.setNumetoFta(mrqsPreguntasHdrV2Dto.getNumeroMpf());
 	     this.setTituloPregunta(mrqsPreguntasHdrV2Dto.getTituloPregunta());
 	     this.setTextoPregunta(mrqsPreguntasHdrV2Dto.getTextoPregunta());
-	     this.setTextoSugerencias(mrqsPreguntasHdrV2Dto.getTextoSugerencias());
+	     this.setTextoSugerencias(mrqsPreguntasHdrV2Dto.getTextoSugerenciasDesc());
 	     this.setRespuestaPreguntaSistema(mrqsPreguntasHdrV2Dto.getRespuestaCorrecta());
 	     this.puntuacion = Float.parseFloat(mrqsPreguntasHdrV2Dto.getValorPuntuacion()); 
 	     this.metodoPuntuacion = mrqsPreguntasHdrV2Dto.getMetodoPuntuacion(); 
@@ -98,6 +98,8 @@ public class MrqPreviewForm {
 	         this.setSingleAnswerMode(mrqsPreguntasHdrV2Dto.isSingleAnswerMode());
 	         this.setSuffleAnswerOrder(mrqsPreguntasHdrV2Dto.isSuffleAnswerOrder());
 	         this.totalCorrectAnswers = mrqsOpcionMultipleLocal.totalCorrectAnswers(mrqsPreguntasHdrV2Dto.getNumeroMpf()); 
+	     }else if(Utilitarios.IMAGEN_INDICADA.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
+	        this.setIndicateImage(true);	 
 	     }
 	     this.setQuestionView(true);
 	     

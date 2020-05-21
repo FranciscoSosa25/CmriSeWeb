@@ -195,6 +195,8 @@ public class UpdateFTAMrqForm {
 		 }else if(Utilitarios.OPCION_MULTIPLE.equals(mrqsPreguntasHdrV1Dto.getTipoPregunta())) {
 			 this.setMultipleChoice(true);
 			 initListMrqsOpcionMultiple(); 
+		 }else if(Utilitarios.IMAGEN_INDICADA.equals(mrqsPreguntasHdrV1Dto.getTipoPregunta())) {
+			 this.setIndicateImage(true);
 		 }
 		 mrqsPreguntasHdrV1ForAction.setNumero(mrqsPreguntasHdrV1Dto.getNumero());
 		 mrqsPreguntasHdrV1ForAction.setEstatus(mrqsPreguntasHdrV1Dto.getEstatus());
@@ -328,6 +330,16 @@ public class UpdateFTAMrqForm {
 			}	
 		}
 		
+		if(Utilitarios.IMAGEN_INDICADA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
+			while(iterScoringMethodValores.hasNext()) {
+				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
+				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+				 	) {
+					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+					this.selectScoringMethodItems.add(selectItem); 	
+				  }
+			}	
+		}
 		
 	}
 	

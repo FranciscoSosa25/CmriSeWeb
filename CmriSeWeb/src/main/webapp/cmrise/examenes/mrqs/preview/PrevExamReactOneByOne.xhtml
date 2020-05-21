@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+     <h:head>
+        <f:facet name="first">
+            <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/poseidon-layout/images/login/cmri-120.png" /> 
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <style type="text/css">
+		
+	    </style>
+      </h:head>
+<body>
+
+<header>
+ <div>Candidato: #{userLogin.nombreCompletoUsuario} Curp:#{userLogin.curp}</div>
+ <div>#{prevExamReactOneByOneForm.mrqsExamen.admonExamenDesc}</div>
+</header>
+<h:form id="prevExamenForm">
+<div>
+ #{prevExamReactOneByOneForm.mrqsGrupoHdrForRead.admonMateriaDesc}
+  <ui:repeat var="imagenesGrupo" value="#{prevExamReactOneByOneForm.mrqsPreguntasHdrV1ForRead.mrqsPreguntasFtaV1.listMrqsImagenesGrp}" varStatus="status">
+    <div>
+     <h3>#{imagenesGrupo.tituloSuperior}</h3>
+    </div>
+    <div>
+     <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
+        <h:panelGroup layout="block" rendered="#{imagenes.image}">
+         <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="width: 100%;height:100%;" />
+       </h:panelGroup>
+       <h:panelGroup layout="block" rendered="#{imagenes.video}">
+        <video width="320" height="240" controls="controls" style="width: 100%;height:100%;" >
+         <source src="data:#{imagenes.contentType};base64,#{imagenes.imagenBase64}" />
+        </video>
+       </h:panelGroup> 
+     </ui:repeat>
+    </div>
+  </ui:repeat>
+</div>
+<div>
+   <p:commandButton icon="fa fa-backward" value="Anterior" actionListener="#{prevExamReactOneByOneForm.regresar()}" update="prevExamenForm" disabled="#{prevExamReactOneByOneForm.flag1}" />
+   <p:commandButton icon="fa fa-forward" value="Siguiente" actionListener="#{prevExamReactOneByOneForm.continuar()}" update="prevExamenForm" disabled="#{prevExamReactOneByOneForm.flag2}"/>
+   <p:commandButton value="Finalizar Examen" actionListener="#{prevExamReactOneByOneForm.finalizarExamen()}" update="prevExamenForm" disabled="#{prevExamReactOneByOneForm.flag3}"/>
+</div>
+</h:form>
+<footer>
+  <div>
+   Consejo Mexicano de Radiología e Imagen A.C. <h:outputText value="#{prevExamReactOneByOneForm.fechaActual}">
+											       <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+											      </h:outputText>
+  </div>
+</footer>
+
+</body>
+</html>

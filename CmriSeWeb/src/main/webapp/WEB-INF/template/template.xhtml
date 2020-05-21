@@ -22,6 +22,7 @@
 	<h:outputScript name="js/nanoscroller.js" library="poseidon-layout" />
 	<h:outputScript name="js/layout.js" library="poseidon-layout" />
 	<h:outputScript name="js/swipe.js" library="poseidon-layout" />
+	
 	<script type="text/javascript">
           function argsValidationFailed(){
         	  $(".ui-message-error").delay(1800).fadeOut(500);
@@ -60,7 +61,7 @@
 	<ui:insert name="head" />
 </h:head>
 
-<h:body styleClass="main-body">
+<h:body styleClass="main-body" >
 
 	<div
  		class="layout-wrapper #{guestPreferences.menuLayout} #{guestPreferences.orientationRTL ? 'layout-rtl ' : null}"> 

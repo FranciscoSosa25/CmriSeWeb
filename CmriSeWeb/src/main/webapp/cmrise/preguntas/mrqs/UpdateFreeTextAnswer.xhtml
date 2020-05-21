@@ -5,25 +5,21 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
 <ui:define name="xxhrwjs">
-<script type="text/javascript">
-function handleUpdateRequest(xhr, status, args){
-	 if(args.validationFailed|| !args.updateIn) {
-		 argsValidationFailed(); 
-      }
-}
 
-function handlePresentationRequest(xhr, status, args){
-	console.log("Entra handlePresentationRequest");
-	 if(args.validationFailed|| !args.updateIn) {
-		 argsValidationFailed(); 
-      }
-	console.log("Sale handlePresentationRequest");
-}
-</script>
 </ui:define>
 
 <ui:define name="xxhrwcss">
 <style type="text/css">
+ .dcm_image {
+        background-color: #f0f0f0;
+        background-image: url('https://multimedia.elsevier.es/PublicationsMultimediaV1/item/multimedia/13113034:37v67n06-13113034fig01.jpg?idApp=UINPBA00005H');
+        background-repeat: no-repeat;
+  		background-size: contain;
+  		background-position: center;
+  		border: solid 1px black; 
+  		width: 600px; 
+  		height: 600px;
+      }
 .myPanelStyle1.ui-panel .ui-panel-titlebar {
 color: #3c763d;background-color: #dff0d8;border-color: #d6e9c6;
 }
@@ -48,55 +44,17 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 </style>
 </ui:define>
 
-<ui:define name="content">
+<ui:define name="content" >
 
-<p:dialog id="presentationDialogId" widgetVar="presentationDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Agregar Recurso Multimedia">
- <h:form id="presentationForm" enctype="multipart/form-data">
-  <p:growl id="messages" showDetail="true" />       
-     
-    <div class="ui-g">
-    <div class="ui-g-12">
-       <p:outputLabel for="tituloSuperiorId" value="Título Superior" />
-    </div>
-    <div class="ui-g-12">
-      <p:inputText id="tituloSuperiorId" style="width:60%" value="#{updateFTAMrqForm.presentMrqsImagenesGrp.tituloSuperior}" />
-    </div>
-     <h5>Soporta imagenes JPG, PNG GIF y Videos MP4, AVI</h5>
-      <p:spacer width="5" height="5" />
-     <h5>Se recomienda imagenes mayor a 500x500</h5>
-    <div class="ui-g-12">
-      <p:message for="tituloSuperiorId"/>
-    </div>    
-   
-    
-     <div class="ui-g-12">
-     <p:fileUpload id="presentatioFilesID" value="#{updateFTAMrqForm.presentationFiles}"  label="Seleccionar" mode="simple"  multiple="true"  allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG|mp4|avi|flv)$/" update="presentationForm" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-    </div>
-     <div class="ui-g-12">
-      <p:message for="presentatioFilesID"/>
-    </div>
-
-    <div class="ui-g-6">
-     <p:commandButton value="Procesar"  action="#{updateFTAMrqForm.uploadMultiple}" update="presentationForm" ajax="false" />
-    </div>
-    <div class="ui-g-6">
-      <p:commandButton value="Cancelar"  onclick="PF('presentationDialogWV').hide();" />
-    </div>
-  </div>
-  
-</h:form>
-</p:dialog> 
+<h:form id="UpdateReactivosForm">
+<p:growl id="growl" showDetail="true" life="5000" />  
  
- <h:form id="updateQuestionFreeTextForm" rendered="#{updateFTAMrqForm.limitedFreeTextAnswer}">
- <p:growl id="growl" showDetail="true" life="5000" />  
- 
-<div class="card">
-<h1>
- <p:outputLabel  value="INFORMACION DEL REACTIVO" />
-</h1>
-     <div class="ui-g">
-     
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+ <div class="ui-g card">
+ <h1>
+   <p:outputLabel  value="INFORMACIÓN GENERAL DEL REACTIVO" class="cmriFontColor"/>
+  </h1>
+       <div class="ui-g-12 ui-md-12" >
+         <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="statusMrqs" value="Estado" />
         </div>
         <div class="ui-g-12 ui-md-9">
@@ -191,10 +149,8 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
           <p:inputTextarea id="notas" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.notas}"   maxlength="255" style="width:50%" />
         </div>
      </div>
- </div>
-
-    <div class="ui-g card">
-     <div class="ui-g-12 ui-md-12" >
+     
+      <div class="ui-g-12 ui-md-12" >
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
             <p:commandButton value="Recurso Multimedia" icon="pi pi-plus" onclick="PF('presentationDialogWV').show();" />
 	   </div>
@@ -219,13 +175,9 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 	    </ui:repeat>
 	  </div>
     </div>        
-   </div>
- 
- 
-<div class="card">
-   <div class="ui-g">
-      
-       <div class="ui-g-12 ui-md-3" style="text-align:right;">
+  
+     <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="questionText"  value="Texto de la pregunta" maxlength="250"/>
         </div> 
          <div class="ui-g-12 ui-md-9">
@@ -237,12 +189,13 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          <p:outputLabel  value="Instrucciones" />
         </div>
          <div class="ui-g-12 ui-md-9">
-         <p:selectOneMenu id="hintsText" value="#{updateFTAMrqForm.textoSugerencias}"   style="width:30%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
+          <p:selectOneMenu id="hintsText" value="#{updateFTAMrqForm.textoSugerencias}"   style="width:30%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
            <f:selectItems value="#{updateFTAMrqForm.selectInstruccionesItems}" />
           </p:selectOneMenu>
+          <p:message for="hintsText"/>
          </div>
          
-          <div class="ui-g-12 ui-md-3" style="text-align:right;">
+            <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="scoringMethod" value="Método de puntuación" />
         </div>
         <div class="ui-g-12 ui-md-9">
@@ -252,7 +205,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
           <p:message for="scoringMethod"/>
          </div>
          
-         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+           <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="scoringValue" value="Valor de puntuación" />
         </div>
         <div class="ui-g-12 ui-md-9">
@@ -261,6 +214,15 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          </p:selectOneMenu>
           <p:message for="scoringValue"/>
          </div>
+         
+     </div>
+     
+    <h:panelGroup id="reactivosTextoLibrePanel" layout="block" rendered="#{updateFTAMrqForm.limitedFreeTextAnswer}">
+    	<h2>Reactivos de Texto Libre</h2>
+    	
+    	<div class="card">
+   <div class="ui-g">
+         
          
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="correctAnswer" value="Respuesta Correcta" />
@@ -306,198 +268,11 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
        </div>
      </div>
  </div>
- 
- <div class="card">
- <div class="ui-g">
-   <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-     <p:commandButton id="GuardarBtn" icon="fa fa-save" value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="updateQuestionFreeTextForm growl " oncomplete="handleUpdateRequest(xhr, status, args)"/>
-   </div>
-   <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-    <p:commandButton icon="fa fa-eye" value="Previsualizar" action="#{updateFTAMrqForm.saveAndPreview()}"/>
-   </div>
-   <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-    <p:commandButton icon="fa fa-backward" value="Cerrar" action="#{updateFTAMrqForm.cancel()}" immediate="true"/>
-   </div>
-   <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-    <p:commandButton value="Duplicar" oncomplete="PF('duplicateMrqDialogWV').show();" rendered="false"/>
-   </div>
-   <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-    <p:commandButton value="Borrar" oncomplete="PF('deleteRolDialogWV').show();" rendered="false"/>
-   </div>
-  </div>
-  </div>
-</h:form>
-
-<h:form id="updateQuestionMultipleChoiceForm" rendered="#{updateFTAMrqForm.multipleChoice}">
-<p:growl id="growl" showDetail="true" life="5000" />  
-
- <div class="card">
- <h1>
- <p:outputLabel  value="INFORMACIÓN DEL REACTIVO" />
-</h1>
-     <div class="ui-g">
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-           <p:outputLabel for="statusMrqs" value="Estado" />
-        </div>
-        <div class="ui-g-12 ui-md-9">
-          <p:selectOneMenu id="statusMrqs"  value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.estatus}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-          <f:selectItem itemLabel="Seleccione un Valor.." itemValue="" />
-          <f:selectItems value="#{selectsHelper.selectEstatusMrqsItems}" />
-         </p:selectOneMenu>
-          <p:message for="statusMrqs"/>
-         </div>
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="admonExamen" value="Examen" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-          <p:selectOneMenu id="admonExamen" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.admonExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-           <p:ajax listener="#{updateFTAMrqForm.onAdmonExamenChange}" update="materia" />
-           <f:selectItem itemLabel="Seleccione..." itemValue="" />
-           <f:selectItems value="#{updateFTAMrqForm.selectExamenesHdr}" />
-          </p:selectOneMenu>
-          <p:message for="admonExamen"/>
-         </div>
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="materia" value="Materia" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-          <p:selectOneMenu id="materia" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.admonMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-          <p:ajax listener="#{updateFTAMrqForm.onAdmonMateriaChange}" update="subMateria" />
-          <f:selectItem itemLabel="Seleccione..." itemValue="" />
-          <f:selectItems value="#{updateFTAMrqForm.selectMateriasHdr}" />
-         </p:selectOneMenu>
-         <p:message for="materia"/>
-         </div>
-           <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="subMateria" value="Clasificacion" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-          <p:selectOneMenu id="subMateria" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.admonSubmateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-          <f:selectItem itemLabel="Seleccione..." itemValue="" />
-          <f:selectItems value="#{updateFTAMrqForm.selectSubMaterias}" />
-          </p:selectOneMenu>
-         <p:message for="subMateria"/>
-         </div>
-         
-           <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-         <p:calendar id="fechaElaboracion" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.fechaElaboracion}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-         <p:message for="fechaElaboracion"/>
-         </div>
-      
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="creadoPor" value="Elabora" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-         <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
-         <p:message for="creadoPor"/>
-         </div>
-         
-          <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="questionType" value="Tipo de Pregunta" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-         <p:selectOneMenu id="questionType" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.tipoPregunta}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-          <f:selectItem itemLabel="Seleccione un tipo de pregunta" itemValue="" />
-          <f:selectItems value="#{selectsHelper.selectTipoPreguntaItems}" />
-         </p:selectOneMenu>
-          <p:message for="questionType"/>
-         </div>
-          <div class="ui-g-12 ui-md-3" style="text-align:right;">
-          <p:outputLabel for="diagnostico" value="Diagnostico" />
-         </div>
-          <div class="ui-g-12 ui-md-9">
-            <p:inputText id="diagnostico" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.diagnostico}" style="width:50%"  />
-          </div>
-         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="bibliografia" value="Bibliografia" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-           <p:inputText id="bibliografia"  value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.bibliografia}" maxlength="255" style="width:50%"/>
-         </div>
-         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="notas" value="Notas" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-          <p:inputTextarea id="notas" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.notas}"   maxlength="255" style="width:50%" />
-        </div>
-     </div>
- 
- 
- 
- 
-     <div class="ui-g-12 ui-md-12" >
-       <div class="ui-g-12 ui-md-3" style="text-align:right;">
-
-           <p:commandButton value="Recurso Multimedia" icon="pi pi-plus" onclick="PF('presentationDialogWV').show();" style=" BackGround:#2D0D86;" />
-       </div>
-
-	   
-	   
-	   <div class="ui-g-12 ui-md-9"> 
-	    <ui:repeat var="imagenesGrupo" value="#{updateFTAMrqForm.listPresentMrqsImagenesGrp}" varStatus="status">
-	    <div class="ui-g-12"> 
-	       <h3>#{imagenesGrupo.tituloSuperior}</h3>
-	      </div>
-	      <div class="ui-g-12">
-	       <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
-	         <h:panelGroup layout="block" rendered="#{imagenes.image}">
-		       <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="max-width: 300px; max-height: 300px;" />
-		     </h:panelGroup>
-		     <h:panelGroup layout="block" rendered="#{imagenes.video}">
-		         <video width="320" height="240" controls="controls">
-				  <source src="data:#{imagenes.contentType};base64,#{imagenes.imagenBase64}" />
-			   </video>
-		     </h:panelGroup> 
-	       </ui:repeat>
-	      </div>
-	    </ui:repeat>
-	  </div>
-    </div>        
-   
-   
- 
-       
-       <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="questionText"  value="Texto de la pregunta" />
-        </div> 
-         <div class="ui-g-12 ui-md-9">
-          <p:inputTextarea id="questionText" value="#{updateFTAMrqForm.textoPregunta}"  style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-          <p:message for="questionText"/>
-         </div>
-         
-           <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel  value="Instrucciones" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-          <p:selectOneMenu id="hintsText" value="#{updateFTAMrqForm.textoSugerencias}"   style="width:30%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
-           <f:selectItems value="#{updateFTAMrqForm.selectInstruccionesItems}" />
-          </p:selectOneMenu>
-          <p:message for="hintsText"/>
-         </div>
-         
-          <div class="ui-g-12 ui-md-3" style="text-align:right;">
-           <p:outputLabel for="scoringMethod" value="Método de puntuación" />
-        </div>
-        <div class="ui-g-12 ui-md-9">
-         <p:selectOneMenu id="scoringMethod" value="#{updateFTAMrqForm.metodoPuntuacion}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"  >
-         <f:selectItems value="#{updateFTAMrqForm.selectScoringMethodItems}" />
-         </p:selectOneMenu>
-          <p:message for="scoringMethod"/>
-         </div>
-         
-         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-           <p:outputLabel for="scoringValue" value="Valor de puntuación" />
-        </div>
-        <div class="ui-g-12 ui-md-9">
-         <p:selectOneMenu id="scoringValue" value="#{updateFTAMrqForm.valorPuntuacion}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
-          <f:selectItems value="#{selectsHelper.selectScoringValueItems}" />
-         </p:selectOneMenu>
-          <p:message for="scoringValue"/>
-         </div>
-
+    	
+    </h:panelGroup>
+	<h:panelGroup id="reactivosOpcionMultiplePanel" layout="block" rendered="#{updateFTAMrqForm.multipleChoice}">
+	<h2>Reactivos de Opción Múltiple</h2>
+	
                 <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="singleMode" value="¿Modo de Respuesta Única?" />
         </div>
@@ -540,26 +315,105 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         
        </div> <!-- END div -->
         </ui:repeat>
-           
-      
-  
-    <div class="ui-g"> 
-   <div class="ui-g-12 ui-md-2 button-container" style=" width:25%;" >
-     <p:commandButton id="GuardarBtn" icon="fa fa-save" value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="updateQuestionMultipleChoiceForm growl " style="BackGround:#2D0D86;" oncomplete="handleUpdateRequest(xhr, status, args)"/>
-   </div>
-   <div class="ui-g-12 ui-md-2 button-container" style=" width:25%;" >
-    <p:commandButton icon="fa fa-eye" value="Previsualizar " action="#{updateFTAMrqForm.saveAndPreview()}" style="BackGround:#2D0D86;" update="updateQuestionMultipleChoiceForm growl "/>
-   </div>
-   <div class="ui-g-12 ui-md-2 button-container" style=" width:25%;" >
-    <p:commandButton icon="fa fa-backward" value="Cerrar" action="#{updateFTAMrqForm.cancel()}" immediate="true" style="BackGround:#2D0D86;" />
-   </div>
-   </div>
- 
+	
+	</h:panelGroup>
+	<h:panelGroup id="reactivosImagenSenializadaPanel" layout="block" rendered="#{updateFTAMrqForm.indicateImage}">
+	<h2>Reactivos de Imagen Señalizada</h2>
+	
+	  <p:inputText id="correctAnswerII" value="#{updateFTAMrqForm.respuestaCorrecta}" placeholder="Coordenadas"  maxlength="500" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+     
+	
+	 <div id="sample">
+         <div id="myDiagramDiv" class="dcm_image" onclick="mode(true, true)"></div>
 
- 
+         <div id="buttons">
+         	<button onclick="guardar()">Guardar</button>
+            <button onclick="mode(false)">Seleccionar</button>
+            <button onclick="mode(true, true)">Comenzar</button>
+            <button onclick="finish(true)">Terminar</button>
+            <button onclick="finish(false)">Cancelar</button>
+            <button onclick="undo()">Deshacer último punto</button>
+            <br/>
+         </div>
+         <textarea id="mySavedDiagram" onclick="mode(true, true)" style="display:none">
+
+{ "position": "0 0",
+
+  "model": { "class": "go.GraphLinksModel",
+
+  "nodeDataArray": [  ],
+
+  "linkDataArray": [  ]
+
+} }
+
+         </textarea>
+      </div>
+	
+	</h:panelGroup>
+  
+  
+ <div class="ui-g-12 ui-md-12">
+   <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
+     <p:commandButton id="GuardarBtn" icon="fa fa-save" value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="UpdateReactivosForm growl" oncomplete="handleUpdateRequest(xhr, status, args)"/>
+   </div>
+   <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
+    <p:commandButton icon="fa fa-eye" value="Previsualizar" update="UpdateReactivosForm growl" action="#{updateFTAMrqForm.saveAndPreview()}"/>
+   </div>
+   <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
+    <p:commandButton icon="fa fa-backward" value="Cerrar" action="#{updateFTAMrqForm.cancel()}" immediate="true"/>
+   </div>
+   <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
+    <p:commandButton value="Duplicar" oncomplete="PF('duplicateMrqDialogWV').show();" rendered="false"/>
+   </div>
+   <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
+    <p:commandButton value="Borrar" oncomplete="PF('deleteRolDialogWV').show();" rendered="false"/>
+   </div>
+  </div>
+     
+ </div>
+   
+</h:form>
+
+<p:dialog id="presentationDialogId" widgetVar="presentationDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Agregar Recurso Multimedia">
+ <h:form id="presentationForm" enctype="multipart/form-data">
+  <p:growl id="messages" showDetail="true" />       
+     
+    <div class="ui-g">
+    <div class="ui-g-12">
+       <p:outputLabel for="tituloSuperiorId" value="Título Superior" />
+    </div>
+    <div class="ui-g-12">
+      <p:inputText id="tituloSuperiorId" style="width:60%" value="#{updateFTAMrqForm.presentMrqsImagenesGrp.tituloSuperior}" />
+    </div>
+     <h5>Soporta imagenes JPG, PNG GIF y Videos MP4, AVI</h5>
+      <p:spacer width="5" height="5" />
+     <h5>Se recomienda imagenes mayor a 500x500</h5>
+    <div class="ui-g-12">
+      <p:message for="tituloSuperiorId"/>
+    </div>    
+   
+    
+     <div class="ui-g-12">
+     <p:fileUpload id="presentatioFilesID" value="#{updateFTAMrqForm.presentationFiles}"  label="Seleccionar" mode="simple"  multiple="true"  allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG|mp4|avi|flv)$/" update="presentationForm" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+    </div>
+     <div class="ui-g-12">
+      <p:message for="presentatioFilesID"/>
+    </div>
+
+    <div class="ui-g-6">
+     <p:commandButton value="Procesar"  action="#{updateFTAMrqForm.uploadMultiple}" update="presentationForm" ajax="false" />
+    </div>
+    <div class="ui-g-6">
+      <p:commandButton value="Cancelar"  onclick="PF('presentationDialogWV').hide();" />
+    </div>
   </div>
   
 </h:form>
+</p:dialog> 
+ 
+ 
+
 
 
  <h:form id="DuplicateForm">
@@ -593,7 +447,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
    <h2>#{msgs['globalForm.deleteMessage']}</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeleteListPalabBtn" value="Aceptar"   actionListener="#{updateFTAMrqForm.deleteWord()}" update="updateQuestionFreeTextForm" oncomplete="PF('deleteListasPalabrasWV').hide();" style="BackGround:#2D0D86;"  />
+                 <p:commandButton id="DeleteListPalabBtn" value="Aceptar"   actionListener="#{updateFTAMrqForm.deleteWord()}" update="UpdateReactivosForm" oncomplete="PF('deleteListasPalabrasWV').hide();" style="BackGround:#2D0D86;"  />
               </div>
               <div class="ui-g-12 ui-lg-2" >
                  <p:commandButton id="CancelarListPalabBtn"  value="Cancelar"  onclick="PF('deleteListasPalabrasWV').hide();" />
@@ -604,7 +458,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
    <h2>#{msgs['globalForm.deleteMessage']}</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeleteOpcMultBtn" value="Aceptar"   actionListener="#{updateFTAMrqForm.deleteOpcionMultiple()}" update="updateQuestionMultipleChoiceForm" oncomplete="PF('deleteOpcionMultipleWV').hide();" style="BackGround:#2D0D86;" />
+                 <p:commandButton id="DeleteOpcMultBtn" value="Aceptar"   actionListener="#{updateFTAMrqForm.deleteOpcionMultiple()}" update="UpdateReactivosForm" oncomplete="PF('deleteOpcionMultipleWV').hide();" style="BackGround:#2D0D86;" />
               </div>
               <div class="ui-g-12 ui-lg-2" >
                  <p:commandButton id="CancelarOpcMultBtn"  value="Cancelar"  onclick="PF('deleteOpcionMultipleWV').hide();" style="BackGround:#2D0D86;"/>
@@ -612,8 +466,13 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
      </div>
   </p:dialog>
 </h:form>
-
-
-
 </ui:define>
+
+<ui:define name="xxhrwjs">
+   <h:outputScript name="gojs/go.js" library="js" />
+   <h:outputScript name="gojs/PolygonDrawingTool.js" library="js" />
+   <h:outputScript name="gojs/GeometryReshapingTool.js" library="js" />
+   <h:outputScript name="cmrise/reactivos/UpdateReactivos.js" library="js" />
+</ui:define>
+
 </ui:composition>
