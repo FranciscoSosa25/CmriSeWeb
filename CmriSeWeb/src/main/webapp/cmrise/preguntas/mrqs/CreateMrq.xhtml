@@ -18,12 +18,14 @@
 <ui:define name="content">
 <h:form id="createMrqForm">
 <p:growl id="growl" showDetail="true"/>
-
+<p:carousel  headerText="NUEVO REACTIVO"     style="width:100%" >
+        </p:carousel>
 <div class="card">
  <p:panel>
    <div class="ui-g">
      <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+        
          <p:outputLabel for="admonExamen" value="Examen" />
         </div>
          <div class="ui-g-12 ui-md-9">
@@ -127,10 +129,10 @@
  <div class="card">
  <div class="ui-g">
      <div class="ui-g-12 ui-md-1" >
-       <p:commandButton icon="fa fa-save" value="Crear" update="createMrqForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createMrqForm.create()}"/>
+       <p:commandButton icon="fa fa-save" style="BackGround:#2D0D86;"  value="Crear" update="createMrqForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createMrqForm.create()}"/>
      </div>
       <div class="ui-g-12 ui-md-1" >
-        <p:commandButton icon="fa fa-backward" value="Cancelar" process="@this" update="createMrqForm" action="Preguntas-ManageNewMrqs">
+        <p:commandButton icon="fa fa-backward" style="BackGround:#2D0D86;" value="Cancelar" process="@this" update="createMrqForm" action="Preguntas-ManageNewMrqs">
          <p:resetInput target="createMrqForm"/>
         </p:commandButton>
      </div>
