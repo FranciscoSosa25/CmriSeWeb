@@ -77,10 +77,10 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
     </div>
 
     <div class="ui-g-6">
-     <p:commandButton value="Procesar"  action="#{updateFTAMrqForm.uploadMultiple}" update="presentationForm" ajax="false" />
+     <p:commandButton value="Guardar" icon="fa fa-save" style="BackGround:#2D0D86;"  action="#{updateFTAMrqForm.uploadMultiple}" update="presentationForm" ajax="false" />
     </div>
     <div class="ui-g-6">
-      <p:commandButton value="Cancelar"  onclick="PF('presentationDialogWV').hide();" />
+      <p:commandButton value="Cancelar" style="BackGround:#2D0D86;"  onclick="PF('presentationDialogWV').hide();" />
     </div>
   </div>
   
@@ -91,9 +91,10 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
  <p:growl id="growl" showDetail="true" life="5000" />  
  
 <div class="card">
-<h1>
- <p:outputLabel  value="INFORMACION DEL REACTIVO" />
-</h1>
+<!-- <h1> -->
+<!--  <p:outputLabel  value="INFORMACION DEL REACTIVO" /> -->
+ 
+<!-- </h1> -->
      <div class="ui-g">
      
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
@@ -330,13 +331,20 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 
 <h:form id="updateQuestionMultipleChoiceForm" rendered="#{updateFTAMrqForm.multipleChoice}">
 <p:growl id="growl" showDetail="true" life="5000" />  
-
+<!--  <f:facet name="header"> -->
+<!--       <h:outputLabel value="REACTIVOS" /> -->
+<!--       </f:facet> -->
+ <p:carousel  headerText="EDITAR REACTIVO"     style="width:100%" >
+        </p:carousel>
  <div class="card">
- <h1>
- <p:outputLabel  value="INFORMACIÓN DEL REACTIVO" />
-</h1>
+<!--  <h1> -->
+<!--  <p:outputLabel  value="EDITAR REACTIVO" /> -->
+<!-- </h1> -->
+  
+      
      <div class="ui-g">
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+      
            <p:outputLabel for="statusMrqs" value="Estado" />
         </div>
         <div class="ui-g-12 ui-md-9">
@@ -431,7 +439,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
      <div class="ui-g-12 ui-md-12" >
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
 
-           <p:commandButton value="Recurso Multimedia" icon="pi pi-plus" onclick="PF('presentationDialogWV').show();" style=" BackGround:#2D0D86;" />
+           <p:commandButton value="Agregar Multimedia" icon="pi pi-plus" onclick="PF('presentationDialogWV').show();" style=" BackGround:#2D0D86;" />
        </div>
 
 	   

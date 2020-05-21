@@ -8,12 +8,12 @@
 <h:form id="MateriasForm">
 <p:growl id="msgs" showDetail="true"/>
 <h2>
- <p:commandButton value="Agregar Examen" style="margin-left: 10px;BackGround:#2D0D86;"  styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonExamenesForm.onAddNew()}" />
-  <p:commandButton value="Guardar Cambios" style="margin-left: 10px;BackGround:#2D0D86;" styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonExamenesForm.saveAndUpdate()}" />
+ <p:commandButton value="Agregar Examen" icon="fa fa-plus" style="margin-left: 10px;BackGround:#2D0D86;"  styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonExamenesForm.onAddNew()}" />
+  <p:commandButton value="Guardar Cambios" icon="fa fa-save" style="margin-left: 10px;BackGround:#2D0D86;" styleClass="ui-priority-primary"  update="MateriasForm" action="#{admonExamenesForm.saveAndUpdate()}" />
         </h2> 
         <div class="card">
 <p:dataTable var="examen" value="#{admonExamenesForm.examenesHdr}">
-<f:facet name="header">Examenes</f:facet>
+<f:facet name="header">EXAMENES</f:facet>
 <p:column headerText="Nombre" >
 <p:inputText id="nombre" value="#{examen.nombre}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:98%"/>
 <p:message for="nombre"/>

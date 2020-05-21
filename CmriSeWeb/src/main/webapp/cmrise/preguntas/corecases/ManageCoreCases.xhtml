@@ -24,17 +24,19 @@ function handleDeleteRequest(xhr, status, args){
  </ui:define>
                 
 <ui:define name="content">
-<p:breadCrumb style="background-color :#2D0D86;">
-    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="Casos Clínicos" url="#"/>
+<!-- <p:breadCrumb style="background-color :#2D0D86;"> -->
+<!--     <p:menuitem value="Inicio" outcome="PaginaPrincipal" /> -->
+<!--      <p:menuitem value="Casos Clínicos" url="#"/> -->
 	
-</p:breadCrumb>
-<h1>Casos Clinicos</h1>
+<!-- </p:breadCrumb> -->
+<!-- <h1>Casos Clinicos</h1> -->
+<h1>
  <p:commandButton immediate="true" title="Nuevo"  value="Nuevo Caso Clínico" icon="pi pi-plus" action="Preguntas-Create-CoreCase" style="text-align:right; background: #2D0D86;"/>
+</h1>
 <h:form id="ReadOnlyForm">
  <p:dataTable var="ccHdrV1"  value="#{manageCoreCasesForm.listCcHdrV1}"  paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">
-   Casos Clínicos
+   CASOS CLINICOS
    </f:facet>
    <p:column headerText="ID" style="width:30px;">
        <h:outputText value="#{ccHdrV1.numero}" />

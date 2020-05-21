@@ -66,13 +66,14 @@
 <p:growl id="messages" showDetail="true" />
 
 <div class="ui-g">
-<div class="ui-g-4">
+<!-- <div class="ui-g-4"> -->
+<!-- </div> -->
+
+<div class="ui-g-3">
+<p:commandButton value="Agregar Nuevos Candidados"  immediate="true" action="#{updateMrqsExamForm.createNewCandidates()}" icon="fa fa-user-plus" style="background: #2D0D86;align:center;"/>
 </div>
 <div class="ui-g-4">
-<p:commandButton value="Gestionar Nuevos Candidados" immediate="true" action="#{updateMrqsExamForm.createNewCandidates()}" icon="fa fa-user-plus" style="background: #2D0D86;"/>
-</div>
-<div class="ui-g-4">
-<p:commandButton value="Asignar Candidados" immediate="true" action="#{updateMrqsExamForm.assignCandidates()}" icon="fa fa-recycle" style="background: #2D0D86;" />
+<p:commandButton value="Asignar Candidados" immediate="true"  action="#{updateMrqsExamForm.assignCandidates()}" icon="fa fa-recycle" style="background: #2D0D86;align:center;" />
 </div>
 </div>
 
@@ -149,15 +150,15 @@
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
             <p:outputLabel for="fechaDisponibleDesdeInput" value="Disponible Desde" />
         </div>
-         <div class="ui-g-12 ui-md-3">
+         <div class="ui-g-12 ui-md-2">
             <p:calendar id="fechaDisponibleDesdeInput" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.fechaEfectivaDesde}" locale="es" pattern="dd/MM/yyyy HH:mm" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
    		   <p:message for="fechaDisponibleDesdeInput"/>
          </div>
-          <div class="ui-g-12 ui-md-3" style="text-align:right;">
+          <div class="ui-g-12 ui-md-2" style="text-align:center;">
             <p:outputLabel for="fechaDisponibleHastaInput" value="Disponible Hasta" />
         </div>
-         <div class="ui-g-12 ui-md-3">
-           <p:calendar id="fechaDisponibleHastaInput" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy HH:mm" mask="true" disabled="true" />
+         <div class="ui-g-12 ui-md-2" style="align:center;" >
+           <p:calendar id="fechaDisponibleHastaInput"  value="#{updateMrqsExamForm.mrqsExamenesForUpdate.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy HH:mm" mask="true" disabled="true" />
            <p:message for="fechaDisponibleHastaInput"/>
          </div>
        </div>
@@ -263,25 +264,26 @@
 
 <h:form id="MateriasForm">
    <div class="ui-g card">
+   <div class="ui-g-2">
+      <p:commandButton  icon="fa fa-plus" value="Agregar Materia" immediate="true"  oncomplete="PF('MrqsGrupoHdrCreateDialogWV').show();" style="background: #2D0D86;" />
+    </div>
      <div class="ui-g-12">
                     <p:dataGrid var="materia" value="#{updateMrqsExamForm.mrqsExamenesForUpdate.listMrqsGrupoHdr}" columns="3" layout="grid"
                                     rows="6" paginator="true" id="cars"
                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >
                             <f:facet name="header">
-                               Materias
+                               MATERIAS
                             </f:facet>
                             <p:panel header="#{materia.admonMateriaDesc}" style="text-align:center;font-weight:bold;">
                                 <h:panelGrid columns="1" style="width:100%">
                                     <h:outputText value="Número de reactivos:#{materia.numeroReactivos}" style="font-weight:bold;" />
                                     <h:outputText value="Elaborador:#{materia.elaborador}" style="font-weight:bold;"/>
                                 </h:panelGrid>
-                              <p:commandButton value="Gestionar Reactivos" icon="fa fa-edit" action="#{updateMrqsExamForm.onMateriaSelect(materia)}" immediate="true"/>
+                              <p:commandButton value="Gestionar Reactivos" icon="fa fa-edit" action="#{updateMrqsExamForm.onMateriaSelect(materia)}" immediate="true" style="background: #2D0D86;" />
                             </p:panel>
                         </p:dataGrid>
                 </div>
-    <div class="ui-g-12">
-      <p:commandButton icon="fa fa-plus" value="Nueva" immediate="true"  oncomplete="PF('MrqsGrupoHdrCreateDialogWV').show();" />
-    </div>
+    
    </div>
 </h:form>
 
@@ -314,8 +316,8 @@
   
   <div class="ui-g">
    <div class="ui-g-4"></div>
-   <div class="ui-g-4"><p:commandButton value="Guardar" icon="fa fa-plus" update="MrqsGrupoHdrCreateForm" action="#{updateMrqsExamForm.addMRQsGroup()}" oncomplete="handleCreateGrupoRequest(xhr, status, args)" style="width:100%"/></div>
-   <div class="ui-g-4"><p:commandButton value="Cancelar" icon="fa fa-backward" onclick="PF('MrqsGrupoHdrCreateDialogWV').hide();" style="width:100%"/></div> 
+   <div class="ui-g-4"><p:commandButton value="Guardar" icon="fa fa-plus" update="MrqsGrupoHdrCreateForm" action="#{updateMrqsExamForm.addMRQsGroup()}" oncomplete="handleCreateGrupoRequest(xhr, status, args)" style="width:100%;background: #2D0D86;"/></div>
+   <div class="ui-g-4"><p:commandButton value="Cancelar" icon="fa fa-backward" onclick="PF('MrqsGrupoHdrCreateDialogWV').hide();" style="width:100%;background: #2D0D86;"/></div> 
    </div>
    </h:form>
  </p:dialog>
