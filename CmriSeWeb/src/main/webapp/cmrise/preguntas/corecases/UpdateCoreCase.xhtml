@@ -13,10 +13,10 @@
  <p:growl id="growl" showDetail="true" life="5000" />  
 
  <div class="ui-g">
-  <div class="ui-g-12 ui-md-6">
+  <div class="ui-g-12 ui-md-12">
    <p:carousel  headerText="INFORMACION DEL CASO CLINICO"     style="width:100%" >
         </p:carousel>
-  <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-2 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+  <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-2 ui-md-6 ui-lg-1,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
    <p:outputLabel for="admonExamenDesc" value="Examen"/>
    <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:98%; " readonly="true"/>
    <p:message for="admonExamenDesc"/>
@@ -37,9 +37,9 @@
   </div>
   
  <p:carousel value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" headerText="LISTA DE PREGUNTAS CASOS CLINICOS" var="pregunta" itemStyle="height:98%;text-align:center" numVisible="1" easing="easeOutBounce" style="width:98%" circular="true">
-    <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
-       <p:outputLabel for="numero" value="ID"/>
-      <p:inputText id="numero" value="#{pregunta.numero}" style="width:98%" readonly="true"/>
+    <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-8 ui-lg-1,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+       <p:outputLabel for="numero" value="ID" />
+      <p:inputText id="numero" value="#{pregunta.numero}" style="width:98%;text-align:left;" readonly="true"/>
       <p:message for="numero"/>
       <p:outputLabel for="admonExamenDesc" value="Examen"/>
       <p:inputText id="admonExamenDesc" value="#{pregunta.admonExamenDesc}" style="width:98%" readonly="true"/>
@@ -50,10 +50,10 @@
        <p:outputLabel for="admonSubMateriaDesc" value="Clasificación"/>
       <p:inputText id="admonSubMateriaDesc" value="#{pregunta.admonSubMateriaDesc}" style="width:98%" readonly="true"/>
       <p:message for="admonSubMateriaDesc"/>
-      <p:outputLabel for="tipoPreguntaDesc" value="Tipo Pregunta"/>
+      <p:outputLabel for="tipoPreguntaDesc"  value="Tipo Pregunta"/>
       <p:inputText id="tipoPreguntaDesc" value="#{pregunta.tipoPreguntaDesc}" style="width:98%" readonly="true"/>
       <p:message for="tipoPreguntaDesc"/>
-      <p:commandButton value="Actualizar Pregunta" style="BackGround:#2D0D86;" action="#{updateCoreCaseForm.updatePregunta(pregunta)}" immediate="true"></p:commandButton>
+      <p:commandButton value="Actualizar Pregunta" style="BackGround:#2D0D86;width:200%" action="#{updateCoreCaseForm.updatePregunta(pregunta)}" immediate="true"></p:commandButton>
     </p:panelGrid>
  </p:carousel>   
    
