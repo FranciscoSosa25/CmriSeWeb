@@ -28,10 +28,12 @@ function handleDeleteRequest(xhr, status, args){
 <!--      <p:menuitem value="Examenes Casos Clinicos" url="ManageTestExam"/> -->
 <!-- </p:breadCrumb> -->
 <!--  <h1>Examenes Casos Clinicos</h1> -->
+<h:form id="ReadOnlyForm">
+<div class="card ">
 <h1>
   <p:commandButton immediate="true" title="Nuevo" style="BackGround:#2D0D86;"  value="Nuevo Examen Caso Clinico" icon="pi pi-plus" action="Exams-CoreCases-Create"/>
  
- </h1><h:form id="ReadOnlyForm">
+ </h1>
  <p:dataTable var="ccExamenes" value="#{manageTestExamsForm.listCcExamenes}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
   <f:facet name="header">EXAMENES DE CASOS CLINICOS</f:facet>
    <p:column headerText="Id">
@@ -57,6 +59,7 @@ function handleDeleteRequest(xhr, status, args){
         <p:commandButton icon="fa fa-trash" style="margin-left: 10px;" oncomplete="PF('deleteExamenDialogWV').show();" ajax="true" actionListener="#{manageTestExamsForm.selectForAction(ccExamenes)}"/>
      </p:column>
  </p:dataTable>
+ </div>
  </h:form>
  
   <h:form id="DeleteForm">
