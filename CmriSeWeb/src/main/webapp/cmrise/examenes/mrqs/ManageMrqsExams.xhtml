@@ -12,12 +12,13 @@
    
 <ui:define name="content">
 
-<h2>
- <p:commandButton immediate="true" title="Nuevo"  value="Nuevo Examen de Reactivos" icon="pi pi-plus" action="Exams-MRQs-Create" style="background: #2D0D86;"/>
-</h2>
+
 
  <h:form id="ReadOnlyForm">
 <div class="card">
+<h2>
+ <p:commandButton immediate="true" title="Nuevo"  value="Nuevo Examen de Reactivos" icon="pi pi-plus" action="Exams-MRQs-Create" style="background: #2D0D86;"/>
+</h2>
  <p:dataTable var="mrqsExamenes" widgetVar="mrqsExamenesWV" value="#{manageMrqsExamsForm.listMrqsExamenes}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
      <f:facet name="header" style="font-size: 40px">EXAMENES DE REACTIVOS</f:facet>
    <p:column headerText="Id">

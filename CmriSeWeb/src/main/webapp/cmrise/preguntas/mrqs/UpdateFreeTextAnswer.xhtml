@@ -48,11 +48,12 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 
 <h:form id="UpdateReactivosForm">
 <p:growl id="growl" showDetail="true" life="5000" />  
- 
+ <p:carousel  headerText="EDITAR REACTIVO"     style="width:100%" >
+        </p:carousel>
  <div class="ui-g card">
- <h1>
-   <p:outputLabel  value="INFORMACIÓN GENERAL DEL REACTIVO" class="cmriFontColor"/>
-  </h1>
+<!--  <h1> -->
+<!--    <p:outputLabel  value="INFORMACIÓN GENERAL DEL REACTIVO" class="cmriFontColor"/> -->
+<!--   </h1> -->
        <div class="ui-g-12 ui-md-12" >
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="statusMrqs" value="Estado" />
@@ -152,7 +153,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
      
       <div class="ui-g-12 ui-md-12" >
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-            <p:commandButton value="Recurso Multimedia" icon="pi pi-plus" onclick="PF('presentationDialogWV').show();" />
+            <p:commandButton value="Agregar Multimedia" icon="pi pi-plus" onclick="PF('presentationDialogWV').show();" />
 	   </div>
 	   
 	   <div class="ui-g-12 ui-md-9"> 
@@ -402,7 +403,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
     </div>
 
     <div class="ui-g-6">
-     <p:commandButton value="Procesar"  action="#{updateFTAMrqForm.uploadMultiple}" update="presentationForm" ajax="false" />
+     <p:commandButton value="Guardar" icon="fa fa-save"  action="#{updateFTAMrqForm.uploadMultiple}" update="presentationForm" ajax="false" />
     </div>
     <div class="ui-g-6">
       <p:commandButton value="Cancelar"  onclick="PF('presentationDialogWV').hide();" />
