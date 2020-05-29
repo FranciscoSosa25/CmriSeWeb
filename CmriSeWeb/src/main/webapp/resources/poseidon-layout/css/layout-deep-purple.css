@@ -44,13 +44,23 @@
 }
 
 
-.commandButton {
-	background: #2D0D86;
+.ui-button {
+	background-color: #2d0d86;
 	border-radius: 2px;
 	 -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
 	
 }
+
+.ui-menuitem-text:hover {
+	color: #ffffff;
+	
+}
+
+ .ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left {
+  background-color: #2d0d86;
+  }
+
 
 .card {
   -moz-border-radius: 2px;
@@ -178,8 +188,37 @@
   border: 0 none;
 }
 
-.ui-selectoneradio.form-group .ui-grid-row > div, .ui-selectmanycheckbox.form-group .ui-grid-row > div {
+.ui-selectoneradio.form-group .ui-grid-row > div, .ui-selectmanycheckbox.form-group .ui-grid-row > div  {
   padding: 8px;
+}
+
+/* .ui-selectonemenu-items { */
+/* 	background-color: #2d0d86; */
+/* } */
+
+.ui-datatable-footer{
+	color: #2d0d86;
+	
+}
+
+.ui-selectonemenu-item.ui-state-highlight {
+background-color: #2d0d86;
+}
+/* .ui-selectonemenu-trigger { */
+/* 	background-color: #2d0d86; */
+/* } */
+ .ui-selectonemenu-label { 
+ 	color: #2d0d86;
+} 
+
+.ui-selectonemenu {
+	color: #2d0d86;
+	
+}
+
+.ui-selectonemenu-footer {
+	color: #2d0d86;
+	background-color: #2d0d86;
 }
 
 .dashboard .card {
@@ -844,9 +883,8 @@ body {
   height: 100%;
 }
 body.main-body {
-  /*background-color: #D9E0E7;
-  background-color: #747272;*/
-  background-color:  #F3F2F2;
+  background-color: #DCE2E8;
+ /* background-color: #747272;*/
   
   
 }
@@ -1687,7 +1725,11 @@ body a:hover {
     -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
     -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
   }
+  
+ 
+  
   .layout-wrapper.menu-layout-horizontal .layout-menu-container > .nano {
     overflow: visible;
   }
@@ -1735,6 +1777,7 @@ body a:hover {
   }
   .layout-wrapper.menu-layout-horizontal .layout-menu-container .layout-menu > li > a:hover {
     background-color: #2D0D86;
+    color: #ffffff;
   }
   .layout-wrapper.menu-layout-horizontal .layout-menu-container .layout-menu > li > ul {
     z-index: 100;
@@ -1752,12 +1795,14 @@ body a:hover {
   .layout-wrapper.menu-layout-horizontal .layout-menu-container .layout-menu > li > ul li a {
     color: #5f666c;
     padding: 10px 16px;
+    color: #ffffff;
   }
   .layout-wrapper.menu-layout-horizontal .layout-menu-container .layout-menu > li > ul li a i {
     color: #5f666c;
+    
   }
   .layout-wrapper.menu-layout-horizontal .layout-menu-container .layout-menu > li > ul li a:hover {
-    background-color: #c9cdd2;
+    color: #ffffff;
   }
   .layout-wrapper.menu-layout-horizontal .layout-menu-container .layout-menu > li > ul li ul {
     padding: 0 0 0 20px;
