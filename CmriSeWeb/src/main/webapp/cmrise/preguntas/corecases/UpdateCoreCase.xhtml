@@ -8,72 +8,95 @@
 <ui:define name="content">
 
 <h:form id="updateForm">
+
 <!-- <h3>Información del Caso Clínico</h3> -->
 
- <p:growl id="growl" showDetail="true" life="5000" />  
+<!--  <p:growl id="growl" showDetail="true" life="5000" />   -->
 
  <div class="ui-g">
+
   <div class="ui-g-12 ui-md-12">
+  
    <p:carousel  headerText="INFORMACION DEL CASO CLINICO"     style="width:100%" >
         </p:carousel>
-  <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-2 ui-md-6 ui-lg-1,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+         <div class="ui-g card">
+<!--   <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-2 ui-md-6 ui-lg-1,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2"> -->
+  <div class="ui-g-12 ui-md-3" style="text-align:center;">
    <p:outputLabel for="admonExamenDesc" value="Examen"/>
-   <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:98%; " readonly="true"/>
+     </div>
+  <div class="ui-g-12 ui-md-9">
+   <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:40%; " readonly="true"/>
    <p:message for="admonExamenDesc"/>
+     </div>
+     
+       <div class="ui-g-12 ui-md-3" style="text-align:center;">
     <p:outputLabel for="admonMateriaDesc" value="Materia"/>
-   <p:inputText id="admonMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonMateriaDesc}" style="width:98%" readonly="true"/>
+       </div>
+        <div class="ui-g-12 ui-md-9">
+   <p:inputText id="admonMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonMateriaDesc}" style="width:40%" readonly="true"/>
    <p:message for="admonMateriaDesc"/>
+   </div>
+   <div class="ui-g-12 ui-md-3" style="text-align:center;">
     <p:outputLabel for="admonSubMateriaDesc" value="Clasificación"/>
-   <p:inputText id="admonSubMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonSubMateriaDesc}" style="width:98%" readonly="true"/>
+       </div>
+         <div class="ui-g-12 ui-md-9">
+   <p:inputText id="admonSubMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonSubMateriaDesc}" style="width:40%" readonly="true"/>
    <p:message for="admonSubMateriaDesc"/>
-  </p:panelGrid> <!-- END Panel Grid -->
-  </div>
-</div>		
+   </div>
+<!--   </p:panelGrid> END Panel Grid -->
+  
+<!-- </div>		 -->
 
-  <div class="ui-g">
-   <div class="ui-g-12 ui-md-12">
+<!--   <div class="ui-g"> -->
+   <div class="ui-g-12 ui-md-6">
    <p:commandButton immediate="true" title="Nuevo"  value="Nueva Pregunta" icon="pi pi-plus" action="#{updateCoreCaseForm.createCoreQuestion()}" style="background: #2D0D86;"/>
    </div>
-  </div>
-  
- <p:carousel value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" headerText="LISTA DE PREGUNTAS CASOS CLINICOS" var="pregunta" itemStyle="height:98%;text-align:center" numVisible="1" easing="easeOutBounce" style="width:98%" circular="true">
+    <p:carousel value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" headerText="LISTA DE PREGUNTAS CASOS CLINICOS" var="pregunta" itemStyle="height:100%;text-align:center" numVisible="1" easing="easeOutBounce" style="width:98%" circular="true">
     <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-8 ui-lg-1,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
        <p:outputLabel for="numero" value="ID" />
-      <p:inputText id="numero" value="#{pregunta.numero}" style="width:98%;text-align:left;" readonly="true"/>
+      <p:inputText id="numero" value="#{pregunta.numero}" style="width:100%;text-align:left;" readonly="true"/>
       <p:message for="numero"/>
       <p:outputLabel for="admonExamenDesc" value="Examen"/>
-      <p:inputText id="admonExamenDesc" value="#{pregunta.admonExamenDesc}" style="width:98%" readonly="true"/>
+      <p:inputText id="admonExamenDesc" value="#{pregunta.admonExamenDesc}" style="width:100%" readonly="true"/>
       <p:message for="admonExamenDesc"/>
       <p:outputLabel for="admonMateriaDesc" value="Materia"/>
-      <p:inputText id="admonMateriaDesc" value="#{pregunta.admonMateriaDesc}" style="width:98%" readonly="true"/>
+      <p:inputText id="admonMateriaDesc" value="#{pregunta.admonMateriaDesc}" style="width:100%" readonly="true"/>
       <p:message for="admonMateriaDesc"/>
        <p:outputLabel for="admonSubMateriaDesc" value="Clasificación"/>
-      <p:inputText id="admonSubMateriaDesc" value="#{pregunta.admonSubMateriaDesc}" style="width:98%" readonly="true"/>
+      <p:inputText id="admonSubMateriaDesc" value="#{pregunta.admonSubMateriaDesc}" style="width:100%" readonly="true"/>
       <p:message for="admonSubMateriaDesc"/>
       <p:outputLabel for="tipoPreguntaDesc"  value="Tipo Pregunta"/>
-      <p:inputText id="tipoPreguntaDesc" value="#{pregunta.tipoPreguntaDesc}" style="width:98%" readonly="true"/>
+      <p:inputText id="tipoPreguntaDesc" value="#{pregunta.tipoPreguntaDesc}" style="width:100%" readonly="true"/>
       <p:message for="tipoPreguntaDesc"/>
       <p:commandButton value="Actualizar Pregunta" style="BackGround:#2D0D86;width:200%" action="#{updateCoreCaseForm.updatePregunta(pregunta)}" immediate="true"></p:commandButton>
     </p:panelGrid>
- </p:carousel>   
-   
-
+ </p:carousel>
  
- <div class="ui-g">
- <div class="ui-g-12 ui-md-6 ui-lg-2">
+  <div class="ui-g">
+ <div class="ui-g-12 ui-md-6 ui-lg-4">
 
   <p:commandButton value="Guardar" icon="fa fa-save" update="updateForm" actionListener= "#{updateCoreCaseForm.actualizar()}" style="background: #2D0D86;"/>
 
  </div>
- <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Guardar y Previsualizar" update="updateForm" action="#{updateCoreCaseForm.saveAndPreview()}" style="background: #2D0D86;"/>
+ <div class="ui-g-12 ui-md-6 ui-lg-5">
+  <p:commandButton value=" Previsualizar" icon="fa fa-eye" update="updateForm" action="#{updateCoreCaseForm.saveAndPreview()}" style="background: #2D0D86;"/>
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Cancelar" action="Preguntas-Manage-CoreCases" immediate="true" style="background: #2D0D86;"/>
+  <p:commandButton value="Cerrar" icon="fa fa-backward" action="Preguntas-Manage-CoreCases" immediate="true" style="background: #2D0D86;"/>
  </div>
- <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Borrar" style="background: #2D0D86;"/>
- </div>
+<!--  <div class="ui-g-12 ui-md-6 ui-lg-2"> -->
+<!--   <p:commandButton value="Borrar" style="background: #2D0D86;"/> -->
+<!--  </div> -->
+</div>   
+      </div>
+<!--   </div> -->
+  
+
+   
+
+ 
+
+</div>
 </div>
 </h:form>
 
