@@ -51,9 +51,6 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
  <p:carousel  headerText="EDITAR REACTIVO"     style="width:100%" >
         </p:carousel>
  <div class="ui-g card">
-<!--  <h1> -->
-<!--    <p:outputLabel  value="INFORMACIÓN GENERAL DEL REACTIVO" class="cmriFontColor"/> -->
-<!--   </h1> -->
        <div class="ui-g-12 ui-md-12" >
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="statusMrqs" value="Estado" />
@@ -153,7 +150,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
      
       <div class="ui-g-12 ui-md-12" >
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-            <p:commandButton value="Agregar Multimedia" icon="pi pi-plus" onclick="PF('presentationDialogWV').show();" />
+            <p:commandButton value="Agregar Multimedia" style="background: #2D0D86;" icon="pi pi-plus" onclick="PF('presentationDialogWV').show();" />
 	   </div>
 	   
 	   <div class="ui-g-12 ui-md-9"> 
@@ -356,19 +353,19 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
   
  <div class="ui-g-12 ui-md-12">
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-     <p:commandButton id="GuardarBtn" icon="fa fa-save" value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="UpdateReactivosForm growl" oncomplete="handleUpdateRequest(xhr, status, args)"/>
+     <p:commandButton id="GuardarBtn" style="background: #2D0D86;" icon="fa fa-save" value="Guardar" actionListener="#{updateFTAMrqForm.update()}" update="UpdateReactivosForm growl" oncomplete="handleUpdateRequest(xhr, status, args)"/>
    </div>
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-    <p:commandButton icon="fa fa-eye" value="Previsualizar" update="UpdateReactivosForm growl" action="#{updateFTAMrqForm.saveAndPreview()}"/>
+    <p:commandButton icon="fa fa-eye" style="background: #2D0D86;" value="Previsualizar" update="UpdateReactivosForm growl" action="#{updateFTAMrqForm.saveAndPreview()}"/>
    </div>
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-    <p:commandButton icon="fa fa-backward" value="Cerrar" action="#{updateFTAMrqForm.cancel()}" immediate="true"/>
+    <p:commandButton icon="fa fa-backward" style="background: #2D0D86;" value="Cerrar" action="#{updateFTAMrqForm.cancel()}" immediate="true"/>
    </div>
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-    <p:commandButton value="Duplicar" oncomplete="PF('duplicateMrqDialogWV').show();" rendered="false"/>
+    <p:commandButton value="Duplicar" style="background: #2D0D86;" oncomplete="PF('duplicateMrqDialogWV').show();" rendered="false"/>
    </div>
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-    <p:commandButton value="Borrar" oncomplete="PF('deleteRolDialogWV').show();" rendered="false"/>
+    <p:commandButton value="Borrar" style="background: #2D0D86;" oncomplete="PF('deleteRolDialogWV').show();" rendered="false"/>
    </div>
   </div>
      
