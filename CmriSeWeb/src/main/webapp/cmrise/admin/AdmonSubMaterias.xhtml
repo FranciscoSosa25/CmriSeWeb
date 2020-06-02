@@ -22,10 +22,7 @@ function handleDeleteRequest(xhr, status, args){
 <ui:define name="content">
 <h:form id="SubMateriasForm">
 <p:growl id="msgs" showDetail="true"/>
-<h2>
-             <p:commandButton value="Agregar SubMateria" icon="fa fa-plus" style="margin-left: 10px; BackGround:#2D0D86;"  styleClass="ui-priority-primary"  update="SubMateriasForm" action="#{admonSubMateriasForm.onAddNew()}" />
-             <p:commandButton value="Guardar Cambios" icon="fa fa-save" style="margin-left: 10px; BackGround:#2D0D86;" styleClass="ui-priority-primary"  update="SubMateriasForm" action="#{admonSubMateriasForm.saveAndUpdate()}" />
-         </h2>
+
 <div class="card">
 <p:dataTable var="materia" value="#{admonSubMateriasForm.subMaterias}">
 <f:facet name="header">SUBMATERIAS</f:facet>
@@ -45,6 +42,10 @@ function handleDeleteRequest(xhr, status, args){
       <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86;" oncomplete="PF('deleteSubMateriaDialogWV').show();" ajax="true" actionListener="#{admonSubMateriasForm.selectForAction(materia)}"/>
      </p:column>
 </p:dataTable>
+<h2>
+             <p:commandButton value="Agregar SubMateria" icon="fa fa-plus" style="margin-left: 10px; BackGround:#2D0D86;"  styleClass="ui-priority-primary"  update="SubMateriasForm" action="#{admonSubMateriasForm.onAddNew()}" />
+             <p:commandButton value="Guardar Cambios" icon="fa fa-save" style="margin-left: 10px; BackGround:#2D0D86;" styleClass="ui-priority-primary"  update="SubMateriasForm" action="#{admonSubMateriasForm.saveAndUpdate()}" />
+         </h2>
 </div>
 <div class="ui-g">
          

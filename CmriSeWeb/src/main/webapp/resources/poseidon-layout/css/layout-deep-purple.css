@@ -61,6 +61,26 @@
   background-color: #2d0d86;
   }
 
+.ui-inputswitch .ui-inputswitch-off .ui-inputswitch-on .ui-inputswitch-handle {
+	background-color: #2d0d86;
+	
+}
+
+.ui-paginator-page {
+	
+	
+}
+
+.ui-inputswitch .ui-inputswitch-off .ui-inputswitch-on .ui-inputswitch-handle {
+background: #2d0d86;
+border-color: #000000;
+}
+
+
+.ui-accordion-header{
+background: #2d0d86;	
+	
+}
 
 .card {
   -moz-border-radius: 2px;
@@ -1320,9 +1340,11 @@ body a:hover {
 }
 .layout-wrapper .right-sidebar .ui-accordion {
   padding-bottom: 140px;
+  background-color: #2d0d86;
 }
 .layout-wrapper .right-sidebar .ui-accordion .ui-accordion-content {
   padding: 0;
+  background-color: #2d0d86;
 }
 .layout-wrapper .right-sidebar .contact-list {
   list-style-type: none;
@@ -1795,7 +1817,6 @@ body a:hover {
   .layout-wrapper.menu-layout-horizontal .layout-menu-container .layout-menu > li > ul li a {
     color: #5f666c;
     padding: 10px 16px;
-    color: #ffffff;
   }
   .layout-wrapper.menu-layout-horizontal .layout-menu-container .layout-menu > li > ul li a i {
     color: #5f666c;

@@ -15,6 +15,13 @@
  </script>
 </ui:define>
                 
+<style>
+.color {
+	background-color: #2d0d86;
+	font-size: 100px;
+}
+
+</style>
                 
 <ui:define name="content">
 <!-- <p:breadCrumb style="background-color: #2D0D86;"> -->
@@ -115,8 +122,8 @@
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="showUnsafeOption"  value="¿Mostrar Opción Insegura?" />
         </div>
-         <div class="ui-g-12 ui-md-9">
-          <p:inputSwitch id="showUnsafeOption" value="#{createCoreCaseForm.ccHdrV1ForInsert.opcionInsegura}"  onLabel="&#10003; SI" offLabel="&#215; NO"/>
+         <div class="ui-g-12 ui-md-9" style="background-color: 2d0d86;">
+          <p:inputSwitch id="showUnsafeOption" value="#{createCoreCaseForm.ccHdrV1ForInsert.opcionInsegura}"  onLabel="&#10003; SI" offLabel="&#215; NO" style="background-color: #2d0d86; " styleClass="color"/>
           <p:message  for="showUnsafeOption"/>
          </div>
        </div>
