@@ -38,19 +38,29 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         background-color: #d43f3a;
         border-color: #d9534f;
     }
+    
+.border {
+	border-color: #ffffff;
+}  
+
+.mborder.ui-accordion-header {
+	background-color: #ffffff;
+}
+
+
 </style>
 </ui:define>                
                 
 <ui:define name="content">
-
+<div class="card">
 <h:form id="casoClinicoForm">
 <!-- <h1>Información del Caso Clínico</h1> -->
 
 <div class="ui-g">
   <div class="ui-g-12 ui-md-12">
-   <p:carousel  headerText="INFORMACION DEL CASO CLINICO"     style="width:100%" >
-        </p:carousel>
-  <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+  <p:accordionPanel style="background: #2d0d86; border-color: #000000;">
+   <p:tab title="Informacion Caso Clinico" style="background: #20d86;">
+  <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2" styleClass="mborder">
    <p:outputLabel for="admonExamenDesc" value="Examen"/>
    <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:98%" readonly="true"/>
    <p:message for="admonExamenDesc"/>
@@ -61,17 +71,19 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
    <p:inputText id="admonSubMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonSubMateriaDesc}" style="width:98%" readonly="true"/>
    <p:message for="admonSubMateriaDesc"/>
   </p:panelGrid> <!-- END Panel Grid -->
+   </p:tab>
+     </p:accordionPanel>
   </div>
-</div>		
+</div>	
 </h:form>
 
 
 <h:form id="createQuestionCoreCaseForm">
 <p:growl id="growl" showDetail="true" life="5000" /> 
 <!-- <h1>Información de la Pregunta</h1>  -->
- <p:carousel  headerText="INFORMACION DE LA PREGUNTA"     style="width:100%" >
-        </p:carousel>
+
     <div class="ui-g card">
+    <h1>Informacion de la pregunta</h1>
       <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="admonExamen" value="Examen" />
@@ -214,8 +226,6 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
     
        <h:panelGroup rendered="#{updateQuestionFtaCoreCaseForm.multipleChoice}">
 <!--          <h1>Pregunta de Opción Multiple</h1> -->
-        <p:carousel  headerText="PREGUNTA OPCION MULTIPLE"     style="width:100%" >
-        </p:carousel>
            <div class="ui-g card">
 	       <div class="ui-g-12 ui-md-12" >
 	        
@@ -250,7 +260,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
            <p:outputLabel for="singleMode" value="¿Modo de Respuesta Única?" />
         </div>
         <div class="ui-g-12 ui-md-9">
-           <p:inputSwitch id="singleMode" onLabel="Si" offLabel="No" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.singleAnswerMode}"/>
+           <p:inputSwitch id="singleMode" onLabel="Si" offLabel="No" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.singleAnswerMode}" styleClass="mswitch"/>
         </div>
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="suffleOrder" value="¿Orden de Respuestas Aleatorio?" />
@@ -259,49 +269,40 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
            <p:inputSwitch id="suffleOrder" onLabel="Si" offLabel="No" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.suffleAnswerOrder}"/>
         </div>
 	       
-	       
-	       <p:carousel value="#{updateQuestionFtaCoreCaseForm.listCcOpcionMultiple}" headerText="Lista de Respuestas" var="ccOpcionMultiple" itemStyle="height:98%;text-align:center" numVisible="1" easing="easeOutBounce" style="width:98%" circular="true">
-	         <div class="ui-g" style="border: 1px solid black;width:80%;margin-bottom: 5px;width:98%" >
-		        <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
-		         <div class="ui-g-6">
-		          <p:spinner id="numeroLinea" value="#{ccOpcionMultiple.numeroLinea}" min="1" max="10" rotate="true" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
-		          <p:message for="numeroLinea"/>
-		         </div>
-		         <div class="ui-g-6">
-		          <p:inputSwitch onLabel="&#10003;" offLabel="&#215;" value="#{ccOpcionMultiple.estatus}" />
-		         </div>
-		        </div>
-		      
-                 <div class="ui-g-9 ui-g-nopad">
-		         <div class="ui-g-12">
-		           <div class="ui-g-2" style="text-align:right;">
-		            <p:outputLabel for="answerText" value="Respuesta" />
-		           </div>
-		           <div class="ui-g-10">
-		             <p:inputText id="answerText" style="width:99%;" value="#{ccOpcionMultiple.textoRespuesta}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-		             <p:message for="answerText"/>
-		           </div>
-		         </div>
-		         <!-- 
-		          <div class="ui-g-12">
-		           <div class="ui-g-2" style="text-align:right;">
-		            <p:outputLabel for="explanation" value="Explicación" />
-		           </div>
-		           <div class="ui-g-10">
-		             <p:inputText id="explanation" style="width:99%;" value="#{ccOpcionMultiple.textoExplicacion}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-		             <p:message for="explanation"/>
-		           </div>
-		         </div>
-		          -->
-		         </div>
-		          <div class="ui-g-1 ui-g-nopad">
-		            <p:commandButton icon="pi pi-times" styleClass="red-button" oncomplete="PF('deleteOpcionMultipleWV').show();" actionListener="#{updateQuestionFtaCoreCaseForm.selectOpcionMultipleForAction(ccOpcionMultiple)}"/>
-		          </div>
-		         </div> <!-- END div -->  
-		         
-	       </p:carousel>
-	       
+	 
+	    
+	     
 	      </div>
+	      
+	      <!--  Respuestas Opcion multple tipo reactivos -->
+	<div class="ui-g-4" style="text-align:left;">
+   <h1>
+   <p:outputLabel id="correcta" value="Correcta" />
+   </h1>
+   </div>
+  
+      <div class="ui-g-4" style="width:5%; text-align:center;">
+      <h2>
+    <p:outputLabel id="respuestas" value="Respuestas"  />
+    </h2>
+    </div>
+        <ui:repeat var="ccOpcionMultiple"  value="#{updateQuestionFtaCoreCaseForm.listCcOpcionMultiple}">
+        <div class="ui-g" style="width:90%;margin-bottom: 0.5px;" >
+        <div class="ui-g-2 ui-g-nopad" style="width:5%; text-align:center;">
+
+         <div class="ui-g-9">
+          <p:inputSwitch onLabel="&#10003;" style="width:5%;BackGround:#2D0D86;" offLabel="&#215;" value="#{ccOpcionMultiple.estatus}" />
+         </div>
+        </div>
+         <div class="ui-g-9">
+             <p:inputText id="answerText" style="width:98%;" value="#{ccOpcionMultiple.textoRespuesta}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+             <p:message for="answerText"/>
+
+       </div>
+        
+       </div> <!-- END div -->
+        </ui:repeat>
+	
      
         </h:panelGroup>
         
@@ -371,7 +372,6 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
      </div>
   </p:dialog>
  </h:form>
-
-
+</div>
 </ui:define>                
 </ui:composition>

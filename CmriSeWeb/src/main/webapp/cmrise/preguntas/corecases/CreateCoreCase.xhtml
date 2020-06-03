@@ -15,6 +15,13 @@
  </script>
 </ui:define>
                 
+<style>
+.color {
+	background-color: #2d0d86;
+	font-size: 100px;
+}
+
+</style>
                 
 <ui:define name="content">
 <!-- <p:breadCrumb style="background-color: #2D0D86;"> -->
@@ -115,8 +122,8 @@
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="showUnsafeOption"  value="¿Mostrar Opción Insegura?" />
         </div>
-         <div class="ui-g-12 ui-md-9">
-          <p:inputSwitch id="showUnsafeOption" value="#{createCoreCaseForm.ccHdrV1ForInsert.opcionInsegura}"  onLabel="&#10003; SI" offLabel="&#215; NO"/>
+         <div class="ui-g-12 ui-md-9" style="background-color: 2d0d86;">
+          <p:inputSwitch id="showUnsafeOption" value="#{createCoreCaseForm.ccHdrV1ForInsert.opcionInsegura}"  onLabel="&#10003; SI" offLabel="&#215; NO" style="background-color: #2d0d86; " styleClass="color"/>
           <p:message  for="showUnsafeOption"/>
          </div>
        </div>
@@ -147,7 +154,7 @@
 	  <p:commandButton value="Agregar Caso Clínico" icon="fa fa-plus"  update="createForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createCoreCaseForm.create()}" style="background: #2D0D86;"/>
 	 </div>
 	 <div class="ui-g-12 ui-md-6 ui-lg-2">
-	  <p:commandButton value="Cancelar" process="@this" update="createForm" action="Preguntas-Manage-CoreCases" style="background: #2D0D86;" >
+	  <p:commandButton value="Cerrar" icon="fa fa-backward" process="@this" update="createForm" action="Preguntas-Manage-CoreCases" style="background: #2D0D86;" >
 	  <p:resetInput target="createForm"/>
 	   </p:commandButton>
 	 </div>

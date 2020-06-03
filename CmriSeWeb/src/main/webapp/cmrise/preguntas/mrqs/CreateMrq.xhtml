@@ -124,15 +124,15 @@
        </div>
    </div> <!--  <div class="ui-g"> -->
  </p:panel>
- </div>
+
  
- <div class="card">
+
  <div class="ui-g">
      <div class="ui-g-12 ui-md-1" >
-       <p:commandButton icon="fa fa-save" style="BackGround:#2D0D86;"  value="Crear" update="createMrqForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createMrqForm.create()}"/>
+       <p:commandButton  style="BackGround:#2D0D86;"  value="Crear" update="createMrqForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createMrqForm.create()}"/>
      </div>
       <div class="ui-g-12 ui-md-1" >
-        <p:commandButton icon="fa fa-backward" style="BackGround:#2D0D86;" value="Cancelar" process="@this" update="createMrqForm" action="Preguntas-ManageNewMrqs">
+        <p:commandButton icon="fa fa-backward" style="BackGround:#2D0D86;" value="Cerrar" process="@this" update="createMrqForm" action="Preguntas-ManageNewMrqs">
          <p:resetInput target="createMrqForm"/>
         </p:commandButton>
      </div>

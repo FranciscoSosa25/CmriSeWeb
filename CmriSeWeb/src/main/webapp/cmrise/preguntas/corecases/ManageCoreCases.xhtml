@@ -17,6 +17,38 @@ function handleDeleteRequest(xhr, status, args){
 }
 
 </script>
+
+<style>
+.pagination > li > a
+{
+    background-color: white;
+    color: #5A4181;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    color: #5a5a5a;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.pagination > .active > a
+{
+    color: white;
+    background-color: #5A4181 !Important;
+    border: solid 1px #5A4181 !Important;
+}
+
+.pagination > .active > a:hover
+{
+    background-color: #5A4181 !Important;
+    border: solid 1px #5A4181;
+}
+
+</style>
 </ui:define>
 
 <ui:define name="nuevo">
@@ -24,17 +56,21 @@ function handleDeleteRequest(xhr, status, args){
  </ui:define>
                 
 <ui:define name="content">
+
 <!-- <p:breadCrumb style="background-color :#2D0D86;"> -->
 <!--     <p:menuitem value="Inicio" outcome="PaginaPrincipal" /> -->
 <!--      <p:menuitem value="Casos Clínicos" url="#"/> -->
 	
 <!-- </p:breadCrumb> -->
 <!-- <h1>Casos Clinicos</h1> -->
+
+<h:form id="ReadOnlyForm">
+<div class="card ">
 <h1>
  <p:commandButton immediate="true" title="Nuevo"  value="Nuevo Caso Clínico" icon="pi pi-plus" action="Preguntas-Create-CoreCase" style="text-align:right; background: #2D0D86;"/>
 </h1>
-<h:form id="ReadOnlyForm">
- <p:dataTable var="ccHdrV1"  value="#{manageCoreCasesForm.listCcHdrV1}"  paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+<div class="pagination">
+ <p:dataTable var="ccHdrV1"  value="#{manageCoreCasesForm.listCcHdrV1}"  paginator="true" rows="50" paginatorPosition="bottom" emptyMessage="Sin resultados" styleClass="pagination" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">
    CASOS CLINICOS
    </f:facet>
@@ -65,6 +101,8 @@ function handleDeleteRequest(xhr, status, args){
         <p:commandButton icon="fa fa-trash" style="margin-left: 10px; background: #2D0D86;"  oncomplete="PF('deleteRolDialogWV').show();" ajax="true" actionListener="#{manageCoreCasesForm.selectForAction(ccHdrV1)}"/>
      </p:column>
    </p:dataTable>
+   </div>
+    </div>
   </h:form>
   
  <h:form id="DeleteForm">
