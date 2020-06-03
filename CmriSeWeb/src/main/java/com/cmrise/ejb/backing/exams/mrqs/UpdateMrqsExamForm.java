@@ -208,7 +208,8 @@ public class UpdateMrqsExamForm {
    	 FacesContext context = FacesContext.getCurrentInstance(); 
    	 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
    	 session.setAttribute("NumeroMrqsExamenSV", mrqsExamenesForUpdate.getNumero());
-       	return "Preview-Examen-Reactivos"; 
+     /*return "Preview-Examen-Reactivos";*/
+   	 return "Prev-Exam-React-OneByOne";
     }	
 	
 	public String cancel() {

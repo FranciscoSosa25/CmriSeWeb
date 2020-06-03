@@ -1,29 +1,29 @@
 package com.cmrise.jpa.dto.mrqs;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
- * The persistent class for the MRQS_PREGUNTAS_FTA database table.
+ * The persistent class for the MRQS_PREGUNTAS_FTA_V1 database table.
  * 
  */
 @Entity
-@Table(name="MRQS_PREGUNTAS_FTA")
-@NamedQuery(name="MrqsPreguntasFtaDto.findAll", query="SELECT m FROM MrqsPreguntasFtaDto m")
-public class MrqsPreguntasFtaDto implements Serializable {
+@Table(name="MRQS_PREGUNTAS_FTA_V1")
+@NamedQuery(name="MrqsPreguntasFtaV1Dto.findAll", query="SELECT m FROM MrqsPreguntasFtaV1Dto m")
+public class MrqsPreguntasFtaV1Dto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name="NUMERO")
 	private long numero;
 
-	@Column(name="NUMERO_HDR")
-	private long numeroHdr; 
-	
 	@Column(name="ACTUALIZADO_POR")
 	private long actualizadoPor;
 
@@ -66,25 +66,13 @@ public class MrqsPreguntasFtaDto implements Serializable {
 	@Column(name="SUFFLE_ANSWER_ORDER")
 	private boolean suffleAnswerOrder; 
 	
-	@Column(name="NOMBRE_IMAGEN")
-	private String nombreImagen; 
+	@Column(name="NUMERO_HDR")
+	private long numeroHdr; 
 	
-	@Column(name="RUTA_IMAGEN")
-	private String rutaImagen; 
+	@Column(name="TEXTO_SUGERENCIAS_DESC")
+	private String textoSugerenciasDesc; 
 	
-	@Column(name="CONTENT_TYPE")
-	private String contentType; 
-	
-	@Column(name="POLIGONOS")
-	private String poligonos;
-	
-	@Column(name="WIDTH")
-	private int width; 
-	
-	@Column(name="HEIGHT")
-	private int height; 
-
-	public MrqsPreguntasFtaDto() {
+	public MrqsPreguntasFtaV1Dto () {
 	}
 
 	public long getNumero() {
@@ -207,38 +195,6 @@ public class MrqsPreguntasFtaDto implements Serializable {
 		this.suffleAnswerOrder = suffleAnswerOrder;
 	}
 
-	public String getNombreImagen() {
-		return nombreImagen;
-	}
-
-	public void setNombreImagen(String nombreImagen) {
-		this.nombreImagen = nombreImagen;
-	}
-
-	public String getRutaImagen() {
-		return rutaImagen;
-	}
-
-	public void setRutaImagen(String rutaImagen) {
-		this.rutaImagen = rutaImagen;
-	}
-
-	public String getContentType() {
-		return contentType;
-	}
-
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
-	}
-
-	public String getPoligonos() {
-		return poligonos;
-	}
-
-	public void setPoligonos(String poligonos) {
-		this.poligonos = poligonos;
-	}
-
 	public long getNumeroHdr() {
 		return numeroHdr;
 	}
@@ -247,20 +203,12 @@ public class MrqsPreguntasFtaDto implements Serializable {
 		this.numeroHdr = numeroHdr;
 	}
 
-	public int getWidth() {
-		return width;
+	public String getTextoSugerenciasDesc() {
+		return textoSugerenciasDesc;
 	}
 
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
+	public void setTextoSugerenciasDesc(String textoSugerenciasDesc) {
+		this.textoSugerenciasDesc = textoSugerenciasDesc;
 	}
 
 }

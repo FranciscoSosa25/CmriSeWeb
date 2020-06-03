@@ -26,4 +26,6 @@ public interface MrqsPreguntasHdrLocal {
 			                                         , long pAdmonExamen
 			                                         , long pAdmonMateria
 			                                         );
+	public MrqsPreguntasHdrV1 findV1ByNumero(long pNumeroHdr);
+	
 }

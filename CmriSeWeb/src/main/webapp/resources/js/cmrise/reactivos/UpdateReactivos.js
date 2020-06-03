@@ -1,13 +1,19 @@
 function argsValidationFailed(){
+	          console.log('Comienza argsValidationFailed()');
         	  $(".ui-message-error").delay(1800).fadeOut(500);
               $(".ui-messages-error").delay(1800).fadeOut(500);
               $(".ui-messages-info").delay(1800).fadeOut(500);
               $(".ui-messages-warn").delay(1800).fadeOut(500);
+              console.log('Sale argsValidationFailed()');
           }
      
 	function handleUpdateRequest(xhr, status, args){
-		 if(args.validationFailed|| !args.updateIn) {
+		 const fileInput = document.getElementById('UpdateReactivosForm:fileImagenSen'); 
+			if(args.validationFailed|| !args.updateIn) {
 			 argsValidationFailed(); 
+	      }else{
+	    	  console.log('Comienza Procesar ImagenSen');
+	    	  console.log('Comienza Finaliza ImagenSen');
 	      }
 	}
 
@@ -130,6 +136,8 @@ function argsValidationFailed(){
 	  }
 	   
 
+
+ 
 $(document).ready(function() {
 	 console.log('Hola');	 
 	init(); 

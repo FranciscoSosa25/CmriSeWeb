@@ -17,6 +17,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -24,11 +25,13 @@ import org.primefaces.model.file.UploadedFile;
 import org.primefaces.model.file.UploadedFiles;
 
 import com.cmrise.ejb.helpers.GuestPreferences;
+import com.cmrise.ejb.helpers.UserLogin;
 import com.cmrise.ejb.model.admin.AdmonExamenHdr;
 import com.cmrise.ejb.model.admin.AdmonMateriaHdr;
 import com.cmrise.ejb.model.admin.AdmonSubMateria;
 import com.cmrise.ejb.model.mrqs.MrqsListasPalabras;
 import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
+import com.cmrise.ejb.model.mrqs.MrqsPreguntasFtaV1;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenes;
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
@@ -47,7 +50,6 @@ import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
-import com.cmrise.jpa.dto.mrqs.img.MrqsImagenesGrpDto;
 import com.cmrise.utils.Utilitarios;
 import com.cmrise.utils.UtilitariosLocal;
 
@@ -58,21 +60,12 @@ public class UpdateFTAMrqForm {
 	private long numeroHdr;
 	private long numeroFta; 
 	private MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForAction = new MrqsPreguntasHdrV1();
+	private MrqsPreguntasFtaV1 mrqsPreguntasFtaV1ForAction = new MrqsPreguntasFtaV1(); 
 	
-	private String tituloPregunta;
-	private String metodoPuntuacion;
-	private String respuestaCorrecta; 
-	private String textoPregunta; 
-	private String valorPuntuacion; 
-    private String textoSugerencias; 
-	
-    private boolean multipleChoice; 
+	private boolean multipleChoice; 
 	private boolean limitedFreeTextAnswer;
 	private boolean indicateImage;
 	private boolean annotatedImage;
-    
-	private boolean singleAnswerMode;
-	private boolean suffleAnswerOrder; 
     
 	/**********************************************************************
 	  Atributos Opcion Multiple
@@ -114,7 +107,7 @@ public class UpdateFTAMrqForm {
 	
 	private List<SelectItem> selectInstruccionesItems; 
 	private List<SelectItem> selectScoringMethodItems; 
-	
+		
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal;
 	
@@ -147,6 +140,9 @@ public class UpdateFTAMrqForm {
 	
 	@Inject 
 	TablasUtilitariasValoresLocal tablasUtilitariasValoresLocal; 
+	
+	@ManagedProperty(value="#{userLogin}")
+	private UserLogin userLogin; 
 	
 	@PostConstruct
 	public void init() {
@@ -189,42 +185,26 @@ public class UpdateFTAMrqForm {
 	 
 	private void refreshEntity() {
 		 System.out.println("Entra UpdateFTAMrqForm refreshEntity()");
-		 MrqsPreguntasHdrV1Dto mrqsPreguntasHdrV1Dto = mrqsPreguntasHdrLocal.findByNumero(this.numeroHdr);
-		 if(Utilitarios.RESP_TEXTO_LIBRE.equals(mrqsPreguntasHdrV1Dto.getTipoPregunta())) {
+		 mrqsPreguntasHdrV1ForAction = mrqsPreguntasHdrLocal.findV1ByNumero(this.numeroHdr);
+		 if(Utilitarios.RESP_TEXTO_LIBRE.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			 this.setLimitedFreeTextAnswer(true);
-		 }else if(Utilitarios.OPCION_MULTIPLE.equals(mrqsPreguntasHdrV1Dto.getTipoPregunta())) {
+		 }else if(Utilitarios.OPCION_MULTIPLE.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			 this.setMultipleChoice(true);
 			 initListMrqsOpcionMultiple(); 
-		 }else if(Utilitarios.IMAGEN_INDICADA.equals(mrqsPreguntasHdrV1Dto.getTipoPregunta())) {
+		 }else if(Utilitarios.IMAGEN_INDICADA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			 this.setIndicateImage(true);
 		 }
-		 mrqsPreguntasHdrV1ForAction.setNumero(mrqsPreguntasHdrV1Dto.getNumero());
-		 mrqsPreguntasHdrV1ForAction.setEstatus(mrqsPreguntasHdrV1Dto.getEstatus());
-		 mrqsPreguntasHdrV1ForAction.setAdmonExamen(mrqsPreguntasHdrV1Dto.getAdmonExamen());
-		 mrqsPreguntasHdrV1ForAction.setAdmonMateria(mrqsPreguntasHdrV1Dto.getAdmonMateria());
-		 mrqsPreguntasHdrV1ForAction.setAdmonSubmateria(mrqsPreguntasHdrV1Dto.getAdmonSubmateria());
-		 mrqsPreguntasHdrV1ForAction.setTipoPregunta(mrqsPreguntasHdrV1Dto.getTipoPregunta());
-		 mrqsPreguntasHdrV1ForAction.setDiagnostico(mrqsPreguntasHdrV1Dto.getDiagnostico());
-		 mrqsPreguntasHdrV1ForAction.setNotas(mrqsPreguntasHdrV1Dto.getNotas());
-		 mrqsPreguntasHdrV1ForAction.setFechaElaboracion(Utilitarios.sqlDateToUtilDate(mrqsPreguntasHdrV1Dto.getFechaElaboracion()));
-		 mrqsPreguntasHdrV1ForAction.setBibliografia(mrqsPreguntasHdrV1Dto.getBibliografia());
-		 
-		 
 		 
 		 long lNumeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(this.getNumeroHdr()); 
+		 
 		 if(0l!=lNumeroFta) {
 		   /** CONSULTA INFORMACION **/
 			this.setNumeroFta(lNumeroFta);
-			MrqsPreguntasFtaDto mrqsPreguntasFtaDto = mrqsPreguntasFtaLocal.findDtoByNumeroFta(lNumeroFta);
-			this.setTituloPregunta(mrqsPreguntasFtaDto.getTitulo());
-			this.setTextoPregunta(mrqsPreguntasFtaDto.getTextoPregunta());
-			this.setTextoSugerencias(mrqsPreguntasFtaDto.getTextoSugerencias());
-			this.setRespuestaCorrecta(mrqsPreguntasFtaDto.getRespuestaCorrecta());
-			this.setSingleAnswerMode(mrqsPreguntasFtaDto.isSingleAnswerMode());
-			this.setSuffleAnswerOrder(mrqsPreguntasFtaDto.isSuffleAnswerOrder());
-			this.setMetodoPuntuacion(mrqsPreguntasFtaDto.getMetodoPuntuacion());
-			this.setValorPuntuacion(mrqsPreguntasFtaDto.getValorPuntuacion());
-			List<MrqsOpcionMultipleDto> listMrqsOpcionMultipleDto = mrqsOpcionMultipleLocal.findByNumeroFta(mrqsPreguntasFtaDto.getNumero());
+			mrqsPreguntasFtaV1ForAction = mrqsPreguntasFtaLocal.findObjModByNumeroFta(lNumeroFta
+					                                                                 ,mrqsPreguntasHdrV1ForAction.getTipoPregunta()
+					                                                                 );
+			
+			List<MrqsOpcionMultipleDto> listMrqsOpcionMultipleDto = mrqsOpcionMultipleLocal.findByNumeroFta(mrqsPreguntasFtaV1ForAction.getNumero());
 			System.out.println("listMrqsOpcionMultipleDto.size():"+listMrqsOpcionMultipleDto.size());
 			if(listMrqsOpcionMultipleDto.size()>0) {
 				listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>();
@@ -319,7 +299,7 @@ public class UpdateFTAMrqForm {
 			}	
 		}
 		
-		if("RESP_TEXTO_LIBRE".equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
+		if(Utilitarios.RESP_TEXTO_LIBRE.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			while(iterScoringMethodValores.hasNext()) {
 				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
 				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
@@ -436,30 +416,37 @@ public class UpdateFTAMrqForm {
 		System.out.println("this.getNumeroHdr():"+this.getNumeroHdr());
 		long lNumeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(this.getNumeroHdr()); 
 		System.out.println("lNumeroFta:"+lNumeroFta);
-		MrqsPreguntasFtaDto mrqsPreguntasFtaDto = new MrqsPreguntasFtaDto();
 		MrqsPreguntasHdrDto mrqsPreguntasHdrDto = new MrqsPreguntasHdrDto();
 		if(0l==lNumeroFta) {
 		   /** INSERTA **/	
 			mrqsPreguntasHdrDto.setNumero(this.numeroHdr);
-			mrqsPreguntasFtaDto.setMrqsPreguntasHdr2(mrqsPreguntasHdrDto);
-			mrqsPreguntasFtaDto.setTitulo(this.tituloPregunta);
-			mrqsPreguntasFtaDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
-			mrqsPreguntasFtaDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
-			System.out.println("this.metodoPuntuacion:"+this.metodoPuntuacion);
-			mrqsPreguntasFtaDto.setMetodoPuntuacion(this.getMetodoPuntuacion());
-		    if(Utilitarios.OPCION_MULTIPLE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
-		    mrqsPreguntasFtaDto.setRespuestaCorrecta("OPCION_MULTIPLE"); 	
-		    }else {
-			mrqsPreguntasFtaDto.setRespuestaCorrecta(this.respuestaCorrecta);
-		    }
 			
-			mrqsPreguntasFtaDto.setTextoPregunta(this.textoPregunta);
-			mrqsPreguntasFtaDto.setValorPuntuacion(this.valorPuntuacion);
-			mrqsPreguntasFtaDto.setTextoSugerencias(this.textoSugerencias);
-			mrqsPreguntasFtaDto.setSingleAnswerMode(this.isSingleAnswerMode());
-			mrqsPreguntasFtaDto.setSuffleAnswerOrder(this.isSuffleAnswerOrder());
-			mrqsPreguntasFtaDto.setValorPuntuacion(this.valorPuntuacion);
-			lNumeroFta = mrqsPreguntasFtaLocal.insert(mrqsPreguntasFtaDto);
+			mrqsPreguntasFtaV1ForAction.setNumeroHdr(this.numeroHdr);
+			mrqsPreguntasFtaV1ForAction.setCreadoPor(userLogin.getNumeroUsuario());
+			mrqsPreguntasFtaV1ForAction.setActualizadoPor(userLogin.getNumeroUsuario());
+			mrqsPreguntasFtaV1ForAction.setFechaCreacion(new java.util.Date());
+			mrqsPreguntasFtaV1ForAction.setFechaActualizacion(new java.util.Date());
+			
+		    if(Utilitarios.OPCION_MULTIPLE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
+		     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("OPCION_MULTIPLE"); 	
+		    }else if(Utilitarios.RESP_TEXTO_LIBRE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())){
+		     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta(this.mrqsPreguntasFtaV1ForAction.getRespuestaCorrecta());
+		    }else if(Utilitarios.IMAGEN_INDICADA.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
+		     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("Coordenadas Poligonos");
+		    if(null==mrqsPreguntasFtaV1ForAction.getNombreImagen()) {
+		    	FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se nececita una","imagen") );
+				return; 
+		     }else if(null==mrqsPreguntasFtaV1ForAction.getPoligonos()||"".equals(mrqsPreguntasFtaV1ForAction.getPoligonos())) {
+		    	 FacesContext context = FacesContext.getCurrentInstance();
+				 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se nececita dibujar un","Poligono") );
+				 return; 
+		     }
+		    
+		   }
+			
+			lNumeroFta = mrqsPreguntasFtaLocal.insert(mrqsPreguntasFtaV1ForAction); 
+			
 			
 			for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
 				MrqsOpcionMultipleDto mrqsOpcionMultipleDto = new MrqsOpcionMultipleDto();
@@ -487,25 +474,20 @@ public class UpdateFTAMrqForm {
 			}
 			
 		}else {
-		  /** ACTUALIZA **/
-			mrqsPreguntasHdrDto.setNumero(this.numeroHdr);
-			mrqsPreguntasFtaDto.setMrqsPreguntasHdr2(mrqsPreguntasHdrDto);
-			mrqsPreguntasFtaDto.setTitulo(this.tituloPregunta);
-			mrqsPreguntasFtaDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
-			mrqsPreguntasFtaDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
-			System.out.println("this.metodoPuntuacion:"+this.metodoPuntuacion);
-			mrqsPreguntasFtaDto.setMetodoPuntuacion(this.getMetodoPuntuacion());
-			if(Utilitarios.OPCION_MULTIPLE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
-			  mrqsPreguntasFtaDto.setRespuestaCorrecta("OPCION_MULTIPLE"); 	
-			}else {
-			mrqsPreguntasFtaDto.setRespuestaCorrecta(this.respuestaCorrecta);
+		 
+			if(Utilitarios.IMAGEN_INDICADA.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
+			if(null==mrqsPreguntasFtaV1ForAction.getNombreImagen()||"".equals(mrqsPreguntasFtaV1ForAction.getNombreImagen())) {
+		    	FacesContext context = FacesContext.getCurrentInstance();
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se nececita una","imagen") );
+				return; 
+		     }else if(null==mrqsPreguntasFtaV1ForAction.getPoligonos()||"".equals(mrqsPreguntasFtaV1ForAction.getPoligonos())) {
+		    	 FacesContext context = FacesContext.getCurrentInstance();
+				 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se nececita dibujar un","Poligono") );
+				 return; 
+		     }
 			}
-			mrqsPreguntasFtaDto.setTextoPregunta(this.textoPregunta);
-			mrqsPreguntasFtaDto.setValorPuntuacion(this.valorPuntuacion);
-			mrqsPreguntasFtaDto.setTextoSugerencias(this.textoSugerencias);
-			mrqsPreguntasFtaDto.setSingleAnswerMode(this.isSingleAnswerMode());
-			mrqsPreguntasFtaDto.setSuffleAnswerOrder(this.isSuffleAnswerOrder());
-			mrqsPreguntasFtaLocal.update(lNumeroFta, mrqsPreguntasFtaDto);
+			
+			mrqsPreguntasFtaLocal.update(lNumeroFta, mrqsPreguntasFtaV1ForAction); 
 			
 			for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
 				MrqsOpcionMultipleDto mrqsOpcionMultipleDto = new MrqsOpcionMultipleDto();
@@ -862,6 +844,17 @@ public class UpdateFTAMrqForm {
     }
     **********************************************/
 	
+	public void handleFileUpload(FileUploadEvent event) {
+		UploadedFile uploadedFile = event.getFile();
+		mrqsPreguntasFtaV1ForAction.setNombreImagen(uploadedFile.getFileName());
+		mrqsPreguntasFtaV1ForAction.setContentType(uploadedFile.getContentType());
+		mrqsPreguntasFtaV1ForAction.setImagenContent(uploadedFile.getContent());
+		mrqsPreguntasFtaV1ForAction.setImagenBase64(new String(Base64.getEncoder().encode(uploadedFile.getContent())));
+		
+        FacesMessage msg = new FacesMessage("El archivo", event.getFile().getFileName() + " ha sido subido.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+	 
 	
 	public MrqsPreguntasHdrV1 getMrqsPreguntasHdrV1ForAction() {
 		return mrqsPreguntasHdrV1ForAction;
@@ -879,53 +872,6 @@ public class UpdateFTAMrqForm {
 		this.numeroHdr = numeroHdr;
 	}
 
-	public String getTituloPregunta() {
-		return tituloPregunta;
-	}
-
-	public void setTituloPregunta(String tituloPregunta) {
-		this.tituloPregunta = tituloPregunta;
-	}
-
-	public String getMetodoPuntuacion() {
-		return metodoPuntuacion;
-	}
-
-	public void setMetodoPuntuacion(String metodoPuntuacion) {
-		this.metodoPuntuacion = metodoPuntuacion;
-	}
-
-	public String getRespuestaCorrecta() {
-		return respuestaCorrecta;
-	}
-
-	public void setRespuestaCorrecta(String respuestaCorrecta) {
-		this.respuestaCorrecta = respuestaCorrecta;
-	}
-
-	public String getTextoPregunta() {
-		return textoPregunta;
-	}
-
-	public void setTextoPregunta(String textoPregunta) {
-		this.textoPregunta = textoPregunta;
-	}
-
-	public String getValorPuntuacion() {
-		return valorPuntuacion;
-	}
-
-	public void setValorPuntuacion(String valorPuntuacion) {
-		this.valorPuntuacion = valorPuntuacion;
-	}
-
-	public String getTextoSugerencias() {
-		return textoSugerencias;
-	}
-
-	public void setTextoSugerencias(String textoSugerencias) {
-		this.textoSugerencias = textoSugerencias;
-	}
 
 	public boolean isMultipleChoice() {
 		return multipleChoice;
@@ -1003,21 +949,6 @@ public class UpdateFTAMrqForm {
 		this.numeroFta = numeroFta;
 	}
 
-	public boolean isSingleAnswerMode() {
-		return singleAnswerMode;
-	}
-
-	public void setSingleAnswerMode(boolean singleAnswerMode) {
-		this.singleAnswerMode = singleAnswerMode;
-	}
-
-	public boolean isSuffleAnswerOrder() {
-		return suffleAnswerOrder;
-	}
-
-	public void setSuffleAnswerOrder(boolean suffleAnswerOrder) {
-		this.suffleAnswerOrder = suffleAnswerOrder;
-	}
 
 	public MrqsOpcionMultiple getMrqsOpcionMultipleForAction() {
 		return mrqsOpcionMultipleForAction;
@@ -1165,4 +1096,19 @@ public class UpdateFTAMrqForm {
 		this.selectSubMaterias = selectSubMaterias;
 	}
 
+	public MrqsPreguntasFtaV1 getMrqsPreguntasFtaV1ForAction() {
+		return mrqsPreguntasFtaV1ForAction;
+	}
+
+	public void setMrqsPreguntasFtaV1ForAction(MrqsPreguntasFtaV1 mrqsPreguntasFtaV1ForAction) {
+		this.mrqsPreguntasFtaV1ForAction = mrqsPreguntasFtaV1ForAction;
+	}
+
+	public UserLogin getUserLogin() {
+		return userLogin;
+	}
+	public void setUserLogin(UserLogin userLogin) {
+		this.userLogin = userLogin;
+	}
+	
 }

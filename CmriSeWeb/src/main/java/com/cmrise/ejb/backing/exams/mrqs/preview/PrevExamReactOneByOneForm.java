@@ -16,6 +16,7 @@ import com.cmrise.ejb.helpers.UserLogin;
 import com.cmrise.ejb.model.exams.MrqsExamenes;
 import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
 import com.cmrise.ejb.model.exams.MrqsGrupoLines;
+import com.cmrise.ejb.model.exams.Reactivo;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasFtaV1;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.ejb.services.exams.MrqsExamenesLocal;
@@ -57,10 +58,6 @@ private MrqsExamenes mrqsExamen = new MrqsExamenes();
 	/*******************************************************************/
 	private List<MrqsGrupoHdr> listMrqsGrupoHdr = new ArrayList<MrqsGrupoHdr>(); 
 	private MrqsGrupoHdr mrqsGrupoHdrForRead = new MrqsGrupoHdr(); 
-	private int idxMrqsGrupo = 0; 
-	private int listMrqsGrupoHdrSize = 0; 
-	private int idxMrqsGrupoLines = 0; 
-	private int listMrqsGrupoLinesSize = 0; 
 	private boolean flag1 = true; 
 	private boolean flag2 = true; 
 	private boolean flag3 = true; 
@@ -68,6 +65,11 @@ private MrqsExamenes mrqsExamen = new MrqsExamenes();
 	private MrqsGrupoLines mrqsGrupoLinesForRead = new MrqsGrupoLines(); 
 	private MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForRead = new MrqsPreguntasHdrV1(); 
 	/*******************************************************************/
+
+	private List<Reactivo> reactivos = new ArrayList<Reactivo>(); 
+	private int idxReactivos = 0; 
+	private int reactivosSize = 0;
+	private Reactivo reactivoForRead = new Reactivo(); 
 	
 	@PostConstruct
 	public void init() {
@@ -86,27 +88,40 @@ private MrqsExamenes mrqsExamen = new MrqsExamenes();
 	     
 	     if(null!=mrqsExamen) {
 	       if(mrqsExamen.getNumero()!=0) {
+	    	   
+	    	   
 	    	   listMrqsGrupoHdr = mrqsExamen.getListMrqsGrupoHdr(); 
-	    	   for(MrqsGrupoHdr i:listMrqsGrupoHdr) {
-	    		   idxMrqsGrupo = listMrqsGrupoHdr.indexOf(i); 
-	    		   listMrqsGrupoHdrSize = listMrqsGrupoHdr.size()-1; 
-	    		   mrqsGrupoHdrForRead = i; 
-	    		   
-	    		   if(mrqsGrupoHdrForRead.getNumero()!=0) {
-	    				listMrqsGrupoLinesForRead = mrqsGrupoHdrForRead.getListMrqsGrupoLines();
-	    				for(MrqsGrupoLines j:listMrqsGrupoLinesForRead) {
-	    					mrqsGrupoLinesForRead = j; 
-	    					mrqsPreguntasHdrV1ForRead = mrqsGrupoLinesForRead.getMrqsPreguntasHdrV1();
-	    					idxMrqsGrupoLines = listMrqsGrupoLinesForRead.indexOf(j); 
-	    					listMrqsGrupoLinesSize = listMrqsGrupoLinesForRead.size()-1; 
-	    					flag2 = false; 
-	    					break; 
-	    				}
-	    			}
-	    		   break; 
+	    	   reactivos = new ArrayList<Reactivo>(); 
+	    	   
+	    	   reactivoForRead = new Reactivo(); 
+	    	   reactivoForRead.setNumero(1);
+	    	   reactivoForRead.setMateriaIdx(0);
+	    	   reactivoForRead.setPreguntaIdx(0);
+	    	   
+	    	  int contador = 0; 
+		      for(MrqsGrupoHdr i:listMrqsGrupoHdr) {
+	    		   listMrqsGrupoLinesForRead = i.getListMrqsGrupoLines();
+   				   for(MrqsGrupoLines j:listMrqsGrupoLinesForRead) {
+	    			   contador = contador+1; 
+	    			   Reactivo reactivo = new Reactivo(); 
+	    			   reactivo.setNumero(contador);
+	    			   reactivo.setMateriaIdx(listMrqsGrupoHdr.indexOf(i));
+	    			   reactivo.setPreguntaIdx(listMrqsGrupoLinesForRead.indexOf(j));
+	    			   reactivos.add(reactivo); 
+	    			   if(0==listMrqsGrupoHdr.indexOf(i)
+	    				&&0==listMrqsGrupoLinesForRead.indexOf(j)) {
+	    				   mrqsGrupoHdrForRead = i; 
+	    				   mrqsGrupoLinesForRead = j;  
+	    				   mrqsPreguntasHdrV1ForRead = mrqsGrupoLinesForRead.getMrqsPreguntasHdrV1();
+	    				   flag2 = false; 
+	    			   }
+	    		   }
 	    	   }
-	       }
-	     }
+	    	  
+		     
+		      
+	    	}
+	     } /** END if(null!=mrqsExamen) { **/
 	}
 
 	public String backExamenesReactivos() {
@@ -114,57 +129,42 @@ private MrqsExamenes mrqsExamen = new MrqsExamenes();
 	}
 	
 	public void regresar() {
-		System.out.println("idxMrqsGrupo:"+idxMrqsGrupo);
-		System.out.println("listMrqsGrupoHdrSize:"+listMrqsGrupoHdrSize);
-		
-		if(idxMrqsGrupoLines>0) {
-			idxMrqsGrupoLines = idxMrqsGrupoLines-1; 
-			mrqsGrupoLinesForRead = listMrqsGrupoLinesForRead.get(idxMrqsGrupoLines); 
-			mrqsPreguntasHdrV1ForRead = mrqsGrupoLinesForRead.getMrqsPreguntasHdrV1();
-			flag2 = false; 
-			if(idxMrqsGrupoLines==0) {
-				flag1= true; 
-			}
-		}else {
-			flag1= true; 
+		idxReactivos = idxReactivos-1;
+		reactivosSize = reactivos.size()-1;
+		if(idxReactivos<0) {
+		    flag1 = true; 
+			return;
+		}else if(0==idxReactivos) {
+			flag1 = true; 
 		}
-		
-		if(idxMrqsGrupo>0) {
-			idxMrqsGrupo = idxMrqsGrupo-1; 
-			mrqsGrupoHdrForRead = listMrqsGrupoHdr.get(idxMrqsGrupo);
-			flag2 = false; 
-		}else {
-			flag1= true; 
-		}
-		System.out.println("idxMrqsGrupo:"+idxMrqsGrupo);
+		flag2 = false; 
+		reactivoForRead = reactivos.get(idxReactivos); 
+		mrqsGrupoHdrForRead = listMrqsGrupoHdr.get(reactivoForRead.getMateriaIdx()); 
+		mrqsGrupoLinesForRead = mrqsGrupoHdrForRead.getListMrqsGrupoLines().get(reactivoForRead.getPreguntaIdx());  
+		mrqsPreguntasHdrV1ForRead = mrqsGrupoLinesForRead.getMrqsPreguntasHdrV1();
+	
 	}
 	
 	public void continuar() {
-		System.out.println("idxMrqsGrupo:"+idxMrqsGrupo);
-		System.out.println("listMrqsGrupoHdrSize:"+listMrqsGrupoHdrSize);
 		
-		if(idxMrqsGrupoLines<listMrqsGrupoLinesSize) {
-			idxMrqsGrupoLines = idxMrqsGrupoLines+1; 
-			mrqsGrupoLinesForRead = listMrqsGrupoLinesForRead.get(idxMrqsGrupoLines); 
-			mrqsPreguntasHdrV1ForRead = mrqsGrupoLinesForRead.getMrqsPreguntasHdrV1();
-			if(idxMrqsGrupoLines==listMrqsGrupoLinesSize) {
-				flag1= false; 
-			}
-			flag1= false; 
-		}else {
+		idxReactivos = idxReactivos+1; 
+		System.out.println("idxReactivos:"+idxReactivos);
+		reactivosSize = reactivos.size()-1;
+		if(idxReactivos>reactivosSize) {
+			flag2 = true; 
+			return; 
+		}else if(idxReactivos==reactivosSize) {
 			flag2 = true; 
 		}
-		/*
-		if(idxMrqsGrupo<listMrqsGrupoHdrSize) {
-			idxMrqsGrupo = idxMrqsGrupo+1;
-			mrqsGrupoHdrForRead = listMrqsGrupoHdr.get(idxMrqsGrupo);
-			flag1= false; 
-		}else {
-			flag2 = true; 
-		}
-		*/
-		System.out.println("idxMrqsGrupo:"+idxMrqsGrupo);
+		flag1 = false; 
+		reactivoForRead = reactivos.get(idxReactivos); 
+		mrqsGrupoHdrForRead = listMrqsGrupoHdr.get(reactivoForRead.getMateriaIdx()); 
+		mrqsGrupoLinesForRead = mrqsGrupoHdrForRead.getListMrqsGrupoLines().get(reactivoForRead.getPreguntaIdx());  
+		mrqsPreguntasHdrV1ForRead = mrqsGrupoLinesForRead.getMrqsPreguntasHdrV1();
+		
+	
 	}
+	
 	
 	public void finalizarExamen() {
 		
@@ -256,5 +256,15 @@ private MrqsExamenes mrqsExamen = new MrqsExamenes();
 	public void setMrqsPreguntasHdrV1ForRead(MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForRead) {
 		this.mrqsPreguntasHdrV1ForRead = mrqsPreguntasHdrV1ForRead;
 	}
+
+	public Reactivo getReactivoForRead() {
+		return reactivoForRead;
+	}
+
+	public void setReactivoForRead(Reactivo reactivoForRead) {
+		this.reactivoForRead = reactivoForRead;
+	}
+
+	
 
 }

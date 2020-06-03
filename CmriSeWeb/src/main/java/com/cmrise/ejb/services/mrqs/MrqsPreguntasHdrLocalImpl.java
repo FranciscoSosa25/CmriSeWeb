@@ -194,4 +194,21 @@ public class MrqsPreguntasHdrLocalImpl implements MrqsPreguntasHdrLocal {
 		return retval;
 	}
 
+	@Override
+	public MrqsPreguntasHdrV1 findV1ByNumero(long pNumeroHdr) {
+		MrqsPreguntasHdrV1 retval = new MrqsPreguntasHdrV1(); 
+		MrqsPreguntasHdrV1Dto mrqsPreguntasHdrV1Dto = mrqsPreguntasHdrDao.findByNumero(pNumeroHdr);
+		 retval.setNumero(mrqsPreguntasHdrV1Dto.getNumero());
+		 retval.setEstatus(mrqsPreguntasHdrV1Dto.getEstatus());
+		 retval.setAdmonExamen(mrqsPreguntasHdrV1Dto.getAdmonExamen());
+		 retval.setAdmonMateria(mrqsPreguntasHdrV1Dto.getAdmonMateria());
+		 retval.setAdmonSubmateria(mrqsPreguntasHdrV1Dto.getAdmonSubmateria());
+		 retval.setTipoPregunta(mrqsPreguntasHdrV1Dto.getTipoPregunta());
+		 retval.setDiagnostico(mrqsPreguntasHdrV1Dto.getDiagnostico());
+		 retval.setNotas(mrqsPreguntasHdrV1Dto.getNotas());
+		 retval.setFechaElaboracion(Utilitarios.sqlDateToUtilDate(mrqsPreguntasHdrV1Dto.getFechaElaboracion()));
+		 retval.setBibliografia(mrqsPreguntasHdrV1Dto.getBibliografia());
+		return retval;
+	}
+
 }

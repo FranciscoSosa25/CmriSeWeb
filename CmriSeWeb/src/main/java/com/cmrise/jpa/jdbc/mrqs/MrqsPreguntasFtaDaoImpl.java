@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import com.cmrise.jpa.dao.mrqs.MrqsPreguntasFtaDao;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaV1Dto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.utils.Utilitarios;
 
@@ -23,13 +24,8 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 	public long insert(MrqsPreguntasFtaDto pMrqsPreguntasFtaDto) {
 		Query q = em.createNativeQuery("SELECT NEXT VALUE FOR dbo.MRQS_PREGUNTAS_FTA_S");
 		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
+		pMrqsPreguntasFtaDto.setRutaImagen(pMrqsPreguntasFtaDto.getRutaImagen()+"\\"+lNumeroS);
 		pMrqsPreguntasFtaDto.setNumero(lNumeroS.longValue());
-		java.util.Date sysdate = new java.util.Date();
-		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
-		pMrqsPreguntasFtaDto.setCreadoPor((long)-1);
-		pMrqsPreguntasFtaDto.setActualizadoPor((long)-1);
-		pMrqsPreguntasFtaDto.setFechaCreacion(sqlsysdate);
-		pMrqsPreguntasFtaDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pMrqsPreguntasFtaDto);
 		return lNumeroS.longValue();
 	}
@@ -43,7 +39,6 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 	@Override
 	public void update(long pNumero, MrqsPreguntasFtaDto pMrqsPreguntasFtaDto) {
 		MrqsPreguntasFtaDto mrqsPreguntasFtaDto = em.find(MrqsPreguntasFtaDto.class, pNumero);
-		mrqsPreguntasFtaDto.setMrqsPreguntasHdr2(pMrqsPreguntasFtaDto.getMrqsPreguntasHdr2());
 		mrqsPreguntasFtaDto.setTitulo(pMrqsPreguntasFtaDto.getTitulo());
 		mrqsPreguntasFtaDto.setMetodoPuntuacion(pMrqsPreguntasFtaDto.getMetodoPuntuacion());
 		mrqsPreguntasFtaDto.setRespuestaCorrecta(pMrqsPreguntasFtaDto.getRespuestaCorrecta());
@@ -54,6 +49,9 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 		mrqsPreguntasFtaDto.setSuffleAnswerOrder(pMrqsPreguntasFtaDto.isSuffleAnswerOrder());
 		mrqsPreguntasFtaDto.setMetodoPuntuacion(pMrqsPreguntasFtaDto.getMetodoPuntuacion());
 		mrqsPreguntasFtaDto.setValorPuntuacion(pMrqsPreguntasFtaDto.getValorPuntuacion());
+		mrqsPreguntasFtaDto.setNombreImagen(pMrqsPreguntasFtaDto.getNombreImagen());
+		mrqsPreguntasFtaDto.setContentType(pMrqsPreguntasFtaDto.getContentType());
+		mrqsPreguntasFtaDto.setPoligonos(pMrqsPreguntasFtaDto.getPoligonos());
 	}
 
 	@Override
@@ -95,7 +93,6 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 		mrqsPreguntasFtaDto.setFechaCreacion(sqlsysdate);
 		mrqsPreguntasFtaDto.setFechaActualizacion(sqlsysdate);
 		
-		mrqsPreguntasFtaDto.setMrqsPreguntasHdr2(pMrqsPreguntasHdrDto);
 		mrqsPreguntasFtaDto.setTitulo(copy.getTitulo());
 		mrqsPreguntasFtaDto.setTextoPregunta(copy.getTextoPregunta());
 		mrqsPreguntasFtaDto.setTextoSugerencias(copy.getTextoSugerencias());
@@ -124,6 +121,20 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 		    }
 		}
 	    return retval; 
+	}
+
+	@Override
+	public MrqsPreguntasFtaV1Dto findV1DtoByNumeroHdr(long pNumeroHdr) {
+		String strQuery = "SELECT m FROM MrqsPreguntasFtaV1Dto m WHERE m.numeroHdr="+pNumeroHdr; 
+		Query query = em.createQuery(strQuery); 
+		return (MrqsPreguntasFtaV1Dto)query.getSingleResult();
+	}
+
+	@Override
+	public MrqsPreguntasFtaV1Dto findV1DtoByNumeroFta(long pNumeroFta) {
+		String strQuery = "SELECT m FROM MrqsPreguntasFtaV1Dto m WHERE m.numero="+pNumeroFta; 
+		Query query = em.createQuery(strQuery); 
+		return (MrqsPreguntasFtaV1Dto)query.getSingleResult();
 	}
 
 }
