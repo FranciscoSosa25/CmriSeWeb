@@ -50,17 +50,12 @@ public class MrqsImagenesGrpLocalImpl implements MrqsImagenesGrpLocal {
 		long numeroImagenesGrp = insert(mrqsImagenesGrpDto);
 		for(MrqsImagenes mrqsImagenes:pMrqsImagenesGrp.getListMrqsImagenes()) {
 			mrqsImagenes.setRutaImagen(Utilitarios.FS_MRQS+"\\"+pNumetoFta+"\\"+numeroImagenesGrp);
-			System.out.println("V1 mrqsImagenes.getRutaImagen():"+mrqsImagenes.getRutaImagen());
 			long numeroMrqImagen = mrqsImagenesDao.insert(numeroImagenesGrp,mrqsImagenes); 
 			pMrqsImagenesGrp.setNumero(numeroMrqImagen);
-			System.out.println("V2 mrqsImagenes.getRutaImagen():"+mrqsImagenes.getRutaImagen());
-			System.out.println("*");
 			File directory =new File(mrqsImagenes.getRutaImagen()); 
 			directory.mkdirs(); 
 			File destination = new File(mrqsImagenes.getRutaImagen()+"\\"+mrqsImagenes.getNombreImagen()); 
-		    System.out.println("**");
-		    System.out.println("mrqsImagenes.getImagenContent():"+mrqsImagenes.getImagenContent());
-		   
+		    
 		    try {
 				copy(mrqsImagenes.getImagenContent(),destination);
 			} catch (IOException ie) {

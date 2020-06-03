@@ -2,6 +2,7 @@ package com.cmrise.ejb.model.mrqs;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
@@ -20,6 +21,19 @@ public class MrqsPreguntasFtaV1 implements Serializable {
 	private String respuestaCorrecta;
 	private boolean singleAnswerMode; 
 	private boolean suffleAnswerOrder; 
+	private String textoSugerenciasDesc; 
+	private String nombreImagen; 
+	private String rutaImagen; 
+	private String contentType; 
+	private String poligonos; 
+	private byte[] imagenContent; 
+	private String imagenBase64; 
+	private long actualizadoPor;
+	private long creadoPor;
+	private Date fechaActualizacion;
+	private Date fechaCreacion;
+	private int height; 
+	private int width; 
 	
 	private List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
 	private List<MrqsImagenesGrp> listMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
@@ -96,6 +110,84 @@ public class MrqsPreguntasFtaV1 implements Serializable {
 	}
 	public void setListMrqsImagenesGrp(List<MrqsImagenesGrp> listMrqsImagenesGrp) {
 		this.listMrqsImagenesGrp = listMrqsImagenesGrp;
+	}
+	public String getTextoSugerenciasDesc() {
+		return textoSugerenciasDesc;
+	}
+	public void setTextoSugerenciasDesc(String textoSugerenciasDesc) {
+		this.textoSugerenciasDesc = textoSugerenciasDesc;
+	}
+	public String getNombreImagen() {
+		return nombreImagen;
+	}
+	public void setNombreImagen(String nombreImagen) {
+		this.nombreImagen = nombreImagen;
+	}
+	public String getRutaImagen() {
+		return rutaImagen;
+	}
+	public void setRutaImagen(String rutaImagen) {
+		this.rutaImagen = rutaImagen;
+	}
+	public String getContentType() {
+		return contentType;
+	}
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
+	public String getPoligonos() {
+		return poligonos;
+	}
+	public void setPoligonos(String poligonos) {
+		this.poligonos = poligonos;
+	}
+	public byte[] getImagenContent() {
+		return imagenContent;
+	}
+	public void setImagenContent(byte[] imagenContent) {
+		this.imagenContent = imagenContent;
+	}
+	public long getActualizadoPor() {
+		return actualizadoPor;
+	}
+	public void setActualizadoPor(long actualizadoPor) {
+		this.actualizadoPor = actualizadoPor;
+	}
+	public long getCreadoPor() {
+		return creadoPor;
+	}
+	public void setCreadoPor(long creadoPor) {
+		this.creadoPor = creadoPor;
+	}
+	public Date getFechaActualizacion() {
+		return fechaActualizacion;
+	}
+	public void setFechaActualizacion(Date fechaActualizacion) {
+		this.fechaActualizacion = fechaActualizacion;
+	}
+	public Date getFechaCreacion() {
+		return fechaCreacion;
+	}
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+	public String getImagenBase64() {
+		return imagenBase64;
+	}
+	public void setImagenBase64(String imagenBase64) {
+		this.imagenBase64 = imagenBase64;
+	}
+	public int getHeight() {
+		return height;
+	}
+	public void setHeight(int height) {
+		this.height = height;
+	}
+	public int getWidth() {
+		return width;
+	}
+	public void setWidth(int width) {
+		this.width = width;
 	} 
 	
 

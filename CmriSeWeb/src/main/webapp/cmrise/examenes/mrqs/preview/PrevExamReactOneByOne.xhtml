@@ -13,18 +13,72 @@
             <meta name="apple-mobile-web-app-capable" content="yes" />
         </f:facet>
         <style type="text/css">
+		 	header,footer {
+			               font-size: 20px;
+			               color:#fff;
+			               background-color:hsl(210, 89%, 17%);
+			               font-weight:bold; 
+			               padding:8px 15px 8px 15px; 
+			               border-radius:5px; 
+			              }
+			header,footer,main{
+			  margin: 10px 10px 10px 10px; 
+			}
+			h1{
+			 background-color:hsl(210, 99%, 27%);
+			 margin: 3px;
+			 border-radius:5px;  
+			 padding:0px 0px 0px 8px; 
+			}
+			h2{
+			  color:black;
+			  font-weight:bold; 
+			}
+			
+			legend{
+			  font-size: 20px;
+			  font-weight:bold; 
+			  color:black;
+			}
+			
+		  
+		  .ui-button{
+		     margin:15px 30px 15px 30px; 
+		    }
+		    
+		    .ui-button-text{
+		     font-size: 25px;
+		    }
+		  
+		   body {
+            background-color: #D9E0E7; 
+           } 
+
+            label {
+			  font-weight:bold; 
+			}
 		
+		   	
+
 	    </style>
       </h:head>
 <body>
-
 <header>
- <div>Candidato: #{userLogin.nombreCompletoUsuario} Curp:#{userLogin.curp}</div>
- <div>#{prevExamReactOneByOneForm.mrqsExamen.admonExamenDesc}</div>
+ <div>
+ <h:outputText value="Candidato: #{userLogin.nombreCompletoUsuario}" style="position: relative; left:0px;"/>
+ <h:outputText value="Curp: #{userLogin.curp}" style="position: relative; left:300px;" />
+ </div>
+ <h1>#{prevExamReactOneByOneForm.mrqsExamen.admonExamenDesc}</h1>
 </header>
+<main>
 <h:form id="prevExamenForm">
+<article>
+<h2>Reactivo: #{prevExamReactOneByOneForm.reactivoForRead.numero}</h2>
+</article>
 <div>
+<h2>
  #{prevExamReactOneByOneForm.mrqsGrupoHdrForRead.admonMateriaDesc}
+ </h2>
   <ui:repeat var="imagenesGrupo" value="#{prevExamReactOneByOneForm.mrqsPreguntasHdrV1ForRead.mrqsPreguntasFtaV1.listMrqsImagenesGrp}" varStatus="status">
     <div>
      <h3>#{imagenesGrupo.tituloSuperior}</h3>
@@ -44,17 +98,48 @@
   </ui:repeat>
 </div>
 <div>
-   <p:commandButton icon="fa fa-backward" value="Anterior" actionListener="#{prevExamReactOneByOneForm.regresar()}" update="prevExamenForm" disabled="#{prevExamReactOneByOneForm.flag1}" />
-   <p:commandButton icon="fa fa-forward" value="Siguiente" actionListener="#{prevExamReactOneByOneForm.continuar()}" update="prevExamenForm" disabled="#{prevExamReactOneByOneForm.flag2}"/>
-   <p:commandButton value="Finalizar Examen" actionListener="#{prevExamReactOneByOneForm.finalizarExamen()}" update="prevExamenForm" disabled="#{prevExamReactOneByOneForm.flag3}"/>
+<section>
+ <h2>#{prevExamReactOneByOneForm.mrqsPreguntasHdrV1ForRead.mrqsPreguntasFtaV1.textoPregunta}</h2>
+ <fieldset>
+  <legend>#{prevExamReactOneByOneForm.mrqsPreguntasHdrV1ForRead.mrqsPreguntasFtaV1.textoSugerenciasDesc}</legend>
+  
+  <h:panelGroup rendered="#{prevExamReactOneByOneForm.mrqsPreguntasHdrV1ForRead.opcionMultiple}">
+  
+    <h:panelGroup layout="block" rendered="#{prevExamReactOneByOneForm.mrqsPreguntasHdrV1ForRead.mrqsPreguntasFtaV1.singleAnswerMode}">
+     <div class="ui-g-12 ui-md-12" >
+      <p:selectOneRadio  layout="grid" columns="1" required="true"  >
+      <f:selectItems value="#{prevExamReactOneByOneForm.mrqsPreguntasHdrV1ForRead.mrqsPreguntasFtaV1.listMrqsOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
+      </p:selectOneRadio>
+      </div>
+    </h:panelGroup>  
+	            
+    <h:panelGroup layout="block" rendered="#{not prevExamReactOneByOneForm.mrqsPreguntasHdrV1ForRead.mrqsPreguntasFtaV1.singleAnswerMode}">
+     <div class="ui-g-12 ui-md-12" >
+     <p:selectManyCheckbox   layout="grid" columns="1" required="true"  >
+	  <f:selectItems value="#{prevExamReactOneByOneForm.mrqsPreguntasHdrV1ForRead.mrqsPreguntasFtaV1.listMrqsOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
+	  </p:selectManyCheckbox>
+      </div>
+   </h:panelGroup>  
+                        
+  </h:panelGroup>
+  
+</fieldset>
+</section>
+
+   <p:commandButton styleClass="black-btn" icon="fa fa-long-arrow-left" value="Salir del Examen" immediate="true" action="#{prevExamReactOneByOneForm.backExamenesReactivos()}"   />
+   <p:commandButton styleClass="black-btn" icon="fa fa-backward" value="Anterior" immediate="true" actionListener="#{prevExamReactOneByOneForm.regresar()}" update="prevExamenForm" disabled="#{prevExamReactOneByOneForm.flag1}" />
+   <p:commandButton styleClass="black-btn" icon="fa fa-forward" value="Siguiente" immediate="true" actionListener="#{prevExamReactOneByOneForm.continuar()}" update="prevExamenForm" disabled="#{prevExamReactOneByOneForm.flag2}"/>
+   <p:commandButton styleClass="black-btn" icon="fa fa-save" value="Finalizar Examen" actionListener="#{prevExamReactOneByOneForm.finalizarExamen()}" update="prevExamenForm" disabled="#{prevExamReactOneByOneForm.flag3}"/>
 </div>
 </h:form>
+</main>
 <footer>
-  <div>
-   Consejo Mexicano de Radiología e Imagen A.C. <h:outputText value="#{prevExamReactOneByOneForm.fechaActual}">
-											       <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-											      </h:outputText>
-  </div>
+   <h:outputText value="Consejo Mexicano de Radiología e Imagen A.C." />
+   <h:outputText value="#{prevExamReactOneByOneForm.fechaActual}" style="position: relative; left:150px;" >
+	 <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+   </h:outputText>  
+   <h:outputText value="&amp;copy; Todos los Derechos Reservados Año 2020" escape="false" style="position: relative; left:400px;"  /> 
+
 </footer>
 
 </body>

@@ -1,6 +1,8 @@
 package com.cmrise.jpa.dao.mrqs;
 
+
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaV1Dto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 
 public interface MrqsPreguntasFtaDao {
@@ -13,5 +15,7 @@ public interface MrqsPreguntasFtaDao {
 	public MrqsPreguntasFtaDto findDtoByNumeroFta(long pNumeroFta);
 	public long copyPaste(long pNumero,MrqsPreguntasHdrDto pMrqsPreguntasHdrDto);
 	/** could not resolve property: numeroHdr of: com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto **/
-	public MrqsPreguntasFtaDto findDtoByNumeroHdr(long pNumeroHdr); 
+	public MrqsPreguntasFtaDto findDtoByNumeroHdr(long pNumeroHdr);
+	public MrqsPreguntasFtaV1Dto findV1DtoByNumeroHdr(long pNumeroHdr);
+	public MrqsPreguntasFtaV1Dto findV1DtoByNumeroFta(long pNumeroFta); 
 }

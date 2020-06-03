@@ -13,8 +13,11 @@ import javax.servlet.http.HttpSession;
 
 import com.cmrise.ejb.helpers.GuestPreferences;
 import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
+import com.cmrise.ejb.model.mrqs.MrqsPreguntasFtaV1;
+import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
+import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
 import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
@@ -31,6 +34,7 @@ public class MrqPreviewForm {
 	private boolean limitedFreeTextAnswer;
 	private boolean indicateImage;
 	private boolean annotatedImage;
+	private String tipoPregunta; 
 	private String tituloPregunta; 
 	private String textoPregunta; 
 	private String textoSugerencias; 
@@ -61,9 +65,14 @@ public class MrqPreviewForm {
 	
 	private List<MrqsImagenesGrp> listPresentMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
 	
+	private MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForRead = new MrqsPreguntasHdrV1();
+	private MrqsPreguntasFtaV1 mrqsPreguntasFtaV1ForRead = new MrqsPreguntasFtaV1(); 
 	
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal; 
+	
+	@Inject
+	MrqsPreguntasFtaLocal mrqsPreguntasFtaLocal;
 	
 	@Inject 
 	MrqsOpcionMultipleLocal mrqsOpcionMultipleLocal; 
@@ -82,7 +91,9 @@ public class MrqPreviewForm {
 	     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 	     Object objMrqNumeroHdr = session.getAttribute("mrqNumeroHdrSV");
 	     this.setNumeroHdr(Utilitarios.objToLong(objMrqNumeroHdr)); 
+	    
 	     MrqsPreguntasHdrV2Dto  mrqsPreguntasHdrV2Dto = mrqsPreguntasHdrLocal.findV2ByNumeroHdr(this.getNumeroHdr()); 
+	     this.setTipoPregunta(mrqsPreguntasHdrV2Dto.getTipoPregunta());
 	     this.setNumetoFta(mrqsPreguntasHdrV2Dto.getNumeroMpf());
 	     this.setTituloPregunta(mrqsPreguntasHdrV2Dto.getTituloPregunta());
 	     this.setTextoPregunta(mrqsPreguntasHdrV2Dto.getTextoPregunta());
@@ -102,6 +113,10 @@ public class MrqPreviewForm {
 	        this.setIndicateImage(true);	 
 	     }
 	     this.setQuestionView(true);
+	     
+	     mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(mrqsPreguntasHdrV2Dto.getNumeroMpf()
+																	             ,mrqsPreguntasHdrV2Dto.getTipoPregunta()
+																	             );
 	     
 	     listPresentMrqsImagenesGrp =  mrqsImagenesGrpLocal.findByFta(mrqsPreguntasHdrV2Dto.getNumeroMpf(),Utilitarios.INTRODUCCION);
          
@@ -446,6 +461,30 @@ public class MrqPreviewForm {
 
 	public void setListPresentMrqsImagenesGrp(List<MrqsImagenesGrp> listPresentMrqsImagenesGrp) {
 		this.listPresentMrqsImagenesGrp = listPresentMrqsImagenesGrp;
+	}
+
+	public MrqsPreguntasHdrV1 getMrqsPreguntasHdrV1ForRead() {
+		return mrqsPreguntasHdrV1ForRead;
+	}
+
+	public void setMrqsPreguntasHdrV1ForRead(MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForRead) {
+		this.mrqsPreguntasHdrV1ForRead = mrqsPreguntasHdrV1ForRead;
+	}
+
+	public MrqsPreguntasFtaV1 getMrqsPreguntasFtaV1ForRead() {
+		return mrqsPreguntasFtaV1ForRead;
+	}
+
+	public void setMrqsPreguntasFtaV1ForRead(MrqsPreguntasFtaV1 mrqsPreguntasFtaV1ForRead) {
+		this.mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaV1ForRead;
+	}
+
+	public String getTipoPregunta() {
+		return tipoPregunta;
+	}
+
+	public void setTipoPregunta(String tipoPregunta) {
+		this.tipoPregunta = tipoPregunta;
 	}
 	
 	

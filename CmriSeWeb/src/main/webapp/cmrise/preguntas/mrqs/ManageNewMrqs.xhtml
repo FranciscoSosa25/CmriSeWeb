@@ -75,7 +75,13 @@ function handleDuplicateRequest(xhr, status, args){
         </f:facet>
        <h:outputText value="#{preguntasHdrV1.admonSubmateriaDesc}" />
     </p:column>
-    <p:column headerText="Tipo Reactivo">
+    <p:column filterBy="#{preguntasHdrV1.tipoPregunta}" headerText="Tipo Reactivo">
+       <f:facet name="filter">
+         <p:selectOneMenu onchange="PF('preguntasHdrV1WV').filter()" >
+          <f:selectItem itemLabel="Seleccione un tipo de Reactivo" itemValue="" />
+          <f:selectItems value="#{selectsHelper.selectTipoPreguntaItems}" />
+         </p:selectOneMenu>
+       </f:facet>
        <h:outputText value="#{preguntasHdrV1.tipoPreguntaDesc}" />
     </p:column>
     <p:column headerText="Estatus">

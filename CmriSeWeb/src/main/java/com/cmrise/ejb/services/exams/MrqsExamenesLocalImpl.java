@@ -33,6 +33,7 @@ import com.cmrise.jpa.dto.exams.MrqsGrupoHdrV1Dto;
 import com.cmrise.jpa.dto.exams.MrqsGrupoLinesDto;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaV1Dto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
 import com.cmrise.jpa.dto.mrqs.img.MrqsImagenesDto;
 import com.cmrise.jpa.dto.mrqs.img.MrqsImagenesGrpDto;
@@ -135,14 +136,15 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 							mrqsPreguntasHdrV1.setNumero(mrqsPreguntasHdrV1Dto.getNumero());
 							mrqsPreguntasHdrV1.setTipoPregunta(mrqsPreguntasHdrV1Dto.getTipoPregunta());
 							
-							MrqsPreguntasFtaDto mrqsPreguntasFtaDto = mrqsPreguntasFtaDao.findDtoByNumeroHdr(mrqsPreguntasHdrV1Dto.getNumero()); 
-							if(null!=mrqsPreguntasFtaDto) {
+							MrqsPreguntasFtaV1Dto mrqsPreguntasFtaV1Dto = mrqsPreguntasFtaDao.findV1DtoByNumeroHdr(mrqsPreguntasHdrV1Dto.getNumero()); 
+							if(null!=mrqsPreguntasFtaV1Dto) {
 								MrqsPreguntasFtaV1 mrqsPreguntasFtaV1 = new MrqsPreguntasFtaV1(); 
-								mrqsPreguntasFtaV1.setNumero(mrqsPreguntasFtaDto.getNumero());
-								mrqsPreguntasFtaV1.setTextoPregunta(mrqsPreguntasFtaDto.getTextoPregunta());
-								mrqsPreguntasFtaV1.setSingleAnswerMode(mrqsPreguntasFtaDto.isSingleAnswerMode());
+								mrqsPreguntasFtaV1.setNumero(mrqsPreguntasFtaV1Dto.getNumero());
+								mrqsPreguntasFtaV1.setTextoPregunta(mrqsPreguntasFtaV1Dto.getTextoPregunta());
+								mrqsPreguntasFtaV1.setSingleAnswerMode(mrqsPreguntasFtaV1Dto.isSingleAnswerMode());
+								mrqsPreguntasFtaV1.setTextoSugerenciasDesc(mrqsPreguntasFtaV1Dto.getTextoSugerenciasDesc());
 								
-								List<MrqsOpcionMultipleDto> listMrqsOpcionMultipleDto = mrqsOpcionMultipleDao.findByNumeroFta(mrqsPreguntasFtaDto.getNumero()); 
+								List<MrqsOpcionMultipleDto> listMrqsOpcionMultipleDto = mrqsOpcionMultipleDao.findByNumeroFta(mrqsPreguntasFtaV1Dto.getNumero()); 
 								if(null!=listMrqsOpcionMultipleDto) {
 									List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
 									for(MrqsOpcionMultipleDto k:listMrqsOpcionMultipleDto) {
@@ -154,7 +156,7 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 									mrqsPreguntasFtaV1.setListMrqsOpcionMultiple(listMrqsOpcionMultiple);
 								}
 								
-								List<MrqsImagenesGrpDto> listMrqsImagenesGrpDto =  mrqsImagenesGrpDao.findByFta(mrqsPreguntasFtaDto.getNumero(), Utilitarios.INTRODUCCION); 
+								List<MrqsImagenesGrpDto> listMrqsImagenesGrpDto =  mrqsImagenesGrpDao.findByFta(mrqsPreguntasFtaV1Dto.getNumero(), Utilitarios.INTRODUCCION); 
 								if(null!=listMrqsImagenesGrpDto) {
 									List<MrqsImagenesGrp> listMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
 									for(MrqsImagenesGrpDto k:listMrqsImagenesGrpDto) {

@@ -70,14 +70,6 @@ public class MrqsPreguntasHdrDto implements Serializable {
 	@Column(name="BIBLIOGRAFIA")
 	private String bibliografia; 
 	
-	//bi-directional one-to-one association to MrqsPreguntasFtaDto
-	@OneToOne(mappedBy="mrqsPreguntasHdr1")
-	private MrqsPreguntasFtaDto mrqsPreguntasFta;
-
-	//bi-directional many-to-one association to MrqsPreguntasFtaDto
-	@OneToMany(mappedBy="mrqsPreguntasHdr2")
-	private List<MrqsPreguntasFtaDto> mrqsPreguntasFtas;
-
 	public MrqsPreguntasHdrDto() {
 	}
 
@@ -159,36 +151,6 @@ public class MrqsPreguntasHdrDto implements Serializable {
 
 	public void setTipoPregunta(String tipoPregunta) {
 		this.tipoPregunta = tipoPregunta;
-	}
-
-	public MrqsPreguntasFtaDto getMrqsPreguntasFta() {
-		return this.mrqsPreguntasFta;
-	}
-
-	public void setMrqsPreguntasFta(MrqsPreguntasFtaDto mrqsPreguntasFta) {
-		this.mrqsPreguntasFta = mrqsPreguntasFta;
-	}
-
-	public List<MrqsPreguntasFtaDto> getMrqsPreguntasFtas() {
-		return this.mrqsPreguntasFtas;
-	}
-
-	public void setMrqsPreguntasFtas(List<MrqsPreguntasFtaDto> mrqsPreguntasFtas) {
-		this.mrqsPreguntasFtas = mrqsPreguntasFtas;
-	}
-
-	public MrqsPreguntasFtaDto addMrqsPreguntasFta(MrqsPreguntasFtaDto mrqsPreguntasFta) {
-		getMrqsPreguntasFtas().add(mrqsPreguntasFta);
-		mrqsPreguntasFta.setMrqsPreguntasHdr2(this);
-
-		return mrqsPreguntasFta;
-	}
-
-	public MrqsPreguntasFtaDto removeMrqsPreguntasFta(MrqsPreguntasFtaDto mrqsPreguntasFta) {
-		getMrqsPreguntasFtas().remove(mrqsPreguntasFta);
-		mrqsPreguntasFta.setMrqsPreguntasHdr2(null);
-
-		return mrqsPreguntasFta;
 	}
 
 	public long getAdmonExamen() {
