@@ -16,19 +16,19 @@
 </ui:define>
                 
 <ui:define name="content">
+<div class="card">
 <h:form id="casoClinicoForm">
+  <p:accordionPanel>
+   <p:tab title="Informacion del Caso Clinico">
 
-<!--   <h1>Información del Caso Clínico</h1> -->
-   <p:carousel  headerText="INFORMACION DEL CASO CLINICO"  itemStyle="height:200px;text-align:center"   style="width:100%" circular="true">
-        </p:carousel>
  <p:growl id="growl" showDetail="true" life="6000" />  
 
  <div class="ui-g">
   <div class="ui-g-12 ui-md-12" >
-  <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-6 ui-md-6 ui-lg-2,ui-g-8 ui-md-6 ui-lg-10,ui-g-6 ui-md-4 ui-lg-4">
+  <p:panelGrid columns="3" layout="grid" styleClass="ui-noborder" columnClasses="ui-g-6 ui-md-6 ui-lg-2,ui-g-8 ui-md-6 ui-lg-10,ui-g-6 ui-md-4 ui-lg-4">
 
    <p:outputLabel for="admonExamenDesc" value="Examen"/>
-   <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:98%;text-align:left" readonly="true"/>
+   <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:98%; text-align:left" readonly="true"/>
    <p:message for="admonExamenDesc"/>
      
   
@@ -44,6 +44,11 @@
   </p:panelGrid> <!-- END Panel Grid -->
   </div>
 </div>	
+</p:tab>
+</p:accordionPanel>
+
+<h1>
+</h1>
 
  <p:carousel value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" headerText="LISTA DE PREGUNTAS CASOS CLINICOS" var="pregunta" itemStyle="height:200px;text-align:center" numVisible="1" easing="easeOutBounce" style="width:100%" circular="true">
      <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
@@ -69,9 +74,10 @@
 
 
 <h:form id="createQuestionCoreCaseForm">
-<p:growl id="growl" showDetail="true" life="5000" /> 
-<!-- <h1>Crear Pregunta Caso Clinico</h1>  -->
-    <div class="ui-g card">  
+<p:growl id="growl" showDetail="true" life="5000" />
+
+<h1>Informacion Nueva Pregunta</h1>
+     
       <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="admonExamen" value="Examen" />
@@ -187,7 +193,6 @@
 	     <p:message for="internalComments"/>  
          </div>
        </div>
-      
 
     
     <p:panelGrid id="questionInformationForm" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
@@ -201,9 +206,9 @@
 	     <p:commandButton value="Cancelar" style="background: #2D0D86;" immediate="true"  action="Preguntas-Update-CoreCase"/>
 	   </div>
 	  </div>
-	       </div>  
+
 	</h:form>
 	
-
+</div>
 </ui:define>
 </ui:composition>
