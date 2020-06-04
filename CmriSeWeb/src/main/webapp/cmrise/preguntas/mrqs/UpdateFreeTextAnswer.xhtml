@@ -158,7 +158,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
      
       <div class="ui-g-12 ui-md-12" >
        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-            <p:commandButton value="Recurso Multimedia" icon="pi pi-plus" onclick="PF('presentationDialogWV').show();" />
+            <p:commandButton value="Recurso Multimedia" icon="pi pi-plus" onclick="PF('presentationDialogWV').show();" style="background: #2d0d86;" />
 	   </div>
 	   
 	   <div class="ui-g-12 ui-md-9"> 
@@ -357,19 +357,19 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
   
  <div class="ui-g-12 ui-md-12">
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-     <p:commandButton id="GuardarBtn" icon="fa fa-save" value="Guardar" actionListener="#{updateFTAMrqForm.update()}"  update="UpdateReactivosForm growl" oncomplete="handleUpdateRequest(xhr, status, args)"/>
+     <p:commandButton id="GuardarBtn" icon="fa fa-save" value="Guardar" style="background: #2d0d86;" actionListener="#{updateFTAMrqForm.update()}"  update="UpdateReactivosForm growl" oncomplete="handleUpdateRequest(xhr, status, args)"/>
    </div>
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-    <p:commandButton icon="fa fa-eye" value="Previsualizar" update="UpdateReactivosForm growl" action="#{updateFTAMrqForm.saveAndPreview()}"/>
+    <p:commandButton icon="fa fa-eye" value="Previsualizar" style="background: #2d0d86;" update="UpdateReactivosForm growl" action="#{updateFTAMrqForm.saveAndPreview()}"/>
    </div>
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-    <p:commandButton icon="fa fa-backward" value="Cerrar" action="#{updateFTAMrqForm.cancel()}" immediate="true"/>
+    <p:commandButton icon="fa fa-backward" value="Cerrar" style="background: #2d0d86;" action="#{updateFTAMrqForm.cancel()}" immediate="true"/>
    </div>
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-    <p:commandButton value="Duplicar" oncomplete="PF('duplicateMrqDialogWV').show();" rendered="false"/>
+    <p:commandButton value="Duplicar" oncomplete="PF('duplicateMrqDialogWV').show();" style="background: #2d0d86;" rendered="false"/>
    </div>
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-    <p:commandButton value="Borrar" oncomplete="PF('deleteRolDialogWV').show();" rendered="false"/>
+    <p:commandButton value="Borrar" oncomplete="PF('deleteRolDialogWV').show();" style="background: #2d0d86;" rendered="false"/>
    </div>
   </div>
      
