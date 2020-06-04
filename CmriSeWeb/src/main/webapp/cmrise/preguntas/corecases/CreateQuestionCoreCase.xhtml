@@ -13,6 +13,12 @@
      }
  }
  </script>
+ 
+ <style>
+ .ui-datascroller{
+     border-style: hidden !important;
+}
+ </style>
 </ui:define>
                 
 <ui:define name="content">
@@ -40,7 +46,11 @@
     <p:outputLabel for="admonSubMateriaDesc" value="Clasificación"/>
    <p:inputText id="admonSubMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonSubMateriaDesc}" style="width:98%" readonly="true"/>
    <p:message for="admonSubMateriaDesc"/>
-       
+   
+         <p:outputLabel for="creadoPor" value="Elabora" />
+         <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
+         <p:message for="creadoPor"/>
+
   </p:panelGrid> <!-- END Panel Grid -->
   </div>
 </div>	
@@ -50,11 +60,10 @@
 <h1>
 </h1>
 
- <p:carousel value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" headerText="LISTA DE PREGUNTAS CASOS CLINICOS" var="pregunta" itemStyle="height:200px;text-align:center" numVisible="1" easing="easeOutBounce" style="width:100%" circular="true">
-     <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
-       <p:outputLabel for="numero" value="ID"/>
-      <p:inputText id="numero" value="#{pregunta.numero}" style="width:98%" readonly="true"/>
-      <p:message for="numero"/>
+ <p:dataScroller value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" itemStyle="height:100%;text-align:center" var="pregunta" chunkSize="10" style="border-style=: none;">
+  	<p:accordionPanel styleClass="ui-accordion" activeIndex="null">
+       <p:tab title="Pregunta #{pregunta.numero}">
+     <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2" styleClass="ui-noborder">
       <p:outputLabel for="admonExamenDesc" value="Examen"/>
       <p:inputText id="admonExamenDesc" value="#{pregunta.admonExamenDesc}" style="width:98%" readonly="true"/>
       <p:message for="admonExamenDesc"/>
@@ -68,7 +77,9 @@
       <p:inputText id="tipoPreguntaDesc" value="#{pregunta.tipoPreguntaDesc}" style="width:98%" readonly="true"/>
       <p:message for="tipoPreguntaDesc"/>
     </p:panelGrid>
- </p:carousel>   
+</p:tab>
+</p:accordionPanel>
+</p:dataScroller>
 
 </h:form>
 
