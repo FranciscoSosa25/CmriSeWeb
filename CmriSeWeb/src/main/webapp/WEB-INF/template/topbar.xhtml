@@ -4,7 +4,13 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:po="http://primefaces.org/poseidon">
-  
+ <style>
+ .estilo ul:hover{
+ color: #2d0d86;
+ 
+ }
+ 
+ </style> 
 
 	<div class="topbar clearfix">
 
@@ -27,34 +33,31 @@
 			<ui:insert name="actualizar" />
 			<ul class="topbar-items fadeInDown animated">
 				<li class="profile-item"><a href="#">
-						<div class="profile-image"></div> <span class="topbar-item-name">Jane
-							Williams</span>
+<!-- 						<div class="profile-image"> -->
+<!-- 						</div> <span class="topbar-item-name">Jane -->
+<!-- 							Williams</span> -->
+            <a href="#" class="profile" style= "margin-top: 1.5px; color:#FFFFFF">
+            <span class="username">#{userLogin.nombreCompletoUsuario}</span>
+
+            <i class="fa fa-angle-down"></i>
+        </a>
 				</a>
 
-					<ul class="poseidon-menu animated">
-
-					 
-<!-- 						<li role="menuitem"><a href="#"> <i -->
-<!-- 								class="fa fa-fw fa-user"></i> <span>Perfil</span> -->
-<!-- 						</a></li> -->
-<!-- 						<li role="menuitem"><a href="#"> <i -->
-<!-- 								class="fa fa-fw fa-user-secret"></i> <span>Privacidad</span> -->
-<!-- 						</a></li> -->
-<!-- 						<li role="menuitem"><a href="#"> <i -->
-<!-- 								class="fa fa-fw fa-cog"></i> <span>Configuraciones</span> -->
-<!-- 						</a></li> -->
-						<li role="menuitem"><a href="#"> 
+					<ul class="estilo" style="BackGround:#2D0D86; text-align:right ">
+						<li role="menuitem" style=" BackGround:#2D0D86;"> 
 						  <h:form>
-						     
-						   <p:commandLink action="#{indexForm.logout()}" ajax="false"><i
-						 class="fa fa-fw fa-sign-out" ></i>  <span>Cerrar Sesión</span>
+						      <p:commandLink style="text-align:right; color:#FFFFFF; hover:color: #2d0d86;" ajax="false"><i class="pi pi-cog"></i> <span>Configuración De Usuario</span>
+						   	  </p:commandLink>
+						   	  
+						   <p:commandLink action="#{indexForm.logout()}" style="text-align: right; color:#FFFFFF" ajax="false"><i class="fa fa-fw fa-sign-out" ></i>  <span>Cerrar Sesión</span>
 						   
 						  </p:commandLink>
 						
 						    </h:form>
 
-						</a></li>
-					</ul></li>
+						</li>
+					</ul>
+					</li>
 					<!--
 				<li><a href="#"> <i class="topbar-icon fa fa-fw fa-cog"></i>
 						<span class="topbar-item-name">Configuraciones</span>
@@ -81,6 +84,8 @@
 						</a></li>
 					</ul></li>
 					-->
+				
+		
 			</ul>
 		</div>
 	</div>
