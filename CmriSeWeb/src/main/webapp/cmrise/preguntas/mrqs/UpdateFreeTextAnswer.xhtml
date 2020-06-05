@@ -225,70 +225,72 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
      
     <h:panelGroup id="reactivosTextoLibrePanel" layout="block" rendered="#{updateFTAMrqForm.limitedFreeTextAnswer}">
     	<h2>Reactivos de Texto Libre</h2>
-		<div class="card">
-		   <div class="ui-g">
-		         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+		
+		   <div class="ui-g" >
+		   <div class="ui-g-12 ui-md-12">
+		         <div class="ui-g-12 ui-md-6" style="text-align:right;">
 		           <p:outputLabel for="correctAnswer" value="Respuesta Correcta" />
 		         </div>
-		         <div class="ui-g-12 ui-md-9">
+		         <div class="ui-g-12 ui-md-6">
 		          <p:inputText id="correctAnswer" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.respuestaCorrecta}" placeholder="Respuesta Correcta"  maxlength="500" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
 		          <p:message for="correctAnswer"/>
 		         </div>
-		         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+		         <div class="ui-g-12 ui-md-6" style="text-align:right;">
 		           <p:outputLabel for="limiteCaracteres" value="Limite de caracteres" />
 		        </div>
-		        <div class="ui-g-12 ui-md-9">
+		        <div class="ui-g-12 ui-md-6">
 		         <p:selectOneMenu id="limiteCaracteres" required="false" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
 		          <f:selectItems/>
 		         </p:selectOneMenu>
 		          <p:message for="limiteCaracteres"/>
 		         </div>
+		           </div>
 		     </div>
-		</div>
-
-<div class="card">
-    <div class="ui-g">
-       <div class="ui-g-12 ui-md-12">
-           
-           <ui:repeat var="incWords" value="#{updateFTAMrqForm.listIncWmrqsListasPalabras}">
-              <div class="ui-g-12 ui-md-3" style="text-align:right;">
+		<div class="ui-g-12 ui-md-12">
+             <ui:repeat  style="text-align:right;" var="incWords" value="#{updateFTAMrqForm.listIncWmrqsListasPalabras}">
+              <div class="ui-g-12 ui-md-6" style="text-align:right;">
 		           <p:outputLabel for="respuestasAlternativas" value="Respuestas Alternativas" />
 		        </div> 
-              <div class="ui-g-12 ui-md-9">
+              <div class="ui-g-12 ui-md-6">
                 <p:inputText id="respuestasAlternativas" value="#{incWords.palabra}" placeholder="Agregar respuesta ..." style="width:100%" />
               </div>
            </ui:repeat>
            
            
-           <ui:repeat var="excWords" value="#{updateFTAMrqForm.listExcWmrqsListasPalabras}">
-              <div class="ui-g-12 ui-md-3" style="text-align:right;">
+           <ui:repeat  style="text-align:right;" var="excWords" value="#{updateFTAMrqForm.listExcWmrqsListasPalabras}">
+              <div class="ui-g-12 ui-md-6" style="text-align:right;">
                   <p:outputLabel for="respuestasIncorrectas" value="Respuestas Incorrectas" />
                </div> 
-              <div class="ui-g-12 ui-md-9">
+              <div class="ui-g-12 ui-md-6">
                 <p:inputText id="respuestasIncorrectas" value="#{excWords.palabra}" placeholder="Agregar respuesta ..." style="width:100%" />
               </div>
            </ui:repeat>
        </div>
-     </div>
- </div>
+     
+ 
     	
     </h:panelGroup>
 	<h:panelGroup id="reactivosOpcionMultiplePanel" layout="block" rendered="#{updateFTAMrqForm.multipleChoice}">
-	<h2>Reactivos de Opción Múltiple</h2>
 	
-                <div class="ui-g-12 ui-md-3" style="text-align:right;">
-           <p:outputLabel for="singleMode" value="¿Modo de Respuesta Única?" />
+	       <div class="ui-g-12 ui-md-12" style="text-align:left;" >
+	      <h2>Reactivos de Opción Múltiple</h2>
+	
+	
+                <div class="ui-g-12 ui-md-4" style="text-align:right;" >
+           <p:outputLabel for="singleMode" style="text-align:center;" value="¿Modo de Respuesta Única?" />
         </div>
-        <div class="ui-g-12 ui-md-9">
-           <p:inputSwitch id="singleMode" onLabel="Si" offLabel="No" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.singleAnswerMode}"/>
+        <div class="ui-g-12 ui-md-8" style="text-align:left;" >
+           <p:inputSwitch id="singleMode" style="text-align:center;" onLabel="Si" offLabel="No" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.singleAnswerMode}"/>
         </div>
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-           <p:outputLabel for="suffleOrder" value="¿Orden de Respuestas Aleatorio?" />
+<!--         <div class="ui-g-12 ui-md-12"> -->
+        <div class="ui-g-12 ui-md-4"  style="text-align:right;" >
+           <p:outputLabel for="suffleOrder" style="text-align:center;" value="¿Orden de Respuestas Aleatorio?" />
         </div>
-        <div class="ui-g-12 ui-md-9">
-           <p:inputSwitch id="suffleOrder" onLabel="Si" offLabel="No" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.suffleAnswerOrder}"/>
+        <div class="ui-g-12 ui-md-8 " style="text-align:left;" >
+           <p:inputSwitch id="suffleOrder" onLabel="Si" offLabel="No" style="text-align:center;" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.suffleAnswerOrder}"/>
         </div>
-  
+<!--   </div> -->
+  </div>
    <div class="ui-g-4" style="text-align:left;">
    <h1>
    <p:outputLabel id="correcta" value="Correcta" />
