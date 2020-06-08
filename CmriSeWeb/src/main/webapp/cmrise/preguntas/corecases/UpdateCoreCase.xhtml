@@ -57,22 +57,26 @@
    <p:inputText id="admonSubMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonSubMateriaDesc}" style="width:40%" readonly="true"/>
    <p:message for="admonSubMateriaDesc"/>
    </div>
-    <div class="ui-g-12 ui-md-3"  style="text-align:right;">
-    <p:outputLabel for="fechaElaboracion" value="Fecha de Elaboracion"/>
-       </div>
-         <div class="ui-g-12 ui-md-9">
-    <p:inputText id="fechaElaboracion" value="#{updateCoreCaseForm.ccHdrV1.fechaElaboracion}" readonly="true"/>
-   <p:message for="fechaElaboracion"/>
-   </div>
-        <div class="ui-g-12 ui-md-12" >
+         <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="creadoPor" value="Elabora" />
+         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" style="font-weight:bold;"/>
         </div>
          <div class="ui-g-12 ui-md-9">
-         <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
-         <p:message for="creadoPor"/>
+	      <h:outputText id="fechaElaboracion" value="#{updateCoreCaseForm.ccHdrV1.fechaElaboracion}"  style="font-weight:bold;">
+	       <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+	      </h:outputText>
          </div>
        </div>
+                  <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="creadoPor" value="Elaboró" style="font-weight:bold;" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <h:outputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" style="font-weight:bold;" />
+         </div>
+       </div>
+
+
 
    <div class="ui-g-12 ui-md-6">
    <p:commandButton immediate="true" title="Nuevo"  value="Nueva Pregunta" icon="pi pi-plus" action="#{updateCoreCaseForm.createCoreQuestion()}" style="background: #2D0D86;"/>
