@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
 <ui:define name="content">
-
+<div class="card">
 <h:form id="ReadOnlyForm">
 <p:dataTable var="tabla" value="#{manageTablasUtilitariasForm.listTablasUtilitariasValoresV1}">
 <f:facet name="header">LISTAS UTILITARIAS</f:facet>
@@ -42,6 +42,6 @@
         </div>
    </h:form>
    </p:dialog> 
-  
+  </div>
 </ui:define>
 </ui:composition>
