@@ -120,26 +120,27 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          <p:message for="subMateria"/>
          </div>
        </div>
-        
-         <div class="ui-g-12 ui-md-12" >
+
+                      <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" />
+         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" style="font-weight:bold;"/>
         </div>
          <div class="ui-g-12 ui-md-9">
-         <p:calendar id="fechaElaboracion" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.fechaElaboracion}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-         <p:message for="fechaElaboracion"/>
+	      <h:outputText id="fechaElaboracion" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.fechaElaboracion}"  style="font-weight:bold;">
+	       <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+	      </h:outputText>
          </div>
        </div>
        
-        <div class="ui-g-12 ui-md-12" >
+               <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="creadoPor" value="¿Quien elabora la Pregunta?" />
+         <p:outputLabel for="creadoPor" value="¿Quien elabora la Pregunta?" style="font-weight:bold;" />
         </div>
          <div class="ui-g-12 ui-md-9">
-         <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
-         <p:message for="creadoPor"/>
+          <h:outputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" style="font-weight:bold;" />
          </div>
        </div>
+
        
         
            <div class="ui-g-12 ui-md-12" >

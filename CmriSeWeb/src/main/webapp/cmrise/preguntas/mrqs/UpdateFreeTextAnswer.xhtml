@@ -48,6 +48,13 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         background-color: #d43f3a;
         border-color: #d9534f;
     }
+    
+     .ui-widget-header {
+        background-color: #000000;
+        color: #2d0d86;
+        border: #000000;
+    }
+    
 </style>
 </ui:define>
 
@@ -55,10 +62,11 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 
 <h:form id="UpdateReactivosForm" >
 <p:growl id="growl" showDetail="true" life="5000" widgetVar="growlWV" />  
+<p:carousel  headerText="INFORMACIÓN GENERAL DEL REACTIVO" style="width:100%" >
+  </p:carousel>
  <div class="ui-g card">
- <h1>
-   <p:outputLabel  value="INFORMACIÓN GENERAL DEL REACTIVO" class="cmriFontColor"/>
-  </h1>
+
+
        <div class="ui-g-12 ui-md-12" >
          <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="statusMrqs" value="Estado" />
@@ -104,24 +112,24 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
           </p:selectOneMenu>
          <p:message for="subMateria"/>
          </div>
-         
-           <div class="ui-g-12 ui-md-12" >
+       
+               <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" />
+         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" style="font-weight:bold;"/>
         </div>
          <div class="ui-g-12 ui-md-9">
-         <p:calendar id="fechaElaboracion" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.fechaElaboracion}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-         <p:message for="fechaElaboracion"/>
+	      <h:outputText id="fechaElaboracion" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.fechaElaboracion}"  style="font-weight:bold;">
+	       <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+	      </h:outputText>
          </div>
        </div>
-       
-        <div class="ui-g-12 ui-md-12" >
+
+               <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="creadoPor" value="Elabora" />
+         <p:outputLabel for="creadoPor" value="Elaboró" style="font-weight:bold;" />
         </div>
          <div class="ui-g-12 ui-md-9">
-         <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
-         <p:message for="creadoPor"/>
+          <h:outputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" style="font-weight:bold;" />
          </div>
        </div>
        
@@ -323,9 +331,11 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 	
 	<div class="ui-g-12 ui-md-12" >
 	<h:panelGroup id="reactivosImagenSenializadaPanel" layout="block" rendered="#{updateFTAMrqForm.indicateImage}">
-	<h2>Reactivos de Imagen Señalizada</h2>
+	
 	 <div class="ui-g card">
+
 	   <div class="ui-g-12 ui-md-12" >
+	   	 <h2>Imagen de Señalizacion</h2>
 	       <div class="ui-g-12 ui-md-3" style="text-align:right;">
 	       </div>
          <div class="ui-g-12 ui-md-9" style="text-align:right;">
