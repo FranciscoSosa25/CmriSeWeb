@@ -203,9 +203,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          <p:outputLabel  value="Instrucciones" />
         </div>
          <div class="ui-g-12 ui-md-9">
-          <p:selectOneMenu id="hintsText" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.textoSugerencias}"   style="width:30%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
-           <f:selectItems value="#{updateFTAMrqForm.selectInstruccionesItems}" />
-          </p:selectOneMenu>
+          <p:inputTextarea id="hintsText" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.textoSugerencias}"   style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
           <p:message for="hintsText"/>
          </div>
          
@@ -230,54 +228,63 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          </div>
          
      </div>
-     
+   
     <h:panelGroup id="reactivosTextoLibrePanel" layout="block" rendered="#{updateFTAMrqForm.limitedFreeTextAnswer}">
     	<h2>Reactivos de Texto Libre</h2>
-		
+		 
 		   <div class="ui-g" >
-		   <div class="ui-g-12 ui-md-12">
-		         <div class="ui-g-12 ui-md-6" style="text-align:right;">
+		   
+		   <div class="ui-g-12 ui-md-12"  >
+		         <div class="ui-g-12 ui-md-10" style="text-align:right;">
 		           <p:outputLabel for="correctAnswer" value="Respuesta Correcta" />
 		         </div>
-		         <div class="ui-g-12 ui-md-6">
-		          <p:inputText id="correctAnswer" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.respuestaCorrecta}" placeholder="Respuesta Correcta"  maxlength="500" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+		         <div class="ui-g-12 ui-md-2" >
+		          <p:inputText id="correctAnswer" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.respuestaCorrecta}" placeholder="Respuesta Correcta"  maxlength="600" style="width:400%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
 		          <p:message for="correctAnswer"/>
 		         </div>
-		         <div class="ui-g-12 ui-md-6" style="text-align:right;">
-		           <p:outputLabel for="limiteCaracteres" value="Limite de caracteres" />
+		         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+		           <p:outputLabel for="limiteCaracteres" value="Limite de caracteres" rendered="false" />
 		        </div>
-		        <div class="ui-g-12 ui-md-6">
-		         <p:selectOneMenu id="limiteCaracteres" required="false" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
+		        <div class="ui-g-12 ui-md-9">
+		         <p:selectOneMenu id="limiteCaracteres" rendered="false" required="false" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
 		          <f:selectItems/>
 		         </p:selectOneMenu>
 		          <p:message for="limiteCaracteres"/>
 		         </div>
-		           </div>
+		          </div>
 		     </div>
-		<div class="ui-g-12 ui-md-12">
-             <ui:repeat  style="text-align:right;" var="incWords" value="#{updateFTAMrqForm.listIncWmrqsListasPalabras}">
-              <div class="ui-g-12 ui-md-6" style="text-align:right;">
+		     <div class="ui-g card">
+		 <div class="ui-g-12 ui-md-12"  >
+             <ui:repeat  style="text-align:right;"  var="incWords" value="#{updateFTAMrqForm.listIncWmrqsListasPalabras}">
+              
+              <div class="ui-g-12 ui-md-3" style="text-align:right;">
 		           <p:outputLabel for="respuestasAlternativas" value="Respuestas Alternativas" />
 		        </div> 
-              <div class="ui-g-12 ui-md-6">
-                <p:inputText id="respuestasAlternativas" value="#{incWords.palabra}" placeholder="Agregar respuesta ..." style="width:100%" />
+              <div class="ui-g-12 ui-md-9" style="text-align:center;">
+                <p:inputText id="respuestasAlternativas"  value="#{incWords.palabra}" placeholder="Agregar respuesta ..." style="width:100%" />
               </div>
+             
            </ui:repeat>
-           
-           
+               </div>
+            <div class="ui-g-12 ui-md-12"  >
            <ui:repeat  style="text-align:right;" var="excWords" value="#{updateFTAMrqForm.listExcWmrqsListasPalabras}">
-              <div class="ui-g-12 ui-md-6" style="text-align:right;">
+           
+              <div class="ui-g-12 ui-md-3" style="text-align:right;">
                   <p:outputLabel for="respuestasIncorrectas" value="Respuestas Incorrectas" />
                </div> 
-              <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-12 ui-md-9">
                 <p:inputText id="respuestasIncorrectas" value="#{excWords.palabra}" placeholder="Agregar respuesta ..." style="width:100%" />
               </div>
+            
            </ui:repeat>
-       </div>
-     
- 
+          </div>
+            </div>
+    
+    
     	
     </h:panelGroup>
+    
+    
 	<h:panelGroup id="reactivosOpcionMultiplePanel" layout="block" rendered="#{updateFTAMrqForm.multipleChoice}">
 	
 	       <div class="ui-g-12 ui-md-12" style="text-align:left;" >
@@ -321,7 +328,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          </div>
         </div>
          <div class="ui-g-9">
-             <p:inputText id="answerText" style="width:98%;" value="#{mrqsOpcionMultiple.textoRespuesta}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+             <p:inputText id="answerText" style="width:98%;" value="#{OpcionMultiple.textoRespuesta}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
              <p:message for="answerText"/>
 
        </div>

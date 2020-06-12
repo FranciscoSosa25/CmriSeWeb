@@ -56,9 +56,10 @@ import com.cmrise.utils.UtilitariosLocal;
 @ManagedBean
 @ViewScoped
 public class UpdateFTAMrqForm {
-	
+	private String textoRespuesta;
 	private long numeroHdr;
 	private long numeroFta; 
+	private String textoSugerencias;
 	private MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForAction = new MrqsPreguntasHdrV1();
 	private MrqsPreguntasFtaV1 mrqsPreguntasFtaV1ForAction = new MrqsPreguntasFtaV1(); 
 	
@@ -426,6 +427,7 @@ public class UpdateFTAMrqForm {
 			mrqsPreguntasFtaV1ForAction.setActualizadoPor(userLogin.getNumeroUsuario());
 			mrqsPreguntasFtaV1ForAction.setFechaCreacion(new java.util.Date());
 			mrqsPreguntasFtaV1ForAction.setFechaActualizacion(new java.util.Date());
+			mrqsPreguntasFtaV1ForAction.setTextoSugerencias(this.getTextoSugerencias());
 			
 		    if(Utilitarios.OPCION_MULTIPLE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
 		     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("OPCION_MULTIPLE"); 	
@@ -452,7 +454,9 @@ public class UpdateFTAMrqForm {
 				MrqsOpcionMultipleDto mrqsOpcionMultipleDto = new MrqsOpcionMultipleDto();
 				mrqsOpcionMultipleDto.setEstatus(mrqsOpcionMultiple.isEstatus());
 				mrqsOpcionMultipleDto.setTextoRespuesta(mrqsOpcionMultiple.getTextoRespuesta());
+			//	mrqsOpcionMultipleDto.setTextoSugerencia(mrqsOpcionMultiple.getTextoSugerencia());
 				mrqsOpcionMultipleDto.setTextoExplicacion(mrqsOpcionMultiple.getTextoExplicacion());
+				//mrqsOpcionMultipleDto.setTextoSugerencia(mrqsOpcionMultiple.getTextoSugerencia());
 				mrqsOpcionMultipleDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
 				mrqsOpcionMultipleDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
 				mrqsOpcionMultipleDto.setNumeroFta(lNumeroFta);
@@ -486,13 +490,14 @@ public class UpdateFTAMrqForm {
 				 return; 
 		     }
 			}
-			
+			mrqsPreguntasFtaV1ForAction.setTextoSugerencias(this.getTextoSugerencias());
 			mrqsPreguntasFtaLocal.update(lNumeroFta, mrqsPreguntasFtaV1ForAction); 
 			
 			for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
 				MrqsOpcionMultipleDto mrqsOpcionMultipleDto = new MrqsOpcionMultipleDto();
 				if(0!=mrqsOpcionMultiple.getNumero()) {
 				mrqsOpcionMultipleDto.setNumero(mrqsOpcionMultiple.getNumero());
+			
 				mrqsOpcionMultipleDto.setEstatus(mrqsOpcionMultiple.isEstatus());
 				mrqsOpcionMultipleDto.setTextoExplicacion(mrqsOpcionMultiple.getTextoExplicacion());
 				mrqsOpcionMultipleDto.setTextoRespuesta(mrqsOpcionMultiple.getTextoRespuesta());
@@ -1110,5 +1115,16 @@ public class UpdateFTAMrqForm {
 	public void setUserLogin(UserLogin userLogin) {
 		this.userLogin = userLogin;
 	}
-	
+	public String getTextoRespuesta() {
+		return textoRespuesta;
+	}
+	public void setTextoRespuesta(String textoRespuesta) {
+		this.textoRespuesta = textoRespuesta;
+	}
+	public String getTextoSugerencias() {
+		return textoSugerencias;
+	}
+	public void setTextoSugerencias(String textoSugerencias) {
+		this.textoSugerencias = textoSugerencias;
+	}
 }
