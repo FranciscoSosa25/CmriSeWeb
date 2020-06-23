@@ -13,6 +13,7 @@ public class CcOpcionMultiple implements Serializable{
 	private String textoExplicacion;
 	private int numeroLinea; 
 	private int idxTemp; 
+	 private boolean estatusCandidato;
 	
 	
 	public long getNumero() {
@@ -57,5 +58,12 @@ public class CcOpcionMultiple implements Serializable{
 	public void setIdxTemp(int idxTemp) {
 		this.idxTemp = idxTemp;
 	} 
+	public boolean isEstatusCandidato() {
+		return estatusCandidato;
+	}
+	public void setEstatusCandidato(boolean estatusCandidato) {
+		this.estatusCandidato = estatusCandidato;
+	} 
+
 
 }

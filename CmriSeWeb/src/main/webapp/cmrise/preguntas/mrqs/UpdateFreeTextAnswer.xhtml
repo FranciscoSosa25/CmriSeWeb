@@ -220,18 +220,18 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          </div>
          
      </div>
-   
+   <div class="ui-g-12 ui-md-12" >
     <h:panelGroup id="reactivosTextoLibrePanel" layout="block" rendered="#{updateFTAMrqForm.limitedFreeTextAnswer}">
     	<h2>Reactivos de Texto Libre</h2>
 		 
-		   <div class="ui-g" >
+		   
 		   
 		   <div class="ui-g-12 ui-md-12"  >
-		         <div class="ui-g-12 ui-md-10" style="text-align:right;">
+		         <div class="ui-g-12 ui-md-3" style="text-align:right;">
 		           <p:outputLabel for="correctAnswer" value="Respuesta Correcta" />
 		         </div>
-		         <div class="ui-g-12 ui-md-2" >
-		          <p:inputText id="correctAnswer" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.respuestaCorrecta}" placeholder="Respuesta Correcta"  maxlength="600" style="width:400%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+		         <div class="ui-g-12 ui-md-9" style="text-align:right;" >
+		          <p:inputText id="correctAnswer" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.respuestaCorrecta}" placeholder="Respuesta Correcta"  maxlength="600" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
 		          <p:message for="correctAnswer"/>
 		         </div>
 		         <div class="ui-g-12 ui-md-3" style="text-align:right;">
@@ -244,7 +244,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 		          <p:message for="limiteCaracteres"/>
 		         </div>
 		          </div>
-		     </div>
+<!-- 		     </div> -->
 		     <div class="ui-g card">
 		 <div class="ui-g-12 ui-md-12"  >
              <ui:repeat  style="text-align:right;"  var="incWords" value="#{updateFTAMrqForm.listIncWmrqsListasPalabras}">
@@ -275,7 +275,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
     
     	
     </h:panelGroup>
-    
+     </div>
     
 	<h:panelGroup id="reactivosOpcionMultiplePanel" layout="block" rendered="#{updateFTAMrqForm.multipleChoice}">
 	
