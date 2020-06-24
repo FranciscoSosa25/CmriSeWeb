@@ -84,6 +84,15 @@ public class MrqsPreguntasFtaDto implements Serializable {
 	@Column(name="HEIGHT")
 	private int height; 
 
+	@Column(name="ANOTACIONES")
+	private String anotaciones; 
+	
+	@Column(name="RESPUESTAS")
+	private String respuestas; 
+	
+	@Column(name="CORRELACIONES")
+	private String correlaciones; 
+	
 	public MrqsPreguntasFtaDto() {
 	}
 
@@ -261,6 +270,30 @@ public class MrqsPreguntasFtaDto implements Serializable {
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+	public String getAnotaciones() {
+		return anotaciones;
+	}
+
+	public void setAnotaciones(String anotaciones) {
+		this.anotaciones = anotaciones;
+	}
+
+	public String getRespuestas() {
+		return respuestas;
+	}
+
+	public void setRespuestas(String respuestas) {
+		this.respuestas = respuestas;
+	}
+
+	public String getCorrelaciones() {
+		return correlaciones;
+	}
+
+	public void setCorrelaciones(String correlaciones) {
+		this.correlaciones = correlaciones;
 	}
 
 }

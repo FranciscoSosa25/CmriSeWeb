@@ -48,12 +48,15 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         background-color: #d43f3a;
         border-color: #d9534f;
     }
+    
+    
 </style>
 </ui:define>
 
 <ui:define name="content" >
 
 <h:form id="UpdateReactivosForm" >
+<f:passThroughAttribute name="autocomplete" value="off"/>
 <p:growl id="growl" showDetail="true" life="5000" widgetVar="growlWV" />  
  <div class="ui-g card">
  <h1>
@@ -354,10 +357,83 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 	</h:panelGroup>
 	</div>
   
+    <div class="ui-g-12 ui-md-12" >
+        
+    
+               
+           
+    
+     <h:panelGroup id="reactivosImagenAnotadaPanel" layout="block" rendered="#{updateFTAMrqForm.annotatedImage}">
+     <h2>Reactivos de Correlación de Imagen</h2>
+     <div class="ui-g card">
+	   <div class="ui-g-12 ui-md-12" >
+	   
+	       <div class="ui-g-12 ui-md-3" style="text-align:right;">
+	       </div>
+         <div class="ui-g-12 ui-md-9">
+            <p:fileUpload id="fileImagenCor" listener="#{updateFTAMrqForm.handleFileUpload}" update="reactivosImagenAnotadaPanel growl"  label="Seleccionar" uploadLabel="Subir" cancelLabel="Cancelar" mode="advanced"  auto="false"  allowTypes="/(\.|\/)(jpe?g|png)$/" oncomplete="oncompleteFileUploadImgCor();" fileLimit="1"/>
+        </div>
+         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+          <img id="graphicImageImgCorID" src="data:#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.contentType};base64,#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.imagenBase64}" style="max-width: 100px;  max-height: 100px;" />
+	     </div>
+	    <div class="ui-g-12 ui-md-9">
+	         <p:inputText id="tipoPreguntaImgCor" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.tipoPregunta}" type="hidden"/>
+	         <p:inputText id="imgWidthImgCor" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.width}" type="hidden"/>
+	         <p:inputText id="imgHeightImgCor" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.height}"  type="hidden"/>
+	         <p:inputText id="coordinatesMouseMoveImgCor"  type="hidden" />
+             <p:inputTextarea id="coordinatesImgCor" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.poligonos}" placeholder="Coordenadas"   style="width:100%;display:none;" />
+             <h:panelGroup id="imgCorDiv" layout="block" rendered="#{updateFTAMrqForm.annotatedImage}"  style="width:400px; height:150px; background-color: #DAE4E4;" >
+             </h:panelGroup>
+             <p:commandButton id="agregarNodoImgCor" value="Agregar Nodo" type="button" style="margin:10px 30px;" rendered="false"/>
+	   </div>
+	   
+	       <div class="ui-g-12 ui-md-12" >
+	   
+	           <div class="ui-g-12 ui-md-6">
+		       <h:panelGrid id="repeatIDPanel" style="width:100%;margin:10px;">
+		        <h:panelGroup  layout="block">
+		        <p:commandButton  value="Agregar Respuestas"  actionListener="#{updateFTAMrqForm.agregarRespReact()}" update="UpdateReactivosForm:repeatIDPanel" partialSubmit="true" process="UpdateReactivosForm:repeatIDPanel" oncomplete="handleAgregarRespuestaRequest(xhr, status, args)" style="margin:5px 50px 5px 0px;"/>
+		        <br/>
+		        <ui:repeat  var="respReact" value="#{updateFTAMrqForm.listRespReactCorImg}" varStatus="status" >
+		          <p:inputText id="respuesta" value="#{updateFTAMrqForm.listRespReactCorImg[status.index].respuesta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:95%;margin:10px;"/>
+		          <p:message for="respuesta"/>
+		        </ui:repeat>
+		       </h:panelGroup>
+		       </h:panelGrid>
+		       </div>
+		       
+		      <div class="ui-g-12 ui-md-6">
+		       <h:panelGrid id="repeatIDPanel2">
+		         <h:panelGroup  layout="block">
+			       <p:commandButton id="agregarRespCorrelReact" value="Agregar Respuestas Correlacionadas" actionListener="#{updateFTAMrqForm.agregarRespCorrelacionadas()}" update="UpdateReactivosForm:repeatIDPanel2 UpdateReactivosForm:repeatIDPanel" partialSubmit="true" process="UpdateReactivosForm:repeatIDPanel UpdateReactivosForm:repeatIDPanel2" oncomplete="handleAgregarRespuestaCorrRequest(xhr, status, args)" />
+			        <ui:repeat  var="respReact" value="#{updateFTAMrqForm.listRespCorrectReactCorImg}"  varStatus="status">
+			          <div class="ui-g-12 ui-md-12" >
+			          <div class="ui-g-12 ui-md-2">
+			           <h:outputText value="#{respReact.nodo}" />
+			          </div>
+			          <div class="ui-g-12 ui-md-10">
+			            <p:selectOneMenu id="respuestaCorrelacionada" value="#{updateFTAMrqForm.listRespCorrectReactCorImg[status.index].numeroRespuesta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
+			            <f:selectItem itemLabel="Seleccione un Valor.." itemValue="" />
+		                 <f:selectItems value="#{updateFTAMrqForm.selectRespReactCorImg}" />
+			            </p:selectOneMenu>
+			            <p:message for="respuestaCorrelacionada"/>
+			          </div>
+			          </div>
+			         </ui:repeat>
+			       </h:panelGroup>
+		       </h:panelGrid>
+		     </div>
+		  
+		   </div>    
+	           
+	  </div>
+	 </div>
+     </h:panelGroup>
+    </div>
   
  <div class="ui-g-12 ui-md-12">
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
-     <p:commandButton id="GuardarBtn" icon="fa fa-save" value="Guardar" actionListener="#{updateFTAMrqForm.update()}"  update="UpdateReactivosForm growl" oncomplete="handleUpdateRequest(xhr, status, args)"/>
+     <p:commandButton id="GuardarBtn" icon="fa fa-save" value="Guardar" actionListener="#{updateFTAMrqForm.update()}"  update="UpdateReactivosForm growl" onstart="onstartUFTA()" oncomplete="handleUpdateRequest(xhr, status, args)"/>
    </div>
    <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
     <p:commandButton icon="fa fa-eye" value="Previsualizar" update="UpdateReactivosForm growl" action="#{updateFTAMrqForm.saveAndPreview()}"/>
@@ -472,7 +548,9 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 </ui:define>
 
 <ui:define name="xxhrwjs"> 
+   <h:outputScript name="gojs/go.js" library="js" />
    <h:outputScript name="cmrise/reactivos/UpdateReactivosImgSen.js" library="js" />
+   <h:outputScript name="cmrise/reactivos/UpdateReactivosImgCor.js" library="js" />
 </ui:define>
 
 </ui:composition>

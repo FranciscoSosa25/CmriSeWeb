@@ -16,6 +16,7 @@ public  class Utilitarios {
 	public static final String RESP_TEXTO_LIBRE = "RESP_TEXTO_LIBRE"; 
 	public static final String OPCION_MULTIPLE = "OPCION_MULTIPLE";
 	public static final String IMAGEN_INDICADA = "IMAGEN_INDICADA"; 
+	public static final String IMAGEN_ANOTADA = "IMAGEN_ANOTADA"; 
 	public static final String WRONG_CORRECT = "WRONG_CORRECT"; 
 	public static final String PROP_SCORING = "PROP_SCORING"; 
 	public static final String INCLUDED_WORDS ="INCLUDED_WORDS"; 

@@ -1,5 +1,6 @@
 package com.cmrise.ejb.backing.mrq.preview;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,13 +9,16 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import com.cmrise.ejb.helpers.GuestPreferences;
+import com.cmrise.ejb.model.mrqs.AnotacionesCorImg;
 import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasFtaV1;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
+import com.cmrise.ejb.model.mrqs.RespReactCorImg;
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
@@ -23,6 +27,8 @@ import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
 import com.cmrise.utils.Utilitarios;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 @ManagedBean
 @ViewScoped
@@ -68,6 +74,11 @@ public class MrqPreviewForm {
 	private MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForRead = new MrqsPreguntasHdrV1();
 	private MrqsPreguntasFtaV1 mrqsPreguntasFtaV1ForRead = new MrqsPreguntasFtaV1(); 
 	
+	private List<SelectItem> selectRespReactCorImg = new ArrayList<SelectItem>(); 
+	private List<RespReactCorImg> listRespReactCorImg = new ArrayList<RespReactCorImg>(); 
+	private List<AnotacionesCorImg> listAnotacionesCorImg = new ArrayList<AnotacionesCorImg>(); 
+	
+	
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal; 
 	
@@ -111,12 +122,27 @@ public class MrqPreviewForm {
 	         this.totalCorrectAnswers = mrqsOpcionMultipleLocal.totalCorrectAnswers(mrqsPreguntasHdrV2Dto.getNumeroMpf()); 
 	     }else if(Utilitarios.IMAGEN_INDICADA.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
 	        this.setIndicateImage(true);	 
+	     }else if(Utilitarios.IMAGEN_ANOTADA.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
+	    	this.setAnnotatedImage(true); 
 	     }
 	     this.setQuestionView(true);
 	     
 	     mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(mrqsPreguntasHdrV2Dto.getNumeroMpf()
 																	             ,mrqsPreguntasHdrV2Dto.getTipoPregunta()
 																	             );
+	     
+	     if(Utilitarios.IMAGEN_ANOTADA.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
+	    	 Gson gson = new Gson();
+             if(null!=mrqsPreguntasFtaV1ForRead.getRespuestas()) {
+            	Type collectionType = new TypeToken<List<RespReactCorImg>>(){}.getType();
+            	listRespReactCorImg = gson.fromJson(mrqsPreguntasFtaV1ForRead.getRespuestas(), collectionType); 
+            	refreshRespuestas();
+             }
+             if(null!=mrqsPreguntasFtaV1ForRead.getAnotaciones()) {
+            	 Type collectionType = new TypeToken<List<AnotacionesCorImg>>(){}.getType();
+            	 listAnotacionesCorImg = gson.fromJson(mrqsPreguntasFtaV1ForRead.getAnotaciones(), collectionType); 
+             }
+	     }
 	     
 	     listPresentMrqsImagenesGrp =  mrqsImagenesGrpLocal.findByFta(mrqsPreguntasHdrV2Dto.getNumeroMpf(),Utilitarios.INTRODUCCION);
          
@@ -247,6 +273,14 @@ public class MrqPreviewForm {
 	
 	public String proceed() {
 		return skip();
+	}
+	
+	private void refreshRespuestas() {
+		selectRespReactCorImg = new ArrayList<SelectItem>(); 
+		for(RespReactCorImg i:listRespReactCorImg) {
+			SelectItem selectItem = new SelectItem(i.getNumero(),i.getRespuesta()); 
+			selectRespReactCorImg.add(selectItem); 
+		}
 	}
 	
 	
@@ -486,6 +520,30 @@ public class MrqPreviewForm {
 	public void setTipoPregunta(String tipoPregunta) {
 		this.tipoPregunta = tipoPregunta;
 	}
+
+	public List<SelectItem> getSelectRespReactCorImg() {
+		return selectRespReactCorImg;
+	}
+
+	public void setSelectRespReactCorImg(List<SelectItem> selectRespReactCorImg) {
+		this.selectRespReactCorImg = selectRespReactCorImg;
+	}
 	
+	public List<RespReactCorImg> getListRespReactCorImg() {
+		return listRespReactCorImg;
+	}
+
+	public void setListRespReactCorImg(List<RespReactCorImg> listRespReactCorImg) {
+		this.listRespReactCorImg = listRespReactCorImg;
+	}
+
+	public List<AnotacionesCorImg> getListAnotacionesCorImg() {
+		return listAnotacionesCorImg;
+	}
+
+	public void setListAnotacionesCorImg(List<AnotacionesCorImg> listAnotacionesCorImg) {
+		this.listAnotacionesCorImg = listAnotacionesCorImg;
+	}
+
 	
 }
