@@ -16,10 +16,10 @@
 </ui:define> 
             
 <ui:define name="content">
-     <p:carousel  headerText="EXAMEN REACTIVO"     style="width:100%" >
-        </p:carousel>
+     <p:panel id="nuevoExamenReactivo"  header=" NUEVO EXAMEN REACTIVO" style="margin-bottom:20px">
 <div class="card">
 <h:form id="createForm">
+
 <f:passThroughAttribute name="autocomplete" value="off"/>
 <p:growl id="growl" showDetail="true"/>
 <div class="ui-g">
@@ -187,6 +187,7 @@
 
 </h:form>
 </div>
+</p:panel>
 </ui:define>
 </ui:composition>
 

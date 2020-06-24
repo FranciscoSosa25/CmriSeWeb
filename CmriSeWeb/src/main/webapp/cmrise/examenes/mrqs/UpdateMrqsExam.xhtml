@@ -61,10 +61,10 @@
 </ui:define>
                 
 <ui:define name="content">
-<p:carousel  headerText="EDITAR EXAMEN REACTIVO"     style="width:100%" >
-        </p:carousel>
+<p:panel id="editarExamenReactivo"  header="EDITAR EXAMEN REACTIVO" style="margin-bottom:20px">
 <div class="card">
 <h:form id="updateForm">
+
 <p:growl id="messages" showDetail="true" />
 
 <div class="ui-g">
@@ -263,7 +263,7 @@
  
 </h:form>
 </div>
-
+</p:panel>
 <h:form id="MateriasForm">
 
    <div class="ui-g card">

@@ -94,15 +94,20 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
 		mrqsPreguntasFtaDao.insert(mrqsPreguntasFtaDto); 
 		pMrqsPreguntasFtaV1.setNumero(mrqsPreguntasFtaDto.getNumero());	
 		
-		File directory =new File(mrqsPreguntasFtaDto.getRutaImagen()); 
-		directory.mkdirs(); 
-		File destination = new File(mrqsPreguntasFtaDto.getRutaImagen()+"\\"+mrqsPreguntasFtaDto.getNombreImagen()); 
-	    
-	    try {
-			copy(pMrqsPreguntasFtaV1.getImagenContent(),destination);
-		} catch (IOException ie) {
-		   System.out.println("IOException MrqsPreguntasFtaLocalImpl.insert "+ie.getMessage());
-		} 	
+		System.out.println("pMrqsPreguntasFtaV1.getNombreImagen():"+pMrqsPreguntasFtaV1.getNombreImagen());
+		
+		if(null!=pMrqsPreguntasFtaV1.getNombreImagen()&&!"".equals(pMrqsPreguntasFtaV1.getNombreImagen())) {
+			File directory =new File(mrqsPreguntasFtaDto.getRutaImagen()); 
+			directory.mkdirs(); 
+			File destination = new File(mrqsPreguntasFtaDto.getRutaImagen()+"\\"+mrqsPreguntasFtaDto.getNombreImagen()); 
+		    
+		    try {
+				copy(pMrqsPreguntasFtaV1.getImagenContent(),destination);
+			} catch (IOException ie) {
+			   System.out.println("IOException MrqsPreguntasFtaLocalImpl.insert "+ie.getMessage());
+			} 	
+		}
+		
 		
 		return mrqsPreguntasFtaDto.getNumero();
 	}
@@ -144,6 +149,7 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
 		
         MrqsPreguntasFtaDto mrqsPreguntasFtaDto = mrqsPreguntasFtaDao.findDtoByNumeroFta(pNumeroFta); 
         
+        revtal.setNumero(mrqsPreguntasFtaDto.getNumero());
 		revtal.setTextoPregunta(mrqsPreguntasFtaDto.getTextoPregunta());
 		revtal.setTextoSugerencias(mrqsPreguntasFtaDto.getTextoSugerencias());
 		revtal.setRespuestaCorrecta(mrqsPreguntasFtaDto.getRespuestaCorrecta());
@@ -240,13 +246,16 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
 		mrqsPreguntasFtaDto.setHeight(pMrqsPreguntasFtaV1.getHeight());
         mrqsPreguntasFtaDao.update(pNumeroFta, mrqsPreguntasFtaDto);	
         
-       File destination = new File(pMrqsPreguntasFtaV1.getRutaImagen()+"\\"+pMrqsPreguntasFtaV1.getNombreImagen()); 
+       if(null!=pMrqsPreguntasFtaV1.getNombreImagen()&&!"".equals(pMrqsPreguntasFtaV1.getNombreImagen())) {
+    	   File destination = new File(pMrqsPreguntasFtaV1.getRutaImagen()+"\\"+pMrqsPreguntasFtaV1.getNombreImagen()); 
+   	    
+   	    try {
+   			copy(pMrqsPreguntasFtaV1.getImagenContent(),destination);
+   		} catch (IOException ie) {
+   		   System.out.println("IOException MrqsPreguntasFtaLocalImpl.update "+ie.getMessage());
+   		} 	   
+       }
 	    
-	    try {
-			copy(pMrqsPreguntasFtaV1.getImagenContent(),destination);
-		} catch (IOException ie) {
-		   System.out.println("IOException MrqsPreguntasFtaLocalImpl.update "+ie.getMessage());
-		} 	
         
 	}
 

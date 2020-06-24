@@ -17,15 +17,17 @@
 
 
 <ui:define name="content">
-<p:breadCrumb>
-    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
-     <p:menuitem value="Examenes Casos Clinicos" url="ManageTestExam.xhtml"/>
-     <p:menuitem value="Nuevo Examen Caso Clinico" url="#"/>
+<p:panel id="NuevoExamenCasoClinico"  header="NUEVO EXAMEN CASO CLINICO" style="margin-bottom:20px">
+<div class="card">
+<!-- <p:breadCrumb> -->
+<!--     <p:menuitem value="Inicio" outcome="PaginaPrincipal" /> -->
+<!--      <p:menuitem value="Examenes Casos Clinicos" url="ManageTestExam.xhtml"/> -->
+<!--      <p:menuitem value="Nuevo Examen Caso Clinico" url="#"/> -->
 
-</p:breadCrumb>
-<h1>Nuevo Examen Caso Clinico</h1>
+<!-- </p:breadCrumb> -->
+
 <h:form id="createForm">
-<p:panelGrid id="tituloPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+<p:panelGrid id="tituloPanelId"  columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
   <p:outputLabel for="publicTitle" value="Título Público"/>
   <p:inputText id="publicTitle" value="#{createTestExamForm.titulo}" style="width:100%"/>
   <p:message for="publicTitle"/>
@@ -58,7 +60,7 @@
   <p:message  for="internalComments"/>
 </p:panelGrid>
 
-<h3>OPCIONES DE PRUEBA/EXAMEN</h3>
+
 
 <p:panelGrid id="visibilityPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
   <p:outputLabel for="visibility" value="Visibilidad" />
@@ -108,7 +110,7 @@
  <p:message  for="finishingMessage"/>
 </p:panelGrid>
 
-<h3>OPCIONES DE DOCUMENTOS</h3>
+
 <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
  <p:outputLabel for="generateConfirmationOfAttendance"  value="¿Generar Confirmación de Asistencia?" />
  <p:inputSwitch id="generateConfirmationOfAttendance" value="#{createTestExamForm.confirmacionAsistencia}" onLabel="&#10003;" offLabel="&#215;"/>
@@ -127,5 +129,7 @@
  </div>
 </div>
 </h:form>
+</div>
+</p:panel>
 </ui:define>
 </ui:composition>

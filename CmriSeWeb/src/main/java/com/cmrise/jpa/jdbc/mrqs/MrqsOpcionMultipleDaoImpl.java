@@ -34,6 +34,7 @@ public class MrqsOpcionMultipleDaoImpl implements MrqsOpcionMultipleDao {
 
 	@Override
 	public List<MrqsOpcionMultipleDto> findByNumeroFta(long pNumeroFta) {
+		System.out.println("pNumeroFta:"+pNumeroFta);
 		String strQuery = "SELECT m FROM MrqsOpcionMultipleDto m WHERE m.numeroFta ="+pNumeroFta; 
 		Query query = em.createQuery(strQuery); 
 		return query.getResultList();

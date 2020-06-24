@@ -33,8 +33,8 @@
 <h:form id="createForm">
 <p:growl id="growl" showDetail="true"/>
 <!-- <h1>Crear Caso Clínico</h1> -->
- <p:carousel  headerText="NUEVO CASO CLINICO"     style="width:100%" >
-        </p:carousel>
+  <p:panel id="nuevoCasoClinico"  header="NUEVO CASO CLINICO" style="margin-bottom:20px">
+        
 <!-- <h3>Información del Caso clínico</h3> -->
   <p:panel>
   <div class="ui-g">
@@ -145,7 +145,7 @@
  <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
  </p:panelGrid>
  
-
+</p:panel>
 </h:form>
 </ui:define>
 </ui:composition>

@@ -216,6 +216,7 @@ public class UpdateFTAMrqForm {
 		 if(0l!=lNumeroFta) {
 		   /** CONSULTA INFORMACION **/
 			this.setNumeroFta(lNumeroFta);
+			mrqsPreguntasFtaV1ForAction.setNumero(lNumeroFta);
 			mrqsPreguntasFtaV1ForAction = mrqsPreguntasFtaLocal.findObjModByNumeroFta(lNumeroFta
 					                                                                 ,mrqsPreguntasHdrV1ForAction.getTipoPregunta()
 					                                                                 );
@@ -232,6 +233,7 @@ public class UpdateFTAMrqForm {
 	        	 mrqsOpcionMultiple.setNumero(mrqsOpcionMultipleDto.getNumero());
 	        	 mrqsOpcionMultiple.setNumeroFta(mrqsOpcionMultipleDto.getNumeroFta());
 	        	 mrqsOpcionMultiple.setTextoExplicacion(mrqsOpcionMultipleDto.getTextoExplicacion());
+	        	 System.out.println("mrqsOpcionMultipleDto.getTextoRespuesta():"+mrqsOpcionMultipleDto.getTextoRespuesta());
 	        	 mrqsOpcionMultiple.setTextoRespuesta(mrqsOpcionMultipleDto.getTextoRespuesta());
 	        	 mrqsOpcionMultiple.setNumeroLinea(mrqsOpcionMultipleDto.getNumeroLinea());
 	        	 listMrqsOpcionMultiple.add(mrqsOpcionMultiple); 
