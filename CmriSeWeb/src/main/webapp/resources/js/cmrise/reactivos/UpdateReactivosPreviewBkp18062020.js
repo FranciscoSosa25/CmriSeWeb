@@ -16,8 +16,6 @@ let coordinatesID;
 let coordinatesImgCorId; 
 let diagram; 
 let imgCorDivID; 
-let widthImgCorID; 
-let heightImgCorID; 
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Comienza DOMContentLoaded');
@@ -55,74 +53,60 @@ document.addEventListener('DOMContentLoaded', () => {
   
   if('IMAGEN_ANOTADA'===tipoReactivoID.value){
 	  console.log("*"); 
-	  widthImgCorID = document.getElementById('previewForm:widthImgCor');
-	  heightImgCorID = document.getElementById('previewForm:heightImgCor');
-	  $goJs = go.GraphObject.make;
 	  var img = new Image();
 	  img.setAttribute('src', graphicImageImgCorID.src); 
 	  img.addEventListener('load',(e)=>{
-		
-		  
-		  
-		  
-		  diagram = $goJs(go.Diagram, "previewForm:imgCorDiv",
-			         {  
-				    	 fixedBounds: new go.Rect(0, 0, img.width, img.height),  // document is always 500x300 units
-				         allowHorizontalScroll: false,  // disallow scrolling or panning
-				         allowVerticalScroll: false,
-				         allowZoom: false,              // disallow zooming
-				         "animationManager.isEnabled": false,
-				         "undoManager.isEnabled": true,
-				         isReadOnly:true
+		  $goJs = go.GraphObject.make;
+	     diagram = $goJs(go.Diagram, "previewForm:imgCorDiv",
+			         { // enable Ctrl-Z to undo and Ctrl-Y to redo
+			           "undoManager.isEnabled": true,
+			           allowVerticalScroll:false, 
+			           allowHorizontalScroll:false, 
+			           isReadOnly:true
 			         });
 	     
 	     imgCorDivID = diagram.div; 
+	     imgCorDivID.style.backgroundImage = 'url("'+e.target.src+'")'; 
 	     imgCorDivID.style.width = img.width+"px"; 
 	     imgCorDivID.style.height = img.height+"px"; 
 	     
-	      /**
-	      diagram.grid.visible = true;  
+	     diagram.grid.visible = true;  
 	  	   diagram.startTransaction("change Layout");
 	       var lay = diagram.layout;
 	       lay.alignment = go.GridLayout.Location;
 	       lay.wrappingWidth = img.width; 
 	       diagram.commitTransaction("change Layout");
-		  ***/
 		 
 	     /*** Bug Alteracion de Posicionamiento **/
 	     coordinatesImgCorId  = document.getElementById('previewForm:coordinatesImgCor');
 	     console.log(coordinatesImgCorId.value);
 	     diagram.linkTemplate =
-			    $goJs(go.Link,
-			      $goJs(go.Shape,
-			        new go.Binding("stroke", "color"),  // shape.stroke = data.color
-			        new go.Binding("strokeWidth", "thick")),  // shape.strokeWidth = data.thick
-			      $goJs(go.Shape,
-			        { toArrow: "OpenTriangle", fill: null },
-			        new go.Binding("stroke", "color"),  // shape.stroke = data.color
-			        new go.Binding("strokeWidth", "thick"))  // shape.strokeWidth = data.thick
-			    );
-		 
-		  diagram.nodeTemplate =
-			  $goJs(go.Node, "Auto"
-					,{ dragComputation: stayInFixedArea }
-			       ,new go.Binding("location", "loc").makeTwoWay(),
-					  $goJs(go.Shape,
-			        new go.Binding("figure", "fig"),
-			        new go.Binding("fill", "color"),
-			        new go.Binding("stroke", "color"),
-			        new go.Binding("strokeWidth", "thick")
-					  ),
-			        $goJs(go.TextBlock,
-			        { margin: 5 },new go.Binding("text", "say"))
-			    );
-	  	     
-	  	   // the background Part showing the fixed bounds of the diagram contents
-	  	   diagram.add(
-	  			 $goJs(go.Part,
-	  	          { layerName: "Grid", position: diagram.fixedBounds.position },
-	  	          $goJs(go.Picture, e.target.src)
-	  	        ));
+	  	    $goJs(go.Link,
+	  	      $goJs(go.Shape,
+	  	        new go.Binding("stroke", "color"),  // shape.stroke = data.color
+	  	        new go.Binding("strokeWidth", "thick")),  // shape.strokeWidth = data.thick
+	  	      $goJs(go.Shape,
+	  	        { toArrow: "OpenTriangle", fill: null },
+	  	        new go.Binding("stroke", "color"),  // shape.stroke = data.color
+	  	        new go.Binding("strokeWidth", "thick"))  // shape.strokeWidth = data.thick
+	  	    );
+
+	   diagram.nodeTemplate =
+	  	  $goJs(go.Node, "Auto", { // the Node.location point will be at the center of each node
+	  	      locationSpot: go.Spot.Center
+	  	       },new go.Binding("location", "loc").makeTwoWay(),
+	  			  $goJs(go.Shape,
+	  	        new go.Binding("figure", "fig"),
+	  	        new go.Binding("fill", "color"),
+	  	        new go.Binding("stroke", "color"),
+	  	        new go.Binding("strokeWidth", "thick")
+	  			  ),
+	  	        $goJs(go.TextBlock,
+	  	        { margin: 5 },new go.Binding("text", "say"))
+	  	    );
+	   
+	     console.log(diagram); 
+	     console.log(diagram.model);
 	     
 	     diagram.model = go.Model.fromJson(coordinatesImgCorId.value);
 	     
@@ -228,19 +212,3 @@ function init(){
 		      }
 		}
 		
-		// this function is the Node.dragComputation, to limit the movement of the parts
-		// use GRIDPT instead of PT if DraggingTool.isGridSnapEnabled and movement should snap to grid
-		function stayInFixedArea(part, pt, gridpt) {
-		  var diagram = part.diagram;
-		  if (diagram === null) return pt;
-		  // compute the document area without padding
-		  var v = diagram.documentBounds.copy();
-		  v.subtractMargin(diagram.padding);
-		  // get the bounds of the part being dragged
-		  var b = part.actualBounds;
-		  var loc = part.location;
-		  // now limit the location appropriately
-		  var x = Math.max(v.x, Math.min(pt.x, v.right - b.width)) + (loc.x - b.x);
-		  var y = Math.max(v.y, Math.min(pt.y, v.bottom - b.height)) + (loc.y - b.y);
-		  return new go.Point(x, y);
-		}

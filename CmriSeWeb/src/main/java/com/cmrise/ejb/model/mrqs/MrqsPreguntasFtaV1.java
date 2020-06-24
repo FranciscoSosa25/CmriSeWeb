@@ -34,6 +34,9 @@ public class MrqsPreguntasFtaV1 implements Serializable {
 	private Date fechaCreacion;
 	private int height; 
 	private int width; 
+	private String anotaciones; 
+	private String respuestas; 
+	private String correlaciones; 
 	
 	private List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
 	private List<MrqsImagenesGrp> listMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
@@ -188,6 +191,24 @@ public class MrqsPreguntasFtaV1 implements Serializable {
 	}
 	public void setWidth(int width) {
 		this.width = width;
+	}
+	public String getAnotaciones() {
+		return anotaciones;
+	}
+	public void setAnotaciones(String anotaciones) {
+		this.anotaciones = anotaciones;
+	}
+	public String getRespuestas() {
+		return respuestas;
+	}
+	public void setRespuestas(String respuestas) {
+		this.respuestas = respuestas;
+	}
+	public String getCorrelaciones() {
+		return correlaciones;
+	}
+	public void setCorrelaciones(String correlaciones) {
+		this.correlaciones = correlaciones;
 	} 
 	
 

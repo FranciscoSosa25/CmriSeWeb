@@ -488,7 +488,78 @@ function handleUpdateRequest(xhr, status, args){
 		   ctx.stroke();
 		  
 	 }
-	  
+	 /** Variable declarada en otro archivo **/
+	 graphicImageImgCorID  = document.getElementById('graphicImageImgCorID'); 
+	 if(null!=graphicImageImgCorID){
+		 console.log('Comienza null!=graphicImageImgCorID'); 
+		 
+		    $goJs = go.GraphObject.make;
+		   
+		     var img = new Image();
+		     img.src = graphicImageImgCorID.src; 
+		     img.addEventListener('load',(e)=>{
+		    	 
+		    	  diagram = $goJs(go.Diagram, "UpdateReactivosForm:imgCorDiv",
+		 		         {  
+		 			    	 fixedBounds: new go.Rect(0, 0, img.width, img.height),  // document is always 500x300 units
+		 			         allowHorizontalScroll: false,  // disallow scrolling or panning
+		 			         allowVerticalScroll: false,
+		 			         allowZoom: false,              // disallow zooming
+		 			         "animationManager.isEnabled": false,
+		 			         "undoManager.isEnabled": true,
+		 			         "ModelChanged": function(e) {     // just for demonstration purposes,
+		 			           if (e.isTransactionFinished) {  // show the model data in the page's TextArea
+		 			             document.getElementById("UpdateReactivosForm:coordinatesImgCor").textContent = e.model.toJson();
+		 			           }
+		 			         }
+		 		         });
+		    	 
+		    	 imgCorDivID = diagram.div; 
+				 imgCorDivID.style.width = img.width+"px"; 
+				 imgCorDivID.style.height = img.height+"px"; 
+				 
+				 diagram.linkTemplate =
+				  	    $goJs(go.Link,
+				  	      $goJs(go.Shape,
+				  	        new go.Binding("stroke", "color"),  // shape.stroke = data.color
+				  	        new go.Binding("strokeWidth", "thick")),  // shape.strokeWidth = data.thick
+				  	      $goJs(go.Shape,
+				  	        { toArrow: "OpenTriangle", fill: null },
+				  	        new go.Binding("stroke", "color"),  // shape.stroke = data.color
+				  	        new go.Binding("strokeWidth", "thick"))  // shape.strokeWidth = data.thick
+				  	    );
+
+				   diagram.nodeTemplate =
+				  	  $goJs(go.Node, "Auto"
+				  		   ,new go.Binding("location", "loc").makeTwoWay(),
+				  			  $goJs(go.Shape,
+				  	        new go.Binding("figure", "fig"),
+				  	        new go.Binding("fill", "color"),
+				  	        new go.Binding("stroke", "color"),
+				  	        new go.Binding("strokeWidth", "thick")
+				  			  ),
+				  	        $goJs(go.TextBlock,
+				  	        { margin: 5 },new go.Binding("text", "say"))
+				  	    );
+				     
+				   // the background Part showing the fixed bounds of the diagram contents
+			  	   diagram.add(
+			  			 $goJs(go.Part,
+			  	          { layerName: "Grid", position: diagram.fixedBounds.position },
+			  	          $goJs(go.Picture, e.target.src)
+			  	        ));
+			  	   
+				     diagram.model = go.Model.fromJson(coordinatesImgCorId.value);
+				 
+				 
+		      }); 
+		 
+		     coordinatesImgCorId  = document.getElementById('UpdateReactivosForm:coordinatesImgCor');
+		    
+		     
+		 console.log('Finaliza null!=graphicImageImgCorID'); 
+	 }
+	 
 	
 	if(args.validationFailed) {
 		 argsValidationFailed(); 

@@ -88,6 +88,9 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
 		mrqsPreguntasFtaDto.setPoligonos(pMrqsPreguntasFtaV1.getPoligonos());
 		mrqsPreguntasFtaDto.setWidth(pMrqsPreguntasFtaV1.getWidth());
 		mrqsPreguntasFtaDto.setHeight(pMrqsPreguntasFtaV1.getHeight());
+		mrqsPreguntasFtaDto.setAnotaciones(pMrqsPreguntasFtaV1.getAnotaciones());
+		mrqsPreguntasFtaDto.setRespuestas(pMrqsPreguntasFtaV1.getRespuestas());
+		mrqsPreguntasFtaDto.setCorrelaciones(pMrqsPreguntasFtaV1.getCorrelaciones());
 		mrqsPreguntasFtaDao.insert(mrqsPreguntasFtaDto); 
 		pMrqsPreguntasFtaV1.setNumero(mrqsPreguntasFtaDto.getNumero());	
 		
@@ -179,6 +182,39 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
 				readImage = null;
 			}
 			
+		}else if(Utilitarios.IMAGEN_ANOTADA.equals(pTipoPregunta)) {
+			
+			try {
+				byte[] bytesArray = Files.readAllBytes(Paths.get(Utilitarios.FS_ROOT+mrqsPreguntasFtaDto.getRutaImagen()+"\\"+mrqsPreguntasFtaDto.getNombreImagen()));
+				revtal.setImagenContent(bytesArray);
+				revtal.setImagenBase64(new String(Base64.getEncoder().encode(bytesArray)));
+				revtal.setNombreImagen(mrqsPreguntasFtaDto.getNombreImagen());
+				revtal.setContentType(mrqsPreguntasFtaDto.getContentType());
+				revtal.setPoligonos(mrqsPreguntasFtaDto.getPoligonos());
+				revtal.setRutaImagen(mrqsPreguntasFtaDto.getRutaImagen());
+			} catch (IOException ie) {
+			   System.out.println("IOException MrqsPreguntasFtaLocalImpl findObjModByNumeroFta:"+ie.getMessage());
+			}
+		
+			BufferedImage readImage = null;
+
+			try {
+			    readImage = ImageIO.read(new File(Utilitarios.FS_ROOT+mrqsPreguntasFtaDto.getRutaImagen()+"\\"+mrqsPreguntasFtaDto.getNombreImagen()));
+			    int h = readImage.getHeight();
+			    int w = readImage.getWidth();
+			    revtal.setHeight(h);
+			    revtal.setWidth(w);
+			} catch (Exception e) {
+				revtal.setHeight(mrqsPreguntasFtaDto.getHeight());
+			    revtal.setWidth(mrqsPreguntasFtaDto.getWidth());
+				System.out.println("A veces manda excepcion por eso se agregaron 2 campos extras"); 
+				System.out.println("IOException MrqsPreguntasFtaLocalImpl findObjModByNumeroFta ImageIO.read:"+e.getMessage());
+				readImage = null;
+			}
+			
+			revtal.setAnotaciones(mrqsPreguntasFtaDto.getAnotaciones());
+			revtal.setRespuestas(mrqsPreguntasFtaDto.getRespuestas());
+			revtal.setCorrelaciones(mrqsPreguntasFtaDto.getCorrelaciones());
 		}
 		
 		return revtal;

@@ -3,6 +3,7 @@ package com.cmrise.ejb.backing.mrq;
 import java.util.List;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Iterator;
@@ -18,6 +19,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -29,10 +31,13 @@ import com.cmrise.ejb.helpers.UserLogin;
 import com.cmrise.ejb.model.admin.AdmonExamenHdr;
 import com.cmrise.ejb.model.admin.AdmonMateriaHdr;
 import com.cmrise.ejb.model.admin.AdmonSubMateria;
+import com.cmrise.ejb.model.mrqs.AnotacionesCorImg;
 import com.cmrise.ejb.model.mrqs.MrqsListasPalabras;
 import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasFtaV1;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
+import com.cmrise.ejb.model.mrqs.RespCorrectReactCorImg;
+import com.cmrise.ejb.model.mrqs.RespReactCorImg;
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenes;
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
 import com.cmrise.ejb.services.admin.AdmonExamenHdrLocal;
@@ -47,19 +52,18 @@ import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
 import com.cmrise.jpa.dto.admin.TablasUtilitariasValoresDto;
 import com.cmrise.jpa.dto.mrqs.MrqsListasPalabrasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
-import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
-import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
 import com.cmrise.utils.Utilitarios;
 import com.cmrise.utils.UtilitariosLocal;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 @ManagedBean
 @ViewScoped
 public class UpdateFTAMrqForm {
-	private String textoRespuesta;
+	
 	private long numeroHdr;
 	private long numeroFta; 
-	private String textoSugerencias;
 	private MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForAction = new MrqsPreguntasHdrV1();
 	private MrqsPreguntasFtaV1 mrqsPreguntasFtaV1ForAction = new MrqsPreguntasFtaV1(); 
 	
@@ -108,7 +112,15 @@ public class UpdateFTAMrqForm {
 	
 	private List<SelectItem> selectInstruccionesItems; 
 	private List<SelectItem> selectScoringMethodItems; 
-		
+	
+	private int idxRespuestas = 0; 
+	private List<RespReactCorImg> listRespReactCorImg = new ArrayList<RespReactCorImg>(); 
+    private int idxRespuestasCorrelacionadas=0; 
+	private List<RespCorrectReactCorImg> listRespCorrectReactCorImg = new ArrayList<RespCorrectReactCorImg>(); 
+	private List<SelectItem> selectRespReactCorImg = new ArrayList<SelectItem>(); 
+	private int idxLabels = 0; 
+	private String[] labels = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"}; 
+	
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal;
 	
@@ -194,6 +206,9 @@ public class UpdateFTAMrqForm {
 			 initListMrqsOpcionMultiple(); 
 		 }else if(Utilitarios.IMAGEN_INDICADA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			 this.setIndicateImage(true);
+		 }else if(Utilitarios.IMAGEN_ANOTADA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
+			 this.setAnnotatedImage(true);
+			 agregarRespReact(); 
 		 }
 		 
 		 long lNumeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(this.getNumeroHdr()); 
@@ -262,6 +277,17 @@ public class UpdateFTAMrqForm {
             
             listPresentMrqsImagenesGrp =  mrqsImagenesGrpLocal.findByFta(lNumeroFta,Utilitarios.INTRODUCCION);
             
+            Gson gson = new Gson();
+            Type collectionType = new TypeToken<List<RespReactCorImg>>(){}.getType();
+            if(null!=mrqsPreguntasFtaV1ForAction.getRespuestas()) {
+            	listRespReactCorImg = gson.fromJson(mrqsPreguntasFtaV1ForAction.getRespuestas(), collectionType); 
+            	refreshRespuestas();
+            }
+            collectionType = new TypeToken<List<RespCorrectReactCorImg>>(){}.getType();
+            if(null!=mrqsPreguntasFtaV1ForAction.getCorrelaciones()) {
+            	  listRespCorrectReactCorImg = gson.fromJson(mrqsPreguntasFtaV1ForAction.getCorrelaciones(), collectionType); 
+            }
+            
 		 }
 		
 		 
@@ -316,6 +342,18 @@ public class UpdateFTAMrqForm {
 				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
 				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
 				 	) {
+					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+					this.selectScoringMethodItems.add(selectItem); 	
+				  }
+			}	
+		}
+		
+		if(Utilitarios.IMAGEN_ANOTADA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
+			while(iterScoringMethodValores.hasNext()) {
+				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
+				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+				  ||"PROP_SCORING".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+					) {
 					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
 					this.selectScoringMethodItems.add(selectItem); 	
 				  }
@@ -427,7 +465,6 @@ public class UpdateFTAMrqForm {
 			mrqsPreguntasFtaV1ForAction.setActualizadoPor(userLogin.getNumeroUsuario());
 			mrqsPreguntasFtaV1ForAction.setFechaCreacion(new java.util.Date());
 			mrqsPreguntasFtaV1ForAction.setFechaActualizacion(new java.util.Date());
-			mrqsPreguntasFtaV1ForAction.setTextoSugerencias(this.getTextoSugerencias());
 			
 		    if(Utilitarios.OPCION_MULTIPLE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
 		     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("OPCION_MULTIPLE"); 	
@@ -444,7 +481,26 @@ public class UpdateFTAMrqForm {
 				 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se nececita dibujar un","Poligono") );
 				 return; 
 		     }
-		    
+		   }else if(Utilitarios.IMAGEN_ANOTADA.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
+			   mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("Modelo de Relaciones");
+			   List<AnotacionesCorImg> listAnotacionesCorImg = new ArrayList<AnotacionesCorImg>(); 
+			   for(RespCorrectReactCorImg i:listRespCorrectReactCorImg) {
+				   AnotacionesCorImg anotacionesCorImg = new AnotacionesCorImg(); 
+				   anotacionesCorImg.setNumero(i.getNumero());
+				   anotacionesCorImg.setNodo(i.getNodo());
+				   listAnotacionesCorImg.add(anotacionesCorImg); 
+			   }
+			   Gson gson = new Gson();
+			   if(null!=listAnotacionesCorImg&&listAnotacionesCorImg.size()>0) {
+				   mrqsPreguntasFtaV1ForAction.setAnotaciones(gson.toJson(listAnotacionesCorImg));
+			   }
+			   if(null!=listRespReactCorImg&&listRespReactCorImg.size()>0) {
+				   mrqsPreguntasFtaV1ForAction.setRespuestas(gson.toJson(listRespReactCorImg));
+			   }
+			   if(null!=listRespCorrectReactCorImg&&listRespCorrectReactCorImg.size()>0) {
+				   mrqsPreguntasFtaV1ForAction.setCorrelaciones(gson.toJson(listRespCorrectReactCorImg));
+			   }
+			  
 		   }
 			
 			lNumeroFta = mrqsPreguntasFtaLocal.insert(mrqsPreguntasFtaV1ForAction); 
@@ -454,9 +510,7 @@ public class UpdateFTAMrqForm {
 				MrqsOpcionMultipleDto mrqsOpcionMultipleDto = new MrqsOpcionMultipleDto();
 				mrqsOpcionMultipleDto.setEstatus(mrqsOpcionMultiple.isEstatus());
 				mrqsOpcionMultipleDto.setTextoRespuesta(mrqsOpcionMultiple.getTextoRespuesta());
-			//	mrqsOpcionMultipleDto.setTextoSugerencia(mrqsOpcionMultiple.getTextoSugerencia());
 				mrqsOpcionMultipleDto.setTextoExplicacion(mrqsOpcionMultiple.getTextoExplicacion());
-				//mrqsOpcionMultipleDto.setTextoSugerencia(mrqsOpcionMultiple.getTextoSugerencia());
 				mrqsOpcionMultipleDto.setFechaEfectivaDesde(Utilitarios.startOfTime);
 				mrqsOpcionMultipleDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
 				mrqsOpcionMultipleDto.setNumeroFta(lNumeroFta);
@@ -490,14 +544,13 @@ public class UpdateFTAMrqForm {
 				 return; 
 		     }
 			}
-			mrqsPreguntasFtaV1ForAction.setTextoSugerencias(this.getTextoSugerencias());
+			
 			mrqsPreguntasFtaLocal.update(lNumeroFta, mrqsPreguntasFtaV1ForAction); 
 			
 			for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
 				MrqsOpcionMultipleDto mrqsOpcionMultipleDto = new MrqsOpcionMultipleDto();
 				if(0!=mrqsOpcionMultiple.getNumero()) {
 				mrqsOpcionMultipleDto.setNumero(mrqsOpcionMultiple.getNumero());
-			
 				mrqsOpcionMultipleDto.setEstatus(mrqsOpcionMultiple.isEstatus());
 				mrqsOpcionMultipleDto.setTextoExplicacion(mrqsOpcionMultiple.getTextoExplicacion());
 				mrqsOpcionMultipleDto.setTextoRespuesta(mrqsOpcionMultiple.getTextoRespuesta());
@@ -859,7 +912,34 @@ public class UpdateFTAMrqForm {
         FacesMessage msg = new FacesMessage("El archivo", event.getFile().getFileName() + " ha sido subido.");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
-	 
+	
+	public void agregarRespReact() {
+		System.out.println("Entra agregarRespReact");
+		RespReactCorImg respReactCorImg = new RespReactCorImg(); 
+		respReactCorImg.setNumero(idxRespuestas++);
+		listRespReactCorImg.add(respReactCorImg); 
+		System.out.println(listRespReactCorImg);
+		System.out.println("Sale agregarRespReact");
+	}
+	
+	public void agregarRespCorrelacionadas() {
+		System.out.println("Entra agregarRespCorrelacionadas");
+		RespCorrectReactCorImg respCorrectReactCorImg = new RespCorrectReactCorImg(); 
+		respCorrectReactCorImg.setNumero(idxRespuestasCorrelacionadas++);
+		respCorrectReactCorImg.setNodo(labels[idxLabels++]);
+		listRespCorrectReactCorImg.add(respCorrectReactCorImg);
+		refreshRespuestas(); 
+		PrimeFaces.current().ajax().addCallbackParam("nodo", labels[idxLabels-1]);
+		System.out.println("Sale agregarRespCorrelacionadas");
+	}
+	
+	private void refreshRespuestas() {
+		selectRespReactCorImg = new ArrayList<SelectItem>(); 
+		for(RespReactCorImg i:listRespReactCorImg) {
+			SelectItem selectItem = new SelectItem(i.getNumero(),i.getRespuesta()); 
+			selectRespReactCorImg.add(selectItem); 
+		}
+	}
 	
 	public MrqsPreguntasHdrV1 getMrqsPreguntasHdrV1ForAction() {
 		return mrqsPreguntasHdrV1ForAction;
@@ -1115,16 +1195,29 @@ public class UpdateFTAMrqForm {
 	public void setUserLogin(UserLogin userLogin) {
 		this.userLogin = userLogin;
 	}
-	public String getTextoRespuesta() {
-		return textoRespuesta;
+
+	public List<RespCorrectReactCorImg> getListRespCorrectReactCorImg() {
+		return listRespCorrectReactCorImg;
 	}
-	public void setTextoRespuesta(String textoRespuesta) {
-		this.textoRespuesta = textoRespuesta;
+
+	public void setListRespCorrectReactCorImg(List<RespCorrectReactCorImg> listRespCorrectReactCorImg) {
+		this.listRespCorrectReactCorImg = listRespCorrectReactCorImg;
 	}
-	public String getTextoSugerencias() {
-		return textoSugerencias;
+
+	public List<RespReactCorImg> getListRespReactCorImg() {
+		return listRespReactCorImg;
 	}
-	public void setTextoSugerencias(String textoSugerencias) {
-		this.textoSugerencias = textoSugerencias;
+
+	public void setListRespReactCorImg(List<RespReactCorImg> listRespReactCorImg) {
+		this.listRespReactCorImg = listRespReactCorImg;
 	}
+
+	public List<SelectItem> getSelectRespReactCorImg() {
+		return selectRespReactCorImg;
+	}
+
+	public void setSelectRespReactCorImg(List<SelectItem> selectRespReactCorImg) {
+		this.selectRespReactCorImg = selectRespReactCorImg;
+	}
+	
 }

@@ -4,15 +4,6 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/templateCandidates.xhtml">
-<ui:define name="xxhrwjs">
-<script type="text/javascript">
-function handleUpdateRequest(xhr, status, args){
-	 if(args.validationFailed|| !args.updateIn) {
-		 argsValidationFailed(); 
-      }
-}
-</script>
-</ui:define>
 <ui:define name="xxhrwcss">
 <style type="text/css">
        .dcm_image {
@@ -98,7 +89,7 @@ function handleUpdateRequest(xhr, status, args){
 <h:form id="previewForm">
 <p:growl id="growl" showDetail="true" life="5000" />  
 <p:inputText id="tipoReactivo" value="#{mrqPreviewForm.tipoPregunta}" type="hidden"/>
-<div class="ui-g">
+<div class="ui-g card">
   <div class="ui-g-12 ui-md-12 ui-g-nopad">
       
      <div class="ui-g-12 ui-md-12">
@@ -162,14 +153,40 @@ function handleUpdateRequest(xhr, status, args){
             
             
               <h:panelGroup layout="block" rendered="#{mrqPreviewForm.indicateImage and mrqPreviewForm.questionView}">
+                <div class="ui-g-12">
                 <p:inputText id="coordinatesMouseMove"  type="hidden"/>
                 <p:inputText id="widthImgSen" value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.width}" type="hidden"/>
                 <p:inputText id="heightImgSen" value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.height}" type="hidden"/>
                 <h:graphicImage id="graphicImageImgSen" value="data:#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.contentType};base64,#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.imagenBase64}" style="display:none;" />
-	             <canvas id="paintingCanvas" style="cursor:crosshair" onmousedown="point_it(event)"  >
+	            <p:inputText id="coordinates"  value="#{mrqPreviewForm.respuestaPreguntaCandidato}" type="hidden"/>
+                 <canvas id="paintingCanvas" style="cursor:crosshair" onmousedown="point_it(event)"  >
 			         Elemento Canvase no soportado
 			      </canvas>
+			    </div>
 	          </h:panelGroup>	 
+              
+              <h:panelGroup layout="block" rendered="#{mrqPreviewForm.annotatedImage and mrqPreviewForm.questionView}">
+               <div class="ui-g-12">
+                 <p:inputText id="widthImgCor" value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.width}" type="hidden"/>
+                 <p:inputText id="heightImgCor" value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.height}" type="hidden"/>
+                 <h:graphicImage id="graphicImageImgCor" value="data:#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.contentType};base64,#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.imagenBase64}" style="display:none;" />
+	             <p:inputTextarea id="coordinatesImgCor" value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.poligonos}" placeholder="Coordenadas"   style="width:100%;display:none;" />
+                 <h:panelGroup id="imgCorDiv" layout="block" style="width:400px; height:150px; background-color: #DAE4E4;" >
+                 </h:panelGroup>
+	           </div>
+	           <div>
+	            <ui:repeat var="anotacion" value="#{mrqPreviewForm.listAnotacionesCorImg}" varStatus="status">
+	              <div class="ui-g-1">#{anotacion.nodo}</div>
+	              <div class="ui-g-11">
+                   <p:selectOneMenu id="respuestaCorrelacionada" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
+		            <f:selectItem itemLabel="Seleccione un Valor.." itemValue="" />
+	                 <f:selectItems value="#{mrqPreviewForm.selectRespReactCorImg}" />
+		            </p:selectOneMenu>
+		            <p:message for="respuestaCorrelacionada"/>
+	              </div>
+	            </ui:repeat>
+	           </div>
+	          </h:panelGroup>
             
             
               <h:panelGroup layout="block" rendered="#{mrqPreviewForm.answerView and mrqPreviewForm.wrongAnswer and mrqPreviewForm.limitedFreeTextAnswer}" >
@@ -265,7 +282,7 @@ function handleUpdateRequest(xhr, status, args){
              
           		     <div class="ui-g-12 ui-md-4">
              <p:commandButton value="Siguiente" update="previewForm" style="margin-left:15px; background: #2d0d86;" actionListener="#{mrqPreviewForm.saveProceed()}" rendered="#{mrqPreviewForm.questionView}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
-             <p:commandButton value="Continuar" style="margin-left:15px; background: #2d0d86;" action="#{mrqPreviewForm.proceed()}" rendered="#{mrqPreviewForm.answerView}"/>
+             <p:commandButton value="Continuar" immediate="true" style="margin-left:15px; background: #2d0d86;" action="#{mrqPreviewForm.proceed()}" rendered="#{mrqPreviewForm.answerView}"/>
            </div>  
             
             
