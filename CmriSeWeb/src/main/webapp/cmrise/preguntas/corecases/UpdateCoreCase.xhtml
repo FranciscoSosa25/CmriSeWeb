@@ -10,23 +10,33 @@
 .ui-accordion-header {
 	background-color: #2d0d86;
 }
+.no-border {
+    border-style: hidden !important ; /* or none */
+}
 </style>
 
 
 <h:form id="updateForm">
- <div class="ui-g card">
- <h1>Información del Caso Clinico</h1>
+  <p:carousel  headerText="Información del Caso Clinico"     style="width:100%" >
+        </p:carousel>
+<div class="card">
+ <div class="ui-g">
+
   <div class="ui-g-12 ui-md-12">
   
   
     <div class="ui-g">
 	<div class="ui-g-12 ui-md-3" style="text-align:right;">
-   <p:outputLabel for="estatusDesc" value="Examen"/>
-     </div>
-  <div class="ui-g-12 ui-md-9">
-   <p:inputText id="estatusDesc" value="#{updateCoreCaseForm.ccHdrV1.estatusDesc}" style="width:40%; " readonly="true"/>
-   <p:message for="estatusDesc"/>
-     </div>
+    <p:outputLabel for="estatusDesc" value="Estado" />
+    </div>
+    <div class="ui-g-12 ui-md-9">
+      <p:selectOneMenu id="estatusDesc"  value="#{updateCoreCaseForm.ccHdrV1.estatus}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+       <f:selectItem itemLabel="Seleccione un Valor.." itemValue="" />
+       <f:selectItems value="#{selectsHelper.selectEstatusMrqsItems}" />
+      </p:selectOneMenu>
+       <p:message for="estatusDesc"/>
+       </div>
+ 
   <div class="ui-g-12 ui-md-3" style="text-align:right;">
    <p:outputLabel for="admonExamenDesc" value="Examen"/>
      </div>
@@ -49,33 +59,44 @@
    <p:inputText id="admonSubMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonSubMateriaDesc}" style="width:40%" readonly="true"/>
    <p:message for="admonSubMateriaDesc"/>
    </div>
-    <div class="ui-g-12 ui-md-3"  style="text-align:right;">
-    <p:outputLabel for="fechaElaboracion" value="Fecha de Elaboracion"/>
-       </div>
-         <div class="ui-g-12 ui-md-9">
-    <p:calendar id="fechaElaboracion" value="#{updateCoreCaseForm.ccHdrV1.fechaElaboracion}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-   <p:message for="fechaElaboracion"/>
-   </div>
-        <div class="ui-g-12 ui-md-12" >
+         <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="creadoPor" value="Elabora" />
+         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" style="font-weight:bold;"/>
         </div>
          <div class="ui-g-12 ui-md-9">
-         <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
-         <p:message for="creadoPor"/>
+	      <h:outputText id="fechaElaboracion" value="#{updateCoreCaseForm.ccHdrV1.fechaElaboracion}"  style="font-weight:bold;">
+	       <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+	      </h:outputText>
          </div>
        </div>
+                  <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="creadoPor" value="Elaboró" style="font-weight:bold;" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <h:outputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" style="font-weight:bold;" />
+         </div>
+       </div>
+
+
 
    <div class="ui-g-12 ui-md-6">
    <p:commandButton immediate="true" title="Nuevo"  value="Nueva Pregunta" icon="pi pi-plus" action="#{updateCoreCaseForm.createCoreQuestion()}" style="background: #2D0D86;"/>
    </div>
-    <p:carousel value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" headerText="LISTA DE PREGUNTAS CASOS CLINICOS" var="pregunta" itemStyle="height:100%;text-align:center" numVisible="1" easing="easeOutBounce" style="width:98%" circular="true">
-    <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-8 ui-lg-1,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
-       <p:outputLabel for="numero" value="ID" />
-      <p:inputText id="numero" value="#{pregunta.numero}" style="width:100%; text-align:left;" readonly="true"/>
-      <p:message for="numero"/>
+   <h1></h1>
+
+</div>
+</div>
+
+</div>
+
+     <p:dataScroller value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" itemStyle="height:100%;text-align:center" var="pregunta" chunkSize="10">
+     <p:accordionPanel styleClass="ui-accordion" activeIndex="null">
+     <div class="ui-g">
+     <p:tab title="Pregunta #{pregunta.numero}">
+    <p:panelGrid columns="3" layout="grid" style="width:100%;" styleClass="ui-noborder">
       <p:outputLabel for="admonExamenDesc" value="Examen"/>
-      <p:inputText id="admonExamenDesc" value="#{pregunta.admonExamenDesc}" style="width:100%" readonly="true"/>
+      <p:inputText id="admonExamenDesc" value="#{pregunta.admonExamenDesc}" style="width:100%; " readonly="true" />
       <p:message for="admonExamenDesc"/>
       <p:outputLabel for="admonMateriaDesc" value="Materia"/>
       <p:inputText id="admonMateriaDesc" value="#{pregunta.admonMateriaDesc}" style="width:100%" readonly="true"/>
@@ -86,11 +107,13 @@
       <p:outputLabel for="tipoPreguntaDesc"  value="Tipo Pregunta"/>
       <p:inputText id="tipoPreguntaDesc" value="#{pregunta.tipoPreguntaDesc}" style="width:100%" readonly="true"/>
       <p:message for="tipoPreguntaDesc"/>
-      <p:commandButton value="Actualizar Pregunta" style="BackGround:#2D0D86;width:200%" action="#{updateCoreCaseForm.updatePregunta(pregunta)}" immediate="true"></p:commandButton>
+      <p:commandButton value="Editar Pregunta" style="BackGround:#2D0D86;width:50%" action="#{updateCoreCaseForm.updatePregunta(pregunta)}" immediate="true"></p:commandButton>
     </p:panelGrid>
- </p:carousel>
- 
-  <div class="ui-g">
+    </p:tab>
+    </div>
+    </p:accordionPanel>
+ </p:dataScroller>
+   <div class="ui-g">
  <div class="ui-g-12 ui-md-6 ui-lg-4">
 
   <p:commandButton value="Guardar" icon="fa fa-save" update="updateForm" actionListener= "#{updateCoreCaseForm.actualizar()}" style="background: #2D0D86;"/>
@@ -103,16 +126,9 @@
   <p:commandButton value="Cerrar" icon="fa fa-backward" action="Preguntas-Manage-CoreCases" immediate="true" style="background: #2D0D86;"/>
  </div>
 </div>   
+	</div>
 
 
-   
-
- 
-
-</div>
-</div>
-</div>
 </h:form>
-
 </ui:define>
 </ui:composition>

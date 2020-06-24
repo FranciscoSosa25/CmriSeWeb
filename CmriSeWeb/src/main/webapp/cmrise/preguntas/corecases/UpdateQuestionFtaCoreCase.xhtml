@@ -39,15 +39,11 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         border-color: #d9534f;
     }
     
-.border {
-	border-color: #ffffff;
-}  
-
-.mborder.ui-accordion-header {
-	background-color: #ffffff;
-}
-
-
+       .ui-accordion .ui-accordion-header p {
+                background-color: black;
+                font-style: inherit;
+		color: white;
+            }
 </style>
 </ui:define>                
                 
@@ -58,9 +54,9 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 
 <div class="ui-g">
   <div class="ui-g-12 ui-md-12">
-  <p:accordionPanel style="background: #2d0d86; border-color: #000000;">
-   <p:tab title="Informacion Caso Clinico" style="background: #20d86;">
-  <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2" styleClass="mborder">
+  <p:accordionPanel styleClass="ui-accordion">
+   <p:tab title="Informacion Caso Clinico">
+  <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2" styleClass="ui-noborder">
    <p:outputLabel for="admonExamenDesc" value="Examen"/>
    <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:98%" readonly="true"/>
    <p:message for="admonExamenDesc"/>
@@ -124,26 +120,27 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          <p:message for="subMateria"/>
          </div>
        </div>
-        
-         <div class="ui-g-12 ui-md-12" >
+
+                      <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" />
+         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" style="font-weight:bold;"/>
         </div>
          <div class="ui-g-12 ui-md-9">
-         <p:calendar id="fechaElaboracion" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.fechaElaboracion}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-         <p:message for="fechaElaboracion"/>
+	      <h:outputText id="fechaElaboracion" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasHdrV1ForAction.fechaElaboracion}"  style="font-weight:bold;">
+	       <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+	      </h:outputText>
          </div>
        </div>
        
-        <div class="ui-g-12 ui-md-12" >
+               <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="creadoPor" value="¿Quien elabora la Pregunta?" />
+         <p:outputLabel for="creadoPor" value="¿Quien elabora la Pregunta?" style="font-weight:bold;" />
         </div>
          <div class="ui-g-12 ui-md-9">
-         <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
-         <p:message for="creadoPor"/>
+          <h:outputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" style="font-weight:bold;" />
          </div>
        </div>
+
        
         
            <div class="ui-g-12 ui-md-12" >
@@ -348,10 +345,10 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
       <p:message for="presentatioFilesID"/>
     </div>
     <div class="ui-g-6">
-     <p:commandButton value="Procesar"  action="#{updateQuestionFtaCoreCaseForm.uploadMultiple}" update="presentationForm" ajax="false" />
+     <p:commandButton value="Procesar"  action="#{updateQuestionFtaCoreCaseForm.uploadMultiple}" update="presentationForm" ajax="false" style="background: #2d0d86;" />
     </div>
     <div class="ui-g-6">
-      <p:commandButton value="Cancelar"  onclick="PF('presentationDialogWV').hide();" />
+      <p:commandButton value="Cancelar"  onclick="PF('presentationDialogWV').hide();" style="background: #2d0d86;" />
     </div>
   </div>
   

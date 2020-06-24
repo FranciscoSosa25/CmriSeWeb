@@ -19,6 +19,7 @@ function handleDeleteRequest(xhr, status, args){
 </ui:define>
                 
 <ui:define name="content">
+     <div class="card">
 <h:form id="ExamenesMateriasForm">
 <p:growl id="msgs" showDetail="true"/>
 <div class="ui-g">
@@ -26,7 +27,7 @@ function handleDeleteRequest(xhr, status, args){
              <p:commandButton value="Regresar"  immediate="true" style="margin-left: 10px;BackGround:#2D0D86;"  styleClass="ui-priority-primary"   action="#{admonExamenesForm.backAdmonExamenes()}" />
          </div>
      </div>
-     <div class="card">
+
 <p:dataTable var="examenLine" value="#{admonExamenesDetailForm.examenesLines}">
 <f:facet name="header">Materias de Examenes</f:facet>
    <p:column headerText="Materia">
@@ -48,7 +49,7 @@ function handleDeleteRequest(xhr, status, args){
       <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86;" update="ExamenesMateriasForm" oncomplete="PF('deleteDialogWV').show();" ajax="true" immediate="true" actionListener="#{admonExamenesDetailForm.selectForActionLine(examenLine)}"/>
      </p:column>
 </p:dataTable>  
-</div>
+
 <div class="ui-g">
     <div class="ui-g-12">
         <p:commandButton value="Agregar Materia" style="margin-left: 10px;BackGround:#2D0D86;"  styleClass="ui-priority-primary"  update="ExamenesMateriasForm" action="#{admonExamenesDetailForm.onAddNewLine()}" />
@@ -70,6 +71,6 @@ function handleDeleteRequest(xhr, status, args){
      </div>
    </p:dialog>
 </h:form> 
-
+</div>
 </ui:define>                     
 </ui:composition>
