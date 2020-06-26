@@ -71,7 +71,8 @@ public class UpdateFTAMrqForm {
 	private boolean limitedFreeTextAnswer;
 	private boolean indicateImage;
 	private boolean annotatedImage;
-    
+	private String textoSugerencias; 
+    private String textoExplicacion;
 	/**********************************************************************
 	  Atributos Opcion Multiple
 	 **********************************************************************/
@@ -110,7 +111,7 @@ public class UpdateFTAMrqForm {
 	 * Instrucciones
 	 */
 	
-	private List<SelectItem> selectInstruccionesItems; 
+//	private List<SelectItem> selectInstruccionesItems; 
 	private List<SelectItem> selectScoringMethodItems; 
 	
 	private int idxRespuestas = 0; 
@@ -191,7 +192,7 @@ public class UpdateFTAMrqForm {
 	     
 	     onAdmonExamenChange(); 
 	     onAdmonMateriaChange(); 
-	     enviromentInstrucciones();
+//	     enviromentInstrucciones();
 	     environmentScoringMethod(); 
 		 System.out.println("Sale UpdateFTAMrqForm init()");
 	 }		 
@@ -233,6 +234,8 @@ public class UpdateFTAMrqForm {
 	        	 mrqsOpcionMultiple.setNumero(mrqsOpcionMultipleDto.getNumero());
 	        	 mrqsOpcionMultiple.setNumeroFta(mrqsOpcionMultipleDto.getNumeroFta());
 	        	 mrqsOpcionMultiple.setTextoExplicacion(mrqsOpcionMultipleDto.getTextoExplicacion());
+	        	 
+	       
 	        	 System.out.println("mrqsOpcionMultipleDto.getTextoRespuesta():"+mrqsOpcionMultipleDto.getTextoRespuesta());
 	        	 mrqsOpcionMultiple.setTextoRespuesta(mrqsOpcionMultipleDto.getTextoRespuesta());
 	        	 mrqsOpcionMultiple.setNumeroLinea(mrqsOpcionMultipleDto.getNumeroLinea());
@@ -296,22 +299,22 @@ public class UpdateFTAMrqForm {
 		 System.out.println("Sale UpdateFTAMrqForm refreshEntity()");
 	}
 
-	private void enviromentInstrucciones() {
-		this.selectInstruccionesItems = new ArrayList<SelectItem>();
-		List<TablasUtilitariasValoresDto> listInstruccionesValores =  tablasUtilitariasValoresLocal.findByTipoTabla("INSTRUCCIONES",mrqsPreguntasHdrV1ForAction.getTipoPregunta());  
-		Iterator<TablasUtilitariasValoresDto> iterInstruccionesValores = listInstruccionesValores.iterator(); 
-		while(iterInstruccionesValores.hasNext()) {
-			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterInstruccionesValores.next();
-			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getDescripcion()); 
-			this.selectInstruccionesItems.add(selectItem); 
-		}
-	}
-	
-	public List<SelectItem> getSelectInstruccionesItems(){
-		
-		return this.selectInstruccionesItems; 
-	}
-	
+//	private void enviromentInstrucciones() {
+//		this.selectInstruccionesItems = new ArrayList<SelectItem>();
+//		List<TablasUtilitariasValoresDto> listInstruccionesValores =  tablasUtilitariasValoresLocal.findByTipoTabla("INSTRUCCIONES",mrqsPreguntasHdrV1ForAction.getTipoPregunta());  
+//		Iterator<TablasUtilitariasValoresDto> iterInstruccionesValores = listInstruccionesValores.iterator(); 
+//		while(iterInstruccionesValores.hasNext()) {
+//			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterInstruccionesValores.next();
+//			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getDescripcion()); 
+//			this.selectInstruccionesItems.add(selectItem); 
+//		}
+//	}
+//	
+//	public List<SelectItem> getSelectInstruccionesItems(){
+//		
+//		return this.selectInstruccionesItems; 
+//	}
+//	
 	private void environmentScoringMethod() {
 		this.selectScoringMethodItems = new ArrayList<SelectItem>();
 		List<TablasUtilitariasValoresDto> listScoringMethodValores =  tablasUtilitariasValoresLocal.findByTipoTabla("SCORING_METHOD");  
@@ -1221,5 +1224,16 @@ public class UpdateFTAMrqForm {
 	public void setSelectRespReactCorImg(List<SelectItem> selectRespReactCorImg) {
 		this.selectRespReactCorImg = selectRespReactCorImg;
 	}
-	
+	public String getTextoSugerencias() {
+		return textoSugerencias;
+	}
+	public void setTextoSugerencias(String textoSugerencias) {
+		this.textoSugerencias = textoSugerencias;
+	}
+	public String getTextoExplicacion() {
+		return textoExplicacion;
+	}
+	public void setTextoExplicacion(String textoExplicacion) {
+		this.textoExplicacion = textoExplicacion;
+	}
 }

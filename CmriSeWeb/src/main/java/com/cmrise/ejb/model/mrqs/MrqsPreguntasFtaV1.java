@@ -37,6 +37,7 @@ public class MrqsPreguntasFtaV1 implements Serializable {
 	private String anotaciones; 
 	private String respuestas; 
 	private String correlaciones; 
+	private String textoExplicacion; 
 	
 	private List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
 	private List<MrqsImagenesGrp> listMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
@@ -210,6 +211,11 @@ public class MrqsPreguntasFtaV1 implements Serializable {
 	public void setCorrelaciones(String correlaciones) {
 		this.correlaciones = correlaciones;
 	} 
-	
+	public String getTextoExplicacion() {
+		return textoExplicacion;
+	}
+	public void setTextoExplicacion(String textoExplicacion) {
+		this.textoExplicacion = textoExplicacion;
+	}
 
 }

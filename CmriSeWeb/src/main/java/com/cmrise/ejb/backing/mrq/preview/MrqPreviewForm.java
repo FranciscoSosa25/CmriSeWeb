@@ -46,7 +46,7 @@ public class MrqPreviewForm {
 	private String textoSugerencias; 
 	private String respuestaPreguntaCandidato;
 	private String respuestaPreguntaSistema; 
-	
+	private String textoExplicacion;
 	private boolean questionView; 
 	private boolean answerView; 
 	private boolean correctAnswer; 
@@ -97,19 +97,30 @@ public class MrqPreviewForm {
 	
 	@PostConstruct
 	public void init() {
-		 System.out.println("Entra MrqPreviewForm init()");
+        System.out.println("Entra MrqPreviewForm init()");
 		 FacesContext context = FacesContext.getCurrentInstance(); 
+		 System.out.println("Entra context ()"+ context);
 	     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+	     System.out.println("Entra session ()"+ session);
 	     Object objMrqNumeroHdr = session.getAttribute("mrqNumeroHdrSV");
+	     System.out.println("Entra objMrqNumeroHdr ()"+ objMrqNumeroHdr);
 	     this.setNumeroHdr(Utilitarios.objToLong(objMrqNumeroHdr)); 
 	    
 	     MrqsPreguntasHdrV2Dto  mrqsPreguntasHdrV2Dto = mrqsPreguntasHdrLocal.findV2ByNumeroHdr(this.getNumeroHdr()); 
+	    System.out.println("Entra MrqsPreguntasHdrV2Dto"+mrqsPreguntasHdrV2Dto);
 	     this.setTipoPregunta(mrqsPreguntasHdrV2Dto.getTipoPregunta());
+	     
 	     this.setNumetoFta(mrqsPreguntasHdrV2Dto.getNumeroMpf());
+	     
 	     this.setTituloPregunta(mrqsPreguntasHdrV2Dto.getTituloPregunta());
+	    
 	     this.setTextoPregunta(mrqsPreguntasHdrV2Dto.getTextoPregunta());
-	     this.setTextoSugerencias(mrqsPreguntasHdrV2Dto.getTextoSugerenciasDesc());
+	    
+	     this.setTextoSugerencias(mrqsPreguntasHdrV2Dto.getTextoSugerencias());
+	     System.out.println("Texto sugerencias ()"+ mrqsPreguntasHdrV2Dto.getTextoSugerencias());
 	     this.setRespuestaPreguntaSistema(mrqsPreguntasHdrV2Dto.getRespuestaCorrecta());
+	    
+	
 	     this.puntuacion = Float.parseFloat(mrqsPreguntasHdrV2Dto.getValorPuntuacion()); 
 	     this.metodoPuntuacion = mrqsPreguntasHdrV2Dto.getMetodoPuntuacion(); 
 	     if(Utilitarios.RESP_TEXTO_LIBRE.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
@@ -130,6 +141,7 @@ public class MrqPreviewForm {
 	     mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(mrqsPreguntasHdrV2Dto.getNumeroMpf()
 																	             ,mrqsPreguntasHdrV2Dto.getTipoPregunta()
 																	             );
+	    
 	     
 	     if(Utilitarios.IMAGEN_ANOTADA.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
 	    	 Gson gson = new Gson();
@@ -146,7 +158,7 @@ public class MrqPreviewForm {
 	     
 	     listPresentMrqsImagenesGrp =  mrqsImagenesGrpLocal.findByFta(mrqsPreguntasHdrV2Dto.getNumeroMpf(),Utilitarios.INTRODUCCION);
          
-	     
+	     System.out.println(" valores list present mrqs imagen:"+listPresentMrqsImagenesGrp);
 	     System.out.println("Sale MrqPreviewForm init()");
 	}		 
 	
@@ -160,6 +172,8 @@ public class MrqPreviewForm {
         	mrqsOpcionMultiple.setNumero(mrqsOpcionMultipleDto.getNumero());
         	mrqsOpcionMultiple.setTextoRespuesta(mrqsOpcionMultipleDto.getTextoRespuesta());
         	mrqsOpcionMultiple.setEstatus(mrqsOpcionMultipleDto.isEstatus());
+        	mrqsOpcionMultiple.setTextoExplicacion(mrqsOpcionMultipleDto.getTextoExplicacion());
+        	
         	listMrqsOpcionMultiple.add(mrqsOpcionMultiple); 
         }
 	}
@@ -545,5 +559,10 @@ public class MrqPreviewForm {
 		this.listAnotacionesCorImg = listAnotacionesCorImg;
 	}
 
-	
+	public String getTextoExplicacion() {
+		return textoExplicacion;
+	}
+	public void setTextoExplicacion(String textoExplicacion) {
+		this.textoExplicacion = textoExplicacion;
+	}
 }
