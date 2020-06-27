@@ -112,6 +112,8 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 	
 	@Column(name="TEXTO_SUGERENCIAS_DESC")
 	private String textoSugerenciasDesc; 
+	 
+
 	
 	public MrqsPreguntasHdrV2Dto() {
 	}
@@ -355,5 +357,6 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 	public void setTextoSugerenciasDesc(String textoSugerenciasDesc) {
 		this.textoSugerenciasDesc = textoSugerenciasDesc;
 	}
+
 
 }

@@ -64,5 +64,4 @@ public class MrqsOpcionMultiple implements Serializable{
 	public void setEstatusCandidato(boolean estatusCandidato) {
 		this.estatusCandidato = estatusCandidato;
 	} 
-
 }
