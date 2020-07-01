@@ -112,8 +112,9 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          	<p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" />
         </div>
          <div class="ui-g-12 ui-md-9">
-         	<p:calendar id="fechaElaboracion" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.fechaElaboracion}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-         	<p:message for="fechaElaboracion"/>
+	      <h:outputText id="fechaElaboracion" value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.fechaElaboracion}"  style="font-weight:bold;">
+	       <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+	      </h:outputText>
          	</div>
        	</div>
        
@@ -122,7 +123,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          <p:outputLabel for="creadoPor" value="Elabora" />
         </div>
          <div class="ui-g-12 ui-md-9">
-         <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
+         <h:outputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" style="font-weight:bold;" />
          <p:message for="creadoPor"/>
          </div>
        </div>
@@ -198,10 +199,10 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          <p:outputLabel  value="Instrucciones" />
         </div>
          <div class="ui-g-12 ui-md-9">
-          <p:inputTextarea id="hintsText" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.textoSugerencias}"   style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
-          <p:message for="hintsText"/>
+          <p:selectOneMenu id="hintsText" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.textoSugerencias}"   style="width:30%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
+           <f:selectItems value="#{updateFTAMrqForm.selectInstruccionesItems}" />
+          </p:selectOneMenu>
          </div>
-         
             <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="scoringMethod" value="Método de puntuación" />
         </div>
@@ -225,7 +226,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
      </div>
  <div class="ui-g-12 ui-md-12" >
     <h:panelGroup id="reactivosTextoLibrePanel" layout="block" rendered="#{updateFTAMrqForm.limitedFreeTextAnswer}">
-    	<h2>Reactivos de Texto Libre</h2>
+    	<h2>Texto Libre</h2>
 		 
 		   
 		   
@@ -327,7 +328,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
 	
 	<div class="ui-g-12 ui-md-12" >
 	<h:panelGroup id="reactivosImagenSenializadaPanel" layout="block" rendered="#{updateFTAMrqForm.indicateImage}">
-	<h2>Reactivos de Imagen Señalizada</h2>
+	<h2>Señalizacion de imagen</h2>
 	 <div class="ui-g card">
 	   <div class="ui-g-12 ui-md-12" >
 	       <div class="ui-g-12 ui-md-3" style="text-align:right;">
@@ -365,7 +366,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
            
     
      <h:panelGroup id="reactivosImagenAnotadaPanel" layout="block" rendered="#{updateFTAMrqForm.annotatedImage}">
-     <h2>Reactivos de Correlación de Imagen</h2>
+     <h2>Correlación de Imagen</h2>
      <div class="ui-g card">
 	   <div class="ui-g-12 ui-md-12" >
 	   

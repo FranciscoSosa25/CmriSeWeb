@@ -56,17 +56,38 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
   <div class="ui-g-12 ui-md-12">
   <p:accordionPanel styleClass="ui-accordion">
    <p:tab title="Informacion Caso Clinico">
-  <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2" styleClass="ui-noborder">
+  <p:panel styleClass="ui-noborder">
+     <div class="ui-g-12 ui-md-12">
+     	<div class="ui-g-12 ui-md-3" style="text-align:right;">
    <p:outputLabel for="admonExamenDesc" value="Examen"/>
-   <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:98%" readonly="true"/>
+   </div>
+   <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:50%" readonly="true"/>
    <p:message for="admonExamenDesc"/>
+   </div>
+      <div class="ui-g-12 ui-md-12">
+     	<div class="ui-g-12 ui-md-3" style="text-align:right;">
     <p:outputLabel for="admonMateriaDesc" value="Materia"/>
-   <p:inputText id="admonMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonMateriaDesc}" style="width:98%" readonly="true"/>
+    </div>
+   <p:inputText id="admonMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonMateriaDesc}" style="width:50%" readonly="true"/>
    <p:message for="admonMateriaDesc"/>
+   </div>
+      <div class="ui-g-12 ui-md-12">
+     	<div class="ui-g-12 ui-md-3" style="text-align:right;">
     <p:outputLabel for="admonSubMateriaDesc" value="Clasificación"/>
-   <p:inputText id="admonSubMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonSubMateriaDesc}" style="width:98%" readonly="true"/>
+    </div>
+   <p:inputText id="admonSubMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonSubMateriaDesc}" style="width:50%" readonly="true"/>
    <p:message for="admonSubMateriaDesc"/>
-  </p:panelGrid> <!-- END Panel Grid -->
+   </div>
+      <div class="ui-g-12 ui-md-12">
+     	<div class="ui-g-12 ui-md-3" style="text-align:right;">
+       <p:outputLabel for="creadoPor" value="Elabora" />
+       </div>
+            <div class="ui-g-12 ui-md-9">
+       <h:outputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" style="font-weight:bold;" />
+       </div>
+     <p:message for="creadoPor"/>
+   </div>
+  </p:panel> <!-- END Panel Grid -->
    </p:tab>
      </p:accordionPanel>
   </div>

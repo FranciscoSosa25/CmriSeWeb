@@ -17,13 +17,11 @@
 
 
 <h:form id="updateForm">
-   <p:panel id="InformacionCasoClinico"  header=" INFORMACION CASO CLINICO" style="margin-bottom:20px">
+
+   <p:panel id="InformacionCasoClinico"  header=" INFORMACION CASO CLINICO" style="margin-bottom:20px; border-style: none;">
 <div class="card">
  <div class="ui-g">
-
   <div class="ui-g-12 ui-md-12">
-  
-  
     <div class="ui-g">
 	<div class="ui-g-12 ui-md-3" style="text-align:right;">
     <p:outputLabel for="estatusDesc" value="Estado" />
@@ -89,29 +87,52 @@
 
 </div>
 
-     <p:dataScroller value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" itemStyle="height:100%;text-align:center" var="pregunta" chunkSize="10">
-     <p:accordionPanel styleClass="ui-accordion" activeIndex="null">
-     <div class="ui-g">
+     <p:dataScroller value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" itemStyle="height:100%;text-align:center" var="pregunta" chunkSize="10" style="width: 90%; border-style: none;">
+     <p:accordionPanel styleClass="ui-panelgrid-blank" activeIndex="null">
      <p:tab title="Pregunta #{pregunta.numero}">
-    <p:panelGrid columns="3" layout="grid" style="width:100%;" styleClass="ui-noborder">
-      <p:outputLabel for="admonExamenDesc" value="Examen"/>
-      <p:inputText id="admonExamenDesc" value="#{pregunta.admonExamenDesc}" style="width:100%; " readonly="true" />
+    <p:panel styleClass="noborder">
+    <div class="ui-g">
+          <div class="ui-g-12 ui-md-12">
+     	<div class="ui-g-12 ui-md-3" style="text-align:right;">
+      <p:outputLabel for="admonExamenDesc" value="Examen" style="text-align: center"/>
+      </div>
+        <div class="ui-g-12 ui-md-9">
+      <p:inputText id="admonExamenDesc" value="#{pregunta.admonExamenDesc}" style="width:50%; " readonly="true" />
       <p:message for="admonExamenDesc"/>
+      </div>
+       	<div class="ui-g-12 ui-md-3" style="text-align:right;">
       <p:outputLabel for="admonMateriaDesc" value="Materia"/>
-      <p:inputText id="admonMateriaDesc" value="#{pregunta.admonMateriaDesc}" style="width:100%" readonly="true"/>
+      </div>
+       <div class="ui-g-12 ui-md-9">
+      <p:inputText id="admonMateriaDesc" value="#{pregunta.admonMateriaDesc}" style="width:50%" readonly="true"/>
       <p:message for="admonMateriaDesc"/>
+      </div>
+       	<div class="ui-g-12 ui-md-3" style="text-align:right;">
        <p:outputLabel for="admonSubMateriaDesc" value="Clasificación"/>
-      <p:inputText id="admonSubMateriaDesc" value="#{pregunta.admonSubMateriaDesc}" style="width:100%" readonly="true"/>
+       </div>
+       <div class="ui-g-12 ui-md-9">
+      <p:inputText id="admonSubMateriaDesc" value="#{pregunta.admonSubMateriaDesc}" style="width:50%" readonly="true"/>
       <p:message for="admonSubMateriaDesc"/>
+      </div>
+      	<div class="ui-g-12 ui-md-3" style="text-align:right;">
       <p:outputLabel for="tipoPreguntaDesc"  value="Tipo Pregunta"/>
-      <p:inputText id="tipoPreguntaDesc" value="#{pregunta.tipoPreguntaDesc}" style="width:100%" readonly="true"/>
+      </div>
+       <div class="ui-g-12 ui-md-9">
+      <p:inputText id="tipoPreguntaDesc" value="#{pregunta.tipoPreguntaDesc}" style="width:50%" readonly="true"/>
       <p:message for="tipoPreguntaDesc"/>
-      <p:commandButton value="Editar Pregunta" style="BackGround:#2D0D86;width:50%" action="#{updateCoreCaseForm.updatePregunta(pregunta)}" immediate="true"></p:commandButton>
-    </p:panelGrid>
+      </div>
+      </div>
+      </div>
+      <p:commandButton value="Editar" style="BackGround:#2D0D86; width:10%" action="#{updateCoreCaseForm.updatePregunta(pregunta)}" immediate="true"></p:commandButton>
+	  <p:commandButton value="Eliminar" style="BackGround:#2D0D86; width:10%" immediate="true"></p:commandButton>   
+    </p:panel>
     </p:tab>
-    </div>
     </p:accordionPanel>
  </p:dataScroller>
+
+ 
+ 
+ 
    <div class="ui-g">
  <div class="ui-g-12 ui-md-6 ui-lg-4">
 
@@ -125,9 +146,10 @@
   <p:commandButton value="Cerrar" icon="fa fa-backward" action="Preguntas-Manage-CoreCases" immediate="true" style="background: #2D0D86;"/>
  </div>
 </div>   
-	</div>
-
+	
+</div>
 </p:panel>
+
 </h:form>
 </ui:define>
 </ui:composition>
