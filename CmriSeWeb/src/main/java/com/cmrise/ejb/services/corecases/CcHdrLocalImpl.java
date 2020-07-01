@@ -165,6 +165,7 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 	    retval.setAdmonExamenDesc(ccHdrV1Dto.getAdmonExamenDesc());
 	    retval.setAdmonMateriaDesc(ccHdrV1Dto.getAdmonMateriaDesc());
 	    retval.setAdmonSubMateriaDesc(ccHdrV1Dto.getAdmonSubmateriaDesc());
+	    retval.setFechaElaboracion(ccHdrV1Dto.getFechaElaboracion());
 		
 		List<CcPreguntasHdrV1Dto> listCcPreguntasHdrV1Dto =  ccPreguntasHdrDao.findListByNumeroCcHdr(pNumeroCcHdr); 
 		

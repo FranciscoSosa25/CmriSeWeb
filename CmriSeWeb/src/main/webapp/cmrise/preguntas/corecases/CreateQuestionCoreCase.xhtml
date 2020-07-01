@@ -24,34 +24,45 @@
 <ui:define name="content">
 <div class="card">
 <h:form id="casoClinicoForm">
-  <p:accordionPanel>
+  <p:accordionPanel styleClass="ui-noborder" style="margin-left: auto; margin-right: auto; border-style: none;">
    <p:tab title="Informacion del Caso Clinico">
-
- <p:growl id="growl" showDetail="true" life="6000" />  
-
+ <!-- <p:growl id="growl" showDetail="true" life="6000" /> -->  
  <div class="ui-g">
   <div class="ui-g-12 ui-md-12" >
-  <p:panelGrid columns="3" layout="grid" styleClass="ui-noborder" columnClasses="ui-g-6 ui-md-6 ui-lg-2,ui-g-8 ui-md-6 ui-lg-10,ui-g-6 ui-md-4 ui-lg-4">
-
+  <p:panel styleClass="ui-noborder">
+    <div class="ui-g">
+          <div class="ui-g-12 ui-md-12">
+     	<div class="ui-g-12 ui-md-3" style="text-align:right;">
    <p:outputLabel for="admonExamenDesc" value="Examen"/>
-   <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:98%; text-align:left" readonly="true"/>
+   </div>
+   <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:50%; text-align:left" readonly="true"/>
    <p:message for="admonExamenDesc"/>
-     
-  
+   </div>
+   <div class="ui-g-12 ui-md-12">
+     	<div class="ui-g-12 ui-md-3" style="text-align:right;">
     <p:outputLabel for="admonMateriaDesc" value="Materia"/>
-   <p:inputText id="admonMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonMateriaDesc}" style="width:98%" readonly="true"/>
+    </div>
+   <p:inputText id="admonMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonMateriaDesc}" style="width:50%" readonly="true"/>
    <p:message for="admonMateriaDesc"/>
-      
-      
+      </div>
+      <div class="ui-g-12 ui-md-12">
+     	<div class="ui-g-12 ui-md-3" style="text-align:right;">
     <p:outputLabel for="admonSubMateriaDesc" value="Clasificación"/>
-   <p:inputText id="admonSubMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonSubMateriaDesc}" style="width:98%" readonly="true"/>
+    </div>
+   <p:inputText id="admonSubMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonSubMateriaDesc}" style="width:50%" readonly="true"/>
    <p:message for="admonSubMateriaDesc"/>
-   
-         <p:outputLabel for="creadoPor" value="Elabora" />
-         <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
-         <p:message for="creadoPor"/>
-
-  </p:panelGrid> <!-- END Panel Grid -->
+   </div>
+   <div class="ui-g-12 ui-md-12">
+     	<div class="ui-g-12 ui-md-3" style="text-align:right;">
+    <p:outputLabel for="creadoPor" value="Elabora" />
+    </div>
+         <div class="ui-g-12 ui-md-9">
+       <h:outputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" style="font-weight:bold;" />
+       </div>
+     <p:message for="creadoPor"/>
+     </div>
+</div>
+  </p:panel> <!-- END Panel Grid -->
   </div>
 </div>	
 </p:tab>
@@ -60,11 +71,11 @@
 <h1>
 </h1>
 
- <p:dataScroller value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" itemStyle="height:100%;text-align:center" var="pregunta" chunkSize="10" style="border-style=: none;">
+ <p:dataScroller value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" itemStyle="height:100%;text-align:center" var="pregunta" chunkSize="10" style="width: 72%;     margin-left:auto; margin-right:auto;">
   	<p:accordionPanel styleClass="ui-accordion" activeIndex="null">
        <p:tab title="Pregunta #{pregunta.numero}">
-     <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2" styleClass="ui-noborder">
-      <p:outputLabel for="admonExamenDesc" value="Examen"/>
+      <p:panelGrid columns="3" layout="grid" styleClass="ui-noborder" columnClasses="ui-g-6 ui-md-6 ui-lg-2,ui-g-8 ui-md-6 ui-lg-10,ui-g-6 ui-md-4 ui-lg-4">
+      <p:outputLabel for="admonExamenDesc" value="Examen" />
       <p:inputText id="admonExamenDesc" value="#{pregunta.admonExamenDesc}" style="width:98%" readonly="true"/>
       <p:message for="admonExamenDesc"/>
       <p:outputLabel for="admonMateriaDesc" value="Materia"/>
@@ -87,7 +98,7 @@
 <h:form id="createQuestionCoreCaseForm">
 <p:growl id="growl" showDetail="true" life="5000" />
 
-<h1>Informacion Nueva Pregunta</h1>
+<h1>Nueva Pregunta</h1>
      
       <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
@@ -142,10 +153,10 @@
        
         <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="creadoPor" value="Elabora" />
+         <p:outputLabel for="creadoPor" value="Elabora"  style="font-weight:bold;" />
         </div>
          <div class="ui-g-12 ui-md-9">
-         <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
+                <h:outputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" style="font-weight:bold;" />
          <p:message for="creadoPor"/>
          </div>
        </div>
