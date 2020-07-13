@@ -199,9 +199,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
          <p:outputLabel  value="Instrucciones" />
         </div>
          <div class="ui-g-12 ui-md-9">
-          <p:selectOneMenu id="hintsText" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.textoSugerencias}"   style="width:30%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
-           <f:selectItems value="#{updateFTAMrqForm.selectInstruccionesItems}" />
-          </p:selectOneMenu>
+          <p:inputTextarea id="hintsText" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.textoSugerencias}"   style="width:30%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" />
          </div>
             <div class="ui-g-12 ui-md-3" style="text-align:right;">
            <p:outputLabel for="scoringMethod" value="Método de puntuación" />
