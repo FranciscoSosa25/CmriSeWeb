@@ -15,8 +15,10 @@ public interface CcHdrLocal {
 
 	public void insert(CcHdrDto pCcHdrDto);
 	public void delete(long pNumero);
-	public void update(long pNumero
-			          ,CcHdrDto pCcHdrDto);
+	public void deletePregunta(long pNumero);
+	public void update(CcHdrV1Dto pCcHdrV1Dto
+			          ,CcHdrDto pCcHdrDto) ;
+	
 	public List<CcHdrV1> findAll();
 	public CcHdrV1Dto findByNumero(long pNumero);
 	public List<KeysDto> findKeys();

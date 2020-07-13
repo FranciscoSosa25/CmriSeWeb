@@ -73,10 +73,14 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 	public void delete(long pNumero) {
 		ccHdrDao.delete(pNumero);
 	}
+	@Override
+	public void deletePregunta(long pNumero) {
+		ccHdrDao.deletePregunta(pNumero);
+	}
 
 	@Override
-	public void update(long pNumero, CcHdrDto pCcHdrDto) {
-		ccHdrDao.update(pNumero
+	public void update(CcHdrV1Dto pCcHdrV1Dto, CcHdrDto pCcHdrDto) {
+		ccHdrDao.update(pCcHdrV1Dto
 				      , pCcHdrDto);
 	}
 
@@ -106,6 +110,7 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 	public CcHdrV1Dto findByNumero(long pNumero) {
 		return ccHdrDao.findByNumero(pNumero);
 	}
+	
 
 	@Override
 	public List<KeysDto> findKeys() {

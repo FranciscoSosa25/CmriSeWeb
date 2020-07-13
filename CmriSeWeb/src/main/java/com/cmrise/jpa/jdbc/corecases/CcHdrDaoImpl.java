@@ -8,10 +8,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import com.cmrise.ejb.model.corecases.CcHdrV1;
+import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
 import com.cmrise.jpa.dao.corecases.CcHdrDao;
 import com.cmrise.jpa.dto.admin.KeysDto;
 import com.cmrise.jpa.dto.corecases.CcHdrDto;
 import com.cmrise.jpa.dto.corecases.CcHdrV1Dto;
+import com.cmrise.jpa.dto.corecases.CcPreguntasHdrDto;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless
@@ -33,10 +36,16 @@ public class CcHdrDaoImpl implements CcHdrDao {
 		CcHdrDto ccHdrDto = em.find(CcHdrDto.class, pNumero);
 		em.remove(ccHdrDto);
 	}
+	@Override
+	public void deletePregunta(long pNumero) {
+		CcPreguntasHdrDto ccPreguntasHdrDto = em.find(CcPreguntasHdrDto.class, pNumero);
+		em.remove(ccPreguntasHdrDto);
+	}
+
 
 	@Override
-	public void update(long pNumero, CcHdrDto pCcHdrDto) {
-		CcHdrDto ccHdrDto = em.find(CcHdrDto.class, pNumero);
+	public void  update(CcHdrV1Dto pCcHdrV1Dto , CcHdrDto pCcHdrDto) {
+		CcHdrDto ccHdrDto = em.find(CcHdrDto.class, pCcHdrV1Dto  );
 		
 		//ccHdrDto.setNombre(pCcHdrDto.getNombre());
 		ccHdrDto.setEstatus(pCcHdrDto.getEstatus());
@@ -86,5 +95,6 @@ public class CcHdrDaoImpl implements CcHdrDao {
 		Query query = em.createNativeQuery(strQuery); 
 		return query.getResultList();
 	}
+	
 
 }
