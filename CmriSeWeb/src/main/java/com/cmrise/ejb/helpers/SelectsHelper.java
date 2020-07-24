@@ -48,6 +48,7 @@ public class SelectsHelper {
 	private List<SelectItem> selectVisibilidadItems; 
 	private List<SelectItem> selectEstatusExamenItems;
 	private List<SelectItem> selectEstatusMrqsItems;
+	private List<SelectItem> selectEstatusCCItems;
 	private List<SelectItem> selectTemaDePreguntaItems; 
 	private List<SelectItem> selectScoringValueItems;
 	private List<SelectItem> selectScoringMethodItems; 
@@ -69,6 +70,7 @@ public class SelectsHelper {
        environmentVisibilidad();
        environmentEstatusExamen();
        environmentEstatusMrqs();
+       environmentEstatusCC();
        environmentTemaDePregunta();
        environmentScoringValue();
        environmentScoringMethod();
@@ -242,6 +244,21 @@ public class SelectsHelper {
 	public List<SelectItem> getSelectEstatusMrqsItems(){
 		return this.selectEstatusMrqsItems; 
 	}
+	
+	private void environmentEstatusCC() {
+		 this.selectEstatusCCItems = new ArrayList<SelectItem>();
+			List<TablasUtilitariasValoresDto> listEstatusCCValores =  tablasUtilitariasValoresLocal.findByTipoTabla("ESTATUS_CC");  
+			Iterator<TablasUtilitariasValoresDto> iterEstatusCCValores = listEstatusCCValores.iterator(); 
+			while(iterEstatusCCValores.hasNext()) {
+				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterEstatusCCValores.next();
+				SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+				this.selectEstatusCCItems.add(selectItem); 
+			}
+		} 
+		
+		public List<SelectItem> getSelectEstatusCCItems(){
+			return this.selectEstatusCCItems; 
+		}
 	
 	private void environmentScoringValue() {
 		this.selectScoringValueItems = new ArrayList<SelectItem>();

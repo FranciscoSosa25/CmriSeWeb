@@ -43,20 +43,6 @@ public class CcHdrDaoImpl implements CcHdrDao {
 	}
 
 
-	@Override
-	public void  update(CcHdrV1Dto pCcHdrV1Dto , CcHdrDto pCcHdrDto) {
-		CcHdrDto ccHdrDto = em.find(CcHdrDto.class, pCcHdrV1Dto  );
-		
-		//ccHdrDto.setNombre(pCcHdrDto.getNombre());
-		ccHdrDto.setEstatus(pCcHdrDto.getEstatus());
-		//ccHdrDto.setTema(pCcHdrDto.getTema());
-		ccHdrDto.setEtiquetas(pCcHdrDto.getEtiquetas());
-		ccHdrDto.setHistorialClinico(pCcHdrDto.getHistorialClinico());
-		ccHdrDto.setDescripcionTecnica(pCcHdrDto.getDescripcionTecnica());
-		ccHdrDto.setNota(pCcHdrDto.getNota());
-	
-
-	}
 
 	@Override
 	public List<CcHdrV1Dto> findAll() {
@@ -94,6 +80,23 @@ public class CcHdrDaoImpl implements CcHdrDao {
 						"                       )\r";
 		Query query = em.createNativeQuery(strQuery); 
 		return query.getResultList();
+	}
+
+	@Override
+	public void update(long pNumero, CcHdrDto pCcHdrDto) {
+		CcHdrDto ccHdrDto = em.find(CcHdrDto.class, pNumero);
+		
+		
+		ccHdrDto.setEstatus(pCcHdrDto.getEstatus());
+		ccHdrDto.setAdmonExamen(pCcHdrDto.getAdmonExamen());
+		ccHdrDto.setAdmonMateria(pCcHdrDto.getAdmonMateria());
+		ccHdrDto.setAdmonSubmateria(pCcHdrDto.getAdmonSubmateria());
+		ccHdrDto.setEtiquetas(pCcHdrDto.getEtiquetas());
+		ccHdrDto.setHistorialClinico(pCcHdrDto.getHistorialClinico());
+		ccHdrDto.setDescripcionTecnica(pCcHdrDto.getDescripcionTecnica());
+		ccHdrDto.setNota(pCcHdrDto.getNota());
+	
+
 	}
 	
 

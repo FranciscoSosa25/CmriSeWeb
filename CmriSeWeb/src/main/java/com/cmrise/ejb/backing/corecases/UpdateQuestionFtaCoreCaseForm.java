@@ -428,13 +428,15 @@ public class UpdateQuestionFtaCoreCaseForm {
 		}
 		
 	public void borrar() {
-		 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!","Aun sin implementacion");
+		/** FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!","Aun sin implementacion");
 		 FacesContext.getCurrentInstance().addMessage(null, msg);
+		 **/
 	}	
 	
 	public void duplicar() {
-		 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!","Aun sin implementacion");
+		/** FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!","Aun sin implementacion");
 		 FacesContext.getCurrentInstance().addMessage(null, msg);
+		 **/
 	}
 		
 	public boolean isMultipleChoice() {

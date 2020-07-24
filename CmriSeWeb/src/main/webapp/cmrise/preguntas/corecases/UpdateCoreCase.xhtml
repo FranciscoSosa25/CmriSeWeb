@@ -20,42 +20,64 @@
 
    <p:panel id="InformacionCasoClinico"  header=" INFORMACION CASO CLINICO" style="margin-bottom:20px; border-style: none;">
 <div class="card">
+<p:growl id="growl" showDetail="true" life="5000" widgetVar="growlWV" /> 
  <div class="ui-g">
   <div class="ui-g-12 ui-md-12">
     <div class="ui-g">
 	<div class="ui-g-12 ui-md-3" style="text-align:right;">
+	
     <p:outputLabel for="estatusDesc" value="Estado" />
     </div>
     <div class="ui-g-12 ui-md-9">
       <p:selectOneMenu id="estatusDesc"  value="#{updateCoreCaseForm.ccHdrV1.estatus}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
        <f:selectItem itemLabel="Seleccione un Valor.." itemValue="" />
-       <f:selectItems value="#{selectsHelper.selectEstatusMrqsItems}" />
+       <f:selectItems value="#{selectsHelper.selectEstatusCCItems}" />
       </p:selectOneMenu>
        <p:message for="estatusDesc"/>
        </div>
  
-  <div class="ui-g-12 ui-md-3" style="text-align:right;">
-   <p:outputLabel for="admonExamenDesc" value="Examen"/>
-     </div>
-  <div class="ui-g-12 ui-md-9">
-   <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:40%; " readonly="true"/>
-   <p:message for="admonExamenDesc"/>
-     </div>
-     
-       <div class="ui-g-12 ui-md-3"  style="text-align:right;">
-    <p:outputLabel for="admonMateriaDesc" value="Materia"/>
-       </div>
-        <div class="ui-g-12 ui-md-9">
-   <p:inputText id="admonMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonMateriaDesc}" style="width:40%" readonly="true"/>
-   <p:message for="admonMateriaDesc"/>
-   </div>
-   <div class="ui-g-12 ui-md-3"  style="text-align:right;">
-    <p:outputLabel for="admonSubMateriaDesc" value="Clasificación"/>
-       </div>
+ 
+      <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="admonExamen" value="Examen" />
+        </div>
          <div class="ui-g-12 ui-md-9">
-   <p:inputText id="admonSubMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonSubMateriaDesc}" style="width:40%" readonly="true"/>
-   <p:message for="admonSubMateriaDesc"/>
-   </div>
+          <p:selectOneMenu id="admonExamen" value="#{updateCoreCaseForm.ccHdrV1.admonExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+           <p:ajax listener="#{updateCoreCaseForm.onAdmonExamenChange}" update="materia" />
+           <f:selectItem itemLabel="Seleccione..." itemValue="" />
+           <f:selectItems value="#{updateCoreCaseForm.selectExamenesHdr}" />
+          </p:selectOneMenu>
+          <p:message for="admonExamen"/>
+         </div>
+       </div>
+       
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="materia" value="Materia" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:selectOneMenu id="materia" value="#{updateCoreCaseForm.ccHdrV1.admonMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <p:ajax listener="#{updateCoreCaseForm.onAdmonMateriaChange}" update="subMateria" />
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{updateCoreCaseForm.selectMateriasHdr}" />
+         </p:selectOneMenu>
+         <p:message for="materia"/>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="subMateria" value="SubMateria" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:selectOneMenu id="subMateria" value="#{updateCoreCaseForm.ccHdrV1.admonSubMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{updateCoreCaseForm.selectSubMaterias}" />
+         </p:selectOneMenu>
+         <p:message for="subMateria"/>
+         </div>
+       </div>
+       
          <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" style="font-weight:bold;"/>
@@ -73,6 +95,36 @@
          <div class="ui-g-12 ui-md-9">
           <h:outputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" style="font-weight:bold;" />
          </div>
+               
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="clinicalHistory" value="Cuadro Clinico" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:inputTextarea  id="clinicalHistory" value="#{updateCoreCaseForm.ccHdrV1.historialClinico}" rows="4" style="width:100%" required="true"/>
+          <p:message  for="clinicalHistory"/>
+         </div>
+       </div>
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="tags" value="Diagnostico"/>
+        </div>
+         <div class="ui-g-12 ui-md-9">
+           <p:inputTextarea  id="tags" value="#{updateCoreCaseForm.ccHdrV1.etiquetas}"   rows="1" style="width:100%"/>
+           <p:message  for="tags"/>
+         </div>
+       </div>
+       
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+          <p:outputLabel for="note" value="Notas"/>
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:inputTextarea  id="note" value="#{updateCoreCaseForm.ccHdrV1.nota}"   rows="4" style="width:100%"/>
+           <p:message  for="note"/>
+         </div>
+       </div>     
+     </div>
        </div>
 
 
@@ -121,22 +173,56 @@
       <p:inputText id="tipoPreguntaDesc" value="#{pregunta.tipoPreguntaDesc}" style="width:50%" readonly="true"/>
       <p:message for="tipoPreguntaDesc"/>
       </div>
+    
+     
       </div>
+      
       </div>
       <p:commandButton value="Editar" style="BackGround:#2D0D86; width:10%" action="#{updateCoreCaseForm.updatePregunta(pregunta)}" immediate="true"></p:commandButton>
-	  <p:commandButton value="Eliminar" style="BackGround:#2D0D86; width:10%" action="#{updateCoreCaseForm.deletePregunta(pregunta)}"  immediate="true"></p:commandButton>   
+	  <p:commandButton value="Eliminar" style="BackGround:#2D0D86; width:10%" action="#{updateCoreCaseForm.selectForAction(pregunta)}"  immediate="true" oncomplete="PF('eliminarPreguntasDlg').show();"></p:commandButton>   
     </p:panel>
     </p:tab>
     </p:accordionPanel>
- </p:dataScroller>
 
- 
- 
+
+ <h:form id="PreguntasFormDelete"  >
+            <p:dialog id="eliminar-Preguntas-dialog" widgetVar="eliminarPreguntasDlg" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" header="Eliminar pregunta">
+
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-lg-12">
+                        <h:panelGroup >
+                            <p:outputLabel value="La Pregunta #{pregunta.numero} se eliminará de forma permanente. Considere que esta acción no se puede deshacer." />
+                        </h:panelGroup>
+                        <h:panelGroup >
+                            <p:outputLabel value="¿Desea continuar?" />
+                        </h:panelGroup>
+                    </div>
+                </div>
+
+                <div class="ui-g" >
+                    <div class="ui-g-12 ui-lg-12" style="text-align: right;">
+                        <p:commandButton value="Cancelar"
+                                       ajax="true"
+                                       immediate="true"
+                                       onclick="PF('eliminarPreguntasDlg').hide();"/>
+                        <p:commandButton value="Eliminar"
+                                         ajax="false"
+                                         update="updateForm"
+                                         actionListener="#{updateCoreCaseForm.deletePregunta(pregunta)}"
+                                         onstart="PF('eliminarPreguntasDlg').hide();"
+                                         style="margin-left: 10px;"/>
+                    </div>
+                </div>
+
+            </p:dialog>
+
+</h:form>
+  </p:dataScroller>
  
    <div class="ui-g">
  <div class="ui-g-12 ui-md-6 ui-lg-4">
 
-  <p:commandButton value="Guardar" icon="fa fa-save" update="updateForm" actionListener= "#{updateCoreCaseForm.actualizar()}" style="background: #2D0D86;"/>
+  <p:commandButton value="Guardar" icon="fa fa-save" update="updateForm growl" actionListener= "#{updateCoreCaseForm.actualizar()}" style="background: #2D0D86;"/>
 
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-5">
@@ -147,7 +233,7 @@
  </div>
 </div>   
 	
-</div>
+
 </p:panel>
 
 </h:form>
