@@ -42,6 +42,8 @@ public class AdmonMateriaHdrDaoImpl implements AdmonMateriaHdrDao {
 		Query query = em.createQuery(strQuery); 
 		return query.getResultList();
 	}
+	
+	
 
 	@Override
 	public void delete(long pNumero) {

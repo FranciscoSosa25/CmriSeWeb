@@ -79,9 +79,8 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 	}
 
 	@Override
-	public void update(CcHdrV1Dto pCcHdrV1Dto, CcHdrDto pCcHdrDto) {
-		ccHdrDao.update(pCcHdrV1Dto
-				      , pCcHdrDto);
+	public void update(long pNumero, CcHdrDto pCcHdrDto) {
+		ccHdrDao.update(pNumero, pCcHdrDto);
 	}
 
 	@Override

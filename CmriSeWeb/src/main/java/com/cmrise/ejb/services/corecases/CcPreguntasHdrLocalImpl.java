@@ -43,8 +43,7 @@ public class CcPreguntasHdrLocalImpl implements CcPreguntasHdrLocal {
 	}
 
 	@Override
-	public void update(long pNumero
-			         , CcPreguntasHdrDto pCcPreguntasHdrDto) {
+	public void update(long pNumero, CcPreguntasHdrDto pCcPreguntasHdrDto) {
 		ccPreguntasHdrDao.update(pNumero
 				               , pCcPreguntasHdrDto);
 	}
