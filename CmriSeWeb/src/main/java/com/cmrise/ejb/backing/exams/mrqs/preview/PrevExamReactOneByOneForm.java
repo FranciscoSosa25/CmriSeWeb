@@ -66,7 +66,7 @@ private MrqsExamenes mrqsExamen = new MrqsExamenes();
 	private MrqsPreguntasHdrV1 mrqsPreguntasHdrV1ForRead = new MrqsPreguntasHdrV1(); 
 	/*******************************************************************/
 
-	private List<Reactivo> reactivos = new ArrayList<Reactivo>(); 
+	private List<Reactivo> reactivos = new ArrayList<Reactivo>();  
 	private int idxReactivos = 0; 
 	private int reactivosSize = 0;
 	private Reactivo reactivoForRead = new Reactivo(); 

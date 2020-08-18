@@ -4,8 +4,21 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/templateCandidates.xhtml">
-                <h:head>  
-<style type="text/css">
+
+                               
+ <ui:define name="xxhrwjs">
+<script type="text/javascript">
+function handleUpdateRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.updateIn) {
+		 argsValidationFailed(); 
+      }
+}
+</script>
+</ui:define>
+
+
+ <ui:define name="xxhrwcss">
+            <style type="text/css">
      .xXwrongAnswer{
         background-color: #ffe6e6;
 	    text-align: left;
@@ -59,6 +72,7 @@
         border-color: #d9534f;
     }
 
+
 </style>
   </h:head>
                                
@@ -70,6 +84,11 @@ function handleUpdateRequest(xhr, status, args){
       }
 }
 </script>
+
+    
+</style>                    
+
+
 </ui:define>
 
 
@@ -124,17 +143,140 @@ function handleUpdateRequest(xhr, status, args){
 				 <p:message for="answerRadioMultiple"  />
 		      </div>
              </h:panelGroup>  
-			 
+			  <h:panelGroup layout="block" rendered="#{coreCasePreviewForm.answerView and coreCasePreviewForm.wrongAnswer and coreCasePreviewForm.limitedFreeTextAnswer}" >
+               <div class="ui-g-12 ui-md-12 xXwrongAnswer" >
+                 Su Respuesta es INCORRECTA
+               </div>
+             </h:panelGroup>
+		    
+		    <h:panelGroup layout="block" rendered="#{coreCasePreviewForm.answerView and coreCasePreviewForm.correctAnswer and coreCasePreviewForm.limitedFreeTextAnswer}">
+               <div class="ui-g-12 ui-md-12 xXcorrectAnswer" >
+                 Su Respuesta es CORRECTA
+               </div>
+             </h:panelGroup>
+             
+              <h:panelGroup layout="block" rendered="#{coreCasePreviewForm.answerView}">
+              <div class="ui-g-12 ui-md-12 xXscores" >
+                 Puntuacíon:<h:outputText value="#{coreCasePreviewForm.puntuacion}" />
+              </div>
+              </h:panelGroup>
+		    
+		     <h:panelGroup layout="block" rendered="#{coreCasePreviewForm.answerView and coreCasePreviewForm.wrongAnswer and coreCaseePreviewForm.multipleChoice}" >
+               <div class="ui-g-12 ui-md-12 xXwrongAnswer" >
+                  <h:outputText value="#{coreCasePreviewForm.correctAnswers}" style="color:green;"/>
+                  <h:outputText value="&#160;y&#160;" style="color:black;"/>
+                  <h:outputText value="#{coreCasePreviewForm.wrongAnswers}" />
+               </div>
+             </h:panelGroup>
+             
+		     <h:panelGroup layout="block" rendered="#{coreCasePreviewForm.answerView and coreCasePreviewForm.correctAnswer and coreCasePreviewForm.multipleChoice}">
+               <div class="ui-g-12 ui-md-12 xXcorrectAnswer" >
+                  <h:outputText value="#{coreCasePreviewForm.correctAnswers}" />
+                  <h:outputText value="&#160;y&#160;" style="color:black;"/>
+                  <h:outputText value="#{coreCasePreviewForm.wrongAnswers}" style="color:red;"/>
+               </div>
+             </h:panelGroup>
+		    
+		     <h:panelGroup layout="block" rendered="#{coreCasePreviewForm.answerView and coreCasePreviewForm.limitedFreeTextAnswer}">
+               <div class="ui-g-12 ui-md-12 xXinstructions">
+                Usted contesto:
+                </div>
+               <div class="ui-g-12 ui-md-12 xXinstructions" style="color:green;font-weight:bold;" >
+                <p:outputLabel value="#{coreCasePreviewForm.respuestaPreguntaCandidato}"/>
+               </div>
+             </h:panelGroup>
+		     
+		     <h:panelGroup layout="block" rendered="#{coreCasePreviewForm.answerView and coreCasePreviewForm.limitedFreeTextAnswer}">
+               <div class="ui-g-12 ui-md-12 xXinstructions">
+                La respuesta correcta es:
+               </div>
+                 <div class="ui-g-12 ui-md-12 xXinstructions" style="color:black;font-weight:bold;">
+                  <p:outputLabel value="#{coreCasePreviewForm.respuestaPreguntaSistema}"/>
+               </div>
+             </h:panelGroup>
+            
+             <h:panelGroup layout="block" rendered="#{coreCasePreviewForm.multipleChoice and coreCasePreviewForm.answerView and coreCasePreviewForm.singleAnswerMode}">
+                <div class="ui-g-12 ui-md-12 xXinstructions">
+                 La respuestas son:
+               </div>
+		        <div class="ui-g-12 ui-md-12 xXinstructions">
+		            <ui:repeat var="ccOpcionMultiple" value="#{coreCasePreviewForm.listCcOpcionMultiple}">
+		             <div class="ui-g-12 ui-md-12">
+		             <h:panelGroup layout="block" rendered="#{ccOpcionMultiple.estatus}">
+		               <div class="ui-g-12 ui-md-1">
+		                <h:panelGroup layout="block" rendered="#{ccOpcionMultiple.estatusCandidato}">
+		                <i class="pi pi-check" ></i>
+		                </h:panelGroup>
+		               </div>
+		             <div class="ui-g-12 ui-md-11">
+					      <div class="ui-inputgroup">
+					          <p:commandButton icon="pi pi-check" styleClass="green-button"/> 
+					          <h:outputText value="#{ccOpcionMultiple.textoRespuesta}" />
+					      </div>
+					  </div>
+					</h:panelGroup>
+					<h:panelGroup layout="block" rendered="#{not ccOpcionMultiple.estatus}">
+					    <div class="ui-g-12 ui-md-1">
+		                <h:panelGroup layout="block" rendered="#{ccOpcionMultiple.estatusCandidato}">
+		                <i class="pi pi-check" ></i>
+		                </h:panelGroup>
+		               </div>
+					  <div class="ui-g-12 ui-md-11">
+					      <div class="ui-inputgroup">
+					           <p:commandButton icon="pi pi-times" styleClass="red-button"/>
+						       <h:outputText value="#{ccOpcionMultiple.textoRespuesta}" />
+					      </div>
+					  </div>
+					</h:panelGroup>
+		             </div>
+		            </ui:repeat>
+		      </div>
+             </h:panelGroup>  
+             <h:panelGroup layout="block" rendered="#{coreCasePreviewForm.multipleChoice and coreCasePreviewForm.answerView and not coreCasePreviewForm.singleAnswerMode}">
+		      <div class="ui-g-12 ui-md-12 xXinstructions">
+		            <ui:repeat var="coreCaseOpcionMultiple" value="#{coreCasePreviewForm.listCcOpcionMultiple}">
+		             <div class="ui-g-12 ui-md-12">
+		             <h:panelGroup layout="block" rendered="#{coreCaseOpcionMultiple.estatus}">
+		                <div class="ui-g-12 ui-md-1">
+		                <h:panelGroup layout="block" rendered="#{coreCaseOpcionMultiple.estatusCandidato}">
+		                <i class="pi pi-check" ></i>
+		                </h:panelGroup>
+		               </div>
+					  <div class="ui-g-12 ui-md-11">
+					      <div class="ui-inputgroup">
+					          <p:commandButton icon="pi pi-check" styleClass="green-button"/> 
+					          <h:outputText value="#{coreCaseOpcionMultiple.textoRespuesta}" />
+					      </div>
+					  </div>
+					</h:panelGroup>
+					<h:panelGroup layout="block" rendered="#{not coreCaseOpcionMultiple.estatus}">
+					    <div class="ui-g-12 ui-md-1">
+		                <h:panelGroup layout="block" rendered="#{coreCaseOpcionMultiple.estatusCandidato}">
+		                <i class="pi pi-check" ></i>
+		                </h:panelGroup>
+		               </div>
+					  <div class="ui-g-12 ui-md-11">
+					      <div class="ui-inputgroup">
+					           <p:commandButton icon="pi pi-times" styleClass="red-button"/>
+						       <h:outputText value="#{coreCaseOpcionMultiple.textoRespuesta}" />
+					      </div>
+					  </div>
+					</h:panelGroup>
+		             </div>
+		            </ui:repeat>
+		      </div>
+
+             </h:panelGroup>
         </div>
      </div>
    </div>
      <div class="ui-g-12 ui-md-5">
-             <p:commandButton value="Guardar y Procesar" style="margin-left:15px" />
+             <p:commandButton value="Guardar y Procesar" update="coreCaseForm" actionListener="#{coreCasePreviewForm.saveProceed()}" rendered="#{coreCasePreviewForm.questionView}" style="margin-left:15px" oncomplete="handleUpdateRequest(xhr, status, args)" />
              <p:commandButton value="Saltar" style="margin-left:15px" />
              <p:commandButton value="Regresar" style="margin-left:15px" immediate="true" action="#{coreCasePreviewForm.returnUpdateFta()}"/>
            </div>
 </div>
-  
+   
          
 </h:form>
 </ui:define>
