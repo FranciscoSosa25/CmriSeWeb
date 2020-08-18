@@ -278,15 +278,7 @@
 		            </ui:repeat>
 		      </div>
              </h:panelGroup>  
-             
-             
-          		     <div class="ui-g-12 ui-md-4">
-             <p:commandButton value="Siguiente" update="previewForm" style="margin-left:15px; background: #2d0d86;" actionListener="#{mrqPreviewForm.saveProceed()}" rendered="#{mrqPreviewForm.questionView}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
-             <p:commandButton value="Continuar" immediate="true" style="margin-left:15px; background: #2d0d86;" action="#{mrqPreviewForm.proceed()}" rendered="#{mrqPreviewForm.answerView}"/>
-           </div>  
-            
-            
-             <h:panelGroup layout="block" rendered="#{mrqPreviewForm.multipleChoice and mrqPreviewForm.answerView and not mrqPreviewForm.singleAnswerMode}">
+               <h:panelGroup layout="block" rendered="#{mrqPreviewForm.multipleChoice and mrqPreviewForm.answerView and not mrqPreviewForm.singleAnswerMode}">
 		      <div class="ui-g-12 ui-md-12 xXinstructions">
 		            <ui:repeat var="mrqOpcionMultiple" value="#{mrqPreviewForm.listMrqsOpcionMultiple}">
 		             <div class="ui-g-12 ui-md-12">
@@ -321,6 +313,14 @@
 		      </div>
 
              </h:panelGroup>
+             
+          		     <div class="ui-g-12 ui-md-4">
+             <p:commandButton value="Siguiente" update="previewForm" style="margin-left:15px; background: #2d0d86;" actionListener="#{mrqPreviewForm.saveProceed()}" rendered="#{mrqPreviewForm.questionView}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
+             <p:commandButton value="Continuar" immediate="true" style="margin-left:15px; background: #2d0d86;" action="#{mrqPreviewForm.proceed()}" rendered="#{mrqPreviewForm.answerView}"/>
+           </div>  
+            
+            
+           
             
         </div>
      </div>
