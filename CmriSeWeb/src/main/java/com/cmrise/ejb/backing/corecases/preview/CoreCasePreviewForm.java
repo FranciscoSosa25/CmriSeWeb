@@ -521,3 +521,4 @@ public class CoreCasePreviewForm {
 		return annotatedImage;
 	}
 	}
+

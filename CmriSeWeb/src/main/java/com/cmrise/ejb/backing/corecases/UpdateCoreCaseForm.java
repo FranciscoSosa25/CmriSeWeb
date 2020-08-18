@@ -189,14 +189,15 @@ System.out.println("Entra deletePregunta");
 	  System.out.println("Sale Actualizar");
   }
   
-	public String saveAndPreview() {	     
+	public String saveAndPreview() {	
+		System.out.println("Entra SaveAndPreview");
 		 actualizar(); 
 		 getGuestPreferences().setTheme("deep-purple");
 	     FacesContext context = FacesContext.getCurrentInstance(); 
 	     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 	     session.setAttribute("NumeroCcHdrSV", this.getNumeroCcHdr());	
 	     System.out.println("Sale saveAndPreview()");
-	    return "CoreCase-Preview"; 
+	    return "CoreCase-Preview-Full"; 
 	}
  
 	 public void onAdmonExamenChange() {

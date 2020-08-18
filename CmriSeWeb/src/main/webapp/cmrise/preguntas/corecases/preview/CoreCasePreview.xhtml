@@ -4,6 +4,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/templateCandidates.xhtml">
+
                                
  <ui:define name="xxhrwjs">
 <script type="text/javascript">
@@ -70,52 +71,40 @@ function handleUpdateRequest(xhr, status, args){
         background-color: #d43f3a;
         border-color: #d9534f;
     }
+
+
+</style>
+  </h:head>
+                               
+ <ui:define name="xxhrwjs">
+<script type="text/javascript">
+function handleUpdateRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.updateIn) {
+		 argsValidationFailed(); 
+      }
+}
+</script>
+
     
 </style>                    
 
+
 </ui:define>
+
+
+
 <ui:define name="content">
+<header>
 <h1>Previsualización Caso Clínico</h1>
+</header>
 <h:form id="coreCaseForm">
 <div class="ui-g">
-<!--  <div class="ui-g-12 ui-md-3"> -->
-<!--    <div class="ui-g-12 ui-md-12" style="background-color: #4a4058;color: #fff;"> -->
-<!--      <div class="ui-g-12" > -->
-<!--      <h3>Pregunta</h3> -->
-<!--     </div> -->
-<!--    </div> -->
-<!--    <div class="ui-g-12 ui-md-12" style="background-color: rgba(0, 0, 0, 0.3);color: #fff;"> -->
-<!--    </div>   -->
-<!--    <div class="ui-g-12 ui-md-12" style="background-color: rgba(0, 0, 0, 0.3);color: #fff;"> -->
-<!--     <h1>Tabla de Contenidos</h1> -->
-<!--    </div> -->
-<!--    <div class="ui-g-12 ui-md-12" style="background-color: #343633;color: #fff;"> -->
-<!--     <h3>#{coreCasePreviewForm.ccHdrV1.nombre}</h3> -->
-<!--      <ui:repeat var="preguntas" value="#{coreCasePreviewForm.listCcPreguntasHdrV1}"> -->
-<!--      <h3 style="margin-left: 30px">#{preguntas.titulo}</h3> -->
-<!--     </ui:repeat> -->
-<!--    </div> -->
-<!--  </div> -->
- 
   <div class="ui-g-12 ui-md-9 ui-g-nopad">
      <div class="ui-g-12 ui-md-12">
         <div class="ui-g-12 ui-md-12">
            <div class="ui-g-12 ui-md-7">
-<!--             <h3>#{coreCasePreviewForm.ccHdrV1.nombre} > #{coreCasePreviewForm.ccPreguntasHdrV1.titulo}</h3> -->
+           <h3>#{coreCasePreviewForm.ccHdrV1.nombre}</h3>
            </div>
-         
-           <!--   
-           <ui:repeat var="imagenesGrupo" value="#{coreCasePreviewForm.listPresentCcImagenesGrp}" varStatus="status">
-		      <div class="ui-g-12 ui-md-12">
-		       <h3>#{imagenesGrupo.tituloSuperior}</h3>
-		      </div>
-		      <div class="ui-g-12 ui-md-12">
-		       <ui:repeat var="imagenes" value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
-		         <h:graphicImage value="data:image/jpg;base64,#{imagenes.jpgBase64}" style="max-width: 300px; max-height: 300px;" />
-		       </ui:repeat>
-		      </div>
-		    </ui:repeat>
-		    -->
 		    
                <ui:repeat var="imagenesGrupo" value="#{coreCasePreviewForm.listPresentCcImagenesGrp}" varStatus="status">
 		          <div class="ui-g-12 ui-md-12">
