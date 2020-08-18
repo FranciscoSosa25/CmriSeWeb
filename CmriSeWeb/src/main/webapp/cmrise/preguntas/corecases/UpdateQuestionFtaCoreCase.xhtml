@@ -16,21 +16,53 @@ function handleUpdateRequest(xhr, status, args){
 </ui:define>
 
 <ui:define name="xxhrwcss">
+
 <style type="text/css">
-.myPanelStyle1.ui-panel .ui-panel-titlebar {
-color: #3c763d;background-color: #dff0d8;border-color: #d6e9c6;
-}
-.myPanelStyle2.ui-panel .ui-panel-titlebar {
-color: #8a6d3b;background-color: #fcf8e3;border-color: #faebcc;
-}
-.myPanelStyle3.ui-panel .ui-panel-titlebar {
-color: #a94442;background-color: #f2dede;border-color: #ebccd1;
-}    
-.red-button.ui-button.ui-state-default {
+     .xXwrongAnswer{
+        background-color: #ffe6e6;
+	    text-align: left;
+	    border: 3px solid red;
+	    color:red;
+	    font-size:30px;
+     }
+     .xXcorrectAnswer{
+        background-color: #e6ffe6;
+	    text-align: left;
+	    border: 3px solid green;
+	    color:green;
+	    font-size:30px;
+     }
+     .xXinstructions{
+       background-color: #fff;
+       color:black;
+       font-size:20px;
+     }
+    
+     .xXscores{
+       margin-top:10px; 
+       margin-bottom:10px; 
+       background: #f9f9f9;;
+       border: 1px solid #ccc;
+       font-weight: bold;
+     }
+    
+    
+    .green-button.ui-button.ui-state-default {
+        background-color: #5cb85c;
+        border-color: #5cb85c;
+        color: #fff;
+    }
+ 
+    .green-button.ui-button.ui-state-default:enabled:hover, 
+    .green-button.ui-button.ui-state-default:focus {
+        background-color: #4cae4c;
+        border-color: #5cb85c;
+    }
+ 
+    .red-button.ui-button.ui-state-default {
         background-color: #d9534f;
         border-color: #d9534f;
         color: #fff;
-        margin-top:5px; 
     }
  
     .red-button.ui-button.ui-state-default:enabled:hover, 
@@ -39,11 +71,6 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
         border-color: #d9534f;
     }
     
-       .ui-accordion .ui-accordion-header p {
-                background-color: black;
-                font-style: inherit;
-		color: white;
-            }
 </style>
 </ui:define>                
                 
@@ -56,7 +83,7 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
   <div class="ui-g-12 ui-md-12">
   <p:accordionPanel styleClass="ui-accordion">
    <p:tab title="Informacion Caso Clinico">
-  <p:panel>
+
      <div class="ui-g-12 ui-md-12">
      	<div class="ui-g-12 ui-md-3" style="text-align:right;">
    <p:outputLabel for="admonExamenDesc" value="Examen"/>
@@ -87,7 +114,6 @@ color: #a94442;background-color: #f2dede;border-color: #ebccd1;
        </div>
      <p:message for="creadoPor"/>
    </div>
-  </p:panel> <!-- END Panel Grid -->
    </p:tab>
      </p:accordionPanel>
   </div>

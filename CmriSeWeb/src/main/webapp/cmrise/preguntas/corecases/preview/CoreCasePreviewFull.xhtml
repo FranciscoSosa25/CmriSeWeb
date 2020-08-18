@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+                <h:head>  
+          <f:facet name="first">
+            <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/poseidon-layout/images/login/cmri-120.png" /> 
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <style type="text/css">
+		 	header,footer {
+			               font-size: 20px;
+			               color:#fff;
+			               background-color:hsl(210, 89%, 17%);
+			               font-weight:bold; 
+			               padding:8px 15px 8px 15px; 
+			               border-radius:5px; 
+			              }
+			header,footer,main{
+			  margin: 10px 10px 10px 10px; 
+			}
+			h1{
+			 background-color:hsl(210, 99%, 27%);
+			 margin: 3px;
+			 border-radius:5px;  
+			 padding:0px 0px 0px 8px; 
+			}
+			h2{
+			  color:black;
+			  font-weight:bold; 
+			}
+			
+			legend{
+			  font-size: 20px;
+			  font-weight:bold; 
+			  color:black;
+			}
+			
+		  
+		  .ui-button{
+		     margin:15px 30px 15px 30px; 
+		    }
+		    
+		    .ui-button-text{
+		     font-size: 25px;
+		    }
+		  
+		   body {
+            background-color: #D9E0E7; 
+           } 
+
+            label {
+			  font-weight:bold; 
+			}
+		
+		   	
+
+	    </style>
+  </h:head>
+                               
+
+
+<body>
+
+<header>
+<div>
+<h:outputText value="Candidato: #{userLogin.nombreCompletoUsuario}" style="position: relative; left:0px;"/>
+ <h:outputText value="Curp: #{userLogin.curp}" style="position: relative; left:300px;" />
+ 
+ </div>
+<h1>Vista Previa</h1>
+</header>
+<h:form id="coreCaseForm">
+<div class="ui-g">
+     <div class="ui-g-12 ui-md-12">
+        <div class="ui-g-12 ui-md-12">
+           <div class="card">
+            <section>
+    
+           <fieldset>
+           <legend>
+             Cuadro Clinico
+           </legend>
+          <h3> #{coreCasePreviewForm.ccHdrV1.historialClinico}</h3>
+           </fieldset>
+		 </section>
+           
+
+           </div>
+
+               <ui:repeat var="imagenesGrupo" value="#{coreCasePreviewForm.listPresentCcImagenesGrp}" varStatus="status">
+		          <div class="ui-g-12 ui-md-12">
+		         <p:galleria value="#{imagenesGrupo.listCcImagenes}" var="image" panelWidth="400" panelHeight="400" showFilmstrip="true" transitionInterval="1000" >
+			      <p:graphicImage value="#{image.jpgStreamedContent}" stream="false" style="max-width: 100%; max-height: 100%;" alt="#{image.nombreImagen}" title="#{image.nombreImagen}" />
+			      </p:galleria>
+			      </div>
+			   </ui:repeat>
+			 
+			 <ui:repeat var="preguntasCC">
+			 
+			 </ui:repeat>
+			 
+        </div>
+     </div>
+     <div class="ui-g-12 ui-md-5">
+             <p:commandButton value="Siguiente" style="margin-left:15px; background: #2d0d86;" />
+             <p:commandButton value="Regresar" style="margin-left:15px; background: #2d0d86;" immediate="true" action="#{coreCasePreviewForm.returnUpdate()}"/>
+           </div>
+</div>
+  <footer>
+   <h:outputText value="Consejo Mexicano de Radiología e Imagen A.C." />
+   <h:outputText style="position: relative; left:150px;" >
+	 <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+   </h:outputText>  
+   <h:outputText value="&amp;copy; Todos los Derechos Reservados Año 2020" escape="false" style="position: relative; left:400px;"  /> 
+
+</footer>
+  
+         
+</h:form>
+</body>
+</html>

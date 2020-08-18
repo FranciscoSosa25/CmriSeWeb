@@ -42,7 +42,8 @@ public class CoreCasePreviewForm {
 	private boolean answerView; 
 	private boolean singleAnswerMode;
 	private boolean suffleAnswerOrder; 
-	
+	private int idxCasoClinico = 0; 
+	private int clinicoSize = 0;
 	
 
 	
@@ -103,8 +104,6 @@ public class CoreCasePreviewForm {
 		 this.setQuestionView(true);
 		 
 	}
-	
-
 		
 	
 	  private void refreshEntity() {
@@ -117,7 +116,11 @@ public class CoreCasePreviewForm {
 			return "Actualizar-Pregunta-Fta-CoreCase"; 
 		}
 		
-	  
+
+	  public String returnUpdate() {
+			guestPreferences.setTheme(Utilitarios.DEFAULT_THEME);
+			return "Preguntas-Update-CoreCase"; 
+		}
 	
 	public GuestPreferences getGuestPreferences() {
 		return guestPreferences;
@@ -300,6 +303,18 @@ public class CoreCasePreviewForm {
 
 	public void setListPresentCcImagenesGrp(List<CcImagenesGrp> listPresentCcImagenesGrp) {
 		this.listPresentCcImagenesGrp = listPresentCcImagenesGrp;
+	}
+	public int getIdxCasoClinico() {
+		return idxCasoClinico;
+	}
+	public void setIdxCasoClinico(int idxCasoClinico) {
+		this.idxCasoClinico = idxCasoClinico;
+	}
+	public int getClinicoSize() {
+		return clinicoSize;
+	}
+	public void setClinicoSize(int clinicoSize) {
+		this.clinicoSize = clinicoSize;
 	}
 	
 }
