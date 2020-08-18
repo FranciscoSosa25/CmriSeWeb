@@ -293,6 +293,13 @@
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>CoreCases-Preview</from-outcome>
+			<to-view-id>/cmrise/preguntas/corecases/preview/CoreCasesPreview.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
 
 
 	<application>

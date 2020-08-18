@@ -14,14 +14,18 @@ public class CcPreguntasFtaV1 implements Serializable{
 	private long numeroHdr;
 	private long actualizadoPor;
 	private long creadoPor;
+	private long numeroMpf;
 	private Date fechaActualizacion;
 	private Date fechaCreacion;
 	private Date fechaEfectivaDesde;
 	private Date fechaEfectivaHasta;
 	private String tituloPregunta; 
-	private String textoPregunta; 
+	private String textoPregunta;
+	private String metodoPuntuacion;
+	private String valorPuntuacion;
 	private String textoSugerencias; 
-	private String respuestaCorrecta; 
+	private String respuestaCorrecta;
+	private String tipoPregunta; 
 	private boolean singleAnswerMode; 
 	private boolean suffleAnswerOrder; 
 	private List<CcOpcionMultiple> listCcOpcionMultiple; 
@@ -34,7 +38,34 @@ public class CcPreguntasFtaV1 implements Serializable{
 	public void setNumero(long numero) {
 		this.numero = numero;
 	}
+	public String getTipoPregunta() {
+		return tipoPregunta;
+	}
 
+	public void setTipoPregunta(String tipoPregunta) {
+		this.tipoPregunta = tipoPregunta;
+	}
+	public void setMetodoPuntuacion(String metodoPuntuacion) {
+		this.metodoPuntuacion = metodoPuntuacion;
+	}
+
+	public String getMetodoPuntuacion() {
+		return metodoPuntuacion;
+	}
+	public void setValorPuntuacion(String valorPuntuacion) {
+		this.valorPuntuacion = valorPuntuacion;
+	}
+
+	public String getValorPuntuacion() {
+		return valorPuntuacion;
+	}
+	public long getNumeroMpf() {
+		return this.numeroMpf;
+	}
+
+	public void setNumeroMpf(long numeroMpf) {
+		this.numeroMpf = numeroMpf;
+	}
 	public long getActualizadoPor() {
 		return this.actualizadoPor;
 	}
