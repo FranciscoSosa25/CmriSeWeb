@@ -258,6 +258,10 @@ public class CoreCasePreviewForm {
 			return "Actualizar-Pregunta-Fta-CoreCase"; 
 		}
 		
+	  public String returnUpdate() {
+			guestPreferences.setTheme(Utilitarios.DEFAULT_THEME);
+			return "Preguntas-Update-CoreCase"; 
+		}
 	 
 	
 	public GuestPreferences getGuestPreferences() {
