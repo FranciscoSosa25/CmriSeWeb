@@ -27,6 +27,7 @@ public class MrqsGrupoLinesV2 implements Serializable {
 	private String textoSugerencias; 
 	private boolean singleAnswerMode; 
 	private boolean suffleAnswerOrder; 
+	private long tiempoEspera;
 	
 	public long getNumero() {
 		return this.numero;
@@ -188,5 +189,14 @@ public class MrqsGrupoLinesV2 implements Serializable {
 		this.diagnostico = diagnostico;
 	}
 
+	public long getTiempoEspera() {
+		return tiempoEspera;
+	}
+
+	public void setTiempoEspera(long tiempoEspera) {
+		this.tiempoEspera = tiempoEspera;
+	}
+
+	
 	
 }

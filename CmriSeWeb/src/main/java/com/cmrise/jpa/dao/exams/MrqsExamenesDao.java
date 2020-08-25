@@ -11,8 +11,8 @@ public interface MrqsExamenesDao {
 	public List<MrqsExamenesDto> findAll();
 	public List<MrqsExamenesV1Dto> findAllWD();
 	public void delete(long pNumero);
-	public MrqsExamenesDto findById(long pNumero); 
+	public MrqsExamenesDto findById(long pNumero, long pNCandidato); 
 	public void update(long pNumero,MrqsExamenesDto pMrqsExamenesDto);
-	public MrqsExamenesV1Dto findByNumeroWD(long pNumero);
+	public MrqsExamenesV1Dto findByNumeroWD(long pNumero, long pNCandidato);
 	
 }

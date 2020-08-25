@@ -1,9 +1,10 @@
 package com.cmrise.ejb.backing.candidates.exams;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -33,12 +34,14 @@ import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
 import com.cmrise.utils.Utilitarios;
 import com.cmrise.utils.UtilitariosLocal;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 @ManagedBean
 @ViewScoped
 public class MRQsExamForm {
 
-	private CandExamenesV1 candExamenesV1 = new CandExamenesV1(); 
+	private CandExamenesV1 candExamenesV1 =  new CandExamenesV1(); 
 	private CandExamRespuestasV1 candExamRespuestasV1 = new CandExamRespuestasV1(); 
 	private MrqsExamenes mrqsExamen = new MrqsExamenes(); 
 	private MrqsGrupoHdr mrqsGrupoHdr = new MrqsGrupoHdr();
@@ -53,11 +56,11 @@ public class MRQsExamForm {
 	private boolean limitedFreeTextAnswer;
 	private boolean indicateImage;
 	private boolean annotatedImage;
-	
+	private Short sSegundos =60;
 	private List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
 	private String respuestaCandidato; 
 	private String[] respuestasPreguntaCandidato;
-	
+	private String strDate;
 	private List<MrqsImagenesGrp> listPresentMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
 	
 	@Inject
@@ -93,13 +96,22 @@ public class MRQsExamForm {
 		 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		 Object objNumeroCandExamen = session.getAttribute("NumeroCandExamenSV"); 
 		 long numeroCandExamen = utilitariosLocal.objToLong(objNumeroCandExamen);
-		 
+		 System.out.println("*** Candidato de examen: "+numeroCandExamen);
 		 this.candExamenesV1 = candExamenesLocal.findByNumero(numeroCandExamen); 
 		 
 		 Object objNumeroMRQsExamen = session.getAttribute("NumeroMrqsExamenSV"); 
 		 long numeroMRQsExamen = utilitariosLocal.objToLong(objNumeroMRQsExamen); 
-		 this.mrqsExamen = mrqsExamenesLocal.findByIdWD(numeroMRQsExamen); 
 		 
+		 long numCand = Long.valueOf(session.getAttribute("numCand").toString()).longValue();
+		 System.out.println("Numero buscado de examen: "+numCand);
+		 //this.mrqsExamen = mrqsExamenesLocal.findByIdWD(numeroMRQsExamen,numCand); 
+		 this.mrqsExamen = mrqsExamenesLocal.findByNumeroWD(numeroMRQsExamen,numCand); 
+		 System.out.println("Examen: "+mrqsExamen.getDescripcion());
+		 Date date = new Date();  
+		 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+		 strDate= formatter.format(date); 
+		 Short intTime = Short.parseShort(String.valueOf(Integer.parseInt(session.getAttribute("tiempoExamen").toString())*sSegundos));
+		 this.mrqsExamen.setTiempoLimite(intTime);
 		 rootMrqsGrupo = new DefaultTreeNode("Root", null);
 			listMrqsGrupoHdr = mrqsGrupoHdrLocal.findByNumeroExamen(this.getMrqsExamen().getNumero()); 
 			for(MrqsGrupoHdr idxHdr:listMrqsGrupoHdr) {
@@ -117,10 +129,13 @@ public class MRQsExamForm {
 			if(0==numeroMgl) {
 				for(MrqsGrupoHdr idxHdr:listMrqsGrupoHdr) {
 					mrqsGrupoHdr.setNumero(idxHdr.getNumero());
-				/*	mrqsGrupoHdr.setTitulo(idxHdr.getTitulo());*/
+					mrqsGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
+					mrqsGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
+	//				mrqsGrupoHdr.setTitulo(idxHdr.getTitulo());
 					List<MrqsGrupoLinesV2> listMrqsGrupoLinesV2 = mrqsGrupoLinesLocal.findByNumeroHdrWDV2(idxHdr.getNumero());
 					for(MrqsGrupoLinesV2 idx:listMrqsGrupoLinesV2) {
 						System.out.println("idx.getTextoPregunta():"+idx.getTextoPregunta());
+						
 						mrqsGrupoLinesV2.setTitulo(idx.getTitulo());
 						mrqsGrupoLinesV2.setTextoPregunta(idx.getTextoPregunta());
 						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
@@ -159,14 +174,17 @@ public class MRQsExamForm {
 				MrqsGrupoLinesV2 tmp = mrqsGrupoLinesLocal.findByNumeroV2(numeroMgl);
 				
 				mrqsGrupoHdr.setNumero(tmp.getNumeroHdr());
-			/*	mrqsGrupoHdr.setTitulo(tmp.getTituloGrupo()); */
-				
+				mrqsGrupoHdr.setAdmonMateriaDesc(tmp.getTitulo()); 
+				//mrqsGrupoHdr.setAdmonMateriaDesc(tmp.getTemaPreguntaDesc());
+				mrqsGrupoHdr.setAdmonSubMateriaDesc(tmp.getTemaPreguntaDesc());
+
 				mrqsGrupoLinesV2.setNumero(tmp.getNumero());
-				mrqsGrupoLinesV2.setTitulo(tmp.getTitulo());
+			//	mrqsGrupoLinesV2.setTitulo(tmp.getTitulo());
 				mrqsGrupoLinesV2.setTextoPregunta(tmp.getTextoPregunta());
 				mrqsGrupoLinesV2.setTextoSugerencias(tmp.getTextoSugerencias());
 				mrqsGrupoLinesV2.setTipoPregunta(tmp.getTipoPregunta());
 				mrqsGrupoLinesV2.setNumeroPregunta(tmp.getNumeroPregunta());
+				
 				this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
 				
 				if(Utilitarios.RESP_TEXTO_LIBRE.equals(tmp.getTipoPregunta())) {
@@ -428,5 +446,37 @@ public class MRQsExamForm {
 		this.listPresentMrqsImagenesGrp = listPresentMrqsImagenesGrp;
 	}
 
+	
 
+		public void onTimeout() {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "FIN DE TIEMPO", "Perro imbecil"));
+				try
+			    {
+			        Thread.sleep(1000);
+			        redirectPage();
+			    }
+			    catch(InterruptedException ex)
+			    {
+			        Thread.currentThread().interrupt();
+			    }
+				
+		}
+		
+		public void redirectPage() {
+			try {
+	            FacesContext.getCurrentInstance().getExternalContext().redirect("ManageExams.xhtml");
+	         } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+		}
+
+		public String getStrDate() {
+			return strDate;
+		}
+
+		public void setStrDate(String strDate) {
+			this.strDate = strDate;
+		}
+		
+		
 }

@@ -87,6 +87,9 @@ public class MrqsExamenesV1Dto implements Serializable {
 	@Column(name="ELABORADOR")
 	private String elaborador; 
 	
+	@Column(name="N_CANDIDATO")
+	private long n_candidato; 
+	
 	@Column(name="FECHA_ELABORACION")
 	private Date fechaElaboracion; 
 	
@@ -277,5 +280,15 @@ public class MrqsExamenesV1Dto implements Serializable {
 	public void setFechaElaboracion(Date fechaElaboracion) {
 		this.fechaElaboracion = fechaElaboracion;
 	}
+
+	public long getN_candidato() {
+		return n_candidato;
+	}
+
+	public void setN_candidato(long n_candidato) {
+		this.n_candidato = n_candidato;
+	}
+	
+	
 
 }
