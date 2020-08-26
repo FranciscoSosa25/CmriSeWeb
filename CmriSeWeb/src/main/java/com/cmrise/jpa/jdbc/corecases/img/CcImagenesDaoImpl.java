@@ -1,5 +1,6 @@
 package com.cmrise.jpa.jdbc.corecases.img;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class CcImagenesDaoImpl implements CcImagenesDao {
 		pCcImagenesDto.setActualizadoPor((long)-1);
 		pCcImagenesDto.setFechaCreacion(sqlsysdate);
 		pCcImagenesDto.setFechaActualizacion(sqlsysdate);
-		pCcImagenesDto.setRutaImagen(pCcImagenesDto.getRutaImagen()+"\\"+lNumeroS.longValue());
+		pCcImagenesDto.setRutaImagen(pCcImagenesDto.getRutaImagen()+ File.separator+lNumeroS.longValue());
 		em.persist(pCcImagenesDto);
 		return lNumeroS.longValue();
 	}

@@ -1,6 +1,7 @@
 package com.cmrise.ejb.services.exams;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -328,8 +329,8 @@ public class CcExamenesLocalImpl implements CcExamenesLocal {
 									ccImagenes.setNumeroGrp(l.getNumeroGrp());
 									ccImagenes.setNombreImagen(l.getNombreImagen());
 									ccImagenes.setRutaImagen(Utilitarios.FS_ROOT+l.getRutaImagen());
-									String strJpgRuta  = Utilitarios.FS_ROOT+l.getRutaImagen()+"\\"+l.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX); 
-									String strThumbailRuta  = Utilitarios.FS_ROOT+l.getRutaImagen()+"\\"+l.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX); 
+									String strJpgRuta  = Utilitarios.FS_ROOT+l.getRutaImagen()+ File.separator+l.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX);
+									String strThumbailRuta  = Utilitarios.FS_ROOT+l.getRutaImagen()+File.separator+l.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX);
 									
 									try {
 										/** byte[] bytesArray = Files.readAllBytes(Paths.get(j.getRutaImagen()+"\\"+j.getNombreImagen())); **/

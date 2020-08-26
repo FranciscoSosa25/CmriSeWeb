@@ -12,12 +12,12 @@
         background-repeat: no-repeat;
   		background-size: contain;
   		background-position: center;
-  		
-  		border: solid 1px black; 
-  		width: 60%; 
+
+  		border: solid 1px black;
+  		width: 60%;
   		height: 600px;
       }
-      
+
      .xXwrongAnswer{
         background-color: #ffe6e6;
 	    text-align: left;
@@ -37,40 +37,40 @@
        color:black;
        font-size:20px;
      }
-    
+
      .xXscores{
-       margin-top:10px; 
-       margin-bottom:10px; 
+       margin-top:10px;
+       margin-bottom:10px;
        background: #f9f9f9;;
        border: 1px solid #ccc;
        font-weight: bold;
      }
-    
-    
+
+
     .green-button.ui-button.ui-state-default {
         background-color: #5cb85c;
         border-color: #5cb85c;
         color: #fff;
     }
- 
-    .green-button.ui-button.ui-state-default:enabled:hover, 
+
+    .green-button.ui-button.ui-state-default:enabled:hover,
     .green-button.ui-button.ui-state-default:focus {
         background-color: #4cae4c;
         border-color: #5cb85c;
     }
- 
+
     .red-button.ui-button.ui-state-default {
         background-color: #d9534f;
         border-color: #d9534f;
         color: #fff;
     }
- 
-    .red-button.ui-button.ui-state-default:enabled:hover, 
+
+    .red-button.ui-button.ui-state-default:enabled:hover,
     .red-button.ui-button.ui-state-default:focus {
         background-color: #d43f3a;
         border-color: #d9534f;
     }
-    
+
     .zoom {
   transition: transform .2s; /* Animation */
 }
@@ -78,24 +78,24 @@
 .zoom:hover {
   transform: scale(2.0); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
-    
-    
-    
+
+
+
 </style>
 </ui:define>
-                
+
 <ui:define name="content">
 <h1>Previsualización de Reactivo</h1>
 <h:form id="previewForm">
-<p:growl id="growl" showDetail="true" life="5000" />  
+<p:growl id="growl" showDetail="true" life="5000" />
 <p:inputText id="tipoReactivo" value="#{mrqPreviewForm.tipoPregunta}" type="hidden"/>
 <div class="ui-g card">
   <div class="ui-g-12 ui-md-12 ui-g-nopad">
-      
+
      <div class="ui-g-12 ui-md-12">
         <div class="ui-g-12 ui-md-12">
 
-           
+
             <ui:repeat var="imagenesGrupo" value="#{mrqPreviewForm.listPresentMrqsImagenesGrp}" varStatus="status">
 		      <div class="ui-g-12">
 		       <h3>#{imagenesGrupo.tituloSuperior}</h3>
@@ -109,18 +109,18 @@
 		         <video width="320" height="240" controls="controls" style="width: 50%;height:50%;" >
 				  <source src="data:#{imagenes.contentType};base64,#{imagenes.imagenBase64}" />
 			     </video>
-		        </h:panelGroup> 
+		        </h:panelGroup>
 		       </ui:repeat>
 		      </div>
 		      <div class="ui-g-12">
 		       <h3>#{imagenesGrupo.tituloInferior}</h3>
 		      </div>
 		    </ui:repeat>
-           
+
            <div class="ui-g-12 ui-md-12">
               <h3>#{mrqPreviewForm.textoPregunta}</h3>
            </div>
-           
+
            <div class="ui-g-12 ui-md-12">
               <h5>(#{mrqPreviewForm.textoSugerencias})</h5>
            </div>
@@ -131,8 +131,8 @@
 			    </p:inputTextarea>
 			    <p:message for="answer"  />
 			 </div>
-		    </h:panelGroup>	 
-		    
+		    </h:panelGroup>
+
 		     <h:panelGroup layout="block" rendered="#{mrqPreviewForm.multipleChoice and mrqPreviewForm.questionView and mrqPreviewForm.singleAnswerMode}">
 		      <div class="ui-g-12 ui-md-12" >
 		         <p:selectOneRadio id="answerRadioSingle" value="#{mrqPreviewForm.respuestaPreguntaCandidato}" layout="grid" columns="1" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
@@ -140,8 +140,8 @@
 				 </p:selectOneRadio>
 				   <p:message for="answerRadioSingle"  />
 		      </div>
-             </h:panelGroup>  
-            
+             </h:panelGroup>
+
             <h:panelGroup layout="block" rendered="#{mrqPreviewForm.multipleChoice and mrqPreviewForm.questionView and not mrqPreviewForm.singleAnswerMode}">
 		      <div class="ui-g-12 ui-md-12" >
 		         <p:selectManyCheckbox id="answerRadioMultiple" value="#{mrqPreviewForm.respuestasPreguntaCandidato}" layout="grid" columns="1" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
@@ -149,9 +149,9 @@
 				 </p:selectManyCheckbox>
 				 <p:message for="answerRadioMultiple"  />
 		      </div>
-             </h:panelGroup>  
-            
-            
+             </h:panelGroup>
+
+
               <h:panelGroup layout="block" rendered="#{mrqPreviewForm.indicateImage and mrqPreviewForm.questionView}">
                 <div class="ui-g-12">
                 <p:inputText id="coordinatesMouseMove"  type="hidden"/>
@@ -163,14 +163,13 @@
 			         Elemento Canvase no soportado
 			      </canvas>
 			    </div>
-	          </h:panelGroup>	 
-              
+	          </h:panelGroup>
+
               <h:panelGroup layout="block" rendered="#{mrqPreviewForm.annotatedImage and mrqPreviewForm.questionView}">
                <div class="ui-g-12">
                  <p:inputText id="widthImgCor" value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.width}" type="hidden"/>
                  <p:inputText id="heightImgCor" value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.height}" type="hidden"/>
                  <h:graphicImage id="graphicImageImgCor" value="data:#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.contentType};base64,#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.imagenBase64}" style="display:none;" />
-	             <p:inputTextarea id="coordinatesImgCor" value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.poligonos}" placeholder="Coordenadas"   style="width:100%;display:none;" />
                  <h:panelGroup id="imgCorDiv" layout="block" style="width:400px; height:150px; background-color: #DAE4E4;" >
                  </h:panelGroup>
 	           </div>
@@ -187,26 +186,29 @@
 	            </ui:repeat>
 	           </div>
 	          </h:panelGroup>
-            
-            
-              <h:panelGroup layout="block" rendered="#{mrqPreviewForm.answerView and mrqPreviewForm.wrongAnswer and mrqPreviewForm.limitedFreeTextAnswer}" >
+
+			<p:inputTextarea id="coordinatesImgCor" value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.poligonos}" placeholder="Coordenadas"   style="width:100%;display:none;" />
+			<p:inputText id="indicateImageResult"  value="#{mrqPreviewForm.indicateImageResult}" style="display: none;" />
+
+
+              <h:panelGroup layout="block" rendered="#{mrqPreviewForm.answerView and mrqPreviewForm.wrongAnswer and (mrqPreviewForm.limitedFreeTextAnswer or mrqPreviewForm.indicateImage)}" >
                <div class="ui-g-12 ui-md-12 xXwrongAnswer" >
                  Su Respuesta es INCORRECTA
                </div>
              </h:panelGroup>
-		    
-		    <h:panelGroup layout="block" rendered="#{mrqPreviewForm.answerView and mrqPreviewForm.correctAnswer and mrqPreviewForm.limitedFreeTextAnswer}">
+
+		    <h:panelGroup layout="block" rendered="#{mrqPreviewForm.answerView and mrqPreviewForm.correctAnswer and (mrqPreviewForm.limitedFreeTextAnswer or mrqPreviewForm.indicateImage)}">
                <div class="ui-g-12 ui-md-12 xXcorrectAnswer" >
                  Su Respuesta es CORRECTA
                </div>
              </h:panelGroup>
-             
+
               <h:panelGroup layout="block" rendered="#{mrqPreviewForm.answerView}">
               <div class="ui-g-12 ui-md-12 xXscores" >
                  Puntuacíon:<h:outputText value="#{mrqPreviewForm.puntuacion}" />
               </div>
               </h:panelGroup>
-		    
+
 		     <h:panelGroup layout="block" rendered="#{mrqPreviewForm.answerView and mrqPreviewForm.wrongAnswer and mrqPreviewForm.multipleChoice}" >
                <div class="ui-g-12 ui-md-12 xXwrongAnswer" >
                   <h:outputText value="#{mrqPreviewForm.correctAnswers}" style="color:green;"/>
@@ -214,7 +216,7 @@
                   <h:outputText value="#{mrqPreviewForm.wrongAnswers}" />
                </div>
              </h:panelGroup>
-             
+
 		     <h:panelGroup layout="block" rendered="#{mrqPreviewForm.answerView and mrqPreviewForm.correctAnswer and mrqPreviewForm.multipleChoice}">
                <div class="ui-g-12 ui-md-12 xXcorrectAnswer" >
                   <h:outputText value="#{mrqPreviewForm.correctAnswers}" />
@@ -222,7 +224,7 @@
                   <h:outputText value="#{mrqPreviewForm.wrongAnswers}" style="color:red;"/>
                </div>
              </h:panelGroup>
-		    
+
 		     <h:panelGroup layout="block" rendered="#{mrqPreviewForm.answerView and mrqPreviewForm.limitedFreeTextAnswer}">
                <div class="ui-g-12 ui-md-12 xXinstructions">
                 Usted contesto:
@@ -231,7 +233,7 @@
                 <p:outputLabel value="#{mrqPreviewForm.respuestaPreguntaCandidato}"/>
                </div>
              </h:panelGroup>
-		     
+
 		     <h:panelGroup layout="block" rendered="#{mrqPreviewForm.answerView and mrqPreviewForm.limitedFreeTextAnswer}">
                <div class="ui-g-12 ui-md-12 xXinstructions">
                 La respuesta correcta es:
@@ -240,7 +242,7 @@
                   <p:outputLabel value="#{mrqPreviewForm.respuestaPreguntaSistema}"/>
                </div>
              </h:panelGroup>
-            
+
              <h:panelGroup layout="block" rendered="#{mrqPreviewForm.multipleChoice and mrqPreviewForm.answerView and mrqPreviewForm.singleAnswerMode}">
                 <div class="ui-g-12 ui-md-12 xXinstructions">
                  La respuestas son:
@@ -256,7 +258,7 @@
 		               </div>
 		             <div class="ui-g-12 ui-md-11">
 					      <div class="ui-inputgroup">
-					          <p:commandButton icon="pi pi-check" styleClass="green-button"/> 
+					          <p:commandButton icon="pi pi-check" styleClass="green-button"/>
 					          <h:outputText value="#{mrqOpcionMultiple.textoRespuesta}" />
 					      </div>
 					  </div>
@@ -277,15 +279,15 @@
 		             </div>
 		            </ui:repeat>
 		      </div>
-             </h:panelGroup>  
-             
-             
+             </h:panelGroup>
+
+
           		     <div class="ui-g-12 ui-md-4">
              <p:commandButton value="Siguiente" update="previewForm" style="margin-left:15px; background: #2d0d86;" actionListener="#{mrqPreviewForm.saveProceed()}" rendered="#{mrqPreviewForm.questionView}" oncomplete="handleUpdateRequest(xhr, status, args)"/>
              <p:commandButton value="Continuar" immediate="true" style="margin-left:15px; background: #2d0d86;" action="#{mrqPreviewForm.proceed()}" rendered="#{mrqPreviewForm.answerView}"/>
-           </div>  
-            
-            
+           </div>
+
+
              <h:panelGroup layout="block" rendered="#{mrqPreviewForm.multipleChoice and mrqPreviewForm.answerView and not mrqPreviewForm.singleAnswerMode}">
 		      <div class="ui-g-12 ui-md-12 xXinstructions">
 		            <ui:repeat var="mrqOpcionMultiple" value="#{mrqPreviewForm.listMrqsOpcionMultiple}">
@@ -298,7 +300,7 @@
 		               </div>
 					  <div class="ui-g-12 ui-md-11">
 					      <div class="ui-inputgroup">
-					          <p:commandButton icon="pi pi-check" styleClass="green-button"/> 
+					          <p:commandButton icon="pi pi-check" styleClass="green-button"/>
 					          <h:outputText value="#{mrqOpcionMultiple.textoRespuesta}" />
 					      </div>
 					  </div>
@@ -321,7 +323,7 @@
 		      </div>
 
              </h:panelGroup>
-            
+
         </div>
      </div>
    </div>

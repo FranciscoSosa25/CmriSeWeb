@@ -1,9 +1,6 @@
 package com.cmrise.ejb.services.corecases;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -243,8 +240,8 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 						ccImagenes.setNumeroGrp(k.getNumeroGrp());
 						ccImagenes.setNombreImagen(k.getNombreImagen());
 						ccImagenes.setRutaImagen(Utilitarios.FS_ROOT+k.getRutaImagen());
-						String strJpgRuta  = Utilitarios.FS_ROOT+k.getRutaImagen()+"\\"+k.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX); 
-						String strThumbailRuta  = Utilitarios.FS_ROOT+k.getRutaImagen()+"\\"+k.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX); 
+						String strJpgRuta  = Utilitarios.FS_ROOT+k.getRutaImagen()+ File.separator+k.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX);
+						String strThumbailRuta  = Utilitarios.FS_ROOT+k.getRutaImagen()+File.separator+k.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX);
 						System.out.println("strJpgRuta:"+strJpgRuta);
 						System.out.println("strThumbailRuta:"+strThumbailRuta);
 						

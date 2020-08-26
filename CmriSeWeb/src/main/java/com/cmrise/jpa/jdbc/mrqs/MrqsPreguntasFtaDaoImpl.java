@@ -1,5 +1,6 @@
 package com.cmrise.jpa.jdbc.mrqs;
 
+import java.io.File;
 import java.math.BigInteger;
 
 import javax.ejb.Stateless;
@@ -24,7 +25,7 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 	public long insert(MrqsPreguntasFtaDto pMrqsPreguntasFtaDto) {
 		Query q = em.createNativeQuery("SELECT NEXT VALUE FOR dbo.MRQS_PREGUNTAS_FTA_S");
 		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
-		pMrqsPreguntasFtaDto.setRutaImagen(pMrqsPreguntasFtaDto.getRutaImagen()+"\\"+lNumeroS);
+		pMrqsPreguntasFtaDto.setRutaImagen(pMrqsPreguntasFtaDto.getRutaImagen()+ File.separator +lNumeroS);
 		pMrqsPreguntasFtaDto.setNumero(lNumeroS.longValue());
 		em.persist(pMrqsPreguntasFtaDto);
 		return lNumeroS.longValue();

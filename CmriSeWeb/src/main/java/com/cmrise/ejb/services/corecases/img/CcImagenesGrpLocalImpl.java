@@ -66,7 +66,7 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 			 **************************************************************************************** COMIENZA DCM
 			 */
 			
-			ccImagenes.setRutaImagen(Utilitarios.FS_CORE_CASES+"\\"+pNumetoFta+"\\"+numeroImagenesGrp);
+			ccImagenes.setRutaImagen(Utilitarios.FS_CORE_CASES+File.separator+pNumetoFta+File.separator+numeroImagenesGrp);
 			System.out.println("V1 mrqsImagenes.getRutaImagen():"+ccImagenes.getRutaImagen());
 			ccImagenesDao.insert(numeroImagenesGrp,ccImagenes); 
 			System.out.println("V2 mrqsImagenes.getRutaImagen():"+ccImagenes.getRutaImagen());
@@ -74,12 +74,12 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 			System.out.println("Utilitarios.FS_ROOT+ccImagenes.getRutaImagen():"+Utilitarios.FS_ROOT+ccImagenes.getRutaImagen());
 			File directory =new File(Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()); 
 			directory.mkdirs(); 
-			System.out.println("Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+\"\\\\\"+ccImagenes.getNombreImagen():"+Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+"\\"+ccImagenes.getNombreImagen());
-			String strRutaImgDcm = Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+"\\"+ccImagenes.getNombreImagen(); 
+			System.out.println("Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+\"\\\\\"+ccImagenes.getNombreImagen():"+Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen());
+			String strRutaImgDcm = Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen();
 			File destination = new File(strRutaImgDcm); 
 		    System.out.println("**");
 		    System.out.println("mrqsImagenes.getImagenContent():"+ccImagenes.getImagenContent());
-		   
+
 		    try {
 				copy(ccImagenes.getImagenContent(),destination);
 			} catch (IOException ie) {
@@ -89,11 +89,11 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 		     **************************************************************************************** FINALIZA DCM 
 		     */
 		    
-		    String strRutaImgJpg =Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+"\\"+ccImagenes.getNombreImagen().replace(".dcm", ".jpg"); 
+		    String strRutaImgJpg =Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen().replace(".dcm", ".jpg");
 		    
 		    InputStream inputStream;
 			try {
-				inputStream = new FileInputStream(Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+"\\"+ccImagenes.getNombreImagen());
+				inputStream = new FileInputStream(Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen());
 				setOutputStream(inputStream);
 				//Validate the file
 				String xml = dicomAttributeReaderService.readAttributes(getInputStream());
@@ -149,8 +149,8 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 				ccImagenes.setNumeroGrp(j.getNumeroGrp());
 				ccImagenes.setNombreImagen(j.getNombreImagen());
 				ccImagenes.setRutaImagen(j.getRutaImagen());
-				String strJpgRuta  = j.getRutaImagen()+"\\"+j.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX); 
-				String strThumbailRuta  = j.getRutaImagen()+"\\"+j.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX); 
+				String strJpgRuta  = j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX);
+				String strThumbailRuta  = j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX);
 				try {
 					/** byte[] bytesArray = Files.readAllBytes(Paths.get(j.getRutaImagen()+"\\"+j.getNombreImagen())); **/
 					/** ccImagenes.setImagenContent(bytesArray); **/

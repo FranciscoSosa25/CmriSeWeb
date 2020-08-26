@@ -76,7 +76,9 @@ public class MrqPreviewForm {
 	
 	private List<SelectItem> selectRespReactCorImg = new ArrayList<SelectItem>(); 
 	private List<RespReactCorImg> listRespReactCorImg = new ArrayList<RespReactCorImg>(); 
-	private List<AnotacionesCorImg> listAnotacionesCorImg = new ArrayList<AnotacionesCorImg>(); 
+	private List<AnotacionesCorImg> listAnotacionesCorImg = new ArrayList<AnotacionesCorImg>();
+
+	private String indicateImageResult;
 	
 	
 	@Inject 
@@ -195,6 +197,18 @@ public class MrqPreviewForm {
 		  }else{
 			  evaluateNotIsSingleAnswerMode(listMrqsOpcionMultiple);
 		  }
+	  } else if (this.isIndicateImage()) {
+
+	  	if (Boolean.valueOf(this.getIndicateImageResult())) {
+
+			this.setCorrectAnswer(true);
+
+		} else {
+
+			this.setWrongAnswer(true);
+
+			this.setPuntuacion(0);
+		}
 	  }
 	  System.out.println("Sale saveProceed");	
 	}
@@ -564,5 +578,13 @@ public class MrqPreviewForm {
 	}
 	public void setTextoExplicacion(String textoExplicacion) {
 		this.textoExplicacion = textoExplicacion;
+	}
+
+	public String getIndicateImageResult() {
+		return indicateImageResult;
+	}
+
+	public void setIndicateImageResult(String indicateImageResult) {
+		this.indicateImageResult = indicateImageResult;
 	}
 }

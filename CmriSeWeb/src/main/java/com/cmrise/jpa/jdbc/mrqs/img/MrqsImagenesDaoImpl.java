@@ -1,5 +1,6 @@
 package com.cmrise.jpa.jdbc.mrqs.img;
 
+import java.io.File;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class MrqsImagenesDaoImpl implements MrqsImagenesDao {
 		pMrqsImagenesDto.setActualizadoPor((long)-1);
 		pMrqsImagenesDto.setFechaCreacion(sqlsysdate);
 		pMrqsImagenesDto.setFechaActualizacion(sqlsysdate);
-		pMrqsImagenesDto.setRutaImagen(pMrqsImagenesDto.getRutaImagen()+"\\"+lNumeroS.longValue());
+		pMrqsImagenesDto.setRutaImagen(pMrqsImagenesDto.getRutaImagen()+ File.separator+lNumeroS.longValue());
 		pMrqsImagenesDto.setContentType(pMrqsImagenesDto.getContentType());
 		em.persist(pMrqsImagenesDto);
 		return lNumeroS.longValue();

@@ -1,5 +1,6 @@
 package com.cmrise.ejb.services.exams;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -174,7 +175,7 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 												mrqsImagenes.setRutaImagen(Utilitarios.FS_ROOT+l.getRutaImagen());
 												mrqsImagenes.setContentType(l.getContentType());
 												try {
-													byte[] bytesArray = Files.readAllBytes(Paths.get(Utilitarios.FS_ROOT+l.getRutaImagen()+"\\"+l.getNombreImagen()));
+													byte[] bytesArray = Files.readAllBytes(Paths.get(Utilitarios.FS_ROOT+l.getRutaImagen()+ File.separator+l.getNombreImagen()));
 													mrqsImagenes.setImagenContent(bytesArray);
 													mrqsImagenes.setImagenBase64(new String(Base64.getEncoder().encode(bytesArray)));
 												} catch (IOException ie) {
