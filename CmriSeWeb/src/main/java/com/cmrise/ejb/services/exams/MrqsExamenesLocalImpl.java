@@ -88,8 +88,8 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 	}
 
 	@Override
-	public MrqsExamenesDto findById(long pNumero) {
-		return mrqsExamenesDao.findById(pNumero);
+	public MrqsExamenesDto findById(long pNumero,long pNCandidato) {
+		return mrqsExamenesDao.findById(pNumero, pNCandidato);
 	}
 
 	@Override
@@ -98,8 +98,8 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 	}
 
 	@Override
-	public MrqsExamenes findByIdWD(long pNumero) {
-		MrqsExamenesDto mrqsExamenesDto = mrqsExamenesDao.findById(pNumero);
+	public MrqsExamenes findByIdWD(long pNumero, long pNCandidato) {
+		MrqsExamenesDto mrqsExamenesDto = mrqsExamenesDao.findById(pNumero,pNCandidato);
 		MrqsExamenes retval = new MrqsExamenes(); 
 		retval.setNumero(mrqsExamenesDto.getNumero());
 		return retval;
@@ -108,7 +108,7 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 	@Override
 	public MrqsExamenes findObjMod(long pNumero) {
 		MrqsExamenes retval = new MrqsExamenes(); 
-		MrqsExamenesV1Dto mrqsExamenesV1Dto =  mrqsExamenesDao.findByNumeroWD(pNumero); 
+		MrqsExamenesV1Dto mrqsExamenesV1Dto =  mrqsExamenesDao.findByNumeroWD(pNumero,22); 
 		retval.setNumero(mrqsExamenesV1Dto.getNumero());
 		retval.setAdmonExamen(mrqsExamenesV1Dto.getAdmonExamen());
 		retval.setAdmonExamenDesc(mrqsExamenesV1Dto.getAdmonExamenDesc());
@@ -246,9 +246,9 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 	}
 
 	@Override
-	public MrqsExamenes findByNumeroWD(long pNumero) {
+	public MrqsExamenes findByNumeroWD(long pNumero,long pNCandidato) {
 		MrqsExamenes retval = new MrqsExamenes(); 
-		MrqsExamenesV1Dto mrqsExamenesV1Dto = mrqsExamenesDao.findByNumeroWD(pNumero); 
+		MrqsExamenesV1Dto mrqsExamenesV1Dto = mrqsExamenesDao.findByNumeroWD(pNumero,pNCandidato); 
 		
 		retval.setNumero(mrqsExamenesV1Dto.getNumero());
 		retval.setElaborador(mrqsExamenesV1Dto.getElaborador());
@@ -319,9 +319,9 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 	}
 
 	@Override
-	public MrqsExamenes findByNumeroForRead(long pNumeroMrqsExamen) {
+	public MrqsExamenes findByNumeroForRead(long pNumeroMrqsExamen,long pNCandidato) {
 		MrqsExamenes retval = new MrqsExamenes(); 
-		MrqsExamenesV1Dto mrqsExamenesV1Dto =  mrqsExamenesDao.findByNumeroWD(pNumeroMrqsExamen); 
+		MrqsExamenesV1Dto mrqsExamenesV1Dto =  mrqsExamenesDao.findByNumeroWD(pNumeroMrqsExamen,pNCandidato); 
 		retval.setNumero(mrqsExamenesV1Dto.getNumero());
 		retval.setAdmonExamen(mrqsExamenesV1Dto.getAdmonExamen());
 		retval.setAdmonExamenDesc(mrqsExamenesV1Dto.getAdmonExamenDesc());

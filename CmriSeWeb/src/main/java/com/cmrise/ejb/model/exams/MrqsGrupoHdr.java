@@ -17,6 +17,7 @@ public class MrqsGrupoHdr implements Serializable {
 	private String comentarios; 
     private long admonMateria; 
 	private String admonMateriaDesc; 
+	private String admonSubMateriaDesc;
 	private int numeroReactivos; 
 	private String elaborador; 
 	
@@ -121,6 +122,14 @@ public class MrqsGrupoHdr implements Serializable {
 
 	public void setElaborador(String elaborador) {
 		this.elaborador = elaborador;
+	}
+
+	public String getAdmonSubMateriaDesc() {
+		return admonSubMateriaDesc;
+	}
+
+	public void setAdmonSubMateriaDesc(String admonSubMateriaDesc) {
+		this.admonSubMateriaDesc = admonSubMateriaDesc;
 	}
  
 	

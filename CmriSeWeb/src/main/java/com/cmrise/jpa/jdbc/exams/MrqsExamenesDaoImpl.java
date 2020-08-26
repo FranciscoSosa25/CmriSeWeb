@@ -50,7 +50,7 @@ public class MrqsExamenesDaoImpl implements MrqsExamenesDao {
 	}
 
 	@Override
-	public MrqsExamenesDto findById(long pNumero) {
+	public MrqsExamenesDto findById(long pNumero, long pNCandidato) {
 		return em.find(MrqsExamenesDto.class, pNumero); 
 	}
 
@@ -75,8 +75,9 @@ public class MrqsExamenesDaoImpl implements MrqsExamenesDao {
 	}
 
 	@Override
-	public MrqsExamenesV1Dto findByNumeroWD(long pNumero) {
-		String strQuery = "SELECT m FROM MrqsExamenesV1Dto m WHERE m.numero="+pNumero;
+	public MrqsExamenesV1Dto findByNumeroWD(long pNumero, long pNCandidato) {
+		String strQuery = "SELECT m FROM MrqsExamenesV1Dto m WHERE m.numero="+pNumero+" and m.n_candidato="+pNCandidato;
+		
 		Query query = em.createQuery(strQuery); 
 		return (MrqsExamenesV1Dto)query.getSingleResult();
 	}

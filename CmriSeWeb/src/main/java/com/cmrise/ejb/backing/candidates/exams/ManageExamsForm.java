@@ -164,6 +164,8 @@ private UserLogin userLogin;
 		   System.out.println("put NumeroMrqsExamenSV:"+pCandExamenesV2.getNumeroExamen());
 		   session.setAttribute("NumeroCandExamenSV",pCandExamenesV2.getNumero());
 		   session.setAttribute("NumeroMrqsExamenSV", pCandExamenesV2.getNumeroExamen());
+		   session.setAttribute("tiempoExamen", pCandExamenesV2.getTiempoLimite());
+		   session.setAttribute("numCand", userLogin.getNumeroUsuario());
 		   session.removeAttribute("NumeroMglSV"); /** CAUSA CONFLICTOS en la siguiente pagina 07042020 **/
 		   return "Candidates-MRQs-Exam"; 	
 		  

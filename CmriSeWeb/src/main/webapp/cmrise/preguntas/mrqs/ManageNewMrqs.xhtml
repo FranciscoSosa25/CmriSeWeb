@@ -14,7 +14,7 @@ function handleDeleteRequest(xhr, status, args){
    	 PF('deleteRolDialogWV').hide();
    }	
 }
-function handleDuplicateRequest(xhr, status, args){
+function handleDupli+cateRequest(xhr, status, args){
 	 if(args.validationFailed|| !args.duplicateIn) {
 		 PF('duplicateMrqDialogWV').jq.effect("shake", {times:5}, 100);
 		 argsValidationFailed(); 

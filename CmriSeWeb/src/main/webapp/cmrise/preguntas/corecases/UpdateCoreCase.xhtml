@@ -142,7 +142,7 @@
      <p:dataScroller value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" itemStyle="height:100%;text-align:center" var="pregunta" chunkSize="10" style="width: 90%; border-style: none;">
      <p:accordionPanel styleClass="ui-panelgrid-blank" activeIndex="null">
      <p:tab title="Pregunta #{pregunta.numero}">
-    <p:panel styleClass="noborder">
+    
     <div class="ui-g">
           <div class="ui-g-12 ui-md-12">
      	<div class="ui-g-12 ui-md-3" style="text-align:right;">
@@ -180,13 +180,12 @@
       </div>
       <p:commandButton value="Editar" style="BackGround:#2D0D86; width:10%" action="#{updateCoreCaseForm.updatePregunta(pregunta)}" immediate="true"></p:commandButton>
 	  <p:commandButton value="Eliminar" style="BackGround:#2D0D86; width:10%" action="#{updateCoreCaseForm.selectForAction(pregunta)}"  immediate="true" oncomplete="PF('eliminarPreguntasDlg').show();"></p:commandButton>   
-    </p:panel>
+   
     </p:tab>
+               
     </p:accordionPanel>
 
-
- <h:form id="PreguntasFormDelete"  >
-            <p:dialog id="eliminar-Preguntas-dialog" widgetVar="eliminarPreguntasDlg" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" header="Eliminar pregunta">
+ <p:dialog id="eliminar-Preguntas-dialog" widgetVar="eliminarPreguntasDlg" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" header="Eliminar pregunta">
 
                 <div class="ui-g ui-fluid">
                     <div class="ui-g-12 ui-lg-12">
@@ -215,10 +214,12 @@
                 </div>
 
             </p:dialog>
-
-</h:form>
   </p:dataScroller>
  
+ <h:form id="PreguntasFormDelete"  >
+
+
+</h:form>
    <div class="ui-g">
  <div class="ui-g-12 ui-md-6 ui-lg-4">
 
@@ -229,7 +230,7 @@
   <p:commandButton value=" Previsualizar" icon="fa fa-eye" update="updateForm" action="#{updateCoreCaseForm.saveAndPreview()}" style="background: #2D0D86;"/>
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Cerrar" icon="fa fa-backward" action="Preguntas-Manage-CoreCases" immediate="true" style="background: #2D0D86;"/>
+  <p:commandButton value="Regresar" icon="fa fa-backward" action="Preguntas-Manage-CoreCases" immediate="true" style="background: #2D0D86;"/>
  </div>
 </div>   
 	

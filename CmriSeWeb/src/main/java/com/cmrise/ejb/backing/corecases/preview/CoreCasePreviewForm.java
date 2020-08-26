@@ -19,7 +19,11 @@ import com.cmrise.ejb.model.corecases.CcPreguntasFtaV1;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
 import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
 import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
+import com.cmrise.ejb.model.mrqs.MrqsPreguntasFtaV1;
 import com.cmrise.ejb.services.corecases.CcHdrLocal;
+import com.cmrise.ejb.services.corecases.CcOpcionMultipleLocal;
+import com.cmrise.jpa.dto.corecases.CcOpcionMultipleDto;
+import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.utils.Utilitarios;
 
 @ManagedBean
@@ -42,6 +46,21 @@ public class CoreCasePreviewForm {
 	private boolean answerView; 
 	private boolean singleAnswerMode;
 	private boolean suffleAnswerOrder; 
+    private boolean correctAnswer; 
+    private boolean wrongAnswer; 
+    private float puntuacion;
+    private String metodoPuntuacion; 
+    private String respuestaPreguntaSistema;
+    private int totalCorrectAnswers; 
+    private long numetoFta; 
+	private boolean annotatedImage;
+
+	
+	
+
+	
+	private String correctAnswers="0 Respuesta(s) correctas"; 
+	private String wrongAnswers="0 Respuesta(s) incorrectas"; 
 	
 	
 
@@ -52,12 +71,17 @@ public class CoreCasePreviewForm {
 	/********************************************************************
 	 * Attributos Imagenes 
 	 */
+	private CcPreguntasFtaV1 ccPreguntasFtaV1ForRead = new CcPreguntasFtaV1(); 
 	
 	private List<CcImagenesGrp> listPresentCcImagenesGrp = new ArrayList<CcImagenesGrp>(); 
 	
 	@Inject 
 	CcHdrLocal ccHdrLocal; 
-
+	
+	@Inject 
+	CcOpcionMultipleLocal ccOpcionMultipleLocal; 
+	
+	
 	@PostConstruct
 	 public void init() {
 		 System.out.println("Entra "+this.getClass()+" init()");
@@ -88,8 +112,12 @@ public class CoreCasePreviewForm {
 				 listPresentCcImagenesGrp = ccPreguntasFtaV1.getListCcImagenesGrp();
 				 break;
 			 }
+		
+			 
 		 }
-		 
+          
+		
+																	             
 		 System.out.println("ccPreguntasHdrV1.getTipoPregunta():"+ccPreguntasHdrV1.getTipoPregunta());
 		 System.out.println("ccPreguntasFtaV1.isSingleAnswerMode():"+ccPreguntasFtaV1.isSingleAnswerMode());
 		 
@@ -99,13 +127,126 @@ public class CoreCasePreviewForm {
 			 this.setMultipleChoice(true);
 			 this.setSingleAnswerMode(ccPreguntasFtaV1.isSingleAnswerMode());
 		 }
-		 
+		
 		 this.setQuestionView(true);
-		 
+	
 	}
 	
+	public void  saveProceed() {
+		  System.out.println("Entra saveProceed");	
+		  this.setAnswerView(true);
+		  if(this.isLimitedFreeTextAnswer()) {
+			  if(this.getRespuestaPreguntaCandidato().equalsIgnoreCase(this.getRespuestaPreguntaSistema())) {
+				  System.out.println("Respuesta Candidato es:"+this.getRespuestaPreguntaCandidato());
+				  this.setCorrectAnswer(true);
+			  }else {
+				  this.setWrongAnswer(true);
+				  this.setPuntuacion(0);
+			  }
+		  }else if(this.isMultipleChoice()) {
+			 /** List<CcOpcionMultipleDto> listMrqsOpcionMultipleDto = mrqsOpcionMultipleLocal.findByNumeroFta(this.getNumetoFta()); **/
+			  if(this.isSingleAnswerMode()) {
+				  evaluateIsSingleAnswerMode(listCcOpcionMultiple);
+			  }else{
+				  evaluateNotIsSingleAnswerMode(listCcOpcionMultiple);
+			  }
+		  }
+		  System.out.println("Sale saveProceed");	
+		}
+	
+	 public void initListCcOpcionMultiple(long pNumeroMpf
+             ,boolean pShuffleAnswerOrder
+                                               ) {
+    listCcOpcionMultiple = new ArrayList<CcOpcionMultiple>(); 
+    List<CcOpcionMultipleDto> listCcOpcionMultipleDto = ccOpcionMultipleLocal.findByNumeroFtaShuffleOrder(pNumeroMpf, pShuffleAnswerOrder);
+    for(CcOpcionMultipleDto ccOpcionMultipleDto:listCcOpcionMultipleDto) {
+    CcOpcionMultiple ccOpcionMultiple = new CcOpcionMultiple(); 
+    ccOpcionMultiple.setNumero(ccOpcionMultipleDto.getNumero());
+    ccOpcionMultiple.setTextoRespuesta(ccOpcionMultipleDto.getTextoRespuesta());
+    ccOpcionMultiple.setEstatus(ccOpcionMultipleDto.isEstatus());
+    ccOpcionMultiple.setTextoExplicacion(ccOpcionMultipleDto.getTextoExplicacion());
 
-		
+    listCcOpcionMultiple.add(ccOpcionMultiple); 
+}
+}
+
+	 private void evaluateIsSingleAnswerMode(List<CcOpcionMultiple> pListCcOpcionMultiple) {
+		  
+		   for(CcOpcionMultiple ccOpcionMultiple:listCcOpcionMultiple) {
+				  long longRespuestaCandidato = Long.parseLong(this.getRespuestaPreguntaCandidato()); 
+				  if(ccOpcionMultiple.getNumero()==longRespuestaCandidato) {
+					  ccOpcionMultiple.setEstatusCandidato(true); 
+				  }
+			  }
+		   
+				for(CcOpcionMultiple ccOpcionMultiple:pListCcOpcionMultiple) {
+				 if(ccOpcionMultiple.isEstatus()) {
+					 String strNumero = ccOpcionMultiple.getNumero()+""; 
+					 if(strNumero.equals(this.getRespuestaPreguntaCandidato())) {
+						 this.setCorrectAnswer(true);
+						 break; 
+					 }
+				  }		 
+			    }
+			 if(this.isCorrectAnswer()) {
+			 this.setCorrectAnswers("1 Respuesta(s) correctas");
+			 this.setWrongAnswers("0 Respuesta(s) incorrectas"); 
+			 }else {
+				this.setWrongAnswer(true);
+				this.setCorrectAnswers("0 Respuesta(s) correctas");
+			    this.setWrongAnswers("1 Respuesta(s) incorrectas");  
+			    this.setPuntuacion(0);
+			 }
+		}
+			
+		private void evaluateNotIsSingleAnswerMode(List<CcOpcionMultiple> pListCcOpcionMultiple) {
+		   System.out.println("this.getRespuestasPreguntaCandidato():"+this.getRespuestasPreguntaCandidato());
+		   int countCorrectAnswers =0; 
+		   int countWrongAnswers = 0; 
+		  if(null!=this.getRespuestasPreguntaCandidato()) {
+			  String [] array = this.getRespuestasPreguntaCandidato(); 
+			  
+			  for(int idx =0;idx<array.length;idx=idx+1) {
+				  for(CcOpcionMultiple ccOpcionMultiple:listCcOpcionMultiple) {
+					  long longRespuestaCandidato = Long.parseLong(array[idx]); 
+					  if(ccOpcionMultiple.getNumero()==longRespuestaCandidato) {
+						  ccOpcionMultiple.setEstatusCandidato(true); 
+					  }
+				  }
+			  }
+			  
+			   for(int idx =0;idx<array.length;idx=idx+1) {
+				   System.out.println(array[idx]);
+				   Long longValue = Long.parseLong(array[idx]); 
+				   int intCorrectWrong = ccOpcionMultipleLocal.correctOrWrongAnswer(longValue, this.getNumetoFta()); 
+				   if(1==intCorrectWrong) {
+					   countCorrectAnswers++;
+				   }else if(0==intCorrectWrong) {
+					   countWrongAnswers++;
+				   }
+			   }
+		   }
+		  System.out.println("countCorrectAnswers:"+countCorrectAnswers);
+		  if(countCorrectAnswers>0) {
+			  this.setCorrectAnswer(true);
+			  System.out.println("metodoPuntuacion:"+this.metodoPuntuacion);
+			  if(Utilitarios.PROP_SCORING.equals(this.metodoPuntuacion)) {
+				  System.out.println("totalCorrectAnswers:"+this.totalCorrectAnswers);
+				  System.out.println("puntuacion:"+this.puntuacion);
+			   float floatPuntuacionProp = ((float)countCorrectAnswers/(float)this.totalCorrectAnswers)*this.puntuacion; 
+			   System.out.println("floatPuntuacionProp:"+floatPuntuacionProp);
+			   this.setPuntuacion(floatPuntuacionProp);
+			  }
+		  }else {
+			  this.setWrongAnswer(true);
+			  this.setPuntuacion(0);
+		  }
+		  
+		  this.setCorrectAnswers(countCorrectAnswers+" Respuesta(s) correctas");
+		  this.setWrongAnswers(countWrongAnswers+" Respuesta(s) incorrectas"); 
+		  
+		}
+
 	
 	  private void refreshEntity() {
 			ccHdrV1 = ccHdrLocal.findByNumeroObjMod(this.numeroCcHdr);
@@ -117,7 +258,11 @@ public class CoreCasePreviewForm {
 			return "Actualizar-Pregunta-Fta-CoreCase"; 
 		}
 		
-	  
+	  public String returnUpdate() {
+			guestPreferences.setTheme(Utilitarios.DEFAULT_THEME);
+			return "Preguntas-Update-CoreCase"; 
+		}
+	 
 	
 	public GuestPreferences getGuestPreferences() {
 		return guestPreferences;
@@ -301,5 +446,83 @@ public class CoreCasePreviewForm {
 	public void setListPresentCcImagenesGrp(List<CcImagenesGrp> listPresentCcImagenesGrp) {
 		this.listPresentCcImagenesGrp = listPresentCcImagenesGrp;
 	}
+	public String getCorrectAnswers() {
+		return correctAnswers;
+	}
+
+	public void setCorrectAnswers(String correctAnswers) {
+		this.correctAnswers = correctAnswers;
+	}
+
+	public String getWrongAnswers() {
+		return wrongAnswers;
+	}
+
+	public void setWrongAnswers(String wrongAnswers) {
+		this.wrongAnswers = wrongAnswers;
+	}
 	
-}
+	public boolean isCorrectAnswer() {
+		return correctAnswer;
+	}
+
+	public void setCorrectAnswer(boolean correctAnswer) {
+		if(correctAnswer) {
+			this.setWrongAnswer(false);
+		}
+		this.correctAnswer = correctAnswer;
+	}
+	public boolean isWrongAnswer() {
+		return wrongAnswer;
+	}
+	public void setWrongAnswer(boolean wrongAnswer) {
+		if(wrongAnswer) {
+			this.setCorrectAnswer(false);
+		}
+		this.wrongAnswer = wrongAnswer;
+	}
+	public float getPuntuacion() {
+		return puntuacion;
+	}
+	public void setPuntuacion(float puntuacion) {
+		this.puntuacion = puntuacion;
+	}
+	
+	public String getMetodoPuntuacion() {
+		return metodoPuntuacion;
+	}
+
+	public void setMetodoPuntuacion(String metodoPuntuacion) {
+		this.metodoPuntuacion = metodoPuntuacion;
+	}
+	
+	public int getTotalCorrectAnswers() {
+		return totalCorrectAnswers;
+	}
+
+	public void setTotalCorrectAnswers(int totalCorrectAnswers) {
+		this.totalCorrectAnswers = totalCorrectAnswers;
+	}
+	public long getNumetoFta() {
+		return numetoFta;
+	}
+
+	public void setNumetoFta(long numetoFta) {
+		this.numetoFta = numetoFta;
+	}
+	public String getRespuestaPreguntaSistema() {
+		return respuestaPreguntaSistema;
+	}
+
+	public void setRespuestaPreguntaSistema(String respuestaPreguntaSistema) {
+		this.respuestaPreguntaSistema = respuestaPreguntaSistema;
+	}
+
+	public void setAnnotatedImage(boolean annotatedImage) {
+		this.annotatedImage = annotatedImage;
+	}
+	public boolean isAnnotatedImage() {
+		return annotatedImage;
+	}
+	}
+

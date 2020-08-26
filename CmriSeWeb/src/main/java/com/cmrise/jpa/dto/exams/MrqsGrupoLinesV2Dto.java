@@ -24,8 +24,8 @@ public class MrqsGrupoLinesV2Dto  implements Serializable {
 	@Column(name="NUMERO")
 	private long numero;
 	
-	@Column(name="TITULO_GRUPO")
-	private String tituloGrupo; 
+	//@Column(name="TITULO_GRUPO")
+	//private String tituloGrupo; 
 	
 	@Column(name="ACTUALIZADO_POR")
 	private long actualizadoPor;
@@ -57,8 +57,14 @@ public class MrqsGrupoLinesV2Dto  implements Serializable {
 	@Column(name="ESTATUS_DESC")
 	private String estatusDesc;
 	
+	@Column(name="ADMON_MATERIA_DESC")
+	private String admonMateriaDesc; 
+	
 	@Column(name="ADMON_SUBMATERIA")
 	private long admonSubmateria; 
+	
+	@Column(name="ADMON_SUBMATERIA_DESC")
+	private String admonSubmateriaDesc; 
 	
 	@Column(name="DIAGNOSTICO")
 	private String diagnostico; 
@@ -179,13 +185,13 @@ public class MrqsGrupoLinesV2Dto  implements Serializable {
 		this.textoSugerencias = textoSugerencias;
 	}
 
-	public String getTituloGrupo() {
+	/*public String getTituloGrupo() {
 		return tituloGrupo;
 	}
 
 	public void setTituloGrupo(String tituloGrupo) {
 		this.tituloGrupo = tituloGrupo;
-	}
+	}*/
 
 	public boolean isSingleAnswerMode() {
 		return singleAnswerMode;
@@ -219,6 +225,21 @@ public class MrqsGrupoLinesV2Dto  implements Serializable {
 		this.diagnostico = diagnostico;
 	}
 
+	public String getAdmonMateriaDesc() {
+		return admonMateriaDesc;
+	}
+
+	public void setAdmonMateriaDesc(String admonMateriaDesc) {
+		this.admonMateriaDesc = admonMateriaDesc;
+	}
+
+	public String getAdmonSubmateriaDesc() {
+		return admonSubmateriaDesc;
+	}
+
+	public void setAdmonSubmateriaDesc(String admonSubmateriaDesc) {
+		this.admonSubmateriaDesc = admonSubmateriaDesc;
+	}
 	
 
 }
