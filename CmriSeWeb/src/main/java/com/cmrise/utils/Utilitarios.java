@@ -42,8 +42,8 @@ public class Utilitarios {
     public static final String INTRODUCCION = "INTRODUCCION";
     public static final String CONCLUSION = "CONCUSION";
     public static final String FS_ROOT = (System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0 || System.getProperty("os.name").toLowerCase().indexOf("nix") >= 0 || System.getProperty("os.name").toLowerCase().indexOf("nux") >= 0) ? StringUtils.EMPTY : System.getProperty("os.name").contains("Windows Server") ? "D:" : "C:";
-    //public static final String FS_MRQS = File.separator + "CmriSeFs" + File.separator + "MRQs"; /** File System MRQS **/
-    public static final String FS_MRQS = "/Users/mauozuna/Documents/Trabajo/Personal/CmriSeWeb/Media/MRQs";
+    public static final String FS_MRQS = File.separator + "CmriSeFs" + File.separator + "MRQs"; /** File System MRQS **/
+    //public static final String FS_MRQS = "/Users/mauozuna/Documents/Trabajo/Personal/CmriSeWeb/Media/MRQs";
     /**
      * File System MRQS
      **/
