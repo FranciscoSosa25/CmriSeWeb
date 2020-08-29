@@ -97,7 +97,7 @@ public class UpdateMrqsExamForm {
 	 }
 
 	private void refreshEntity() {
-		mrqsExamenesForUpdate = mrqsExamenesLocal.findByNumeroWD(this.getNumeroMrqsExamen()); 
+		mrqsExamenesForUpdate = mrqsExamenesLocal.findByNumeroWD(this.getNumeroMrqsExamen(),userLogin.getNumeroUsuario()); 
 		onAdmonExamenChange(); 
 		
 		/***************************************************************************

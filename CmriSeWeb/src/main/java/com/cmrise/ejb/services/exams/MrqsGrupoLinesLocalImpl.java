@@ -100,7 +100,6 @@ public class MrqsGrupoLinesLocalImpl implements MrqsGrupoLinesLocal {
     	retval.setDiagnostico(pMrqsGrupoLinesV2Dto.getDiagnostico());
     	retval.setTextoPregunta(pMrqsGrupoLinesV2Dto.getTextoPregunta());
     	retval.setTextoSugerencias(pMrqsGrupoLinesV2Dto.getTextoSugerencias());
-    	retval.setTituloGrupo(pMrqsGrupoLinesV2Dto.getTituloGrupo());
     	retval.setSingleAnswerMode(pMrqsGrupoLinesV2Dto.isSingleAnswerMode());
     	retval.setSuffleAnswerOrder(pMrqsGrupoLinesV2Dto.isSuffleAnswerOrder());
 		

@@ -5,11 +5,13 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import com.cmrise.ejb.helpers.UserLogin;
 import com.cmrise.ejb.model.exams.MrqsExamenes;
 import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
@@ -51,6 +53,9 @@ public class UpdateMrqsExamGroupForm {
 	@Inject 
 	MrqsGrupoLinesLocal mrqsGrupoLinesLocal; 
 	
+	@ManagedProperty(value="#{userLogin}")
+	private UserLogin userLogin;
+	
 	 @PostConstruct
 	 public void init() {
 		System.out.println("Comienza UpdateMrqsExamGroupForm init()");
@@ -60,7 +65,7 @@ public class UpdateMrqsExamGroupForm {
 		Object objNumeroMrqsGrupoSV = session.getAttribute("NumeroMrqsGrupoSV");
 		this.numeroMrqsExamen = utilitariosLocal.objToLong(objNumeroMrqsExamenSV); 
 		this.numeroMrqsGrupo = utilitariosLocal.objToLong(objNumeroMrqsGrupoSV); 
-		mrqsExamenesForRead = mrqsExamenesLocal.findByNumeroForRead(this.numeroMrqsExamen); 
+		mrqsExamenesForRead = mrqsExamenesLocal.findByNumeroForRead(this.numeroMrqsExamen,userLogin.getNumeroUsuario()); 
 		mrqsGrupoHdrForUpdate = mrqsGrupoHdrLocal.findByNumeroWD(this.numeroMrqsGrupo); 
 		MrqsGrupoHdrDto mrqsGrupoHdrDto = mrqsGrupoHdrLocal.findByNumero(this.numeroMrqsGrupo); 
 		/**
