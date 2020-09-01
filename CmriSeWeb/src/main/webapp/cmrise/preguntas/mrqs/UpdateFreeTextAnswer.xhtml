@@ -577,9 +577,10 @@
                             <p:commandButton id="GuardarBtn" icon="fa fa-save" value="Guardar"
                                              actionListener="#{updateFTAMrqForm.update()}"
                                              update="UpdateReactivosForm growl" onstart="onstartUFTA()"
-                                             oncomplete="handleUpdateRequest(xhr, status, args)"/>
+                                             oncomplete="handleUpdateRequest(xhr, status, args)"
+                                             rendered="#{!updateFTAMrqForm.indicateImage}"/>
 
-                            <p:commandButton value="Guardar 2" actionListener="#{updateFTAMrqForm.update()}" update="UpdateReactivosForm growl" onstart="savePolygon()" oncomplete="savePolygonComplete()" rendered="#{updateFTAMrqForm.indicateImage}"></p:commandButton>
+                            <p:commandButton value="Guardar" icon="fa fa-save" actionListener="#{updateFTAMrqForm.update()}" update="UpdateReactivosForm growl" onstart="savePolygon()" oncomplete="savePolygonComplete()" rendered="#{updateFTAMrqForm.indicateImage}"></p:commandButton>
                             <!--<p:commandButton type="button" id="prueba" icon="fa fa-save" value="PRUEBA" onclick="prueba();"/>-->
                         </div>
                         <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
