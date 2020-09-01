@@ -41,13 +41,18 @@ public class Utilitarios {
     public static final String DCM = "DCM";
     public static final String INTRODUCCION = "INTRODUCCION";
     public static final String CONCLUSION = "CONCUSION";
-    public static final String FS_ROOT = (System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0 || System.getProperty("os.name").toLowerCase().indexOf("nix") >= 0 || System.getProperty("os.name").toLowerCase().indexOf("nux") >= 0) ? StringUtils.EMPTY : System.getProperty("os.name").contains("Windows Server") ? "D:" : "C:";
-    public static final String FS_MRQS = File.separator + "CmriSeFs" + File.separator + "MRQs"; /** File System MRQS **/
+    //public static final String FS_ROOT = (System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0 || System.getProperty("os.name").toLowerCase().indexOf("nix") >= 0 || System.getProperty("os.name").toLowerCase().indexOf("nux") >= 0) ? StringUtils.EMPTY : System.getProperty("os.name").contains("Windows Server") ? "D:" : "C:";
+    //public static final String FS_MRQS = File.separator + "CmriSeFs" + File.separator + "MRQs"; /** File System MRQS **/
     //public static final String FS_MRQS = "/Users/mauozuna/Documents/Trabajo/Personal/CmriSeWeb/Media/MRQs";
+
+    public static final String FS_ROOT = System.getProperty("os.name").contains("Windows Server")?"D:":"C:";
+    public static final String FS_MRQS = "\\CmriSeFs\\MRQs"; /** File System MRQS **/
+    public static final String FS_CORE_CASES = "\\CmriSeFs\\CoreCases"; /** File System MRQS **/
+
     /**
      * File System MRQS
      **/
-    public static final String FS_CORE_CASES = File.separator + "CmriSeFs" + File.separator + "CoreCases";
+    //public static final String FS_CORE_CASES = File.separator + "CmriSeFs" + File.separator + "CoreCases";
     /**
      * File System MRQS
      **/
