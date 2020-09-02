@@ -1,6 +1,7 @@
 package com.cmrise.ejb.backing.corecases;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -30,10 +31,12 @@ import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
 import com.cmrise.ejb.services.admin.AdmonExamenHdrLocal;
 import com.cmrise.ejb.services.admin.AdmonMateriaHdrLocal;
 import com.cmrise.ejb.services.admin.AdmonSubMateriaLocal;
+import com.cmrise.ejb.services.admin.TablasUtilitariasValoresLocal;
 import com.cmrise.ejb.services.corecases.CcOpcionMultipleLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasFtaLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasHdrLocal;
 import com.cmrise.ejb.services.corecases.img.CcImagenesGrpLocal;
+import com.cmrise.jpa.dto.admin.TablasUtilitariasValoresDto;
 import com.cmrise.jpa.dto.corecases.CcOpcionMultipleDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaV1Dto;
@@ -60,6 +63,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 	
 	private CcPreguntasHdrV1 ccPreguntasHdrV1ForAction = new CcPreguntasHdrV1();
 	private CcPreguntasFtaV1 ccPreguntasFtaV1ForUpdate = new CcPreguntasFtaV1(); 
+	private List<SelectItem> selectScoringMethodItems; 
 	
 	private boolean ftaRecord; 
 	private long numeroFtaRecord;
@@ -111,6 +115,9 @@ public class UpdateQuestionFtaCoreCaseForm {
 	@Inject 
 	AdmonSubMateriaLocal admonSubMateriaLocal; 
 	
+	@Inject 
+	TablasUtilitariasValoresLocal tablasUtilitariasValoresLocal; 
+	
 	@ManagedProperty(value="#{userLogin}")
 	private UserLogin userLogin; 
 	
@@ -152,7 +159,61 @@ public class UpdateQuestionFtaCoreCaseForm {
 		}
 		
 	}
+	public void environmentScoringMethod() {
+		this.selectScoringMethodItems = new ArrayList<SelectItem>();
+		List<TablasUtilitariasValoresDto> listScoringMethodValores =  tablasUtilitariasValoresLocal.findByTipoTabla("SCORING_METHOD");  
+		Iterator<TablasUtilitariasValoresDto> iterScoringMethodValores = listScoringMethodValores.iterator(); 
+		if("OPCION_MULTIPLE".equals(ccPreguntasHdrV1ForAction.getTipoPregunta())) {
+			while(iterScoringMethodValores.hasNext()) {
+				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
+				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+				  ||"PROP_SCORING".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+					) {
+					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+					this.selectScoringMethodItems.add(selectItem); 	
+				  }
+			}	
+		}
+		
+		if(Utilitarios.RESP_TEXTO_LIBRE.equals(ccPreguntasHdrV1ForAction.getTipoPregunta())) {
+			while(iterScoringMethodValores.hasNext()) {
+				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
+				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+				 	) {
+					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+					this.selectScoringMethodItems.add(selectItem); 	
+				  }
+			}	
+		}
+		
+		if(Utilitarios.IMAGEN_INDICADA.equals(ccPreguntasHdrV1ForAction.getTipoPregunta())) {
+			while(iterScoringMethodValores.hasNext()) {
+				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
+				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+				 	) {
+					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+					this.selectScoringMethodItems.add(selectItem); 	
+				  }
+			}	
+		}
+		
+		if(Utilitarios.IMAGEN_ANOTADA.equals(ccPreguntasHdrV1ForAction.getTipoPregunta())) {
+			while(iterScoringMethodValores.hasNext()) {
+				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
+				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+				  ||"PROP_SCORING".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+					) {
+					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+					this.selectScoringMethodItems.add(selectItem); 	
+				  }
+			}	
+		}
+		
+	}
 	
+	public List<SelectItem> getSelectScoringMethodItems(){
+		return this.selectScoringMethodItems; 
+	}
 	private void refreshEntity() {
 		 FacesContext context = FacesContext.getCurrentInstance(); 
 	     HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest(); 
@@ -231,6 +292,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 		if(this.isFtaRecord()) {
 			CcPreguntasFtaDto ccPreguntasFtaDto = new CcPreguntasFtaDto();
 			ccPreguntasFtaDto.setCcPreguntasHdr(ccPreguntasHdrDto);
+			ccPreguntasFtaDto.setRespuestaCorrecta(ccPreguntasFtaV1ForUpdate.getRespuestaCorrecta());
 			ccPreguntasFtaDto.setTituloPregunta(ccPreguntasFtaV1ForUpdate.getTituloPregunta());
 			ccPreguntasFtaDto.setTextoPregunta(ccPreguntasFtaV1ForUpdate.getTextoPregunta());
 			ccPreguntasFtaDto.setTextoSugerencias(ccPreguntasFtaV1ForUpdate.getTextoSugerencias());
@@ -279,7 +341,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 			ccPreguntasFtaDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
 			ccPreguntasFtaDto.setSingleAnswerMode(ccPreguntasFtaV1ForUpdate.isSingleAnswerMode());
 			ccPreguntasFtaDto.setSuffleAnswerOrder(ccPreguntasFtaV1ForUpdate.isSuffleAnswerOrder());
-			
+			ccPreguntasFtaDto.setRespuestaCorrecta(ccPreguntasFtaV1ForUpdate.getRespuestaCorrecta());
 			long numeroPreguntaFta =ccPreguntasFtaLocal.insert(ccPreguntasFtaDto);
 			
 			if(Utilitarios.OPCION_MULTIPLE.equals(ccPreguntasHdrDto.getTipoPregunta())) {

@@ -71,7 +71,7 @@ public class CoreCasePreviewForm {
 	/********************************************************************
 	 * Attributos Imagenes 
 	 */
-	private CcPreguntasFtaV1 ccPreguntasFtaV1ForRead = new CcPreguntasFtaV1(); 
+	//private CcPreguntasFtaV1 ccPreguntasFtaV1ForRead = new CcPreguntasFtaV1(); 
 	
 	private List<CcImagenesGrp> listPresentCcImagenesGrp = new ArrayList<CcImagenesGrp>(); 
 	
@@ -116,13 +116,14 @@ public class CoreCasePreviewForm {
 			 
 		 }
           
-		
+		 
 																	             
 		 System.out.println("ccPreguntasHdrV1.getTipoPregunta():"+ccPreguntasHdrV1.getTipoPregunta());
 		 System.out.println("ccPreguntasFtaV1.isSingleAnswerMode():"+ccPreguntasFtaV1.isSingleAnswerMode());
 		 
 		 if(Utilitarios.LIMIT_RESP_TEXTO_LIBRE.equals(ccPreguntasHdrV1.getTipoPregunta())){
 			 this.setLimitedFreeTextAnswer(true);
+			 this.setRespuestaPreguntaSistema(ccPreguntasFtaV1.getRespuestaCorrecta());
 		 }else if(Utilitarios.OPCION_MULTIPLE.equals(ccPreguntasHdrV1.getTipoPregunta())) {
 			 this.setMultipleChoice(true);
 			 this.setSingleAnswerMode(ccPreguntasFtaV1.isSingleAnswerMode());
@@ -139,6 +140,7 @@ public class CoreCasePreviewForm {
 			  if(this.getRespuestaPreguntaCandidato().equalsIgnoreCase(this.getRespuestaPreguntaSistema())) {
 				  System.out.println("Respuesta Candidato es:"+this.getRespuestaPreguntaCandidato());
 				  this.setCorrectAnswer(true);
+				  this.setPuntuacion(1);
 			  }else {
 				  this.setWrongAnswer(true);
 				  this.setPuntuacion(0);
@@ -191,6 +193,7 @@ public class CoreCasePreviewForm {
 			 if(this.isCorrectAnswer()) {
 			 this.setCorrectAnswers("1 Respuesta(s) correctas");
 			 this.setWrongAnswers("0 Respuesta(s) incorrectas"); 
+			 this.setPuntuacion(1);
 			 }else {
 				this.setWrongAnswer(true);
 				this.setCorrectAnswers("0 Respuesta(s) correctas");
@@ -366,10 +369,6 @@ public class CoreCasePreviewForm {
 
 
 	public void setLimitedFreeTextAnswer(boolean limitedFreeTextAnswer) {
-		if(limitedFreeTextAnswer) {
-		      this.setMultipleChoice(false);
-		      this.setIndicateImage(false);
-			}
 		this.limitedFreeTextAnswer = limitedFreeTextAnswer;
 	}
 

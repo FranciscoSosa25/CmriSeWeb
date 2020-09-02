@@ -266,14 +266,7 @@ function handleUpdateRequest(xhr, status, args){
             
           </div>
         </div>
-     </div>  
-    
-       <h:panelGroup rendered="#{updateQuestionFtaCoreCaseForm.multipleChoice}">
-<!--          <h1>Pregunta de Opción Multiple</h1> -->
-           <div class="ui-g card">
-	       <div class="ui-g-12 ui-md-12" >
-	        
-	        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+          <div class="ui-g-12 ui-md-3" style="text-align:right;">
 	        <p:outputLabel for="questionTitle" value="Pregunta" />
 	        </div>
 	         <div class="ui-g-12 ui-md-9">
@@ -297,6 +290,57 @@ function handleUpdateRequest(xhr, status, args){
 	           <p:inputText id="hintsText" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.textoSugerencias}" maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
                 <p:message for="hintsText"/>
 	         </div>
+     </div>  
+   
+    <h:panelGroup id="reactivosTextoLibrePanel" layout="block" rendered="#{updateQuestionFtaCoreCaseForm.limitedFreeTextAnswer}">
+           
+<!--             <div class="ui-g-12 ui-md-3" style="text-align:right;"> -->
+<!--            <p:outputLabel for="scoringMethod" value="Método de puntuación" /> -->
+<!--         </div> -->
+<!--         <div class="ui-g-12 ui-md-9"> -->
+<!--          <p:selectOneMenu id="scoringMethod" value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.metodoPuntuacion}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"  > -->
+<!--           <f:selectItems value="#{updateQuestionFtaCoreCaseForm.selectScoringMethodItems}" /> -->
+<!--          </p:selectOneMenu> -->
+<!--           <p:message for="scoringMethod"/> -->
+<!--          </div> -->
+   
+           <div class="ui-g-12 ui-md-3" style="text-align:right;">
+           <p:outputLabel for="scoringValue" value="Valor de puntuación" />
+        </div>
+        <div class="ui-g-12 ui-md-9">
+         <p:selectOneMenu id="scoringValue" value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.valorPuntuacion}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" >
+          <f:selectItems value="#{selectsHelper.selectScoringValueItems}" />
+         </p:selectOneMenu>
+          <p:message for="scoringValue"/>
+         </div>
+    	<h2>Texto Libre</h2>
+		 
+		   
+		   <div class="ui-g card">
+		   
+		         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+		           <p:outputLabel for="correctAnswer" value="Respuesta Correcta" />
+		         </div>
+		         <div class="ui-g-12 ui-md-9" style="text-align:right;" >
+		          <p:inputText id="correctAnswer"  value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.respuestaCorrecta}" placeholder="Respuesta Correcta"  maxlength="600" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+		          <p:message for="correctAnswer"/>
+		         </div>
+		       
+<!-- 		     </div> -->
+		     
+		 
+             
+       
+            </div>
+                        
+        </h:panelGroup>
+     
+       <h:panelGroup rendered="#{updateQuestionFtaCoreCaseForm.multipleChoice}">
+<!--          <h1>Pregunta de Opción Multiple</h1> -->
+           <div class="ui-g card">
+	       <div class="ui-g-12 ui-md-12" >
+	        
+	      
 	       
 	       </div>
 	       
