@@ -6,9 +6,7 @@ import javax.ejb.Local;
 
 import com.cmrise.ejb.model.candidates.exams.CandExamenesV1;
 import com.cmrise.ejb.model.candidates.exams.CandExamenesV2;
-import com.cmrise.ejb.model.candidates.exams.Examinations;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesDto;
-import com.cmrise.jpa.dto.candidates.exams.CandExamenesV2Dto;
 
 @Local
 public interface CandExamenesLocal {
@@ -24,6 +22,8 @@ public interface CandExamenesLocal {
     public List<CandExamenesV2> findByCURP(String pCurp,
     		                               String pNombreUsuario, 
     		                               String pApellidoPaterno,
-    		                                String pApellidoMaterno); 
+    		                                String pApellidoMaterno);
+    public void updateEstatus(long pNumero
+    		                 ,CandExamenesDto pCandExamenesDto);
 }
 

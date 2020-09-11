@@ -18,6 +18,8 @@ public interface CandExamenesDao {
 	public List<CandExamenesV2Dto> findByCURP(String pCurp,
 			                                  String pNombreUsuario
 			                                  ,String pApellidoPaterno
-			                                  ,String pAPellidoMaterno); 
+			                                  ,String pAPellidoMaterno);
+	public void updateEstatus(long pNumero
+			                  ,CandExamenesDto pCandExamenesDto);
 	
 }

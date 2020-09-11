@@ -24,6 +24,7 @@ import com.cmrise.ejb.model.exams.MrqsGrupoLinesV2;
 import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
+import com.cmrise.ejb.services.candidates.exams.CandExamRespSkipLocal;
 import com.cmrise.ejb.services.candidates.exams.CandExamRespuestasLocal;
 import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;
 import com.cmrise.ejb.services.exams.MrqsExamenesLocal;
@@ -32,6 +33,11 @@ import com.cmrise.ejb.services.exams.MrqsGrupoLinesLocal;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
+import com.cmrise.jpa.dto.candidates.exams.CandExamRespSkipDto;
+import com.cmrise.jpa.dto.candidates.exams.CandExamSkipV1Dto;
+import com.cmrise.jpa.dto.candidates.exams.CandExamenesDto;
+import com.cmrise.jpa.dto.candidates.exams.CandExamenesV1Dto;
+import com.cmrise.jpa.dto.candidates.exams.CandExamenesV2Dto;
 import com.cmrise.utils.Utilitarios;
 import com.cmrise.utils.UtilitariosLocal;
 import java.io.IOException;
@@ -60,8 +66,24 @@ public class MRQsExamForm {
 	private List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
 	private String respuestaCandidato; 
 	private String[] respuestasPreguntaCandidato;
+	private String timerValue;
 	private String strDate;
 	private List<MrqsImagenesGrp> listPresentMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
+	private long numeroMRQsExamen;
+	private long numeroCandExamen;
+	private CandExamRespSkipDto candExamRespSkipDto = new CandExamRespSkipDto();
+	private boolean flag2;
+	private long reactivosSize;
+	private int idxReactivos;
+	private long hdrGrupoSize;
+	private int idxGrupo;
+	private boolean nuevaBusqueda = false;
+	List<MrqsGrupoLinesV2> listMrqsGrupoLinesV2 =new ArrayList<MrqsGrupoLinesV2>();
+	List<CandExamSkipV1Dto> lCandExamSkipV1Dto = new ArrayList<CandExamSkipV1Dto>();
+	private int idxSkip = 0;
+	private boolean busquedaSkip = false;
+	private int skipMax = 0;
+	
 	
 	@Inject
 	UtilitariosLocal utilitariosLocal; 
@@ -90,22 +112,31 @@ public class MRQsExamForm {
 	@Inject 
 	MrqsImagenesGrpLocal mrqsImagenesGrpLocal;
 	
+	@Inject
+	CandExamRespSkipLocal candExamRespSkipLocal;
+	
 	@PostConstruct
 	public void init() {
 		 FacesContext context = FacesContext.getCurrentInstance(); 
 		 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		 Object objNumeroCandExamen = session.getAttribute("NumeroCandExamenSV"); 
-		 long numeroCandExamen = utilitariosLocal.objToLong(objNumeroCandExamen);
+		 numeroCandExamen = utilitariosLocal.objToLong(objNumeroCandExamen);
+		 candExamRespSkipDto.setNumeroCandExamen(numeroCandExamen);
 		 System.out.println("*** Candidato de examen: "+numeroCandExamen);
 		 this.candExamenesV1 = candExamenesLocal.findByNumero(numeroCandExamen); 
-		 
+		 idxReactivos=0;
+		 idxGrupo=0;
+		 flag2=false;
+		 reactivosSize=0;
+		 hdrGrupoSize=0;
 		 Object objNumeroMRQsExamen = session.getAttribute("NumeroMrqsExamenSV"); 
-		 long numeroMRQsExamen = utilitariosLocal.objToLong(objNumeroMRQsExamen); 
-		 
+		 numeroMRQsExamen = utilitariosLocal.objToLong(objNumeroMRQsExamen); 
+		 candExamRespSkipDto.setExamen(numeroMRQsExamen);
 		 long numCand = Long.valueOf(session.getAttribute("numCand").toString()).longValue();
 		 System.out.println("Numero buscado de examen: "+numCand);
 		 //this.mrqsExamen = mrqsExamenesLocal.findByIdWD(numeroMRQsExamen,numCand); 
 		 this.mrqsExamen = mrqsExamenesLocal.findByNumeroWD(numeroMRQsExamen,numCand); 
+		 candExamRespSkipDto.setExamen(numeroMRQsExamen);
 		 System.out.println("Examen: "+mrqsExamen.getDescripcion());
 		 Date date = new Date();  
 		 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
@@ -114,39 +145,54 @@ public class MRQsExamForm {
 		 this.mrqsExamen.setTiempoLimite(intTime);
 		 rootMrqsGrupo = new DefaultTreeNode("Root", null);
 			listMrqsGrupoHdr = mrqsGrupoHdrLocal.findByNumeroExamen(this.getMrqsExamen().getNumero()); 
+			listMrqsGrupoHdr = GrupoAleatorio(listMrqsGrupoHdr);
+			hdrGrupoSize = listMrqsGrupoHdr.size();
 			for(MrqsGrupoHdr idxHdr:listMrqsGrupoHdr) {
 				TreeNode nodeGrupoHdr = new DefaultTreeNode(idxHdr, rootMrqsGrupo);
 				listMrqsGrupoPreguntas = mrqsGrupoLinesLocal.findByNumeroHdrWD(idxHdr.getNumero());
 				nodeGrupoHdr.setExpanded(true);
+				//reactivosSize = listMrqsGrupoPreguntas.size();
 				for(MrqsPreguntasHdrV1 mrqsPreguntasHdrV1:listMrqsGrupoPreguntas) {
 					TreeNode nodeGrupoPreguntaHdr = new DefaultTreeNode(mrqsPreguntasHdrV1, nodeGrupoHdr);
 				}
 			}
 		
+			
 			Object objNumeroMglSV = session.getAttribute("NumeroMglSV"); 
 			long numeroMgl = utilitariosLocal.objToLong(objNumeroMglSV); 
 			System.out.println("numeroMgl:"+numeroMgl);
 			if(0==numeroMgl) {
-				for(MrqsGrupoHdr idxHdr:listMrqsGrupoHdr) {
+				//for(MrqsGrupoHdr idxHdr:listMrqsGrupoHdr) {
+				MrqsGrupoHdr idxHdr = listMrqsGrupoHdr.get(idxGrupo);
 					mrqsGrupoHdr.setNumero(idxHdr.getNumero());
+					candExamRespSkipDto.setNumeroGrupo(idxHdr.getNumero());
 					mrqsGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
 					mrqsGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
 	//				mrqsGrupoHdr.setTitulo(idxHdr.getTitulo());
-					List<MrqsGrupoLinesV2> listMrqsGrupoLinesV2 = mrqsGrupoLinesLocal.findByNumeroHdrWDV2(idxHdr.getNumero());
-					for(MrqsGrupoLinesV2 idx:listMrqsGrupoLinesV2) {
-						System.out.println("idx.getTextoPregunta():"+idx.getTextoPregunta());
+					/* Grupolines preguntas */
+					listMrqsGrupoLinesV2 = mrqsGrupoLinesLocal.findByNumeroHdrWDV2(idxHdr.getNumero());
+					reactivosSize=listMrqsGrupoLinesV2.size();
+					System.out.println("********Cantidad de Preguntas: "+reactivosSize);
+					listMrqsGrupoLinesV2 = PreguntasAleatorio(listMrqsGrupoLinesV2);
+					
+					//for(MrqsGrupoLinesV2 idx:listMrqsGrupoLinesV2) {
+					MrqsGrupoLinesV2 idx = listMrqsGrupoLinesV2.get(idxReactivos);
+					    System.out.println("idx.getTextoPregunta():"+idx.getNumeroPregunta());
 						
 						mrqsGrupoLinesV2.setTitulo(idx.getTitulo());
 						mrqsGrupoLinesV2.setTextoPregunta(idx.getTextoPregunta());
 						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
 						mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
+						candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
+						/* preguntas */
 						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
-						
+						candExamRespSkipDto.setNumeroPreguntaFta(this.numeroPreguntaFta);
 						if(Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
 							this.setLimitedFreeTextAnswer(true);
 						}else if(Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
 							mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
 							mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
+							/* opciones */
 							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
 							this.setMultipleChoice(true);
 						}
@@ -166,10 +212,10 @@ public class MRQsExamForm {
 						 }
 						}
 						this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
-						break; 
-					}
-					break; 
-				}
+						//break; 
+				//	}
+					//break; 
+			//	}
 			}else {
 				MrqsGrupoLinesV2 tmp = mrqsGrupoLinesLocal.findByNumeroV2(numeroMgl);
 				
@@ -449,17 +495,10 @@ public class MRQsExamForm {
 	
 
 		public void onTimeout() {
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "FIN DE TIEMPO", "Perro imbecil"));
-				try
-			    {
-			        Thread.sleep(1000);
-			        redirectPage();
-			    }
-			    catch(InterruptedException ex)
-			    {
-			        Thread.currentThread().interrupt();
-			    }
-				
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "FIN DE TIEMPO", "Fin de tiempo"));
+				CandExamenesDto candExamenesDto = new CandExamenesDto();
+		    	candExamenesLocal.updateEstatus(numeroCandExamen, candExamenesDto);
+				redirectPage();
 		}
 		
 		public void redirectPage() {
@@ -479,4 +518,526 @@ public class MRQsExamForm {
 		}
 		
 		
+		
+		public boolean isFlag2() {
+			return flag2;
+		}
+
+		public void setFlag2(boolean flag2) {
+			this.flag2 = flag2;
+		}
+
+		public void SaltarPregunta() {
+			 FacesContext context = FacesContext.getCurrentInstance(); 
+			 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+			 Object objNumeroCandExamen = session.getAttribute("NumeroCandExamenSV"); 
+			 long numeroCandExamen = utilitariosLocal.objToLong(objNumeroCandExamen);
+			 MrqsGrupoLinesV2 idx = new MrqsGrupoLinesV2();
+			 candExamRespSkipDto.setSkip(1);
+			 if(busquedaSkip == false && candExamRespSkipLocal.existsSkip(candExamRespSkipDto.getExamen(),candExamRespSkipDto.getNumeroCandExamen(),candExamRespSkipDto.getNumeroGrupo(),candExamRespSkipDto.getNumeroPreguntaHdr(),candExamRespSkipDto.getNumeroPreguntaFta(),1)== false) {
+				 candExamRespSkipDto.setNumero(candExamRespSkipLocal.insert(candExamRespSkipDto)); 
+			 }
+			 
+			 System.out.println("idxReactivos:"+idxReactivos);
+			 reactivosSize = listMrqsGrupoLinesV2.size();
+			 if(busquedaSkip == false) {
+			    idxReactivos = idxReactivos+1; 
+		     }
+			if(idxReactivos< reactivosSize &&  busquedaSkip==false) {
+			  idx =listMrqsGrupoLinesV2.get(idxReactivos);
+			}
+			if (busquedaSkip==false && idxReactivos == reactivosSize && (idxGrupo+1 < hdrGrupoSize)) {
+				idxGrupo++;
+				idxReactivos = 0;
+				nuevaBusqueda=true;
+			}else if(busquedaSkip==true || (idxReactivos == reactivosSize && idxGrupo+1 == hdrGrupoSize)) {
+				saltarSkip();
+				busquedaSkip=true;
+			}else {
+			Object objNumeroMglSV = session.getAttribute("NumeroMglSV"); 
+			long numeroMgl = utilitariosLocal.objToLong(objNumeroMglSV); 
+            
+			if(0==numeroMgl) {
+				MrqsGrupoHdr idxHdr =listMrqsGrupoHdr.get(idxGrupo);
+				  if(nuevaBusqueda) {
+					  listMrqsGrupoLinesV2 = mrqsGrupoLinesLocal.findByNumeroHdrWDV2(idxHdr.getNumero());
+						reactivosSize=listMrqsGrupoLinesV2.size();
+						System.out.println("********Cantidad de Preguntas: "+reactivosSize);
+						listMrqsGrupoLinesV2 = PreguntasAleatorio(listMrqsGrupoLinesV2);
+						idx =listMrqsGrupoLinesV2.get(idxReactivos);
+						nuevaBusqueda=false;
+				  }
+					mrqsGrupoHdr.setNumero(idxHdr.getNumero());
+					candExamRespSkipDto.setNumeroGrupo(mrqsGrupoHdr.getNumero());
+					mrqsGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
+					mrqsGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
+	//				mrqsGrupoHdr.setTitulo(idxHdr.getTitulo());
+										
+					System.out.println("********Cantidad de Preguntas: "+reactivosSize);
+					
+						System.out.println("idx.getTextoPregunta():"+idx.getTextoPregunta());
+						
+						mrqsGrupoLinesV2.setTitulo(idx.getTitulo());
+						mrqsGrupoLinesV2.setTextoPregunta(idx.getTextoPregunta());
+						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
+						mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
+						candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
+						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
+						candExamRespSkipDto.setNumeroPreguntaFta(this.numeroPreguntaFta);
+						if(Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
+							this.setLimitedFreeTextAnswer(true);
+						}else if(Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
+							mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
+							mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
+							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
+							this.setMultipleChoice(true);
+						}
+						
+						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
+								                                                     , this.mrqsGrupoHdr.getNumero()
+								                                                     , this.mrqsGrupoLinesV2.getNumeroPregunta()
+								                                                     , this.numeroPreguntaFta
+								                                                     ); 
+						if(!mrqsGrupoLinesV2.isSingleAnswerMode()) {
+						  if(null!=this.candExamRespuestasV1.getRespuesta()) {	
+						  if(this.candExamRespuestasV1.getRespuesta().contains(",")) {
+							  this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
+						  }else {
+							  this.respuestasPreguntaCandidato = new String[] {this.candExamRespuestasV1.getRespuesta()};
+						  }
+						 }
+						}
+						this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
+				
+			}else {
+				MrqsGrupoLinesV2 tmp = mrqsGrupoLinesLocal.findByNumeroV2(numeroMgl);
+				
+				mrqsGrupoHdr.setNumero(tmp.getNumeroHdr());
+				mrqsGrupoHdr.setAdmonMateriaDesc(tmp.getTitulo()); 
+				//mrqsGrupoHdr.setAdmonMateriaDesc(tmp.getTemaPreguntaDesc());
+				mrqsGrupoHdr.setAdmonSubMateriaDesc(tmp.getTemaPreguntaDesc());
+
+				mrqsGrupoLinesV2.setNumero(tmp.getNumero());
+			//	mrqsGrupoLinesV2.setTitulo(tmp.getTitulo());
+				mrqsGrupoLinesV2.setTextoPregunta(tmp.getTextoPregunta());
+				mrqsGrupoLinesV2.setTextoSugerencias(tmp.getTextoSugerencias());
+				mrqsGrupoLinesV2.setTipoPregunta(tmp.getTipoPregunta());
+				mrqsGrupoLinesV2.setNumeroPregunta(tmp.getNumeroPregunta());
+				
+				this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
+				
+				if(Utilitarios.RESP_TEXTO_LIBRE.equals(tmp.getTipoPregunta())) {
+					this.setLimitedFreeTextAnswer(true);
+				}else if(Utilitarios.OPCION_MULTIPLE.equals(tmp.getTipoPregunta())) {
+					mrqsGrupoLinesV2.setSingleAnswerMode(tmp.isSingleAnswerMode());
+					mrqsGrupoLinesV2.setSuffleAnswerOrder(tmp.isSuffleAnswerOrder());
+					listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
+					this.setMultipleChoice(true);
+				}
+				
+				this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
+                        , this.mrqsGrupoHdr.getNumero()
+                        , this.mrqsGrupoLinesV2.getNumeroPregunta()
+                        , this.numeroPreguntaFta
+                        ); 
+				if(!mrqsGrupoLinesV2.isSingleAnswerMode()) {
+					  if(null!=this.candExamRespuestasV1.getRespuesta()) {	
+					  if(this.candExamRespuestasV1.getRespuesta().contains(",")) {
+						  this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
+					  }
+					  else {
+						  this.respuestasPreguntaCandidato = new String[] {this.candExamRespuestasV1.getRespuesta()};
+					  }
+					 }
+					}
+				this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
+				
+			}
+			
+			 listPresentMrqsImagenesGrp =  mrqsImagenesGrpLocal.findByFta(this.numeroPreguntaFta,Utilitarios.INTRODUCCION);
+		        	
+			
+			}
+			
+		}
+		
+		public void saltarSkip() {
+			lCandExamSkipV1Dto=candExamRespSkipLocal.findAllListSkip(numeroMRQsExamen,numeroCandExamen,1,1);
+			skipMax = lCandExamSkipV1Dto.size();
+			MrqsGrupoHdr idxHdr = new MrqsGrupoHdr();
+			if(skipMax == idxSkip) {
+				idxSkip = 0;
+			}
+			if(skipMax == 1){
+				flag2 = true; 
+				return; 
+			}else {
+		    for(int i=0;i <	listMrqsGrupoHdr.size();i++) {
+		    	if(listMrqsGrupoHdr.get(i).getNumero() == (int)lCandExamSkipV1Dto.get(idxSkip).getNumeroGrupo())
+		    		idxHdr = listMrqsGrupoHdr.get(i);
+		    }
+
+					mrqsGrupoHdr.setNumero(idxHdr.getNumero()); 
+					mrqsGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
+					mrqsGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
+					/* Grupolines preguntas */
+					listMrqsGrupoLinesV2 = mrqsGrupoLinesLocal.findByNumeroHdrWDV2(idxHdr.getNumero());
+					reactivosSize=listMrqsGrupoLinesV2.size();
+					MrqsGrupoLinesV2 idx = new MrqsGrupoLinesV2();
+					for(int i=0;i<reactivosSize;i++) {
+						if(lCandExamSkipV1Dto.get(idxSkip).getNumeroPreguntaHdr() == listMrqsGrupoLinesV2.get(i).getNumeroPregunta())
+						 idx = listMrqsGrupoLinesV2.get(i);												
+					}
+					System.out.println("********Cantidad de Preguntas: "+reactivosSize);
+					//listMrqsGrupoLinesV2 = PreguntasAleatorio(listMrqsGrupoLinesV2);
+					
+					
+					    System.out.println("idx.getTextoPregunta():"+idx.getNumeroPregunta());
+						
+						mrqsGrupoLinesV2.setTitulo(idx.getTitulo());
+						mrqsGrupoLinesV2.setTextoPregunta(idx.getTextoPregunta());
+						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
+						mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
+						//candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
+						/* preguntas */
+						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(lCandExamSkipV1Dto.get(idxSkip).getNumeroPreguntaHdr());
+						if(Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
+							this.setLimitedFreeTextAnswer(true);
+						}else if(Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
+							mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
+							mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
+							/* opciones */
+							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
+							this.setMultipleChoice(true);
+						}
+						
+						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
+								                                                     , this.mrqsGrupoHdr.getNumero()
+								                                                     , this.mrqsGrupoLinesV2.getNumeroPregunta()
+								                                                     , this.numeroPreguntaFta
+								                                                     ); 
+						if(!mrqsGrupoLinesV2.isSingleAnswerMode()) {
+						  if(null!=this.candExamRespuestasV1.getRespuesta()) {	
+						  if(this.candExamRespuestasV1.getRespuesta().contains(",")) {
+							  this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
+						  }else {
+							  this.respuestasPreguntaCandidato = new String[] {this.candExamRespuestasV1.getRespuesta()};
+						  }
+						 }
+						}
+						this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
+						//break; 
+					
+						idxSkip++;
+		   }
+		}
+		
+		public String getTimerValue() {
+			return timerValue;
+		}
+
+		public void setTimerValue(String timerValue) {	
+			this.timerValue = timerValue;
+		}
+
+		public void siguienteGuardarResp() {
+			
+ 			saveAndProceed();
+			 FacesContext context = FacesContext.getCurrentInstance(); 
+			 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+			 Object objNumeroCandExamen = session.getAttribute("NumeroCandExamenSV"); 
+			 long numeroCandExamen = utilitariosLocal.objToLong(objNumeroCandExamen);
+			 MrqsGrupoLinesV2 idx = new MrqsGrupoLinesV2();
+			/* candExamRespSkipDto.setSkip(0);
+			 if(busquedaSkip == false && candExamRespSkipLocal.existsSkip(candExamRespSkipDto.getExamen(),candExamRespSkipDto.getNumeroCandExamen(),candExamRespSkipDto.getNumeroGrupo(),candExamRespSkipDto.getNumeroPreguntaHdr(),candExamRespSkipDto.getNumeroPreguntaFta(),1)== true) {
+				 candExamRespSkipLocal.update(candExamRespSkipDto.getNumero(),candExamRespSkipDto); 
+			 }*/
+			 
+			 System.out.println("idxReactivos:"+idxReactivos);
+			 reactivosSize = listMrqsGrupoLinesV2.size();
+			 if(busquedaSkip==false) {
+			 idxReactivos = idxReactivos+1; 
+			 }
+			if(idxReactivos< reactivosSize &&  busquedaSkip==false) {
+			  idx =listMrqsGrupoLinesV2.get(idxReactivos);
+			}
+			if (busquedaSkip==false && idxReactivos == reactivosSize && (idxGrupo+1 < hdrGrupoSize)) {
+				idxGrupo++;
+				idxReactivos = 0;
+				nuevaBusqueda=true;
+			}else if(busquedaSkip==true || (idxReactivos == reactivosSize && idxGrupo+1 == hdrGrupoSize)) {
+				guardarSkip();
+				busquedaSkip=true;
+			}else {
+			Object objNumeroMglSV = session.getAttribute("NumeroMglSV"); 
+			long numeroMgl = utilitariosLocal.objToLong(objNumeroMglSV); 
+            
+			if(0==numeroMgl) {
+				MrqsGrupoHdr idxHdr =listMrqsGrupoHdr.get(idxGrupo);
+				  if(nuevaBusqueda) {
+					  listMrqsGrupoLinesV2 = mrqsGrupoLinesLocal.findByNumeroHdrWDV2(idxHdr.getNumero());
+						reactivosSize=listMrqsGrupoLinesV2.size();
+						System.out.println("********Cantidad de Preguntas: "+reactivosSize);
+						listMrqsGrupoLinesV2 = PreguntasAleatorio(listMrqsGrupoLinesV2);
+						idx =listMrqsGrupoLinesV2.get(idxReactivos);
+						nuevaBusqueda=false;
+				  }
+					mrqsGrupoHdr.setNumero(idxHdr.getNumero());
+					candExamRespSkipDto.setNumeroGrupo(mrqsGrupoHdr.getNumero());
+					mrqsGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
+					mrqsGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
+										
+					System.out.println("********Cantidad de Preguntas: "+reactivosSize);
+					
+						System.out.println("idx.getTextoPregunta():"+idx.getTextoPregunta());
+						
+						mrqsGrupoLinesV2.setTitulo(idx.getTitulo());
+						mrqsGrupoLinesV2.setTextoPregunta(idx.getTextoPregunta());
+						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
+						mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
+						candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
+						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
+						candExamRespSkipDto.setNumeroPreguntaFta(this.numeroPreguntaFta);
+						if(Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
+							this.setLimitedFreeTextAnswer(true);
+						}else if(Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
+							mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
+							mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
+							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
+							this.setMultipleChoice(true);
+						}
+						
+						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
+								                                                     , this.mrqsGrupoHdr.getNumero()
+								                                                     , this.mrqsGrupoLinesV2.getNumeroPregunta()
+								                                                     , this.numeroPreguntaFta
+								                                                     ); 
+						if(!mrqsGrupoLinesV2.isSingleAnswerMode()) {
+						  if(null!=this.candExamRespuestasV1.getRespuesta()) {	
+						  if(this.candExamRespuestasV1.getRespuesta().contains(",")) {
+							  this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
+						  }else {
+							  this.respuestasPreguntaCandidato = new String[] {this.candExamRespuestasV1.getRespuesta()};
+						  }
+						 }
+						}
+						this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
+				
+			}else {
+				MrqsGrupoLinesV2 tmp = mrqsGrupoLinesLocal.findByNumeroV2(numeroMgl);
+				
+				mrqsGrupoHdr.setNumero(tmp.getNumeroHdr());
+				mrqsGrupoHdr.setAdmonMateriaDesc(tmp.getTitulo()); 
+				//mrqsGrupoHdr.setAdmonMateriaDesc(tmp.getTemaPreguntaDesc());
+				mrqsGrupoHdr.setAdmonSubMateriaDesc(tmp.getTemaPreguntaDesc());
+
+				mrqsGrupoLinesV2.setNumero(tmp.getNumero());
+			//	mrqsGrupoLinesV2.setTitulo(tmp.getTitulo());
+				mrqsGrupoLinesV2.setTextoPregunta(tmp.getTextoPregunta());
+				mrqsGrupoLinesV2.setTextoSugerencias(tmp.getTextoSugerencias());
+				mrqsGrupoLinesV2.setTipoPregunta(tmp.getTipoPregunta());
+				mrqsGrupoLinesV2.setNumeroPregunta(tmp.getNumeroPregunta());
+				
+				this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
+				
+				if(Utilitarios.RESP_TEXTO_LIBRE.equals(tmp.getTipoPregunta())) {
+					this.setLimitedFreeTextAnswer(true);
+				}else if(Utilitarios.OPCION_MULTIPLE.equals(tmp.getTipoPregunta())) {
+					mrqsGrupoLinesV2.setSingleAnswerMode(tmp.isSingleAnswerMode());
+					mrqsGrupoLinesV2.setSuffleAnswerOrder(tmp.isSuffleAnswerOrder());
+					listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
+					this.setMultipleChoice(true);
+				}
+				
+				this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
+                        , this.mrqsGrupoHdr.getNumero()
+                        , this.mrqsGrupoLinesV2.getNumeroPregunta()
+                        , this.numeroPreguntaFta
+                        ); 
+				if(!mrqsGrupoLinesV2.isSingleAnswerMode()) {
+					  if(null!=this.candExamRespuestasV1.getRespuesta()) {	
+					  if(this.candExamRespuestasV1.getRespuesta().contains(",")) {
+						  this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
+					  }
+					  else {
+						  this.respuestasPreguntaCandidato = new String[] {this.candExamRespuestasV1.getRespuesta()};
+					  }
+					 }
+					}
+				this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
+				
+			}
+			
+			 listPresentMrqsImagenesGrp =  mrqsImagenesGrpLocal.findByFta(this.numeroPreguntaFta,Utilitarios.INTRODUCCION);
+		        	
+			
+			}
+			
+			if(idxReactivos == reactivosSize &&  busquedaSkip==false) {
+				//this.candExamenesV1 = candExamenesLocal.findByNumero(numeroCandExamen); 
+			  	CandExamenesDto candExamenesDto = new CandExamenesDto();
+		    	candExamenesLocal.updateEstatus(numeroCandExamen, candExamenesDto);
+				redirectPage();
+				return;
+				
+			}
+			/*if(null!=this.candExamRespuestasV1.getRespuesta()) {	
+				  if(this.candExamRespuestasV1.getRespuesta().contains(",")) {
+					  this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
+				  }else {
+					  this.respuestasPreguntaCandidato = new String[] {this.candExamRespuestasV1.getRespuesta()};
+				  }
+				 }
+				for(int i = 0;i< this.respuestasPreguntaCandidato.length;i++) {
+					System.out.println("Respuesta "+i+" : "+respuestasPreguntaCandidato[i]);				
+				}
+				*/
+			
+		}
+		
+		
+		public List<MrqsGrupoHdr> GrupoAleatorio(List<MrqsGrupoHdr> lmqrsGrouoHdr) {
+			int elementosMax = lmqrsGrouoHdr.size();
+			int numero;
+			ArrayList<Integer> numeros = new ArrayList<Integer>();
+			ArrayList<Integer> arrayRandom = new ArrayList<Integer>();
+			List<MrqsGrupoHdr> lmgh = new ArrayList<MrqsGrupoHdr>();
+			// llenaValores
+			for (int i = 0; i < elementosMax ; i++) {
+			    numeros.add(i);
+			}
+			
+			
+			for (int i = 0; i < elementosMax; i++) {
+			    numero = (int) (Math.random() * numeros.size());
+			    if (arrayRandom.contains(numero)) {
+			        i--;
+			    } else {
+			    	arrayRandom.add(numero);
+			    }
+			}
+			
+			for  (int i = 0; i < elementosMax; i++) {
+				lmgh.add(lmqrsGrouoHdr.get(arrayRandom.get(i)));
+			}
+						
+			return lmgh;
+		}
+		
+		public List<MrqsGrupoLinesV2> PreguntasAleatorio(List<MrqsGrupoLinesV2> lmqrsGrupoLines) {
+			int elementosMax = lmqrsGrupoLines.size();
+			int numero;
+			ArrayList<Integer> numeros = new ArrayList<Integer>();
+			ArrayList<Integer> arrayRandom = new ArrayList<Integer>();
+			List<MrqsGrupoLinesV2> lmgl = new ArrayList<MrqsGrupoLinesV2>();
+			// llenaValores
+			for (int i = 0; i < elementosMax ; i++) {
+			    numeros.add(i);
+			}
+			
+			
+			for (int i = 0; i < elementosMax; i++) {
+			    numero = (int) (Math.random() * numeros.size());
+			    if (arrayRandom.contains(numero)) {
+			        i--;
+			    } else {
+			    	arrayRandom.add(numero);
+			    }
+			}
+			
+			for  (int i = 0; i < elementosMax; i++) {
+				//System.out.println("Random: "+arrayRandom.get(i));
+				lmgl.add(lmqrsGrupoLines.get(arrayRandom.get(i)));
+			}
+						
+			return lmgl;
+		}
+		
+		public void guardarSkip() {
+			MrqsGrupoHdr idxHdr = new MrqsGrupoHdr();
+			saveAndProceed();
+			
+			 candExamRespSkipDto.setSkip(0);
+			
+			lCandExamSkipV1Dto=candExamRespSkipLocal.findAllListSkip(numeroMRQsExamen,numeroCandExamen,1,1);
+			skipMax = lCandExamSkipV1Dto.size();
+    		idxSkip = 0;
+			if(skipMax == 0){
+				flag2 = true; 
+				
+			}else {
+		    for(int i=0;i <	listMrqsGrupoHdr.size();i++) {
+		    	if(listMrqsGrupoHdr.get(i).getNumero() == (int)lCandExamSkipV1Dto.get(idxSkip).getNumeroGrupo()) {
+		    		candExamRespSkipDto.setNumeroGrupo(lCandExamSkipV1Dto.get(idxSkip).getNumeroGrupo());
+		    		candExamRespSkipDto.setExamen(lCandExamSkipV1Dto.get(idxSkip).getExamen());
+		    		candExamRespSkipDto.setEstatus(0);
+		    		candExamRespSkipDto.setNumero(lCandExamSkipV1Dto.get(idxSkip).getNumero());
+		    		candExamRespSkipDto.setNumeroCandExamen(lCandExamSkipV1Dto.get(idxSkip).getNumeroCandExamen());
+		    		candExamRespSkipDto.setNumeroPreguntaHdr(lCandExamSkipV1Dto.get(idxSkip).getNumeroPreguntaHdr());
+		    		candExamRespSkipDto.setNumeroPreguntaFta(lCandExamSkipV1Dto.get(idxSkip).getNumeroPreguntaFta());
+		    		
+		    	    candExamRespSkipLocal.update(lCandExamSkipV1Dto.get(idxSkip).getNumero(),candExamRespSkipDto); 
+		    		idxHdr = listMrqsGrupoHdr.get(i);	
+		    	}
+		    }
+		    if(skipMax == 1  ) {
+		    	CandExamenesDto candExamenesDto = new CandExamenesDto();
+		    	candExamenesLocal.updateEstatus(numeroCandExamen, candExamenesDto);
+				redirectPage();
+				return;
+			}
+					mrqsGrupoHdr.setNumero(idxHdr.getNumero()); 
+					mrqsGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
+					mrqsGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
+					/* Grupolines preguntas */
+					listMrqsGrupoLinesV2 = mrqsGrupoLinesLocal.findByNumeroHdrWDV2(idxHdr.getNumero());
+					reactivosSize=listMrqsGrupoLinesV2.size();
+					MrqsGrupoLinesV2 idx = new MrqsGrupoLinesV2();
+					for(int i=0;i<reactivosSize;i++) {
+						if(lCandExamSkipV1Dto.get(idxSkip).getNumeroPreguntaHdr() == listMrqsGrupoLinesV2.get(i).getNumeroPregunta())
+						 idx = listMrqsGrupoLinesV2.get(i);												
+					}
+					System.out.println("********Cantidad de Preguntas: "+reactivosSize);
+					//listMrqsGrupoLinesV2 = PreguntasAleatorio(listMrqsGrupoLinesV2);
+					
+					
+					    System.out.println("idx.getTextoPregunta():"+idx.getNumeroPregunta());
+						
+						mrqsGrupoLinesV2.setTitulo(idx.getTitulo());
+						mrqsGrupoLinesV2.setTextoPregunta(idx.getTextoPregunta());
+						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
+						mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
+						//candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
+						/* preguntas */
+						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(lCandExamSkipV1Dto.get(idxSkip).getNumeroPreguntaHdr());
+						if(Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
+							this.setLimitedFreeTextAnswer(true);
+						}else if(Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
+							mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
+							mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
+							/* opciones */
+							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
+							this.setMultipleChoice(true);
+						}
+						
+						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
+								                                                     , this.mrqsGrupoHdr.getNumero()
+								                                                     , this.mrqsGrupoLinesV2.getNumeroPregunta()
+								                                                     , this.numeroPreguntaFta
+								                                                     ); 
+						if(!mrqsGrupoLinesV2.isSingleAnswerMode()) {
+						  if(null!=this.candExamRespuestasV1.getRespuesta()) {	
+						  if(this.candExamRespuestasV1.getRespuesta().contains(",")) {
+							  this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
+						  }else {
+							  this.respuestasPreguntaCandidato = new String[] {this.candExamRespuestasV1.getRespuesta()};
+						  }
+						 }
+						}
+						this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
+						//break; 
+					
+						idxSkip++;
+		   }
+		}
 }

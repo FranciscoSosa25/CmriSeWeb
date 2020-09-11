@@ -114,5 +114,9 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 		return retval;
 	}
 	
-	
+	@Override
+	public void updateEstatus(long pNumero
+			                 ,CandExamenesDto pCandExamenesDto) {
+		 candExamenesDao.updateEstatus(pNumero, pCandExamenesDto);
+	}
 }

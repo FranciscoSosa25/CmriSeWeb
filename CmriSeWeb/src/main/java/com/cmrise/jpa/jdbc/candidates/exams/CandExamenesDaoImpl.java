@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.cmrise.jpa.dao.candidates.exams.CandExamenesDao;
+import com.cmrise.jpa.dto.candidates.exams.CandExamRespSkipDto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesDto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesV1Dto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesV2Dto;
@@ -74,6 +75,15 @@ public class CandExamenesDaoImpl implements CandExamenesDao {
 		String strQuery="SELECT c FROM CandExamenesV2Dto c WHERE c.curp like '%"+pCurp+"%'AND C.nombreUsuario like '%"+pNombreUsuario+"%'AND C.apellidoPaterno like '%"+pApellidoPaterno+"%'AND C.apellidoMaterno like '%"+pApellidoMaterno+"%'"; 
 		Query query = em.createQuery(strQuery);
 		return query.getResultList();
+	}
+	
+	@Override
+	public void updateEstatus(long pNumero, CandExamenesDto pCandExamenesDto) {
+		CandExamenesDto candExamenesDto = em.find(CandExamenesDto.class, pNumero); 
+		candExamenesDto.setEstatus("REVISADO");
+		java.util.Date sysdate = new java.util.Date();
+		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
+		candExamenesDto.setFechaActualizacion(sqlsysdate);
 	}
 
 }
