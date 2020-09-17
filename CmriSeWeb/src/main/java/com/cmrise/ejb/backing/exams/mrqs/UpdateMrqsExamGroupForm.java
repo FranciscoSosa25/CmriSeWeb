@@ -212,6 +212,12 @@ public class UpdateMrqsExamGroupForm {
 	public void setMrqsExamenesForRead(MrqsExamenes mrqsExamenesForRead) {
 		this.mrqsExamenesForRead = mrqsExamenesForRead;
 	} 
-	 
+	public UserLogin getUserLogin() {
+		return userLogin;
+	}
+	public void setUserLogin(UserLogin userLogin) {
+		this.userLogin = userLogin;
+	}
+
 
 }
