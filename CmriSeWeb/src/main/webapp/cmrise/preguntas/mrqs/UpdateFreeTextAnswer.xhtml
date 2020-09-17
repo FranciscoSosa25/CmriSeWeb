@@ -573,23 +573,26 @@
                     </div>
 
                     <div class="ui-g-12 ui-md-12">
-                        <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
+                        <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center;  ">
                             <p:commandButton id="GuardarBtn" icon="fa fa-save" value="Guardar"
                                              actionListener="#{updateFTAMrqForm.update()}"
                                              update="UpdateReactivosForm growl" onstart="onstartUFTA()"
                                              oncomplete="handleUpdateRequest(xhr, status, args)"
-                                             rendered="#{!updateFTAMrqForm.indicateImage}"/>
+                                             rendered="#{!updateFTAMrqForm.indicateImage}"
+                                             style= "backGround:#2D0D86;" />
 
                             <p:commandButton value="Guardar" icon="fa fa-save" actionListener="#{updateFTAMrqForm.update()}" update="UpdateReactivosForm growl" onstart="savePolygon()" oncomplete="savePolygonComplete()" rendered="#{updateFTAMrqForm.indicateImage}"></p:commandButton>
                             <!--<p:commandButton type="button" id="prueba" icon="fa fa-save" value="PRUEBA" onclick="prueba();"/>-->
                         </div>
                         <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
                             <p:commandButton icon="fa fa-eye" value="Previsualizar" update="UpdateReactivosForm growl"
-                                             action="#{updateFTAMrqForm.saveAndPreview()}"/>
+                                             action="#{updateFTAMrqForm.saveAndPreview()}"
+                                             style= "backGround:#2D0D86;" />
                         </div>
                         <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
                             <p:commandButton icon="fa fa-backward" value="Cerrar" action="#{updateFTAMrqForm.cancel()}"
-                                             immediate="true"/>
+                                             immediate="true"
+                                             style= "backGround:#2D0D86;" />
                         </div>
                         <div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align:center">
                             <p:commandButton value="Duplicar" oncomplete="PF('duplicateMrqDialogWV').show();"
