@@ -145,6 +145,7 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 								mrqsPreguntasFtaV1.setSingleAnswerMode(mrqsPreguntasFtaV1Dto.isSingleAnswerMode());
 								mrqsPreguntasFtaV1.setTextoSugerencias(mrqsPreguntasFtaV1Dto.getTextoSugerencias());
 								
+								
 								List<MrqsOpcionMultipleDto> listMrqsOpcionMultipleDto = mrqsOpcionMultipleDao.findByNumeroFta(mrqsPreguntasFtaV1Dto.getNumero()); 
 								if(null!=listMrqsOpcionMultipleDto) {
 									List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 

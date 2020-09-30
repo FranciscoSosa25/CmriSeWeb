@@ -38,6 +38,7 @@ public class MrqsPreguntasFtaV1 implements Serializable {
 	private String correlaciones; 
 	private String textoExplicacion; 
 	
+	
 	private List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
 	private List<MrqsImagenesGrp> listMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
 	
