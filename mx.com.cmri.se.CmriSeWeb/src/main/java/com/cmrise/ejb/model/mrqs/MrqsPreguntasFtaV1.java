@@ -21,7 +21,6 @@ public class MrqsPreguntasFtaV1 implements Serializable {
 	private String respuestaCorrecta;
 	private boolean singleAnswerMode; 
 	private boolean suffleAnswerOrder; 
-	private String textoSugerenciasDesc; 
 	private String nombreImagen; 
 	private String rutaImagen; 
 	private String contentType; 
@@ -38,6 +37,7 @@ public class MrqsPreguntasFtaV1 implements Serializable {
 	private String respuestas; 
 	private String correlaciones; 
 	private String textoExplicacion; 
+	
 	
 	private List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
 	private List<MrqsImagenesGrp> listMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
@@ -115,12 +115,7 @@ public class MrqsPreguntasFtaV1 implements Serializable {
 	public void setListMrqsImagenesGrp(List<MrqsImagenesGrp> listMrqsImagenesGrp) {
 		this.listMrqsImagenesGrp = listMrqsImagenesGrp;
 	}
-	public String getTextoSugerenciasDesc() {
-		return textoSugerenciasDesc;
-	}
-	public void setTextoSugerenciasDesc(String textoSugerenciasDesc) {
-		this.textoSugerenciasDesc = textoSugerenciasDesc;
-	}
+	
 	public String getNombreImagen() {
 		return nombreImagen;
 	}
