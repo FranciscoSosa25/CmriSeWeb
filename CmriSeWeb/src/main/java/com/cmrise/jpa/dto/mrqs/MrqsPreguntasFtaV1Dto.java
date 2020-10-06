@@ -69,8 +69,6 @@ public class MrqsPreguntasFtaV1Dto implements Serializable {
 	@Column(name="NUMERO_HDR")
 	private long numeroHdr; 
 	
-	@Column(name="TEXTO_SUGERENCIAS_DESC")
-	private String textoSugerenciasDesc; 
 	
 	public MrqsPreguntasFtaV1Dto () {
 	}
@@ -203,12 +201,5 @@ public class MrqsPreguntasFtaV1Dto implements Serializable {
 		this.numeroHdr = numeroHdr;
 	}
 
-	public String getTextoSugerenciasDesc() {
-		return textoSugerenciasDesc;
-	}
-
-	public void setTextoSugerenciasDesc(String textoSugerenciasDesc) {
-		this.textoSugerenciasDesc = textoSugerenciasDesc;
-	}
-
+	
 }
