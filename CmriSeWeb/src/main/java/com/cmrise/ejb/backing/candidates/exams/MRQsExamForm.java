@@ -84,7 +84,6 @@ public class MRQsExamForm {
 	private boolean busquedaSkip = false;
 	private int skipMax = 0;
 	
-	
 	@Inject
 	UtilitariosLocal utilitariosLocal; 
 	
@@ -176,7 +175,9 @@ public class MRQsExamForm {
 					listMrqsGrupoLinesV2 = PreguntasAleatorio(listMrqsGrupoLinesV2);
 					
 					//for(MrqsGrupoLinesV2 idx:listMrqsGrupoLinesV2) {
-					MrqsGrupoLinesV2 idx = listMrqsGrupoLinesV2.get(idxReactivos);
+					MrqsGrupoLinesV2 idx = null ;
+					if(listMrqsGrupoLinesV2 != null || reactivosSize>=0) { //Algunas veces llegaba vacía la lista y truena la página sin está validación
+					 idx = listMrqsGrupoLinesV2.get(idxReactivos);
 					    System.out.println("idx.getTextoPregunta():"+idx.getNumeroPregunta());
 						
 						mrqsGrupoLinesV2.setTitulo(idx.getTitulo());
@@ -196,7 +197,7 @@ public class MRQsExamForm {
 							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
 							this.setMultipleChoice(true);
 						}
-						
+					}//
 						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
 								                                                     , this.mrqsGrupoHdr.getNumero()
 								                                                     , this.mrqsGrupoLinesV2.getNumeroPregunta()
@@ -491,8 +492,6 @@ public class MRQsExamForm {
 	public void setListPresentMrqsImagenesGrp(List<MrqsImagenesGrp> listPresentMrqsImagenesGrp) {
 		this.listPresentMrqsImagenesGrp = listPresentMrqsImagenesGrp;
 	}
-
-	
 
 		public void onTimeout() {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "FIN DE TIEMPO", "Fin de tiempo"));
@@ -873,10 +872,22 @@ public class MRQsExamForm {
 			
 			}
 			
-			if(idxReactivos == reactivosSize &&  busquedaSkip==false) {
+			
+			System.out.println("id " + idxReactivos + " size " +  reactivosSize + " "+busquedaSkip);
+			if(idxReactivos == reactivosSize /*&&  busquedaSkip==false*/) { // usar busquedaSkip aquí ocasiona que algunas veces el examen no termine:
 				//this.candExamenesV1 = candExamenesLocal.findByNumero(numeroCandExamen); 
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "No hay más preguntas", "Aqui va el mensaje"));
+				System.out.println("ULTIMA PREGUNTA");
 			  	CandExamenesDto candExamenesDto = new CandExamenesDto();
 		    	candExamenesLocal.updateEstatus(numeroCandExamen, candExamenesDto);
+		    	
+		    	
+		    	try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				redirectPage();
 				return;
 				

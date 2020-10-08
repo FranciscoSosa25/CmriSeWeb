@@ -93,6 +93,9 @@ public class MrqsExamenesV1Dto implements Serializable {
 	@Column(name="FECHA_ELABORACION")
 	private Date fechaElaboracion; 
 	
+	@Column(name="MENSAJE_FINALIZACION")
+	private String mensajeFinalizacion;
+	
 	public MrqsExamenesV1Dto() {
 	}
 
@@ -287,6 +290,14 @@ public class MrqsExamenesV1Dto implements Serializable {
 
 	public void setN_candidato(long n_candidato) {
 		this.n_candidato = n_candidato;
+	}
+
+	public String getMensajeFinalizacion() {
+		return mensajeFinalizacion;
+	}
+
+	public void setMensajeFinalizacion(String mensajeFinalizacion) {
+		this.mensajeFinalizacion = mensajeFinalizacion;
 	}
 	
 	

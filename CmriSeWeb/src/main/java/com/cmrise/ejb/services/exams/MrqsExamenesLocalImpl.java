@@ -270,7 +270,7 @@ public class MrqsExamenesLocalImpl implements MrqsExamenesLocal {
 		retval.setAleatorioGrupo(mrqsExamenesV1Dto.getAleatorioGrupo());
 		retval.setAleatorioPreguntas(mrqsExamenesV1Dto.getAleatorioPreguntas());
 		retval.setSeleccionCasosAleatorios(mrqsExamenesV1Dto.getSeleccionCasosAleatorios());
-		
+		retval.setMensajeFinalizacion(mrqsExamenesV1Dto.getMensajeFinalizacion());
 		List<MrqsGrupoHdrV1Dto> listMrqsGrupoHdrV1Dto =  mrqsGrupoHdrDao.findByNumeroExamenWD(pNumero); 
 		if(null!=listMrqsGrupoHdrV1Dto) {
 			List<MrqsGrupoHdr> listMrqsGrupoHdr = new ArrayList<MrqsGrupoHdr>(); 
