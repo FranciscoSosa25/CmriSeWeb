@@ -116,11 +116,22 @@ public class UpdateMrqsExamForm {
 	
 	public void update() {
 		System.out.println("Entra UpdateTestExamForm update()");
-		boolean updateIn = false; 
-		mrqsExamenesLocal.update(mrqsExamenesForUpdate); 
+		boolean updateIn = false;
 		
-		refreshEntity(); 
-		updateIn = true; 
+		FacesContext context = FacesContext.getCurrentInstance();
+		// Valida si la fecha efectiva hasta es mayor que la fecha efectiva desde, de lo
+		// contrario muestra el error en la pantalla.
+		if (mrqsExamenesForUpdate.getFechaEfectivaDesde().equals(mrqsExamenesForUpdate.getFechaEfectivaHasta())
+				|| !mrqsExamenesForUpdate.getFechaEfectivaDesde()
+						.before(mrqsExamenesForUpdate.getFechaEfectivaHasta())) {
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+					"La fecha efectiva desde no puede ser igual o menor que la fecha efectiva hasta"));
+		} else {
+			mrqsExamenesLocal.update(mrqsExamenesForUpdate);
+
+			refreshEntity();
+			updateIn = true;
+		}
 		
 		PrimeFaces.current().ajax().addCallbackParam("updateIn", updateIn);
 		System.out.println("Sale UpdateTestExamForm update()");
