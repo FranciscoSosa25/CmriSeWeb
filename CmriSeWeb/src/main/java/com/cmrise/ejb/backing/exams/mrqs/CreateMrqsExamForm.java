@@ -65,15 +65,17 @@ public class CreateMrqsExamForm {
 		
 		// Valida si la fecha efectiva hasta es mayor que la fecha efectiva desde, de lo
 		// contrario muestra el error en la pantalla.
-		if (mrqsExamenesForInsert.getFechaEfectivaDesde().equals(mrqsExamenesForInsert.getFechaEfectivaHasta())
-				|| !mrqsExamenesForInsert.getFechaEfectivaDesde()
-						.before(mrqsExamenesForInsert.getFechaEfectivaHasta())) {
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-					"La fecha efectiva desde no puede ser igual o menor que la fecha efectiva hasta"));
-			System.out.println("error de fechas!");
-			return null;
+		if(mrqsExamenesForInsert.getFechaEfectivaHasta() != null) {
+			if(mrqsExamenesForInsert.getFechaEfectivaDesde().equals(mrqsExamenesForInsert.getFechaEfectivaHasta())
+					|| !mrqsExamenesForInsert.getFechaEfectivaDesde()
+							.before(mrqsExamenesForInsert.getFechaEfectivaHasta())) {
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+						"La fecha efectiva desde no puede ser igual o menor que la fecha efectiva hasta"));
+				System.out.println("error de fechas!");
+				return null;
+			}
 		}
-
+		
 		long numeroMrqExamen = mrqsExamenesLocal.insert(mrqsExamenesForInsert); 
 		session.setAttribute("NumeroMrqsExamenSV", numeroMrqExamen);
 		
