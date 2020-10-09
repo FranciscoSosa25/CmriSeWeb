@@ -34,6 +34,11 @@
 					  left:500px;"
               /></p:column>
     </p:row>
+		<p:dialog  header="Examen finalizado" widgetVar="showDialog" resizable="false" visible="true">
+ 			
+  				<h:outputText value="#{mRQsExamForm.mrqsExamen.getMensajeFinalizacion()}" />
+  			
+        </p:dialog>
 </p:panelGrid>
 </h:form>
 <h:form id="mqrsExaForm">

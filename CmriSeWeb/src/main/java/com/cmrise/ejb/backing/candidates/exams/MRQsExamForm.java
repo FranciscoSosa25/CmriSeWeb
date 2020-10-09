@@ -261,7 +261,8 @@ public class MRQsExamForm {
 				this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
 				
 			}
-			
+			////AQUI!
+			System.out.println("Mensaje final" + mrqsExamen.getMensajeFinalizacion());
 			 listPresentMrqsImagenesGrp =  mrqsImagenesGrpLocal.findByFta(this.numeroPreguntaFta,Utilitarios.INTRODUCCION);
 		        	
 			
@@ -876,6 +877,7 @@ public class MRQsExamForm {
 			System.out.println("id " + idxReactivos + " size " +  reactivosSize + " "+busquedaSkip);
 			if(idxReactivos == reactivosSize /*&&  busquedaSkip==false*/) { // usar busquedaSkip aquí ocasiona que algunas veces el examen no termine:
 				//this.candExamenesV1 = candExamenesLocal.findByNumero(numeroCandExamen); 
+				System.out.println("Mensaje final" + mrqsExamen.getMensajeFinalizacion());
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "No hay más preguntas", "Aqui va el mensaje"));
 				System.out.println("ULTIMA PREGUNTA");
 			  	CandExamenesDto candExamenesDto = new CandExamenesDto();
