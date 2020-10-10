@@ -83,6 +83,7 @@ public class MRQsExamForm {
 	private int idxSkip = 0;
 	private boolean busquedaSkip = false;
 	private int skipMax = 0;
+	private boolean showFinalMessage = false;
 	
 	@Inject
 	UtilitariosLocal utilitariosLocal; 
@@ -494,6 +495,14 @@ public class MRQsExamForm {
 		this.listPresentMrqsImagenesGrp = listPresentMrqsImagenesGrp;
 	}
 
+	public boolean isShowFinalMessage() {
+		return showFinalMessage;
+	}
+
+	public void setShowFinalMessage(boolean showFinalMessage) {
+		this.showFinalMessage = showFinalMessage;
+	}
+
 		public void onTimeout() {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "FIN DE TIEMPO", "Fin de tiempo"));
 				CandExamenesDto candExamenesDto = new CandExamenesDto();
@@ -739,9 +748,8 @@ public class MRQsExamForm {
 		public void setTimerValue(String timerValue) {	
 			this.timerValue = timerValue;
 		}
-
+		
 		public void siguienteGuardarResp() {
-			
  			saveAndProceed();
 			 FacesContext context = FacesContext.getCurrentInstance(); 
 			 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
@@ -873,24 +881,14 @@ public class MRQsExamForm {
 			
 			}
 			
-			
 			System.out.println("id " + idxReactivos + " size " +  reactivosSize + " "+busquedaSkip);
 			if(idxReactivos == reactivosSize /*&&  busquedaSkip==false*/) { // usar busquedaSkip aquí ocasiona que algunas veces el examen no termine:
-				//this.candExamenesV1 = candExamenesLocal.findByNumero(numeroCandExamen); 
-				System.out.println("Mensaje final" + mrqsExamen.getMensajeFinalizacion());
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "No hay más preguntas", "Aqui va el mensaje"));
-				System.out.println("ULTIMA PREGUNTA");
+				//this.candExamenesV1 = candExamenesLocal.findByNumero(numeroCandExamen); ???
 			  	CandExamenesDto candExamenesDto = new CandExamenesDto();
 		    	candExamenesLocal.updateEstatus(numeroCandExamen, candExamenesDto);
 		    	
-		    	
-		    	try {
-					Thread.sleep(5000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				redirectPage();
+		    	showFinalMessage = true;
+				//redirectPage(); //no se llama aquí por que ahora se llama la función al cerrar el mensaje final
 				return;
 				
 			}

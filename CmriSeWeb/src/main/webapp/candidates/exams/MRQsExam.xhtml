@@ -12,7 +12,7 @@
  <p:growl id="growl" showDetail="true" showSummary="true">
 		     <p:autoUpdate />
 		     </p:growl> 
-<p:panelGrid styleClass="panelgrid-dotted-border">
+<p:panelGrid id="panel" styleClass="panelgrid-dotted-border">
    <p:row >
         <p:column style="font-weight: bold;width: 100px;">Examen</p:column>
         <p:column style="font-weight: bold;">
@@ -34,14 +34,16 @@
 					  left:500px;"
               /></p:column>
     </p:row>
-		<p:dialog  header="Examen finalizado" widgetVar="showDialog" resizable="false" visible="true">
- 			
-  				<h:outputText value="#{mRQsExamForm.mrqsExamen.getMensajeFinalizacion()}" />
-  			
-        </p:dialog>
+    
 </p:panelGrid>
 </h:form>
 <h:form id="mqrsExaForm">
+
+		<p:dialog id="myDialog" header="Examen finalizado" resizable="false" rendered="#{mRQsExamForm.showFinalMessage}" visible="#{mRQsExamForm.showFinalMessage}" modal="true">
+  				<h:outputText value="#{mRQsExamForm.mrqsExamen.getMensajeFinalizacion()}" />
+  				<p:ajax event="close" listener="#{mRQsExamForm.redirectPage()}" update="mqrsExaForm" />
+        </p:dialog>
+        
 <!-- CODIGO INICIO -->
    <div id="mqrsExaForm" style="width: 100%; height: 700px; overflow-y: scroll;">
        <div >
@@ -100,7 +102,7 @@
 		 <div class="ui-g-12 ui-md-5">
              <h:outputText id="timerVal" value="#{mRQsExamForm.timerValue}" rendered="true" />
              <p:commandButton value="Saltar Pregunta" style="margin-left:15px"  actionListener="#{mRQsExamForm.SaltarPregunta()}" update="mqrsExaForm" rendered="#{mRQsExamForm.mrqsExamen.saltarPreguntas}" immediate="true"  disabled="#{mRQsExamForm.flag2}" />
-             <p:commandButton value="Siguiente" actionListener="#{mRQsExamForm.siguienteGuardarResp()}" update="mqrsExaForm" style="margin-left:15px"    />
+             <p:commandButton value="Siguiente" actionListener="#{mRQsExamForm.siguienteGuardarResp()}" update="mqrsExaForm myDialog" style="margin-left:15px"    />
            </div>   
          </div>   
 <!-- CODIGO FIN -->
