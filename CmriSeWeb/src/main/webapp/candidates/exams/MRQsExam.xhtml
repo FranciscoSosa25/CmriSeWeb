@@ -39,9 +39,11 @@
 </h:form>
 <h:form id="mqrsExaForm">
 
-		<p:dialog id="myDialog" header="Examen finalizado" resizable="false" rendered="#{mRQsExamForm.showFinalMessage}" visible="#{mRQsExamForm.showFinalMessage}" modal="true">
+		<p:dialog style="background-color:#D9E0E7;" id="myDialog" header="Examen finalizado" resizable="false" rendered="#{mRQsExamForm.showFinalMessage}" visible="#{mRQsExamForm.showFinalMessage}" modal="true">
+			<div style="font-size:35pt;  border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;">
   				<h:outputText value="#{mRQsExamForm.mrqsExamen.getMensajeFinalizacion()}" />
   				<p:ajax event="close" listener="#{mRQsExamForm.redirectPage()}" update="mqrsExaForm" />
+  			</div>
         </p:dialog>
         
 <!-- CODIGO INICIO -->
