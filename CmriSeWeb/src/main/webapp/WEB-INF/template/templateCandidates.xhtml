@@ -85,7 +85,7 @@
 			               padding:8px 15px 8px 15px; 
 			               border-radius:5px; 
 			              }
-			header,footer,main{
+			footer,main{
 			  margin: 10px 10px 10px 10px; 
 			}
 			sub_footer{
@@ -161,23 +161,28 @@
 			background-color: hsl(210, 89%, 17%);
 			}
 	    </style>
-	    <header>
-		 <div>
-		 <h:outputText value="Candidato: #{userLogin.nombreCompletoUsuario}" style="position: relative; left:0px;"/>
-		 <h:outputText value="Curp: #{userLogin.curp}" style="position: relative; left:300px;" />
-		</div>
-      </header>
+      
    </h:head>
-   <h:body>
-	<div style="height: 87%">
-	<ui:insert name="content" /></div>
-	<div style="height: 6%">
-		 <div class="footer">
-		   <div class="sub_footer">     
-		     <ui:include src="./footer.xhtml" />
-	       </div>
-	    </div>
-	 </div> 
+   <h:body styleClass="main-body">
+   <div class="layout-wrapper #{guestPreferences.menuLayout} #{guestPreferences.orientationRTL ? 'layout-rtl ' : null}">
+   		<ui:include src="./topbar.xhtml" />
+   		<div class="layout-menu-container">
+   		<header><h:outputText value="Candidato: #{userLogin.nombreCompletoUsuario}" style="position: relative; left:0px;"/>
+			<h:outputText value="Curp: #{userLogin.curp}" style="position: relative; left:300px;" />
+		</header>
+		</div>
+	  	<div class="layout-main">
+				<ui:insert name="content" />
+		</div>
+	
+		<div style="height: 6%">
+			 <div class="footer">
+			   <div class="sub_footer">     
+			     <ui:include src="./footer.xhtml" />
+		       </div>
+		    </div>
+		 </div> 
+	 </div>
 	 <ui:insert name="xxhrwjsEnd" />
   </h:body>
 </html>
