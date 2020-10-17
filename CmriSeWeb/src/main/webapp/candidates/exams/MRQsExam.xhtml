@@ -11,17 +11,17 @@
  
  <p:growl id="growl" showDetail="true" showSummary="true">
 		     <p:autoUpdate />
-		     </p:growl> 
+ </p:growl> 
 <p:panelGrid id="panel" styleClass="panelgrid-dotted-border">
-   <p:row >
-        <p:column style="font-weight: bold;width: 100px;">Examen</p:column>
+   <p:row>
+        <p:column style="font-weight: bold;width: 100px; font-size: 20px;">Examen</p:column>
         <p:column style="font-weight: bold;">
-        <h:outputText value="#{mRQsExamForm.mrqsExamen.descripcion}" style="position: relative; left:0px;"/></p:column>
-        <p:column style="font-weight: bold;">
+        <h:outputText value="#{mRQsExamForm.mrqsExamen.descripcion}" style="position: relative; left:0px; font-size: 20px;"/></p:column>
+        <p:column style="font-weight: bold; font-size: 20px;">
           <h:outputText id="FechaExa" value="#{mRQsExamForm.strDate}" />
          </p:column>
-         <p:column style="font-weight: bold;" class="text_right">Tiempo Restante:</p:column>
-         <p:column style="width: 100px;">
+         <p:column style="font-weight: bold; font-size: 20px;" class="text_right">Tiempo Restante:</p:column>
+         <p:column style="width: 100px; font-size: 20px;">
          <pe:timer id="timer2"
               timeout="#{mRQsExamForm.mrqsExamen.tiempoLimite}"
               format="HH:mm:ss"
@@ -50,7 +50,7 @@
    <div id="mqrsExaForm" style="width: 100%; height: 700px; overflow-y: scroll;">
        <div >
        <div  style="font-size:2em; font-weight:bold; border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;" >
-       <h:outputText id="titulo" value="#{mRQsExamForm.mrqsGrupoLinesV2.titulo}" />
+       <h:outputText id="titulo" value="" /><!-- aqui venía la parte de admonmateria que se pidió eliminar -->
        </div>
        <div>
        <ui:repeat var="imagenesGrupo" value="#{mRQsExamForm.listPresentMrqsImagenesGrp}" varStatus="status">
@@ -69,7 +69,7 @@
 		    </ui:repeat>
        </div>
        <div style="font-size:2em;  border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;">
-         <h:outputText id="pregunta"  value="#{mRQsExamForm.mrqsGrupoLinesV2.textoPregunta}" />
+         <h:outputText id="pregunta"  value="#{mRQsExamForm.idxReactivos+1} de #{mRQsExamForm.reactivosSize} : #{mRQsExamForm.mrqsGrupoLinesV2.textoPregunta}" />
        </div>
        </div>
        <div class="ui-g-12 ui-md-12 card" style="font-size:1em;  border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;">

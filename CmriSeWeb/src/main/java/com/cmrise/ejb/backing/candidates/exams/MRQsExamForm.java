@@ -115,6 +115,8 @@ public class MRQsExamForm {
 	@Inject
 	CandExamRespSkipLocal candExamRespSkipLocal;
 	
+	@Inject
+	
 	@PostConstruct
 	public void init() {
 		 FacesContext context = FacesContext.getCurrentInstance(); 
@@ -151,7 +153,7 @@ public class MRQsExamForm {
 				TreeNode nodeGrupoHdr = new DefaultTreeNode(idxHdr, rootMrqsGrupo);
 				listMrqsGrupoPreguntas = mrqsGrupoLinesLocal.findByNumeroHdrWD(idxHdr.getNumero());
 				nodeGrupoHdr.setExpanded(true);
-				//reactivosSize = listMrqsGrupoPreguntas.size();
+				reactivosSize = listMrqsGrupoPreguntas.size();
 				for(MrqsPreguntasHdrV1 mrqsPreguntasHdrV1:listMrqsGrupoPreguntas) {
 					TreeNode nodeGrupoPreguntaHdr = new DefaultTreeNode(mrqsPreguntasHdrV1, nodeGrupoHdr);
 				}
@@ -501,6 +503,22 @@ public class MRQsExamForm {
 
 	public void setShowFinalMessage(boolean showFinalMessage) {
 		this.showFinalMessage = showFinalMessage;
+	}
+
+		public long getReactivosSize() {
+		return reactivosSize;
+	}
+
+	public void setReactivosSize(long reactivosSize) {
+		this.reactivosSize = reactivosSize;
+	}
+
+		public int getIdxReactivos() {
+		return idxReactivos;
+	}
+
+	public void setIdxReactivos(int idxReactivos) {
+		this.idxReactivos = idxReactivos;
 	}
 
 		public void onTimeout() {
@@ -882,7 +900,7 @@ public class MRQsExamForm {
 			}
 			
 			System.out.println("id " + idxReactivos + " size " +  reactivosSize + " "+busquedaSkip);
-			if(idxReactivos == reactivosSize /*&&  busquedaSkip==false*/) { // usar busquedaSkip aquí ocasiona que algunas veces el examen no termine:
+			if(idxReactivos == reactivosSize &&  busquedaSkip==false) { // ??usar busquedaSkip aquí ocasiona que algunas veces el examen no termine:
 				//this.candExamenesV1 = candExamenesLocal.findByNumero(numeroCandExamen); ???
 			  	CandExamenesDto candExamenesDto = new CandExamenesDto();
 		    	candExamenesLocal.updateEstatus(numeroCandExamen, candExamenesDto);
