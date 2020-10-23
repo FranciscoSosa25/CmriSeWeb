@@ -198,6 +198,7 @@ public class MrqsPreguntasHdrLocalImpl implements MrqsPreguntasHdrLocal {
 	public MrqsPreguntasHdrV1 findV1ByNumero(long pNumeroHdr) {
 		MrqsPreguntasHdrV1 retval = new MrqsPreguntasHdrV1(); 
 		MrqsPreguntasHdrV1Dto mrqsPreguntasHdrV1Dto = mrqsPreguntasHdrDao.findByNumero(pNumeroHdr);
+		//mrqsPreguntasHdrV1Dto.setTipoPregunta("0");
 		 retval.setNumero(mrqsPreguntasHdrV1Dto.getNumero());
 		 retval.setEstatus(mrqsPreguntasHdrV1Dto.getEstatus());
 		 retval.setAdmonExamen(mrqsPreguntasHdrV1Dto.getAdmonExamen());

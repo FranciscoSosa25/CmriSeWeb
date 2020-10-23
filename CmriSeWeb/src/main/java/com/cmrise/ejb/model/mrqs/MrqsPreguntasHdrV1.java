@@ -42,6 +42,7 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 	
 	private boolean respTextLibre;
 	private boolean opcionMultiple; 
+	private boolean correlacionColumnas;
 	
 	public long getActualizadoPor() {
 		return actualizadoPor;
@@ -129,6 +130,9 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 			this.setRespTextLibre(true);
 		}else if(Utilitarios.OPCION_MULTIPLE.equals(tipoPregunta)) {
 			this.setOpcionMultiple(true);
+		}
+		else if(Utilitarios.CORRELACION_COLUMNA.equals(tipoPregunta)) {
+			setCorrelacionColumnas(true);
 		}
 		this.tipoPregunta = tipoPregunta;
 	}
@@ -244,6 +248,12 @@ public class MrqsPreguntasHdrV1 implements Serializable {
 	}
 	public void setElaborador(String elaborador) {
 		this.elaborador = elaborador;
+	}
+	private boolean isCorrelacionColumnas() {
+		return correlacionColumnas;
+	}
+	private void setCorrelacionColumnas(boolean correlacionColumnas) {
+		this.correlacionColumnas = correlacionColumnas;
 	}
 	
 }

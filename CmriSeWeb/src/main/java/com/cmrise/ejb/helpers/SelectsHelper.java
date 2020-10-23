@@ -187,8 +187,10 @@ public class SelectsHelper {
 			 ) {
 			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
 			this.selectTipoPreguntaItems.add(selectItem); 
+			
 			}
 		}
+		//selectTipoPreguntaItems.add(new SelectItem("CORRELACION_COLUMNA","Correlacion de columna"));
 	}
 	
 	
