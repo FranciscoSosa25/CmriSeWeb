@@ -58,6 +58,9 @@ public class ExamenesLocalImpl implements ExamenesLocal {
 			if(row[8] instanceof String) { /** TIPO_EXAMEN_CODE **/
 				retval.setTipoExamenCode((String)row[8]); 
 			}
+			if(row[9] instanceof java.sql.Timestamp) { /** FECHA_EFECTIVA_HASTA **/
+				retval.setFechaEfectivaHasta(new java.util.Date(((java.sql.Timestamp)row[9]).getTime()));
+			}
 		}
 		return retval; 
 	}

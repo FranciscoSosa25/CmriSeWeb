@@ -7,19 +7,86 @@
 
  <ui:define name="content">
 
-<h:form id="ReadOnlyForm">
+		<h:form id="SearchForm">
+			<f:passThroughAttribute name="autocomplete" value="off" />
+			<p:fieldset legend="Buscar Examén" toggleable="true"
+				toggleSpeed="500" style="margin-bottom:20px" collapsed="true">
+				<p:ajax event="toggle" />
+				<p:panel id="SearchPanel">
+					<div class="ui-g ui-fluid" style="width: 100%; margin-top: 5px;">
+						<div class="ui-g-6 ui-lg-3">
+							<p:outputLabel value="Id de Examen:" />
+							<p:inputText id="id_examen" value=""
+								style="width: 100%; margin-top: 5px;" maxlength="50" />
+							<p:message for="id_examen" />
+						</div>
+						<div class="ui-g-6 ui-lg-3">
+							<p:outputLabel value="Examen" />
+							<p:inputText id="examen" value=""
+								style="width: 100%; margin-top: 5px;" maxlength="50" />
+							<p:message for="examen" />
+						</div>
+						<div class="ui-g-6 ui-lg-3">
+							<p:outputLabel value="Fecha desde" />
+							<p:inputText id="fecha_desde" value=""
+								style="width: 100%; margin-top: 5px;" maxlength="50" />
+							<p:message for="fecha_desde" />
+						</div>
+						<div class="ui-g-6 ui-lg-3">
+							<p:outputLabel value="Fecha Hasta:" />
+							<p:inputText id="fecha_hasta" value=""
+								style="width: 100%; margin-top: 5px;" maxlength="50" />
+							<p:message for="fecha_hasta" />
+						</div>
+						<div class="ui-g-6 ui-lg-3">
+							<p:outputLabel value="Tiempo" />
+							<p:inputText id="tiempo" value=""
+								style="width: 100%; margin-top: 5px;" maxlength="50" />
+							<p:message for="tiempo" />
+						</div>
+						<div class="ui-g-6 ui-lg-3">
+							<p:outputLabel value="Tipo de Examen" />
+							<p:inputText id="tipoExamen" value=""
+								style="width: 100%; margin-top: 5px;" maxlength="50" />
+							<p:message for="tipoExamen" />
+						</div>
+						<div></div>
+					</div>
+					<div class="ui-g">
+						<div class="ui-g-12 ui-lg-12" style="text-align: right;">
+							<p:commandButton value="Cancelar">
+								<p:ajax update="SearchPanel" resetValues="true" />
+							</p:commandButton>
+							<p:commandButton value="Consultar"
+								actionListener="#{historyCandidatesForm.findByCURP()}"
+								update="ReadOnlyForm" style="margin-left: 10px;" />
+						</div>
+					</div>
+				</p:panel>
+			</p:fieldset>
+		</h:form>
+
+		<h:form id="ReadOnlyForm">
  <p:dataTable var="examen" value="#{historyExamsForm.listExamenes}" emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">Historial de Examenes</f:facet>
-   <p:column headerText="Título">
+   <!-- <p:column headerText="Título">
     <p:commandLink action="#{historyExamsForm.toDetailExam(examen)}">
       <h:outputText value="#{examen.titulo}"/>
     </p:commandLink>
+   </p:column>-->
+   <p:column headerText="Id Examen">
+    <h:outputText value="#{examen.numero}"/>
    </p:column>
-   <p:column headerText="Nombre">
+   <p:column headerText="Examen">
     <h:outputText value="#{examen.nombre}"/>
    </p:column>
    <p:column headerText="Descripción">
     <h:outputText value="#{examen.descripcion}"/>
+   </p:column>
+   <p:column headerText="Fecha">
+    <h:outputText value="Desde #{examen.fechaEfectivaDesde} hasta #{examen.fechaEfectivaHasta}">
+     <f:convertDateTime type="date" pattern= "dd/MM/yyyy HH:mm" />
+     </h:outputText>
    </p:column>
    <p:column headerText="Tiempo Límite">
     <h:outputText value="#{examen.tiempoLimite}"/>
@@ -30,10 +97,8 @@
    <p:column headerText="Total Candidatos">
     <h:outputText value="#{examen.totalCandidatos}"/>
    </p:column>
-   <p:column headerText="Desde">
-    <h:outputText value="#{examen.fechaEfectivaDesde}">
-     <f:convertDateTime type="date" pattern= "dd/MM/yyyy HH:mm" />
-     </h:outputText>
+    <p:column headerText="Acciones">
+   <p:commandButton value="Ver" style="margin-left: 10px;" />
    </p:column>
  </p:dataTable>
  

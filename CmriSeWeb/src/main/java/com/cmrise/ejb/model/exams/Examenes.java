@@ -13,7 +13,8 @@ public class Examenes implements Serializable {
 	private short tiempoLimite; 
 	private String tipoExamenCode; 
 	private String tipoExamenDesc; 
-	private java.util.Date fechaEfectivaDesde; 
+	private java.util.Date fechaEfectivaDesde;
+	private java.util.Date fechaEfectivaHasta; 
 	private long totalCandidatos;
 	
 	public long getNumero() {
@@ -69,6 +70,12 @@ public class Examenes implements Serializable {
 	}
 	public void setTotalCandidatos(long totalCandidatos) {
 		this.totalCandidatos = totalCandidatos;
+	}
+	public java.util.Date getFechaEfectivaHasta() {
+		return fechaEfectivaHasta;
+	}
+	public void setFechaEfectivaHasta(java.util.Date fechaEfectivaHasta) {
+		this.fechaEfectivaHasta = fechaEfectivaHasta;
 	} 
 	
 	
