@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="MRQS_CORRELACION_COLUMNA_OPCIONES")
@@ -40,7 +41,8 @@ public class MrqsCorrelacionColumnasDto implements Serializable {
 	private Timestamp fechaActualizacion;
 	@Column(name="NUMERO_OPCION")
 	private long numeroOpcion;
-
+	@Transient
+	private boolean actualizado;
 	public MrqsCorrelacionColumnasDto() {}
 	public MrqsCorrelacionColumnasDto(String textoRespuesta){
 		setTextoRespuesta(textoRespuesta);
@@ -118,8 +120,13 @@ public class MrqsCorrelacionColumnasDto implements Serializable {
 	}
 	public void setFechaCreacion(Timestamp fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
+	}	
+	public boolean isActualizado() {
+		return actualizado;
 	}
-	
+	public void setActualizado(boolean actualizado) {
+		this.actualizado = actualizado;
+	}
 	@Override
 	public String toString() {
 		return getTextoRespuesta();

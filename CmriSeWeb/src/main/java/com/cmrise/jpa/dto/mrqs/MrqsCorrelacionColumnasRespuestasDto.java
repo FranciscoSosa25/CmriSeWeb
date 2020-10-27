@@ -44,6 +44,8 @@ public class MrqsCorrelacionColumnasRespuestasDto implements Serializable {
 	private long numeroOpcion;
 	@Transient
 	private String valorSeleccionado;
+	@Transient
+	private boolean actualizado;
 	public MrqsCorrelacionColumnasRespuestasDto() {}
 	public MrqsCorrelacionColumnasRespuestasDto(String textoRespuesta) {
 		setTextoRespuesta(textoRespuesta);
@@ -132,6 +134,12 @@ public class MrqsCorrelacionColumnasRespuestasDto implements Serializable {
 	}
 	public void setValorSeleccionado(String valorSeleccionado) {
 		this.valorSeleccionado = valorSeleccionado;
+	}	
+	public boolean isActualizado() {
+		return actualizado;
+	}
+	public void setActualizado(boolean actualizado) {
+		this.actualizado = actualizado;
 	}
 	@Override
 	public String toString() {

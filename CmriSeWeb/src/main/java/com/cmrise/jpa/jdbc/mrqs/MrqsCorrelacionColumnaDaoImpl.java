@@ -30,13 +30,6 @@ public class MrqsCorrelacionColumnaDaoImpl implements MrqsCorrelacionColumnasDao
     private EntityManagerFactory emf;  
 
 	
-
-	@Override
-	public void update(long pNumero, MrqsCorrelacionColumnasDto item) {
-		// TODO Auto-generated method stub
-
-	}
-
 	@Override
 	public List<MrqsCorrelacionColumnasDto> findByFta(long pNumeroFta) {
 		List<MrqsCorrelacionColumnasDto> resultSet = new ArrayList<MrqsCorrelacionColumnasDto>();
@@ -47,12 +40,6 @@ public class MrqsCorrelacionColumnaDaoImpl implements MrqsCorrelacionColumnasDao
 		} catch (NoResultException k) {
 		}
 		return resultSet;
-	}
-
-	@Override
-	public void delete(long pNumero) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -70,7 +57,8 @@ public class MrqsCorrelacionColumnaDaoImpl implements MrqsCorrelacionColumnasDao
 	private void establecerFechasColumnas(MrqsCorrelacionColumnasDto item,long lNumeroFta) {
 		Query q = em.createNativeQuery("SELECT NEXT VALUE FOR dbo.MRQS_CORRELACION_COLUMNA_S");
 		BigInteger lNumero = (BigInteger) q.getSingleResult();
-		item.setNumero(lNumero.longValue());
+		item.setNumero(item.getNumero()==0?lNumero.longValue():item.getNumero());
+		item.setActualizado(item.getNumero()==0?false:true);
 		java.util.Date sysdate = new java.util.Date();
 		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
 		item.setCreadoPor((long) -1);
@@ -85,7 +73,8 @@ public class MrqsCorrelacionColumnaDaoImpl implements MrqsCorrelacionColumnasDao
 	private void establecerFechasRespuestas(MrqsCorrelacionColumnasRespuestasDto item,long lNumeroFta) {
 		Query q = em.createNativeQuery("SELECT NEXT VALUE FOR dbo.MRQS_CORRELACION_COLUMNA_RESPUESTAS_S");
 		BigInteger lNumero = (BigInteger) q.getSingleResult();
-		item.setNumero(lNumero.longValue());
+		item.setNumero(item.getNumero()==0?lNumero.longValue():item.getNumero());
+		item.setActualizado(item.getNumero()==0?false:true);
 		java.util.Date sysdate = new java.util.Date();
 		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
 		item.setCreadoPor((long) -1);
@@ -101,19 +90,22 @@ public class MrqsCorrelacionColumnaDaoImpl implements MrqsCorrelacionColumnasDao
 	@Override
 	public long insert(List<MrqsCorrelacionColumnasDto> respuestas,
 		List<MrqsCorrelacionColumnasRespuestasDto> preguntas,long lNumeroFta)throws CorrelacionColumnasInsertException {
-		EntityManager emtx = null;  
+		
 		try {			
 			Iterator<MrqsCorrelacionColumnasDto> lista= respuestas.iterator();
 			while(lista.hasNext()) {
 				MrqsCorrelacionColumnasDto record=lista.next();
 				establecerFechasColumnas(record,lNumeroFta);
-				em.persist(record);				
+				if(record.isActualizado())em.merge(record);
+				else em.persist(record);	
+				
 			}
 			Iterator<MrqsCorrelacionColumnasRespuestasDto> listaRespuestas=  preguntas.iterator();
 			while(listaRespuestas.hasNext()) {
 				MrqsCorrelacionColumnasRespuestasDto item=listaRespuestas.next();
-				establecerFechasRespuestas(item,lNumeroFta);				
-				em.persist(item);		
+				establecerFechasRespuestas(item,lNumeroFta);
+				if(item.isActualizado())em.merge(item);
+				else em.persist(item);	 	
 			}
 			em.flush();
 		}
@@ -123,5 +115,31 @@ public class MrqsCorrelacionColumnaDaoImpl implements MrqsCorrelacionColumnasDao
 		
 		return 1;
 	}
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	@Override
+	public void delete(MrqsCorrelacionColumnasDto respuestas)  throws CorrelacionColumnasInsertException{
+		try {
+			
+			em.remove(em.contains(respuestas) ? respuestas : em.merge(respuestas));
+			em.flush();
+		}
+		catch(PersistenceException ex) {	
+			throw new CorrelacionColumnasInsertException(CorrelacionColumnasInsertException.ERROR_INSERTAR,ex);
+		}
+		
+	}
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	@Override
+	public void delete(MrqsCorrelacionColumnasRespuestasDto preguntas) throws CorrelacionColumnasInsertException {
+		try {
+			em.remove(em.contains(preguntas) ? preguntas : em.merge(preguntas));
+			em.flush();
+		}
+		catch(PersistenceException ex) {	
+			throw new CorrelacionColumnasInsertException(CorrelacionColumnasInsertException.ERROR_INSERTAR,ex);
+		}
+		
+	}
+	
 
 }

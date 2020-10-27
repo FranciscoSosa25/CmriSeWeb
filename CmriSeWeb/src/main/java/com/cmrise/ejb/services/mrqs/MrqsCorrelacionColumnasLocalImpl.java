@@ -15,15 +15,6 @@ import com.cmrise.utils.CorrelacionColumnasInsertException;
 public class MrqsCorrelacionColumnasLocalImpl implements  MrqsCorrelacionColumnasLocal{
 	@Inject
 	private MrqsCorrelacionColumnasDao mrqsCorrelacionColumnas;
-	
-	
-
-	@Override
-	public void update(long pNumero, MrqsCorrelacionColumnasDto item) {
-		mrqsCorrelacionColumnas.update(pNumero, item);
-		
-	}
-
 	@Override
 	public List<MrqsCorrelacionColumnasDto> findByFta(long pNumeroFta) {
 		
@@ -35,20 +26,19 @@ public class MrqsCorrelacionColumnasLocalImpl implements  MrqsCorrelacionColumna
 		return mrqsCorrelacionColumnas.findRespuestasCorrectasByFta(pNumeroFta);
 	}
 	@Override
-	public void delete(long pNumero) {
-		mrqsCorrelacionColumnas.delete(pNumero);
-	}
-
-	
-
-
-	@Override
 	public long insert(List<MrqsCorrelacionColumnasDto> item, List<MrqsCorrelacionColumnasRespuestasDto> respuestas,long lNumeroFta) throws CorrelacionColumnasInsertException{
-		
-		
 			return mrqsCorrelacionColumnas.insert(item,respuestas,lNumeroFta);
-		
 	}
+	@Override
+	public void deleteColumna(MrqsCorrelacionColumnasDto item) throws CorrelacionColumnasInsertException {
+		mrqsCorrelacionColumnas.delete(item);
+	}
+	@Override
+	public void deleteColumna(MrqsCorrelacionColumnasRespuestasDto item) throws CorrelacionColumnasInsertException {
+		mrqsCorrelacionColumnas.delete(item);
+	}
+	
+	
 
 
 }

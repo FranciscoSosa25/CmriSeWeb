@@ -107,7 +107,6 @@ public class UpdateFTAMrqForm {
 	private boolean panelCorrelacionColumnas;
 	private String respuestaCorrelacionColumnas="Respuesta: ";
 	private String textCorrelacionColumnas="Texto) ";
-	private Set<String> respuestasSeleccionadas=new HashSet<String> ();
 	/************************************************************************
 	 * Archivos E Imagenes
 	 */
@@ -232,6 +231,7 @@ public class UpdateFTAMrqForm {
 			 agregarRespReact(); 
 		 }else if(Utilitarios.CORRELACION_COLUMNA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			 setPanelCorrelacionColumnas(true);
+			 obtenerColumnasGuardadas();
 		 }
 		 
 		 long lNumeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(this.getNumeroHdr()); 
@@ -644,6 +644,12 @@ public class UpdateFTAMrqForm {
 			 
 		
 	}	
+	private void obtenerColumnasGuardadas() {
+		long id=mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(getNumeroHdr());
+		listMrqsCorrelacionColumnas = mrqsCorrelacionColumnasLocal.findByFta( id);
+		 listMrqsCorrelacionRespuestas = mrqsCorrelacionColumnasLocal.findRespuestasCorrectasByFta(id);
+		
+	}
 	private long insertarCorrelacionColumas(List<MrqsCorrelacionColumnasDto> respuestas, List<MrqsCorrelacionColumnasRespuestasDto> preguntas,long lNumeroFta) {
 		try {
 			return mrqsCorrelacionColumnasLocal.insert(respuestas, preguntas, lNumeroFta);
@@ -1000,10 +1006,25 @@ public class UpdateFTAMrqForm {
 		listMrqsCorrelacionColumnas.add(new MrqsCorrelacionColumnasDto(respuestaCorrelacionColumnas+listMrqsCorrelacionColumnas.size()));
 	}
 	public void eliminarRespuestaColumna(MrqsCorrelacionColumnasDto item) {
-		listMrqsCorrelacionColumnas.remove(item);
+		if(item.getNumero()!=0)
+			deleteItem(item);
+		listMrqsCorrelacionColumnas.remove(item);	
 		
 	}
+	private <E> void deleteItem(E item) {		
+			try {
+				if(item instanceof MrqsCorrelacionColumnasDto)
+				mrqsCorrelacionColumnasLocal.deleteColumna((MrqsCorrelacionColumnasDto)item);
+				else
+				mrqsCorrelacionColumnasLocal.deleteColumna((MrqsCorrelacionColumnasRespuestasDto)item);
+			} catch (CorrelacionColumnasInsertException e) {
+				limpiarMensajes();
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, CorrelacionColumnasInsertException.ERROR_INSERTAR, null));
+			}
+	}
 	public void eliminarRespuestaCorrecta(MrqsCorrelacionColumnasRespuestasDto item) {
+		if(item.getNumero()!=0)
+			deleteItem(item);
 		listMrqsCorrelacionRespuestas.remove(item);
 	}
 	public void agregarRespuestaColumnaDerecha() {

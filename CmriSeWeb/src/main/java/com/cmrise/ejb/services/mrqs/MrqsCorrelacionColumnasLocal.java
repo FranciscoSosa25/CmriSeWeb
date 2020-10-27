@@ -11,9 +11,9 @@ import com.cmrise.utils.CorrelacionColumnasInsertException;
 @Local
 public interface MrqsCorrelacionColumnasLocal {
 
-	public long insert(List<MrqsCorrelacionColumnasDto> item,List<MrqsCorrelacionColumnasRespuestasDto> respuestas, long fta_number) throws CorrelacionColumnasInsertException;
-	public void update(long pNumero,MrqsCorrelacionColumnasDto item); 
+	public long insert(List<MrqsCorrelacionColumnasDto> item,List<MrqsCorrelacionColumnasRespuestasDto> respuestas, long fta_number) throws CorrelacionColumnasInsertException; 
 	public List<MrqsCorrelacionColumnasDto> findByFta(long pNumeroFta);  
 	public List<MrqsCorrelacionColumnasRespuestasDto> findRespuestasCorrectasByFta(long pNumeroFta);
-	public void delete(long pNumero); 
+	public void deleteColumna(MrqsCorrelacionColumnasDto item) throws CorrelacionColumnasInsertException; 
+	public void deleteColumna(MrqsCorrelacionColumnasRespuestasDto item) throws CorrelacionColumnasInsertException; 
 }

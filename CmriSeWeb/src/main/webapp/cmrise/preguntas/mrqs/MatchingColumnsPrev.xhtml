@@ -1,10 +1,11 @@
-
 <ui:composition id="columnsView" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	<p:panelGrid columns="2" id="ColumnasCorrelacionPrev" layout="grid" rendered="#{mrqPreviewForm.correlacionColumnas}" >
+	<p:panelGrid columns="2" id="ColumnasCorrelacionPrev"
+		styleClass="showcase-text-align-center"
+		rendered="#{mrqPreviewForm.correlacionColumnas}">
 		<h:panelGroup id="correlacionColumnasPanelPrevI">
 			<ui:repeat var="mrqsCorrelacionColumnaPrev"
 				value="#{mrqPreviewForm.listMrqsCorrelacionColumnasDto}">
@@ -16,39 +17,28 @@
 				</div>
 			</ui:repeat>
 		</h:panelGroup>
-		
 		<h:panelGroup id="correlacionColumnasRespuestasPanelD">
 			<ui:repeat var="mrqsCorrelacionColumnaDerechaRespuestas"
 				value="#{mrqPreviewForm.listMrqsCorrelacionColumnasRespuestasDto}">
-
-				<div class="ui-g-5 ui-g-nopad" style="margin-bottom: 5%;">
-					<h:outputLabel id="textoPregunta" style="width:80%;"
+				<div class="ui-g-3 ui-g-nopad" >
+					<h:outputLabel id="textoPregunta"
 						value="#{mrqsCorrelacionColumnaDerechaRespuestas.textoRespuesta}"
 						required="true">
 					</h:outputLabel>
 					<p:message for="textoPregunta" />
 				</div>
-				<div class="ui-g-5 ui-g-nopad" style="margin-bottom: 5%;">
-					<p:selectOneMenu id="respuestasPropuestas" required="true"
-						value="#{mrqsCorrelacionColumnaDerechaRespuestas.valorSeleccionado}"
-						style="width:40%;">
-						<f:selectItem itemLabel="Selecione respuesta correcta"
-							itemValue="" noSelectionOption="true" />
-						<!-- p:ajax
-							listener="#{updateFTAMrqForm.asignarValor(mrqsCorrelacionColumnaDerecha)}"
-							update=":previewForm:ColumnasCorrelacionPrev" /-->
+				<div class="ui-g-7 ui-g-nopad"
+					style="margin-bottom: 1%; margin-left: 10%">
+					<p:selectOneMenu id="respuestasPropuestas" required="true" 
+						value="#{mrqsCorrelacionColumnaDerechaRespuestas.valorSeleccionado}">
+						<f:selectItem itemLabel="Selecione respuesta" itemValue=""
+							noSelectionOption="true" />
 						<f:selectItems
 							value="#{mrqPreviewForm.listMrqsCorrelacionColumnasDto}"
-							var="competitor" itemValue="#{competitor}" /> />
-						</p:selectOneMenu>
+							var="competitor" itemValue="#{competitor}" />
+					</p:selectOneMenu>
 				</div>
-
 			</ui:repeat>
-
 		</h:panelGroup>
-
-
-
-
 	</p:panelGrid>
 </ui:composition>
