@@ -41,7 +41,7 @@ function handleUpdateRequest(xhr, status, args){
  </h2>             
 <h:form id="ReadOnlyForm">
 
- <p:dataTable var="admonUsuario" value="#{admonUsuariosForm.listAdmonUsuarios}"  emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+ <p:dataTable var="admonUsuario" value="#{admonUsuariosForm.listAdmonUsuarios }"  emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">USUARIOS</f:facet>
     <p:column headerText="CURP" style="text-overflow: ellipsis; white-space: nowrap;width:150px" >
     <h:outputText value="#{admonUsuario.curp}"/>
@@ -111,7 +111,7 @@ function handleUpdateRequest(xhr, status, args){
      <p:outputLabel for="numeroRol" value="Rol"/>
       <p:selectOneMenu id="numeroRol" value="#{admonUsuariosForm.numeroRol}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
       <f:selectItem itemLabel="Seleccione un Rol" itemValue="" />
-      <f:selectItems value="#{selectsHelper.selectAdmonRolesItems}" />
+      <f:selectItems value="#{selectsHelper.selectAdmonRolesItemsNotCand}" />
       </p:selectOneMenu>
       <p:message for="numeroRol"/>
      <p:outputLabel for="fechaEfectivaDesdeInput" value="Desde"/>
@@ -161,7 +161,7 @@ function handleUpdateRequest(xhr, status, args){
      <p:outputLabel for="numeroRol" value="Rol"/>
       <p:selectOneMenu id="numeroRol" value="#{admonUsuariosForm.admonUsuariosForAction.numeroRol}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
       <f:selectItem itemLabel="Seleccione un Rol" itemValue="" />
-      <f:selectItems value="#{selectsHelper.selectAdmonRolesItems}" />
+      <f:selectItems value="#{selectsHelper.selectAdmonRolesItemsNotCand}" />
       </p:selectOneMenu>
       <p:message for="numeroRol"/>
      <p:outputLabel for="fechaEfectivaDesdeInput" value="Desde"/>

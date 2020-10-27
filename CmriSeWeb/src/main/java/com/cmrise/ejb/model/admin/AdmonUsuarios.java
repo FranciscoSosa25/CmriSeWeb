@@ -3,12 +3,14 @@ package com.cmrise.ejb.model.admin;
 import java.io.Serializable;
 import java.util.Date;
 
+
 public class AdmonUsuarios implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private long numero;
 	private long actualizadoPor;
+    private String actualizadoPorName;
 	private String apellidoMaterno;
 	private String apellidoPaterno;
 	private String contrasenia;
@@ -24,6 +26,7 @@ public class AdmonUsuarios implements Serializable {
 	private String curp; 
 	private String estado;
 	private String sedeHospital;
+	
 	
 	public long getNumero() {
 		return numero;
@@ -66,7 +69,7 @@ public class AdmonUsuarios implements Serializable {
 	}
 	public void setCreadoPor(long creadoPor) {
 		this.creadoPor = creadoPor;
-	}
+	}	
 	public Date getFechaActualizacion() {
 		return fechaActualizacion;
 	}
@@ -129,6 +132,14 @@ public class AdmonUsuarios implements Serializable {
 
 	public void setSedeHospital(String sedeHospital) {
 		this.sedeHospital = sedeHospital;
+	}
+
+	public String getActualizadoPorName() {
+		return actualizadoPorName;
+	}
+
+	public void setActualizadoPorName(String actualizadoPorName) {
+		this.actualizadoPorName = actualizadoPorName;
 	}
 	
 

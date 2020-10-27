@@ -53,7 +53,7 @@ public class AdmonUsuariosForm {
 	 }		 
 	
     public void refreshEntity() {
-    	List<AdmonUsuariosRolesV1Dto> listAdmonUsuariosRolesV1Dto =  admonUsuariosRolesLocal.findAll(); 
+    	List<AdmonUsuariosRolesV1Dto> listAdmonUsuariosRolesV1Dto =  admonUsuariosRolesLocal.findNotCand(); 
 		Iterator<AdmonUsuariosRolesV1Dto> iterAdmonUsuariosRolesV1Dto = listAdmonUsuariosRolesV1Dto.iterator(); 
 		listAdmonUsuarios = new ArrayList<AdmonUsuarios>();
 		while(iterAdmonUsuariosRolesV1Dto.hasNext()) {

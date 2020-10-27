@@ -37,15 +37,17 @@ function handleUpdateRequest(xhr, status, args){
            <div class="ui-g">
              <div class="ui-g-12 ui-lg-12" style="text-align: left;">
                  <p:commandButton id="RegistrarBtn" value="Nuevo Candidato" icon="fa fa-plus" onclick="PF('createCandidatoDialogWV').show();" />
+              	 <p:commandButton id="CargaArchBtn" value="Carga por archivo" icon="fa fa-file-excel-o" onclick="PF('createCandidatoDialogWV').show();" />
               </div>
             </div>
+            
 <h:form id="ReadOnlyForm">
 <div class="card">
  <p:dataTable var="admonCandidatos" value="#{createMrqsCandidatesForm.listAdmonUsuarios}" emptyMessage="Sin resultados"  paginator="true" rows="30" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">Candidatos</f:facet>
      <p:column headerText="Nombre">
-    <h:outputText value="#{admonCandidatos.nombre}"/>
-    <h:outputText value="#{admonCandidatos.apellidoPaterno}"/>
+    <h:outputText value="#{admonCandidatos.nombre} "/>
+    <h:outputText value="#{admonCandidatos.apellidoPaterno} "/>
      <h:outputText value="#{admonCandidatos.apellidoMaterno}"/>
    </p:column>
    <p:column headerText="Curp">
@@ -60,6 +62,9 @@ function handleUpdateRequest(xhr, status, args){
     <p:column headerText="Sede Hospital">
     <h:outputText value="#{admonCandidatos.sedeHospital}"/>
    </p:column>
+   <p:column headerText="ActualizadoPor">
+    <h:outputText value="#{admonCandidatos.actualizadoPorName}"/>
+   </p:column>
      <f:facet name="footer">
 
         </f:facet> 
@@ -73,8 +78,8 @@ function handleUpdateRequest(xhr, status, args){
    <p:panelGrid id="createPanelID" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
        <p:outputLabel for="numeroRol" value="Rol"/>
       	<p:selectOneMenu id="numeroRol" value="#{createMrqsCandidatesForm.numeroRol}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" readOnly="true">
-      		<f:selectItem itemLabel="Seleccione un Rol" itemValue="" />
-      		<f:selectItems value="#{selectsHelper.selectAdmonRolesItems}" />
+      		<!-- <f:selectItem itemLabel="Seleccione un Rol" itemValue="" /> -->
+      		<f:selectItems value="#{selectsHelper.selectAdmonRolesItemsCand}" />
       </p:selectOneMenu>
       	<p:message for="numeroRol"/>
      <p:outputLabel for="curp" value="CURP"/>
@@ -103,12 +108,10 @@ function handleUpdateRequest(xhr, status, args){
   			<f:selectItems value="#{selectsHelper.selectEstadosMexicoItems}" />
  	    </p:selectOneMenu>
 		<p:message for="estado"/>
-	   <p:outputLabel for="sedeHospital" value="Sede Hospitalaria" />
+	    <p:outputLabel for="sedeHospital" value="Sede Hospitalaria" />
   		<p:selectOneMenu id="sedeHospital" value="#{createMrqsCandidatesForm.sedeHospital}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
   			<f:selectItem itemLabel="Seleccione una Sede Hospitalaria" itemValue="" />
-
   			<f:selectItems value="#{selectsHelper.selectSedeHospitalItems}" />
-
  	    </p:selectOneMenu>
  	     <p:message for="sedeHospital"/>
       <p:outputLabel for="fechaEfectivaDesdeInput" value="Desde"/>
@@ -118,7 +121,6 @@ function handleUpdateRequest(xhr, status, args){
       	<p:calendar id="fechaEfectivaHastaInput" value="#{createMrqsCandidatesForm.fechaEfectivaHasta}"  locale="es" pattern="dd/MM/yyyy" mask="true" />
       	<p:message for="fechaEfectivaHastaInput"/>
 
-      	
        <f:facet name="footer">
         <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >

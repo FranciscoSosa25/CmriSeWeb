@@ -132,5 +132,11 @@ public class AdmonUsuariosRolesDaoImpl implements AdmonUsuariosRolesDao {
 	Query query = em.createQuery(strQuery);
 	return query.getResultList();
 	}
+	
+	public List<AdmonUsuariosRolesV1Dto> findNotCand() {
+		String strQuery = "SELECT a FROM AdmonUsuariosRolesV1Dto a WHERE NUMERO_ROL != '1'"; 
+	Query query = em.createQuery(strQuery);
+	return query.getResultList();
+	}
 
 }

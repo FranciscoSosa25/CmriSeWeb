@@ -11,6 +11,7 @@ public interface AdmonUsuariosRolesDao {
  public void update(long pNumero,AdmonUsuariosRolesDto pAdmonUsuariosRolesDto);
  public List<AdmonUsuariosRolesV1Dto> findAll();
  public List<AdmonUsuariosRolesV1Dto> findCand();
+ public List<AdmonUsuariosRolesV1Dto> findNotCand();
  public int validaUsuarioRol(long pNumeroUsuario
 		                    ,long pNumeroRol
 		                    );
