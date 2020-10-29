@@ -18,6 +18,7 @@ public interface AdmonUsuariosDao {
 			                                         ,String strClave);
 	public List<AdmonUsuariosRolesV1Dto> findAll();
 	public List<AdmonUsuariosRolesV1Dto> findCand();
-
+	public List<AdmonUsuariosRolesV1Dto> findNotCand();
+	public AdmonUsuariosDto selectUsuario(long pNumero);
 
 }

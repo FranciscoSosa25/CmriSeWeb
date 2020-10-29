@@ -39,8 +39,13 @@ public class AdmonUsuariosRolesLocalImpl implements AdmonUsuariosRolesLocal {
 	}
 	
 	@Override
+	public List<AdmonUsuariosRolesV1Dto> findNotCand() {
+		return admonUsuariosRolesDao.findNotCand();
+	}
+	
+	@Override
 	public List<AdmonUsuariosRolesV1Dto> findCand() {
-		return admonUsuariosRolesDao.findAll();
+		return admonUsuariosRolesDao.findCand();
 	}
 
 	@Override

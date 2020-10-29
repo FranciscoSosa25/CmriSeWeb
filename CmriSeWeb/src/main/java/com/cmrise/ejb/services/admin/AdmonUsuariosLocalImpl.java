@@ -31,6 +31,11 @@ public class AdmonUsuariosLocalImpl implements AdmonUsuariosLocal {
 	public void delete(long pNumero) {
 		admonUsuariosDao.delete(pNumero);
 	}
+	
+	@Override
+	public AdmonUsuariosDto selectUsuario(long pNumero) {
+		return admonUsuariosDao.selectUsuario(pNumero);
+	}
 
 	@Override
 	public void update(long pNumero, AdmonUsuariosDto pAdmonUsuariosDto) {
@@ -55,9 +60,13 @@ public class AdmonUsuariosLocalImpl implements AdmonUsuariosLocal {
 	}
 
 	public List<AdmonUsuariosRolesV1Dto> findCand(){
-	return admonUsuariosDao.findCand();
-
-}
+		return admonUsuariosDao.findCand();
+	}
+	
+	public List<AdmonUsuariosRolesV1Dto> findNotCand(){
+		return admonUsuariosDao.findNotCand();
+	}
+	
 	}
 
 

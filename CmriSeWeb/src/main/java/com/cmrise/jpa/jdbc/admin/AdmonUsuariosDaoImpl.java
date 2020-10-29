@@ -31,8 +31,8 @@ public class AdmonUsuariosDaoImpl implements AdmonUsuariosDao {
 		pAdmonUsuariosDto.setNumero(lNumeroS.longValue());
 		java.util.Date sysdate = new java.util.Date();
 		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
-		pAdmonUsuariosDto.setCreadoPor((long)-1);
-		pAdmonUsuariosDto.setActualizadoPor((long)-1);
+		//pAdmonUsuariosDto.setCreadoPor((long)-1);
+		//pAdmonUsuariosDto.setActualizadoPor((long)-1);
 		pAdmonUsuariosDto.setFechaCreacion(sqlsysdate);
 		pAdmonUsuariosDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pAdmonUsuariosDto);
@@ -44,6 +44,16 @@ public class AdmonUsuariosDaoImpl implements AdmonUsuariosDao {
 	public void delete(long pNumero) {
 		AdmonUsuariosDto admonUsuariosDto =	em.find(AdmonUsuariosDto.class, pNumero);
 		em.remove(admonUsuariosDto);
+	}
+	
+	@Override
+	public AdmonUsuariosDto selectUsuario(long pNumero) {
+		try {	
+			return em.find(AdmonUsuariosDto.class, pNumero);
+		}catch(java.lang.NullPointerException e) 
+		{
+			return null;
+		}
 	}
 
 	@Override
@@ -148,8 +158,16 @@ public class AdmonUsuariosDaoImpl implements AdmonUsuariosDao {
 		
 	}
 	
+	@Override
 	public List<AdmonUsuariosRolesV1Dto> findCand() {
 		String strQuery = "SELECT a FROM AdmonUsuariosRolesV1Dto a WHERE NUMERO_ROL='1'"; 
+	Query query = em.createQuery(strQuery);
+	return query.getResultList();
+	}
+	
+	@Override
+	public List<AdmonUsuariosRolesV1Dto> findNotCand() {
+		String strQuery = "SELECT a FROM AdmonUsuariosRolesV1Dto a WHERE NUMERO_ROL !='1'"; 
 	Query query = em.createQuery(strQuery);
 	return query.getResultList();
 	}

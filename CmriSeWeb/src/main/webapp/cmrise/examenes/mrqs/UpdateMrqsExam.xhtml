@@ -71,12 +71,12 @@
 <!-- <div class="ui-g-4"> -->
 <!-- </div> -->
 
-<div class="ui-g-3">
+<!-- <div class="ui-g-3">
 <p:commandButton value="Agregar Nuevos Candidados"  immediate="true" action="#{updateMrqsExamForm.createNewCandidates()}" icon="fa fa-user-plus" style="background: #2D0D86;align:center;"/>
 </div>
 <div class="ui-g-4">
 <p:commandButton value="Asignar Candidados" immediate="true"  action="#{updateMrqsExamForm.assignCandidates()}" icon="fa fa-recycle" style="background: #2D0D86;align:center;" />
-</div>
+</div> -->
 </div>
 
 <div class="ui-g"> 
@@ -253,10 +253,13 @@
   <p:commandButton value="Actualizar" icon="fa fa-save" update="updateForm" actionListener="#{updateMrqsExamForm.update()}" oncomplete="handleUpdateRequest(xhr, status, args)" style="background: #2D0D86;"/>
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Visualizar" icon="fa fa-eye" immediate="true" style="background: #2D0D86;" action="#{updateMrqsExamForm.toPreviewExamenReactivos()}" />
+  <p:commandButton value="Visualizar" icon="fa fa-eye" immediate="true" action="#{updateMrqsExamForm.toPreviewExamenReactivos()}" style="background: #2D0D86;"  />
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Cerrar" icon="fa fa-backward" action="#{updateMrqsExamForm.cancel()}" immediate="true" style="background: #2D0D86;"/>
+  <p:commandButton value="Candidatos" icon="fa fa-user-plus" immediate="true" action="#{updateMrqsExamForm.assignCandidates()}"  style="background: #2D0D86;align:center;"/>
+ </div>
+ <div class="ui-g-12 ui-md-6 ui-lg-2">
+  <p:commandButton value="Cerrar" icon="fa fa-backward" immediate="true" action="#{updateMrqsExamForm.cancel()}" style="background: #2D0D86;"/>
  </div>
 </div>
 

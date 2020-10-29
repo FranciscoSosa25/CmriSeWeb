@@ -9,11 +9,13 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import org.primefaces.PrimeFaces;
 
+import com.cmrise.ejb.helpers.UserLogin;
 import com.cmrise.ejb.model.admin.AdmonCandidatosV1;
 import com.cmrise.ejb.model.admin.AdmonUsuarios;
 import com.cmrise.ejb.model.admin.AdmonUsuariosRolesV1;
@@ -47,6 +49,9 @@ public class CreateMrqsCandidatesForm {
 	    private String sedeHospital; 
 		private AdmonUsuarios admonUsuariosForAction = new AdmonUsuarios();
 	    
+		@ManagedProperty(value="#{userLogin}")
+		private UserLogin userLogin;
+		
 	    @Inject 
 		AdmonUsuariosLocal admonUsuariosLocal; 
 	    
@@ -67,9 +72,10 @@ public class CreateMrqsCandidatesForm {
 	    	 List<AdmonUsuariosRolesV1Dto> listAdmonUsuariosRolesV1Dto = admonUsuariosLocal.findCand(); 
 			 Iterator<AdmonUsuariosRolesV1Dto> itertAAdmonUsuariosRolesV1Dto = listAdmonUsuariosRolesV1Dto.iterator();
 			 listAdmonUsuarios = new ArrayList<AdmonUsuarios>();
-				while(itertAAdmonUsuariosRolesV1Dto.hasNext()) {
+			 while(itertAAdmonUsuariosRolesV1Dto.hasNext()) {
 				AdmonUsuariosRolesV1Dto admonUsuariosRolesV1Dto = itertAAdmonUsuariosRolesV1Dto.next(); 
 				AdmonUsuarios admonUsuarios = new AdmonUsuarios();
+				long idUsuarioQueModifico;
 				System.out.println("Entra admonUsuarios");
 				admonUsuarios.setNumero(admonUsuariosRolesV1Dto.getNumeroUsuario());
 				System.out.println("admonCandidatosV1.getNumeroRol()");
@@ -89,8 +95,16 @@ public class CreateMrqsCandidatesForm {
 				admonUsuarios.setEstado(admonUsuariosRolesV1Dto.getEstado());
 				admonUsuarios.setSedeHospital(admonUsuariosRolesV1Dto.getSedeHospital());
 				admonUsuarios.setNumeroRol(admonUsuariosRolesV1Dto.getNumeroRol());
-				admonUsuarios.setNombreRol(admonUsuariosRolesV1Dto.getNombreRol());
+				//admonUsuarios.setNombreRol(admonUsuariosRolesV1Dto.getNombreRol());
 				
+				//admonUsuarios.setActualizadoPorName(admonUsuariosLocal.findName(admonUsuariosRolesV1Dto.getActualizadoPor()));
+				
+				idUsuarioQueModifico = admonUsuariosLocal.selectUsuario((admonUsuariosRolesV1Dto.getNumeroUsuario())).getActualizadoPor();
+				AdmonUsuariosDto usrQueModifico = admonUsuariosLocal.selectUsuario(idUsuarioQueModifico);
+				if(usrQueModifico != null)
+					admonUsuarios.setActualizadoPorName(usrQueModifico.getNombre() + " " + usrQueModifico.getApellidoPaterno() + " " + usrQueModifico.getApellidoMaterno());
+				else
+					admonUsuarios.setActualizadoPorName("No disponible");
 
 				System.out.println("admonCandidatosV1.getCorreoElectronico()");
 				System.out.println("admonCandidatosV1.getCurp()");
@@ -124,6 +138,9 @@ public class CreateMrqsCandidatesForm {
 				 sqlFechaEfectivaHasta = Utilitarios.endOfTime;
 			 }
 			 admonUsuariosDto.setFechaEfectivaHasta(sqlFechaEfectivaHasta);
+			 admonUsuariosDto.setCreadoPor(userLogin.getNumeroUsuario());
+			 admonUsuariosDto.setActualizadoPor(userLogin.getNumeroUsuario());
+			 System.out.println("userLogin.getNumeroUsuario():"+userLogin.getNumeroUsuario());
 			 long longNumeroUsusario = admonUsuariosLocal.insert(admonUsuariosDto);
 			 
 			    /*************************************************************************/
@@ -165,7 +182,6 @@ public class CreateMrqsCandidatesForm {
 			admonUsuariosForAction.setNumeroRol(pAdmonUsuarios.getNumeroRol());
 		}
 		
-		
 		public void delete() {
 			boolean deleteIn = false; 
 			admonUsuariosLocal.delete(admonUsuariosForAction.getNumero());
@@ -175,6 +191,12 @@ public class CreateMrqsCandidatesForm {
 		}
 		
 		
+		public UserLogin getUserLogin() {
+			return userLogin;
+		}
+		public void setUserLogin(UserLogin userLogin) {
+			this.userLogin = userLogin;
+		}
 		public Date getFechaEfectivaDesde() {
 			return fechaEfectivaDesde;
 		}
@@ -188,7 +210,6 @@ public class CreateMrqsCandidatesForm {
 			this.fechaEfectivaHasta = fechaEfectivaHasta;
 		}
 	
-
 		public long getNumeroRol() {
 			return numeroRol;
 		}

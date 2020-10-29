@@ -16,7 +16,8 @@
     ID="Admin-Usuarios::#cmrise#admin#Usuarios.xhtml" NAME="output2"
     PATH="/cmrise/admin/Usuarios.xhtml"
     TARGET="rules:#cmrise#admin#Usuarios.xhtml" TITLE="Admin-Usuarios" model-entity="JSFProcessItemOutput"/>
-   <PROCESS-ITEM-OUTPUT ID="Admon-Roles::#cmrise#admin#AdmonRoles.xhtml"
+   <PROCESS-ITEM-OUTPUT 
+    ID="Admon-Roles::#cmrise#admin#AdmonRoles.xhtml"
     NAME="output3" PATH="/cmrise/admin/AdmonRoles.xhtml"
     TARGET="rules:#cmrise#admin#AdmonRoles.xhtml" TITLE="Admon-Roles" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT

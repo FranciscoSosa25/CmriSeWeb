@@ -39,7 +39,21 @@ public class AdmonRolesDaoImpl implements AdmonRolesDao {
 		Query q = em.createQuery(strQuery); 
 		return q.getResultList();
 	}
-
+	
+	@Override
+	public List<AdmonRolesDto> findCand() {
+		String strQuery = "SELECT a FROM AdmonRolesDto a WHERE NUMERO='1'";
+		Query q = em.createQuery(strQuery); 
+		return q.getResultList();
+	}
+	
+	@Override
+	public List<AdmonRolesDto> findNotCand() {
+		String strQuery = "SELECT a FROM AdmonRolesDto a WHERE NUMERO !='1'";
+		Query q = em.createQuery(strQuery); 
+		return q.getResultList();
+	}
+	
 	@Override
 	public void delete(long pNumero) {
 		AdmonRolesDto admonRolesDto = em.find(AdmonRolesDto.class, pNumero); 
@@ -58,6 +72,20 @@ public class AdmonRolesDaoImpl implements AdmonRolesDao {
 	@Override
 	public List<KeysDto> findKeys() {
 		String strQuery = "SELECT new com.cmrise.jpa.dto.admin.KeysDto(a.numero,a.nombre) FROM AdmonRolesDto a";
+		Query q = em.createQuery(strQuery); 
+		return q.getResultList();
+	}
+	
+	@Override
+	public List<KeysDto> findKeysCand() {
+		String strQuery = "SELECT new com.cmrise.jpa.dto.admin.KeysDto(a.numero,a.nombre) FROM AdmonRolesDto a WHERE NUMERO='1'";
+		Query q = em.createQuery(strQuery); 
+		return q.getResultList();
+	}
+	
+	@Override
+	public List<KeysDto> findKeysNotCand() {
+		String strQuery = "SELECT new com.cmrise.jpa.dto.admin.KeysDto(a.numero,a.nombre) FROM AdmonRolesDto a WHERE NUMERO != '1'";
 		Query q = em.createQuery(strQuery); 
 		return q.getResultList();
 	}

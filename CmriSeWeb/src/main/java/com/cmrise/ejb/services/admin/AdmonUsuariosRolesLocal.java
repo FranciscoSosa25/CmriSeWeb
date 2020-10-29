@@ -30,5 +30,5 @@ public interface AdmonUsuariosRolesLocal {
 											           , String pContrasenia
 											            );
 	public List<AdmonUsuariosRolesV1Dto> findCand(); 
-	
+	public List<AdmonUsuariosRolesV1Dto> findNotCand();
 }

@@ -10,13 +10,15 @@
  <h:form id="ReadOnlyCandExamenForm">
          <div class="ui-g card" style="margin-bottom:10px;">
 		   <div class="ui-g-4">
+		    <p:commandButton id="nuevoCandidato" value="Nuevo candidato" icon="fa fa-external-link" immediate="true" action="#"/>
 		   </div>
 		   <div class="ui-g-4">
+		    <p:commandButton id="cargarNuevoCandidatoArchivo" value="Carga por archivo" icon="fa fa-external-link" immediate="true" action="#"/>
 		   </div>
-		  <div class="ui-g-4">
+		  <!-- <div class="ui-g-4">
 		   <p:commandButton id="seleccioneMRQsCandidatos" icon="fa fa-external-link" oncomplete="PF('admonUsuarioRolDialogWV').show();" style="width:98%"/>
 		   <p:tooltip id="toolTipFade" for="seleccioneMRQsCandidatos" value="Seleccionar Candidatos" position="top"/>
-		  </div>
+		  </div> -->
 		 </div>
   <p:dataTable  var="candExamenesV1"  value="#{assignMrqsCandidatesForm.listCandExamenesV1}" emptyMessage="Sin resultados" paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">Candidatos Asignados</f:facet>
@@ -46,6 +48,8 @@
   <div class="ui-g-4">
   </div>
   <div class="ui-g-4">
+   <p:commandButton id="seleccioneMRQsCandidatos" value="Asignar" icon="fa fa-external-link" oncomplete="PF('admonUsuarioRolDialogWV').show();" style="width:98%"/>
+   <p:tooltip id="toolTipFade" for="seleccioneMRQsCandidatos" value="Seleccionar Candidatos" position="top"/>
   </div>
   <div class="ui-g-4">
    <p:commandButton value="Cancelar" action="#{assignMrqsCandidatesForm.cancel()}" immediate="true" style="width:100%"/>

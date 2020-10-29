@@ -210,7 +210,6 @@ public class UpdateMrqsExamForm {
 		return "Create-MRQs-Candidates"; 
 	}
 	
-	
 	public String onMateriaSelect(MrqsGrupoHdr pMrqsGrupoHdr) {
 		 FacesContext context = FacesContext.getCurrentInstance();
 		 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);

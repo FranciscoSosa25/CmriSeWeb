@@ -369,6 +369,30 @@ public class SelectsHelper {
 		return lselectAdmonRolesItems; 
 	}
 	
+	public List<SelectItem> getSelectAdmonRolesItemsCand(){
+		List<SelectItem> lselectAdmonRolesItems = new ArrayList<SelectItem>();
+		List<KeysDto> listAdmonRolesDto = admonRolesLocal.findKeysCand(); 
+		Iterator<KeysDto> iterAdmonRolesDto = listAdmonRolesDto.iterator();
+		while(iterAdmonRolesDto.hasNext()) {
+			KeysDto keysDto = iterAdmonRolesDto.next();
+			SelectItem selectItem = new SelectItem(keysDto.getNumero(),keysDto.getNombre());
+			lselectAdmonRolesItems.add(selectItem);
+		}
+		return lselectAdmonRolesItems; 
+	}
+	
+	public List<SelectItem> getSelectAdmonRolesItemsNotCand(){
+		List<SelectItem> lselectAdmonRolesItems = new ArrayList<SelectItem>();
+		List<KeysDto> listAdmonRolesDto = admonRolesLocal.findKeysNotCand(); 
+		Iterator<KeysDto> iterAdmonRolesDto = listAdmonRolesDto.iterator();
+		while(iterAdmonRolesDto.hasNext()) {
+			KeysDto keysDto = iterAdmonRolesDto.next();
+			SelectItem selectItem = new SelectItem(keysDto.getNumero(),keysDto.getNombre());
+			lselectAdmonRolesItems.add(selectItem);
+		}
+		return lselectAdmonRolesItems; 
+	}
+	
 	
 	public List<SelectItem> getSelectAdmonUsuariosItems(){
 		List<SelectItem> lselectAdmonUsuariosItems = new ArrayList<SelectItem>();

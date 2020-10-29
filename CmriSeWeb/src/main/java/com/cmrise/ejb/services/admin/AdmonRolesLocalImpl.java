@@ -13,7 +13,7 @@ import com.cmrise.jpa.dto.admin.KeysDto;
 public class AdmonRolesLocalImpl implements AdmonRolesLocal {
 
 	@Inject 
-	AdmonRolesDao  admonRolesDao; 
+	AdmonRolesDao admonRolesDao; 
 	
 	@Override
 	public void insert(AdmonRolesDto pAdmonRolesDto) {
@@ -23,6 +23,26 @@ public class AdmonRolesLocalImpl implements AdmonRolesLocal {
 	@Override
 	public List<AdmonRolesDto> findAll() {
 		return admonRolesDao.findAll();
+	}
+	
+	@Override
+	public List<AdmonRolesDto> findCand() {
+		return admonRolesDao.findCand();
+	}
+	
+	@Override
+	public List<AdmonRolesDto> findNotCand() {
+		return admonRolesDao.findNotCand();
+	}
+	
+	@Override
+	public List<KeysDto> findKeysCand() {
+		return admonRolesDao.findKeysCand();
+	}
+	
+	@Override
+	public List<KeysDto> findKeysNotCand() {
+		return admonRolesDao.findKeysNotCand(); 
 	}
 
 	@Override
