@@ -1,11 +1,14 @@
 package com.cmrise.ejb.backing.mrq;
 
 import java.util.List;
+import java.util.Set;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import javax.annotation.PostConstruct;
@@ -44,15 +47,19 @@ import com.cmrise.ejb.services.admin.AdmonExamenHdrLocal;
 import com.cmrise.ejb.services.admin.AdmonMateriaHdrLocal;
 import com.cmrise.ejb.services.admin.AdmonSubMateriaLocal;
 import com.cmrise.ejb.services.admin.TablasUtilitariasValoresLocal;
+import com.cmrise.ejb.services.mrqs.MrqsCorrelacionColumnasLocal;
 import com.cmrise.ejb.services.mrqs.MrqsListasPalabrasLocal;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
 import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
 import com.cmrise.jpa.dto.admin.TablasUtilitariasValoresDto;
+import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasDto;
+import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasRespuestasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsListasPalabrasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
+import com.cmrise.utils.CorrelacionColumnasInsertException;
 import com.cmrise.utils.Utilitarios;
 import com.cmrise.utils.UtilitariosLocal;
 import com.google.gson.Gson;
@@ -91,6 +98,15 @@ public class UpdateFTAMrqForm {
 	private int idxExcW = 0; 
 	private MrqsListasPalabras mrqsListasPalabrasForAction = new MrqsListasPalabras(); 
 	
+	/**********************************************************************
+	  Atributos Opcion Correlacion
+	 **********************************************************************/
+	
+	private List<MrqsCorrelacionColumnasDto> listMrqsCorrelacionColumnas = new ArrayList<MrqsCorrelacionColumnasDto>();
+	private List<MrqsCorrelacionColumnasRespuestasDto> listMrqsCorrelacionRespuestas = new ArrayList<MrqsCorrelacionColumnasRespuestasDto>();
+	private boolean panelCorrelacionColumnas;
+	private String respuestaCorrelacionColumnas="Respuesta: ";
+	private String textCorrelacionColumnas="Texto) ";
 	/************************************************************************
 	 * Archivos E Imagenes
 	 */
@@ -155,6 +171,9 @@ public class UpdateFTAMrqForm {
 	@Inject 
 	TablasUtilitariasValoresLocal tablasUtilitariasValoresLocal; 
 	
+	@Inject 
+	MrqsCorrelacionColumnasLocal mrqsCorrelacionColumnasLocal;
+	
 	@ManagedProperty(value="#{userLogin}")
 	private UserLogin userLogin; 
 	
@@ -210,6 +229,9 @@ public class UpdateFTAMrqForm {
 		 }else if(Utilitarios.IMAGEN_ANOTADA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			 this.setAnnotatedImage(true);
 			 agregarRespReact(); 
+		 }else if(Utilitarios.CORRELACION_COLUMNA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
+			 setPanelCorrelacionColumnas(true);
+			 obtenerColumnasGuardadas();
 		 }
 		 
 		 long lNumeroFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(this.getNumeroHdr()); 
@@ -227,6 +249,7 @@ public class UpdateFTAMrqForm {
 			if(listMrqsOpcionMultipleDto.size()>0) {
 				listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>();
 			}
+			
 			
 			for(MrqsOpcionMultipleDto mrqsOpcionMultipleDto:listMrqsOpcionMultipleDto) {
 				 MrqsOpcionMultiple mrqsOpcionMultiple = new MrqsOpcionMultiple(); 
@@ -319,7 +342,7 @@ public class UpdateFTAMrqForm {
 		this.selectScoringMethodItems = new ArrayList<SelectItem>();
 		List<TablasUtilitariasValoresDto> listScoringMethodValores =  tablasUtilitariasValoresLocal.findByTipoTabla("SCORING_METHOD");  
 		Iterator<TablasUtilitariasValoresDto> iterScoringMethodValores = listScoringMethodValores.iterator(); 
-		if("OPCION_MULTIPLE".equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
+		if("OPCION_MULTIPLE".equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())||Utilitarios.CORRELACION_COLUMNA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			while(iterScoringMethodValores.hasNext()) {
 				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
 				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
@@ -473,7 +496,9 @@ public class UpdateFTAMrqForm {
 			
 		    if(Utilitarios.OPCION_MULTIPLE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
 		     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("OPCION_MULTIPLE"); 	
-		    }else if(Utilitarios.RESP_TEXTO_LIBRE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())){
+		    }if(Utilitarios.CORRELACION_COLUMNA.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
+			     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta(Utilitarios.CORRELACION_COLUMNA); 	
+			}else if(Utilitarios.RESP_TEXTO_LIBRE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())){
 		     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta(this.mrqsPreguntasFtaV1ForAction.getRespuestaCorrecta());
 		    }else if(Utilitarios.IMAGEN_INDICADA.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
 		     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("Coordenadas Poligonos");
@@ -507,9 +532,10 @@ public class UpdateFTAMrqForm {
 			   }
 			  
 		   }
+		   
 			
 			lNumeroFta = mrqsPreguntasFtaLocal.insert(mrqsPreguntasFtaV1ForAction); 
-			
+			setNumeroFta(lNumeroFta);
 			
 			for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
 				MrqsOpcionMultipleDto mrqsOpcionMultipleDto = new MrqsOpcionMultipleDto();
@@ -611,7 +637,36 @@ public class UpdateFTAMrqForm {
 		System.out.println("Entra UpdateFTAMrqForm Sale");
 		
 	}
-	
+	private long validarCorrelacionColumnas(long lNumeroFta) {
+		if(!Utilitarios.CORRELACION_COLUMNA.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta()))
+			return 1;		
+		 return insertarCorrelacionColumas(listMrqsCorrelacionColumnas, listMrqsCorrelacionRespuestas,lNumeroFta);
+			 
+		
+	}	
+	private void obtenerColumnasGuardadas() {
+		long id=mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(getNumeroHdr());
+		listMrqsCorrelacionColumnas = mrqsCorrelacionColumnasLocal.findByFta( id);
+		 listMrqsCorrelacionRespuestas = mrqsCorrelacionColumnasLocal.findRespuestasCorrectasByFta(id);
+		
+	}
+	private long insertarCorrelacionColumas(List<MrqsCorrelacionColumnasDto> respuestas, List<MrqsCorrelacionColumnasRespuestasDto> preguntas,long lNumeroFta) {
+		try {
+			return mrqsCorrelacionColumnasLocal.insert(respuestas, preguntas, lNumeroFta);
+		} catch (CorrelacionColumnasInsertException e) {
+			limpiarMensajes();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, CorrelacionColumnasInsertException.ERROR_INSERTAR, null));
+			return -1;
+		}	
+	}	
+	private void limpiarMensajes() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		Iterator<FacesMessage> it = context.getMessages();
+		while ( it.hasNext() ) {
+		    it.next();
+		    it.remove();
+		}
+	}
 	private void insertListasPalabras(long pNumetoFta
 			                         ,MrqsListasPalabras pMrqsListasPalabras) {
 		
@@ -657,7 +712,9 @@ public class UpdateFTAMrqForm {
 	}
 	
 	public String saveAndPreview() {
-		 update();
+		 update();		 
+		 if( validarCorrelacionColumnas(getNumeroFta())==-1)
+		 return "#";
 		 getGuestPreferences().setTheme("deep-purple");
 		 FacesContext context = FacesContext.getCurrentInstance(); 
 	     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
@@ -945,7 +1002,53 @@ public class UpdateFTAMrqForm {
 			selectRespReactCorImg.add(selectItem); 
 		}
 	}
+	public void agregarRespuestaColumna() {
+		listMrqsCorrelacionColumnas.add(new MrqsCorrelacionColumnasDto(respuestaCorrelacionColumnas+listMrqsCorrelacionColumnas.size()));
+	}
+	public void eliminarRespuestaColumna(MrqsCorrelacionColumnasDto item) {
+		if(item.getNumero()!=0)
+			deleteItem(item);
+		listMrqsCorrelacionColumnas.remove(item);	
+		
+	}
+	private <E> void deleteItem(E item) {		
+			try {
+				if(item instanceof MrqsCorrelacionColumnasDto)
+				mrqsCorrelacionColumnasLocal.deleteColumna((MrqsCorrelacionColumnasDto)item);
+				else
+				mrqsCorrelacionColumnasLocal.deleteColumna((MrqsCorrelacionColumnasRespuestasDto)item);
+			} catch (CorrelacionColumnasInsertException e) {
+				limpiarMensajes();
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, CorrelacionColumnasInsertException.ERROR_INSERTAR, null));
+			}
+	}
+	public void eliminarRespuestaCorrecta(MrqsCorrelacionColumnasRespuestasDto item) {
+		if(item.getNumero()!=0)
+			deleteItem(item);
+		listMrqsCorrelacionRespuestas.remove(item);
+	}
+	public void agregarRespuestaColumnaDerecha() {
+		listMrqsCorrelacionRespuestas.add(new MrqsCorrelacionColumnasRespuestasDto(textCorrelacionColumnas+listMrqsCorrelacionRespuestas.size()));
+	}
+	public void asignarValor(MrqsCorrelacionColumnasRespuestasDto respuesta) {
+
+		if(validarValoresAsignados(respuesta))
+			respuesta.setTexto(null);
+			
 	
+	}	
+	private boolean validarValoresAsignados(MrqsCorrelacionColumnasRespuestasDto item) {
+		
+		Iterator<MrqsCorrelacionColumnasRespuestasDto> it=listMrqsCorrelacionRespuestas.iterator();
+		while(it.hasNext()) {
+			MrqsCorrelacionColumnasRespuestasDto val=it.next();
+			if(val.getTexto()!=null && !val.getTexto().isEmpty()&& val.getTexto().equals(item.getTexto())&& !val.equals(item)) {
+				return true;
+			}
+		}
+		return false;
+	}
+		
 	public MrqsPreguntasHdrV1 getMrqsPreguntasHdrV1ForAction() {
 		return mrqsPreguntasHdrV1ForAction;
 	}
@@ -1236,4 +1339,29 @@ public class UpdateFTAMrqForm {
 	public void setTextoExplicacion(String textoExplicacion) {
 		this.textoExplicacion = textoExplicacion;
 	}
+	public List<MrqsCorrelacionColumnasDto> getListMrqsCorrelacionColumnas() {
+		return listMrqsCorrelacionColumnas;
+	}
+
+	public void setListMrqsCorrelacionColumnas(List<MrqsCorrelacionColumnasDto> listMrqsCorrelacionColumnas) {
+		this.listMrqsCorrelacionColumnas = listMrqsCorrelacionColumnas;
+	}
+
+	public List<MrqsCorrelacionColumnasRespuestasDto> getListMrqsCorrelacionRespuestas() {
+		return listMrqsCorrelacionRespuestas;
+	}
+
+	public void setListMrqsCorrelacionRespuestas(List<MrqsCorrelacionColumnasRespuestasDto> listMrqsCorrelacionRespuestas) {
+		this.listMrqsCorrelacionRespuestas = listMrqsCorrelacionRespuestas;
+	}
+
+	public boolean isPanelCorrelacionColumnas() {
+		return panelCorrelacionColumnas;
+	}
+
+	public void setPanelCorrelacionColumnas(boolean panelCorrelacionColumnas) {
+		this.panelCorrelacionColumnas = panelCorrelacionColumnas;
+	}
+	
+	
 }

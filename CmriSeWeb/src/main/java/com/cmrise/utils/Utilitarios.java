@@ -30,6 +30,7 @@ public class Utilitarios {
     public static final String ROL_ALUMNO = "ALUMNO";
     public static final String MRQS = "MRQS";
     public static final String CORE_CASES = "CORE_CASES";
+    public static final String CORRELACION_COLUMNA = "CORRELACION_COLUMNA";
     /**
      * Casos Clinicos
      **/

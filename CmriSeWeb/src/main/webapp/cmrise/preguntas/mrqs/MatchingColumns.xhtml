@@ -1,0 +1,93 @@
+
+<ui:composition id="columnsView" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:panelGrid columns="2" id="ColumnasCorrelacion" layout="grid"
+		rendered="#{updateFTAMrqForm.panelCorrelacionColumnas}">
+		<h:panelGroup id="correlacionColumnasPanelI">
+
+			<ui:repeat var="mrqsCorrelacionColumna"
+				value="#{updateFTAMrqForm.listMrqsCorrelacionColumnas}">
+
+				<div class="ui-g-3 ui-g-nopad" style="margin-bottom: 5%;">
+					<p:commandButton id="eliminarColumnaBtn"
+						process="eliminarColumnaBtn"
+						update=":UpdateReactivosForm:ColumnasCorrelacion"
+						action="#{updateFTAMrqForm.eliminarRespuestaColumna(mrqsCorrelacionColumna)}"
+						icon="pi pi-trash" style="width:100%;BackGround:#2D0D86;"
+						title="Eliminar">
+					</p:commandButton>
+				</div>
+				<div class="ui-g-9 ui-g-nopad" style="margin-bottom: 5%;">
+					<p:inputText id="respuesta"
+						value="#{mrqsCorrelacionColumna.textoRespuesta}" required="true">
+						<p:ajax event="keyup"
+							update=":UpdateReactivosForm:ColumnasCorrelacion" />
+					</p:inputText>
+					<p:message for="respuesta" />
+				</div>
+
+			</ui:repeat>
+			<div class="ui-g-12 ui-g-nopad" style="margin-bottom: 5%;">
+				<p:commandButton id="agregarColumnaBtn"
+					process="@this" value="Agregar nueva respuesta"
+					update=":UpdateReactivosForm:ColumnasCorrelacion"
+					action="#{updateFTAMrqForm.agregarRespuestaColumna()}"
+					style="BackGround:#2D0D86;"></p:commandButton>
+			</div>
+		</h:panelGroup>
+
+		<h:panelGroup id="correlacionColumnasPanelD">
+			<ui:repeat var="mrqsCorrelacionColumnaDerecha"
+				value="#{updateFTAMrqForm.listMrqsCorrelacionRespuestas}">
+				<div class="ui-g-2 ui-g-nopad" style="margin-bottom: 5%;">
+					<p:commandButton id="eliminarRespuestaCorrectaBtn"
+						process="eliminarRespuestaCorrectaBtn"
+						update=":UpdateReactivosForm:ColumnasCorrelacion"
+						action="#{updateFTAMrqForm.eliminarRespuestaCorrecta(mrqsCorrelacionColumnaDerecha)}"
+						icon="pi pi-trash" style="width:100%;BackGround:#2D0D86;"
+						title="Eliminar">
+					</p:commandButton>
+				</div>
+				<div class="ui-g-5 ui-g-nopad" style="margin-bottom: 5%;">
+					<p:inputText id="pregunta" style="width:80%;"
+						value="#{mrqsCorrelacionColumnaDerecha.textoRespuesta}"
+						required="true">
+						<p:ajax event="keyup"
+							update=":UpdateReactivosForm:ColumnasCorrelacion" />
+					</p:inputText>
+					<p:message for="pregunta" />
+				</div>
+				<div class="ui-g-5 ui-g-nopad" style="margin-bottom: 5%;">
+					<p:selectOneMenu id="respuestasCorrectas" required="true" 
+						 value="#{mrqsCorrelacionColumnaDerecha.texto}"
+						style="width:40%;" >
+						
+							<p:ajax  event="change" 
+							listener="#{updateFTAMrqForm.asignarValor(mrqsCorrelacionColumnaDerecha)}"
+							update=":UpdateReactivosForm:ColumnasCorrelacion" />
+						<f:selectItem itemLabel="Selecione respuesta correcta" id="first"
+							itemValue="#{mrqsCorrelacionColumnaDerecha.valorSeleccionado}"  /> 
+							
+							
+					
+						<f:selectItems
+							value="#{updateFTAMrqForm.listMrqsCorrelacionColumnas}"
+							var="competitor" itemValue="#{competitor.textoRespuesta}" />
+						</p:selectOneMenu>
+				</div>
+
+			</ui:repeat>
+			<div class="ui-g-12 ui-g-nopad">
+				<p:commandButton id="agregarPreguntaBtn"
+					process="@this" value="Agregar nueva pregunta"
+					update=":UpdateReactivosForm:ColumnasCorrelacion"
+					action="#{updateFTAMrqForm.agregarRespuestaColumnaDerecha()}"
+					style="BackGround:#2D0D86;"></p:commandButton>
+			</div>
+		</h:panelGroup>
+
+	</p:panelGrid>
+</ui:composition>

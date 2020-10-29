@@ -2,6 +2,7 @@ package com.cmrise.ejb.backing.mrq.preview;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -20,10 +21,13 @@ import com.cmrise.ejb.model.mrqs.MrqsPreguntasFtaV1;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.ejb.model.mrqs.RespReactCorImg;
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
+import com.cmrise.ejb.services.mrqs.MrqsCorrelacionColumnasLocal;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
 import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
+import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasDto;
+import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasRespuestasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
 import com.cmrise.utils.Utilitarios;
@@ -65,6 +69,12 @@ public class MrqPreviewForm {
 	private String correctAnswers="0 Respuesta(s) correctas"; 
 	private String wrongAnswers="0 Respuesta(s) incorrectas"; 
 	
+	@Inject 
+	MrqsCorrelacionColumnasLocal mrqsCorrelacionColumnasLocal;
+	private List<MrqsCorrelacionColumnasDto> listMrqsCorrelacionColumnasDto = new ArrayList<MrqsCorrelacionColumnasDto>();
+	private List<MrqsCorrelacionColumnasRespuestasDto> listMrqsCorrelacionColumnasRespuestasDto = new ArrayList<MrqsCorrelacionColumnasRespuestasDto>();
+	private boolean correlacionColumnas;
+	private boolean panelCorrelacionColumnasResultados;
 	/********************************************************************
 	 * Attributos Imagenes 
 	 */
@@ -137,6 +147,8 @@ public class MrqPreviewForm {
 	        this.setIndicateImage(true);	 
 	     }else if(Utilitarios.IMAGEN_ANOTADA.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
 	    	this.setAnnotatedImage(true); 
+	     }else if(Utilitarios.CORRELACION_COLUMNA.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
+	    	 actualizarPrevisualizacion(this.getNumetoFta(),mrqsPreguntasHdrV2Dto);
 	     }
 	     this.setQuestionView(true);
 	     
@@ -210,9 +222,33 @@ public class MrqPreviewForm {
 			this.setPuntuacion(0);
 		}
 	  }
+	  comprobarRespuestasCorrelacionColumnas();
 	  System.out.println("Sale saveProceed");	
 	}
-	
+	private void comprobarRespuestasCorrelacionColumnas() {
+		if(Utilitarios.CORRELACION_COLUMNA.equals(getTipoPregunta())){
+		Iterator<MrqsCorrelacionColumnasRespuestasDto> lista=	listMrqsCorrelacionColumnasRespuestasDto.iterator();
+			
+		int respuestasCorrectas=0;
+		int respuestasIncorrectas=0;
+		while(lista.hasNext()) {
+			
+			MrqsCorrelacionColumnasRespuestasDto var=lista.next();
+			if(var.getTexto().equals(var.getValorSeleccionado()))
+				respuestasCorrectas++;
+			
+		}
+		respuestasIncorrectas=listMrqsCorrelacionColumnasRespuestasDto.size()-respuestasCorrectas;
+			
+	    setWrongAnswer((respuestasCorrectas== listMrqsCorrelacionColumnasRespuestasDto.size())?true:false);
+		setCorrectAnswers(correctAnswers.replace("0", String.valueOf(respuestasCorrectas)));
+	    setWrongAnswers(wrongAnswers.replace("0", String.valueOf(respuestasIncorrectas)));  
+	    setPuntuacion((float)respuestasCorrectas);
+	    setPanelCorrelacionColumnasResultados(true);
+	    setCorrelacionColumnas(false);
+		
+		}
+	}
 	
    private void evaluateIsSingleAnswerMode(List<MrqsOpcionMultiple> pListMrqsOpcionMultiple) {
 	  
@@ -310,7 +346,11 @@ public class MrqPreviewForm {
 			selectRespReactCorImg.add(selectItem); 
 		}
 	}
-	
+	private void actualizarPrevisualizacion(long lNumeroFta,MrqsPreguntasHdrV2Dto mrqsPreguntasHdrV2Dto) {
+		setCorrelacionColumnas(Utilitarios.CORRELACION_COLUMNA.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta()));
+		listMrqsCorrelacionColumnasDto=mrqsCorrelacionColumnasLocal.findByFta(lNumeroFta);
+		listMrqsCorrelacionColumnasRespuestasDto=mrqsCorrelacionColumnasLocal.findRespuestasCorrectasByFta(lNumeroFta);
+	}
 	
 	public boolean isMultipleChoice() {
 		return multipleChoice;
@@ -587,4 +627,39 @@ public class MrqPreviewForm {
 	public void setIndicateImageResult(String indicateImageResult) {
 		this.indicateImageResult = indicateImageResult;
 	}
+
+	public List<MrqsCorrelacionColumnasDto> getListMrqsCorrelacionColumnasDto() {
+		return listMrqsCorrelacionColumnasDto;
+	}
+
+	public void setListMrqsCorrelacionColumnasDto(List<MrqsCorrelacionColumnasDto> listMrqsCorrelacionColumnasDto) {
+		this.listMrqsCorrelacionColumnasDto = listMrqsCorrelacionColumnasDto;
+	}
+
+	public List<MrqsCorrelacionColumnasRespuestasDto> getListMrqsCorrelacionColumnasRespuestasDto() {
+		return listMrqsCorrelacionColumnasRespuestasDto;
+	}
+
+	public void setListMrqsCorrelacionColumnasRespuestasDto(
+			List<MrqsCorrelacionColumnasRespuestasDto> listMrqsCorrelacionColumnasRespuestasDto) {
+		this.listMrqsCorrelacionColumnasRespuestasDto = listMrqsCorrelacionColumnasRespuestasDto;
+	}
+
+	public boolean isCorrelacionColumnas() {
+		return correlacionColumnas;
+	}
+
+	public void setCorrelacionColumnas(boolean correlacionColumnas) {
+		this.correlacionColumnas = correlacionColumnas;
+	}
+
+	public boolean getPanelCorrelacionColumnasResultados() {
+		return panelCorrelacionColumnasResultados;
+	}
+
+	public void setPanelCorrelacionColumnasResultados(boolean panelCorrelacionColumnasResultados) {
+		this.panelCorrelacionColumnasResultados = panelCorrelacionColumnasResultados;
+	}
+	
+	
 }

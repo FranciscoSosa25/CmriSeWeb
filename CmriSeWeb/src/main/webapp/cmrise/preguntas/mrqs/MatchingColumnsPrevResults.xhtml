@@ -1,0 +1,35 @@
+<ui:composition id="columnsView" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<p:panelGrid columns="1" id="ColumnasCorrelacionPrevCorrectas"
+		layout="grid" rendered="#{mrqPreviewForm.panelCorrelacionColumnasResultados}">
+		<h:panelGroup id="titulosResultados">
+			<div class="ui-g-5 ui-g-nopad" style="margin-bottom: 5%;">
+				<h1>Respuesta Correcta:</h1>
+			</div>
+			<div class="ui-g-5 ui-g-nopad" style="margin-bottom: 5%;margin-left: 5%;">
+				<h1>Valor Seleccionado:</h1>
+			</div>
+		</h:panelGroup>
+
+		<h:panelGroup id="respuestasResultados">
+			<ui:repeat var="mrqsCorrelacionColumnaDerechaRespuestas"
+				value="#{mrqPreviewForm.listMrqsCorrelacionColumnasRespuestasDto}">
+				<div class="ui-g-5 ui-g-nopad" style="margin-bottom: 5%;">
+					<h:outputLabel id="textoIzquierda" style="width:80%;"
+						value="#{mrqsCorrelacionColumnaDerechaRespuestas.texto}">
+					</h:outputLabel>
+					<p:message for="textoIzquierda" />
+				</div>
+				<div class="ui-g-5 ui-g-nopad" style="margin-bottom: 5%;">
+					<h:outputLabel id="textoDerecha" style="width:80%;"
+						value="#{mrqsCorrelacionColumnaDerechaRespuestas.valorSeleccionado}">
+					</h:outputLabel>
+					<p:message for="textoDerecha" />
+				</div>
+			</ui:repeat>
+		</h:panelGroup>
+	</p:panelGrid>
+</ui:composition>
