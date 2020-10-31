@@ -16,37 +16,37 @@
 					<div class="ui-g ui-fluid" style="width: 100%; margin-top: 5px;">
 						<div class="ui-g-6 ui-lg-3">
 							<p:outputLabel value="Id de Examen:" />
-							<p:inputText id="id_examen" value=""
+							<p:inputText id="id_examen" value="#{historyExamsForm.idExamen}"
 								style="width: 100%; margin-top: 5px;" maxlength="50" />
 							<p:message for="id_examen" />
 						</div>
 						<div class="ui-g-6 ui-lg-3">
 							<p:outputLabel value="Examen" />
-							<p:inputText id="examen" value=""
+							<p:inputText id="examen" value="#{historyExamsForm.nombreExamen}"
 								style="width: 100%; margin-top: 5px;" maxlength="50" />
 							<p:message for="examen" />
 						</div>
 						<div class="ui-g-6 ui-lg-3">
 							<p:outputLabel value="Fecha desde" />
-							<p:inputText id="fecha_desde" value=""
+							<p:calendar id="fecha_desde" value="#{historyExamsForm.fechaDesde}" locale="es" pattern="dd/MM/yyyy HH:mm" mask="true"
 								style="width: 100%; margin-top: 5px;" maxlength="50" />
 							<p:message for="fecha_desde" />
 						</div>
 						<div class="ui-g-6 ui-lg-3">
 							<p:outputLabel value="Fecha Hasta:" />
-							<p:inputText id="fecha_hasta" value=""
+							<p:calendar  id="fecha_hasta" value="#{historyExamsForm.fechaHasta}" locale="es" pattern="dd/MM/yyyy HH:mm" mask="true"
 								style="width: 100%; margin-top: 5px;" maxlength="50" />
 							<p:message for="fecha_hasta" />
 						</div>
 						<div class="ui-g-6 ui-lg-3">
 							<p:outputLabel value="Tiempo" />
-							<p:inputText id="tiempo" value=""
+							<p:inputText id="tiempo" value="#{historyExamsForm.tiempo}"
 								style="width: 100%; margin-top: 5px;" maxlength="50" />
 							<p:message for="tiempo" />
 						</div>
 						<div class="ui-g-6 ui-lg-3">
 							<p:outputLabel value="Tipo de Examen" />
-							<p:inputText id="tipoExamen" value=""
+							<p:inputText id="tipoExamen" value="#{historyExamsForm.tipoExamen}"
 								style="width: 100%; margin-top: 5px;" maxlength="50" />
 							<p:message for="tipoExamen" />
 						</div>
@@ -55,11 +55,10 @@
 					<div class="ui-g">
 						<div class="ui-g-12 ui-lg-12" style="text-align: right;">
 							<p:commandButton value="Cancelar">
-								<p:ajax update="SearchPanel" resetValues="true" />
+								<p:ajax  listener="#{historyExamsForm.clearForm()}" update="SearchPanel ReadOnlyForm"/>
 							</p:commandButton>
 							<p:commandButton value="Consultar"
-								actionListener="#{historyCandidatesForm.findByCURP()}"
-								update="ReadOnlyForm" style="margin-left: 10px;" />
+								actionListener="#{historyExamsForm.findByTituloExamen()}" update="ReadOnlyForm" style="margin-left: 10px;" />
 						</div>
 					</div>
 				</p:panel>
@@ -97,7 +96,7 @@
    <p:column headerText="Total Candidatos">
     <h:outputText value="#{examen.totalCandidatos}"/>
    </p:column>
-    <p:column headerText="Acciones">
+   <p:column headerText="Acciones">
    <p:commandButton value="Ver" style="margin-left: 10px;" />
    </p:column>
  </p:dataTable>

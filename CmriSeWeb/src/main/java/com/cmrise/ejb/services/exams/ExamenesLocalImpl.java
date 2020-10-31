@@ -1,14 +1,18 @@
 package com.cmrise.ejb.services.exams;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import com.cmrise.ejb.model.candidates.exams.CandExamenesV2;
 import com.cmrise.ejb.model.exams.Examenes;
 import com.cmrise.jpa.dao.exams.ExamenesDao;
+import com.cmrise.jpa.dto.candidates.exams.CandExamenesV2Dto;
 
 @Stateless
 public class ExamenesLocalImpl implements ExamenesLocal {
@@ -19,6 +23,17 @@ public class ExamenesLocalImpl implements ExamenesLocal {
 	@Override
 	public List<Examenes> findAllObjMod() {
 		List<Object> listObjects = examenesDao.findAll();
+		List<Examenes> retval = new ArrayList<Examenes>(); 
+		for(Object object:listObjects) {
+			Examenes examen = objToExamenes(object); 
+			retval.add(examen);
+		}
+		return retval;
+	}
+	
+	@Override
+	public List<Examenes> findByTituloExamen(int idExamen, String nombreExamen, Date fechaDesde, Date fechaHasta, int tiempo, String tipoExamen){
+		List<Object> listObjects = examenesDao.findByTitulo(idExamen,nombreExamen,fechaDesde,fechaHasta,tiempo,tipoExamen);
 		List<Examenes> retval = new ArrayList<Examenes>(); 
 		for(Object object:listObjects) {
 			Examenes examen = objToExamenes(object); 
