@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+<ui:define name="content">
+
+<style type="text/css">
+    .ui-datalist .ui-datalist-content {
+        border:0 none
+    }
+    .ui-datalist ul {
+        padding:0px 10px 0 20px;
+        margin: 5px 0;
+    }
+    .label, .value {
+        vertical-align: top
+    }
+    .output {
+        font-weight: bold
+    }
+    .ui-selectmanymenu {
+        width: 175px;
+    }
+</style>
+<p:breadCrumb>
+    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
+     <p:menuitem value="Examenes Casos Clinicos" url="ManageTestExam.xhtml"/>
+     <p:menuitem value="Actualizar Caso Clinico" url="#"/>
+     
+</p:breadCrumb>
+<h1>Actualiza Grupo Caso Clinico</h1>
+<h:form id="UpdateCoreCaseGroupForm">
+<div class="ui-g" style="text-align:left">
+ <div class="ui-g-10">
+ </div>
+ <div class="ui-g-2">
+  <p:commandButton value="Gestionar Candidatos" action="#{updateGroupForm.gestionarCandidatos()}"/>
+ </div>
+</div>
+<div class="ui-g">
+    <div class="ui-g-2 ui-g-nopad">
+           <p:panelGrid  columns="1" layout="grid"  styleClass="customPanelGrid">
+	     <f:facet name="header">
+	       Grupo de Preguntas
+	     </f:facet>
+	     <p:dataList var="ccExamAsignacionDL"  value="#{updateGroupForm.listCcExamAsignaciones}"  type="definition" responsive="true">
+	       <f:facet name="caption">Hola</f:facet>
+	       <p:column>
+	         <p:commandLink action="#{updateQuestionFtaCoreCaseForm.updatePregunta(ccPreguntasHdrV1)}">
+	         <h:outputText value="#{ccExamAsignacionDL.tituloPregunta}" />
+	         </p:commandLink>
+	       </p:column>
+	     </p:dataList>
+	     <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nuevo Grupo" icon="pi pi-plus" action="#{updateGroupForm.nuevoGrupo()}"/>
+	   </p:panelGrid>
+    </div> <!-- END <div class="ui-g-2 ui-g-nopad"> -->
+    <div class="ui-g-10 ui-g-nopad">
+      <p:dataTable var="ccExamAsignacion"  value="#{updateGroupForm.listCcExamAsignaciones}"  paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+	    <p:column headerText="Titulo">
+	      <h:outputText value="#{ccExamAsignacion.tituloPregunta}" />
+	    </p:column>
+	     <p:column headerText="Tipo Pregunta">
+	      <h:outputText value="#{ccExamAsignacion.tipoPreguntaDesc}" />
+	    </p:column>
+	    <p:column headerText="Estatus Pregunta">
+	      <h:outputText value="#{ccExamAsignacion.estatusPreguntaDesc}" />
+	    </p:column>
+	     <p:column headerText="Maxima Puntuación">
+	      <h:outputText value="#{ccExamAsignacion.maxPuntuacionPregunta}" />
+	    </p:column>
+	     <p:column headerText="Tema">
+	      <h:outputText value="#{ccExamAsignacion.temaPreguntaDesc}" />
+	    </p:column>
+	    <p:column headerText="Etiquetas">
+	      <h:outputText value="#{ccExamAsignacion.etiquetas}" />
+	    </p:column>
+	  </p:dataTable>
+    </div> <!-- END  <div class="ui-g-10 ui-g-nopad"> -->
+</div> <!-- END <div class="ui-g"> -->
+
+</h:form>
+
+</ui:define>
+</ui:composition>

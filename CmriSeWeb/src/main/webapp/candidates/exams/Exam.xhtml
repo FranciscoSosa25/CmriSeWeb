@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/templateCandidates.xhtml">
+<ui:define name="content">
+<h1>#{examForm.nombreCcExamen}</h1>
+<h:form id="limitedFreeTextAnswerForm" >
+<p:growl id="growl" showDetail="true" life="5000" />  
+<p:panel id="limitedFreeTextAnswerPanel" rendered="#{examForm.limitedFreeTextAnswer}">
+<div class="ui-g">
+    <div class="ui-g-12 ui-md-2">#{examForm.nombreCcExamen}
+     <p:progressBar value="50" labelTemplate="Progreso" displayOnly="true"/>
+     <p:progressBar value="50" labelTemplate="Tiempo" displayOnly="true"/>
+     <p:dataList var="candExamCoreCasePregunta" value="#{examForm.listCandCcExamenesV1}" type="definition" responsive="true">
+       <f:facet name="header">Tabla de Contenidos</f:facet>
+       <p:column>
+         <p:commandLink action="#{examForm.question(candExamCoreCasePregunta)}">
+         <h:outputText value="#{candExamCoreCasePregunta.tituloPregunta}"/>
+         </p:commandLink>
+       </p:column>
+     </p:dataList>
+    </div>
+    <div class="ui-g-12 ui-md-10 ui-g-nopad">
+        <div class="ui-g-12">
+           <p:commandButton id="backBtn" value="Regresar" update="limitedFreeTextAnswerForm multipleChoiceForm" actionListener="#{examForm.backAction()}"/>
+           <p:commandButton id="saveTrxBtn" value="Guardar y Continuar" update="limitedFreeTextAnswerForm multipleChoiceForm" actionListener="#{examForm.saveTrxAction()}"/>
+           <p:commandButton id="skipBtn" value="Saltar" update="limitedFreeTextAnswerForm multipleChoiceForm" actionListener="#{examForm.skipAction()}"/>
+        </div>
+        <div class="ui-g-12 ui-g-nopad">
+             <div class="ui-g">
+			 <div class="ui-g-12">
+			   <h1>#{examForm.textoPregunta}</h1>
+			 </div>
+			  <div class="ui-g-12">
+			    <h2>#{examForm.textoSugerencias}</h2>
+			 </div>
+			 <div class="ui-g-12">
+			   <p:outputLabel for="answer" value="Su Respuesta:" style="font-size: 24px;"/>
+			   <p:inputTextarea id="answer" rows="10" cols="50" style="width:98%;font-size: 24px;" value="#{examForm.respuestaPregunta}">
+			    </p:inputTextarea>
+			 </div>
+			 </div>
+        </div>
+    </div>
+    <div class="ui-g-12">
+        Footer
+    </div>
+</div>
+</p:panel>
+</h:form>
+
+
+
+<h:form id="multipleChoiceForm" >
+<p:growl id="growl" showDetail="true" life="5000" />  
+<p:panel id="multipleChoicePanel" rendered="#{examForm.multipleChoice}">
+<div class="ui-g">
+    <div class="ui-g-12 ui-md-2">#{examForm.nombreCcExamen}
+     <p:progressBar value="50" labelTemplate="Progreso" displayOnly="true"/>
+     <p:progressBar value="50" labelTemplate="Tiempo" displayOnly="true"/>
+     <p:dataList var="candExamCoreCasePregunta" value="#{examForm.listCandCcExamenesV1}" type="definition" responsive="true">
+       <f:facet name="header">Tabla de Contenidos</f:facet>
+       <p:column>
+         <p:commandLink action="#{examForm.question(candExamCoreCasePregunta)}">
+         <h:outputText value="#{candExamCoreCasePregunta.tituloPregunta}"/>
+         </p:commandLink>
+       </p:column>
+     </p:dataList>
+    </div>
+    <div class="ui-g-12 ui-md-10 ui-g-nopad">
+        <div class="ui-g-12">
+           <p:commandButton id="backBtn" value="Regresar" update="limitedFreeTextAnswerForm multipleChoiceForm" actionListener="#{examForm.backAction()}"/>
+		   <p:commandButton id="saveTrxBtn" value="Guardar y Continuar" update="limitedFreeTextAnswerForm multipleChoiceForm" actionListener="#{examForm.saveTrxAction()}"/>
+		   <p:commandButton id="skipBtn" value="Saltar" update="limitedFreeTextAnswerForm multipleChoiceForm" actionListener="#{examForm.skipAction()}"/>
+        </div>
+         <div class="ui-g-12 ui-g-nopad">
+           <div class="ui-g" >
+			 <div class="ui-g-12">
+			   <h1>#{examForm.textoPregunta}</h1>
+			 </div>
+			  <div class="ui-g-12">
+			    <h2>#{examForm.textoSugerencias}</h2>
+			 </div>
+			</div>
+			<p:selectOneRadio id="answerRadio" value="#{examForm.respuestaPregunta}" layout="grid" columns="1" >
+			<f:selectItems value="#{examForm.listCcOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
+			</p:selectOneRadio>
+         </div>
+     </div>
+     <div class="ui-g-12">
+        Footer
+    </div>
+ </div>
+</p:panel>
+</h:form>
+
+</ui:define>
+</ui:composition>

@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+
+ <ui:define name="content">
+<p:breadCrumb>
+    <p:menuitem value="Historial Examenes" url="#" />
+    <p:menuitem value="Historial Examenes" outcome="History-Exams" />
+</p:breadCrumb>
+<h:form id="ReadOnlyForm">
+<p:dataTable var="candidato" value="#{historyExamsDetailForm.listCandExamenesV1}" emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+   <f:facet name="header">Historial de Examen</f:facet>
+    <p:column headerText="CURP">
+    <p:commandLink action="#{historyExamsDetailForm.toQuestions(candidato)}">
+      <h:outputText value="#{candidato.curp}"/>
+    </p:commandLink>
+   </p:column>
+   <p:column headerText="Combre Candidato">
+       <h:outputText value="#{candidato.nombreCompletoUsuario}"/>
+   </p:column>
+   <p:column headerText="Estatus Examen">
+       <h:outputText value="#{candidato.estatus}"/>
+   </p:column>
+   <p:column headerText="Total Puntuación">
+       <h:outputText value="#{candidato.totalPuntuacion}"/>
+   </p:column>
+ </p:dataTable>
+</h:form>
+</ui:define>
+</ui:composition>

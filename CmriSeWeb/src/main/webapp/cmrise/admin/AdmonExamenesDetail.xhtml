@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="xxhrwjs">
+<script type="text/javascript">
+function handleDeleteRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.deleteIn) {
+		 PF('deleteDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+  }else{
+  	 PF('deleteDialogWV').hide();
+  }	
+}
+</script>
+</ui:define>
+                
+<ui:define name="content">
+     <div class="card">
+<h:form id="ExamenesMateriasForm">
+<p:growl id="msgs" showDetail="true"/>
+<div class="ui-g">
+         <div class="ui-g-12">
+             <p:commandButton value="Regresar"  immediate="true" style="margin-left: 10px;BackGround:#2D0D86;"  styleClass="ui-priority-primary"   action="#{admonExamenesForm.backAdmonExamenes()}" />
+         </div>
+     </div>
+
+<p:dataTable var="examenLine" value="#{admonExamenesDetailForm.examenesLines}">
+<f:facet name="header">Materias de Examenes</f:facet>
+   <p:column headerText="Materia">
+     <p:selectOneMenu id="materia" value="#{examenLine.numeroMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+	  <f:selectItem itemLabel="Seleccione ..." itemValue="" />
+	  <f:selectItems value="#{selectsHelper.selectAdmonMateriaItems}" />
+	  </p:selectOneMenu>
+	  <p:message for="materia"/>
+   </p:column>
+   <p:column headerText="Fecha Effectiva Desde">
+            <p:calendar id="fechaEfectivaDesdeInput" value="#{examenLine.fechaEfectivaDesde}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+            <p:message for="fechaEfectivaDesdeInput"/>
+      </p:column>
+       <p:column headerText="Fecha Effectiva Hasta">
+         <p:calendar id="fechaEfectivaHastaInput" value="#{examenLine.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy" mask="true" />
+         <p:message for="fechaEfectivaHastaInput"/>
+      </p:column>
+      <p:column  headerText="Opciones">
+      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86;" update="ExamenesMateriasForm" oncomplete="PF('deleteDialogWV').show();" ajax="true" immediate="true" actionListener="#{admonExamenesDetailForm.selectForActionLine(examenLine)}"/>
+     </p:column>
+</p:dataTable>  
+
+<div class="ui-g">
+    <div class="ui-g-12">
+        <p:commandButton value="Agregar Materia" style="margin-left: 10px;BackGround:#2D0D86;"  styleClass="ui-priority-primary"  update="ExamenesMateriasForm" action="#{admonExamenesDetailForm.onAddNewLine()}" />
+        <p:commandButton value="Guardar Cambios" style="margin-left: 10px;BackGround:#2D0D86;" styleClass="ui-priority-primary"  update="ExamenesMateriasForm" action="#{admonExamenesDetailForm.saveAndUpdateLine()}" />
+    </div>
+</div>   
+</h:form>
+
+<h:form id="DeleteForm">
+   <p:dialog id="deleteDialogId" widgetVar="deleteDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Materia">
+    <h2>#{msgs['globalForm.deleteMessage']}</h2>
+    <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="DeleteBtn" style="BackGround:#2D0D86;" update="ExamenesMateriasForm" value="Aceptar" actionListener="#{admonExamenesDetailForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
+              </div>
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn" style="BackGround:#2D0D86;" value="Cancelar"  onclick="PF('deleteDialogWV').hide();" />
+              </div>
+     </div>
+   </p:dialog>
+</h:form> 
+</div>
+</ui:define>                     
+</ui:composition>

@@ -1,0 +1,235 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="xxhrwjs">
+ <script type="text/javascript">
+ function handleCreateRequest(xhr, status, args){
+ 	 if(args.validationFailed) {
+		 argsValidationFailed(); 
+     }
+ }
+ </script>
+ 
+ <style>
+ .ui-datascroller{
+     border-style: hidden !important;
+}
+ </style>
+</ui:define>
+                
+<ui:define name="content">
+<div class="card">
+<h:form id="casoClinicoForm">
+  <p:accordionPanel styleClass="ui-noborder" style="margin-left: auto; margin-right: auto; border-style: none;">
+   <p:tab title="Informacion del Caso Clinico">
+ <!-- <p:growl id="growl" showDetail="true" life="6000" /> -->  
+ <div class="ui-g">
+  <div class="ui-g-12 ui-md-12" >
+  
+    <div class="ui-g">
+          <div class="ui-g-12 ui-md-12">
+     	<div class="ui-g-12 ui-md-3" style="text-align:right;">
+   <p:outputLabel for="admonExamenDesc" value="Examen"/>
+   </div>
+   <p:inputText id="admonExamenDesc" value="#{updateCoreCaseForm.ccHdrV1.admonExamenDesc}" style="width:50%; text-align:left" readonly="true"/>
+   <p:message for="admonExamenDesc"/>
+   </div>
+   <div class="ui-g-12 ui-md-12">
+     	<div class="ui-g-12 ui-md-3" style="text-align:right;">
+    <p:outputLabel for="admonMateriaDesc" value="Materia"/>
+    </div>
+   <p:inputText id="admonMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonMateriaDesc}" style="width:50%" readonly="true"/>
+   <p:message for="admonMateriaDesc"/>
+      </div>
+      <div class="ui-g-12 ui-md-12">
+     	<div class="ui-g-12 ui-md-3" style="text-align:right;">
+    <p:outputLabel for="admonSubMateriaDesc" value="Clasificación"/>
+    </div>
+   <p:inputText id="admonSubMateriaDesc" value="#{updateCoreCaseForm.ccHdrV1.admonSubMateriaDesc}" style="width:50%" readonly="true"/>
+   <p:message for="admonSubMateriaDesc"/>
+   </div>
+   <div class="ui-g-12 ui-md-12">
+     	<div class="ui-g-12 ui-md-3" style="text-align:right;">
+    <p:outputLabel for="creadoPor" value="Elabora" />
+    </div>
+         <div class="ui-g-12 ui-md-9">
+       <h:outputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" style="font-weight:bold;" />
+       </div>
+     <p:message for="creadoPor"/>
+     </div>
+</div>
+  </div>
+</div>	
+</p:tab>
+</p:accordionPanel>
+
+<h1>
+</h1>
+
+ <p:dataScroller value="#{updateCoreCaseForm.listCcPreguntasHdrV1}" itemStyle="height:100%;text-align:center" var="pregunta" chunkSize="10" style="width: 72%;     margin-left:auto; margin-right:auto;">
+  	<p:accordionPanel styleClass="ui-accordion" activeIndex="null">
+       <p:tab title="Pregunta #{pregunta.numero}">
+      <p:panelGrid columns="3" layout="grid" styleClass="ui-noborder" columnClasses="ui-g-6 ui-md-6 ui-lg-2,ui-g-8 ui-md-6 ui-lg-10,ui-g-6 ui-md-4 ui-lg-4">
+      <p:outputLabel for="admonExamenDesc" value="Examen" />
+      <p:inputText id="admonExamenDesc" value="#{pregunta.admonExamenDesc}" style="width:98%" readonly="true"/>
+      <p:message for="admonExamenDesc"/>
+      <p:outputLabel for="admonMateriaDesc" value="Materia"/>
+      <p:inputText id="admonMateriaDesc" value="#{pregunta.admonMateriaDesc}" style="width:98%" readonly="true"/>
+      <p:message for="admonMateriaDesc"/>
+       <p:outputLabel for="admonSubMateriaDesc" value="Clasificación"/>
+      <p:inputText id="admonSubMateriaDesc" value="#{pregunta.admonSubMateriaDesc}" style="width:98%" readonly="true"/>
+      <p:message for="admonSubMateriaDesc"/>
+      <p:outputLabel for="tipoPreguntaDesc" value="Tipo Pregunta"/>
+      <p:inputText id="tipoPreguntaDesc" value="#{pregunta.tipoPreguntaDesc}" style="width:98%" readonly="true"/>
+      <p:message for="tipoPreguntaDesc"/>
+    </p:panelGrid>
+</p:tab>
+</p:accordionPanel>
+</p:dataScroller>
+
+</h:form>
+
+
+<h:form id="createQuestionCoreCaseForm">
+<p:growl id="growl" showDetail="true" life="5000" />
+
+<h1>Nueva Pregunta</h1>
+     
+      <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="admonExamen" value="Examen" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:selectOneMenu id="admonExamen" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.admonExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+           <p:ajax listener="#{createQuestionCoreCaseForm.onAdmonExamenChange}" update="materia" />
+           <f:selectItem itemLabel="Seleccione..." itemValue="" />
+           <f:selectItems value="#{createQuestionCoreCaseForm.selectExamenesHdr}" />
+          </p:selectOneMenu>
+          <p:message for="admonExamen"/>
+         </div>
+       </div>
+       
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="materia" value="Materia" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:selectOneMenu id="materia" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.admonMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <p:ajax listener="#{createQuestionCoreCaseForm.onAdmonMateriaChange}" update="subMateria" />
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{createQuestionCoreCaseForm.selectMateriasHdr}" />
+         </p:selectOneMenu>
+         <p:message for="materia"/>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="subMateria" value="Clasificación" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:selectOneMenu id="subMateria" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.admonSubMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{createQuestionCoreCaseForm.selectSubMaterias}" />
+         </p:selectOneMenu>
+         <p:message for="subMateria"/>
+         </div>
+       </div>
+        
+         <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:calendar id="fechaElaboracion" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.fechaElaboracion}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+         <p:message for="fechaElaboracion"/>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="creadoPor" value="Elabora"  style="font-weight:bold;" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+                <h:outputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" style="font-weight:bold;" />
+         <p:message for="creadoPor"/>
+         </div>
+       </div>
+       
+        
+           <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="questionType" value="Tipo de Pregunta" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:selectOneMenu id="questionType" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.tipoPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+         <f:selectItem itemLabel="Seleccione..." itemValue="" />
+         <f:selectItems value="#{selectsHelper.selectTipoPreguntaCoreCaseItems}" />
+          </p:selectOneMenu>
+         <p:message for="questionType"/>
+         </div>
+       </div>
+     
+        <div class="ui-g-12 ui-md-12" >
+         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="tag" value="Diagnostico" />
+         </div>
+          <div class="ui-g-12 ui-md-9">
+          <div class="ui-inputgroup">
+<!-- 	      <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span> -->
+	      <p:inputText id="tag" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.etiquetas}" maxlength="500" style="width:100%"/>
+	      </div>
+         <p:message for="tag"/>  
+         </div>
+       </div>
+       
+           <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="bibliografia" value="Bibliografia" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+           <p:inputText id="bibliografia"   maxlength="255" style="width:50%"/>
+         </div>
+      
+         <div class="ui-g-12 ui-md-12" >
+         <div class="ui-g-12 ui-md-3" style="text-align:right;">
+          <p:outputLabel for="internalComments" value="Notas" />
+         </div>
+          <div class="ui-g-12 ui-md-9">
+           <p:inputTextarea id="internalComments" value="#{createQuestionCoreCaseForm.ccPreguntasHdrV1ForInsert.comentarios}"    maxlength="255" style="width:50%" />
+<!-- 		    <f:facet name="toolbar"> -->
+<!-- 		        <span class="ql-formats"> -->
+<!-- 		            <button class="ql-bold"></button> -->
+<!-- 		            <button class="ql-italic"></button> -->
+<!-- 		            <button class="ql-underline"></button> -->
+<!-- 		            <button class="ql-strike"></button> -->
+<!-- 		            <button class="ql-unorderedlist"></button> -->
+<!-- 		            <button class="ql-orderedlist"></button> -->
+<!-- 		        </span> -->
+<!-- 		    </f:facet> -->
+<!-- 	  	   </p:textEditor> -->
+	     <p:message for="internalComments"/>  
+         </div>
+       </div>
+
+    
+    <p:panelGrid id="questionInformationForm" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+    </p:panelGrid>
+    
+	  <div class="ui-g" style="text-align:left; width:10%">
+	   <div class="ui-g-12 ui-md-6 ui-lg-10">
+	    <p:commandButton value="Crear" style="background: #2D0D86;" update="questionInformationForm createQuestionCoreCaseForm" oncomplete="handleCreateRequest(xhr, status, args)"  action="#{createQuestionCoreCaseForm.create()}"/>
+	   </div>
+	   <div class="ui-g-12 ui-md-6 ui-lg-2">
+	     <p:commandButton value="Cancelar" style="background: #2D0D86;" immediate="true"  action="Preguntas-Update-CoreCase"/>
+	   </div>
+	  </div>
+
+	</h:form>
+	
+</div>
+</ui:define>
+</ui:composition>

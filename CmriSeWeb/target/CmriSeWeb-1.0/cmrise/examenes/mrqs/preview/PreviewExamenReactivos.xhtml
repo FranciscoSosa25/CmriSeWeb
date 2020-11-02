@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+     <h:head>
+        <f:facet name="first">
+            <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/poseidon-layout/images/login/cmri-120.png" /> 
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <style type="text/css">
+			header,footer {
+			               font-size: 25px;
+			               color:#fff
+			              }
+			main{
+			    font-size: 30px;
+			    }
+			.ui-g{
+			       font-size: 30px;
+			     }    
+			body{
+			 background:white;
+			}
+			/*
+			header{
+			position: fixed;
+            top: 0;
+			}
+			*/
+	    </style>
+      </h:head>
+<body>
+<header>
+ <div class="ui-g" >
+    <div class="ui-g-1">
+    </div>
+    <div class="ui-g-10" style="background-color:hsl(210, 99%, 27%);">
+     Candidato: #{userLogin.nombreCompletoUsuario} Curp:#{userLogin.curp}
+    </div>
+    <div class="ui-g-1">
+    </div>
+     <div class="ui-g-1">
+    </div>
+     <div class="ui-g-10" style="background-color:hsl(210, 89%, 17%); font-size: 30px;color:#fff">
+       #{previewExamenReactivosForm.mrqsExamen.admonExamenDesc}
+    </div>
+   
+ </div>
+</header>
+ 
+ <h:form id="previewExamenReactivosForm">
+ <div class="ui-g">
+   <div class="ui-g-1">
+    </div>
+     <div class="ui-g-10" >
+      <ui:repeat var="grupoReactivos" value="#{previewExamenReactivosForm.mrqsExamen.listMrqsGrupoHdr}">
+            <div class="ui-g-12">
+              #{grupoReactivos.admonMateriaDesc}
+               <ui:repeat var="lineaReactivo" value="#{grupoReactivos.listMrqsGrupoLines}">
+                  <ui:repeat var="imagenesGrupo" value="#{lineaReactivo.mrqsPreguntasHdrV1.mrqsPreguntasFtaV1.listMrqsImagenesGrp}" varStatus="status">
+				      <div class="ui-g-12">
+				       <h3>#{imagenesGrupo.tituloSuperior}</h3>
+				      </div>
+				      <div class="ui-g-12">
+				       <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
+				        <h:panelGroup layout="block" rendered="#{imagenes.image}">
+				        <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="width: 100%;height:100%;" />
+				       </h:panelGroup>
+				       <h:panelGroup layout="block" rendered="#{imagenes.video}">
+				         <video width="320" height="240" controls="controls" style="width: 100%;height:100%;" >
+						  <source src="data:#{imagenes.contentType};base64,#{imagenes.imagenBase64}" />
+					     </video>
+				        </h:panelGroup> 
+				       </ui:repeat>
+				      </div>
+				    </ui:repeat>
+                   
+                   <div class="ui-g-12" style="color:#014689; font-weight: 900;">
+                      #{lineaReactivo.mrqsPreguntasHdrV1.mrqsPreguntasFtaV1.textoPregunta}
+                   </div>
+                   
+                    <div class="ui-g-12">
+                      <h:panelGroup rendered="#{lineaReactivo.mrqsPreguntasHdrV1.respTextLibre}">
+                         Respuesta de Texto Libre
+                      </h:panelGroup>
+                      
+                       <h:panelGroup rendered="#{lineaReactivo.mrqsPreguntasHdrV1.opcionMultiple}">
+                        
+                         <h:panelGroup layout="block" rendered="#{lineaReactivo.mrqsPreguntasHdrV1.mrqsPreguntasFtaV1.singleAnswerMode}">
+					      <div class="ui-g-12 ui-md-12" >
+					         <p:selectOneRadio  layout="grid" columns="1" required="true"  >
+							 <f:selectItems value="#{lineaReactivo.mrqsPreguntasHdrV1.mrqsPreguntasFtaV1.listMrqsOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
+							 </p:selectOneRadio>
+						  </div>
+			             </h:panelGroup>  
+			            
+			            <h:panelGroup layout="block" rendered="#{not lineaReactivo.mrqsPreguntasHdrV1.mrqsPreguntasFtaV1.singleAnswerMode}">
+					      <div class="ui-g-12 ui-md-12" >
+					         <p:selectManyCheckbox   layout="grid" columns="1" required="true"  >
+							 <f:selectItems value="#{lineaReactivo.mrqsPreguntasHdrV1.mrqsPreguntasFtaV1.listMrqsOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
+							 </p:selectManyCheckbox>
+					      </div>
+			             </h:panelGroup>  
+                        
+                      </h:panelGroup>
+                    </div>
+                   
+               </ui:repeat>
+              
+            </div>
+      </ui:repeat>
+    </div>
+     <div class="ui-g-1">
+    </div>
+    
+    <div class="ui-g-1">
+    </div>
+     <div class="ui-g-10">
+      <p:commandButton value="Regresar" action="#{previewExamenReactivosForm.backExamenesReactivos()}" immediate="true" styleClass="black-btn" style="margin-bottom:10px;font-size: 30px;"></p:commandButton>
+    </div>
+     <div class="ui-g-1">
+    </div>
+ </div> 
+ </h:form>
+
+<footer>
+ <div class="ui-g">
+    <div class="ui-g-1">
+    </div>
+    <div class="ui-g-10" style="background:#014689;">
+     Consejo Mexicano de Radiología e Imagen A.C. <h:outputText value="#{previewExamenReactivosForm.fechaActual}">
+											       <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+											      </h:outputText>
+    </div>
+    <div class="ui-g-1">
+    </div>
+ </div>
+</footer>
+</body>
+</html>

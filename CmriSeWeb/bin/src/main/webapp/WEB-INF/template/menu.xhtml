@@ -1,0 +1,127 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pp="http://primefaces.org/poseidon">
+    
+<style>
+.ui-menuitem {
+color:#ffffff;
+
+}
+</style>    
+    <h:form id="menuform"> 
+        <div class="layout-menu-container">
+            <div class="nano">
+                <div class="nano-content menu-scroll-content">
+                    <pp:menu widgetVar="me">
+                        <p:menuitem id="om_dashboard" value="Inicio" icon="fa fa-fw fa-home" outcome="/dashboard"/>
+                        <p:submenu id="om_themes" label="Temas" icon="fa fa-fw fa-paint-brush" rendered="false">
+                            <p:menuitem id="theme1" value="Tema Turquesa" icon="fa fa-fw fa-paint-brush" actionListener="#{guestPreferences.setTheme('turquoise')}" ajax="false" style="color:#00acac"/>
+                            <p:menuitem id="theme2" value="Tema Azul" icon="fa fa-fw fa-paint-brush" actionListener="#{guestPreferences.setTheme('blue')}" ajax="false" style="color:#2f8ee5"/>
+                            <p:menuitem id="theme3" value="Tema Purpura" icon="fa fa-fw fa-paint-brush" actionListener="#{guestPreferences.setTheme('purple')}" ajax="false" style="color:#6c76af"/>
+                            <p:menuitem id="theme4" value="Tema Anaranjado" icon="fa fa-fw fa-paint-brush" actionListener="#{guestPreferences.setTheme('orange')}" ajax="false" style="color:#efa64c"/>
+                            <p:menuitem id="theme5" value="Tema Rosa" icon="fa fa-fw fa-paint-brush" actionListener="#{guestPreferences.setTheme('pink')}" ajax="false" style="color:#f16383"/>
+                            <p:menuitem id="theme6" value="Tema Azul Claro" icon="fa fa-fw fa-paint-brush" actionListener="#{guestPreferences.setTheme('light-blue')}" ajax="false" style="color:#63c9f1"/>
+                            <p:menuitem id="theme7" value="Tema Verde" icon="fa fa-fw fa-paint-brush" actionListener="#{guestPreferences.setTheme('green')}" ajax="false" style="color:#57c279"/>
+                            <p:menuitem id="theme8" value="Tema Morado Obscuro" icon="fa fa-fw fa-paint-brush" actionListener="#{guestPreferences.setTheme('deep-purple')}" ajax="false" style="color:#7e57c2"/>
+                       
+                        </p:submenu>
+                        
+                        <p:submenu label="Administracion" icon="fa fa-fw fa-bars">
+				            <p:menuitem value="Configuración" outcome="Manage-TablasUtilitariasvalores" icon="fa fa-group"/>
+				            <p:menuitem value="Usuarios" outcome="Admin-Usuarios" icon="fa fa-user-plus" rendered="false"/>
+				            <p:menuitem value="Roles" outcome="Admon-Roles" icon="fa fa-group"/>
+				            <p:menuitem value="Usuarios" outcome="Admon-Usuarios" icon="fa fa-user-plus"/>
+				            <p:menuitem value="Usuarios Roles" outcome="Admon-Usuarios-Roles" icon="fa fa-user-secret" rendered="false"/>
+				            <p:menuitem value="Asignacion de Roles" outcome="Admin-RolesUsuarios" icon="fa fa-user-secret" rendered="false"/>
+				            <p:menuitem value="SubMaterias" outcome="Admon-SubMaterias" icon="fa fa-book" rendered="true"/>
+				            <p:menuitem value="Materias" outcome="Admon-Materias" icon="fa fa-book" rendered="true"/>
+				            <p:menuitem value="Examenes" outcome="Admon-Examenes" icon="fa fa-graduation-cap" rendered="true"/>
+				          </p:submenu>
+				          
+				           <p:menuitem id="om_mrqs" value="Reactivos" icon="fa fa-book"  outcome="Preguntas-ManageNewMrqs"/>
+				            <p:menuitem id="om_cc" value="Casos Clinicos" icon="fa fa-book"  outcome="Preguntas-Manage-CoreCases"/>
+				            
+				            
+				          
+				          <p:submenu label="Preguntas" icon="fa fa-fw fa-align-right" rendered="False">
+				            <p:menuitem value="Gestionar MRQs" outcome="Preguntas-ManageNewMrqs"/>
+				            <p:menuitem value="Gestionar Casos Clínicos" outcome="Preguntas-Manage-CoreCases"/>
+				            <p:submenu label="Fast Path" icon="fa fa-fw fa-align-right" rendered="false" >
+				              <p:submenu label="Create MRQs">
+				                  <p:menuitem value="Create MRQs Generics" outcome="Preguntas-CreateNewMrqs"/>
+				              </p:submenu>
+				              <p:submenu label="Update MRQs">
+				                <p:menuitem value="Update MRQs Generics" outcome="Preguntas-UpdateNewMrqs"/>
+				                <p:menuitem value="Update MRQs Free Text Answer" outcome="Preguntas-UpdateFreeTextAnswer-NewMrqs"/>
+				                <p:menuitem value="Update MRQs Multiple Choice Answer" outcome="Preguntas-UpdateMultipleChoiceAnswer-NewMrqs"/>
+				                <p:menuitem value="Update MRQs Annotatded Image Answer" outcome="Preguntas-UpdateAnnotatedImageAnswer-NewMrqs"/>
+				                <p:menuitem value="Update MRQs Indicate Image Answer" outcome="Preguntas-UpdateIndicateImageAnswer-NewMrqs"/>
+				              </p:submenu>
+				              <p:menuitem value="Previsualizar MRQ" action="#{menuForm.fpMrqPreview}"/>
+				            </p:submenu>
+				            <p:submenu label="Casos Clínicos" icon="fa fa-fw fa-align-right" rendered="false">
+				              <p:menuitem value="Gestionar Casos clínicos" outcome="Preguntas-Manage-CoreCases"/>
+				              <p:menuitem value="Crear Caso Clínico" outcome="Preguntas-Create-CoreCase"/>
+				              <p:menuitem value="Actualizar Pregunta de Opción Multiple" outcome="Actualizar-Pregunta-OpcionMultiple-CoreCase"/>
+				            </p:submenu>
+				             <p:submenu label="Fast Path" icon="fa fa-fw fa-align-right" rendered="false">
+				                <p:menuitem value="Actualizar Caso Clínico" action="#{menuForm.fpActualizarCasoPrincipal()}"/>
+				                <p:menuitem value="Crear Pregunta Caso Clínico" action="#{menuForm.fpCrearPreguntaCasoPrincipal()}"/>
+				                <p:menuitem value="Actualizar Pregunta Caso Clínico" action="#{menuForm.fpActualizarPreguntaFtaCoreCase()}"/>
+				              </p:submenu>
+				          </p:submenu>
+				          
+				            <p:submenu label="Examenes" icon="fa fa-book" >
+				           <p:menuitem id="om_gmrqs" value="Exámenes de Reactivos"  icon="fa fa-book" outcome="Exams-MRQs-Manage"/>
+				            <p:menuitem id="om_gcorecase" value="Exámenes Casos Clínicos"  icon="fa fa-book" outcome="Exams-CoreCases-Manage"/>
+				             </p:submenu>
+				          
+				          
+				          <p:submenu label="Pruebas/Exámenes" icon="fa fa-fw fa-sitemap" rendered="false">
+				            <p:menuitem value="Gestionar Exámenes MRQs" outcome="Exams-MRQs-Manage"/>
+				            <p:menuitem value="Gestionar Exámenes Casos Clínicos" outcome="Exams-CoreCases-Manage"/>
+				            <p:menuitem value="Historico Examenes" outcome="History-Exams"/>
+				            <p:menuitem value="Historial Candidatos" outcome="Historial-Candidatos" />
+				            <p:menuitem value="Crear Prueba/Examen" outcome="Exams-CoreCases-Create" rendered="false"/>
+				            <p:menuitem value="Agregar Candidato" outcome="Exams-CoreCases-Create-Candidate" rendered="false"/>
+				            <p:submenu label="Fast Path" icon="fa fa-fw fa-sitemap" rendered="false">
+				             <p:menuitem value="Agregar Preguntas MRQs" action="#{menuForm.fpUpdateMrqsExamGroup()}"/>
+				             <p:menuitem value="Actualizar Prueba/Examen" action="#{menuForm.fpActualizarPruebaExamen()}"/>
+				             <p:menuitem value="Agregar Grupo Casos Clínicos"  action="#{menuForm.fpActualizarPruebaExamenAgregarCasosPrincipales()}" />
+				             <p:menuitem value="Actualizar Grupo Casos Clínicos"  action="#{menuForm.fpActualizarPruebaExamenActualizarCasosPrincipales()}" />
+				             <p:menuitem value="Gestionar Candidatos" action="#{menuForm.fpExamsCoreCasesManageCandidates()}"/>
+				            </p:submenu>  
+				          </p:submenu>
+				          
+				          
+				          <p:submenu label="Historiales" icon="pi pi-list">
+				             <p:menuitem value="Historico Examenes" outcome="History-Exams"/>
+				            <p:menuitem value="Historial Candidatos" outcome="Historial-Candidatos" />
+				          </p:submenu>
+				          <p:submenu label="Candidatos" icon="fa fa-fw fa-gg" rendered="false">
+				            <p:menuitem value="Gestionar Examenes" action="#{menuForm.fpCandidatesManageExams()}"/>
+				            <p:submenu label="Fast Path" icon="fa fa-fw fa-gg" rendered="false">
+				             <p:menuitem value="Examen" action="#{menuForm.fpCandidatesExamen()}"/>
+				            </p:submenu>
+				          </p:submenu>
+                       </pp:menu>
+                    <!--
+                    <div class="layout-menu-footer">
+                        <span class="layout-menu-footer-title">Resumen de Tareas</span>
+                        
+                        <p:progressBar value="50" labelTemplate="" displayOnly="true"/>
+                        Hoy
+                        
+                        <p:progressBar value="80" labelTemplate=""  displayOnly="true"/>
+                         En General
+                    </div>
+                    -->
+                </div>
+            </div>
+        </div>
+    </h:form>
+</ui:composition>

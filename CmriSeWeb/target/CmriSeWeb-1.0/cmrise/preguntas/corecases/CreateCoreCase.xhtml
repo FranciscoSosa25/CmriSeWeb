@@ -1,0 +1,149 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="xxhrwjs">
+ <script type="text/javascript">
+ function handleCreateRequest(xhr, status, args){
+ 	 if(args.validationFailed) {
+		 argsValidationFailed(); 
+     }
+ }
+ </script>
+</ui:define>
+                
+<style>
+.color {
+	background-color: #2d0d86;
+	font-size: 100px;
+}
+
+</style>
+                
+<ui:define name="content">
+<!-- <p:breadCrumb style="background-color: #2D0D86;"> -->
+<!--     <p:menuitem value="Inicio" outcome="PaginaPrincipal" /> -->
+<!--      <p:menuitem value="Casos clínicos" outcome= "Preguntas-Manage-CoreCases" /> -->
+<!--      <p:menuitem value="Crear Caso Clínico" url="#"/> -->
+<!-- </p:breadCrumb> -->
+
+<h:form id="createForm">
+<p:growl id="growl" showDetail="true"/>
+  <p:panel id="nuevoCasoClinico"  header="NUEVO CASO CLINICO" style="margin-bottom:20px">
+
+
+  <div class="ui-g">
+     <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="admonExamen" value="Examen" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:selectOneMenu id="admonExamen" value="#{createCoreCaseForm.ccHdrV1ForInsert.admonExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+           <p:ajax listener="#{createCoreCaseForm.onAdmonExamenChange}" update="materia" />
+           <f:selectItem itemLabel="Seleccione..." itemValue="" />
+           <f:selectItems value="#{createCoreCaseForm.selectExamenesHdr}" />
+          </p:selectOneMenu>
+          <p:message for="admonExamen"/>
+         </div>
+       </div>
+       
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="materia" value="Materia" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:selectOneMenu id="materia" value="#{createCoreCaseForm.ccHdrV1ForInsert.admonMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <p:ajax listener="#{createCoreCaseForm.onAdmonMateriaChange}" update="subMateria" />
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{createCoreCaseForm.selectMateriasHdr}" />
+         </p:selectOneMenu>
+         <p:message for="materia"/>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="subMateria" value="Clasificación" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:selectOneMenu id="subMateria" value="#{createCoreCaseForm.ccHdrV1ForInsert.admonSubMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+          <f:selectItems value="#{createCoreCaseForm.selectSubMaterias}" />
+         </p:selectOneMenu>
+         <p:message for="subMateria"/>
+         </div>
+       </div>
+       
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:calendar id="fechaElaboracion" value="#{createCoreCaseForm.ccHdrV1ForInsert.fechaElaboracion}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+         <p:message for="fechaElaboracion"/>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="creadoPor" value="Elabora" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
+         <p:message for="creadoPor"/>
+         </div>
+       </div>
+        
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="clinicalHistory" value="Historial Clinico" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:inputTextarea  id="clinicalHistory" value="#{createCoreCaseForm.ccHdrV1ForInsert.historialClinico}" rows="4" style="width:100%" required ="true"/>
+          <p:message  for="clinicalHistory"/>
+         </div>
+       </div>
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="tags" value="Diagnostico"/>
+        </div>
+         <div class="ui-g-12 ui-md-9">
+           <p:inputTextarea  id="tags" value="#{createCoreCaseForm.ccHdrV1ForInsert.etiquetas}"   rows="1" style="width:100%"/>
+           <p:message  for="tags"/>
+         </div>
+       </div>
+       
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+          <p:outputLabel for="note" value="Notas"/>
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:inputTextarea  id="note" value="#{createCoreCaseForm.ccHdrV1ForInsert.nota}"   rows="4" style="width:100%"/>
+           <p:message  for="note"/>
+         </div>
+       </div>     
+     </div>
+     
+     <div class="ui-g">
+	 <div class="ui-g-12 ui-md-6 ui-lg-2">
+	  <p:commandButton value="Agregar Caso Clínico" icon="fa fa-plus"  update="createForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createCoreCaseForm.create()}" style="background: #2D0D86;"/>
+	 </div>
+	 <div class="ui-g-12 ui-md-6 ui-lg-2">
+	  <p:commandButton value="Regresar" icon="fa fa-backward" process="@this" update="createForm" action="Preguntas-Manage-CoreCases" style="background: #2D0D86;" >
+	  <p:resetInput target="createForm"/>
+	   </p:commandButton>
+	 </div>
+	</div>
+     
+   
+
+ <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+ </p:panelGrid>
+ 
+</p:panel>
+</h:form>
+</ui:define>
+</ui:composition>

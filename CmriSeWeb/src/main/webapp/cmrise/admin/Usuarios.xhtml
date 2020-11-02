@@ -1,0 +1,117 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="xxhrwjs">
+ <script type="text/javascript">
+ function handleCreateRequest(xhr, status, args){
+ 	 if(args.validationFailed) {
+		 argsValidationFailed(); 
+     }
+ }
+ </script>
+</ui:define>
+
+<ui:define name="content">
+<p:breadCrumb>
+    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
+     <p:menuitem value="Nuevo Usuario" url="#"/>
+
+</p:breadCrumb>
+<h:form id="createMrqForm">
+
+<h1 >Registro de Nuevo Usuario</h1>
+ <p:panel header="INFORMACIÓN DEL USUARIO">
+   <div class="ui-g">
+     <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="NameUser" value="Nombre: " />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:inputText id="NameUser"  placeholder="Nombre Usuario"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+          <p:message for="NameUser"/>
+         </div>
+       </div>
+         <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="apell" value="Apellidos: " />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+          <p:inputText id="apell"  placeholder="Apellidos"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+          <p:message for="apell"/>
+         </div>
+       </div>
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="pass" value="Contraseña" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:inputText id="pass"  placeholder="Contraseña"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+         <p:message for="pass"/>
+         </div>
+       </div>
+       <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="typeUser" value="Tipo de Usuario" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:selectOneMenu id="typeUser" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <f:selectItem itemLabel="Seleccione un tipo de usuario" itemValue="" />
+          <f:selectItem itemLabel="Administrador" itemValue="Administrador" />
+          <f:selectItem itemLabel="Usuario" itemValue="Usuario" />
+          <f:selectItem itemLabel="Maestro" itemValue="Maestro" />
+          <f:selectItems value="#{selectsHelper.selectTipoPreguntaItems}" />
+         </p:selectOneMenu>
+          <p:message for="typeUser"/>
+         </div>
+       </div>
+       
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="materia" value="Materia" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+         <p:selectOneMenu id="materia" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <f:selectItem itemLabel="Seleccione una materia" itemValue="" />
+          <f:selectItem itemLabel="Ciencias" itemValue="Ciencias" />
+ 			<f:selectItem itemLabel="Medicina" itemValue="Medicina" />          
+          <f:selectItems value="#{selectsHelper.selectTipoPreguntaItems}" />
+         </p:selectOneMenu>
+          <p:message for="materia"/>
+         </div>
+       </div>
+       
+      
+        <div class="ui-g-12 ui-md-12" >
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+         <p:outputLabel for="correo1" value="Correo" />
+        </div>
+         <div class="ui-g-12 ui-md-9">
+           <div class="ui-inputgroup">
+           <span class="ui-inputgroup-addon">@</span>
+           <p:inputText id="correo1" maxlength="255" style="width:100%"/>
+           </div>
+         </div>
+       </div>
+       
+
+   </div> <!--  <div class="ui-g"> -->
+ </p:panel>
+ 
+ <div class="ui-g">
+     <div class="ui-g-12 ui-md-1" >
+       <p:commandButton value="Crear" update="createMrqForm" oncomplete="handleCreateRequest(xhr, status, args)" action="Preguntas-UpdateNewMrqs"/>
+     </div>
+      <div class="ui-g-12 ui-md-1" >
+        <p:commandButton value="Cancelar" process="@this" update="createMrqForm">
+         <p:resetInput target="createMrqForm"/>
+        </p:commandButton>
+     </div>
+  </div>
+</h:form>  
+</ui:define>
+</ui:composition>
+               

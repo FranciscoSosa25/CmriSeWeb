@@ -1,0 +1,164 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+ 
+ <ui:define name="xxhrwjs">
+ <script type="text/javascript">
+
+ function handleUpdateGrupoRequest(xhr, status, args){
+	 if(args.validationFailed) {
+ 		 argsValidationFailed(); 
+     }
+ }
+ 
+ </script>
+</ui:define>
+ 
+ <ui:define name="xxhrwcss">
+<style type="text/css">
+	 .ui-filter-column .ui-column-customfilter .custom-filter {
+        width: 100%;
+        box-sizing: border-box;
+    }
+</style>
+</ui:define>
+
+<ui:define name="content">
+<h:form id="updateMrqsExamGroupForm">
+<p:growl id="messages" showDetail="true" />
+<h1>#{updateMrqsExamGroupForm.mrqsExamenesForRead.admonExamenDesc}</h1>
+<h2>Materia:#{updateMrqsExamGroupForm.mrqsGrupoHdrForUpdate.admonMateriaDesc}</h2>
+<div class="ui-g">
+ <div class="ui-g-12">
+    
+     
+	  <div class="ui-g">
+	   <div class="ui-g-3"></div>
+	   <div class="ui-g-3"><p:commandButton value="Borrar Grupo"  immediate="true" onclick="PF('deleteGrupoDialogWV').show();" style="width:100%;BackGround:#2D0D86;" rendered="false"/></div>
+	   <div class="ui-g-3"><p:commandButton value="Actualizar Grupo" update="updateMrqsExamGroupForm" action="#{updateMrqsExamGroupForm.updateMRQsGroup()}" oncomplete="handleUpdateGrupoRequest(xhr, status, args)" style="width:100%;BackGround:#2D0D86;" rendered="false"/></div>
+	   <div class="ui-g-3"><p:commandButton value="Cerrar"  action="#{updateMrqsExamGroupForm.cancelMRQsGroup()}" immediate="true" style="width:100%;BackGround:#2D0D86;" rendered="false"/></div> 
+	  </div>
+        <div class="ui-g">
+		  <h3>Seleccionar Reactivos</h3>
+		  <div class="ui-g-2">
+		   <p:commandButton id="seleccioneMRQs"  icon="fa fa-external-link" oncomplete="PF('preguntasHdrDialogWV').show();" style="width:98%;BackGround:#2D0D86;"/>
+		   <p:tooltip id="toolTipFade" for="seleccioneMRQs" value="Seleccionar Reactivos" position="top"/>
+		  </div>
+		  </div>
+       
+          <p:dataTable var="preguntasHdrV1" widgetVar="preguntasHdrWV" value="#{updateMrqsExamGroupForm.listMrqsGrupoPreguntas}"   paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+		   <f:facet name="header">REACTIVOS ASIGNADOS</f:facet>
+		    <p:column headerText="Número">
+		     <h:outputText value="#{preguntasHdrV1.numero}" />
+		    </p:column>
+		    <p:column headerText="Tipo Pregunta"  >
+		       <h:outputText value="#{preguntasHdrV1.tipoPreguntaDesc}" />
+		    </p:column>
+		    <p:column headerText="Estatus">
+		        <h:outputText value="#{preguntasHdrV1.estatusDesc}" />
+		    </p:column>
+		    <p:column headerText="Clasificación">
+		       <h:outputText value="#{preguntasHdrV1.admonSubmateriaDesc}" />
+		    </p:column>
+		    
+		     <p:column headerText="Acciones">
+		      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86;" oncomplete="PF('deletePreguntasHdrDialogWV').show();" ajax="true" actionListener="#{updateMrqsExamGroupForm.selectForAction(preguntasHdrV1)}"/>
+		     </p:column>
+		 </p:dataTable>
+    
+ </div>
+ <div class="ui-g-12">
+  <p:commandButton value="Regresar" style="BackGround:#2D0D86;" immediate="true" action="Exams-MRQs-Update" icon="fa fa-backward"/>
+ </div>
+ </div>
+</h:form>
+
+<h:form id="ReadOnlyForm">
+<p:dialog id="preguntasHdrDialogId" widgetVar="preguntasHdrDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="98%" >
+ <p:dataTable var="preguntasHdrV1" widgetVar="preguntasHdrWV" value="#{updateMrqsExamGroupForm.listMrqsPreguntasHdrV1}"   selection="#{updateMrqsExamGroupForm.selectedsMrqsPreguntasHdrV1}" rowKey="#{preguntasHdrV1.numero}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+   <f:facet name="header">Reactivos</f:facet>
+    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+    <p:column headerText="Número">
+     <h:outputText value="#{preguntasHdrV1.numero}" />
+    </p:column>
+    <p:column headerText="Materia">
+      <h:outputText value="#{preguntasHdrV1.admonMateriaDesc}" />
+    </p:column>
+    <p:column headerText="Clasificación">
+       <h:outputText value="#{preguntasHdrV1.admonSubmateriaDesc}" />
+    </p:column>
+    <p:column filterBy="#{preguntasHdrV1.tipoPregunta}" headerText="Tipo Pregunta" filterMatchMode="exact" >
+        <f:facet name="filter"> 
+        <p:selectOneMenu onchange="PF('preguntasHdrWV').filter()" id="questionType"  styleClass="custom-filter">
+          <f:selectItem itemLabel="Seleccione.."/>
+          <f:selectItems value="#{selectsHelper.selectTipoPreguntaItems}" />
+         </p:selectOneMenu>
+         </f:facet>
+       <h:outputText value="#{preguntasHdrV1.tipoPreguntaDesc}" />
+    </p:column>
+    <p:column headerText="Estatus">
+        <h:outputText value="#{preguntasHdrV1.estatusDesc}" />
+    </p:column>
+    <p:column headerText="Fecha Elaboración">
+        <h:outputText value="#{preguntasHdrV1.fechaElaboracion}" >
+        <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+        </h:outputText>
+    </p:column>
+    <p:column headerText="Elaborador">
+        <h:outputText value="#{preguntasHdrV1.elaborador}" />
+    </p:column>
+  </p:dataTable>
+ <div class="ui-g">
+   <div class="ui-g-8"></div>
+   <div class="ui-g-2"><p:commandButton value="Agregar" style="BackGround:#2D0D86;"  action="#{updateMrqsExamGroupForm.addMRQsQuestions()}" icon="fa fa-plus" /></div>
+   <div class="ui-g-2"><p:commandButton value="Cancelar" style="BackGround:#2D0D86;" onclick="PF('preguntasHdrDialogWV').hide();" icon="fa fa-backward"/></div> 
+   </div>
+  </p:dialog>
+ </h:form>
+
+<h:form id="DeleteForm">
+   <p:dialog id="deletePreguntasHdrDialogId" widgetVar="deletePreguntasHdrDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Registro">
+    <h2>#{msgs['globalForm.deleteMessage']}</h2>
+    <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="DeletePregntaBtn" update="updateMrqsExamGroupForm ReadOnlyForm" value="Aceptar" actionListener="#{updateMrqsExamGroupForm.delete()}" oncomplete="PF('deletePreguntasHdrDialogWV').hide();"  />
+              </div>
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarPreguntaBtn"  value="Cancelar"  onclick="PF('deletePreguntasHdrDialogWV').hide();" />
+              </div>
+     </div>
+   </p:dialog>
+    <p:dialog id="deleteGrupoDialogId" widgetVar="deleteGrupoDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Registro">
+    <h2>#{msgs['globalForm.deleteMessage']}</h2>
+    <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="DeleteGrupoBtn" style="BackGround:#2D0D86;" action="#{updateMrqsExamGroupForm.deleteMRQsGroup()}" value="Aceptar"  />
+              </div>
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarGrupoBtn"  style="BackGround:#2D0D86;" value="Cancelar"  onclick="PF('deleteGrupoDialogWV').hide();" />
+              </div>
+     </div>
+   </p:dialog>
+</h:form> 
+
+<h:form id="MrqsGrupoHdrCreateForm">
+ <f:passThroughAttribute name="autocomplete" value="off"/>
+ <p:dialog id="MrqsGrupoHdrCreateDialogId" widgetVar="MrqsGrupoHdrCreateDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Crear Grupo">
+  <p:panelGrid id="grupoHdrPanelId" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+  <p:outputLabel for="internalComments" value="Comentarios"/>
+  <p:inputTextarea  id="internalComments" value="#{updateMrqsExamForm.mrqsGrupoHdrForInsert.comentarios}"  rows="4" style="width:100%"/>
+  <p:message  for="internalComments"/> 
+  </p:panelGrid>
+  <div class="ui-g">
+   <div class="ui-g-4"></div>
+   <div class="ui-g-4"><p:commandButton value="Crear Grupo" update="MrqsGrupoHdrCreateForm:grupoHdrPanelId" action="#{updateMrqsExamForm.addMRQsGroup()}" oncomplete="handleCreateGrupoRequest(xhr, status, args)" style="width:100%"/></div>
+   <div class="ui-g-4"><p:commandButton value="Cancelar" onclick="PF('MrqsGrupoHdrCreateDialogWV').hide();" style="width:100%"/></div> 
+   </div>
+  </p:dialog>
+</h:form>
+
+</ui:define>
+</ui:composition>                

@@ -1,0 +1,202 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="xxhrwjs">
+<script type="text/javascript">
+function handleCreateRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.createIn) {
+		 PF('createUsuarioDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+    }else{
+    	 PF('createUsuarioDialogWV').hide();
+    }	
+}
+function handleDeleteRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.deleteIn) {
+		 PF('deleteUsuarioDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+   }else{
+   	 PF('deleteUsuarioDialogWV').hide();
+   }	
+}
+function handleUpdateRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.updateIn) {
+		 PF('updateUsuarioDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+  }else{
+  	 PF('updateUsuarioDialogWV').hide();
+  }	
+}
+</script>
+</ui:define>
+
+<ui:define name="content">
+<div class="card">
+<h2>
+   <p:commandButton id="RegistrarBtn" value="Nuevo Usuario" icon="fa fa-plus"  style="text-align: left; BackGround:#2D0D86;" onclick="PF('createUsuarioDialogWV').show();" />
+ </h2>             
+<h:form id="ReadOnlyForm">
+
+ <p:dataTable var="admonUsuario" value="#{admonUsuariosForm.listAdmonUsuarios}"  emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+   <f:facet name="header">USUARIOS</f:facet>
+    <p:column headerText="CURP" style="text-overflow: ellipsis; white-space: nowrap;width:150px" >
+    <h:outputText value="#{admonUsuario.curp}"/>
+   </p:column>
+   <p:column headerText="Nombre">
+    <h:outputText value="#{admonUsuario.nombre}"/>
+   </p:column>
+   <p:column headerText="Apellido Paterno">
+    <h:outputText value="#{admonUsuario.apellidoPaterno}"/>
+   </p:column>
+   <p:column headerText="Apellido Materno">
+    <h:outputText value="#{admonUsuario.apellidoMaterno}"/>
+   </p:column>
+    <p:column headerText="Correo Electronico">
+    <h:outputText value="#{admonUsuario.correoElectronico}"/>
+   </p:column>
+    <p:column headerText="Rol">
+    <h:outputText value="#{admonUsuario.nombreRol}"/>
+   </p:column>
+    <p:column headerText="Desde">
+     <h:outputText value="#{admonUsuario.fechaEfectivaDesde}">
+      <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+     </h:outputText>
+   </p:column>     
+    <p:column headerText="Hasta">
+      <h:outputText value="#{admonUsuario.fechaEfectivaHasta}">
+       <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+     </h:outputText>
+   </p:column> 
+   <p:column  headerText="Opciones" style="text-overflow: ellipsis; white-space: nowrap;width:100px" >
+      <p:commandButton icon="fa fa-edit" style="margin-left: 10px;BackGround:#2D0D86;" update="UpdateForm" oncomplete="PF('updateUsuarioDialogWV').show();" ajax="true" actionListener="#{admonUsuariosForm.selectForAction(admonUsuario)}"/>
+      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86;" oncomplete="PF('deleteUsuarioDialogWV').show();" ajax="true" actionListener="#{admonUsuariosForm.selectForAction(admonUsuario)}"/>
+   </p:column>
+     <f:facet name="footer" >
+           <div class="ui-g">
+             
+            </div>
+        </f:facet> 
+   </p:dataTable>
+
+   </h:form>
+
+<h:form id="CreateForm">
+ <f:passThroughAttribute name="autocomplete" value="off"/>
+  <p:dialog id="createUsuarioDialogId" widgetVar="createUsuarioDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Registrar Usuario">
+   <p:panelGrid id="createPanelID" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+     <p:outputLabel for="curp" value="CURP"/>
+	 <p:inputText id="curp" value="#{admonUsuariosForm.curp}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%">
+	  <f:validateLength minimum="18" />
+	 </p:inputText> 
+	 <p:message for="curp"/>
+	 <p:outputLabel for="nombre" value="Nombre"/>
+	 <p:inputText id="nombre" value="#{admonUsuariosForm.nombre}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
+	 <p:message for="nombre"/>
+	 <p:outputLabel for="apellidoPaterno" value="Apellido Paterno"/>
+	 <p:inputText id="apellidoPaterno" value="#{admonUsuariosForm.apellidoPaterno}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
+	 <p:message for="apellidoPaterno"/>
+	 <p:outputLabel for="apellidoMaterno" value="Apellido Materno"/>
+	 <p:inputText id="apellidoMaterno" value="#{admonUsuariosForm.apellidoMaterno}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
+	 <p:message for="apellidoMaterno"/>
+     <p:outputLabel for="contrasenia" value="Contraseña"/>
+     <p:password id="contrasenia" value="#{admonUsuariosForm.contrasenia}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+     <p:message for="contrasenia"/>
+     <p:outputLabel for="correoElectronico" value="Correo Electronico"/>
+     <p:inputText id="correoElectronico" value="#{admonUsuariosForm.correoElectronico}" style="width:70%"/>
+     <p:message for="correoElectronico"/>
+     <p:outputLabel for="numeroRol" value="Rol"/>
+      <p:selectOneMenu id="numeroRol" value="#{admonUsuariosForm.numeroRol}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+      <f:selectItem itemLabel="Seleccione un Rol" itemValue="" />
+      <f:selectItems value="#{selectsHelper.selectAdmonRolesItems}" />
+      </p:selectOneMenu>
+      <p:message for="numeroRol"/>
+     <p:outputLabel for="fechaEfectivaDesdeInput" value="Desde"/>
+	  <p:calendar id="fechaEfectivaDesdeInput" value="#{admonUsuariosForm.fechaEfectivaDesde}"  locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+      <p:message for="fechaEfectivaDesdeInput"/>
+      <p:outputLabel for="fechaEfectivaHastaInput" value="Hasta"/>
+      <p:calendar id="fechaEfectivaHastaInput" value="#{admonUsuariosForm.fechaEfectivaHasta}"  locale="es" pattern="dd/MM/yyyy" mask="true" />
+      <p:message for="fechaEfectivaHastaInput"/>
+      <f:facet name="footer">
+        <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CreateBtn" style="BackGround:#2D0D86;" update="createPanelID ReadOnlyForm" value="Aceptar" actionListener="#{admonUsuariosForm.create()}" oncomplete="handleCreateRequest(xhr, status, args)"  />
+              </div>
+             <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn"  style="BackGround:#2D0D86;" value="Cancelar"  onclick="PF('createUsuarioDialogWV').hide();" />
+              </div>
+            </div>
+      </f:facet>
+   </p:panelGrid>
+  </p:dialog>
+ </h:form>
+ 
+<h:form id="UpdateForm">
+ <f:passThroughAttribute name="autocomplete" value="off"/>
+  <p:dialog id="updateUsuarioDialogId" widgetVar="updateUsuarioDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Actualizar Usuario">
+   <p:panelGrid id="updatePanelID" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+     <p:outputLabel for="curp" value="CURP"/>
+	 <p:inputText id="curp" value="#{admonUsuariosForm.admonUsuariosForAction.curp}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%">
+	 <f:validateLength minimum="18" />
+	 </p:inputText> 
+	 <p:message for="curp"/>
+     <p:outputLabel for="nombre" value="Nombre"/>
+	 <p:inputText id="nombre" value="#{admonUsuariosForm.admonUsuariosForAction.nombre}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
+	 <p:message for="nombre"/>
+	 <p:outputLabel for="apellidoPaterno" value="Apellido Paterno"/>
+	 <p:inputText id="apellidoPaterno" value="#{admonUsuariosForm.admonUsuariosForAction.apellidoPaterno}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
+	 <p:message for="apellidoPaterno"/>
+	 <p:outputLabel for="apellidoMaterno" value="Apellido Materno"/>
+	 <p:inputText id="apellidoMaterno" value="#{admonUsuariosForm.admonUsuariosForAction.apellidoMaterno}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
+	 <p:message for="apellidoMaterno"/>
+     <p:outputLabel for="contrasenia" value="Contraseña"/>
+     <p:password id="contrasenia" value="#{admonUsuariosForm.admonUsuariosForAction.contrasenia}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" redisplay="true" />
+     <p:message for="contrasenia"/>
+     <p:outputLabel for="correoElectronico" value="Correo Electronico"/>
+     <p:inputText id="correoElectronico" value="#{admonUsuariosForm.admonUsuariosForAction.correoElectronico}" style="width:70%"/>
+     <p:message for="correoElectronico"/>
+     <p:outputLabel for="numeroRol" value="Rol"/>
+      <p:selectOneMenu id="numeroRol" value="#{admonUsuariosForm.admonUsuariosForAction.numeroRol}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+      <f:selectItem itemLabel="Seleccione un Rol" itemValue="" />
+      <f:selectItems value="#{selectsHelper.selectAdmonRolesItems}" />
+      </p:selectOneMenu>
+      <p:message for="numeroRol"/>
+     <p:outputLabel for="fechaEfectivaDesdeInput" value="Desde"/>
+	  <p:calendar id="fechaEfectivaDesdeInput" value="#{admonUsuariosForm.admonUsuariosForAction.fechaEfectivaDesde}"  locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+      <p:message for="fechaEfectivaDesdeInput"/>
+      <p:outputLabel for="fechaEfectivaHastaInput" value="Hasta"/>
+      <p:calendar id="fechaEfectivaHastaInput" value="#{admonUsuariosForm.admonUsuariosForAction.fechaEfectivaHasta}"  locale="es" pattern="dd/MM/yyyy" mask="true" />
+      <p:message for="fechaEfectivaHastaInput"/>
+      <f:facet name="footer">
+        <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="UpdateBtn"  style="BackGround:#2D0D86;" update="updatePanelID ReadOnlyForm" value="Aceptar" actionListener="#{admonUsuariosForm.update()}" oncomplete="handleUpdateRequest(xhr, status, args)"  />
+              </div>
+             <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn"  style="BackGround:#2D0D86;"  value="Cancelar"  onclick="PF('updateUsuarioDialogWV').hide();" />
+              </div>
+            </div>
+      </f:facet>
+   </p:panelGrid>
+  </p:dialog>
+</h:form>   
+
+<h:form id="DeleteForm">
+   <p:dialog id="deleteUsuarioDialogId" widgetVar="deleteUsuarioDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Usuario">
+    <h2>#{msgs['globalForm.deleteMessage']}</h2>
+    <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="DeleteBtn"  style="BackGround:#2D0D86;" update="ReadOnlyForm" value="Aceptar" actionListener="#{admonUsuariosForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
+              </div>
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn"  style="BackGround:#2D0D86;"  value="Cancelar"  onclick="PF('deleteUsuarioDialogWV').hide();" />
+              </div>
+     </div>
+   </p:dialog>
+</h:form> 
+   </div>
+</ui:define>
+</ui:composition>

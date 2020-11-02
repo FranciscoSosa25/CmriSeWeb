@@ -1,0 +1,82 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+<ui:define name="content">
+
+<style type="text/css">
+    .ui-datalist .ui-datalist-content {
+        border:0 none
+    }
+    .ui-datalist ul {
+        padding:0px 10px 0 20px;
+        margin: 5px 0;
+    }
+    .label, .value {
+        vertical-align: top
+    }
+    .output {
+        font-weight: bold
+    }
+    .ui-selectmanymenu {
+        width: 100%;
+    }
+</style>
+
+<p:breadCrumb>
+    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
+    <p:menuitem value="Examenes Casos Clinicos" url="ManageTestExam.xhtml"/>
+    <p:menuitem value="Actualizar Caso Clinico" outcome="Exams-CoreCases-Update"/>
+     <p:menuitem value="Crear Grupos de Casos Principales" url="#"/>
+
+</p:breadCrumb>
+<h1>Crear Grupo de Casos Clinicos</h1>
+<h:form id="updateForm">
+<div class="ui-g">
+    <div class="ui-g-2 ui-g-nopad">
+     <p:panel layout="grid" >
+       <f:facet name="header">
+	       Grupo de Preguntas
+	     </f:facet>
+	     	     <p:dataList var="ccExamAsignacionDL"  value="#{updateGroupForm.listCcExamAsignaciones}"  type="definition" responsive="true">
+	       <f:facet name="caption">Hola</f:facet>
+	       <p:column>
+	         <p:commandLink action="#{updateQuestionFtaCoreCaseForm.updatePregunta(ccPreguntasHdrV1)}">
+	         <h:outputText value="#{ccExamAsignacionDL.tituloPregunta}" />
+	         </p:commandLink>
+	       </p:column>
+	     </p:dataList>
+      <!--<p:commandButton immediate="true" title="Nuevo"  value="Agregar Nuevo Grupo" icon="pi pi-plus" action="Exams-CoreCases-Update-AddCoreCase"/>-->
+     </p:panel>
+    </div>
+    <div class="ui-g-10 ui-g-nopad">
+      <p:panel layout="grid" >
+      <f:facet name="header">
+       <h3>SELECCIÓN DE CASO CLINICO</h3>
+      </f:facet>
+       <p:outputLabel for="coreCase"  value="Ingrese o Seleccione un Caso Clinico"/>
+        <p:selectManyMenu id="coreCase" value="#{createGroupForm.selectedCcHdrForAction}" converter="ccHdrForActionCoverter" var="cC" filter="true" filterMatchMode="contains" showCheckbox="true">
+          <f:selectItems value="#{createGroupForm.listCcHdrForAction}" var="cCTmp" itemLabel="#{cCTmp.nombre}" itemValue="#{cCTmp}" />
+          <p:column>
+            <h:outputText value="#{cC.nombre}" />
+          </p:column>
+          <p:column>
+            <h:outputText value="#{cC.estatusDesc}" />
+          </p:column>
+          <p:column>
+            <h:outputText value="#{cC.temaDesc}" />
+          </p:column>
+          </p:selectManyMenu>
+          <p:message for="coreCase"/>
+        <p:commandButton value="Agregar Casos" update="updateForm" action="#{createGroupForm.recuperaCoreCases()}" />
+      </p:panel>
+    </div>
+ </div>
+ 
+        
+</h:form>
+    
+</ui:define>
+</ui:composition>

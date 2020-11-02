@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="xxhrwjs">
+<script type="text/javascript">
+function handleDeleteRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.deleteIn) {
+		 PF('deleteSubMateriaDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+  }else{
+  	 PF('deleteSubMateriaDialogWV').hide();
+  }	
+}
+</script>
+</ui:define>
+
+
+<ui:define name="content">
+<h:form id="SubMateriasForm">
+<p:growl id="msgs" showDetail="true"/>
+
+<div class="card">
+<p:dataTable var="materia" value="#{admonSubMateriasForm.subMaterias}">
+<f:facet name="header">SUBMATERIAS</f:facet>
+ <p:column headerText="Nombre" >
+  <p:inputText id="nombre" value="#{materia.nombre}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:98%"/>
+  <p:message for="nombre"/>
+ </p:column>
+  <p:column headerText="Fecha Effectiva Desde">
+            <p:calendar id="fechaEfectivaDesdeInput" value="#{materia.fechaEfectivaDesde}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+            <p:message for="fechaEfectivaDesdeInput"/>
+      </p:column>
+       <p:column headerText="Fecha Effectiva Hasta">
+         <p:calendar id="fechaEfectivaHastaInput" value="#{materia.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy" mask="true" />
+         <p:message for="fechaEfectivaHastaInput"/>
+      </p:column>
+      <p:column  headerText="Opciones">
+      <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86;" oncomplete="PF('deleteSubMateriaDialogWV').show();" ajax="true" actionListener="#{admonSubMateriasForm.selectForAction(materia)}"/>
+     </p:column>
+</p:dataTable>
+<h2>
+             <p:commandButton value="Agregar SubMateria" icon="fa fa-plus" style="margin-left: 10px; BackGround:#2D0D86;"  styleClass="ui-priority-primary"  update="SubMateriasForm" action="#{admonSubMateriasForm.onAddNew()}" />
+             <p:commandButton value="Guardar Cambios" icon="fa fa-save" style="margin-left: 10px; BackGround:#2D0D86;" styleClass="ui-priority-primary"  update="SubMateriasForm" action="#{admonSubMateriasForm.saveAndUpdate()}" />
+         </h2>
+</div>
+<div class="ui-g">
+         
+     </div>
+</h:form>
+
+<h:form id="DeleteForm">
+   <p:dialog id="deleteMateriaDialogId" widgetVar="deleteSubMateriaDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Materia">
+    <h2>#{msgs['globalForm.deleteMessage']}</h2>
+    <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="DeleteBtn" style="BackGround:#2D0D86;"  update="SubMateriasForm" value="Aceptar" actionListener="#{admonSubMateriasForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
+              </div>
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn" style="BackGround:#2D0D86;"  value="Cancelar"  onclick="PF('deleteSubMateriaDialogWV').hide();" />
+              </div>
+     </div>
+   </p:dialog>
+</h:form> 
+
+</ui:define>                
+</ui:composition>

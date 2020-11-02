@@ -1,0 +1,300 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="xxhrwcss">
+<style type="text/css">
+.customPanelGrid .ui-panelgrid-header{
+border: 1px solid #c8c8c8;
+background-color: #f4f4f4;
+font-weight: bold;
+text-align: left;
+}
+</style>
+</ui:define>
+
+<ui:define name="content">
+<p:breadCrumb>
+    <p:menuitem value="Inicio" outcome="PaginaPrincipal" />
+    <p:menuitem value="Casos Clínico" url="#"/>
+    <p:menuitem value="Actualizar Caso Clínico" url="#"/>
+     <p:menuitem value="Actualizar Pregunta de Opcion Multiple Caso Principal" url="#"/>
+	
+</p:breadCrumb>
+<h1>Actualizar Pregunta de Opción Multiple Caso Principal</h1>
+<h:form id="updateQuestionMultipleChoiceForm">
+<div class="ui-g">
+ <div class="ui-g-2">
+   <p:panelGrid  columns="1" layout="grid"  styleClass="customPanelGrid">
+     <f:facet name="header">
+       Arbol Caso Principal
+     </f:facet>
+     <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Pregunta" icon="pi pi-plus" action="Preguntas-Create-CoreCase"/>
+   </p:panelGrid>
+   <p:panelGrid  columns="1" layout="grid"  styleClass="customPanelGrid">
+     <f:facet name="header">
+       Series Dicom
+     </f:facet>
+     <p:commandButton immediate="true" title="Nuevo"  value="Agregar Nueva Serie" icon="pi pi-plus" action="Preguntas-Create-CoreCase"/>
+   </p:panelGrid>
+ </div>
+ <div class="ui-g-10">
+    <p:panelGrid  columns="3" layout="grid" styleClass="customPanelGrid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2" >
+     <f:facet name="header">
+       INFORMACIÓN DE PREGUNTA
+     </f:facet>
+         <p:outputLabel for="statusMrqs" value="Estado" />
+         <p:selectOneMenu id="statusMrqs" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+         <f:selectItems value="#{selectsHelper.selectEstatusMrqsItems}" />
+         </p:selectOneMenu>
+         <p:message for="statusMrqs"/>
+         <p:outputLabel for="internalName" value="Nombre Interno" />
+         <p:inputText id="internalName"  placeholder="Nombre Interno"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+         <p:message for="internalName"/>
+         <p:outputLabel for="title" value="Titulo" />
+         <p:inputText id="title"  placeholder="Título en TOC"  maxlength="128" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+         <p:message for="title"/>
+         <p:outputLabel for="questionType" value="Tipo de Pregunta" />
+         <p:selectOneMenu id="questionType" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+         <f:selectItem itemLabel="Seleccione un tipo de pregunta" itemValue="" />
+         <f:selectItems value="#{selectsHelper.selectTipoPreguntaCoreCaseItems}" />
+         </p:selectOneMenu>
+         <p:message for="questionType"/>
+         <p:outputLabel for="topic" value="Tema de Pregunta" />
+         <p:selectOneMenu id="topic" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+         <f:selectItem itemLabel="Seleccione un tema" itemValue="" />
+         <f:selectItems value="#{selectsHelper.selectTemaDePreguntaItems}" />
+         </p:selectOneMenu>
+         <p:message for="topic"/>
+         <p:outputLabel  for="maxScore" value="Maximo Puntaje" />
+         <p:spinner id="maxScore"  stepFactor="0.01" min="0" max="10"  />
+         <p:message for="maxScore"/>
+         <p:outputLabel for="society" value="Sociedad" />
+         <p:inputText id="society" value="CMRI - Consejo Mexicano de Radiología e Imagen" style="width:100%" readonly="true" />
+         <p:message for="society"/>
+    </p:panelGrid>
+    <div class="ui-g">
+	  <div class="ui-g-12 ui-md-6 ui-lg-2">
+	   <p:outputLabel for="tag" value="Etiqueta" />
+	  </div>
+	  <div class="ui-g-12 ui-md-6 ui-lg-8">
+	    <div class="ui-inputgroup">
+	    <span class="ui-inputgroup-addon"><i class="fa fa-tag"></i></span>
+	    <p:inputText id="tag" maxlength="255" style="width:100%"/>
+	    </div>
+	  </div>
+	  <div class="ui-g-12 ui-md-6 ui-lg-2">
+	    <p:message for="tag"/>  
+	  </div>
+	   <div class="ui-g-12 ui-md-6 ui-lg-2">
+	   <p:outputLabel for="internalComments" value="Comentarios Internos" />
+	  </div>
+	  <div class="ui-g-12 ui-md-6 ui-lg-8">
+	    <p:textEditor id="internalComments" widgetVar="internalCommentsWV"  height="100">
+		    <f:facet name="toolbar">
+		        <span class="ql-formats">
+		            <button class="ql-bold"></button>
+		            <button class="ql-italic"></button>
+		            <button class="ql-underline"></button>
+		            <button class="ql-strike"></button>
+		            <button class="ql-unorderedlist"></button>
+		            <button class="ql-orderedlist"></button>
+		        </span>
+		    </f:facet>
+		</p:textEditor>
+	  </div>
+	  <div class="ui-g-12 ui-md-6 ui-lg-2">
+	    <p:message for="internalComments"/>  
+	  </div>
+	  </div>
+	  <p:panel header="ELEMENTOS DE PRESENTACIÓN - INTRODUCCIÓN">
+	  <f:facet name="actions">
+	  <p:splitButton immediate="true" title="Nuevo"  value="Agregar Nuevo Elemento" icon="pi pi-plus">
+	  <p:menuitem value="Agregar Nuevo Texto"/>
+	  <p:menuitem value="Agregar Nueva Imagen"/>
+	  </p:splitButton>
+	  </f:facet>
+	  </p:panel>
+	   <p:panelGrid columns="3" layout="grid" styleClass="customPanelGrid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+	      <f:facet name="header">
+	     PREGUNTA DE OPCIÓN MÚLTIPLE
+	   </f:facet>
+	     <p:outputLabel  value="Título de la pregunta" />
+	     <p:inputText id="questionTitle"  placeholder="Título de la pregunta"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+         <p:message for="questionTitle"/>
+         <p:outputLabel for="questionText"  value="Texto de la pregunta" />
+         <p:inputTextarea id="questionText"   style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+         <p:message for="questionText"/>
+         <p:outputLabel for="hintsText"  value="Texto de sugerencias" />
+         <p:inputText id="hintsText"  placeholder="(No use mas de 5 palabras)"  maxlength="255" style="width:100%" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+         <p:message for="hintsText"/>
+         <p:outputLabel for="correctAnswer" value="Respuesta Correcta" />
+         <p:inputTextarea  id="correctAnswer"  rows="4" style="width:100%"/>
+         <p:message  for="correctAnswer"/>
+       </p:panelGrid>
+       
+       <p:panel header="RESPUESTAS DE OPCIÓN MULTIPLE">
+      <div class="ui-g">
+       <div class="ui-g-12 ui-md-3" style="text-align:right;">
+           <p:outputLabel for="singleMode" value="¿Modo de Respuesta Única?" />
+        </div>
+        <div class="ui-g-12 ui-md-9">
+           <p:inputSwitch id="singleMode" onLabel="Si" offLabel="No"/>
+        </div>
+        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+           <p:outputLabel for="suffleOrder" value="¿Orden de Respuestas Aleatorio?" />
+        </div>
+        <div class="ui-g-12 ui-md-9">
+           <p:inputSwitch id="suffleOrder" onLabel="Si" offLabel="No"/>
+        </div>
+        
+         <div class="ui-g-12">
+         </div>
+        
+       </div>
+       
+       
+       <div class="ui-g" style="border: 1px solid black;width:80%;margin-bottom: 5px;" >
+        <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
+         <div class="ui-g-12">
+           <h1>1</h1>
+         </div>
+         <div class="ui-g-12">
+          <p:inputSwitch onLabel="&#10003;" offLabel="&#215;"/>
+         </div>
+        </div>
+       <div class="ui-g-10 ui-g-nopad">
+         <div class="ui-g-12">
+           <div class="ui-g-2" style="text-align:right;">
+            <p:outputLabel for="answerText1" value="Texto de Respuesta" />
+           </div>
+           <div class="ui-g-10">
+             <p:inputText id="answerText1" style="width:99%;"/>
+           </div>
+         </div>
+          <div class="ui-g-12">
+           <div class="ui-g-2" style="text-align:right;">
+            <p:outputLabel for="explanation1" value="Explicación" />
+           </div>
+           <div class="ui-g-10">
+             <p:inputText id="explanation1" style="width:99%;"/>
+           </div>
+         </div>
+       </div>
+       </div> <!-- END div -->
+
+        <div class="ui-g" style="border: 1px solid black;width:80%;margin-bottom: 5px;" >
+        <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
+         <div class="ui-g-12">
+           <h1>2</h1>
+         </div>
+         <div class="ui-g-12">
+          <p:inputSwitch onLabel="&#10003;" offLabel="&#215;"/>
+         </div>
+        </div>
+       <div class="ui-g-10 ui-g-nopad">
+         <div class="ui-g-12">
+           <div class="ui-g-2" style="text-align:right;">
+            <p:outputLabel for="answerText2" value="Texto de Respuesta" />
+           </div>
+           <div class="ui-g-10">
+             <p:inputText id="answerText2" style="width:99%;"/>
+           </div>
+         </div>
+          <div class="ui-g-12">
+           <div class="ui-g-2" style="text-align:right;">
+            <p:outputLabel for="explanation2" value="Explicación" />
+           </div>
+           <div class="ui-g-10">
+             <p:inputText id="explanation2" style="width:99%;"/>
+           </div>
+         </div>
+       </div>
+       </div> <!-- END div --> 
+      
+      <div class="ui-g" style="border: 1px solid black;width:80%;margin-bottom: 5px;" >
+        <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
+         <div class="ui-g-12">
+           <h1>3</h1>
+         </div>
+         <div class="ui-g-12">
+          <p:inputSwitch onLabel="&#10003;" offLabel="&#215;"/>
+         </div>
+        </div>
+       <div class="ui-g-10 ui-g-nopad">
+         <div class="ui-g-12">
+           <div class="ui-g-2" style="text-align:right;">
+            <p:outputLabel for="answerText3" value="Texto de Respuesta" />
+           </div>
+           <div class="ui-g-10">
+             <p:inputText id="answerText3" style="width:99%;"/>
+           </div>
+         </div>
+          <div class="ui-g-12">
+           <div class="ui-g-2" style="text-align:right;">
+            <p:outputLabel for="explanation3" value="Explicación" />
+           </div>
+           <div class="ui-g-10">
+             <p:inputText id="explanation3" style="width:99%;"/>
+           </div>
+         </div>
+       </div>
+       </div> <!-- END div --> 
+       
+       <div class="ui-g" style="border: 1px solid black;width:80%;margin-bottom: 5px;" >
+        <div class="ui-g-2 ui-g-nopad" style="text-align:center;">
+         <div class="ui-g-12">
+           <h1>4</h1>
+         </div>
+         <div class="ui-g-12">
+          <p:inputSwitch onLabel="&#10003;" offLabel="&#215;"/>
+         </div>
+        </div>
+       <div class="ui-g-10 ui-g-nopad">
+         <div class="ui-g-12">
+           <div class="ui-g-2" style="text-align:right;">
+            <p:outputLabel for="answerText4" value="Texto de Respuesta" />
+           </div>
+           <div class="ui-g-10">
+             <p:inputText id="answerText4" style="width:99%;"/>
+           </div>
+         </div>
+          <div class="ui-g-12">
+           <div class="ui-g-2" style="text-align:right;">
+            <p:outputLabel for="explanation4" value="Explicación" />
+           </div>
+           <div class="ui-g-10">
+             <p:inputText id="explanation4" style="width:99%;"/>
+           </div>
+         </div>
+       </div>
+       </div> <!-- END div --> 
+       </p:panel>
+       
+        <div class="ui-g">
+		   <div class="ui-g-12 ui-md-2" style="text-align:center">
+		     <p:commandButton value="Guardar" />
+		   </div>
+		   <div class="ui-g-12 ui-md-3" style="text-align:center">
+		    <p:commandButton value="Guardar y Previsualizar"/>
+		   </div>
+		   <div class="ui-g-12 ui-md-2" style="text-align:center">
+		    <p:commandButton value="Cancelar"/>
+		   </div>
+		   <div class="ui-g-12 ui-md-2" style="text-align:center">
+		    <p:commandButton value="Duplicar"/>
+		   </div>
+		   <div class="ui-g-12 ui-md-2" style="text-align:center">
+		    <p:commandButton value="Borrar"/>
+		   </div>
+		  </div>
+       
+ </div> <!-- END <div class="ui-g-10"> -->
+ </div> <!-- END <div class="ui-g"> -->
+ 
+</h:form>
+</ui:define>
+</ui:composition>

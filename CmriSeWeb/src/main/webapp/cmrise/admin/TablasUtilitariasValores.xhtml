@@ -1,0 +1,139 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="xxhrwjs">
+<script type="text/javascript">
+function handleAgregarLineaRequest(xhr, status, args){
+	 if(args.validationFailed) {
+		 argsValidationFailed(); 
+     }
+}
+
+function handleGuardarRequest(xhr, status, args){
+	 if(args.validationFailed) {
+		 argsValidationFailed(); 
+     }	
+}
+function guardarFn(){
+	 var guardarBtn = document.getElementById('NuevoTablUtilValo:GuardarBtn'); 
+	 guardarBtn.click();
+ }
+
+function handleDeleteRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.deleteIn) {
+		 PF('deleteRegistroDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+  }else{
+  	 PF('deleteRegistroDialogWV').hide();
+  }	
+}
+
+</script>
+</ui:define>
+
+<ui:define name="content">
+
+  <h:form id="NuevoTablUtilValo">
+  <p:growl id="msgs" showDetail="true"/>
+   <f:passThroughAttribute name="autocomplete" value="off"/>
+   <h1>
+   <p:commandButton immediate="true" title="Buscar" style="BackGround:#2D0D86;" value="Buscar" icon="pi pi-search" onclick="PF('BuscarTablUtilValoDialogWV').show();" rendered="false"/>
+   <p:commandButton immediate="true" title="Nuevo" style="BackGround:#2D0D86;" value="Nuevo" icon="pi pi-plus" actionListener="#{tablasUtilitariasValoresForm.nuevo()}" update="NuevoTablUtilValo" rendered="false"/>
+     </h1>
+     <div class="card">
+     <h1 style="font-weight:bold;">
+     <h:outputLabel for="tipo" value="Lista:" />
+     <h:outputText value="#{tablasUtilitariasValoresForm.tipoTabla}" />
+     </h1>
+     <p:dataTable var="tabUtilVal" value="#{tablasUtilitariasValoresForm.listTabUtilVal}" editable="true" editMode="cell" widgetVar="DataTableUtilValoWV" >
+        <p:column headerText="Codigo">
+          <p:inputText id="codigoInput" value="#{tabUtilVal.codigoTabla}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+          <p:message for="codigoInput"/>
+         </p:column>
+         <p:column headerText="Significado">
+            <p:inputText id="significadoInput" value="#{tabUtilVal.significado}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+             <p:message for="significadoInput"/>
+        </p:column>
+         <p:column headerText="Descripcion">
+                <p:inputText id="descripcionInput" value="#{tabUtilVal.descripcion}"/>
+                 <p:message for="descripcionInput"/>
+        </p:column>
+         <p:column headerText="Fecha Effectiva Desde">
+              <p:calendar id="fechaEfectivaDesdeInput" value="#{tabUtilVal.fechaEfectivaDesde}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+              <p:message for="fechaEfectivaDesdeInput"/>
+        </p:column>
+         <p:column headerText="Fecha Effectiva Hasta">
+           <p:calendar id="fechaEfectivaHastaInput" value="#{tabUtilVal.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy" mask="true" />
+           <p:message for="fechaEfectivaHastaInput"/>
+        </p:column>
+        <p:column headerText="Estado">
+            <p:selectBooleanCheckbox id="estadoInput" style="BackGround:#2D0D86;" value="#{tabUtilVal.estado}" />
+        </p:column>
+         <p:column headerText="Acciones">
+          <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86;" oncomplete="PF('deleteRegistroDialogWV').show();" ajax="true" actionListener="#{tablasUtilitariasValoresForm.selectForAction(tabUtilVal)}"/>
+         </p:column>
+     </p:dataTable>
+     
+     
+      <p:remoteCommand name="anterior" update="NuevoTablUtilValo" action="#{tablasUtilitariasValoresForm.registroAnterior()}" />
+      <p:remoteCommand name="siguiente" update="NuevoTablUtilValo" action="#{tablasUtilitariasValoresForm.registroSiguiente()}" />
+ 
+      <p:commandButton id="GuardarBtn"  title="Guardar" value="Guardar" icon="pi pi-save" actionListener="#{tablasUtilitariasValoresForm.guardar()}" update="NuevoTablUtilValo" style="display:none;BackGround:#2D0D86;" oncomplete="handleGuardarRequest(xhr, status, args)"/>
+ 
+     </div>  
+     
+        <div class="ui-g">
+         <div class="ui-g-12">
+              <p:commandButton value="Regresar" icon="fa fa-backward" immediate="true"  style="margin:10px 20px 10px 20px;BackGround:#2D0D86;" action="#{tablasUtilitariasValoresForm.regresar()}"/>
+              <p:commandButton value="Agregar Linea"  styleClass="ui-priority-primary" update="NuevoTablUtilValo" actionListener="#{tablasUtilitariasValoresForm.agregarLinea()}" oncomplete="handleAgregarLineaRequest(xhr, status, args)" style="margin:10px 20px 10px 20px;BackGround:#2D0D86;"/>
+              <p:commandButton  title="Guardar"  value="Guardar" icon="pi pi-save" onclick="guardarFn();" style="margin:10px 20px 10px 20px;BackGround:#2D0D86;"/>
+         </div>
+     </div>
+  
+     
+  </h:form>
+
+  <h:form id="BuscarTablUtilValo">
+   <f:passThroughAttribute name="autocomplete" value="off"/>
+   <p:dialog id="BuscarTablUtilValoDialogId" header="Buscar Tipo Tabla" widgetVar="BuscarTablUtilValoDialogWV" modal="true">
+       <p:panel id="panelBuscar">
+       <div class="ui-g">
+       <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
+             <p:outputLabel for="tipoTabla" value="Nombre Tipo Tabla"/>
+	         <p:inputText id="tipoTabla" value="#{tablasUtilitariasValoresForm.buscarTipoTabla}"  />
+	         <p:message for="tipoTabla"/>      
+       </div>
+       </div>
+        <div class="ui-g">
+        <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
+        <p:commandButton value="Buscar" style="BackGround:#2D0D86;" update="NuevoTablUtilValo" actionListener="#{tablasUtilitariasValoresForm.buscar()}" oncomplete="PF('BuscarTablUtilValoDialogWV').hide();" /> 
+        </div>
+         <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6">
+        <p:commandButton value="Cancelar" style="BackGround:#2D0D86;" type="reset" update="panelBuscar"   onclick="PF('BuscarTablUtilValoDialogWV').hide();" /> 
+        </div>
+        </div>
+       </p:panel>
+   </p:dialog> 
+  </h:form>
+  
+  <h:form id="DeleteForm">
+  <p:dialog id="deleteRegistroDialogId" widgetVar="deleteRegistroDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Registro">
+   <h2>¿Esta seguro de que desea borrar este registro?</h2>
+    <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="DeleteBtn" style="BackGround:#2D0D86;" update="NuevoTablUtilValo" value="Aceptar" actionListener="#{tablasUtilitariasValoresForm.delete()}" oncomplete="handleDeleteRequest(xhr, status, args)"  />
+              </div>
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn" style="BackGround:#2D0D86;"  value="Cancelar"  onclick="PF('deleteRegistroDialogWV').hide();" />
+              </div>
+     </div>
+  </p:dialog>
+</h:form>
+  
+</ui:define>
+
+</ui:composition>
