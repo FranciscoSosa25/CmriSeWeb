@@ -1,6 +1,7 @@
 package com.cmrise.jpa.jdbc.candidates.exams;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -51,11 +52,22 @@ public class CandExamenesDaoImpl implements CandExamenesDao {
 
 	@Override
 	public List<CandExamenesV2Dto> findByUsuario(long pNumeroUsuario) {
-		String strQuery="SELECT c FROM CandExamenesV2Dto c WHERE c.numeroUsuario="+pNumeroUsuario; 
+		Date date = new Date();
+		Object today = new java.sql.Timestamp(date.getTime());
+		String strQuery="SELECT c FROM CandExamenesV2Dto c WHERE c.numeroUsuario="+pNumeroUsuario;
 		Query query = em.createQuery(strQuery);
 		return query.getResultList();
 	}
-
+	
+	@Override
+	public List<CandExamenesV2Dto> findByUsuarioOnlyEfectiveDates(long pNumeroUsuario) {
+		Date date = new Date();
+		Object today = new java.sql.Timestamp(date.getTime());
+		String strQuery="SELECT c FROM CandExamenesV2Dto c WHERE c.numeroUsuario="+pNumeroUsuario +" AND '"+ today +"' BETWEEN c.fechaEfectivaDesdeExamen AND c.fechaEfectivaHastaExamen ";
+		Query query = em.createQuery(strQuery);
+		return query.getResultList();
+	}
+	
 	@Override
 	public List<CandExamenesV2Dto> findAll() {
 		String strQuery="SELECT c FROM CandExamenesV2Dto c"; 

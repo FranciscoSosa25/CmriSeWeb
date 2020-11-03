@@ -211,8 +211,7 @@ private UserLogin userLogin;
 	}
 	
 	public void refreshEntity() {
-		listCandExamenesV2 = candExamenesLocal.findByUsuario(userLogin.getNumeroUsuario());
-		 validateDate();
+		listCandExamenesV2 = candExamenesLocal.findByUsuarioOnlyEfectiveDates(userLogin.getNumeroUsuario());
 	}
 	
 	public UserLogin getUserLogin() {
@@ -230,18 +229,4 @@ private UserLogin userLogin;
 	public void setListCandExamenesV2(List<CandExamenesV2> listCandExamenesV2) {
 		this.listCandExamenesV2 = listCandExamenesV2;
 	}		 
-	
-	// adding validation for date exams
-	public void validateDate() {
-		Date today = new Date();
-		System.out.println("today" + today);
-		for (CandExamenesV2 exam :  new ArrayList<CandExamenesV2>(listCandExamenesV2)) {
-			System.out.println("getFechaEfectivaDesdeExamen" + exam.getFechaEfectivaDesdeExamen());
-			System.out.println("getFechaEfectivaHastaExamen" + exam.getFechaEfectivaHastaExamen());
-			if (today.before(exam.getFechaEfectivaDesdeExamen()) || today.after(exam.getFechaEfectivaHastaExamen())) {
-				listCandExamenesV2.remove(exam);
-			}
-		}
-
-	}
 }

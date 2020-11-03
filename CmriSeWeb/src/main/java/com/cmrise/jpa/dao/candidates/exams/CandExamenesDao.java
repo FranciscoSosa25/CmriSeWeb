@@ -12,7 +12,8 @@ public interface CandExamenesDao {
 			                                   ,String pTipoExamen
 			                                   ); 
 	public void delete(long pNumero); 
-	public List<CandExamenesV2Dto> findByUsuario(long pNumeroUsuario); 
+	public List<CandExamenesV2Dto> findByUsuario(long pNumeroUsuario);
+	public List<CandExamenesV2Dto> findByUsuarioOnlyEfectiveDates(long pNumeroUsuario);
 	public List<CandExamenesV2Dto> findAll(); 
 	public CandExamenesV1Dto findByNumero(long pNumero);
 	public List<CandExamenesV2Dto> findByCURP(String pCurp,

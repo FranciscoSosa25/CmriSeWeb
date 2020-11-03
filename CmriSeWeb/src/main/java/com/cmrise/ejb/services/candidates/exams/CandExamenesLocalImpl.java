@@ -63,6 +63,17 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 		}
 		return retval;
 	}
+	
+	@Override
+	public List<CandExamenesV2> findByUsuarioOnlyEfectiveDates(long pNumeroUsuario) {
+		List<CandExamenesV2> retval = new ArrayList<CandExamenesV2>(); 
+		List<CandExamenesV2Dto> listCandExamenesV2Dto = candExamenesDao.findByUsuarioOnlyEfectiveDates(pNumeroUsuario); 
+		for(CandExamenesV2Dto candExamenesV2Dto:listCandExamenesV2Dto) {
+			CandExamenesV2 candExamenesV2 = dtoV2ToObjMod(candExamenesV2Dto);
+			retval.add(candExamenesV2); 
+		}
+		return retval;
+	}
 
 	@Override
 	public List<CandExamenesV2> findAll() {
@@ -119,4 +130,5 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 			                 ,CandExamenesDto pCandExamenesDto) {
 		 candExamenesDao.updateEstatus(pNumero, pCandExamenesDto);
 	}
+	
 }
