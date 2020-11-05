@@ -53,6 +53,7 @@ import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
 import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
+import com.cmrise.jpa.dao.mrqs.MrqsCorrelacionColumnaPair;
 import com.cmrise.jpa.dto.admin.TablasUtilitariasValoresDto;
 import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasRespuestasDto;
@@ -647,7 +648,7 @@ public class UpdateFTAMrqForm {
 	private void obtenerColumnasGuardadas() {
 		long id=mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(getNumeroHdr());
 		listMrqsCorrelacionColumnas = mrqsCorrelacionColumnasLocal.findByFta( id);
-		 listMrqsCorrelacionRespuestas = mrqsCorrelacionColumnasLocal.findRespuestasCorrectasByFta(id);
+		listMrqsCorrelacionRespuestas = mrqsCorrelacionColumnasLocal.findRespuestasCorrectasByFta(id);
 		
 	}
 	private long insertarCorrelacionColumas(List<MrqsCorrelacionColumnasDto> respuestas, List<MrqsCorrelacionColumnasRespuestasDto> preguntas,long lNumeroFta) {
@@ -1362,6 +1363,8 @@ public class UpdateFTAMrqForm {
 	public void setPanelCorrelacionColumnas(boolean panelCorrelacionColumnas) {
 		this.panelCorrelacionColumnas = panelCorrelacionColumnas;
 	}
+
+	
 	
 	
 }

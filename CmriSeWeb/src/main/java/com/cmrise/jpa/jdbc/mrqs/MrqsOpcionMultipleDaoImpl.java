@@ -19,7 +19,7 @@ public class MrqsOpcionMultipleDaoImpl implements MrqsOpcionMultipleDao {
 	
 	@Override
 	public long insert(MrqsOpcionMultipleDto pMrqsOpcionMultipleDto) {
-		Query q = em.createNativeQuery("SELECT NEXT VALUE FOR dbo.MRQS_CORRELACION_COLUMNA_S");
+		Query q = em.createNativeQuery("SELECT NEXT VALUE FOR dbo.MRQS_OPCION_MULTIPLE_S");
 		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
 		pMrqsOpcionMultipleDto.setNumero(lNumeroS.longValue());
 		java.util.Date sysdate = new java.util.Date();

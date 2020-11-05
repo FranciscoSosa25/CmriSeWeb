@@ -18,13 +18,13 @@
 			<ui:repeat var="mrqsCorrelacionColumnaDerechaRespuestas"
 				value="#{mrqPreviewForm.listMrqsCorrelacionColumnasRespuestasDto}">
 				<div class="ui-g-5 ui-g-nopad" style="margin-bottom: 5%;">
-					<h:outputLabel id="textoIzquierda" style="width:80%;"
+					<h:outputLabel id="textoIzquierda" style="width:80%;word-wrap: break-word"
 						value="#{mrqsCorrelacionColumnaDerechaRespuestas.texto}">
 					</h:outputLabel>
 					<p:message for="textoIzquierda" />
 				</div>
 				<div class="ui-g-5 ui-g-nopad" style="margin-bottom: 5%;">
-					<h:outputLabel id="textoDerecha" style="width:80%;"
+					<h:outputLabel id="textoDerecha" style="width:80%;word-wrap: break-word"
 						value="#{mrqsCorrelacionColumnaDerechaRespuestas.valorSeleccionado}">
 					</h:outputLabel>
 					<p:message for="textoDerecha" />
