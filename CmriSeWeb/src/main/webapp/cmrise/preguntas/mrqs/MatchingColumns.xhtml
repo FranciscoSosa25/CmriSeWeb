@@ -23,7 +23,7 @@
 				<div class="ui-g-9 ui-g-nopad" style="margin-bottom: 5%;">
 					<p:inputText id="respuesta"
 						value="#{mrqsCorrelacionColumna.textoRespuesta}" required="true">
-						<p:ajax event="keyup"
+						<p:ajax event="keyup" delay="300"
 							update=":UpdateReactivosForm:ColumnasCorrelacion" />
 					</p:inputText>
 					<p:message for="respuesta" />
@@ -55,7 +55,7 @@
 					<p:inputText id="pregunta" style="width:80%;"
 						value="#{mrqsCorrelacionColumnaDerecha.textoRespuesta}"
 						required="true">
-						<p:ajax event="keyup"
+						<p:ajax event="keyup"  delay="1000"
 							update=":UpdateReactivosForm:ColumnasCorrelacion" />
 					</p:inputText>
 					<p:message for="pregunta" />

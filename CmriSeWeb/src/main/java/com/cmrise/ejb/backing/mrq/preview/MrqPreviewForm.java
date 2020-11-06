@@ -1,6 +1,9 @@
 package com.cmrise.ejb.backing.mrq.preview;
 
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -26,6 +29,7 @@ import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
 import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
+import com.cmrise.jpa.dao.mrqs.MrqsCorrelacionColumnaPair;
 import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasRespuestasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
@@ -73,6 +77,7 @@ public class MrqPreviewForm {
 	MrqsCorrelacionColumnasLocal mrqsCorrelacionColumnasLocal;
 	private List<MrqsCorrelacionColumnasDto> listMrqsCorrelacionColumnasDto = new ArrayList<MrqsCorrelacionColumnasDto>();
 	private List<MrqsCorrelacionColumnasRespuestasDto> listMrqsCorrelacionColumnasRespuestasDto = new ArrayList<MrqsCorrelacionColumnasRespuestasDto>();
+	private List<MrqsCorrelacionColumnaPair> listMrqsCorrelacionColumnasPrev = new ArrayList<MrqsCorrelacionColumnaPair>();
 	private boolean correlacionColumnas;
 	private boolean panelCorrelacionColumnasResultados;
 	/********************************************************************
@@ -228,22 +233,22 @@ public class MrqPreviewForm {
 	private void comprobarRespuestasCorrelacionColumnas() {
 		if(Utilitarios.CORRELACION_COLUMNA.equals(getTipoPregunta())){
 		Iterator<MrqsCorrelacionColumnasRespuestasDto> lista=	listMrqsCorrelacionColumnasRespuestasDto.iterator();
-			
-		int respuestasCorrectas=0;
-		int respuestasIncorrectas=0;
+	    float valorItem=Utilitarios.CORRELACION_COLUMNA_VALOR_REACTIVO/listMrqsCorrelacionColumnasRespuestasDto.size();
+		int respuestasCorrectas=0;		
+		float puntuacion=0.0f;
 		while(lista.hasNext()) {
 			
 			MrqsCorrelacionColumnasRespuestasDto var=lista.next();
-			if(var.getTexto().equals(var.getValorSeleccionado()))
+			if(var.getTexto().equals(var.getValorSeleccionado())) {
 				respuestasCorrectas++;
-			
-		}
-		respuestasIncorrectas=listMrqsCorrelacionColumnasRespuestasDto.size()-respuestasCorrectas;
-			
+				puntuacion+=valorItem;
+			}
+		}			
 	    setWrongAnswer((respuestasCorrectas== listMrqsCorrelacionColumnasRespuestasDto.size())?true:false);
 		setCorrectAnswers(correctAnswers.replace("0", String.valueOf(respuestasCorrectas)));
-	    setWrongAnswers(wrongAnswers.replace("0", String.valueOf(respuestasIncorrectas)));  
-	    setPuntuacion((float)respuestasCorrectas);
+	    setWrongAnswers(wrongAnswers.replace("0", String.valueOf(listMrqsCorrelacionColumnasRespuestasDto.size()-respuestasCorrectas)));  
+	    BigDecimal bd = new BigDecimal(puntuacion).setScale(2, BigDecimal.ROUND_DOWN);
+	    setPuntuacion(bd.floatValue());
 	    setPanelCorrelacionColumnasResultados(true);
 	    setCorrelacionColumnas(false);
 		
@@ -312,10 +317,11 @@ public class MrqPreviewForm {
 		  System.out.println("metodoPuntuacion:"+this.metodoPuntuacion);
 		  if(Utilitarios.PROP_SCORING.equals(this.metodoPuntuacion)) {
 			  System.out.println("totalCorrectAnswers:"+this.totalCorrectAnswers);
-			  System.out.println("puntuacion:"+this.puntuacion);
-		   float floatPuntuacionProp = ((float)countCorrectAnswers/(float)this.totalCorrectAnswers)*this.puntuacion; 
+			  System.out.println("puntuacion:"+this.puntuacion); 		   
+		   float floatPuntuacionProp= (getPuntuacion()*(float)countCorrectAnswers)/(float)getTotalCorrectAnswers();
 		   System.out.println("floatPuntuacionProp:"+floatPuntuacionProp);
-		   this.setPuntuacion(floatPuntuacionProp);
+		   BigDecimal bd = new BigDecimal(floatPuntuacionProp).setScale(2, BigDecimal.ROUND_DOWN);
+		   this.setPuntuacion(bd.floatValue() );
 		  }
 	  }else {
 		  this.setWrongAnswer(true);
@@ -350,6 +356,16 @@ public class MrqPreviewForm {
 		setCorrelacionColumnas(Utilitarios.CORRELACION_COLUMNA.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta()));
 		listMrqsCorrelacionColumnasDto=mrqsCorrelacionColumnasLocal.findByFta(lNumeroFta);
 		listMrqsCorrelacionColumnasRespuestasDto=mrqsCorrelacionColumnasLocal.findRespuestasCorrectasByFta(lNumeroFta);
+		int length=listMrqsCorrelacionColumnasDto.size()>listMrqsCorrelacionColumnasRespuestasDto.size()?listMrqsCorrelacionColumnasDto.size():listMrqsCorrelacionColumnasRespuestasDto.size();
+		for(int i=0;i<length;i++) {
+			
+			listMrqsCorrelacionColumnasPrev.add(new 
+					MrqsCorrelacionColumnaPair(i>=listMrqsCorrelacionColumnasDto.size()?
+					null:listMrqsCorrelacionColumnasDto.get(i), 
+					i>=listMrqsCorrelacionColumnasRespuestasDto.size()?
+							null:listMrqsCorrelacionColumnasRespuestasDto.get(i) ));
+		}
+		int i=4;
 	}
 	
 	public boolean isMultipleChoice() {
@@ -659,6 +675,14 @@ public class MrqPreviewForm {
 
 	public void setPanelCorrelacionColumnasResultados(boolean panelCorrelacionColumnasResultados) {
 		this.panelCorrelacionColumnasResultados = panelCorrelacionColumnasResultados;
+	}
+
+	public List<MrqsCorrelacionColumnaPair> getListMrqsCorrelacionColumnasPrev() {
+		return listMrqsCorrelacionColumnasPrev;
+	}
+
+	public void setListMrqsCorrelacionColumnasPrev(List<MrqsCorrelacionColumnaPair> listMrqsCorrelacionColumnasPrev) {
+		this.listMrqsCorrelacionColumnasPrev = listMrqsCorrelacionColumnasPrev;
 	}
 	
 	
