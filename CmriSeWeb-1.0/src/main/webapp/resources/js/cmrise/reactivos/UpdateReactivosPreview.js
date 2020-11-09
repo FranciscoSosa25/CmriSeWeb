@@ -18,7 +18,7 @@ let diagram;
 let imgCorDivID;
 let widthImgCorID;
 let heightImgCorID;
-
+let val=0;
 const INF = 10000;
 
 class Point {
@@ -143,77 +143,92 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function point_it(event) {
-
-    perimeter = new Array();
+	
+    val=val+1;
+    var sc=document.getElementById("previewForm:score").value;  
+    if(val <= 0){    
     paintingCanvasID = document.getElementById("paintingCanvas");
     ctx = paintingCanvasID.getContext("2d");
     ctx.clearRect(0, 0, paintingCanvasID.width, paintingCanvasID.height);
-
+    }
     var img = new Image();
     img.setAttribute('src', graphicImageImgSenID.src);
-
+    
+    
     img.addEventListener('load', (e) => {
+    	if(val <= 0){
         paintingCanvasID.width = img.width;
-        paintingCanvasID.height = img.height;
-        ctx = paintingCanvasID.getContext("2d");
-        ctx.drawImage(img, 0, 0, paintingCanvasID.width, paintingCanvasID.height);
-
-        var rect, x, y;
-
-        if (event.ctrlKey || event.which === 3 || event.button === 2) {
-            event.preventDefault();
+       paintingCanvasID.height = img.height;
+       ctx = paintingCanvasID.getContext("2d");
+       ctx.drawImage(img, 0, 0, paintingCanvasID.width, paintingCanvasID.height);
+       var rect, x, y;
+       if (event.ctrlKey || event.which === 3 || event.button === 2) {
+           event.preventDefault();
             return;
-        }
-
+       }M2
+   	} 
+       if(val<=sc){
         rect = paintingCanvasID.getBoundingClientRect();
         x = event.clientX - rect.left;
         y = event.clientY - rect.top;
-        x = x.toFixed(5);
-        y = y.toFixed(5);
-        perimeter.push({'x': x, 'y': y});
+       x = x.toFixed(5);
+       y = y.toFixed(5);
+       perimeter.push({'x': x, 'y': y});
 
-        setPointAnswer().then((polygon) => {
+        setPointAnswer(x,y).then((polygon) => {
+          
+          if(polygon.length > 3 && isInside(polygon, polygon.length, new Point(x, y))){
+        	  model.updateScore();
+          }
+          
+          	  var indicateImageResult = document.getElementById('previewForm:indicateImageResult');
+          	  var  puntuacionScore = document.getElementById('previewForm:puntuacionScore');
+          	   indicateImageResult.value = JSON.parse(model.getResult());
+          	   puntuacionScore.value = model.getScore();		   
+          	  
+          
+         
+           //indicateImageResult = document.getElementById('previewForm:indicateImageResult');
 
-            console.log(isInside(polygon, polygon.length, new Point(x, y)));
+          //console.log(indicateImageResult);
 
-            indicateImageResult = document.getElementById('previewForm:indicateImageResult');
-
-            console.log(indicateImageResult);
-
-            indicateImageResult.value = JSON.stringify(isInside(polygon, polygon.length, new Point(x, y)));
-        });
-
+          
+       });
+        
         var tmpX, tmpY;
 
         ctx.strokeStyle = 'red';
         ctx.beginPath();
         tmpX = parseFloat(x) + 20;
-        ctx.moveTo(tmpX, y);
+       ctx.moveTo(tmpX, y);
         ctx.lineTo(x, y);
-        tmpX = parseFloat(x) - 20;
-        ctx.moveTo(tmpX, y);
+       tmpX = parseFloat(x) - 20;
+       ctx.moveTo(tmpX, y);
         ctx.lineTo(x, y);
         tmpY = parseFloat(y) + 20;
         ctx.moveTo(x, tmpY);
+       ctx.lineTo(x, y);
+       tmpY = parseFloat(y) - 20;
+       ctx.moveTo(x, tmpY);
         ctx.lineTo(x, y);
-        tmpY = parseFloat(y) - 20;
-        ctx.moveTo(x, tmpY);
-        ctx.lineTo(x, y);
-        ctx.lineWidth = 3;
+       ctx.lineWidth = 3;
         ctx.stroke();
 
-        coordinatesID = document.getElementById('previewForm:coordinates');
-        coordinatesID.value = JSON.stringify(perimeter);
-    });
+       coordinatesID = document.getElementById('previewForm:coordinates');
+       coordinatesID.value = JSON.stringify(perimeter);
+    }});
 
 }
 
+
 function init() {
+	debugger;
+	
     var divArea = document.getElementById('myDiagramDiv');
     divArea.onclick = function () {
         addShape();
     };
-
+   
 }
 
 function addShape() {
@@ -230,17 +245,60 @@ function addShape() {
             )
         );
         console.log(myDiagram);
+        
     } else {
         //alert('logica faltante');
     }
 }
 
 
+
+var model = {
+		polygons : [],
+		correctPoly : [],
+		polyValue : 0,
+		score : 0,
+		resultScore : 0,
+		updateScore : function()	{
+			model.resultScore += model.polyValue;
+		},
+		remove : function(index){
+			if(index >  -1 &&  index < model.polygons.length)
+				model.polygons.splice(index, 1);
+		}, getResult : function(){
+			let r = model.resultScore / model.score;
+			return r >= 0.5;
+		},getScore : function(){
+			let r = model.resultScore / model.score;
+			if(r >= 0.5){
+				r  = r >  0.5 ? 1 : 0.5
+			}else{
+				r = 0;
+			}
+			return r;
+		}
+	}
+
 $(document).ready(function () {
 
     console.log("Comienza ready");
 
     console.log("Finaliza ready");
+    try{
+    	        
+        let polygonPoints = JSON.parse(document.getElementById('previewForm:coordinatesImgCor').value);
+        model.score = parseInt(document.getElementById('previewForm:score').value);
+    	
+    	if(polygonPoints.model && polygonPoints.model.nodeDataArray && polygonPoints.model.nodeDataArray.length > 0){
+    		model.polygons = polygonPoints.model.nodeDataArray;
+    		model.polyValue = model.score / polygonPoints.model.nodeDataArray.length;
+    	}
+    	
+    	
+        }catch(e){
+        	
+        }
+
 });
 
 function handleUpdateRequest(xhr, status, args) {
@@ -280,7 +338,7 @@ function checkcheck(x, y, cornersX, cornersY) {
             && (pX[i] <= x || pX[j] <= x)) {
             odd ^= (pX[i] + (y - pY[i]) * (pX[j] - pX[i]) / (pY[j] - pY[i])) < x;
         }
-
+        
         j = i;
     }
 
@@ -311,6 +369,25 @@ function isPointInside(x, y, cornersX, cornersY) {
     return inside;
 }
 
+function inside(point, vs) {
+    // ray-casting algorithm based on
+    // https://wrf.ecse.rpi.edu/Research/Short_Notes/pnpoly.html/pnpoly.html
+    
+    var x = point[0], y = point[1];
+    
+    var inside = false;
+    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+        var xi = vs[i][0], yi = vs[i][1];
+        var xj = vs[j][0], yj = vs[j][1];
+        
+        var intersect = ((yi > y) != (yj > y))
+            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+    }
+    
+    return inside;
+};
+
 function onSegment(p, q, r) {
 
     if (q.x <= Math.max(p.x, r.x) &&
@@ -323,6 +400,12 @@ function onSegment(p, q, r) {
     return false;
 }
 
+function getPolygonArray(polygon){
+	var poly = [];
+	var pointX = polygon.pointX;
+	
+}
+
 function orientation(p, q, r) {
 
     let val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
@@ -330,7 +413,7 @@ function orientation(p, q, r) {
     if (val == 0) {
 
         return 0; // colinear
-    }
+    } type="hidden"
 
     return (val > 0) ? 1 : 2; // clock or counterclock wise
 }
@@ -423,22 +506,76 @@ function isInside(polygon, n, p) {
     return (count % 2 == 1); // Same as (count%2 == 1)
 }
 
-function setPointAnswer() {
+/**
+ * 
+ * @param posX
+ * @param polyX
+ * @returns
+ *
+function getShifting(posX, polyX){
+	if(posX < 0 && polyX < 0){
+		return ((posX * -1) - (polyX * -1) ) * -1;
+	}
+	
+	if(posX > 0 && polyX > 0){
+		return (posX - polyX ) * -1;
+	}else{
+		
+	}
+	
+}
+/**
+ * 
+ * @param x
+ * @param y
+ * @returns
+ */
+
+
+
+function setPointAnswer(x,y) {
 
     return new Promise(resolve => {
 
         let polygon = [];
-
-        let polygonPoints = JSON.parse(document.getElementById('previewForm:coordinatesImgCor').value);
-
-        polygonPoints.forEach(node => {
-
-            polygon.push(new Point(node.x, node.y));
-
-            if (polygon.length == polygonPoints.length) {
-
-                resolve(polygon);
-            }
-        });
+        let cornersX=[];
+        let cornersY=[];
+        var count = 1;
+        var finalResult = 0;
+        let index = -1;
+        let removeIndex = -1;
+     
+        var resultPolygon = [];
+        Array.prototype.forEach.call(model.polygons,node => {
+        		var nod=node.geo.split(" ");
+        		console.log(nod);
+        		let xPOS
+        		index++;
+        		cornersX=node.pointX;
+    			cornersY=node.pointY;
+        		console.log("cornersX : "+cornersX)
+        		console.log("cornersY : "+cornersY)
+        		var result = checkcheck(x, y, cornersX, cornersY)
+        		if(result > 0 || result != false) {
+          			for (var i = 0; i < cornersX.length; i++) {
+        				resultPolygon.push({x: cornersX[i], y: cornersY[i]})
+        		    }     	
+          			removeIndex = index;
+        		}     		
+           });
+           if(resultPolygon.length > 3){
+        	   model.correctPoly.push(model.polygons[removeIndex])
+        	   model.remove(removeIndex);
+         	   
+           }
+           resolve(resultPolygon)
+        
+//        indicateImageResult = document.getElementById('previewForm:indicateImageResult');
+//        console.log("indicateImageResult: "+indicateImageResult);
+//
+//        indicateImageResult.value = JSON.stringify(finalResult);
+//        console.log("indicateImageResult.value: "+indicateImageResult.value);
+//        
+//        console.log("finalResult : "+finalResult);
     });
 }

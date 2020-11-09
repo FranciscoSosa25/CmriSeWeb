@@ -27,6 +27,11 @@
 * This tool uses a temporary {@link Shape}, {@link #temporaryShape}, held by a {@link Part} in the "Tool" layer,
 * to show interactively what the user is drawing.
 */
+
+var polygonList=[];
+var polygonPoints = []
+
+
 function PolygonDrawingTool() {
   go.Tool.call(this);
   this.name = "PolygonDrawing";
@@ -126,11 +131,38 @@ PolygonDrawingTool.prototype.modifyPointForGrid = function(p) {
   return p;
 }
 
+var newPolygon = function(){
+	polygonList.push({pointX:[], pointY:[]}) 
+	//addPoints(q)
+}
+
+var addPoints = function(q){
+	var points = polygonList[polygonList.length-1];
+    points.pointX.push(q.x);
+    points.pointY.push(q.y);
+}
+
+var finishPolygon = function(){
+	var points = polygonList[polygonList.length-1].pointX;
+	if(points.length <= 2){
+		polygonList.pop();
+		return;
+	}
+	let len = polygonDiagram.model.nodeDataArray.length
+	polygonDiagram.model.nodeDataArray[len-1].pointX = polygonList[polygonList.length-1].pointX
+	polygonDiagram.model.nodeDataArray[len-1].pointY = polygonList[polygonList.length-1].pointY
+	
+	
+	
+}
+
+
 /**
 * This internal method adds a segment to the geometry of the {@link #temporaryShape}.
 * @this {PolygonDrawingTool}
 */
 PolygonDrawingTool.prototype.addPoint = function(p) {
+	
   var shape = this.temporaryShape;
   if (shape === null) return;
 
@@ -141,6 +173,7 @@ PolygonDrawingTool.prototype.addPoint = function(p) {
   var part = shape.part;
   // if it's not in the Diagram, re-initialize the Shape's geometry and add the Part to the Diagram
   if (part.diagram === null) {
+	newPolygon()
     var fig = new go.PathFigure(q.x, q.y, true);  // possibly filled, depending on Shape.fill
     var geo = new go.Geometry().add(fig);  // the Shape.geometry consists of a single PathFigure
     this.temporaryShape.geometry = geo;
@@ -160,7 +193,11 @@ PolygonDrawingTool.prototype.addPoint = function(p) {
       }
     } else {
       fig.add(new go.PathSegment(go.PathSegment.Line, q.x, q.y));
+    //  polygonPoints.push(new go.PathSegment(go.PathSegment.Line, q.x, q.y));
+      addPoints(q)
+      
     }
+    //geo = new go.Geometry().add(fig);
   }
   shape.geometry = geo;
 };
@@ -256,7 +293,12 @@ PolygonDrawingTool.prototype.finishShape = function() {
       this.transactionResult = this.name;
     }
   }
-  this.stopTool();
+  //polygonList.push(polygonPoints);
+  console.log("polygonPoints : "+ polygonPoints)
+  polygonPoints = [];
+  console.log("polygoneList : "+ polygonList)
+  finishPolygon();
+  this.stopTool();  
 };
 
 /**
