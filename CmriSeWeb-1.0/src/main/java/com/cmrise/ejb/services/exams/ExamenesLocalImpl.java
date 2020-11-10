@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import com.cmrise.ejb.model.candidates.exams.CandExamenesV2;
+import com.cmrise.ejb.model.candidates.exams.CandHExamenes;
 import com.cmrise.ejb.model.exams.Examenes;
 import com.cmrise.jpa.dao.exams.ExamenesDao;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesV2Dto;
@@ -38,6 +39,18 @@ public class ExamenesLocalImpl implements ExamenesLocal {
 		for(Object object:listObjects) {
 			Examenes examen = objToExamenes(object); 
 			retval.add(examen);
+		}
+		return retval;
+	}
+	
+	@Override
+	public List<CandHExamenes> findCandidatesForthisExam(int idExamen){
+		
+		List<Object> listObjects = examenesDao.findCandidatesForthisExam(idExamen);
+		List<CandHExamenes> retval = new ArrayList<CandHExamenes>(); 
+		for(Object object:listObjects) {
+			CandHExamenes cand = objToCandHistorial(object); 
+			retval.add(cand);
 		}
 		return retval;
 	}
@@ -79,6 +92,13 @@ public class ExamenesLocalImpl implements ExamenesLocal {
 		}
 		return retval; 
 	}
-
+	
+	private CandHExamenes objToCandHistorial(Object pObject) {
+		CandHExamenes retval = new CandHExamenes(); 
+		
+			
+		
+		return retval; 
+	}
 	
 }

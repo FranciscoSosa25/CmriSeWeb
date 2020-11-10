@@ -22,11 +22,14 @@ public class HistoryExamsForm {
 	private List<Examenes> listExamenes = new ArrayList<Examenes>(); 
 	private String tipoExamen; 
 	private int idExamen;
+	private int id_Examen;
 	private String nombreExamen;
 	private Date fechaDesde;
 	private Date fechaHasta;
 	private int tiempo;
-	
+	private Boolean showtable = true;
+	private String buttonText = "Ver";
+
 	@Inject
 	CandExamenesLocal candExamenesLocal;
 	
@@ -50,7 +53,25 @@ public class HistoryExamsForm {
 		session.setAttribute("NumeroExamenSV", pExamenes.getNumero());
 		session.setAttribute("TipoExamenSV", pExamenes.getTipoExamenCode());
 		return "History-Exams-Detail"; 
-	}    
+	}
+	
+	public List<Examenes> updateTable(int id_examen) {
+		changeButtonText();
+		clearForm();
+	    System.out.println("Soponcio "+ id_examen);
+	    showtable = !showtable;
+	    if(!showtable)
+		{
+	    	setIdExamen((int)id_examen);
+	    	//findByTituloExamen();
+	    	//listExamenes=examenesLocal.findByTituloExamen(idExamen, nombreExamen, fechaDesde, fechaHasta, tiempo, tipoExamen);
+		}
+	    return listExamenes= examenesLocal.findByTituloExamen(this.idExamen,this.nombreExamen,this.fechaDesde,this.fechaHasta,this.tiempo,this.tipoExamen);
+	}
+	
+	public Boolean getShowtable() {
+	    return showtable;
+	}
 	
 	public void findByTituloExamen() {
 		listExamenes = examenesLocal.findByTituloExamen(this.idExamen,this.nombreExamen,this.fechaDesde,this.fechaHasta,this.tiempo,this.tipoExamen);
@@ -112,6 +133,22 @@ public class HistoryExamsForm {
 		this.tiempo = tiempo;
 	} 
 	
+	public int getId_Examen() {
+		return id_Examen;
+	}
+
+	public void setId_Examen(int id_Examen) {
+		this.id_Examen = id_Examen;
+	}
+
+	public String getButtonText() {
+		return buttonText;
+	}
+
+	public void setButtonText(String buttonText) {
+		this.buttonText = buttonText;
+	}
+
 	public void clearForm(){
         setIdExamen(0);
         setNombreExamen("");
@@ -121,4 +158,11 @@ public class HistoryExamsForm {
         setTipoExamen("");
         refreshEntity();
     }
+	
+	public void changeButtonText() {
+		if(buttonText.equals("Ver"))
+			buttonText = "Regresar";
+		else
+			buttonText = "Ver";
+	}
 }

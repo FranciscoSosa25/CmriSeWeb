@@ -25,7 +25,7 @@ public class ExamenesDaoImpl implements ExamenesDao {
 	public List<Object> findAll() {
 		String strQuery ="SELECT DISTINCT ME.[NUMERO]\r" + 
 				"      ,'Titulo Sin Implementar' TITULO\r" + 
-				"      ,'Nombre Sin Implementar' NOMBRE\r" + 
+				"      ,CE1.[ADMON_EXAMEN_DESC]\r" + 
 				"      ,ME.[DESCRIPCION]\r" + 
 				"      ,ME.[TIEMPO_LIMITE]\r" + 
 				"	  ,(SELECT COUNT(1) FROM CAND_EXAMENES TMP WHERE TMP.NUMERO_EXAMEN = ME.NUMERO AND TMP.TIPO='MRQS') TOTAL_CANDIDADATOS\r" + 
@@ -35,7 +35,9 @@ public class ExamenesDaoImpl implements ExamenesDao {
 				"	  ,ME.FECHA_EFECTIVA_HASTA\r" + 
 				"  FROM [dbo].[MRQS_EXAMENES] ME\r" + 
 				"      ,[dbo].[CAND_EXAMENES] CE\r" + 
+				"	   ,[dbo].[MRQS_EXAMENES_V1] CE1\r" + 
 				"  WHERE ME.NUMERO = CE.NUMERO_EXAMEN\r" + 
+				"  AND ME.NUMERO = CE1.NUMERO\r" + 
 				"    AND CE.TIPO = 'MRQS'\r" + 
 				" UNION\r" + 
 				"  SELECT DISTINCT CCE.[NUMERO]\r" + 
@@ -61,7 +63,7 @@ public class ExamenesDaoImpl implements ExamenesDao {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		String strQuery ="SELECT DISTINCT ME.[NUMERO]\r" + 
 				"      ,'Titulo Sin  ' TITULO\r" + 
-				"      ,'Nombre Sin Implementar' NOMBRE\r" + 
+				"      ,CE1.[ADMON_EXAMEN_DESC]\r" + 
 				"      ,ME.[DESCRIPCION]\r" + 
 				"      ,ME.[TIEMPO_LIMITE]\r" + 
 				"	  ,(SELECT COUNT(1) FROM CAND_EXAMENES TMP WHERE TMP.NUMERO_EXAMEN = ME.NUMERO AND TMP.TIPO='MRQS') TOTAL_CANDIDADATOS\r" + 
@@ -71,32 +73,14 @@ public class ExamenesDaoImpl implements ExamenesDao {
 				"	  ,ME.FECHA_EFECTIVA_HASTA\r" + 
 				"  FROM [dbo].[MRQS_EXAMENES] ME\r" + 
 				"      ,[dbo].[CAND_EXAMENES] CE\r" + 
-				"  WHERE ME.NUMERO = CE.NUMERO_EXAMEN\r";
-				//"    AND CE.TIPO = 'MRQS'\r" +
-				//"	 AND CE.NUMERO_EXAMEN LIKE '%"+ idExamen+ "%' \r" +
-				//"	 AND ME.FECHA_EFECTIVA_DESDE = "+ fechaDesde+ " \r" +
-				//"	 AND ME.FECHA_EFECTIVA_HASTA = "+ fechaHasta+ " \r" +
-				//	 AND ME.[TIEMPO_LIMITE] LIKE '%"+ tiempo+ "%' \r";
-				/*" UNION\r" + 
-				"  SELECT DISTINCT CCE.[NUMERO]\r" + 
-				"      ,'Titulo Sin Implementar' TITULO\r" + 
-				"      ,'Nombre Sin Implementar' NOMBRE\r" + 
-				"      ,CCE.[DESCRIPCION]\r" + 
-				"      ,CCE.[TIEMPO_LIMITE]\r" + 
-				"	  ,(SELECT COUNT(1) FROM CAND_EXAMENES TMP WHERE TMP.NUMERO_EXAMEN = CCE.NUMERO AND TMP.TIPO='CORE_CASES') TOTAL_CANDIDADATOS\r" + 
-				"	  ,'Casos Clinicos' TIPO_EXAMEN_DESC\r" + 
-				"	  ,CCE.FECHA_EFECTIVA_DESDE\r" + 
-				"	  ,CE.TIPO TIPO_EXAMEN_CODE\r" +
-				"	  ,CCE.FECHA_EFECTIVA_HASTA\r" + 
-				"     FROM [dbo].[CC_EXAMENES] CCE\r" + 
-				"      ,[dbo].[CAND_EXAMENES] CE\r" + 
-				"  WHERE CCE.NUMERO = CE.NUMERO_EXAMEN\r" + 
-				"    AND CE.TIPO = 'CORE_CASES'";*/
+				"	   ,[dbo].[MRQS_EXAMENES_V1] CE1\r" + 
+				"  WHERE ME.NUMERO = CE.NUMERO_EXAMEN\r"+
+				"  AND ME.NUMERO = CE1.NUMERO\r";
 		if(idExamen!=0){
 			strQuery += "AND CE.NUMERO_EXAMEN = "+ idExamen+ " \r" ;
 		}
 		if(!nombreExamen.equals("")) {
-			strQuery += "AND ME.[DESCRIPCION] LIKE '%"+ nombreExamen+ "%' \r"; //Cambiar campo?
+			strQuery += "AND CE1.[ADMON_EXAMEN_DESC] LIKE '%"+ nombreExamen+ "%' \r"; //Cambiar campo?
 		}
 		if(fechaDesde != null) {
 			System.out.println("la fecha: " + fechaDesde);
@@ -117,6 +101,23 @@ public class ExamenesDaoImpl implements ExamenesDao {
 		
 
 		Query query = em.createNativeQuery(strQuery);  
+		return query.getResultList();
+	}
+	
+	@Override
+	public List<Object> findCandidatesForthisExam(int idExamen) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String strQuery = "SELECT C.NOMBRE_COMPLETO_USUARIO, C.TIPO"
+				+ ",(SELECT SUM(NUMERO_REACTIVOS) FROM dbo.MRQS_GRUPO_HDR_V1 WHERE NUMERO_EXAMEN = "
+				+ idExamen
+				+ " ) AS TOTAL_REACTIVOS"
+				+ ",E.TIEMPO_LIMITE FROM dbo.CAND_EXAMENES_V1 C LEFT JOIN dbo.MRQS_EXAMENES E "
+				+ "ON C.NUMERO_EXAMEN=E.NUMERO WHERE E.NUMERO = "
+				+ idExamen;
+
+		System.out.println(strQuery);
+
+		Query query = em.createNativeQuery(strQuery);
 		return query.getResultList();
 	}
 

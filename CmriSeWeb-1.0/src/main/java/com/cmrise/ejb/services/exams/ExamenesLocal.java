@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.cmrise.ejb.model.candidates.exams.CandHExamenes;
 import com.cmrise.ejb.model.exams.Examenes;
 
 @Local
@@ -12,5 +13,6 @@ public interface ExamenesLocal {
 
 	public List<Examenes> findAllObjMod();
 	public List<Examenes> findByTituloExamen(int idExamen, String nombreExamen, Date fechaDesde, Date fechaHasta, int tiempo, String tipoExamen);
+	public List<CandHExamenes> findCandidatesForthisExam(int idExamen);
 
 }

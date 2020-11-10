@@ -65,7 +65,7 @@
 			</p:fieldset>
 		</h:form>
 
-		<h:form id="ReadOnlyForm">
+<h:form id="ReadOnlyForm">
  <p:dataTable var="examen" value="#{historyExamsForm.listExamenes}" emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">Historial de Examenes</f:facet>
    <!-- <p:column headerText="Título">
@@ -91,13 +91,49 @@
     <h:outputText value="#{examen.tiempoLimite}"/>
    </p:column>
    <p:column headerText="Tipo Examen">
-    <h:outputText value="#{examen.tipoExamenDesc}"/>
+    <h:outputText value="#{examen.tipoExamenDesc=='MRQs' ? 'Examen de Reactivos' : 'Examen casos clínicos' }"/>
    </p:column>
    <p:column headerText="Total Candidatos">
     <h:outputText value="#{examen.totalCandidatos}"/>
    </p:column>
    <p:column headerText="Acciones">
-   <p:commandButton value="Ver" style="margin-left: 10px;" />
+   <p:commandButton value="#{historyExamsForm.buttonText}" onclick="changeLabel();" style="margin-left: 10px" actionListener="#{historyExamsForm.updateTable(examen.numero)}"  update="ReadOnlyForm"/>
+   </p:column>
+ </p:dataTable>
+ 
+ 	<script>
+ 	function changeLabel() {
+ 		 $(document).on("click","button",function(){
+ 		    alert(this.text());
+ 		  });
+
+ 	    if (this.value=="Ver") this.value = "Regresar";
+ 	    else this.value = "Ver";
+
+ 		}
+	</script>
+ 
+ <p:dataTable value="null" rendered="#{!historyExamsForm.getShowtable()}">
+ 	<f:facet name="header">Examen</f:facet>
+   <p:column headerText="Nombre completo">
+    <h:outputText value="#{examen.numero}"/>
+   </p:column>
+   <p:column headerText="Tipo examen">
+    <h:outputText value="#{examen.nombre}"/>
+   </p:column>
+   <p:column headerText="Total reactivos">
+    <h:outputText value="Desde #{examen.fechaEfectivaDesde} hasta #{examen.fechaEfectivaHasta}">
+     <f:convertDateTime type="date" pattern= "dd/MM/yyyy HH:mm" />
+     </h:outputText>
+   </p:column>
+   <p:column headerText="reactivos respondidos">
+    <h:outputText value="#{examen.tiempoLimite}"/>
+   </p:column>
+   <p:column headerText="Tiempo limite">
+    <h:outputText value="#{examen.tipoExamenDesc}"/>
+   </p:column>
+   <p:column headerText="Acciones">
+   <p:commandButton value="Actualizar" style="margin-left: 10px" ajax="true" update="ReadOnlyForm"/>
    </p:column>
  </p:dataTable>
  
