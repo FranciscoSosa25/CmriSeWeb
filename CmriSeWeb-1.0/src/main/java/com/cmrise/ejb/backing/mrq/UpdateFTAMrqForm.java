@@ -380,8 +380,8 @@ public class UpdateFTAMrqForm {
 		if(Utilitarios.IMAGEN_ANOTADA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			while(iterScoringMethodValores.hasNext()) {
 				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
-				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
-				  ||"PROP_SCORING".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+				if(/*"WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+				  ||*/"PROP_SCORING".equals(tablasUtilitariasValoresDto.getCodigoTabla())
 					) {
 					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
 					this.selectScoringMethodItems.add(selectItem); 	
