@@ -113,24 +113,23 @@
  		}
 	</script>
  
- <p:dataTable value="null" rendered="#{!historyExamsForm.getShowtable()}">
+ <p:dataTable var="candidato" value="#{historyExamsForm.listCandidatos}" rendered="#{!historyExamsForm.getShowtable()}">
  	<f:facet name="header">Examen</f:facet>
    <p:column headerText="Nombre completo">
-    <h:outputText value="#{examen.numero}"/>
+    <h:outputText value="#{candidato.nombre}"/>
    </p:column>
    <p:column headerText="Tipo examen">
-    <h:outputText value="#{examen.nombre}"/>
+    <h:outputText value="#{candidato.tipo=='MRQS' ? 'Examen de Reactivos' : 'Examen casos clínicos'}"/>
    </p:column>
    <p:column headerText="Total reactivos">
-    <h:outputText value="Desde #{examen.fechaEfectivaDesde} hasta #{examen.fechaEfectivaHasta}">
-     <f:convertDateTime type="date" pattern= "dd/MM/yyyy HH:mm" />
+    <h:outputText value="#{candidato.totalReactivos}">
      </h:outputText>
    </p:column>
    <p:column headerText="reactivos respondidos">
     <h:outputText value="#{examen.tiempoLimite}"/>
    </p:column>
    <p:column headerText="Tiempo limite">
-    <h:outputText value="#{examen.tipoExamenDesc}"/>
+    <h:outputText value="#{candidato.tiempoLimite}"/>
    </p:column>
    <p:column headerText="Acciones">
    <p:commandButton value="Actualizar" style="margin-left: 10px" ajax="true" update="ReadOnlyForm"/>

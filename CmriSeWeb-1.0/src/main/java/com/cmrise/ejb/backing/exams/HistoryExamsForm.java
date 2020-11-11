@@ -10,6 +10,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+
+import com.cmrise.ejb.model.candidates.exams.CandHExamenes;
 import com.cmrise.ejb.model.exams.Examenes;
 import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;
 import com.cmrise.ejb.services.exams.ExamenesLocal;
@@ -19,7 +21,8 @@ import com.cmrise.ejb.services.exams.ExamenesLocal;
 @ViewScoped
 public class HistoryExamsForm {
 	
-	private List<Examenes> listExamenes = new ArrayList<Examenes>(); 
+	private List<Examenes> listExamenes = new ArrayList<Examenes>();
+	private List<CandHExamenes> listCandidatos = new ArrayList<CandHExamenes>();
 	private String tipoExamen; 
 	private int idExamen;
 	private int id_Examen;
@@ -58,7 +61,6 @@ public class HistoryExamsForm {
 	public List<Examenes> updateTable(int id_examen) {
 		changeButtonText();
 		clearForm();
-	    System.out.println("Soponcio "+ id_examen);
 	    showtable = !showtable;
 	    if(!showtable)
 		{
@@ -66,6 +68,7 @@ public class HistoryExamsForm {
 	    	//findByTituloExamen();
 	    	//listExamenes=examenesLocal.findByTituloExamen(idExamen, nombreExamen, fechaDesde, fechaHasta, tiempo, tipoExamen);
 		}
+	    setListCandidatos(examenesLocal.findCandidatesForthisExam(this.idExamen));
 	    return listExamenes= examenesLocal.findByTituloExamen(this.idExamen,this.nombreExamen,this.fechaDesde,this.fechaHasta,this.tiempo,this.tipoExamen);
 	}
 	
@@ -164,5 +167,13 @@ public class HistoryExamsForm {
 			buttonText = "Regresar";
 		else
 			buttonText = "Ver";
+	}
+
+	public List<CandHExamenes> getListCandidatos() {
+		return listCandidatos;
+	}
+
+	public void setListCandidatos(List<CandHExamenes> listCandidatos) {
+		this.listCandidatos = listCandidatos;
 	}
 }

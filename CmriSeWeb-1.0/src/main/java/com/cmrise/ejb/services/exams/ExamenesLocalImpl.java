@@ -96,7 +96,21 @@ public class ExamenesLocalImpl implements ExamenesLocal {
 	private CandHExamenes objToCandHistorial(Object pObject) {
 		CandHExamenes retval = new CandHExamenes(); 
 		
-			
+		if(pObject instanceof Object[]) {
+			Object[] row = (Object[]) pObject;
+			if(row[0] instanceof String) { /** NOMBRE COMPLETO **/
+				retval.setNombre((String)row[0]); 
+			}
+			if(row[1] instanceof String) { /** TIPO **/
+				retval.setTipo((String)row[1]); 
+			}
+			if(row[2] instanceof Integer) { /** NOMBRE **/
+				retval.setTotalReactivos(((Integer)row[2]).intValue()); 
+			}
+			if(row[3] instanceof Short) { /** TIEMPO_LIMITE **/
+				retval.setTiempoLimite(((Short)row[3]).shortValue()); 
+			}
+		}
 		
 		return retval; 
 	}
