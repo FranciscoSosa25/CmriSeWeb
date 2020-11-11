@@ -98,8 +98,6 @@ public class ExamenesDaoImpl implements ExamenesDao {
 		}
 		System.out.println(strQuery);
 		
-		
-
 		Query query = em.createNativeQuery(strQuery);  
 		return query.getResultList();
 	}
@@ -113,7 +111,7 @@ public class ExamenesDaoImpl implements ExamenesDao {
 				+ " ) AS TOTAL_REACTIVOS"
 				+ ",E.TIEMPO_LIMITE FROM dbo.CAND_EXAMENES_V1 C LEFT JOIN dbo.MRQS_EXAMENES E "
 				+ "ON C.NUMERO_EXAMEN=E.NUMERO WHERE E.NUMERO = "
-				+ idExamen;
+				+ idExamen + " ORDER BY C.NOMBRE_COMPLETO_USUARIO";
 
 		System.out.println(strQuery);
 
