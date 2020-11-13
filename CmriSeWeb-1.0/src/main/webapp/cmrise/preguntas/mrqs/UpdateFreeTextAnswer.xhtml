@@ -541,8 +541,46 @@
 									</div>
 
 									<div class="ui-g-12 ui-md-12">
-
-										<div class="ui-g-12 ui-md-6">
+									
+									<div class="ui-g-6">
+											<h:panelGrid id="repeatIDPanel2" style="width:100%;margin:10px;">
+												<h:panelGroup layout="block">
+													<p:commandButton id="agregarRespCorrelReact"
+														value="+ Punto en imagen"
+														actionListener="#{updateFTAMrqForm.agregarRespCorrelacionadas()}"
+														update="UpdateReactivosForm:repeatIDPanel2 UpdateReactivosForm:repeatIDPanel"
+														partialSubmit="true"
+														process="UpdateReactivosForm:repeatIDPanel UpdateReactivosForm:repeatIDPanel2"
+														oncomplete="handleAgregarRespuestaCorrRequest(xhr, status, args)" 
+														style="margin:5px 50px 5px 0px;"/>
+													<ui:repeat var="respReact"
+														value="#{updateFTAMrqForm.listRespCorrectReactCorImg}"
+														varStatus="status">
+														<div class="ui-g-12 ui-md-12">
+															
+															<div class="ui-g-12 ui-md-2">
+															<i class="pi pi-trash "></i>
+																<h:outputText value="#{respReact.nodo}" />
+															</div>
+															<div class="ui-g-12 ui-md-10">
+																<p:selectOneMenu id="respuestaCorrelacionada"
+																	value="#{updateFTAMrqForm.listRespCorrectReactCorImg[status.index].numeroRespuesta}"
+																	required="true"
+																	requiredMessage="#{msgs['globalForm.requiredMessage']}">
+																	<f:selectItem itemLabel="Seleccione un Valor.."
+																		itemValue="" />																	
+																	<f:selectItems
+																		value="#{updateFTAMrqForm.selectRespReactCorImg}" />																		
+																</p:selectOneMenu>
+																<p:message for="respuestaCorrelacionada" />
+															</div>
+														</div>
+													</ui:repeat>
+												</h:panelGroup>
+											</h:panelGrid>
+										</div>
+									
+										<div class="ui-g-6 ">
 											<h:panelGrid id="repeatIDPanel"
 												style="width:100%;margin:10px;">
 												<h:panelGroup layout="block">
@@ -557,52 +595,21 @@
 													<ui:repeat var="respReact"
 														value="#{updateFTAMrqForm.listRespReactCorImg}"
 														varStatus="status">
+														<div>
+														<i class="pi pi-trash"></i>
 														<p:inputText id="respuesta"
 															value="#{updateFTAMrqForm.listRespReactCorImg[status.index].respuesta}"
 															required="true"
 															requiredMessage="#{msgs['globalForm.requiredMessage']}"
-															style="width:95%;margin:10px;" />
+															style="width:45%;margin:10px;" />
 														<p:message for="respuesta" />
-													</ui:repeat>
-												</h:panelGroup>
-											</h:panelGrid>
-										</div>
-
-										<div class="ui-g-12 ui-md-6">
-											<h:panelGrid id="repeatIDPanel2">
-												<h:panelGroup layout="block">
-													<p:commandButton id="agregarRespCorrelReact"
-														value="+ Punto en imagen"
-														actionListener="#{updateFTAMrqForm.agregarRespCorrelacionadas()}"
-														update="UpdateReactivosForm:repeatIDPanel2 UpdateReactivosForm:repeatIDPanel"
-														partialSubmit="true"
-														process="UpdateReactivosForm:repeatIDPanel UpdateReactivosForm:repeatIDPanel2"
-														oncomplete="handleAgregarRespuestaCorrRequest(xhr, status, args)" />
-													<ui:repeat var="respReact"
-														value="#{updateFTAMrqForm.listRespCorrectReactCorImg}"
-														varStatus="status">
-														<div class="ui-g-12 ui-md-12">
-															<div class="ui-g-12 ui-md-2">
-																<h:outputText value="#{respReact.nodo}" />
-															</div>
-															<div class="ui-g-12 ui-md-10">
-																<p:selectOneMenu id="respuestaCorrelacionada"
-																	value="#{updateFTAMrqForm.listRespCorrectReactCorImg[status.index].numeroRespuesta}"
-																	required="true"
-																	requiredMessage="#{msgs['globalForm.requiredMessage']}">
-																	<f:selectItem itemLabel="Seleccione un Valor.."
-																		itemValue="" />
-																	<f:selectItems
-																		value="#{updateFTAMrqForm.selectRespReactCorImg}" />
-																</p:selectOneMenu>
-																<p:message for="respuestaCorrelacionada" />
-															</div>
 														</div>
 													</ui:repeat>
 												</h:panelGroup>
 											</h:panelGrid>
 										</div>
 
+									
 									</div>
 
 								</div>
