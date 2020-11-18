@@ -74,10 +74,17 @@
 	background-color: transparent;
 }
 </style>
+<script type="text/javascript">
+	document.getElementById("demo").innerHTML = "My First JavaScript";
+
+	function removeThis(_this){
+		   var el = document.getElementById( _this.id ); //assuming '_this' is the 'this' reference not the 'id'
+		   el.parentNode.parentNode.removeChild( el.parentNode );
+		};
+	</script>
 	</ui:define>
 
 	<ui:define name="content">
-
 		<h:form id="UpdateReactivosForm">
 			<p:panel id="inforeactivo" header="INFORMACION GENERAL DEL REACTIVO"
 				style="margin-bottom:20px">
@@ -597,8 +604,8 @@
 													<ui:repeat var="respReact"
 														value="#{updateFTAMrqForm.listRespReactCorImg}"
 														varStatus="status">
-														<!-- <div> -->
-															<p:commandButton icon="pi pi-trash" actionListener="#{updateFTAMrqForm.removerRespReact()}" update="UpdateReactivosForm:repeatIDPanel" partialSubmit="true"
+														<div>
+															<p:commandButton icon="pi pi-trash" actionListener="#{updateFTAMrqForm.removerRespReact()}" onclick="removeThis(this);" update="UpdateReactivosForm:repeatIDPanel" partialSubmit="true"
 														process="UpdateReactivosForm:repeatIDPanel" />
 														<p:inputText id="respuesta"
 															value="#{updateFTAMrqForm.listRespReactCorImg[status.index].respuesta}"
@@ -607,7 +614,7 @@
 															style="width:45%;margin:10px;" 
 															maxlength="45"/>
 														<p:message for="respuesta" />
-														<!--</div> -->
+														</div>
 													</ui:repeat>
 												</h:panelGroup>
 											</h:panelGrid>

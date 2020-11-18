@@ -1003,23 +1003,24 @@ public class UpdateFTAMrqForm {
 		System.out.println("entra removerRespReact");
 		RespReactCorImg respReactCorImg = new RespReactCorImg(); 
 		respReactCorImg.setNumero(idxRespuestas--);
-		listRespReactCorImg.remove(respReactCorImg); 
+		listRespReactCorImg.remove(respReactCorImg);
+		listRespReactCorImg.remove(respReactCorImg.getNumero());
 		System.out.println(listRespReactCorImg);
 		System.out.println("sale removerRespReact");
 	}
 	
 	public void agregarRespCorrelacionadas() {
-		System.out.println("Entra removerRespCorrelacionadas");
+		System.out.println("Entra agregarRespCorrelacionadas");
 		RespCorrectReactCorImg respCorrectReactCorImg = new RespCorrectReactCorImg(); 
 		respCorrectReactCorImg.setNumero(idxRespuestasCorrelacionadas++);
 		respCorrectReactCorImg.setNodo(" "+labels[idxLabels++]);
 		listRespCorrectReactCorImg.add(respCorrectReactCorImg);
 		refreshRespuestas(); 
 		PrimeFaces.current().ajax().addCallbackParam("nodo", labels[idxLabels-1]);
-		System.out.println("Sale removerRespCorrelacionadas");
+		System.out.println("Sale agregarRespCorrelacionadas");
 	}
 	
-	public void removerRespCorrelacionadas() {
+	public <E> void removerRespCorrelacionadas(E item) {
 		System.out.println("Entra removerRespCorrelacionadas");
 		RespCorrectReactCorImg respCorrectReactCorImg = new RespCorrectReactCorImg(); 
 		respCorrectReactCorImg.setNumero(idxRespuestasCorrelacionadas--);
