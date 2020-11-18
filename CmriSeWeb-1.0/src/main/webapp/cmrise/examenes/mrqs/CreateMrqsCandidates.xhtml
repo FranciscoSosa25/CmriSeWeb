@@ -33,15 +33,19 @@ function handleUpdateRequest(xhr, status, args){
 </script>
 </ui:define>
 <ui:define name="content">
-
-           <div class="ui-g">
-             <div class="ui-g-12 ui-lg-12" style="text-align: left;">
-                 <p:commandButton id="RegistrarBtn" value="Nuevo Candidato" icon="fa fa-plus" onclick="PF('createCandidatoDialogWV').show();" />
-              	 <p:commandButton id="CargaArchBtn" value="Carga por archivo" icon="fa fa-file-excel-o" onclick="PF('createCandidatoDialogWV').show();" />
-              </div>
-            </div>
-            
+	            
 <h:form id="ReadOnlyForm">
+	<p:growl id="growl" showDetail="true" life="1000" widgetVar="growlWV"/>
+     <div class="ui-g">
+       <div class="ui-g-2 ui-lg-2" style="text-align: left;">
+           <p:commandButton id="RegistrarBtn" value="Nuevo Candidato" icon="fa fa-plus" onclick="PF('createCandidatoDialogWV').show();" />
+       </div>
+       <div class="ui-g-2 ui-lg-2" style="text-align: left;">
+        	 <p:fileUpload id="cargarNuevoCandidatoArchivo" listener="#{createMrqsCandidatesForm.handleFileUpload}"
+                       label="Carga por archivo" mode="advanced" update="ReadOnlyForm growl"
+                      auto="true" allowTypes="/(\.|\/)(csv)$/" fileLimit="1" />
+        </div>
+      </div>
 <div class="card">
  <p:dataTable var="admonCandidatos" value="#{createMrqsCandidatesForm.listAdmonUsuarios}" emptyMessage="Sin resultados"  paginator="true" rows="30" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">Candidatos</f:facet>

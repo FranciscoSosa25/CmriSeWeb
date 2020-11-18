@@ -19,7 +19,7 @@ public class AdmonUsuariosRolesLocalImpl implements AdmonUsuariosRolesLocal {
 	AdmonUsuariosRolesDao admonUsuariosRolesDao;
 	
 	@Override
-	public void insert(AdmonUsuariosRolesDto pAdmonUsuariosRolesDto) {
+	public void insert (AdmonUsuariosRolesDto pAdmonUsuariosRolesDto) {
 		admonUsuariosRolesDao.insert(pAdmonUsuariosRolesDto);
 	}
 

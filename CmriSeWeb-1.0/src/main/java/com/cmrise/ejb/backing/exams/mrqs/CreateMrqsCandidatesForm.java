@@ -1,19 +1,27 @@
 package com.cmrise.ejb.backing.exams.mrqs;
 
-
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.file.UploadedFile;
 
 import com.cmrise.ejb.helpers.UserLogin;
 import com.cmrise.ejb.model.admin.AdmonCandidatosV1;
@@ -47,6 +55,7 @@ public class CreateMrqsCandidatesForm {
 	    private String curp; 
 	    private String estado; 
 	    private String sedeHospital; 
+	    private String errorCaptura;
 		private AdmonUsuarios admonUsuariosForAction = new AdmonUsuarios();
 	    
 		@ManagedProperty(value="#{userLogin}")
@@ -127,12 +136,12 @@ public class CreateMrqsCandidatesForm {
 			admonUsuariosDto.setSedeHospital(this.sedeHospital);
 			 java.sql.Date sqlFechaEfectivaDesde = null; 
 			 java.sql.Date sqlFechaEfectivaHasta = null; 
-			 if(null!=fechaEfectivaDesde) {
+			 if(fechaEfectivaDesde != null) {
 			   sqlFechaEfectivaDesde = new java.sql.Date(fechaEfectivaDesde.getTime());
 			   admonUsuariosDto.setFechaEfectivaDesde(sqlFechaEfectivaDesde);
 			 }
 			 
-			 if(null!=fechaEfectivaHasta) {
+			 if(fechaEfectivaHasta != null) {
 				 sqlFechaEfectivaHasta = new java.sql.Date(fechaEfectivaHasta.getTime());
 			 }else {
 				 sqlFechaEfectivaHasta = Utilitarios.endOfTime;
@@ -154,14 +163,13 @@ public class CreateMrqsCandidatesForm {
 				admonUsuariosRolesDto.setAdmonUsuario(admonUsuariosV2Dto);
 				admonUsuariosRolesDto.setAdmonRole(admonRolesDto);
 				admonUsuariosRolesDto.setFechaEfectivaDesde(utilitariosLocal.toSqlDate(fechaEfectivaDesde));
-				if(null!=fechaEfectivaHasta) {
+				if(fechaEfectivaHasta!=null) {
 					admonUsuariosRolesDto.setFechaEfectivaHasta(utilitariosLocal.toSqlDate(fechaEfectivaHasta));	
 				}else {
 					admonUsuariosRolesDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
 				}
 		     
-				admonUsuariosRolesLocal.insert(admonUsuariosRolesDto);	
-			    /***********************************************************************/
+				admonUsuariosRolesLocal.insert(admonUsuariosRolesDto);
 			 
 			 refreshEntity();
 			 createIn = true; 
@@ -209,7 +217,6 @@ public class CreateMrqsCandidatesForm {
 		public void setFechaEfectivaHasta(Date fechaEfectivaHasta) {
 			this.fechaEfectivaHasta = fechaEfectivaHasta;
 		}
-	
 		public long getNumeroRol() {
 			return numeroRol;
 		}
@@ -260,23 +267,18 @@ public class CreateMrqsCandidatesForm {
 		public String getCurp() {
 			return curp;
 		}
-
 		public void setCurp(String curp) {
 			this.curp = curp;
-		}
-		
+		}	
 		public String getSedeHospital() {
 			return this.sedeHospital;
 		}
-
 		public void setSedeHospital(String sedeHospital) {
 			this.sedeHospital = sedeHospital;
 		}
-		
 		public String getEstado() {
 			return estado;
 		}
-
 		public void setEstado(String estado) {
 			this.estado = estado;
 		}
@@ -293,5 +295,158 @@ public class CreateMrqsCandidatesForm {
 		}
 		public void setListAdmonUsuarios(List<AdmonUsuarios> listAdmonUsuarios) {
 			this.listAdmonUsuarios = listAdmonUsuarios;
+		}
+		
+		public void handleFileUpload(FileUploadEvent event) throws IOException, ParseException {
+			errorCaptura = "";
+			int lineaAct = 0;
+			String validaValores;
+			java.sql.Date fechaEfDesde = null;
+			java.sql.Date fechaEfHasta = null;
+			UploadedFile uploadedFile = event.getFile();
+			BufferedReader reader = new BufferedReader(new InputStreamReader( uploadedFile.getInputStream(), StandardCharsets.UTF_8 ) );
+			
+			String line = null;
+			while ((line = reader.readLine()) != null){
+				lineaAct ++;
+				String [] columns = line.split(";");
+				 
+				if(!line.contains("CURP")) { 
+					validaValores = "";
+			    	curp = columns[0].toUpperCase().trim();
+			    	nombre = columns[1].toUpperCase().trim();
+			    	apellidoPaterno = columns[2].toUpperCase().trim();
+			    	apellidoMaterno = columns[3].toUpperCase().trim();
+			    	correoElectronico = columns[4].trim();
+			    	contrasenia = columns[5].trim();
+			    	estado = columns[6].toUpperCase().trim();
+			    	sedeHospital = columns[7].toUpperCase().trim();
+			    	String fechaD = columns[8].trim();
+			    	String fechaH = columns[9].trim();
+			    				    	
+			    	if(curp == null || curp.length() == 0) {
+			    		validaValores += "En la linea "+lineaAct+" valor de la 'CURP' no puede ir vacio. " + '\n';
+			    	}
+			    	if(curp.length() < 18 || curp.length() > 18) {
+			    		validaValores += "En la linea "+lineaAct+ " revisar la 'CURP', debe tener 18 caracteres. " + '\n';
+			    	}
+			    	if(nombre == null || nombre.length() == 0) {
+			    		validaValores += "En la linea "+lineaAct+" el campo 'Nombre' no puede ir vacio. " + '\n';
+			    	}
+			    	if(apellidoPaterno == null || apellidoPaterno.length() == 0) {
+			    		validaValores += "En la linea "+lineaAct+" el campo 'Apellido Paterno' no puede ir vacio. " + '\n';
+			    	}
+			    	if(apellidoMaterno == null || apellidoMaterno.length() == 0) {
+			    		validaValores += "En la linea "+lineaAct+" el campo 'Apellido Materno' no puede ir vacio. " + '\n';
+			    	}
+			    	if(correoElectronico == null || correoElectronico.length() == 0) {
+			    		validaValores += "En la linea "+lineaAct+" el campo correo no puede ir vacio. " + '\n';
+			    	}
+			    	if(contrasenia == null || contrasenia.length() == 0) {
+			    		validaValores += "En la linea "+lineaAct+" el campo 'Contraseña' no puede ir vacio. " + '\n';
+			    	}
+			    	if(sedeHospital == null || sedeHospital.length() == 0) {
+			    		validaValores += "En la linea "+lineaAct+" el campo 'Sede Hospitalaria' no puede ir vacio. " + '\n';
+			    	}
+			    	try {
+			    		fechaEfDesde = ConvertToDate(fechaD);
+			    		fechaEfHasta = ConvertToDate(fechaH);
+			    	}catch(Exception e) {
+			    		validaValores += "En la linea "+lineaAct+" el campo 'Fecha Desde' no tiene el formato correcto. " + '\n';
+			    	}
+			    	if(fechaEfDesde == null ) {
+			    		validaValores += "En la linea "+lineaAct+" el campo 'Fecha Desde' no puede ir vacio. " + '\n';
+			    	}
+			    	
+			    	if(validaValores == null || validaValores.length()==0)
+			    		insertOnetoOneCandidate(curp, nombre, apellidoPaterno, apellidoMaterno, correoElectronico, contrasenia, estado, sedeHospital, fechaEfDesde, fechaEfHasta, lineaAct);
+			    	else
+			    		errorCaptura += validaValores;
+				}
+	         }
+			
+			reader.close();
+			
+			if(errorCaptura!= null){
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "El archivo presento los siguientes errores: " + '\n', errorCaptura );
+		        FacesContext.getCurrentInstance().addMessage(null, msg);
+		        errorCaptura = null;
+			}else {
+	        FacesMessage msg = new FacesMessage(" El archivo", event.getFile().getFileName() + " ha sido subido.");
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+			}
+		}
+		
+		public boolean insertOnetoOneCandidate(String curp, String nombre, String apPaterno, String apMaterno, String email, String contrasenia, String estado, String sedeH, java.sql.Date fechaEfDesde, java.sql.Date fechaEfHasta, int linea){
+			
+			 AdmonUsuariosDto admonUsuariosDto = new AdmonUsuariosDto();
+			 boolean createIn = false; 
+			 
+			 try{
+				 
+				 admonUsuariosDto.setCurp(curp);
+				 admonUsuariosDto.setNombre(nombre);
+				 admonUsuariosDto.setApellidoPaterno(apPaterno);
+				 admonUsuariosDto.setApellidoMaterno(apMaterno);
+				 admonUsuariosDto.setContrasenia(contrasenia);
+				 admonUsuariosDto.setCorreoElectronico(email);
+				 admonUsuariosDto.setEstado(estado);
+				 admonUsuariosDto.setSedeHospital(sedeH);
+				 
+				 if(fechaEfDesde!=null) {
+				   admonUsuariosDto.setFechaEfectivaDesde(fechaEfDesde);
+				 }
+				 
+				 if(fechaEfHasta==null) {
+					 fechaEfHasta = Utilitarios.endOfTime;
+				 }
+				 admonUsuariosDto.setFechaEfectivaHasta(fechaEfHasta);
+				 admonUsuariosDto.setCreadoPor(userLogin.getNumeroUsuario());
+				 admonUsuariosDto.setActualizadoPor(userLogin.getNumeroUsuario());
+				 System.out.println("userLogin.getNumeroUsuario():"+userLogin.getNumeroUsuario());
+				 long longNumeroUsusario = admonUsuariosLocal.insert(admonUsuariosDto);
+				 
+				    /*************************************************************************/
+				    AdmonUsuariosRolesDto admonUsuariosRolesDto = new AdmonUsuariosRolesDto();
+					AdmonRolesDto admonRolesDto = new AdmonRolesDto();
+					AdmonUsuariosDto admonUsuariosV2Dto = new AdmonUsuariosDto();
+					System.out.println("longNumeroUsusario:"+longNumeroUsusario);
+					System.out.println("this.getNumeroRol():"+ "1");
+					admonUsuariosV2Dto.setNumero(longNumeroUsusario);
+					admonRolesDto.setNumero(1);
+					admonUsuariosRolesDto.setAdmonUsuario(admonUsuariosV2Dto);
+					admonUsuariosRolesDto.setAdmonRole(admonRolesDto);
+					admonUsuariosRolesDto.setFechaEfectivaDesde(utilitariosLocal.toSqlDate(fechaEfDesde));
+					if(null!=fechaEfHasta) 
+						admonUsuariosRolesDto.setFechaEfectivaHasta(utilitariosLocal.toSqlDate(fechaEfHasta));	
+					else 
+						admonUsuariosRolesDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
+					
+					admonUsuariosRolesLocal.insert(admonUsuariosRolesDto);
+				    /***********************************************************************/
+				    /// HACE FALTA AGREGAR EL CANDIDATO AL EXAMEN ///////////
+					createIn = true; 
+					PrimeFaces.current().ajax().addCallbackParam("createIn", createIn);
+					refreshEntity();
+					return createIn;
+					
+			} catch (Exception  ex) {
+				Throwable e;
+				if(errorCaptura == null) {errorCaptura = "Ups! Se ha detectado un problema en la linea " + linea + " del archivo "+ '\n' + " MENSAJE: " + ex.getMessage() + '\n';}
+				else if( (e = ex.getCause()) != null) {
+					while( e.getCause() != null ) {e = e.getCause();}				
+					if(!e.getMessage().contains("UNIQUE") && !e.getMessage().contains("Unparseable") && !e.getMessage().contains("rolled") &&!e.getMessage().contains("FECHA_EFECTIVA_DESDE"))
+						errorCaptura += "Linea " + linea + " del archivo "+ '\n' + " MENSAJE: "+ e.getMessage() + '\n';
+				}
+				
+				return createIn;
+			}
+		}
+		
+		public java.sql.Date ConvertToDate(String fechaDesde) throws ParseException{
+			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+	        java.util.Date parsed = format.parse(fechaDesde);
+	        java.sql.Date fecha = new java.sql.Date(parsed.getTime());        
+	        return fecha;
 		}
 }
