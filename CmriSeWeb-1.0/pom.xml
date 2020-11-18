@@ -159,6 +159,37 @@
         	<artifactId>jsf-api</artifactId>
         	<version>1.2-20</version>
         </dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.dcm4che/dcm4che-imageio-opencv -->
+	<dependency>
+		<groupId>org.dcm4che</groupId>
+		<artifactId>dcm4che-imageio-opencv</artifactId>
+		<version>5.15.0</version>
+		<scope>runtime</scope>
+	</dependency>
+
+
+	<dependency>
+		<groupId>org.bytedeco</groupId>
+		<artifactId>javacpp</artifactId>
+		<version>1.4.1</version>
+	</dependency>
+	<dependency>
+		<groupId>org.bytedeco</groupId>
+		<artifactId>javacv</artifactId>
+		<version>1.4.1</version>
+	</dependency>
+	<dependency>
+		<groupId>org.bytedeco.javacpp-presets</groupId>
+		<artifactId>opencv-platform</artifactId>
+		<version>3.4.1-1.4.1</version>
+	</dependency>
+	<dependency>
+		<groupId>org.bytedeco.javacpp-presets</groupId>
+		<artifactId>ffmpeg-platform</artifactId>
+		<version>3.4.2-1.4.1</version>
+	</dependency>
+        
 	</dependencies>
 	<build>
 		<plugins>

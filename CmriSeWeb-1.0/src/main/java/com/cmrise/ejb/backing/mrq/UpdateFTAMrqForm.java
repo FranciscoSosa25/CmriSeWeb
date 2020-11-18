@@ -2,6 +2,8 @@ package com.cmrise.ejb.backing.mrq;
 
 import java.util.List;
 import java.util.Set;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
@@ -18,6 +20,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -963,16 +966,27 @@ public class UpdateFTAMrqForm {
 		listMrqsPresentaciones.add(mrqsPresentaciones); 
 		System.out.println("Sale handleFileUpload");
     }
+	 * @throws IOException 
     **********************************************/
 	
-	public void handleFileUpload(FileUploadEvent event) {
+	public void handleFileUpload(FileUploadEvent event) throws IOException {
+		FacesMessage msg;
 		UploadedFile uploadedFile = event.getFile();
-		mrqsPreguntasFtaV1ForAction.setNombreImagen(uploadedFile.getFileName());
-		mrqsPreguntasFtaV1ForAction.setContentType(uploadedFile.getContentType());
-		mrqsPreguntasFtaV1ForAction.setImagenContent(uploadedFile.getContent());
-		mrqsPreguntasFtaV1ForAction.setImagenBase64(new String(Base64.getEncoder().encode(uploadedFile.getContent())));
 		
-        FacesMessage msg = new FacesMessage("El archivo", event.getFile().getFileName() + " ha sido subido.");
+		byte[] image = uploadedFile.getContent();
+		BufferedImage bi = ImageIO.read(new ByteArrayInputStream(image));
+		int width = bi.getWidth();
+		int height = bi.getHeight();
+		System.out.println("Width: " + width + ", height: " + height);
+		if(width<=500 && height<=500) {
+			msg = new FacesMessage("El archivo", event.getFile().getFileName() + " ha sido subido.");
+			mrqsPreguntasFtaV1ForAction.setNombreImagen(uploadedFile.getFileName());
+			mrqsPreguntasFtaV1ForAction.setContentType(uploadedFile.getContentType());
+			mrqsPreguntasFtaV1ForAction.setImagenContent(uploadedFile.getContent());
+			mrqsPreguntasFtaV1ForAction.setImagenBase64(new String(Base64.getEncoder().encode(uploadedFile.getContent())));
+		}
+		else
+			msg = new FacesMessage("El archivo debe tener una dimensión máxima de 500x500 pixeles");
         FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
@@ -985,15 +999,35 @@ public class UpdateFTAMrqForm {
 		System.out.println("Sale agregarRespReact");
 	}
 	
+	public void removerRespReact() {
+		System.out.println("entra removerRespReact");
+		RespReactCorImg respReactCorImg = new RespReactCorImg(); 
+		respReactCorImg.setNumero(idxRespuestas--);
+		listRespReactCorImg.remove(respReactCorImg); 
+		System.out.println(listRespReactCorImg);
+		System.out.println("sale removerRespReact");
+	}
+	
 	public void agregarRespCorrelacionadas() {
-		System.out.println("Entra agregarRespCorrelacionadas");
+		System.out.println("Entra removerRespCorrelacionadas");
 		RespCorrectReactCorImg respCorrectReactCorImg = new RespCorrectReactCorImg(); 
 		respCorrectReactCorImg.setNumero(idxRespuestasCorrelacionadas++);
-		respCorrectReactCorImg.setNodo(labels[idxLabels++]);
+		respCorrectReactCorImg.setNodo(" "+labels[idxLabels++]);
 		listRespCorrectReactCorImg.add(respCorrectReactCorImg);
 		refreshRespuestas(); 
 		PrimeFaces.current().ajax().addCallbackParam("nodo", labels[idxLabels-1]);
-		System.out.println("Sale agregarRespCorrelacionadas");
+		System.out.println("Sale removerRespCorrelacionadas");
+	}
+	
+	public void removerRespCorrelacionadas() {
+		System.out.println("Entra removerRespCorrelacionadas");
+		RespCorrectReactCorImg respCorrectReactCorImg = new RespCorrectReactCorImg(); 
+		respCorrectReactCorImg.setNumero(idxRespuestasCorrelacionadas--);
+		respCorrectReactCorImg.setNodo(labels[idxLabels--]);
+		listRespCorrectReactCorImg.remove(respCorrectReactCorImg);
+		refreshRespuestas(); 
+		PrimeFaces.current().ajax().addCallbackParam("nodo", labels[idxLabels-1]);
+		System.out.println("Sale removerRespCorrelacionadas");
 	}
 	
 	private void refreshRespuestas() {
@@ -1001,6 +1035,7 @@ public class UpdateFTAMrqForm {
 		for(RespReactCorImg i:listRespReactCorImg) {
 			SelectItem selectItem = new SelectItem(i.getNumero(),i.getRespuesta()); 
 			selectRespReactCorImg.add(selectItem); 
+			System.out.println("SELECT ITEM "+selectItem);
 		}
 	}
 	public void agregarRespuestaColumna() {
