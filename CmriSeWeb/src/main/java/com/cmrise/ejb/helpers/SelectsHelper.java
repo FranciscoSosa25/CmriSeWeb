@@ -19,6 +19,7 @@ import com.cmrise.ejb.services.admin.TablasUtilitariasValoresLocal;
 import com.cmrise.ejb.services.corecases.CcHdrLocal;
 import com.cmrise.jpa.dto.admin.KeysDto;
 import com.cmrise.jpa.dto.admin.TablasUtilitariasValoresDto;
+import com.cmrise.utils.Utilitarios;
 
 @ManagedBean
 @ViewScoped
@@ -205,7 +206,7 @@ public class SelectsHelper {
 		while(iterTipoPreguntaValores.hasNext()) {
 			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterTipoPreguntaValores.next();
 			if(!"IMAGEN_ANOTADA".equals(tablasUtilitariasValoresDto.getCodigoTabla())
-			 &&!"RESP_TEXTO_LIBRE".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+			 &&!"RESP_TEXTO_LIBRE".equals(tablasUtilitariasValoresDto.getCodigoTabla())&&!Utilitarios.CORRELACION_COLUMNA.equals(tablasUtilitariasValoresDto.getCodigoTabla())
 			  ) {
 			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
 			this.selectTipoPreguntaCoreCaseItems.add(selectItem); 

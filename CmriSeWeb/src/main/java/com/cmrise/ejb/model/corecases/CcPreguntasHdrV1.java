@@ -36,6 +36,7 @@ public class CcPreguntasHdrV1 implements Serializable{
 	private String admonExamenDesc; 
 	private String admonMateriaDesc; 
 	private String admonSubMateriaDesc; 
+	private String metodoPuntuacion; 
 	
 	private CcPreguntasFtaV1 ccPreguntasFtaV1; 
 	
@@ -206,6 +207,12 @@ public class CcPreguntasHdrV1 implements Serializable{
 	}
 	public void setAdmonSubMateriaDesc(String admonSubMateriaDesc) {
 		this.admonSubMateriaDesc = admonSubMateriaDesc;
+	}
+	public String getMetodoPuntuacion() {
+		return metodoPuntuacion;
+	}
+	public void setMetodoPuntuacion(String metodoPuntuacion) {
+		this.metodoPuntuacion = metodoPuntuacion;
 	}
 	
 

@@ -1,7 +1,6 @@
 package com.cmrise.ejb.backing.corecases;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -23,7 +22,6 @@ import com.cmrise.ejb.services.admin.AdmonExamenHdrLocal;
 import com.cmrise.ejb.services.admin.AdmonMateriaHdrLocal;
 import com.cmrise.ejb.services.admin.AdmonSubMateriaLocal;
 import com.cmrise.ejb.services.corecases.CcHdrLocal;
-import com.cmrise.jpa.dto.corecases.CcHdrV1Dto;
 import com.cmrise.utils.Utilitarios;
 
 @ManagedBean
@@ -49,6 +47,9 @@ public class ManageCoreCasesForm {
 	
 	@Inject 
 	AdmonSubMateriaLocal admonSubMateriaLocal;
+	
+	@Inject
+	UpdateCoreCaseForm updateCoreCaseForm;
 	
 	@Inject 
 	AdmonExamenHdrLocal admonExamenHdrLocal;
@@ -110,7 +111,14 @@ public class ManageCoreCasesForm {
 		retval = "Preguntas-Update-CoreCase";
 		return retval; 
 	}
-	
+	public String view(CcHdrV1 pCcHdrV1) {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest();
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("NumeroCcHdrSV", pCcHdrV1.getNumero());  
+		updateCoreCaseForm.init();
+		return updateCoreCaseForm.preview(); 
+	}
 	public void selectForAction(CcHdrV1 pCcHdrV1) {
 		ccHdrV1ForAction.setNumero(pCcHdrV1.getNumero());
 	}
@@ -235,4 +243,6 @@ public class ManageCoreCasesForm {
 	public void setAdmonSubmateria(long admonSubmateria) {
 		this.admonSubmateria = admonSubmateria;
 	}
+
+	
 }

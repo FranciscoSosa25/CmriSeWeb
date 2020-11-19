@@ -198,8 +198,8 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 	     	ccPreguntasFtaV1.setRespuestaCorrecta(ccPreguntasFtaV1Dto.getRespuestaCorrecta());
 	     	ccPreguntasFtaV1.setSingleAnswerMode(ccPreguntasFtaV1Dto.isSingleAnswerMode());
 	     	ccPreguntasFtaV1.setSuffleAnswerOrder(ccPreguntasFtaV1Dto.isSuffleAnswerOrder());
-	     	
-	     	 
+	     	ccPreguntasFtaV1.setMetodoPuntuacion(ccPreguntasFtaV1Dto.getMetodoPuntuacion());
+	    	ccPreguntasFtaV1.setValorPuntuacion(ccPreguntasFtaV1Dto.getValorPuntuacion()); 
 	     	List<CcOpcionMultipleDto> listCcOpcionMultipleDto =  ccOpcionMultipleDao.findByNumeroFta(ccPreguntasFtaV1Dto.getNumero());
 			if(null!=listCcOpcionMultipleDto) {
 				List<CcOpcionMultiple> listCcOpcionMultiple = new ArrayList<CcOpcionMultiple>(); 

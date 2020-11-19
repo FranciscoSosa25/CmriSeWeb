@@ -63,7 +63,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 	
 	private CcPreguntasHdrV1 ccPreguntasHdrV1ForAction = new CcPreguntasHdrV1();
 	private CcPreguntasFtaV1 ccPreguntasFtaV1ForUpdate = new CcPreguntasFtaV1(); 
-	private List<SelectItem> selectScoringMethodItems; 
+	private List<SelectItem> selectScoringMethodItems= new ArrayList<SelectItem>(); 
 	
 	private boolean ftaRecord; 
 	private long numeroFtaRecord;
@@ -76,6 +76,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 	private List<CcOpcionMultiple> listCcOpcionMultiple = new ArrayList<CcOpcionMultiple>(); 
 	private int idxOM = 0; 
 	private CcOpcionMultiple ccOpcionMultipleForAction = new CcOpcionMultiple(); 
+	
 	
 	/************************************************************************
 	 * Archivos E Imagenes
@@ -126,6 +127,7 @@ public class UpdateQuestionFtaCoreCaseForm {
     public void init() {
 		 System.out.println("Entra "+this.getClass()+" init()");
 		 refreshEntity();      
+		 environmentScoringMethod();
 	     System.out.println("Sale "+this.getClass()+" init()");
 	}
 
@@ -222,10 +224,10 @@ public class UpdateQuestionFtaCoreCaseForm {
 	     Object obNumeroCcPreguntaHdrSV = session.getAttribute("NumeroCcPreguntaHdrSV");
 	     long longNumeroCcHdr = utilitariosLocal.objToLong(obNumeroCcHdr); 
 	     long longNumeroCcPreguntaHdr = utilitariosLocal.objToLong(obNumeroCcPreguntaHdrSV);
+	     this.setNumeroCcHdr(longNumeroCcHdr);
 	     if(0==longNumeroCcHdr||0==longNumeroCcPreguntaHdr) {
 	    	 return;
-	     }
-	     this.setNumeroCcHdr(longNumeroCcHdr);
+	     }	     
 	     ccPreguntasHdrV1ForAction  = ccPreguntasHdrLocal.findByNumeroObjMod(longNumeroCcPreguntaHdr);
 	  
 	     examenesHdr = admonExamenHdrLocal.findByTipo(Utilitarios.CORE_CASES); 
@@ -298,6 +300,8 @@ public class UpdateQuestionFtaCoreCaseForm {
 			ccPreguntasFtaDto.setTextoSugerencias(ccPreguntasFtaV1ForUpdate.getTextoSugerencias());
 			ccPreguntasFtaDto.setSingleAnswerMode(ccPreguntasFtaV1ForUpdate.isSingleAnswerMode());
 			ccPreguntasFtaDto.setSuffleAnswerOrder(ccPreguntasFtaV1ForUpdate.isSuffleAnswerOrder());
+			ccPreguntasFtaDto.setMetodoPuntuacion(ccPreguntasFtaV1ForUpdate.getMetodoPuntuacion());
+			ccPreguntasFtaDto.setValorPuntuacion(ccPreguntasFtaV1ForUpdate.getValorPuntuacion());
 			ccPreguntasFtaLocal.update(this.getNumeroFtaRecord(), ccPreguntasFtaDto);
 			
 			if(null!=listCcOpcionMultiple) {
@@ -342,6 +346,8 @@ public class UpdateQuestionFtaCoreCaseForm {
 			ccPreguntasFtaDto.setSingleAnswerMode(ccPreguntasFtaV1ForUpdate.isSingleAnswerMode());
 			ccPreguntasFtaDto.setSuffleAnswerOrder(ccPreguntasFtaV1ForUpdate.isSuffleAnswerOrder());
 			ccPreguntasFtaDto.setRespuestaCorrecta(ccPreguntasFtaV1ForUpdate.getRespuestaCorrecta());
+			ccPreguntasFtaDto.setMetodoPuntuacion(ccPreguntasFtaV1ForUpdate.getMetodoPuntuacion());
+			ccPreguntasFtaDto.setValorPuntuacion(ccPreguntasFtaV1ForUpdate.getValorPuntuacion());
 			long numeroPreguntaFta =ccPreguntasFtaLocal.insert(ccPreguntasFtaDto);
 			
 			if(Utilitarios.OPCION_MULTIPLE.equals(ccPreguntasHdrDto.getTipoPregunta())) {
@@ -435,7 +441,15 @@ public class UpdateQuestionFtaCoreCaseForm {
 	     System.out.println("Sale saveAndPreview()");
 	    return "CoreCase-Preview"; 
 	}
-	
+	public String Preview() {
+		
+	     FacesContext context = FacesContext.getCurrentInstance(); 
+	     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+	     session.setAttribute("NumeroCcHdrSV", this.getNumeroCcHdr());	
+	     session.setAttribute("NumeroCcPreguntaHdrSV", this.getCcPreguntasHdrV1ForAction().getNumero());	
+	     System.out.println("Sale saveAndPreview()");
+	    return "CoreCase-Preview";
+	}
 	 public void uploadMultiple() {
 		 System.out.println("Entra uploadMultiple");
 	        if (this.presentationFiles != null) {
