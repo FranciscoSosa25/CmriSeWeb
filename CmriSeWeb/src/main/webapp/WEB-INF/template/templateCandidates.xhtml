@@ -4,180 +4,345 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions" 
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	xmlns:pa="http://primefaces.org/apollo">
 <h:head>
 	<f:facet name="first">
-		<link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/poseidon-layout/images/login/cmri-120.png" />
+		<link rel="shortcut icon" type="image/png"
+			href="#{request.contextPath}/resources/poseidon-layout/images/login/cmri-120.png" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="theme-color" content="#{guestPreferences.themeColors[guestPreferences.theme]}" />
+		<meta name="theme-color"
+			content="#{guestPreferences.themeColors[guestPreferences.theme]}" />
 	</f:facet>
 	<title><ui:insert name="title">CMRI</ui:insert></title>
 	<h:outputScript name="js/nanoscroller.js" library="poseidon-layout" />
 	<h:outputScript name="js/layout.js" library="poseidon-layout" />
 	<h:outputScript name="js/swipe.js" library="poseidon-layout" />
-	<h:outputStylesheet name="css/nanoscroller.css" library="poseidon-layout" />
-    <h:outputStylesheet name="css/animate.css" library="poseidon-layout" />
-    <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="poseidon-layout" />
+	<h:outputStylesheet name="css/nanoscroller.css"
+		library="poseidon-layout" />
+	<h:outputStylesheet name="css/animate.css" library="poseidon-layout" />
+	<h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css"
+		library="poseidon-layout" />
 	<script type="text/javascript">
-	//<![CDATA[
-         function argsValidationFailed(){
-        	  $(".ui-message-error").delay(1800).fadeOut(500);
-              $(".ui-messages-error").delay(1800).fadeOut(500);
-              $(".ui-messages-info").delay(1800).fadeOut(500);
-              $(".ui-messages-warn").delay(1800).fadeOut(500);
-          }
-         /* window.funcValueTimer = function(t){
-              
-        	var elem = document.getElementById("timerVal");//(t.current);
-               elem.value="kk";
-      	  //alert(document.getElementById("timerVal").value);
-               // alert(t.current);
-          }*/
+		//<![CDATA[
+		function argsValidationFailed() {
+			$(".ui-message-error").delay(1800).fadeOut(500);
+			$(".ui-messages-error").delay(1800).fadeOut(500);
+			$(".ui-messages-info").delay(1800).fadeOut(500);
+			$(".ui-messages-warn").delay(1800).fadeOut(500);
+		}
+		/* window.funcValueTimer = function(t){
+		     
+		var elem = document.getElementById("timerVal");//(t.current);
+		      elem.value="kk";
+		  //alert(document.getElementById("timerVal").value);
+		      // alert(t.current);
+		 }*/
 
-          function checkKeyCode(evt){
-		      var evt = (evt) ? evt : ((event) ? event : null);
-		      var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
-		          if(event.keyCode==116){
-		             evt.keyCode=0;
-		             return false
-		          }
-		          if(event.keyCode==82){
-			             evt.keyCode=0;
-			             return false
-			          }
-          }
-          document.onkeydown=checkKeyCode;
-          
-          history.pushState(null, document.title, location.href);
-          window.addEventListener('popstate', function (event)
-          {
-            history.pushState(null, document.title, location.href);
-          });
+		function checkKeyCode(evt) {
+			var evt = (evt) ? evt : ((event) ? event : null);
+			var node = (evt.target) ? evt.target
+					: ((evt.srcElement) ? evt.srcElement : null);
+			if (event.keyCode == 116) {
+				evt.keyCode = 0;
+				return false
+			}
+			if (event.keyCode == 82) {
+				evt.keyCode = 0;
+				return false
+			}
+		}
+		document.onkeydown = checkKeyCode;
 
-         document.onkeydown = function(){
-        	  switch (event.keyCode){
-        	        case 116 : //F5 button
-        	            event.returnValue = false;
-        	            event.keyCode = 0;
-        	            return false;
-        	        case 82 : //R button
-        	            if (event.ctrlKey){ 
-        	                event.returnValue = false;
-        	                event.keyCode = 0;
-        	                return false;
-        	            }
-        	    }
-        	}
-        //]]>
-    </script>
+		history.pushState(null, document.title, location.href);
+		window.addEventListener('popstate', function(event) {
+			history.pushState(null, document.title, location.href);
+		});
+
+		document.onkeydown = function() {
+			switch (event.keyCode) {
+			case 116: //F5 button
+				event.returnValue = false;
+				event.keyCode = 0;
+				return false;
+			case 82: //R button
+				if (event.ctrlKey) {
+					event.returnValue = false;
+					event.keyCode = 0;
+					return false;
+				}
+			}
+		}
+		//]]>
+	</script>
 	<ui:insert name="xxhrwjs" />
-	<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
 	<style type="text/css">
-		 	header,footer {
-			               font-size: 20px;
-			               color:#fff;
-			               background-color:hsl(210, 89%, 17%);
-			               font-weight:bold; 
-			               padding:8px 15px 8px 15px; 
-			               border-radius:5px; 
-			              }
-			header,footer,main{
-			  margin: 10px 10px 10px 10px; 
-			}
-			sub_footer{
-                  position: fixed;
-				   left: 0;
-				   bottom: 0;
-				   width: 100%;
-            }
-			h1{
-			 background-color:hsl(210, 99%, 27%);
-			 color:#fff;
-			 margin: 3px;
-			 border-radius:5px;  
-			 padding:0px 0px 0px 8px; 
-			}
-			h2{
-			  color:black;
-			  font-weight:bold; 
-			}
-			
-			legend{
-			  font-size: 20px;
-			  font-weight:bold; 
-			  color:black;
-			}
-		    .ui-button{
-		     margin:15px 30px 15px 30px; 
-		    }
-		    
-		    .ui-button-text{
-		     font-size: 25px;
-		    }
-		  
-		    body {
-             background-color: #D9E0E7; 
-            } 
+header, footer {
+	font-size: 20px;
+	color: #fff;
+	background-color: hsl(210, 89%, 17%);
+	font-weight: bold;
+	padding: 8px 15px 8px 15px;
+	border-radius: 5px;
+}
 
-            label {
-			  font-weight:bold; 
-			}
-			.classNameGrid{
-			      margin: 10px 10px 10px 10px; 
-			      padding:8px 15px 8px 15px; 
-			      background-color:hsl(210, 99%, 27%);
-			      border-spacing: 0px;		  
-				  font-size: 2em;
-				  font-weight: bold; 
-				  color:#fff;
-			}
-			.text_right { 
-                  float: right;
-            }
-		   .panelgrid-dotted-border{
-			    border-collapse: separate;
-			    border-spacing: 0;
-			    border: 0px dotted #929292;
-			    border-spacing: 0px;		  
-				font-size: 2em;
-				font-weight: bold; 
-				color:#fff;
-			}
-			.panelgrid-dotted-border.ui-panelgrid tr, .panelgrid-dotted-border.ui-panelgrid .ui-panelgrid-cell {
-			    border: 0px dotted #929292;
-			    background-color:hsl(210, 99%, 27%);
-			}		
-			.panelgrid-dotted-border{
-			    border-collapse: separate;
-			}
-			.panelgrid-dotted-border.ui-panelgrid {
-			    width: 100%;
-			}
-			.ui-button.ui-state-default {
-			background-color: hsl(210, 89%, 17%);
-			}
-	    </style>
-	    <header>
-		 <div>
-		 <h:outputText value="Candidato: #{userLogin.nombreCompletoUsuario}" style="position: relative; left:0px;"/>
-		 <h:outputText value="Curp: #{userLogin.curp}" style="position: relative; left:300px;" />
+header, footer, main {
+	margin: 10px 10px 10px 10px;
+}
+
+@media only screen and (max-width: 767px) sub_footer {
+	position
+	
+	
+	
+	
+	
+	
+	
+	
+	:
+	
+	
+	
+	
+	 
+	
+	
+	
+	
+	fixed
+	
+	
+	
+	
+	
+	
+	
+	
+	;
+	left
+	
+	
+	
+	
+	
+	
+	
+	
+	:
+	
+	
+	
+	
+	 
+	
+	
+	
+	
+	0
+	
+	
+	
+	
+	
+	
+	
+	
+	;
+	bottom
+	
+	
+	
+	
+	
+	
+	
+	
+	:
+	
+	
+	
+	
+	 
+	
+	
+	
+	
+	0
+	
+	
+	
+	
+	
+	
+	
+	
+	;
+	width
+	
+	
+	
+	
+	
+	
+	
+	
+	:
+	
+	
+	
+	
+	 
+	
+	
+	
+	
+	100
+	
+	
+	
+	
+	
+	
+	
+	
+	%;
+	position
+	
+	
+	
+	
+	
+	
+	
+	
+	:
+	
+	
+	
+	
+	 
+	
+	
+	
+	
+	static
+	
+	
+	
+	
+	
+	
+	
+	
+	;
+}
+
+h1 {
+	background-color: hsl(210, 99%, 27%);
+	color: #fff;
+	margin: 3px;
+	border-radius: 5px;
+	padding: 0px 0px 0px 8px;
+}
+
+h2 {
+	color: black;
+	font-weight: bold;
+}
+
+legend {
+	font-size: 20px;
+	font-weight: bold;
+	color: black;
+}
+
+.ui-button {
+	margin: 15px 30px 15px 30px;
+}
+
+.ui-button-text {
+	font-size: 25px;
+}
+
+body {
+	background-color: #D9E0E7;
+}
+
+label {
+	font-weight: bold;
+}
+
+.classNameGrid {
+	margin: 10px 10px 10px 10px;
+	padding: 8px 15px 8px 15px;
+	background-color: hsl(210, 99%, 27%);
+	border-spacing: 0px;
+	font-size: 2em;
+	font-weight: bold;
+	color: #fff;
+}
+
+.text_right {
+	float: right;
+}
+
+.panelgrid-dotted-border {
+	border-collapse: separate;
+	border-spacing: 0;
+	border: 0px dotted #929292;
+	border-spacing: 0px;
+	font-size: 2em;
+	font-weight: bold;
+	color: #fff;
+}
+
+.panelgrid-dotted-border.ui-panelgrid tr, .panelgrid-dotted-border.ui-panelgrid .ui-panelgrid-cell
+	{
+	border: 0px dotted #929292;
+	background-color: hsl(210, 99%, 27%);
+}
+
+.panelgrid-dotted-border {
+	border-collapse: separate;
+}
+
+.panelgrid-dotted-border.ui-panelgrid {
+	width: 100%;
+}
+
+.ui-button.ui-state-default {
+	background-color: hsl(210, 89%, 17%);
+}
+</style>
+	<header>
+		<div>
+			<h:outputText value="Candidato: #{userLogin.nombreCompletoUsuario}"
+				style="position: relative; left:0px;" />
+			<h:outputText value="Curp: #{userLogin.curp}"
+				style="position: relative; left:300px;" />
 		</div>
-      </header>
-   </h:head>
-   <h:body>
+	</header>
+</h:head>
+<h:body>
 	<div style="height: 87%">
-	<ui:insert name="content" /></div>
-	<div style="height: 6%">
-		 <div class="footer">
-		   <div class="sub_footer">     
-		     <ui:include src="./footer.xhtml" />
-	       </div>
-	    </div>
-	 </div> 
-	 <ui:insert name="xxhrwjsEnd" />
-  </h:body>
+		<div class="layout-main">
+			<div class="layout-main-content">
+				<ui:insert name="content" />
+			</div>
+			<div class="footer">
+				<div class="sub_footer">
+					<ui:include src="./footer.xhtml" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<ui:insert name="xxhrwjsEnd" />
+</h:body>
 </html>

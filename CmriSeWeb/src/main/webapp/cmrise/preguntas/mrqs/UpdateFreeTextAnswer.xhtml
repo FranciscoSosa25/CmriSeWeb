@@ -267,6 +267,7 @@
 								value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.textoSugerencias}"
 								style="width:30%" required="true"
 								requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+							<p:message for="hintsText" />
 						</div>
 						<div class="ui-g-12 ui-md-3" style="text-align: right;">
 							<p:outputLabel for="scoringMethod" value="Método de puntuación" />
@@ -274,7 +275,6 @@
 						<div class="ui-g-12 ui-md-9">
 							<p:selectOneMenu id="scoringMethod"
 								value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.metodoPuntuacion}"
-								
 								requiredMessage="#{msgs['globalForm.requiredMessage']}">
 								<f:selectItems
 									value="#{updateFTAMrqForm.selectScoringMethodItems}" />

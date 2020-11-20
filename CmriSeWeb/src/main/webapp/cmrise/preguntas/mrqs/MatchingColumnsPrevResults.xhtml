@@ -3,33 +3,27 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	<p:panelGrid columns="1" id="ColumnasCorrelacionPrevCorrectas"
-		layout="grid" rendered="#{mrqPreviewForm.panelCorrelacionColumnasResultados}">
-		<h:panelGroup id="titulosResultados">
-			<div class="ui-g-5 ui-g-nopad" style="margin-bottom: 5%;">
-				<h1>Respuesta Correcta:</h1>
-			</div>
-			<div class="ui-g-5 ui-g-nopad" style="margin-bottom: 5%;margin-left: 5%;">
-				<h1>Valor Seleccionado:</h1>
-			</div>
-		</h:panelGroup>
-
-		<h:panelGroup id="respuestasResultados">
-			<ui:repeat var="mrqsCorrelacionColumnaDerechaRespuestas"
+	
+	<p:dataTable  id="ColumnasCorrelacionPrevCorrectas"  
+		rendered="#{mrqPreviewForm.panelCorrelacionColumnasResultados}"
+		  var="mrqsCorrelacionColumnaDerechaRespuestas"
 				value="#{mrqPreviewForm.listMrqsCorrelacionColumnasRespuestasDto}">
-				<div class="ui-g-5 ui-g-nopad" style="margin-bottom: 5%;">
-					<h:outputLabel id="textoIzquierda" style="width:80%;word-wrap: break-word"
-						value="#{mrqsCorrelacionColumnaDerechaRespuestas.texto}">
-					</h:outputLabel>
-					<p:message for="textoIzquierda" />
-				</div>
-				<div class="ui-g-5 ui-g-nopad" style="margin-bottom: 5%;">
-					<h:outputLabel id="textoDerecha" style="width:80%;word-wrap: break-word"
-						value="#{mrqsCorrelacionColumnaDerechaRespuestas.valorSeleccionado}">
-					</h:outputLabel>
-					<p:message for="textoDerecha" />
-				</div>
-			</ui:repeat>
-		</h:panelGroup>
-	</p:panelGrid>
+				<p:column headerText="Pregunta" style="text-align: center;">
+ 					<h:outputLabel id="izquierda"
+							value="#{mrqsCorrelacionColumnaDerechaRespuestas.textoRespuesta}">
+					</h:outputLabel>					
+			      </p:column>
+				
+ 				 <p:column headerText="Respuesta Correcta" style="text-align: center;">
+ 					<h:outputLabel id="centro"
+							value="#{mrqsCorrelacionColumnaDerechaRespuestas.texto}">
+					</h:outputLabel>					
+			      </p:column>
+			      <p:column headerText="Respuesta Seleccionada" style="text-align: center;">
+ 					<h:outputLabel id="derecha"
+							value="#{mrqsCorrelacionColumnaDerechaRespuestas.valorSeleccionado}">
+					</h:outputLabel>					
+			      </p:column>
+			     	
+	</p:dataTable>
 </ui:composition>
