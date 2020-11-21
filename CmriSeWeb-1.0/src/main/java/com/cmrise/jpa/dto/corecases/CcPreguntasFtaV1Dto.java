@@ -59,6 +59,10 @@ public class CcPreguntasFtaV1Dto implements Serializable {
 	
 	@Column(name="SUFFLE_ANSWER_ORDER")
 	private boolean suffleAnswerOrder; 
+	@Column(name="METODO_PUNTUACION")
+	private String metodoPuntuacion; 
+	@Column(name="VALOR_PUNTUACION")
+	private String valorPuntuacion; 
 	
 	public long getNumero() {
 		return this.numero;
@@ -172,4 +176,20 @@ public class CcPreguntasFtaV1Dto implements Serializable {
 		this.suffleAnswerOrder = suffleAnswerOrder;
 	}
 
+	public String getMetodoPuntuacion() {
+		return metodoPuntuacion;
+	}
+
+	public void setMetodoPuntuacion(String metodoPuntuacion) {
+		this.metodoPuntuacion = metodoPuntuacion;
+	}
+
+	public String getValorPuntuacion() {
+		return valorPuntuacion;
+	}
+
+	public void setValorPuntuacion(String valorPuntuacion) {
+		this.valorPuntuacion = valorPuntuacion;
+	}
+	
 }

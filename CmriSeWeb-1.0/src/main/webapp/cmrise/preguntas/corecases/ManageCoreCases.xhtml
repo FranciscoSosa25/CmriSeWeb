@@ -128,6 +128,7 @@ function handleDeleteRequest(xhr, status, args){
      <p:column headerText="Acciones">
         <p:commandButton icon="fa fa-edit" style="margin-left: 10px; background: #2D0D86;" action="#{manageCoreCasesForm.update(ccHdrV1)}"/>
         <p:commandButton icon="fa fa-trash" style="margin-left: 10px; background: #2D0D86;"  oncomplete="PF('deleteRolDialogWV').show();" ajax="true" actionListener="#{manageCoreCasesForm.selectForAction(ccHdrV1)}"/>
+    	<p:commandButton icon="fa fa-eye" style="margin-left: 10px; background: #2D0D86;" action="#{manageCoreCasesForm.view(ccHdrV1)}"/>
      </p:column>
    </p:dataTable>
    </div>

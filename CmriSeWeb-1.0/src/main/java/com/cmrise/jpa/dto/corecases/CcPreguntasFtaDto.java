@@ -57,6 +57,10 @@ public class CcPreguntasFtaDto implements Serializable {
 	@Column(name="SUFFLE_ANSWER_ORDER")
 	private boolean suffleAnswerOrder; 
 	
+	@Column(name="METODO_PUNTUACION")
+	private String metodoPuntuacion; 
+	@Column(name="VALOR_PUNTUACION")
+	private String valorPuntuacion; 
 	//bi-directional many-to-one association to CcPreguntasHdrDto
 	@ManyToOne
 	@JoinColumn(name="NUMERO_HDR")
@@ -177,4 +181,20 @@ public class CcPreguntasFtaDto implements Serializable {
 		this.suffleAnswerOrder = suffleAnswerOrder;
 	}
 
+	public String getMetodoPuntuacion() {
+		return metodoPuntuacion;
+	}
+
+	public void setMetodoPuntuacion(String metodoPuntuacion) {
+		this.metodoPuntuacion = metodoPuntuacion;
+	}
+
+	public String getValorPuntuacion() {
+		return valorPuntuacion;
+	}
+
+	public void setValorPuntuacion(String valorPuntuacion) {
+		this.valorPuntuacion = valorPuntuacion;
+	}	
+    
 }
