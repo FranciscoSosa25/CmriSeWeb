@@ -88,8 +88,8 @@
         <h:panelGroup layout="block" rendered="#{imagenes.image}">
          <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="width: 100%;height:100%;" />
        </h:panelGroup>
-       <h:panelGroup layout="block" rendered="#{imagenes.video}">
-        <video width="320" height="240" controls="controls" style="width: 100%;height:100%;" >
+       <h:panelGroup layout="block" rendered="#{imagenes.video}"  >
+        <video width="320" height="240" controls="controls" style="width: 35%;height:25%;" >
          <source src="data:#{imagenes.contentType};base64,#{imagenes.imagenBase64}" />
         </video>
        </h:panelGroup> 
