@@ -317,7 +317,10 @@ public class AssignMrqsCandidatesForm {
 		    	estado = columns[6].toUpperCase().trim();
 		    	sedeHospital = columns[7].toUpperCase().trim();
 		    	String fechaD = columns[8].trim();
-		    	String fechaH = columns[9].trim();
+		    	String fechaH = "";
+		    	
+		    	if(columns.length > 9)
+		    	  fechaH = columns[9].trim();
 		    			    	
 		    	if(curp == null || curp.length() == 0) {
 		    		validaValores += "En la linea "+lineaAct+" valor de la 'CURP' no puede ir vacio. " + '\n';
@@ -345,10 +348,14 @@ public class AssignMrqsCandidatesForm {
 		    	}
 		    	try {
 		    		fechaEfectivaDesde = ConvertToDate(fechaD);
-		    		fechaEfectivaHasta = ConvertToDate(fechaH);
 		    	}catch(Exception e) {
 		    		validaValores += "En la linea "+lineaAct+" el campo 'Fecha Desde' no tiene el formato correcto. " + '\n';
 		    	}
+		    	
+		    	try {
+		    		fechaEfectivaHasta = ConvertToDate(fechaH);
+		    	}catch(Exception e){ fechaEfectivaHasta = null;}
+		    	
 		    	if(fechaEfectivaDesde == null ) {
 		    		validaValores += "En la linea "+lineaAct+" el campo 'Fecha Desde' no puede ir vacio. " + '\n';
 		    	}
@@ -362,7 +369,7 @@ public class AssignMrqsCandidatesForm {
 		
 		reader.close();
 		
-		if(ErroresCaptura!= null){
+		if(ErroresCaptura!= null || ErroresCaptura != ""){
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "El archivo presento los siguientes errores: " + '\n', ErroresCaptura );
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 	        ErroresCaptura = "";

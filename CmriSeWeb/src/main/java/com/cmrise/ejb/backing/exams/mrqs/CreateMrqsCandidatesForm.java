@@ -322,8 +322,12 @@ public class CreateMrqsCandidatesForm {
 			    	estado = columns[6].toUpperCase().trim();
 			    	sedeHospital = columns[7].toUpperCase().trim();
 			    	String fechaD = columns[8].trim();
-			    	String fechaH = columns[9].trim();
-			    				    	
+			    	String fechaH = "";
+			    	
+			    	if(columns.length > 9)
+			    	  fechaH = columns[9].trim();
+			    	
+			    	
 			    	if(curp == null || curp.length() == 0) {
 			    		validaValores += "En la linea "+lineaAct+" valor de la 'CURP' no puede ir vacio. " + '\n';
 			    	}
@@ -348,12 +352,18 @@ public class CreateMrqsCandidatesForm {
 			    	if(sedeHospital == null || sedeHospital.length() == 0) {
 			    		validaValores += "En la linea "+lineaAct+" el campo 'Sede Hospitalaria' no puede ir vacio. " + '\n';
 			    	}
+			    	
 			    	try {
 			    		fechaEfDesde = ConvertToDate(fechaD);
-			    		fechaEfHasta = ConvertToDate(fechaH);
+			    		
 			    	}catch(Exception e) {
 			    		validaValores += "En la linea "+lineaAct+" el campo 'Fecha Desde' no tiene el formato correcto. " + '\n';
 			    	}
+			    	
+			    	try {
+			    		fechaEfHasta = ConvertToDate(fechaH);
+			    	}catch(Exception e){ fechaEfHasta = null;}
+			    	
 			    	if(fechaEfDesde == null ) {
 			    		validaValores += "En la linea "+lineaAct+" el campo 'Fecha Desde' no puede ir vacio. " + '\n';
 			    	}
@@ -367,7 +377,7 @@ public class CreateMrqsCandidatesForm {
 			
 			reader.close();
 			
-			if(errorCaptura!= null){
+			if(errorCaptura!= null || errorCaptura != ""){
 				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "El archivo presento los siguientes errores: " + '\n', errorCaptura );
 		        FacesContext.getCurrentInstance().addMessage(null, msg);
 		        errorCaptura = null;
