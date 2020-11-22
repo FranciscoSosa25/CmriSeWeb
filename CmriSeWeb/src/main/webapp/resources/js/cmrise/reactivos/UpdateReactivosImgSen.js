@@ -280,7 +280,7 @@ function clear_canvas() {
 }
 
 function draw(end) {
-
+ 
     ctx.lineWidth = 1;
     ctx.strokeStyle = "white";
     ctx.lineCap = "square";
@@ -612,7 +612,7 @@ function handleUpdateRequest(xhr, status, args) {
 /**** INICIA MOH ****/
 
 function initImage() {
-
+  
     let canvasContentName = 'canvas-content';
 
     let canvasContainer = document.getElementById('canvas-container');
@@ -628,7 +628,7 @@ function initImage() {
 }
 
 function initPolygon(canvasContentName) {
-
+	
     var $ = go.GraphObject.make;
 
     polygonDiagram = $(go.Diagram, canvasContentName);
@@ -675,6 +675,7 @@ function initPolygon(canvasContentName) {
     polygonDiagram.toolManager.mouseDownTools.insertAt(0, tool);
 
     this.loadPolygon();  // load a simple diagram from the textarea
+	
 }
 
 function updateAllAdornments() {  // called after checkboxes change Diagram.allow...
@@ -716,7 +717,7 @@ function resetPolygon() {
 }
 
 function savePolygon() {
-
+   
     const polygonData = document.getElementById('UpdateReactivosForm:coordinates');
 
     if (polygonDiagram.model.nodeDataArray.length > 0) {
@@ -726,7 +727,7 @@ function savePolygon() {
 }
 
 function savePolygonComplete() {
-
+ 
     this.initImage();
 }
 
