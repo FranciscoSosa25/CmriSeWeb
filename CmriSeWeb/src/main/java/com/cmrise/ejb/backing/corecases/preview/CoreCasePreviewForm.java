@@ -314,6 +314,7 @@ public class CoreCasePreviewForm {
 	public void calificar() {
 		saveProceed();
 		setAnswerView(true);
+		setQuestionView(false);
 	}
 
 	public void asignarRespuesta(String query) {

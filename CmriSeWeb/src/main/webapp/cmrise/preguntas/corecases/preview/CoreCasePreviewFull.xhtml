@@ -118,19 +118,19 @@ label {
 				</div>
 			</div>
 			<div class="ui-g-12 ui-md-12">
-				<div class="ui-g-12 ui-md-12 ui-lg-7" style="text-align: center;">
+				<div class="ui-g-12 ui-md-12 ui-lg-8" style="text-align: center;">
 					<ui:include
 						src="/cmrise/preguntas/corecases/preview/CoreCasePreviewFullS.xhtml" />
 				</div>
 			</div>
 			<div class="ui-g-12 ui-md-12">
-				<div class="ui-g-12 ui-md-12 ui-lg-7" style="text-align: center;">
+				<div class="ui-g-12 ui-md-12 ui-lg-8" style="text-align: center;">
 					<ui:include
 						src="/cmrise/preguntas/corecases/preview/CoreCasePreviewFullText.xhtml" />
 				</div>
 			</div>
 			<div class="ui-g-12 ui-md-12">
-				<div class="ui-g-12 ui-md-12 ui-lg-7" style="text-align: center;">
+				<div class="ui-g-12 ui-md-12 ui-lg-8" style="text-align: center;">
 					<ui:include
 						src="/cmrise/preguntas/corecases/preview/CoreCasePreviewFullMultiple.xhtml" />
 				</div>
@@ -144,7 +144,7 @@ label {
 					update="@form" action="#{coreCasePreviewForm.returnUpdate()}" />
 				<p:commandButton value="Calificar"
 					style="margin-left:15px; background: #2d0d86;"
-					rendered="#{coreCasePreviewForm.visualizacionPregunta}"
+					rendered="#{coreCasePreviewForm.visualizacionPregunta and coreCasePreviewForm.questionView}"
 					action="#{coreCasePreviewForm.calificar()}" update="@form" />
 			</div>
 
