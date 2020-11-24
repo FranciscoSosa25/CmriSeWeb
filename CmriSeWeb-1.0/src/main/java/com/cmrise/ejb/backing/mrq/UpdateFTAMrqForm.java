@@ -985,6 +985,7 @@ public class UpdateFTAMrqForm {
 			mrqsPreguntasFtaV1ForAction.setImagenContent(uploadedFile.getContent());
 			mrqsPreguntasFtaV1ForAction.setImagenBase64(new String(Base64.getEncoder().encode(uploadedFile.getContent())));
 		
+        FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
 	public void agregarRespReact() {
