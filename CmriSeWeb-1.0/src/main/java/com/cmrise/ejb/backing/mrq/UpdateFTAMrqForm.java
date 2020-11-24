@@ -978,16 +978,13 @@ public class UpdateFTAMrqForm {
 		int width = bi.getWidth();
 		int height = bi.getHeight();
 		System.out.println("Width: " + width + ", height: " + height);
-		if(width<=500 && height<=500) {
+		
 			msg = new FacesMessage("El archivo", event.getFile().getFileName() + " ha sido subido.");
 			mrqsPreguntasFtaV1ForAction.setNombreImagen(uploadedFile.getFileName());
 			mrqsPreguntasFtaV1ForAction.setContentType(uploadedFile.getContentType());
 			mrqsPreguntasFtaV1ForAction.setImagenContent(uploadedFile.getContent());
 			mrqsPreguntasFtaV1ForAction.setImagenBase64(new String(Base64.getEncoder().encode(uploadedFile.getContent())));
-		}
-		else
-			msg = new FacesMessage("El archivo debe tener una dimensión máxima de 500x500 pixeles");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+		
 	}
 	
 	public void agregarRespReact() {

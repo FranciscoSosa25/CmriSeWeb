@@ -491,7 +491,23 @@
 											onclick="resetPolygon()"
 											rendered="#{not empty updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.imagenBase64}"
 											style="margin:10px 30px;" />
-
+									<script type="text/javascript">
+										//<![CDATA[ 
+											var clicks=0;
+											$('#canvas-container').click(function(e){
+												clicks++;											   
+											    e.stopPropagation(); // Prevent bubbling
+											    if(clicks>=2){
+											    	document.getElementById("UpdateReactivosForm:coordinates").value = "X: "+ e.offsetX+ ", Y: "+ e.offsetY;
+											    	
+											    }
+											  });
+									
+										$( "#canvas-container" ).mouseleave(function() {
+										clicks=0;
+										});
+										//]]>
+										</script>
 									</div>
 								</div>
 							</div>
