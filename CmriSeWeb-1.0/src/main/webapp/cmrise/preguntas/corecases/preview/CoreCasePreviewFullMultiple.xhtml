@@ -25,7 +25,7 @@
 	</h:panelGroup>
 
 	<h:panelGroup layout="block"
-		rendered="#{coreCasePreviewForm.multipleChoice  and  coreCasePreviewForm.singleAnswerMode and coreCasePreviewForm.visualizacionPregunta}">
+		rendered="#{coreCasePreviewForm.multipleChoice and  coreCasePreviewForm.questionView  and  coreCasePreviewForm.singleAnswerMode and coreCasePreviewForm.visualizacionPregunta}">
 		<div class="ui-g-12 ui-md-12">
 			<p:selectOneRadio id="answerRadioSingleM"
 				value="#{coreCasePreviewForm.respuestaPreguntaCandidato}"
@@ -40,7 +40,7 @@
 
 
 	<h:panelGrid columns="1" layout="block"
-		rendered="#{coreCasePreviewForm.multipleChoice and  not coreCasePreviewForm.singleAnswerMode and coreCasePreviewForm.visualizacionPregunta}">
+		rendered="#{coreCasePreviewForm.multipleChoice and  coreCasePreviewForm.questionView and  not coreCasePreviewForm.singleAnswerMode and coreCasePreviewForm.visualizacionPregunta}">
 		<div class="ui-g-12 ui-md-12">
 			<p:selectManyCheckbox id="answerRadioMultiple"
 				value="#{coreCasePreviewForm.respuestasPreguntaCandidato}"
@@ -56,44 +56,73 @@
 
 
 
-	<h:panelGroup layout="block"
-		rendered="#{coreCasePreviewForm.multipleChoice and coreCasePreviewForm.answerView }">
-		<div class="ui-g-12 ui-md-12 xXinstructions">La respuestas son:</div>
-		<div class="ui-g-12 ui-md-12 xXinstructions">
-			<ui:repeat var="ccOpcionMultiple"
-				value="#{coreCasePreviewForm.listCcOpcionMultiple}">
-				<div class="ui-g-12 ui-md-12">
-					<h:panelGroup layout="block" rendered="#{ccOpcionMultiple.estatus}">
-						<div class="ui-g-12 ui-md-1">
-							<h:panelGroup layout="block"
-								rendered="#{ccOpcionMultiple.estatusCandidato}">
-								<i class="pi pi-check"></i>
+	 <h:panelGroup layout="block"
+								rendered="#{coreCasePreviewForm.multipleChoice and coreCasePreviewForm.answerView }">
+								<div class="ui-g-8 ui-md-8 xXinstructions">
+									<div class="ui-g-12 ui-md-12">
+										<div class="ui-g-4 ui-md-4">
+											<h:panelGroup layout="block">
+												<h:outputText value="Correcta" />
+											</h:panelGroup>
+										</div>
+										<div class="ui-g-4 ui-md-4">
+											<h:panelGroup layout="block">
+												<h:outputText value="Respuesta" />
+											</h:panelGroup>
+										</div>
+										<div class="ui-g-4 ui-md-4">
+											<h:panelGroup layout="block">
+												<h:outputText value=" " />
+											</h:panelGroup>
+										</div>
+									</div>
+
+									<ui:repeat var="coreCaseOpcionMultiple"
+										value="#{coreCasePreviewForm.listCcOpcionMultiple}">
+										<div class="ui-g-12 ui-md-12">
+											<h:panelGroup layout="block"
+												rendered="#{coreCaseOpcionMultiple.estatus}">
+												<div class="ui-g-4 ui-md-4">
+													<div class="ui-inputgroup">
+														<p:commandButton rendered="#{coreCaseOpcionMultiple.estatus}"
+															icon="pi pi-check" styleClass="green-button" />
+													</div>
+												</div>
+												<div class="ui-g-4 ui-md-4">
+													<div class="ui-inputgroup">
+														<h:outputText value="#{coreCaseOpcionMultiple.textoRespuesta}" />
+													</div>
+												</div>
+												<div class="ui-g-4 ui-md-4">
+													<h:outputText
+														rendered="#{coreCaseOpcionMultiple.estatusCandidato}"
+														value="Respuesta Seleccionada" />
+
+												</div>
+											</h:panelGroup>
+											<h:panelGroup layout="block"
+												rendered="#{not coreCaseOpcionMultiple.estatus}">
+												<div class="ui-g-4 ui-md-4">
+													<div class="ui-inputgroup">
+														<p:commandButton icon="pi pi-times"
+															styleClass="red-button" />
+													</div>
+												</div>
+												<div class="ui-g-4 ui-md-4">
+													<div class="ui-inputgroup">
+														<h:outputText value="#{coreCaseOpcionMultiple.textoRespuesta}" />
+													</div>
+												</div>
+												<div class="ui-g-4 ui-md-4">
+													<h:outputText
+														rendered="#{coreCaseOpcionMultiple.estatusCandidato}"
+														value="Respuesta Seleccionada" />
+
+												</div>
+											</h:panelGroup>
+										</div>
+									</ui:repeat>
+								</div>
+
 							</h:panelGroup>
-						</div>
-						<div class="ui-g-12 ui-md-11">
-							<div class="ui-inputgroup">
-								<p:commandButton icon="pi pi-check" styleClass="green-button" />
-								<h:outputText value="#{ccOpcionMultiple.textoRespuesta}" />
-							</div>
-						</div>
-					</h:panelGroup>
-					<h:panelGroup layout="block"
-						rendered="#{not ccOpcionMultiple.estatus}">
-						<div class="ui-g-12 ui-md-1">
-							<h:panelGroup layout="block"
-								rendered="#{ccOpcionMultiple.estatusCandidato}">
-								<i class="pi pi-check"></i>
-							</h:panelGroup>
-						</div>
-						<div class="ui-g-12 ui-md-11">
-							<div class="ui-inputgroup">
-								<p:commandButton icon="pi pi-times" styleClass="red-button" />
-								<h:outputText value="#{ccOpcionMultiple.textoRespuesta}" />
-							</div>
-						</div>
-					</h:panelGroup>
-				</div>
-			</ui:repeat>
-		</div>
-	</h:panelGroup>
 </ui:composition>
