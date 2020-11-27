@@ -12,6 +12,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import com.cmrise.ejb.backing.mrq.UpdateFTAMrqForm;
+import com.cmrise.ejb.backing.mrq.preview.MrqPreviewForm;
 import com.cmrise.ejb.helpers.UserLogin;
 import com.cmrise.ejb.model.exams.MrqsExamenes;
 import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
@@ -50,6 +52,9 @@ private MrqsExamenes mrqsExamen = new MrqsExamenes();
 	@Inject 
 	MrqsPreguntasFtaLocal mrqsPreguntasFtaLocal; 
 	
+	//@Inject
+	MrqPreviewForm mrqPreviewForm;	
+	
 	@ManagedProperty(value="#{userLogin}")
 	private UserLogin userLogin; 
 	
@@ -70,11 +75,12 @@ private MrqsExamenes mrqsExamen = new MrqsExamenes();
 	private int idxReactivos = 0; 
 	private int reactivosSize = 0;
 	private Reactivo reactivoForRead = new Reactivo(); 
+	private Boolean indicateImage = false;
 	
 	@PostConstruct
 	public void init() {
-		 FacesContext context = FacesContext.getCurrentInstance(); 
-		 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		 Object objNumeroMrqsExamenSV = session.getAttribute("NumeroMrqsExamenSV"); 
 	     long numeroMrqsExamenSV = Utilitarios.objToLong(objNumeroMrqsExamenSV); 
 	     System.out.println("numeroMrqsExamenSV:"+numeroMrqsExamenSV);
@@ -88,7 +94,6 @@ private MrqsExamenes mrqsExamen = new MrqsExamenes();
 	     
 	     if(null!=mrqsExamen) {
 	       if(mrqsExamen.getNumero()!=0) {
-	    	   
 	    	   
 	    	   listMrqsGrupoHdr = mrqsExamen.getListMrqsGrupoHdr(); 
 	    	   reactivos = new ArrayList<Reactivo>(); 
@@ -107,6 +112,7 @@ private MrqsExamenes mrqsExamen = new MrqsExamenes();
 	    			   reactivo.setNumero(contador);
 	    			   reactivo.setMateriaIdx(listMrqsGrupoHdr.indexOf(i));
 	    			   reactivo.setPreguntaIdx(listMrqsGrupoLinesForRead.indexOf(j));
+	    			 
 	    			   reactivos.add(reactivo); 
 	    			   if(0==listMrqsGrupoHdr.indexOf(i)
 	    				&&0==listMrqsGrupoLinesForRead.indexOf(j)) {
@@ -114,6 +120,17 @@ private MrqsExamenes mrqsExamen = new MrqsExamenes();
 	    				   mrqsGrupoLinesForRead = j;  
 	    				   mrqsPreguntasHdrV1ForRead = mrqsGrupoLinesForRead.getMrqsPreguntasHdrV1();
 	    				   flag2 = false; 
+							if (Utilitarios.IMAGEN_ANOTADA.equals(mrqsPreguntasHdrV1ForRead.getTipoPregunta())){
+								
+								indicateImage = true;														
+								session.setAttribute("mrqNumeroHdrSV", mrqsPreguntasHdrV1ForRead.getNumero());
+								mrqPreviewForm = new MrqPreviewForm();
+								//mrqPreviewForm.setNumeroHdr(mrqsPreguntasHdrV1ForRead.getNumero());
+								//mrqPreviewForm.init();
+							}
+	    				   else {
+	    					   indicateImage = false;	
+	    				   }
 	    			   }
 	    		   }
 	    	   }
@@ -128,43 +145,58 @@ private MrqsExamenes mrqsExamen = new MrqsExamenes();
 		return "Exams-MRQs-Update"; 
 	}
 	
-	public void regresar() {
-		idxReactivos = idxReactivos-1;
-		reactivosSize = reactivos.size()-1;
-		if(idxReactivos<0) {
-		    flag1 = true; 
-			return;
-		}else if(0==idxReactivos) {
-			flag1 = true; 
-		}
-		flag2 = false; 
-		reactivoForRead = reactivos.get(idxReactivos); 
-		mrqsGrupoHdrForRead = listMrqsGrupoHdr.get(reactivoForRead.getMateriaIdx()); 
-		mrqsGrupoLinesForRead = mrqsGrupoHdrForRead.getListMrqsGrupoLines().get(reactivoForRead.getPreguntaIdx());  
-		mrqsPreguntasHdrV1ForRead = mrqsGrupoLinesForRead.getMrqsPreguntasHdrV1();
+	private void isImage() {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		indicateImage = true;
+		session.setAttribute("mrqNumeroHdrSV", mrqsPreguntasHdrV1ForRead.getNumero());
+		mrqPreviewForm = new MrqPreviewForm();
+	}
 	
+	public void regresar() {
+		idxReactivos = idxReactivos - 1;
+		reactivosSize = reactivos.size() - 1;
+		if (idxReactivos < 0) {
+			flag1 = true;
+			return;
+		} else if (0 == idxReactivos) {
+			flag1 = true;
+		}
+		flag2 = false;
+		reactivoForRead = reactivos.get(idxReactivos);
+		mrqsGrupoHdrForRead = listMrqsGrupoHdr.get(reactivoForRead.getMateriaIdx());
+		mrqsGrupoLinesForRead = mrqsGrupoHdrForRead.getListMrqsGrupoLines().get(reactivoForRead.getPreguntaIdx());
+		mrqsPreguntasHdrV1ForRead = mrqsGrupoLinesForRead.getMrqsPreguntasHdrV1();
+		if (Utilitarios.IMAGEN_ANOTADA.equals(mrqsPreguntasHdrV1ForRead.getTipoPregunta())) {
+			 isImage();
+		} else {
+			indicateImage = false;
+		}
+
 	}
 	
 	public void continuar() {
-		
-		idxReactivos = idxReactivos+1; 
-		System.out.println("idxReactivos:"+idxReactivos);
-		reactivosSize = reactivos.size()-1;
-		if(idxReactivos>reactivosSize) {
-			flag2 = true; 
-			return; 
-		}else if(idxReactivos==reactivosSize) {
-			flag2 = true; 
+		idxReactivos = idxReactivos + 1;
+		System.out.println("idxReactivos:" + idxReactivos);
+		reactivosSize = reactivos.size() - 1;
+		if (idxReactivos > reactivosSize) {
+			flag2 = true;
+			return;
+		} else if (idxReactivos == reactivosSize) {
+			flag2 = true;
 		}
-		flag1 = false; 
-		reactivoForRead = reactivos.get(idxReactivos); 
-		mrqsGrupoHdrForRead = listMrqsGrupoHdr.get(reactivoForRead.getMateriaIdx()); 
-		mrqsGrupoLinesForRead = mrqsGrupoHdrForRead.getListMrqsGrupoLines().get(reactivoForRead.getPreguntaIdx());  
+		flag1 = false;
+		reactivoForRead = reactivos.get(idxReactivos);
+		mrqsGrupoHdrForRead = listMrqsGrupoHdr.get(reactivoForRead.getMateriaIdx());
+		mrqsGrupoLinesForRead = mrqsGrupoHdrForRead.getListMrqsGrupoLines().get(reactivoForRead.getPreguntaIdx());
 		mrqsPreguntasHdrV1ForRead = mrqsGrupoLinesForRead.getMrqsPreguntasHdrV1();
-		
-	
+		if (Utilitarios.IMAGEN_ANOTADA.equals(mrqsPreguntasHdrV1ForRead.getTipoPregunta())) {
+			 isImage();
+		} else {
+			indicateImage = false;
+		}
+
 	}
-	
 	
 	public void finalizarExamen() {
 		
@@ -263,6 +295,14 @@ private MrqsExamenes mrqsExamen = new MrqsExamenes();
 
 	public void setReactivoForRead(Reactivo reactivoForRead) {
 		this.reactivoForRead = reactivoForRead;
+	}
+
+	public Boolean getIndicateImage() {
+		return indicateImage;
+	}
+
+	public void setIndicateImage(Boolean indicateImage) {
+		this.indicateImage = indicateImage;
 	}
 
 	
