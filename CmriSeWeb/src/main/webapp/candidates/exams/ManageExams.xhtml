@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/templateCandidates.xhtml">
+
+<ui:define name="xxhrwcss">
+</ui:define>
+
+<ui:define name="content">
+<h1>Exámenes abiertos</h1>
+<h:form id="examinationsForm">
+<p:growl id="growl" showDetail="true" life="5000" />  
+<p:commandButton value="Buscar Exámenes" action="#{manageExamsForm.buscarExamenes()}" update="@form" style="margin:20px;"/>
+        <ui:repeat var="examination" value="#{manageExamsForm.listCandExamenesV2}">
+        <p:fieldset legend="#{examination.titulo}" style="margin-bottom:20px; border-spacing: 2px;	padding:2px 2px 2px 2px;  background-color:#D9E0E7;">
+        <div class="ui-g card" style="border-spacing: 2px;	padding:2px 2px 2px 2px;  background-color:#D9E0E7;">
+		    <div class="ui-g-6">
+		        <div class="ui-g">
+				 <div class="ui-g-6" style="padding:30px;background-color:#D9E0E7;">
+				   <h3>Tiempo de examen asignado:</h3>#{examination.tiempoLimite} minutos
+				 </div>
+				 </div>
+		     </div>
+		     <div class="ui-g-3" style="padding:30px;background-color:#D9E0E7;">
+		      <h2>Tipo de Examen</h2> #{examination.tipo}
+		     </div>
+		    <div class="ui-g-3" style="padding:30px;background-color:#D9E0E7;"><p:commandButton value="Presentar Examen" action="#{manageExamsForm.takeExam(examination)}"/></div>
+		   </div>
+		   </p:fieldset>
+		</ui:repeat>	
+</h:form>		
+</ui:define>
+</ui:composition>
+
