@@ -210,6 +210,9 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
                 revtal.setContentType(mrqsPreguntasFtaDto.getContentType());
                 revtal.setPoligonos(mrqsPreguntasFtaDto.getPoligonos());
                 revtal.setRutaImagen(mrqsPreguntasFtaDto.getRutaImagen());
+                revtal.setWidth(mrqsPreguntasFtaDto.getWidth());
+                revtal.setHeight(mrqsPreguntasFtaDto.getHeight());
+                revtal.setContentType(mrqsPreguntasFtaDto.getContentType());
             } catch (IOException ie) {
                 System.out.println("IOException MrqsPreguntasFtaLocalImpl findObjModByNumeroFta:" + ie.getMessage());
             }

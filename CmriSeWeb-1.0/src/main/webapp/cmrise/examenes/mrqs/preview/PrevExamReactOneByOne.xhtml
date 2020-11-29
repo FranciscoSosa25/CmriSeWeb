@@ -42,21 +42,20 @@
                 <div class="ui-g-12">
 									<p:inputText id="coordinatesMouseMove" type="hidden" />
 									<p:inputText id="widthImgSen"
-										value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.width}"
+										value="#{prevExamReactOneByOneForm.mrqsPreguntasFtaV1.width}"
 										type="hidden" />
 									<p:inputText id="heightImgSen"
-										value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.height}"
+										value="#{prevExamReactOneByOneForm.mrqsPreguntasFtaV1.height}"
 										type="hidden" />										
 									<h:graphicImage id="graphicImageImgSen"
-										value="data:#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.contentType};base64,#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.imagenBase64}"
+										value="data:#{prevExamReactOneByOneForm.mrqsPreguntasFtaV1.contentType};base64,#{prevExamReactOneByOneForm.mrqsPreguntasFtaV1.imagenBase64}"
 										style="" />
 									<p:inputText id="coordinates"
-										value="#{mrqPreviewForm.respuestaPreguntaCandidato}"
+										value=""
 										type="hidden" />
 									<canvas id="paintingCanvas" style="cursor: crosshair"
 										onmousedown="point_it(event)">
-			         Elemento Canvase no soportado
-			      </canvas>
+									</canvas>
 			    </div>
 	          </h:panelGroup>
  <fieldset>
@@ -85,25 +84,12 @@
 						
 						
 							
-							<h:panelGroup layout="block"
+							 <h:panelGroup layout="block"
 								rendered="#{prevExamReactOneByOneForm.indicateImage}">
-								<div class="ui-g-12">
-									<p:inputText id="widthImgCor"
-										value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.width}"
-										type="hidden" />
-									<p:inputText id="heightImgCor"
-										value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.height}"
-										type="hidden" />
-									<h:graphicImage id="graphicImageImgCor"
-										value="data:#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.contentType};base64,#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.imagenBase64}"
-										style="display:none;" />
-									<h:panelGroup id="imgCorDiv" layout="block"
-										style="width:400px; height:150px; background-color: #DAE4E4;">
-									</h:panelGroup>
-								</div>
+								
 								<div>
 									<ui:repeat var="anotacion"
-										value="#{mrqPreviewForm.listAnotacionesCorImg}"
+										value="#{prevExamReactOneByOneForm.listAnotacionesCorImg}"
 										varStatus="status">
 										<div class="ui-g-1">#{anotacion.nodo}</div>
 										<div class="ui-g-11">
@@ -111,13 +97,13 @@
 												requiredMessage="#{msgs['globalForm.requiredMessage']}">
 												<f:selectItem itemLabel="Seleccione un Valor.." itemValue="" />
 												<f:selectItems
-													value="#{mrqPreviewForm.selectRespReactCorImg}" />
+													value="#{prevExamReactOneByOneForm.selectRespReactCorImg}" />
 											</p:selectOneMenu>
 											<p:message for="respuestaCorrelacionada" />
 										</div>
 									</ui:repeat>
 								</div>
-							</h:panelGroup>
+							</h:panelGroup> 
 
 						</fieldset>
 </section>
