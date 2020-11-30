@@ -61,6 +61,8 @@ public class CcPreguntasFtaDto implements Serializable {
 	private String metodoPuntuacion; 
 	@Column(name="VALOR_PUNTUACION")
 	private String valorPuntuacion; 
+	@Column(name="LIMITE_CARACTERES")
+	private Integer limiteCaracteres;
 	//bi-directional many-to-one association to CcPreguntasHdrDto
 	@ManyToOne
 	@JoinColumn(name="NUMERO_HDR")
@@ -195,6 +197,15 @@ public class CcPreguntasFtaDto implements Serializable {
 
 	public void setValorPuntuacion(String valorPuntuacion) {
 		this.valorPuntuacion = valorPuntuacion;
+	}
+
+	public Integer getLimiteCaracteres() {
+		return limiteCaracteres;
+	}
+
+	public void setLimiteCaracteres(Integer limiteCaracteres) {
+		this.limiteCaracteres = limiteCaracteres;
 	}	
+	
     
 }
