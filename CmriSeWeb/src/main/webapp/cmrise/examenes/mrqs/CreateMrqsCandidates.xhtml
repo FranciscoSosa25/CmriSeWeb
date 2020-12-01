@@ -1,0 +1,143 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+<ui:define name="xxhrwjs">
+<script type="text/javascript">
+function handleCreateRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.createIn) {
+		 PF('createCandidatoDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+    }else{
+    	 PF('createCandidatoDialogWV').hide();
+    }	
+}
+function handleDeleteRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.deleteIn) {
+		 PF('deleteCandidatoDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+   }else{
+   	 PF('deleteCandidatoDialogWV').hide();
+   }	
+}
+function handleUpdateRequest(xhr, status, args){
+	 if(args.validationFailed|| !args.updateIn) {
+		 PF('updateCandidatoDialogWV').jq.effect("shake", {times:5}, 100);
+		 argsValidationFailed(); 
+  }else{
+  	 PF('updateCandidatoDialogWV').hide();
+  }	
+}
+</script>
+</ui:define>
+<ui:define name="content">
+	            
+<h:form id="ReadOnlyForm">
+	<p:growl id="growl" showDetail="true" life="1000" widgetVar="growlWV"/>
+     <div class="ui-g">
+       <div class="ui-g-2 ui-lg-2" style="text-align: left;">
+           <p:commandButton id="RegistrarBtn" value="Nuevo Candidato" icon="fa fa-plus" onclick="PF('createCandidatoDialogWV').show();" />
+       </div>
+       <div class="ui-g-2 ui-lg-4" style="text-align: left;">
+        	 <p:fileUpload id="cargarNuevoCandidatoArchivo" listener="#{createMrqsCandidatesForm.handleFileUpload}"
+                       label="Carga por archivo" mode="advanced" update="ReadOnlyForm growl"
+                      auto="true" allowTypes="/(\.|\/)(csv)$/" fileLimit="1" />
+        </div>
+      </div>
+<div class="card">
+ <p:dataTable var="admonCandidatos" value="#{createMrqsCandidatesForm.listAdmonUsuarios}" emptyMessage="Sin resultados"  paginator="true" rows="30" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+   <f:facet name="header">Candidatos</f:facet>
+     <p:column headerText="Nombre">
+    <h:outputText value="#{admonCandidatos.nombre} "/>
+    <h:outputText value="#{admonCandidatos.apellidoPaterno} "/>
+     <h:outputText value="#{admonCandidatos.apellidoMaterno}"/>
+   </p:column>
+   <p:column headerText="Curp">
+    <h:outputText value="#{admonCandidatos.curp}"/>
+   </p:column>
+    <p:column headerText="Correo Electronico">
+    <h:outputText value="#{admonCandidatos.correoElectronico}"/>
+   </p:column>
+   <p:column headerText="Estado">
+    <h:outputText value="#{admonCandidatos.estado}"/>
+   </p:column>
+    <p:column headerText="Sede Hospital">
+    <h:outputText value="#{admonCandidatos.sedeHospital}"/>
+   </p:column>
+   <p:column headerText="ActualizadoPor">
+    <h:outputText value="#{admonCandidatos.actualizadoPorName}"/>
+   </p:column>
+     <f:facet name="footer">
+
+        </f:facet> 
+  </p:dataTable>
+ </div> 
+  
+  </h:form>
+  <h:form id="CreateForm">
+ <f:passThroughAttribute name="autocomplete" value="off"/>
+  <p:dialog id="createCandidatoDialogId" widgetVar="createCandidatoDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Crear Candidato">
+   <p:panelGrid id="createPanelID" columns="3" layout="grid" columnClasses="ui-g-12 ui-md-6 ui-lg-2,ui-g-12 ui-md-6 ui-lg-8,ui-g-12 ui-md-6 ui-lg-2">
+       <p:outputLabel for="numeroRol" value="Rol"/>
+      	<p:selectOneMenu id="numeroRol" value="#{createMrqsCandidatesForm.numeroRol}"  required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}" readOnly="true">
+      		<!-- <f:selectItem itemLabel="Seleccione un Rol" itemValue="" /> -->
+      		<f:selectItems value="#{selectsHelper.selectAdmonRolesItemsCand}" />
+      </p:selectOneMenu>
+      	<p:message for="numeroRol"/>
+     <p:outputLabel for="curp" value="CURP"/>
+	 	<p:inputText id="curp" value="#{createMrqsCandidatesForm.curp}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%">
+	  	<f:validateLength minimum="18" />
+	 </p:inputText> 
+	 <p:message for="curp"/>
+	 <p:outputLabel for="nombre" value="Nombre"/>
+	 	<p:inputText id="nombre" value="#{createMrqsCandidatesForm.nombre}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
+	 <p:message for="nombre"/>
+	 <p:outputLabel for="apellidoPaterno" value="Apellido Paterno"/>
+	 	<p:inputText id="apellidoPaterno" value="#{createMrqsCandidatesForm.apellidoPaterno}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
+	 <p:message for="apellidoPaterno"/>
+	 	<p:outputLabel for="apellidoMaterno" value="Apellido Materno"/>
+	 	<p:inputText id="apellidoMaterno" value="#{createMrqsCandidatesForm.apellidoMaterno}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
+	 <p:message for="apellidoMaterno"/>
+	     <p:outputLabel for="correoElectronico" value="Correo Electronico"/>
+	 	<p:inputText id="correoElectronico" value="#{createMrqsCandidatesForm.correoElectronico}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" style="width:70%"/>
+	 <p:message for="correoElectronico"/>
+	 <p:outputLabel for="contrasenia" value="Contraseña"/>
+     	<p:password id="contrasenia" value="#{createMrqsCandidatesForm.contrasenia}" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+     <p:message for="contrasenia"/>
+	   <p:outputLabel for="estado" value="Estado" />
+  		<p:selectOneMenu id="estado" value="#{createMrqsCandidatesForm.estado}" required="false" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  			<f:selectItem itemLabel="Seleccione un estado" itemValue="" />
+  			<f:selectItems value="#{selectsHelper.selectEstadosMexicoItems}" />
+ 	    </p:selectOneMenu>
+		<p:message for="estado"/>
+	    <p:outputLabel for="sedeHospital" value="Sede Hospitalaria" />
+  		<p:selectOneMenu id="sedeHospital" value="#{createMrqsCandidatesForm.sedeHospital}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+  			<f:selectItem itemLabel="Seleccione una Sede Hospitalaria" itemValue="" />
+  			<f:selectItems value="#{selectsHelper.selectSedeHospitalItems}" />
+ 	    </p:selectOneMenu>
+ 	     <p:message for="sedeHospital"/>
+      <p:outputLabel for="fechaEfectivaDesdeInput" value="Desde"/>
+	  	<p:calendar id="fechaEfectivaDesdeInput" value="#{createMrqsCandidatesForm.fechaEfectivaDesde}"  locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+      	<p:message for="fechaEfectivaDesdeInput"/>
+      <p:outputLabel for="fechaEfectivaHastaInput" value="Hasta"/>
+      	<p:calendar id="fechaEfectivaHastaInput" value="#{createMrqsCandidatesForm.fechaEfectivaHasta}"  locale="es" pattern="dd/MM/yyyy" mask="true" />
+      	<p:message for="fechaEfectivaHastaInput"/>
+
+       <f:facet name="footer">
+        <div class="ui-g" >
+              <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CreateBtn" update="createPanelID ReadOnlyForm" value="Aceptar" actionListener="#{createMrqsCandidatesForm.create()}" oncomplete="handleCreateRequest(xhr, status, args)"  />
+              </div>
+             <div class="ui-g-12 ui-lg-2" >
+                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('createCandidatoDialogWV').hide();" />
+              </div>
+            </div>
+           </f:facet>
+   </p:panelGrid>   
+  </p:dialog>
+  </h:form>
+      
+</ui:define>
+</ui:composition>    
