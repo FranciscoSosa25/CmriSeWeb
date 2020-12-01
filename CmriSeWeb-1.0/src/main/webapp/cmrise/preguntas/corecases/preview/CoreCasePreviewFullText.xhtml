@@ -1,0 +1,54 @@
+<ui:composition id="columnsView" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<h:panelGroup layout="block"
+		rendered="#{coreCasePreviewForm.limitedFreeTextAnswer and coreCasePreviewForm.questionView  and coreCasePreviewForm.visualizacionPregunta}">
+		<div class="ui-g-12 ui-md-12">
+			<p:outputLabel for="answer" value="Su Respuesta:"
+				style="font-size: 24px;" />
+			<p:inputTextarea required="true"  id="answer" rows="10" cols="50"  completeMethod="#{coreCasePreviewForm.asignarRespuesta}" queryDelay="750" minQueryLength="4"
+				style="width:98%;font-size: 24px;">
+			</p:inputTextarea>
+			<p:message for="answer" />
+		</div>
+	</h:panelGroup>
+	<h:panelGroup layout="block"
+		rendered="#{coreCasePreviewForm.answerView and coreCasePreviewForm.wrongAnswer and coreCasePreviewForm.limitedFreeTextAnswer}">
+		<div class="ui-g-12 ui-md-12 xXwrongAnswer">Su Respuesta es
+			INCORRECTA</div>
+	</h:panelGroup>
+	<h:panelGroup layout="block"
+		rendered="#{coreCasePreviewForm.answerView and coreCasePreviewForm.correctAnswer and coreCasePreviewForm.limitedFreeTextAnswer}">
+		<div class="ui-g-12 ui-md-12 xXcorrectAnswer">Su Respuesta es
+			CORRECTA</div>
+	</h:panelGroup>
+	<h:panelGroup layout="block"
+		rendered="#{coreCasePreviewForm.answerView}">
+		<div class="ui-g-12 ui-md-12 xXscores">
+			Puntuacíon:
+			<h:outputText value="#{coreCasePreviewForm.puntuacion}" />
+		</div>
+	</h:panelGroup>
+	<h:panelGroup layout="block"
+		rendered="#{coreCasePreviewForm.answerView and coreCasePreviewForm.limitedFreeTextAnswer}">
+		<div class="ui-g-12 ui-md-12 xXinstructions">Usted contesto:</div>
+		<div class="ui-g-12 ui-md-12 xXinstructions"
+			style="color: green; font-weight: bold;">
+			<p:outputLabel
+				value="#{coreCasePreviewForm.respuestaPreguntaCandidato}" />
+		</div>
+	</h:panelGroup>
+
+	<h:panelGroup layout="block"
+		rendered="#{coreCasePreviewForm.answerView and coreCasePreviewForm.limitedFreeTextAnswer}">
+		<div class="ui-g-12 ui-md-12 xXinstructions">La respuesta
+			correcta es:</div>
+		<div class="ui-g-12 ui-md-12 xXinstructions"
+			style="color: black; font-weight: bold;">
+			<p:outputLabel
+				value="#{coreCasePreviewForm.respuestaPreguntaSistema}" />
+		</div>
+	</h:panelGroup>
+</ui:composition>
