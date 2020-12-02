@@ -309,7 +309,7 @@ public class CreateMrqsCandidatesForm {
 			String line = null;
 			while ((line = reader.readLine()) != null){
 				lineaAct ++;
-				String [] columns = line.split(";");
+				String [] columns = line.split(",|;");
 				 
 				if(!line.contains("CURP")) { 
 					validaValores = "";
@@ -325,34 +325,34 @@ public class CreateMrqsCandidatesForm {
 			    	String fechaH = columns[9].trim();
 			    				    	
 			    	if(curp == null || curp.length() == 0) {
-			    		validaValores += "En la linea "+lineaAct+" valor de la 'CURP' no puede ir vacio. " + '\n';
+			    		validaValores += "Linea "+lineaAct+" : 'CURP' vacio. " + '\n';
 			    	}
 			    	if(curp.length() < 18 || curp.length() > 18) {
-			    		validaValores += "En la linea "+lineaAct+ " revisar la 'CURP', debe tener 18 caracteres. " + '\n';
+			    		validaValores += "Linea "+lineaAct+ " : 'CURP' no tiene 18 caracteres. " + '\n';
 			    	}
 			    	if(nombre == null || nombre.length() == 0) {
-			    		validaValores += "En la linea "+lineaAct+" el campo 'Nombre' no puede ir vacio. " + '\n';
+			    		validaValores += "Linea "+lineaAct+" : 'Nombre' vacio. " + '\n';
 			    	}
 			    	if(apellidoPaterno == null || apellidoPaterno.length() == 0) {
-			    		validaValores += "En la linea "+lineaAct+" el campo 'Apellido Paterno' no puede ir vacio. " + '\n';
+			    		validaValores += "Linea "+lineaAct+" : 'Apellido Paterno' vacio. " + '\n';
 			    	}
 			    	if(apellidoMaterno == null || apellidoMaterno.length() == 0) {
-			    		validaValores += "En la linea "+lineaAct+" el campo 'Apellido Materno' no puede ir vacio. " + '\n';
+			    		validaValores += "Linea "+lineaAct+" : 'Apellido Materno' vacio. " + '\n';
 			    	}
 			    	if(correoElectronico == null || correoElectronico.length() == 0) {
-			    		validaValores += "En la linea "+lineaAct+" el campo correo no puede ir vacio. " + '\n';
+			    		validaValores += "Linea "+lineaAct+" : 'Correo' vacio. " + '\n';
 			    	}
 			    	if(contrasenia == null || contrasenia.length() == 0) {
-			    		validaValores += "En la linea "+lineaAct+" el campo 'Contraseña' no puede ir vacio. " + '\n';
+			    		validaValores += "Linea "+lineaAct+" : 'Contraseña' vacia. " + '\n';
 			    	}
 			    	if(sedeHospital == null || sedeHospital.length() == 0) {
-			    		validaValores += "En la linea "+lineaAct+" el campo 'Sede Hospitalaria' no puede ir vacio. " + '\n';
+			    		validaValores += "Linea "+lineaAct+" : 'Sede Hospitalaria' vacio. " + '\n';
 			    	}
 			    	try {
 			    		fechaEfDesde = ConvertToDate(fechaD);
 			    		fechaEfHasta = ConvertToDate(fechaH);
 			    	}catch(Exception e) {
-			    		validaValores += "En la linea "+lineaAct+" el campo 'Fecha Desde' no tiene el formato correcto. " + '\n';
+			    		validaValores += "Linea "+lineaAct+" : 'Fecha Desde' vacio. " + '\n';
 			    	}
 			    	if(fechaEfDesde == null ) {
 			    		validaValores += "En la linea "+lineaAct+" el campo 'Fecha Desde' no puede ir vacio. " + '\n';
@@ -367,13 +367,13 @@ public class CreateMrqsCandidatesForm {
 			
 			reader.close();
 			
-			if(errorCaptura!= null){
-				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "El archivo presento los siguientes errores: " + '\n', errorCaptura );
+			if(errorCaptura != ""){
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Errores en el archivo: " + '\n', errorCaptura );
 		        FacesContext.getCurrentInstance().addMessage(null, msg);
-		        errorCaptura = null;
+		        errorCaptura = "";
 			}else {
-	        FacesMessage msg = new FacesMessage(" El archivo", event.getFile().getFileName() + " ha sido subido.");
-	        FacesContext.getCurrentInstance().addMessage(null, msg);
+		        FacesMessage msg = new FacesMessage("Registros guardados exitosamente.");
+		        FacesContext.getCurrentInstance().addMessage(null, msg);
 			}
 		}
 		
@@ -432,13 +432,16 @@ public class CreateMrqsCandidatesForm {
 					
 			} catch (Exception  ex) {
 				Throwable e;
-				if(errorCaptura == null) {errorCaptura = "Ups! Se ha detectado un problema en la linea " + linea + " del archivo "+ '\n' + " MENSAJE: " + ex.getMessage() + '\n';}
-				else if( (e = ex.getCause()) != null) {
-					while( e.getCause() != null ) {e = e.getCause();}				
-					if(!e.getMessage().contains("UNIQUE") && !e.getMessage().contains("Unparseable") && !e.getMessage().contains("rolled") &&!e.getMessage().contains("FECHA_EFECTIVA_DESDE"))
-						errorCaptura += "Linea " + linea + " del archivo "+ '\n' + " MENSAJE: "+ e.getMessage() + '\n';
-				}
-				
+				String mg = "";
+				 if( (e = ex.getCause()) != null) {
+						while( e.getCause() != null ) {e = e.getCause();}				
+						if(e.getMessage().contains("clave duplicada") ) {
+							mg = e.getMessage().substring(e.getMessage().indexOf("duplicada es"));
+							errorCaptura += "Linea " + linea + " : clave "+ mg + '\n';
+						}else {
+							errorCaptura += "Linea " + linea + " : "+ e.getMessage() + '\n';
+						}
+					}				
 				return createIn;
 			}
 		}
