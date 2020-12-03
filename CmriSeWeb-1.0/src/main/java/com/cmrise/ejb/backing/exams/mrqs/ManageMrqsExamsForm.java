@@ -34,21 +34,28 @@ public class ManageMrqsExamsForm {
 	 }
 	 
 	private void refreshEntity() {
+		long id = 0;
 		List<MrqsExamenesV1Dto> listMrqsExamenesV1Dto = mrqsExamenesLocal.findAllWD(); 
 	    System.out.println("listMrqsExamenesDto.size():"+listMrqsExamenesV1Dto.size());
 	    listMrqsExamenes = new ArrayList<MrqsExamenes>();
 	    for(MrqsExamenesV1Dto ccExamenesV1Dto: listMrqsExamenesV1Dto) {
 	    	MrqsExamenes ccExamenes = new MrqsExamenes();
-	    	System.out.println("ccExamenesDto.getNumero():"+ccExamenesV1Dto.getNumero());
-	    	ccExamenes.setNumero(ccExamenesV1Dto.getNumero());
-	    	ccExamenes.setVisibilidad(ccExamenesV1Dto.getVisibilidad());
-	    	ccExamenes.setVisibilidadDesc(ccExamenesV1Dto.getVisibilidadDesc());
-	    	ccExamenes.setEstatus(ccExamenesV1Dto.getEstatus());
-	    	ccExamenes.setEstatusDesc(ccExamenesV1Dto.getEstatusDesc());
-	    	ccExamenes.setFechaElaboracion(Utilitarios.sqlDateToUtilDate(ccExamenesV1Dto.getFechaElaboracion()));
-	    	ccExamenes.setAdmonExamenDesc(ccExamenesV1Dto.getAdmonExamenDesc());
-	    	ccExamenes.setElaborador(ccExamenesV1Dto.getElaborador());
-	    	listMrqsExamenes.add(ccExamenes); 
+	    	if (id!=ccExamenesV1Dto.getNumero())
+	    	{
+	    		System.out.println("ccExamenesDto.getNumero():"+ccExamenesV1Dto.getNumero());
+
+		    	ccExamenes.setNumero(ccExamenesV1Dto.getNumero());
+		    	ccExamenes.setVisibilidad(ccExamenesV1Dto.getVisibilidad());
+		    	ccExamenes.setVisibilidadDesc(ccExamenesV1Dto.getVisibilidadDesc());
+		    	ccExamenes.setEstatus(ccExamenesV1Dto.getEstatus());
+		    	ccExamenes.setEstatusDesc(ccExamenesV1Dto.getEstatusDesc());
+		    	ccExamenes.setFechaElaboracion(Utilitarios.sqlDateToUtilDate(ccExamenesV1Dto.getFechaElaboracion()));
+		    	ccExamenes.setAdmonExamenDesc(ccExamenesV1Dto.getAdmonExamenDesc());
+		    	ccExamenes.setElaborador(ccExamenesV1Dto.getElaborador());
+		    	listMrqsExamenes.add(ccExamenes); 
+		    	
+		    	id=ccExamenesV1Dto.getNumero();
+	    	}
 	    }
 	} 
 	 

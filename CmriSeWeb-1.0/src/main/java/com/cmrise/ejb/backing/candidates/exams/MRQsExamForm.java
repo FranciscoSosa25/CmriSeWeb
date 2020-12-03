@@ -567,7 +567,7 @@ public class MRQsExamForm {
 			 
 			 System.out.println("idxReactivos:"+idxReactivos);
 			 reactivosSize = listMrqsGrupoLinesV2.size();
-			 if(busquedaSkip == false) {
+			 if(busquedaSkip == false && idxReactivos<reactivosSize) {
 			    idxReactivos = idxReactivos+1; 
 		     }
 			if(idxReactivos< reactivosSize &&  busquedaSkip==false) {
@@ -781,7 +781,7 @@ public class MRQsExamForm {
 			 
 			 System.out.println("idxReactivos:"+idxReactivos);
 			 reactivosSize = listMrqsGrupoLinesV2.size();
-			 if(busquedaSkip==false) {
+			 if(busquedaSkip==false && idxReactivos<reactivosSize) {
 			 idxReactivos = idxReactivos+1; 
 			 }
 			if(idxReactivos< reactivosSize &&  busquedaSkip==false) {
@@ -900,11 +900,11 @@ public class MRQsExamForm {
 			}
 			
 			System.out.println("id " + idxReactivos + " size " +  reactivosSize + " "+busquedaSkip);
-			if(idxReactivos == reactivosSize &&  busquedaSkip==false) { // ??usar busquedaSkip aquí ocasiona que algunas veces el examen no termine:
+			if(idxReactivos == reactivosSize /*&&  busquedaSkip==false*/) { // ??usar busquedaSkip aquí ocasiona que algunas veces el examen no termine:
 				//this.candExamenesV1 = candExamenesLocal.findByNumero(numeroCandExamen); ???
 			  	CandExamenesDto candExamenesDto = new CandExamenesDto();
 		    	candExamenesLocal.updateEstatus(numeroCandExamen, candExamenesDto);
-		    	
+		    	idxReactivos--;
 		    	showFinalMessage = true;
 				//redirectPage(); //no se llama aquí por que ahora se llama la función al cerrar el mensaje final
 				return;

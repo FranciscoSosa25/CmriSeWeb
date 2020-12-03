@@ -42,7 +42,7 @@ function handleUpdateRequest(xhr, status, args){
 		   <div class="ui-g-2 ui-lg-2" style="text-align: left;">
 		    <p:commandButton id="nuevoCandidato" value="Nuevo candidato" icon="fa fa-plus" immediate="true" onclick="PF('createCandidatoDialogWV').show();"/>
 		   </div>
-		   <div class="ui-g-2 ui-lg-2" style="text-align: left;">
+		   <div class="ui-g-2 ui-lg-4" style="text-align: left;">
               <p:fileUpload id="cargarNuevoCandidatoArchivo" listener="#{assignMrqsCandidatesForm.handleFileUpload}"
                              label="Carga por archivo" mode="advanced" update="ReadOnlyCandExamenForm ReadOnlyForm growl"
                             auto="true" allowTypes="/(\.|\/)(csv)$/" fileLimit="1" />

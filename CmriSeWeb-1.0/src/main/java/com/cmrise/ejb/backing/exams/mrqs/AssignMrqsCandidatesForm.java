@@ -284,12 +284,12 @@ public class AssignMrqsCandidatesForm {
 	    
 	    boolean createIn = insertOnetoOneCandidate(curp, nombre, apellidoPaterno, apellidoMaterno, correoElectronico, contrasenia, estado, sedeHospital, fechaEfectivaDesde, fechaEfectivaHasta, 0);
 	    
-	    if(ErroresCaptura!= null){
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "El archivo presento los siguientes errores: " + '\n', ErroresCaptura );
-	        FacesContext.getCurrentInstance().addMessage(null, msg);
+	    if(ErroresCaptura!= ""){
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Errores en el archivo: " + '\n', ErroresCaptura );	        
+			FacesContext.getCurrentInstance().addMessage(null, msg);
 	        ErroresCaptura = "";
 		}else {
-	        FacesMessage msg = new FacesMessage(" El candidato", " ha sido registrado y asignado al examen");
+			 FacesMessage msg = new FacesMessage(" El candidato", " registrado y asignado correctamente");
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
 	}
@@ -304,7 +304,7 @@ public class AssignMrqsCandidatesForm {
 		String line = null;
 		while ((line = reader.readLine()) != null){
 			lineaAct ++;
-			String [] columns = line.split(";");
+			String [] columns = line.split(",|;");
 			 
 			if(!line.contains("CURP")) { 
 				validaValores = "";
@@ -320,37 +320,38 @@ public class AssignMrqsCandidatesForm {
 		    	String fechaH = columns[9].trim();
 		    			    	
 		    	if(curp == null || curp.length() == 0) {
-		    		validaValores += "En la linea "+lineaAct+" valor de la 'CURP' no puede ir vacio. " + '\n';
+		    		validaValores += "Linea "+lineaAct+" : 'CURP' vacio. " + '\n';
 		    	}
 		    	if(curp.length() < 18 || curp.length() > 18) {
-		    		validaValores += "En la linea "+lineaAct+" revisar la 'CURP', debe tener 18 caracteres. " + '\n';
+		    		validaValores += "Linea "+lineaAct+" : 'CURP' no tiene 18 caracteres. " + '\n';
 		    	}
 		    	if(nombre == null || nombre.length() == 0) {
-		    		validaValores += "En la linea "+lineaAct+" el campo 'Nombre' no puede ir vacio. " + '\n';
+		    		validaValores += "Linea "+lineaAct+" : 'Nombre' vacio. " + '\n';
 		    	}
+		    	
 		    	if(apellidoPaterno == null || apellidoPaterno.length() == 0) {
-		    		validaValores += "En la linea "+lineaAct+" el campo 'Apellido Paterno' no puede ir vacio. " + '\n';
+		    		validaValores += "Linea "+lineaAct+" : 'Apellido Paterno' vacio. " + '\n';
 		    	}
 		    	if(apellidoMaterno == null || apellidoMaterno.length()==0) {
-		    		validaValores += "En la linea "+lineaAct+" el campo 'Apellido Materno' no puede ir vacio. " + '\n';
+		    		validaValores += "Linea "+lineaAct+" : 'Apellido Materno' vacio. " + '\n';
 		    	}
 		    	if(correoElectronico == null || correoElectronico.length() == 0) {
-		    		validaValores += "En la linea "+lineaAct+" el campo 'Correo' no puede ir vacio. " + '\n';
+		    		validaValores += "Linea "+lineaAct+" : 'Correo' vacio. " + '\n';
 		    	}
 		    	if(contrasenia == null || contrasenia.length() == 0) {
-		    		validaValores += "En la linea "+lineaAct+" el campo 'Contraseña' no puede ir vacio. " + '\n';
+		    		validaValores += "Linea "+lineaAct+" : 'Contraseña' vacio. " + '\n';
 		    	}		    	
 		    	if(sedeHospital == null || sedeHospital.length()==0) {
-		    		validaValores += "En la linea "+lineaAct+" el campo 'Sede Hospitalaria' no puede ir vacio. " + '\n';
+		    		validaValores += "Linea "+lineaAct+" : 'Sede Hospitalaria' vacio. " + '\n';
 		    	}
 		    	try {
 		    		fechaEfectivaDesde = ConvertToDate(fechaD);
 		    		fechaEfectivaHasta = ConvertToDate(fechaH);
 		    	}catch(Exception e) {
-		    		validaValores += "En la linea "+lineaAct+" el campo 'Fecha Desde' no tiene el formato correcto. " + '\n';
-		    	}
+		    		validaValores += "Linea "+lineaAct+" : 'Fecha Desde' formato incorrecto. " + '\n';		    	
+		    		}
 		    	if(fechaEfectivaDesde == null ) {
-		    		validaValores += "En la linea "+lineaAct+" el campo 'Fecha Desde' no puede ir vacio. " + '\n';
+		    		validaValores += "Linea "+lineaAct+" : 'Fecha Desde' vacio. " + '\n';
 		    	}
 		    	
 		    	if(validaValores == null || validaValores.length()==0)
@@ -362,12 +363,12 @@ public class AssignMrqsCandidatesForm {
 		
 		reader.close();
 		
-		if(ErroresCaptura!= null){
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "El archivo presento los siguientes errores: " + '\n', ErroresCaptura );
+		if( ErroresCaptura != ""){
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Errores en el archivo: " + '\n', ErroresCaptura );
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 	        ErroresCaptura = "";
 		}else {
-	        FacesMessage msg = new FacesMessage(" El archivo", event.getFile().getFileName() + " ha sido subido.");
+	        FacesMessage msg = new FacesMessage("Registros guardados exitosamente.");
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
 	}
@@ -431,13 +432,16 @@ public class AssignMrqsCandidatesForm {
 				
 		} catch (Exception  ex) {
 			Throwable e;
-			if(ErroresCaptura == null) {ErroresCaptura = "Ups! Se ha detectado un problema en la linea " + linea + " del archivo "+ '\n' + " MENSAJE: " + ex.getMessage() + '\n';}
-			else if( (e = ex.getCause()) != null) {
-				while( e.getCause() != null ) {e = e.getCause();}				
-				if(!e.getMessage().contains("UNIQUE") && !e.getMessage().contains("Unparseable") && !e.getMessage().contains("rolled") &&!e.getMessage().contains("FECHA_EFECTIVA_DESDE"))
-					ErroresCaptura += "Linea " + linea + " del archivo "+ '\n' + " MENSAJE: "+ e.getMessage() + '\n';
-			}
-			
+			String mg = "";
+			 if( (e = ex.getCause()) != null) {
+					while( e.getCause() != null ) {e = e.getCause();}				
+					if(e.getMessage().contains("clave duplicada") ) {
+						mg = e.getMessage().substring(e.getMessage().indexOf("duplicada es"));
+						ErroresCaptura += "Linea " + linea + " : clave "+ mg + '\n';
+					}else {
+						ErroresCaptura += "Linea " + linea + " : "+ e.getMessage() + '\n';
+					}
+				}				
 			return createIn;
 		}
 	}
