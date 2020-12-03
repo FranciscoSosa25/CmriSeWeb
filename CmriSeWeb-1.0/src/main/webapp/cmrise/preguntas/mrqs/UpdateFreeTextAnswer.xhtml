@@ -81,6 +81,14 @@
 		   var el = document.getElementById( _this.id ); //assuming '_this' is the 'this' reference not the 'id'
 		   el.parentNode.parentNode.removeChild( el.parentNode );
 		};
+		
+		function handleRemoverRespuestaCorrRequest(xhr, status, args) {
+		    console.log('Comienza handleAgregarRespuestaCorrRequest');
+		    console.log(nodos);
+			//se necesita remover el punto en la imagen también
+		   
+		}
+		
 	</script>
 	</ui:define>
 
@@ -577,21 +585,19 @@
 														process="UpdateReactivosForm:repeatIDPanel UpdateReactivosForm:repeatIDPanel2"
 														oncomplete="handleAgregarRespuestaCorrRequest(xhr, status, args)" 
 														style="margin:5px 50px 5px 0px;"/>
+														<br />
 													<ui:repeat var="respReact"
 														value="#{updateFTAMrqForm.listRespCorrectReactCorImg}"
 														varStatus="status">
-														<div class="ui-g ui-md-6">
-															<div class="ui-g-6 ui-md-2">
-															<p:commandButton title="Delete" icon="pi pi-trash" actionListener="#{updateFTAMrqForm.removerRespCorrelacionadas()}" update="UpdateReactivosForm:repeatIDPanel2 UpdateReactivosForm:repeatIDPanel" partialSubmit="true"
-														process="UpdateReactivosForm:repeatIDPanel UpdateReactivosForm:repeatIDPanel2"/>
+														<div  style="width:45%;margin:10px;">															
+															<p:commandButton icon="pi pi-trash" actionListener="#{updateFTAMrqForm.removerRespCorrelacionadas(respReact)}" onclick="removeThis(this);" update="UpdateReactivosForm:repeatIDPanel2" partialSubmit="true"
+														process="UpdateReactivosForm:repeatIDPanel2" oncomplete="handleRemoverRespuestaCorrRequest(xhr, status, args)"/>	
+																																								
+																<h:outputText style="margin:10px;" value=" #{respReact.nodo} "/>																												
 																
-																<h:outputText value="#{respReact.nodo}"/>
-																
-															</div>
-															<div class="ui-g-6 ui-md-6">
 																<p:selectOneMenu id="respuestaCorrelacionada"
 																	value="#{updateFTAMrqForm.listRespCorrectReactCorImg[status.index].numeroRespuesta}"
-																	required="true"
+																	required="false"
 																	requiredMessage="#{msgs['globalForm.requiredMessage']}">
 																	<f:selectItem itemLabel="Seleccione un Valor.."
 																		itemValue="" />																	
@@ -599,7 +605,7 @@
 																		value="#{updateFTAMrqForm.selectRespReactCorImg}" />																		
 																</p:selectOneMenu>
 																<p:message for="respuestaCorrelacionada" />
-															</div>
+															
 														</div>
 													</ui:repeat>
 												</h:panelGroup>
@@ -622,7 +628,7 @@
 														value="#{updateFTAMrqForm.listRespReactCorImg}"
 														varStatus="status">
 														<div>
-															<p:commandButton icon="pi pi-trash" actionListener="#{updateFTAMrqForm.removerRespReact()}" onclick="removeThis(this);" update="UpdateReactivosForm:repeatIDPanel" partialSubmit="true"
+															<p:commandButton icon="pi pi-trash" actionListener="#{updateFTAMrqForm.removerRespReact(respReact)}" onclick="removeThis(this);" update="UpdateReactivosForm:repeatIDPanel" partialSubmit="true"
 														process="UpdateReactivosForm:repeatIDPanel" />
 														<p:inputText id="respuesta"
 															value="#{updateFTAMrqForm.listRespReactCorImg[status.index].respuesta}"

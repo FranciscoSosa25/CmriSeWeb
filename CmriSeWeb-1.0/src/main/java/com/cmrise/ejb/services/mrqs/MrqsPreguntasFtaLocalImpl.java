@@ -259,6 +259,8 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
         mrqsPreguntasFtaDto.setPoligonos(pMrqsPreguntasFtaV1.getPoligonos());
         mrqsPreguntasFtaDto.setWidth(pMrqsPreguntasFtaV1.getWidth());
         mrqsPreguntasFtaDto.setHeight(pMrqsPreguntasFtaV1.getHeight());
+        mrqsPreguntasFtaDto.setRespuestas(pMrqsPreguntasFtaV1.getRespuestas());
+        mrqsPreguntasFtaDto.setCorrelaciones(pMrqsPreguntasFtaV1.getCorrelaciones());
         mrqsPreguntasFtaDao.update(pNumeroFta, mrqsPreguntasFtaDto);
 
         if (null != pMrqsPreguntasFtaV1.getNombreImagen() && !"".equals(pMrqsPreguntasFtaV1.getNombreImagen())) {
