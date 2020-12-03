@@ -63,7 +63,8 @@ public class CcPreguntasFtaV1Dto implements Serializable {
 	private String metodoPuntuacion; 
 	@Column(name="VALOR_PUNTUACION")
 	private String valorPuntuacion; 
-	
+	@Column(name="LIMITE_CARACTERES")
+	private Integer limiteCaracteres; 
 	public long getNumero() {
 		return this.numero;
 	}
@@ -190,6 +191,18 @@ public class CcPreguntasFtaV1Dto implements Serializable {
 
 	public void setValorPuntuacion(String valorPuntuacion) {
 		this.valorPuntuacion = valorPuntuacion;
+	}
+
+	public Integer getLimiteCaracteres() {
+		return limiteCaracteres;
+	}
+
+	public void setLimiteCaracteres(Integer limiteCaracteres) {
+		this.limiteCaracteres = limiteCaracteres;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 }

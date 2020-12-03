@@ -109,7 +109,8 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 	
 	@Column(name="TITULO_PREGUNTA")
 	private String tituloPregunta; 
-	
+	@Column(name="LIMITE_CARACTERES")
+	private Integer limiteCaracteres; 
 	
 	public MrqsPreguntasHdrV2Dto() {
 	}
@@ -346,5 +347,13 @@ public class MrqsPreguntasHdrV2Dto implements Serializable {
 		this.diagnostico = diagnostico;
 	}
 
+	public Integer getLimiteCaracteres() {
+		return limiteCaracteres;
+	}
 
+	public void setLimiteCaracteres(Integer limiteCaracteres) {
+		this.limiteCaracteres = limiteCaracteres;
+	}
+	
+	
 }

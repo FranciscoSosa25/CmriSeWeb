@@ -38,7 +38,7 @@ public class MrqsPreguntasFtaV1 implements Serializable {
 	private String respuestas; 
 	private String correlaciones; 
 	private String textoExplicacion; 
-	
+	private Integer limiteCaracteres; 
 	private List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
 	private List<MrqsImagenesGrp> listMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
 	
@@ -217,5 +217,12 @@ public class MrqsPreguntasFtaV1 implements Serializable {
 	public void setTextoExplicacion(String textoExplicacion) {
 		this.textoExplicacion = textoExplicacion;
 	}
+	public Integer getLimiteCaracteres() {
+		return limiteCaracteres;
+	}
+	public void setLimiteCaracteres(Integer limiteCaracteres) {
+		this.limiteCaracteres = limiteCaracteres;
+	}
+	
 
 }
