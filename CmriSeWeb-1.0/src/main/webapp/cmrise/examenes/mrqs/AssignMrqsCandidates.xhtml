@@ -48,12 +48,15 @@ function handleUpdateRequest(xhr, status, args){
                             auto="true" allowTypes="/(\.|\/)(csv)$/" fileLimit="1" />
            </div>
 		 </div>
-  <p:dataTable  var="candExamenesV1"  value="#{assignMrqsCandidatesForm.listCandExamenesV1}" emptyMessage="Sin resultados" paginator="true" rows="20" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+  <p:dataTable  var="candExamenesV1"  value="#{assignMrqsCandidatesForm.listCandExamenesV1}" 
+  emptyMessage="Sin resultados" rowKey="#{candExamenesV1.numeroUsuario}" selection="#{assignMrqsCandidatesForm.selectedCandExamenesV2}" 
+  paginator="true" rows="20" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">Candidatos Asignados</f:facet>
-    <p:column headerText="CURP">
+   <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+   <p:column headerText="CURP">
       <h:outputText value="#{candExamenesV1.curp}"/>
    </p:column>
-    <p:column headerText="Matricula">
+   <p:column headerText="Matricula">
       <h:outputText value="#{candExamenesV1.matricula}"/>
    </p:column>
    <p:column headerText="Apellido Paterno">
@@ -68,26 +71,28 @@ function handleUpdateRequest(xhr, status, args){
    <p:column headerText="Rol">
      <h:outputText value="#{candExamenesV1.descripcionRol}"/>
    </p:column>
-   <p:column headerText="Acciones">
-      <p:commandButton icon="fa fa-trash"  oncomplete="PF('deleteCandExamenesDialogWV').show();" ajax="true" actionListener="#{assignMrqsCandidatesForm.selectForAction(candExamenesV1)}"/>
-     </p:column>
   </p:dataTable>
-  <div class="ui-g">
-  <div class="ui-g-4">
-  </div>
-  <div class="ui-g-4">
+  <div class="ui-g">  
+  <div class="ui-g-3">
    <p:commandButton id="seleccioneMRQsCandidatos" value="Asignar" icon="fa fa-external-link" oncomplete="PF('admonUsuarioRolDialogWV').show();" style="width:98%"/>
    <p:tooltip id="toolTipFade" for="seleccioneMRQsCandidatos" value="Seleccionar Candidatos" position="top"/>
   </div>
-  <div class="ui-g-4">
+  <div class="ui-g-3">
+  	<p:commandButton value="Desasignar"  oncomplete="PF('deleteCandExamenesDialogWV').show();"  style="width:100%"/>
+  </div>
+  <div class="ui-g-3">
    <p:commandButton value="Cancelar" action="#{assignMrqsCandidatesForm.cancel()}" immediate="true" style="width:100%"/>
   </div>
   </div>
  </h:form>
  
  <h:form id="ReadOnlyForm">
- <p:dialog id="admonUsuarioRolDialogId" widgetVar="admonUsuarioRolDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="98%" header="Asignar Candidato">
-  <p:dataTable  var="admonUsuarioRol"  value="#{assignMrqsCandidatesForm.listAdmonUsuariosRolesV1}" selection="#{assignMrqsCandidatesForm.selectedsAdmonUsuariosRolesV1}" rowKey="#{admonUsuarioRol.numero}" emptyMessage="Sin resultados" paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+ <p:dialog id="admonUsuarioRolDialogId" widgetVar="admonUsuarioRolDialogWV" modal="true" closable="true" closeOnEscape="true" 
+ draggable="false" resizable="false" width="98%" header="Asignar Candidato">
+  <p:dataTable  var="admonUsuarioRol"  value="#{assignMrqsCandidatesForm.listAdmonUsuariosRolesV1}" 
+  selection="#{assignMrqsCandidatesForm.selectedsAdmonUsuariosRolesV1}" rowKey="#{admonUsuarioRol.numero}" 
+  emptyMessage="Sin resultados" paginator="true" rows="10" paginatorPosition="bottom" 
+  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">Candidatos Disponibles</f:facet>
    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
    <p:column headerText="Matricula">
@@ -108,7 +113,7 @@ function handleUpdateRequest(xhr, status, args){
    </p:dataTable>
    <div class="ui-g">
    <div class="ui-g-4"></div>
-   <div class="ui-g-4"><p:commandButton value="Agregar"  action="#{assignMrqsCandidatesForm.addMRQsCandidates()}"  style="width:100%"/></div>
+   <div class="ui-g-4"><p:commandButton value="Asignar"  action="#{assignMrqsCandidatesForm.addMRQsCandidates()}"  style="width:100%"/></div>
    <div class="ui-g-4"><p:commandButton value="Cancelar" onclick="PF('admonUsuarioRolDialogWV').hide();" style="width:100%"/></div> 
    </div>
  </p:dialog>
@@ -117,10 +122,10 @@ function handleUpdateRequest(xhr, status, args){
  
  <h:form id="DeleteForm">
    <p:dialog id="deleteCandExamenesDialogId" widgetVar="deleteCandExamenesDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="1000" header="Borrar Registro">
-    <h2>#{msgs['globalForm.deleteMessage']}</h2>
+    <h2>Estas por desasignar los canddatos seleccionados</h2>
     <div class="ui-g" >
               <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="DeletePregntaBtn" update="ReadOnlyCandExamenForm ReadOnlyForm" value="Aceptar" actionListener="#{assignMrqsCandidatesForm.delete()}" oncomplete="PF('deleteCandExamenesDialogWV').hide();"  />
+                 <p:commandButton id="DeletePregntaBtn" update="ReadOnlyCandExamenForm ReadOnlyForm" value="Aceptar" actionListener="#{assignMrqsCandidatesForm.deleteMRQsCandidates()}" oncomplete="PF('deleteCandExamenesDialogWV').hide();"  />
               </div>
               <div class="ui-g-12 ui-lg-2" >
                  <p:commandButton id="CancelarPreguntaBtn"  value="Cancelar"  onclick="PF('deleteCandExamenesDialogWV').hide();" />
