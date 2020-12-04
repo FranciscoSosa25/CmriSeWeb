@@ -205,12 +205,10 @@ function handleUpdateRequest(xhr, status, args){
                   <p:outputLabel value="#{coreCasePreviewForm.respuestaPreguntaSistema}"/>
                </div>
              </h:panelGroup>
-           
-             
-             
-	<h:panelGroup layout="block"
+            
+              <h:panelGroup layout="block"
 								rendered="#{coreCasePreviewForm.multipleChoice and coreCasePreviewForm.answerView }">
-								<div class="ui-g-7 ui-md-7 xXinstructions">
+								<div class="ui-g-8 ui-md-8 xXinstructions">
 									<div class="ui-g-12 ui-md-12">
 										<div class="ui-g-4 ui-md-4">
 											<h:panelGroup layout="block">
@@ -228,32 +226,31 @@ function handleUpdateRequest(xhr, status, args){
 											</h:panelGroup>
 										</div>
 									</div>
-
-									<ui:repeat var="ccOpcionMultiple"
-				value="#{coreCasePreviewForm.listCcOpcionMultiple}">
+									<ui:repeat var="coreCaseOpcionMultiple"
+										value="#{coreCasePreviewForm.listCcOpcionMultiple}">
 										<div class="ui-g-12 ui-md-12">
 											<h:panelGroup layout="block"
-												rendered="#{ccOpcionMultiple.estatus}">
+												rendered="#{coreCaseOpcionMultiple.estatus}">
 												<div class="ui-g-4 ui-md-4">
 													<div class="ui-inputgroup">
-														<p:commandButton rendered="#{ccOpcionMultiple.estatus}"
+														<p:commandButton rendered="#{coreCaseOpcionMultiple.estatus}"
 															icon="pi pi-check" styleClass="green-button" />
 													</div>
 												</div>
 												<div class="ui-g-4 ui-md-4">
 													<div class="ui-inputgroup">
-														<h:outputText value="#{ccOpcionMultiple.textoRespuesta}" />
+														<h:outputText value="#{coreCaseOpcionMultiple.textoRespuesta}" />
 													</div>
 												</div>
 												<div class="ui-g-4 ui-md-4">
 													<h:outputText
-														rendered="#{ccOpcionMultiple.estatusCandidato}"
+														rendered="#{coreCaseOpcionMultiple.estatusCandidato}"
 														value="Respuesta Seleccionada" />
 
 												</div>
 											</h:panelGroup>
 											<h:panelGroup layout="block"
-												rendered="#{not ccOpcionMultiple.estatus}">
+												rendered="#{not coreCaseOpcionMultiple.estatus}">
 												<div class="ui-g-4 ui-md-4">
 													<div class="ui-inputgroup">
 														<p:commandButton icon="pi pi-times"
@@ -262,12 +259,12 @@ function handleUpdateRequest(xhr, status, args){
 												</div>
 												<div class="ui-g-4 ui-md-4">
 													<div class="ui-inputgroup">
-														<h:outputText value="#{ccOpcionMultiple.textoRespuesta}" />
+														<h:outputText value="#{coreCaseOpcionMultiple.textoRespuesta}" />
 													</div>
 												</div>
 												<div class="ui-g-4 ui-md-4">
 													<h:outputText
-														rendered="#{ccOpcionMultiple.estatusCandidato}"
+														rendered="#{coreCaseOpcionMultiple.estatusCandidato}"
 														value="Respuesta Seleccionada" />
 
 												</div>
@@ -282,7 +279,7 @@ function handleUpdateRequest(xhr, status, args){
    </div>
      <div class="ui-g-12 ui-md-5">
              <p:commandButton value="Guardar y Procesar" update="coreCaseForm" actionListener="#{coreCasePreviewForm.saveProceed()}" rendered="#{coreCasePreviewForm.questionView}" style="margin-left:15px" oncomplete="handleUpdateRequest(xhr, status, args)" />
-             <p:commandButton value="Saltar" style="margin-left:15px" />
+             <p:commandButton value="Saltar" style="margin-left:15px" immediate="true" action="#{coreCasePreviewForm.returnUpdateFta()}"/>
              <p:commandButton value="Regresar" style="margin-left:15px" immediate="true" action="#{coreCasePreviewForm.returnUpdateFta()}"/>
            </div>
 </div>

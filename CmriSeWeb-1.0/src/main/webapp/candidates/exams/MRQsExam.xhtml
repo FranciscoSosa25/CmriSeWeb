@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions" 
+                template="/WEB-INF/template/templateCandidates.xhtml">
+<ui:define name="content">
+<h:form id="mqrsExaFormCab">
+<!--  p:growl id="messages" showDetail="true" -->
+ 
+ <p:growl id="growl" showDetail="true" showSummary="true">
+		     <p:autoUpdate />
+ </p:growl> 
+<p:panelGrid id="panel" styleClass="panelgrid-dotted-border">
+   <p:row>
+        <p:column style="font-weight: bold;width: 100px; font-size: 20px;">Examen</p:column>
+        <p:column style="font-weight: bold;">
+        <h:outputText value="#{mRQsExamForm.mrqsExamen.descripcion}" style="position: relative; left:0px; font-size: 20px;"/></p:column>
+        <p:column style="font-weight: bold; font-size: 20px;">
+          <h:outputText id="FechaExa" value="#{mRQsExamForm.strDate}" />
+         </p:column>
+         <p:column style="font-weight: bold; font-size: 20px;" class="text_right">Tiempo Restante:</p:column>
+         <p:column style="width: 100px; font-size: 20px;">
+         <pe:timer id="timer2"
+              timeout="#{mRQsExamForm.mrqsExamen.tiempoLimite}"
+              format="HH:mm:ss"
+              forward="false"
+              listener="#{mRQsExamForm.onTimeout}"           
+              style=" background-color:hsl(210, 99%, 27%);
+					  color:#fff;
+					  border-radius:5px;  
+					  padding:0px 0px 0px 8px;
+					  left:500px;"
+              /></p:column>
+    </p:row>
+    
+</p:panelGrid>
+</h:form>
+<h:form id="mqrsExaForm">
+
+		<p:dialog style="background-color:#D9E0E7;" id="myDialog" header="Examen finalizado" resizable="false" rendered="#{mRQsExamForm.showFinalMessage}" visible="#{mRQsExamForm.showFinalMessage}" modal="true">
+			<div style="font-size:35pt;  border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;">
+  				<h:outputText value="#{mRQsExamForm.mrqsExamen.getMensajeFinalizacion()}" />
+  				<p:ajax event="close" listener="#{mRQsExamForm.redirectPage()}" update="mqrsExaForm" />
+  			</div>
+        </p:dialog>
+        
+<!-- CODIGO INICIO -->
+   <div id="mqrsExaForm" style="width: 100%; height: 700px; overflow-y: scroll;">
+       <div >
+       <div  style="font-size:2em; font-weight:bold; border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;" >
+       <h:outputText id="titulo" value="" /><!-- aqui venía la parte de admonmateria que se pidió eliminar -->
+       </div>
+       <div>
+       <ui:repeat var="imagenesGrupo" value="#{mRQsExamForm.listPresentMrqsImagenesGrp}" varStatus="status">
+		    <div>
+		     <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
+		        <h:panelGroup layout="block" rendered="#{imagenes.image}">
+		         <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="width: 20%;height:20%;" />
+		       </h:panelGroup>
+		       <h:panelGroup layout="block" rendered="#{imagenes.video}">
+		        <video controls="controls" style="width: 20%;height:20%;" >
+		         <source src="data:#{imagenes.contentType};base64,#{imagenes.imagenBase64}" />
+		        </video>
+		       </h:panelGroup> 
+		     </ui:repeat>
+		    </div>
+		    </ui:repeat>
+       </div>
+       <div style="font-size:2em;  border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;">
+         <h:outputText id="pregunta"  value="Pregunta #{mRQsExamForm.idxReactivos+1} de #{mRQsExamForm.reactivosSize} : #{mRQsExamForm.mrqsGrupoLinesV2.textoPregunta}" />
+       </div>
+       </div>
+       <div class="ui-g-12 ui-md-12 card" style="font-size:1em;  border-spacing: 0px;	padding:8px 15px 8px 15px; background-color:#D9E0E7;">
+          <p:fieldset legend="Seleccione la opción" style="border-spacing: 2px;	padding:2px 2px 2px 2px;  background-color:#D9E0E7; font-size: 20px;">
+            <h:panelGroup layout="block" rendered="#{mRQsExamForm.limitedFreeTextAnswer}">
+             <div class="ui-g-12 ui-md-12" >
+			    <p:outputLabel for="answer" value="Intrucciones: Su Respuesta:" style="font-weight: bold;"/>
+			    <p:inputTextarea id="answer"  value="#{mRQsExamForm.respuestaCandidato}" rows="10" cols="50"  style="width:98%;font-size: 24px;"   requiredMessage="#{msgs['globalForm.requiredMessage']}" required="true">
+			     </p:inputTextarea>
+			     <p:message for="answer"  />
+			 </div>
+		    </h:panelGroup>	 
+		    
+		    <h:panelGroup layout="block" rendered="#{mRQsExamForm.multipleChoice  and mRQsExamForm.mrqsGrupoLinesV2.singleAnswerMode}">
+		      <div class="ui-g-12 ui-md-12" >
+		         <p:selectOneRadio id="answerRadioSingle" value="#{mRQsExamForm.respuestaCandidato}" layout="grid" columns="1"  requiredMessage="#{msgs['globalForm.requiredMessage']}" required="true">
+				 <f:selectItems value="#{mRQsExamForm.listMrqsOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
+				 </p:selectOneRadio>
+				   <p:message for="answerRadioSingle"  />
+		      </div>
+             </h:panelGroup>  
+             
+            
+            <h:panelGroup layout="block" rendered="#{mRQsExamForm.multipleChoice and not mRQsExamForm.mrqsGrupoLinesV2.singleAnswerMode}" style="border-spacing: 1px;	padding:1px 1px 1px 1px;  background-color:#D9E0E7;">
+		         <p:selectManyCheckbox id="answerRadioMultiple"  value="#{mRQsExamForm.respuestasPreguntaCandidato}" layout="grid" columns="1" requiredMessage="#{msgs['globalForm.requiredMessage']}"  requerid="true">
+				 <f:selectItems value="#{mRQsExamForm.listMrqsOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
+				 </p:selectManyCheckbox>
+				 <p:message for="answerRadioMultiple"  />
+             </h:panelGroup>  
+            </p:fieldset>
+		</div>  
+		 <div class="ui-g-12 ui-md-5">
+             <h:outputText id="timerVal" value="#{mRQsExamForm.timerValue}" rendered="true" />
+             <p:commandButton value="Saltar Pregunta" style="margin-left:15px"  actionListener="#{mRQsExamForm.SaltarPregunta()}" update="mqrsExaForm" rendered="#{mRQsExamForm.mrqsExamen.saltarPreguntas}" immediate="true"  disabled="#{mRQsExamForm.flag2}" />
+             <p:commandButton value="Siguiente" actionListener="#{mRQsExamForm.siguienteGuardarResp()}" update="mqrsExaForm myDialog" style="margin-left:15px"    />
+           </div>   
+         </div>   
+<!-- CODIGO FIN -->
+</h:form>
+</ui:define>
+</ui:composition>

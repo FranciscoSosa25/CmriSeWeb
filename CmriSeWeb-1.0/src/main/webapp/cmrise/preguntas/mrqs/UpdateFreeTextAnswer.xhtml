@@ -74,10 +74,25 @@
 	background-color: transparent;
 }
 </style>
+<script type="text/javascript">
+	document.getElementById("demo").innerHTML = "My First JavaScript";
+
+	function removeThis(_this){
+		   var el = document.getElementById( _this.id ); //assuming '_this' is the 'this' reference not the 'id'
+		   el.parentNode.parentNode.removeChild( el.parentNode );
+		};
+		
+		function handleRemoverRespuestaCorrRequest(xhr, status, args) {
+		    console.log('Comienza handleAgregarRespuestaCorrRequest');
+		    console.log(nodos);
+			//se necesita remover el punto en la imagen también
+		   
+		}
+		
+	</script>
 	</ui:define>
 
 	<ui:define name="content">
-
 		<h:form id="UpdateReactivosForm">
 			<p:panel id="inforeactivo" header="INFORMACION GENERAL DEL REACTIVO"
 				style="margin-bottom:20px">
@@ -327,7 +342,7 @@
 									<p:message for="limiteCaracteres" />
 								</div>
 							</div>
-							
+							<!-- 		     </div> -->
 							<div class="ui-g card">
 								<div class="ui-g-12 ui-md-12">
 									<ui:repeat style="text-align:right;" var="incWords"
@@ -372,7 +387,7 @@
 							<p:outputLabel for="singleMode" style="text-align:center;"
 								value="¿Modo de Respuesta Única?" />
 						</div>
-						<div class="ui-g-12 ui-md-8" style="text-align:left;">
+						<div class="ui-g-12 ui-md-8" style="text-align: left;">
 							<p:inputSwitch id="singleMode" style="text-align:center;"
 								onLabel="Si" offLabel="No"
 								value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.singleAnswerMode}" />
@@ -460,7 +475,6 @@
 										<p:inputText id="imgHeight"
 											value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.height}"
 											type="hidden" />
-									
 										<p:inputText id="coordinatesMouseMove" type="hidden" />
 										<p:inputText id="coordinates"
 											value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.poligonos}"
@@ -472,8 +486,6 @@
                                             Elemento Canvase no soportado
                                         </canvas>-->
 
-
-										
 										<div id="canvas-container" class="canvas-container"
 											style="visibility: #{empty updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.imagenBase64 ? 'hidden' : 'visible'}">
 											<div id="canvas-content" class="canvas-content"></div>
@@ -487,7 +499,7 @@
 											onclick="resetPolygon()"
 											rendered="#{not empty updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.imagenBase64}"
 											style="margin:10px 30px;" />
-										<script type="text/javascript">
+									<script type="text/javascript">
 										//<![CDATA[ 
 											var clicks=0;
 											$('#canvas-container').click(function(e){
@@ -537,6 +549,7 @@
 											style="max-width: 100px;  max-height: 100px; visibility: #{empty updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.imagenBase64 ? 'hidden' : 'visible'}" />
 									</div>
 
+
 									<div class="ui-g-12 ui-md-9">
 										<p:inputText id="tipoPreguntaImgCor"
 											value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.tipoPregunta}"
@@ -560,12 +573,50 @@
 									</div>
 
 									<div class="ui-g-12 ui-md-12">
-
-										<div class="ui-g-12 ui-md-6">
+									
+									<div class="ui-g-6">
+											<h:panelGrid id="repeatIDPanel2" style="width:100%;margin:10px;">
+												<h:panelGroup layout="block">
+													<p:commandButton id="agregarRespCorrelReact"
+														value="+ Punto en imagen"
+														actionListener="#{updateFTAMrqForm.agregarRespCorrelacionadas()}"
+														update="UpdateReactivosForm:repeatIDPanel2 UpdateReactivosForm:repeatIDPanel"
+														partialSubmit="true"
+														process="UpdateReactivosForm:repeatIDPanel UpdateReactivosForm:repeatIDPanel2"
+														oncomplete="handleAgregarRespuestaCorrRequest(xhr, status, args)" 
+														style="margin:5px 50px 5px 0px;"/>
+														<br />
+													<ui:repeat var="respReact"
+														value="#{updateFTAMrqForm.listRespCorrectReactCorImg}"
+														varStatus="status">
+														<div  style="width:45%;margin:10px;">															
+															<p:commandButton icon="pi pi-trash" actionListener="#{updateFTAMrqForm.removerRespCorrelacionadas(respReact)}" onclick="removeThis(this);" update="UpdateReactivosForm:repeatIDPanel2" partialSubmit="true"
+														process="UpdateReactivosForm:repeatIDPanel2" oncomplete="handleRemoverRespuestaCorrRequest(xhr, status, args)"/>	
+																																								
+																<h:outputText style="margin:10px;" value=" #{respReact.nodo} "/>																												
+																
+																<p:selectOneMenu id="respuestaCorrelacionada"
+																	value="#{updateFTAMrqForm.listRespCorrectReactCorImg[status.index].numeroRespuesta}"
+																	required="false"
+																	requiredMessage="#{msgs['globalForm.requiredMessage']}">
+																	<f:selectItem itemLabel="Seleccione un Valor.."
+																		itemValue="" />																	
+																	<f:selectItems
+																		value="#{updateFTAMrqForm.selectRespReactCorImg}" />																		
+																</p:selectOneMenu>
+																<p:message for="respuestaCorrelacionada" />
+															
+														</div>
+													</ui:repeat>
+												</h:panelGroup>
+											</h:panelGrid>
+										</div>
+									
+										<div class="ui-g-6 ">
 											<h:panelGrid id="repeatIDPanel"
 												style="width:100%;margin:10px;">
 												<h:panelGroup layout="block">
-													<p:commandButton value="Agregar Respuestas"
+													<p:commandButton value="+ Respuesta"
 														actionListener="#{updateFTAMrqForm.agregarRespReact()}"
 														update="UpdateReactivosForm:repeatIDPanel"
 														partialSubmit="true"
@@ -576,52 +627,23 @@
 													<ui:repeat var="respReact"
 														value="#{updateFTAMrqForm.listRespReactCorImg}"
 														varStatus="status">
+														<div>
+															<p:commandButton icon="pi pi-trash" actionListener="#{updateFTAMrqForm.removerRespReact(respReact)}" onclick="removeThis(this);" update="UpdateReactivosForm:repeatIDPanel" partialSubmit="true"
+														process="UpdateReactivosForm:repeatIDPanel" />
 														<p:inputText id="respuesta"
 															value="#{updateFTAMrqForm.listRespReactCorImg[status.index].respuesta}"
 															required="true"
 															requiredMessage="#{msgs['globalForm.requiredMessage']}"
-															style="width:95%;margin:10px;" />
+															style="width:45%;margin:10px;" 
+															maxlength="45"/>
 														<p:message for="respuesta" />
-													</ui:repeat>
-												</h:panelGroup>
-											</h:panelGrid>
-										</div>
-
-										<div class="ui-g-12 ui-md-6">
-											<h:panelGrid id="repeatIDPanel2">
-												<h:panelGroup layout="block">
-													<p:commandButton id="agregarRespCorrelReact"
-														value="Agregar Respuestas Correlacionadas"
-														actionListener="#{updateFTAMrqForm.agregarRespCorrelacionadas()}"
-														update="UpdateReactivosForm:repeatIDPanel2 UpdateReactivosForm:repeatIDPanel"
-														partialSubmit="true"
-														process="UpdateReactivosForm:repeatIDPanel UpdateReactivosForm:repeatIDPanel2"
-														oncomplete="handleAgregarRespuestaCorrRequest(xhr, status, args)" />
-													<ui:repeat var="respReact"
-														value="#{updateFTAMrqForm.listRespCorrectReactCorImg}"
-														varStatus="status">
-														<div class="ui-g-12 ui-md-12">
-															<div class="ui-g-12 ui-md-2">
-																<h:outputText value="#{respReact.nodo}" />
-															</div>
-															<div class="ui-g-12 ui-md-10">
-																<p:selectOneMenu id="respuestaCorrelacionada"
-																	value="#{updateFTAMrqForm.listRespCorrectReactCorImg[status.index].numeroRespuesta}"
-																	required="true"
-																	requiredMessage="#{msgs['globalForm.requiredMessage']}">
-																	<f:selectItem itemLabel="Seleccione un Valor.."
-																		itemValue="" />
-																	<f:selectItems
-																		value="#{updateFTAMrqForm.selectRespReactCorImg}" />
-																</p:selectOneMenu>
-																<p:message for="respuestaCorrelacionada" />
-															</div>
 														</div>
 													</ui:repeat>
 												</h:panelGroup>
 											</h:panelGrid>
 										</div>
 
+									
 									</div>
 
 								</div>
