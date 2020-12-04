@@ -309,7 +309,7 @@ public class CreateMrqsCandidatesForm {
 			String line = null;
 			while ((line = reader.readLine()) != null){
 				lineaAct ++;
-				String [] columns = line.split(";");
+				String [] columns = line.split(",|;");
 				 
 				if(!line.contains("CURP")) { 
 					validaValores = "";

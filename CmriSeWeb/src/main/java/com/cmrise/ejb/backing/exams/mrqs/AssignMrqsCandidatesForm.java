@@ -63,8 +63,9 @@ public class AssignMrqsCandidatesForm {
 	private String ErroresCaptura;
 	
 	private List<AdmonUsuariosRolesV1> listAdmonUsuariosRolesV1 = new ArrayList<AdmonUsuariosRolesV1>();
+	private List<AdmonUsuariosRolesV1> selectedsAdmonUsuariosRolesV1 = new ArrayList<AdmonUsuariosRolesV1>(); 
     private List<CandExamenesV1> listCandExamenesV1 = new ArrayList<CandExamenesV1>(); 
-    private List<AdmonUsuariosRolesV1> selectedsAdmonUsuariosRolesV1 = new ArrayList<AdmonUsuariosRolesV1>(); 
+    private List<CandExamenesV1> selectedCandExamenesV2 = new ArrayList<CandExamenesV1>();     
 	private CandExamenesV1 candExamenesV1ForAction = new CandExamenesV1(); 
     
 	@Inject 
@@ -120,6 +121,18 @@ public class AssignMrqsCandidatesForm {
 		session.setAttribute("NumeroMrqsExamenSV", this.getNumeroMrqsExamen());
 		return "Assign-MRQs-Candidates"; 
 	}
+	
+	public String deleteMRQsCandidates() {
+		for(CandExamenesV1 candExamenesV1:selectedCandExamenesV2) {
+			candExamenesLocal.delete(candExamenesV1.getNumero()); 
+			refreshEntity();
+		}
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("NumeroMrqsExamenSV", this.getNumeroMrqsExamen());
+		return "Assign-MRQs-Candidates"; 
+	}
+
 	
 	public UserLogin getUserLogin() {
 		return userLogin;
@@ -243,6 +256,14 @@ public class AssignMrqsCandidatesForm {
 	public void setListCandExamenesV1(List<CandExamenesV1> listCandExamenesV1) {
 		this.listCandExamenesV1 = listCandExamenesV1;
 	}
+	
+	public List<CandExamenesV1> getSelectedCandExamenesV2() {
+		return selectedCandExamenesV2;
+	}
+
+	public void setSelectedCandExamenesV2(List<CandExamenesV1> selectedCandExamenesV2) {
+		this.selectedCandExamenesV2 = selectedCandExamenesV2;
+	}
 
 	public List<AdmonUsuariosRolesV1> getSelectedsAdmonUsuariosRolesV1() {
 		return selectedsAdmonUsuariosRolesV1;
@@ -304,7 +325,7 @@ public class AssignMrqsCandidatesForm {
 		String line = null;
 		while ((line = reader.readLine()) != null){
 			lineaAct ++;
-			String [] columns = line.split(";");
+			String [] columns = line.split(",|;");
 			 
 			if(!line.contains("CURP")) { 
 				validaValores = "";
