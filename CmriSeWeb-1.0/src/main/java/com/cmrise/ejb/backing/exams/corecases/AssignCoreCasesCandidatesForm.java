@@ -59,6 +59,7 @@ public class AssignCoreCasesCandidatesForm {
 		
 	}
 	
+	
 	public String cancel() {
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
