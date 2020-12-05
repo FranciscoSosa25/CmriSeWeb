@@ -12,6 +12,7 @@ public interface MrqsImagenesGrpDao {
 			                                 ,String pSeccion
 			                                 );
 
-	public void deleteByNumeroFta(long pNumeroFta); 
+	public void deleteByNumeroFta(long pNumeroFta);
+	
 	
 }

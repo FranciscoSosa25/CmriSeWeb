@@ -5,12 +5,15 @@ import java.math.BigInteger;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenes;
 import com.cmrise.jpa.dao.mrqs.img.MrqsImagenesDao;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto;
 import com.cmrise.jpa.dto.mrqs.img.MrqsImagenesDto;
 import com.cmrise.utils.Utilitarios;
 
@@ -58,6 +61,26 @@ public class MrqsImagenesDaoImpl implements MrqsImagenesDao {
 		String strQuery = "SELECT m FROM MrqsImagenesDto m WHERE m.numeroGrp="+pNumeroGrp;
 		Query query = em.createQuery(strQuery); 
 		return query.getResultList();
+	}
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	@Override
+	public long eliminar(long numero, long pNumeroGrp) throws Exception {
+		StringBuilder query =new StringBuilder();
+		query.append("DELETE FROM MrqsImagenesDto m WHERE m.numeroGrp=");
+		query.append(pNumeroGrp);
+		query.append(" AND m.numero=");
+		query.append(numero);
+		MrqsImagenesDto ob=new MrqsImagenesDto();
+		ob.setNumero(numero);
+		ob.setNumeroGrp(pNumeroGrp);
+		try {
+			em.remove(em.contains(ob) ? ob : em.merge(ob));
+			em.flush();
+			return 1;
+		}catch(Exception e) {
+			return -1;
+		}
+		
 	}
 
 }

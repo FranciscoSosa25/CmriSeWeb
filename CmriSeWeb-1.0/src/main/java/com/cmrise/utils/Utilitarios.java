@@ -33,6 +33,8 @@ public class Utilitarios {
     public static final String CORRELACION_COLUMNA = "CORRELACION_COLUMNA";
     public static final float CORRELACION_COLUMNA_VALOR_REACTIVO = 5.0f;
     public static final float OPCION_MULTIPLE_VALOR_REACTIVO = 5.0f;
+    public static final String ERROR_CARGAR_IMAGEN = "Error al cargar imagen";
+    public static final String ERROR_ELIMINAR = "Error al eliminar imagen";
     /**
      * Casos Clinicos
      **/

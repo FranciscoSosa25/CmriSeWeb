@@ -226,6 +226,7 @@
 								style="background: #2d0d86" />
 						</div>
 
+
 						<div class="ui-g-12 ui-md-9">
 							<ui:repeat var="imagenesGrupo"
 								value="#{updateFTAMrqForm.listPresentMrqsImagenesGrp}"
@@ -236,10 +237,16 @@
 								<div class="ui-g-12">
 									<ui:repeat var="imagenes"
 										value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
-										<h:panelGroup layout="block" rendered="#{imagenes.image}">
-											<h:graphicImage
+										<h:panelGroup layout="block" rendered="#{imagenes.image}" id="imgs">
+											<h:graphicImage id="recurso" 
 												value="data:image/jpg;base64,#{imagenes.imagenBase64}"
-												style="max-width: 300px; max-height: 300px;" />
+												style="max-width: 300px; max-height: 300px;">
+											
+											</h:graphicImage>
+											<p:contextMenu style="visibility:hidden;" for="recurso"
+												id="context">
+
+											</p:contextMenu>
 										</h:panelGroup>
 										<h:panelGroup layout="block" rendered="#{imagenes.video}">
 											<video width="320" height="240" controls="controls">
@@ -247,6 +254,23 @@
 													src="data:#{imagenes.contentType};base64,#{imagenes.imagenBase64}" />
 											</video>
 										</h:panelGroup>
+
+										<div class="ui-g-12 ui-md-12">
+											<div class="ui-g-12 ui-md-3" style="text-align: left;">
+												<p:commandButton immediate="true" id="decargar"  value="Descargar" ajax="true" onclick="PrimeFaces.monitorDownload(start, stop);" icon="pi pi-arrow-down"
+													process="@this" style="width:60%;BackGround:#2D0D86;"
+													title="Descargar">
+													<p:fileDownload  value="#{imagenes.imagen}" />
+												</p:commandButton>
+											</div>
+											<div class="ui-g-12 ui-md-9">
+												<p:commandButton id="eliminar" value="Eliminar" update="UpdateReactivosForm:inforeactivo"
+													process="@this" style="width:20%;BackGround:#2D0D86;"
+													immediate="true" action="#{updateFTAMrqForm.eliminar(imagenesGrupo,imagenes)}"
+													title="Descargar">
+												</p:commandButton>
+											</div>
+										</div>
 									</ui:repeat>
 								</div>
 							</ui:repeat>
@@ -340,10 +364,10 @@
 									</p:inputText>
 									<p:message for="correctAnswer" />
 								</div>
-								<h:panelGroup id="sinonimosPanel" >
-								<ui:repeat var="mrqsSinonimo"
-									value="#{updateFTAMrqForm.mrqsListaSinonimos}">
-									
+								<h:panelGroup id="sinonimosPanel">
+									<ui:repeat var="mrqsSinonimo"
+										value="#{updateFTAMrqForm.mrqsListaSinonimos}">
+
 										<div class="ui-g-12 ui-md-3" style="text-align: right;">
 											<p:commandButton id="eliminarSinonimoBtn"
 												action="#{updateFTAMrqForm.eliminarSinonimo(mrqsSinonimo)}"
@@ -353,24 +377,27 @@
 											</p:commandButton>
 										</div>
 										<div class="ui-g-12 ui-md-9" style="text-align: left;">
-											<p:inputText id="sinonimo" onkeyup="value=specialCharacters(value)"
+											<p:inputText id="sinonimo"
+												onkeyup="value=specialCharacters(value)"
 												value="#{mrqsSinonimo.textoSinonimo}" required="true">
 											</p:inputText>
 											<p:message for="sinonimo" />
 										</div>
 
-								</ui:repeat>
+									</ui:repeat>
 								</h:panelGroup>
-								
+
 								<div class="ui-g-12 ui-md-3" style="text-align: right;">
 									<p:commandButton id="agregarSinonimoBtn" process="@this"
-										value="Agregar sinonimo" update="UpdateReactivosForm:sinonimosPanel"
-										action="#{updateFTAMrqForm.agregarSinonimo()}"										
+										value="Agregar sinonimo"
+										update="UpdateReactivosForm:sinonimosPanel"
+										action="#{updateFTAMrqForm.agregarSinonimo()}"
 										style="BackGround:#2D0D86;"></p:commandButton>
 								</div>
-								
+
 								<script type="text/javascript">
 										//<![CDATA[ 
+		
 											function specialCharacters(input){
 											   if(input==null)return input;
 									           var c=input.toLowerCase();
@@ -442,17 +469,9 @@
 
 					<h:panelGroup id="reactivosOpcionMultiplePanel" layout="block"
 						rendered="#{updateFTAMrqForm.multipleChoice}">
-						<h2>Opción Múltiple</h2>
-						<div class="ui-g-12 ui-md-4" style="text-align: right;">
-							<p:outputLabel for="singleMode" style="text-align:center;"
-								value="¿Modo de Respuesta Única?" />
+						<div class="ui-g-12 ui-md-12" style="text-align: left;">
+							<h2>Opción Múltiple</h2>
 						</div>
-						<div class="ui-g-12 ui-md-8" style="text-align: left;">
-							<p:inputSwitch id="singleMode" style="text-align:center;"
-								onLabel="Si" offLabel="No"
-								value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.singleAnswerMode}" />
-						</div>
-
 						<div class="ui-g-12 ui-md-4" style="text-align: right;">
 							<p:outputLabel for="suffleOrder" style="text-align:center;"
 								value="¿Orden de Respuestas Aleatorio?" />
