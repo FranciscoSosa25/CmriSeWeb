@@ -6,9 +6,23 @@
 	<h:panelGroup layout="block"
 		rendered="#{coreCasePreviewForm.limitedFreeTextAnswer and coreCasePreviewForm.questionView  and coreCasePreviewForm.visualizacionPregunta}">
 		<div class="ui-g-12 ui-md-12">
+			<p:outputLabel for="answer" value="Límite de caracteres"
+				/>
+		</div>
+		<div class="ui-g-12 ui-md-12">
+			<p:outputLabel for="answer"
+				value="#{coreCasePreviewForm.ccPreguntasFtaV1.limiteCaracteres}"
+				 />
+		</div>
+		<div class="ui-g-12 ui-md-12">
 			<p:outputLabel for="answer" value="Su Respuesta:"
 				style="font-size: 24px;" />
-			<p:inputTextarea required="true"  id="answer" rows="10" cols="50"  completeMethod="#{coreCasePreviewForm.asignarRespuesta}" queryDelay="750" minQueryLength="4"
+			<p:inputTextarea required="#{coreCasePreviewForm.limitedFreeTextAnswer?true:false}"
+				onkeyup="value=specialCharacters(value)"
+				value="#{coreCasePreviewForm.respuestaPreguntaCandidato}"
+				id="answer" rows="10" cols="50"
+				 minQueryLength="4"
+				maxlength="#{coreCasePreviewForm.ccPreguntasFtaV1.limiteCaracteres ==null ?600: coreCasePreviewForm.ccPreguntasFtaV1.limiteCaracteres}"
 				style="width:98%;font-size: 24px;">
 			</p:inputTextarea>
 			<p:message for="answer" />
@@ -50,5 +64,39 @@
 			<p:outputLabel
 				value="#{coreCasePreviewForm.respuestaPreguntaSistema}" />
 		</div>
+		<div class="ui-g-12 ui-md-12 xXinstructions">
+			<p:outputLabel
+				rendered="#{coreCasePreviewForm.ccListaSinonimos.size()>0?true:false}"
+				value="Sinónimos:" />
+		</div>
+		<ui:repeat var="ccSinonimo"
+			value="#{coreCasePreviewForm.ccListaSinonimos}">
+			<div class="ui-g-12 ui-md-12 xXinstructions">
+				<p:outputLabel value="#{ccSinonimo.textoSinonimo}" />
+			</div>
+		</ui:repeat>
 	</h:panelGroup>
+
+
+	<script type="text/javascript">
+		//<![CDATA[ 
+		function specialCharacters(input) {
+			if (input == null)
+				return input;
+			var c = input.toLowerCase();
+			c = c.replace(new RegExp("\\s", 'g'), "");
+			c = c.replace(new RegExp("[àáâãäå]", 'g'), "a");
+			c = c.replace(new RegExp("æ", 'g'), "ae");
+			c = c.replace(new RegExp("ç", 'g'), "c");
+			c = c.replace(new RegExp("[èéêë]", 'g'), "e");
+			c = c.replace(new RegExp("[ìíîï]", 'g'), "i");
+			c = c.replace(new RegExp("[òóôõö]", 'g'), "o");
+			c = c.replace(new RegExp("œ", 'g'), "oe");
+			c = c.replace(new RegExp("[ùúûü]", 'g'), "u");
+			c = c.replace(new RegExp("[ýÿ]", 'g'), "y");
+			c = c.toUpperCase();
+			return c;
+		}
+		//]]>
+	</script>
 </ui:composition>

@@ -1,4 +1,3 @@
-
 package com.cmrise.ejb.backing.exams.mrqs;
 
 import java.util.ArrayList;
@@ -474,7 +473,6 @@ public class AssignMrqsCandidatesForm {
 		}
 	}
 	
-	
 	public java.sql.Date ConvertToDate(String fechaDesde) throws ParseException{
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         java.util.Date parsed = format.parse(fechaDesde);
@@ -483,4 +481,3 @@ public class AssignMrqsCandidatesForm {
 	}
 		
 }
-

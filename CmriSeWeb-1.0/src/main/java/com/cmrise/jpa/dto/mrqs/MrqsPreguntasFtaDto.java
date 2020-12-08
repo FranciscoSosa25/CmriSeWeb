@@ -93,6 +93,8 @@ public class MrqsPreguntasFtaDto implements Serializable {
 	@Column(name="CORRELACIONES")
 	private String correlaciones; 
 	
+	@Column(name="LIMITE_CARACTERES")
+	private Integer limiteCaracteres; 
 	public MrqsPreguntasFtaDto() {
 	}
 
@@ -295,5 +297,14 @@ public class MrqsPreguntasFtaDto implements Serializable {
 	public void setCorrelaciones(String correlaciones) {
 		this.correlaciones = correlaciones;
 	}
+
+	public Integer getLimiteCaracteres() {
+		return limiteCaracteres;
+	}
+
+	public void setLimiteCaracteres(Integer limiteCaracteres) {
+		this.limiteCaracteres = limiteCaracteres;
+	}
+	
 
 }

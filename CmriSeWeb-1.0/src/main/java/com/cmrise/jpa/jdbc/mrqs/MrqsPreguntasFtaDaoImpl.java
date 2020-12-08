@@ -53,8 +53,10 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 		mrqsPreguntasFtaDto.setNombreImagen(pMrqsPreguntasFtaDto.getNombreImagen());
 		mrqsPreguntasFtaDto.setContentType(pMrqsPreguntasFtaDto.getContentType());
 		mrqsPreguntasFtaDto.setPoligonos(pMrqsPreguntasFtaDto.getPoligonos());
+		mrqsPreguntasFtaDto.setLimiteCaracteres(pMrqsPreguntasFtaDto.getLimiteCaracteres());
 		mrqsPreguntasFtaDto.setRespuestas(pMrqsPreguntasFtaDto.getRespuestas());
 		mrqsPreguntasFtaDto.setCorrelaciones(pMrqsPreguntasFtaDto.getCorrelaciones());
+
 	}
 
 	@Override
