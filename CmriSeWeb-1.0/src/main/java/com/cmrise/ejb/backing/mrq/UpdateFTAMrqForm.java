@@ -1483,7 +1483,7 @@ public class UpdateFTAMrqForm {
 
 	public void setMrqsListaSinonimos(List<MrqsPreguntasFtaSinonimos> mrqsListaSinonimos) {
 		this.mrqsListaSinonimos = mrqsListaSinonimos;
-
+	}
 	public Boolean getIsRequired() {
 		return isRequired;
 	}
