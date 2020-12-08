@@ -1038,10 +1038,17 @@ public class UpdateFTAMrqForm {
 	}
 	
 	public <E> void removerRespCorrelacionadas(Object id) {
+		int contador = 0;
+		
 		this.setIsRequired(false);
 		System.out.println("Entra removerRespCorrelacionadas");
 		listRespCorrectReactCorImg.remove(id);
 		idxLabels--;
+		for(RespCorrectReactCorImg i: listRespCorrectReactCorImg) {
+			System.out.println("así va el ordern po: "+labels[contador]);
+			i.setNodo(" "+labels[contador]);
+			contador++;
+		}
 		refreshRespuestas();
 		System.out.println("Sale removerRespCorrelacionadas");
 	}
