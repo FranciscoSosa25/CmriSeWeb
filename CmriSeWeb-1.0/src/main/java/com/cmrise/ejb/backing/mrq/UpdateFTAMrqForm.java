@@ -112,7 +112,7 @@ public class UpdateFTAMrqForm {
 	private List<MrqsCorrelacionColumnasRespuestasDto> listMrqsCorrelacionRespuestas = new ArrayList<MrqsCorrelacionColumnasRespuestasDto>();
 	private boolean panelCorrelacionColumnas;
 	private String respuestaCorrelacionColumnas="Respuesta: ";
-	private String textCorrelacionColumnas="Texto) ";
+	private String textCorrelacionColumnas="Texto ";
 	/************************************************************************
 	 * Archivos E Imagenes
 	 */
