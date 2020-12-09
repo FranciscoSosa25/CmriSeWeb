@@ -30,7 +30,7 @@ public class CcPreguntasFtaV1 implements Serializable{
 	private boolean suffleAnswerOrder; 
 	private List<CcOpcionMultiple> listCcOpcionMultiple; 
 	private List<CcImagenesGrp> listCcImagenesGrp; 
-	
+	private Integer limiteCaracteres;
 	public long getNumero() {
 		return this.numero;
 	}
@@ -186,5 +186,13 @@ public class CcPreguntasFtaV1 implements Serializable{
 		this.listCcImagenesGrp = listCcImagenesGrp;
 	}
 
+	public Integer getLimiteCaracteres() {
+		return limiteCaracteres;
+	}
+
+	public void setLimiteCaracteres(Integer limiteCaracteres) {
+		this.limiteCaracteres = limiteCaracteres;
+	}
+	
 	
 }

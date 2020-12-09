@@ -27,12 +27,14 @@ import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
 import com.cmrise.ejb.services.mrqs.MrqsCorrelacionColumnasLocal;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
+import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaSinonimosLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
 import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
 import com.cmrise.jpa.dao.mrqs.MrqsCorrelacionColumnaPair;
 import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasRespuestasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaSinonimos;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
 import com.cmrise.utils.Utilitarios;
 import com.google.gson.Gson;
@@ -94,8 +96,10 @@ public class MrqPreviewForm {
 	private List<AnotacionesCorImg> listAnotacionesCorImg = new ArrayList<AnotacionesCorImg>();
 
 	private String indicateImageResult;
-	
-	
+	private Integer limiteCaracteres;
+	private List<MrqsPreguntasFtaSinonimos> mrqsListaSinonimos= new ArrayList<MrqsPreguntasFtaSinonimos>();
+	@Inject 
+	MrqsPreguntasFtaSinonimosLocal mrqsPreguntasFtaSinonimosLocal;
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal; 
 	
@@ -141,7 +145,10 @@ public class MrqPreviewForm {
 	     this.puntuacion = Float.parseFloat(mrqsPreguntasHdrV2Dto.getValorPuntuacion()); 
 	     this.metodoPuntuacion = mrqsPreguntasHdrV2Dto.getMetodoPuntuacion(); 
 	     if(Utilitarios.RESP_TEXTO_LIBRE.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
+	    	if(mrqsPreguntasHdrV2Dto.getLimiteCaracteres()!=null)
+	    	 setLimiteCaracteres(mrqsPreguntasHdrV2Dto.getLimiteCaracteres());
 	    	 this.setLimitedFreeTextAnswer(true);
+	    	 obtenerSinonimos(getNumetoFta());
 	     }else if(Utilitarios.OPCION_MULTIPLE.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
 	    	 this.setMultipleChoice(true);
 	    	 initListMrqsOpcionMultiple(mrqsPreguntasHdrV2Dto.getNumeroMpf(),mrqsPreguntasHdrV2Dto.isSuffleAnswerOrder()); 
@@ -153,7 +160,7 @@ public class MrqPreviewForm {
 	     }else if(Utilitarios.IMAGEN_ANOTADA.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
 	    	this.setAnnotatedImage(true); 
 	     }else if(Utilitarios.CORRELACION_COLUMNA.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
-	    	 actualizarPrevisualizacion(this.getNumetoFta(),mrqsPreguntasHdrV2Dto);
+	    	 actualizarPrevisualizacion(getNumetoFta(),mrqsPreguntasHdrV2Dto);
 	     }
 	     this.setQuestionView(true);
 	     
@@ -201,7 +208,7 @@ public class MrqPreviewForm {
 	  System.out.println("Entra saveProceed");	
 	  this.setAnswerView(true);
 	  if(this.isLimitedFreeTextAnswer()) {
-		  if(this.getRespuestaPreguntaCandidato().equalsIgnoreCase(this.getRespuestaPreguntaSistema())) {
+		  if(this.getRespuestaPreguntaCandidato().equalsIgnoreCase(this.getRespuestaPreguntaSistema()) || validarSinonimos(getRespuestaPreguntaCandidato())) {
 			  this.setCorrectAnswer(true);
 		  }else {
 			  this.setWrongAnswer(true);
@@ -365,9 +372,19 @@ public class MrqPreviewForm {
 					i>=listMrqsCorrelacionColumnasRespuestasDto.size()?
 							null:listMrqsCorrelacionColumnasRespuestasDto.get(i) ));
 		}
-		int i=4;
+		
 	}
-	
+	private void obtenerSinonimos(long pNumeroFta) {
+		mrqsListaSinonimos=mrqsPreguntasFtaSinonimosLocal.findByFta(pNumeroFta);
+	}
+	private boolean validarSinonimos(String textoUsuario) {
+		Iterator<MrqsPreguntasFtaSinonimos> it=mrqsListaSinonimos.iterator();
+		while(it.hasNext()) {
+			if(textoUsuario.equalsIgnoreCase(it.next().getTextoSinonimo()))
+					return true;
+		}
+		return false;
+	}
 	public boolean isMultipleChoice() {
 		return multipleChoice;
 	}
@@ -684,6 +701,23 @@ public class MrqPreviewForm {
 	public void setListMrqsCorrelacionColumnasPrev(List<MrqsCorrelacionColumnaPair> listMrqsCorrelacionColumnasPrev) {
 		this.listMrqsCorrelacionColumnasPrev = listMrqsCorrelacionColumnasPrev;
 	}
+
+	public List<MrqsPreguntasFtaSinonimos> getMrqsListaSinonimos() {
+		return mrqsListaSinonimos;
+	}
+
+	public void setMrqsListaSinonimos(List<MrqsPreguntasFtaSinonimos> mrqsListaSinonimos) {
+		this.mrqsListaSinonimos = mrqsListaSinonimos;
+	}
+
+	public Integer getLimiteCaracteres() {
+		return limiteCaracteres;
+	}
+
+	public void setLimiteCaracteres(Integer limiteCaracteres) {
+		this.limiteCaracteres = limiteCaracteres;
+	}
+	
 	
 	
 }

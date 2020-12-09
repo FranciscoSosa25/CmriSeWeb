@@ -54,6 +54,7 @@ import com.cmrise.ejb.services.mrqs.MrqsCorrelacionColumnasLocal;
 import com.cmrise.ejb.services.mrqs.MrqsListasPalabrasLocal;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
+import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaSinonimosLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
 import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
 import com.cmrise.jpa.dao.mrqs.MrqsCorrelacionColumnaPair;
@@ -62,6 +63,7 @@ import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasRespuestasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsListasPalabrasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaSinonimos;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.utils.CorrelacionColumnasInsertException;
 import com.cmrise.utils.Utilitarios;
@@ -110,7 +112,7 @@ public class UpdateFTAMrqForm {
 	private List<MrqsCorrelacionColumnasRespuestasDto> listMrqsCorrelacionRespuestas = new ArrayList<MrqsCorrelacionColumnasRespuestasDto>();
 	private boolean panelCorrelacionColumnas;
 	private String respuestaCorrelacionColumnas="Respuesta: ";
-	private String textCorrelacionColumnas="Texto) ";
+	private String textCorrelacionColumnas="Texto ";
 	/************************************************************************
 	 * Archivos E Imagenes
 	 */
@@ -143,6 +145,7 @@ public class UpdateFTAMrqForm {
 	private String[] labels = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"}; 
 	private Boolean isRequired = true;
 	
+	private List<MrqsPreguntasFtaSinonimos> mrqsListaSinonimos= new ArrayList<MrqsPreguntasFtaSinonimos>();
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal;
 	
@@ -178,6 +181,9 @@ public class UpdateFTAMrqForm {
 	
 	@Inject 
 	MrqsCorrelacionColumnasLocal mrqsCorrelacionColumnasLocal;
+	
+	@Inject 
+	MrqsPreguntasFtaSinonimosLocal mrqsPreguntasFtaSinonimosLocal;
 	
 	@ManagedProperty(value="#{userLogin}")
 	private UserLogin userLogin; 
@@ -226,6 +232,7 @@ public class UpdateFTAMrqForm {
 		 mrqsPreguntasHdrV1ForAction = mrqsPreguntasHdrLocal.findV1ByNumero(this.numeroHdr);
 		 if(Utilitarios.RESP_TEXTO_LIBRE.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			 this.setLimitedFreeTextAnswer(true);
+			 obtenerSinonimos();
 		 }else if(Utilitarios.OPCION_MULTIPLE.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			 this.setMultipleChoice(true);
 			 initListMrqsOpcionMultiple(); 
@@ -669,7 +676,13 @@ public class UpdateFTAMrqForm {
 		 return insertarCorrelacionColumas(listMrqsCorrelacionColumnas, listMrqsCorrelacionRespuestas,lNumeroFta);
 			 
 		
-	}	
+	}
+	private long validarTextoLibre(long lNumeroFta) {
+		if(!Utilitarios.RESP_TEXTO_LIBRE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta()))
+			return 1;		
+		 return insertarSinonimos(mrqsListaSinonimos,lNumeroFta);
+			 
+	}
 	private void obtenerColumnasGuardadas() {
 		long id=mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(getNumeroHdr());
 		listMrqsCorrelacionColumnas = mrqsCorrelacionColumnasLocal.findByFta( id);
@@ -738,7 +751,8 @@ public class UpdateFTAMrqForm {
 	}
 	
 	public String saveAndPreview() {
-		 update();		 
+		 update();	
+		 validarTextoLibre(getNumeroFta());
 		 if( validarCorrelacionColumnas(getNumeroFta())==-1)
 		 return "#";
 		 getGuestPreferences().setTheme("deep-purple");
@@ -1081,6 +1095,16 @@ public class UpdateFTAMrqForm {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, CorrelacionColumnasInsertException.ERROR_INSERTAR, null));
 			}
 	}
+	private  void deleteItemSinonimos(MrqsPreguntasFtaSinonimos item) {		
+		try {
+			
+			mrqsPreguntasFtaSinonimosLocal.deleteSinonimo(item);
+			
+		} catch (Exception e) {
+			limpiarMensajes();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, CorrelacionColumnasInsertException.ERROR_INSERTAR, null));
+		}
+}
 	public void eliminarRespuestaCorrecta(MrqsCorrelacionColumnasRespuestasDto item) {
 		if(item.getNumero()!=0)
 			deleteItem(item);
@@ -1096,6 +1120,12 @@ public class UpdateFTAMrqForm {
 			
 	
 	}	
+	public void limpiarRespuestaCorrecta() {
+		if(mrqsPreguntasFtaV1ForAction.getRespuestaCorrecta()!=null && mrqsPreguntasFtaV1ForAction.getLimiteCaracteres()!=null)
+		mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta(mrqsPreguntasFtaV1ForAction.getRespuestaCorrecta().length()>mrqsPreguntasFtaV1ForAction.getLimiteCaracteres()?
+				mrqsPreguntasFtaV1ForAction.getRespuestaCorrecta().substring(0, mrqsPreguntasFtaV1ForAction.getLimiteCaracteres()):
+					mrqsPreguntasFtaV1ForAction.getRespuestaCorrecta());
+	}
 	private boolean validarValoresAsignados(MrqsCorrelacionColumnasRespuestasDto item) {
 		
 		Iterator<MrqsCorrelacionColumnasRespuestasDto> it=listMrqsCorrelacionRespuestas.iterator();
@@ -1107,7 +1137,31 @@ public class UpdateFTAMrqForm {
 		}
 		return false;
 	}
+	public void eliminarSinonimo(MrqsPreguntasFtaSinonimos item) {
+		if(item.getNumero()!=0)
+			deleteItemSinonimos(item);
+		mrqsListaSinonimos.remove(item);	
 		
+	}
+	public void agregarSinonimo() {
+		mrqsListaSinonimos.add(new MrqsPreguntasFtaSinonimos("SINONIMO"));
+	}
+	private long insertarSinonimos(List<MrqsPreguntasFtaSinonimos> sinonimos,long lNumeroFta) {
+		try {
+			return mrqsPreguntasFtaSinonimosLocal.insert(sinonimos, lNumeroFta,mrqsPreguntasFtaV1ForAction.getTextoPregunta()!=null?mrqsPreguntasFtaV1ForAction.getTextoPregunta():"Texto pregunta");
+		} catch (Exception e) {
+			limpiarMensajes();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, CorrelacionColumnasInsertException.ERROR_INSERTAR, null));
+			return -1;
+		}	
+	}	
+	private void obtenerSinonimos() {
+		long id=mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(getNumeroHdr());
+		mrqsListaSinonimos = mrqsPreguntasFtaSinonimosLocal.findByFta( id);
+		
+		
+	}
+	
 	public MrqsPreguntasHdrV1 getMrqsPreguntasHdrV1ForAction() {
 		return mrqsPreguntasHdrV1ForAction;
 	}
@@ -1422,12 +1476,21 @@ public class UpdateFTAMrqForm {
 		this.panelCorrelacionColumnas = panelCorrelacionColumnas;
 	}
 
+
+	public List<MrqsPreguntasFtaSinonimos> getMrqsListaSinonimos() {
+		return mrqsListaSinonimos;
+	}
+
+	public void setMrqsListaSinonimos(List<MrqsPreguntasFtaSinonimos> mrqsListaSinonimos) {
+		this.mrqsListaSinonimos = mrqsListaSinonimos;
+	}
 	public Boolean getIsRequired() {
 		return isRequired;
 	}
 
 	public void setIsRequired(Boolean isRequired) {
 		this.isRequired = isRequired;
+
 	}
 
 	
