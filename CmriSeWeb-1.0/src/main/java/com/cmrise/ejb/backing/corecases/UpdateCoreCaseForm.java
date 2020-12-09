@@ -47,7 +47,6 @@ public class UpdateCoreCaseForm {
 	private List<SelectItem> selectMateriasHdr = new ArrayList<SelectItem>();  
 	private List<SelectItem> selectSubMaterias = new ArrayList<SelectItem>(); 
 	
-
    private long numeroCcHdr;
 	private String estatus;
 	private Timestamp fechaActualizacion;
