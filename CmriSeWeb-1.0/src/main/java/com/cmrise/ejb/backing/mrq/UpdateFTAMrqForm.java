@@ -114,7 +114,7 @@ public class UpdateFTAMrqForm {
 	private List<MrqsCorrelacionColumnasRespuestasDto> listMrqsCorrelacionRespuestas = new ArrayList<MrqsCorrelacionColumnasRespuestasDto>();
 	private boolean panelCorrelacionColumnas;
 	private String respuestaCorrelacionColumnas="Respuesta: ";
-	private String textCorrelacionColumnas="Texto) ";
+	private String textCorrelacionColumnas="Texto ";
 	/************************************************************************
 	 * Archivos E Imagenes
 	 */
@@ -145,6 +145,7 @@ public class UpdateFTAMrqForm {
 	private List<SelectItem> selectRespReactCorImg = new ArrayList<SelectItem>(); 
 	private int idxLabels = 0; 
 	private String[] labels = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"}; 
+	private Boolean isRequired = true;
 	
 	private List<MrqsPreguntasFtaSinonimos> mrqsListaSinonimos= new ArrayList<MrqsPreguntasFtaSinonimos>();
 	@Inject 
@@ -241,6 +242,7 @@ public class UpdateFTAMrqForm {
 			 this.setIndicateImage(true);
 		 }else if(Utilitarios.IMAGEN_ANOTADA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			 this.setAnnotatedImage(true);
+			 
 			 agregarRespReact(); 
 		 }else if(Utilitarios.CORRELACION_COLUMNA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			 setPanelCorrelacionColumnas(true);
@@ -321,7 +323,8 @@ public class UpdateFTAMrqForm {
             Gson gson = new Gson();
             Type collectionType = new TypeToken<List<RespReactCorImg>>(){}.getType();
             if(null!=mrqsPreguntasFtaV1ForAction.getRespuestas()) {
-            	listRespReactCorImg = gson.fromJson(mrqsPreguntasFtaV1ForAction.getRespuestas(), collectionType); 
+            	listRespReactCorImg = gson.fromJson(mrqsPreguntasFtaV1ForAction.getRespuestas(), collectionType);
+            	idxLabels = listRespReactCorImg.size();
             	refreshRespuestas();
             }
             collectionType = new TypeToken<List<RespCorrectReactCorImg>>(){}.getType();
@@ -587,6 +590,25 @@ public class UpdateFTAMrqForm {
 				 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se nececita dibujar un","Poligono") );
 				 return; 
 		     }
+			
+			}else if(Utilitarios.IMAGEN_ANOTADA.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
+				List<AnotacionesCorImg> listAnotacionesCorImg = new ArrayList<AnotacionesCorImg>(); 
+				   for(RespCorrectReactCorImg i:listRespCorrectReactCorImg) {
+					   AnotacionesCorImg anotacionesCorImg = new AnotacionesCorImg(); 
+					   anotacionesCorImg.setNumero(i.getNumero());
+					   anotacionesCorImg.setNodo(i.getNodo());
+					   listAnotacionesCorImg.add(anotacionesCorImg); 
+				   }
+				   Gson gson = new Gson();
+				   if(null!=listAnotacionesCorImg&&listAnotacionesCorImg.size()>0) {
+					   mrqsPreguntasFtaV1ForAction.setAnotaciones(gson.toJson(listAnotacionesCorImg));
+				   }
+				   if(null!=listRespReactCorImg&&listRespReactCorImg.size()>0) {
+					   mrqsPreguntasFtaV1ForAction.setRespuestas(gson.toJson(listRespReactCorImg));
+				   }
+				   if(null!=listRespCorrectReactCorImg&&listRespCorrectReactCorImg.size()>0) {
+					   mrqsPreguntasFtaV1ForAction.setCorrelaciones(gson.toJson(listRespCorrectReactCorImg));
+				   }
 			}
 			validarRespuestaUnica();
 			mrqsPreguntasFtaLocal.update(lNumeroFta, mrqsPreguntasFtaV1ForAction); 
@@ -1051,12 +1073,9 @@ public class UpdateFTAMrqForm {
 		System.out.println("Sale agregarRespReact");
 	}
 	
-	public void removerRespReact() {
+	public void removerRespReact(Object id) {
 		System.out.println("entra removerRespReact");
-		RespReactCorImg respReactCorImg = new RespReactCorImg(); 
-		respReactCorImg.setNumero(idxRespuestas--);
-		listRespReactCorImg.remove(respReactCorImg);
-		listRespReactCorImg.remove(respReactCorImg.getNumero());
+		listRespReactCorImg.remove(id);
 		System.out.println(listRespReactCorImg);
 		System.out.println("sale removerRespReact");
 	}
@@ -1072,14 +1091,19 @@ public class UpdateFTAMrqForm {
 		System.out.println("Sale agregarRespCorrelacionadas");
 	}
 	
-	public <E> void removerRespCorrelacionadas(E item) {
+	public <E> void removerRespCorrelacionadas(Object id) {
+		int contador = 0;
+		
+		this.setIsRequired(false);
 		System.out.println("Entra removerRespCorrelacionadas");
-		RespCorrectReactCorImg respCorrectReactCorImg = new RespCorrectReactCorImg(); 
-		respCorrectReactCorImg.setNumero(idxRespuestasCorrelacionadas--);
-		respCorrectReactCorImg.setNodo(labels[idxLabels--]);
-		listRespCorrectReactCorImg.remove(respCorrectReactCorImg);
-		refreshRespuestas(); 
-		PrimeFaces.current().ajax().addCallbackParam("nodo", labels[idxLabels-1]);
+		listRespCorrectReactCorImg.remove(id);
+		idxLabels--;
+		for(RespCorrectReactCorImg i: listRespCorrectReactCorImg) {
+			System.out.println("así va el ordern po: "+labels[contador]);
+			i.setNodo(" "+labels[contador]);
+			contador++;
+		}
+		refreshRespuestas();
 		System.out.println("Sale removerRespCorrelacionadas");
 	}
 	
@@ -1492,12 +1516,21 @@ public class UpdateFTAMrqForm {
 		this.panelCorrelacionColumnas = panelCorrelacionColumnas;
 	}
 
+
 	public List<MrqsPreguntasFtaSinonimos> getMrqsListaSinonimos() {
 		return mrqsListaSinonimos;
 	}
 
 	public void setMrqsListaSinonimos(List<MrqsPreguntasFtaSinonimos> mrqsListaSinonimos) {
 		this.mrqsListaSinonimos = mrqsListaSinonimos;
+	}
+	public Boolean getIsRequired() {
+		return isRequired;
+	}
+
+	public void setIsRequired(Boolean isRequired) {
+		this.isRequired = isRequired;
+
 	}
 
 	

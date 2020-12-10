@@ -495,7 +495,6 @@ function handleAgregarRespuestaCorrRequest(xhr, status, args) {
     console.log(args);
     console.log(nodos);
 
-
     console.log('Finaliza handleAgregarRespuestaCorrRequest');
 }
 

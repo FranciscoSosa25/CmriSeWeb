@@ -149,12 +149,51 @@ var finishPolygon = function(){
 		return;
 	}
 	let len = polygonDiagram.model.nodeDataArray.length
-	polygonDiagram.model.nodeDataArray[len-1].pointX = polygonList[polygonList.length-1].pointX
-	polygonDiagram.model.nodeDataArray[len-1].pointY = polygonList[polygonList.length-1].pointY
-	
-	
+	var poly = polygonDiagram.model.nodeDataArray[len-1]
+	poly.pointX = polygonList[polygonList.length-1].pointX
+	poly.pointY = polygonList[polygonList.length-1].pointY
+	poly.pointLoc = poly.loc;
+}
+
+var finishPolygon = function(){
+	var points = polygonList[polygonList.length-1].pointX;
+	if(points.length <= 2){
+		polygonList.pop();
+		return;
+	}
+	let len = polygonDiagram.model.nodeDataArray.length
+	var poly = polygonDiagram.model.nodeDataArray[len-1]
+	poly.pointX = polygonList[polygonList.length-1].pointX
+	poly.pointY = polygonList[polygonList.length-1].pointY
+	poly.pointLoc = poly.loc;
+	poly.pointSize = getSize(poly);
+	poly.pointAngle = 0;
 	
 }
+
+var getSize = function(poly){
+	var x = ''+ Math.max.apply(Math, poly.pointX) - Math.min.apply(Math, poly.pointX);
+	var y = ''+ Math.max.apply(Math, poly.pointY) - Math.min.apply(Math, poly.pointY);
+	return x+' '+y;
+	
+}
+
+//var getSize = function(poly){
+//	var x = Math.max.apply(Math, poly.pointX) - Math.min.apply(Math, poly.pointX);
+//	var y = Math.max.apply(Math, poly.pointY) - Math.min.apply(Math, poly.pointY);
+//	return [x,y];
+//	
+//}
+
+//var getLoc = function(poly){
+//	var min,max,size;	
+//	var x = ''+ Math.max.apply(Math, poly.pointX) - Math.min.apply(Math, poly.pointX);
+//	var y = ''+ Math.max.apply(Math, poly.pointY) - Math.min.apply(Math, poly.pointY);
+//	return x+' '+y;
+//	
+//}
+
+
 
 
 /**
@@ -297,8 +336,9 @@ PolygonDrawingTool.prototype.finishShape = function() {
   console.log("polygonPoints : "+ polygonPoints)
   polygonPoints = [];
   console.log("polygoneList : "+ polygonList)
-  finishPolygon();
+ 
   this.stopTool();  
+  finishPolygon();
 };
 
 /**

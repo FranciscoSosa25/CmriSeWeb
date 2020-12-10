@@ -673,6 +673,8 @@ function initPolygon(canvasContentName) {
 
     // install as first mouse-down-tool
     polygonDiagram.toolManager.mouseDownTools.insertAt(0, tool);
+    polygonDiagram.allowHorizontalScroll = false;
+    polygonDiagram.allowVerticalScroll = false;
 
     this.loadPolygon();  // load a simple diagram from the textarea
 }
@@ -691,8 +693,11 @@ function loadPolygon(reset = false) {
     if (!reset) {
 
         const polygonData = document.getElementById('UpdateReactivosForm:coordinates').value;
-
-        json = polygonData && polygonData !== '' ? JSON.parse(polygonData) : {};
+        try{
+        	 json = polygonData && polygonData !== '' ? JSON.parse(polygonData) : {};
+        }catch(e){
+        	
+        }       
     }
 
     try {
@@ -720,10 +725,107 @@ function savePolygon() {
     const polygonData = document.getElementById('UpdateReactivosForm:coordinates');
 
     if (polygonDiagram.model.nodeDataArray.length > 0) {
-
-        polygonData.value = '{ "position": "' + go.Point.stringify(polygonDiagram.position) + '",\n  "model": ' + polygonDiagram.model.toJson() + ' }';
+    	updatePosition()
+        polygonData.value = '{ "position": "' + go.Point.stringify(polygonDiagram.position) + '",\n  "model": ' + polygonDiagram.model.toJson() + ' }';        
     }
 }
+
+function updatePosition(){
+	var ar = polygonDiagram.model.nodeDataArray;
+	for(var i=0;i<ar.length;i++){
+		try{
+			var poly = ar[i];
+			if(poly.loc && poly.pointLoc !== poly.loc){				
+				var loc = poly.loc.split(" ");
+				var pointLoc = poly.pointLoc.split(" ");		
+				var val = polyModel.getDiff(pointLoc[0], loc[0])
+				polyModel.updatePoint(poly.pointX, val)
+				val = polyModel.getDiff(pointLoc[1], loc[1])
+				polyModel.updatePoint(poly.pointY, val)
+				poly.pointLoc = poly.loc;
+			}
+			
+			if(poly.size && poly.pointSize !== poly.size ){
+				var size = poly.size.split(" ");
+				var pointSize = poly.pointSize.split(" ");
+				var diff =  polyModel.getDiff(pointSize[0], size[0])				
+				polyModel.updateSize(poly.pointX, diff, polyModel.getSize(poly.pointX))	
+				
+				diff =  polyModel.getDiff(pointSize[1], size[1])
+				polyModel.updateSize(poly.pointY, diff, polyModel.getSize(poly.pointY))
+				
+				poly.pointSize = poly.size;
+			}
+			
+			if(poly.angle && poly.angle !== poly.pointAngle ){
+				polyModel.rotatePolygon(poly, poly.angle)
+				poly.pointAngle = poly.angle;
+			}
+			
+		}catch(e){
+			
+		}
+	}	
+}
+
+var polyModel = {
+		getDiff : function(oldVal, newVal){
+			var a = parseFloat(oldVal);
+			var b = parseFloat(newVal);
+			return b - a;
+		},
+		getPositiveDiff : function(oldVal, newVal){
+			var a = parseFloat(oldVal);
+			var b = parseFloat(newVal);
+			var val = b-a;
+			return val <0 ? -val : val;
+		},
+		getSize : function(ar){		
+			return Math.max.apply(Math, ar) - Math.min.apply(Math, ar);
+		},
+		getCenter : function(ar){	
+			 var min = Math.min.apply(Math, ar)
+			 var size = polyModel.getSize(ar)
+			return min + (size/2) 
+		},
+		updatePoint : function(array, val){
+			for(var i=0;i<array.length;i++){
+				array[i] = array[i] + val;
+			}
+		},
+		updateSize : function(array, diff, size){			
+			 var val = diff/2;
+			 var center = polyModel.getCenter(array);			 
+			 for(var i=0;i<array.length;i++){
+				 var p = array[i];
+					 if(p <= center){
+						 p = p-val;
+					 }else{
+						 p = p+val;  
+					 }
+				 array[i] =p;
+				}
+		},
+		rotatePolygon : function(poly, angle){
+			 var cX = polyModel.getCenter(poly.pointX);
+			 var cY = polyModel.getCenter(poly.pointY);
+			 for(var i=0;i<poly.pointX.length;i++){			 
+				 var p = polyModel.rotate(cX,cY,poly.pointX[i], poly.pointY[i], angle)
+				 poly.pointX[i] = p[0];
+				 poly.pointY[i] = p[1];
+				 
+			 }		 
+		},
+		rotate : function(cx, cy, x, y, angle) {
+		    var radians = (Math.PI / 180) * angle,
+	        cos = Math.cos(radians),
+	        sin = Math.sin(radians),
+	        nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
+	        ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+		    return [nx, ny];
+		}
+}
+
 
 function savePolygonComplete() {
 
