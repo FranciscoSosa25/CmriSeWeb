@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -65,6 +66,7 @@ import com.cmrise.jpa.dto.mrqs.MrqsListasPalabrasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaSinonimos;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
+import com.cmrise.jpa.dto.mrqs.img.MrqsImagenesDto;
 import com.cmrise.utils.CorrelacionColumnasInsertException;
 import com.cmrise.utils.Utilitarios;
 import com.cmrise.utils.UtilitariosLocal;
@@ -547,7 +549,7 @@ public class UpdateFTAMrqForm {
 			  
 		   }
 		   
-			
+		    validarRespuestaUnica();
 			lNumeroFta = mrqsPreguntasFtaLocal.insert(mrqsPreguntasFtaV1ForAction); 
 			setNumeroFta(lNumeroFta);
 			
@@ -608,7 +610,7 @@ public class UpdateFTAMrqForm {
 					   mrqsPreguntasFtaV1ForAction.setCorrelaciones(gson.toJson(listRespCorrectReactCorImg));
 				   }
 			}
-			
+			validarRespuestaUnica();
 			mrqsPreguntasFtaLocal.update(lNumeroFta, mrqsPreguntasFtaV1ForAction); 
 			
 			for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
@@ -669,6 +671,13 @@ public class UpdateFTAMrqForm {
         
 		System.out.println("Entra UpdateFTAMrqForm Sale");
 		
+	}
+	private void validarRespuestaUnica() {
+		mrqsPreguntasFtaV1ForAction.setSingleAnswerMode(false);
+		long respuestaUnica=listMrqsOpcionMultiple.stream().filter(a->a.isEstatus()).count();
+	    if(Utilitarios.OPCION_MULTIPLE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta()) && respuestaUnica==1) {
+			mrqsPreguntasFtaV1ForAction.setSingleAnswerMode(true);
+		}
 	}
 	private long validarCorrelacionColumnas(long lNumeroFta) {
 		if(!Utilitarios.CORRELACION_COLUMNA.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta()))
@@ -744,8 +753,21 @@ public class UpdateFTAMrqForm {
 		System.out.println("pMrqsImagenesGrp.getNumero():"+pMrqsImagenesGrp.getNumero());
 		mrqsImagenesGrpLocal.insert(pNumetoFta,pMrqsImagenesGrp);
 		System.out.println("pMrqsImagenesGrp.getNumero():"+pMrqsImagenesGrp.getNumero());
+		
 	}
-	
+	public void eliminar(MrqsImagenesGrp pMrqsImagenesGrp,MrqsImagenes item) {
+		if( item.getNumero()==0) {
+		List<MrqsImagenes> li=pMrqsImagenesGrp.getListMrqsImagenes();
+		li.remove(item);}
+		try {
+			mrqsImagenesGrpLocal.eliminarImagen(getNumeroFta(), pMrqsImagenesGrp, item);
+			init();
+		} catch (Exception e) {
+			limpiarMensajes();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, Utilitarios.ERROR_ELIMINAR, null));
+		}
+		
+	}
 	public String cancel() {
 		return "Preguntas-ManageNewMrqs"; 
 	}
@@ -940,7 +962,7 @@ public class UpdateFTAMrqForm {
 		            	presentacionImagen.setImagenContent(byteContent);
 		            	presentacionImagen.setImagenBase64(new String(Base64.getEncoder().encode(byteContent)));
 		            	presentacionImagen.setContentType(f.getContentType());
-		            	
+		            
 		        			StreamedContent streamedContent = DefaultStreamedContent.builder()
 		        		                                                            .contentType(f.getContentType())
 		        		                                                            .stream(() -> {
@@ -953,9 +975,13 @@ public class UpdateFTAMrqForm {
 		        		                                                              })
 		        		                                                             .build()
 		        		                                                             ;
+		        			
+		        			
+		        			
 		        		if(f.getContentType().contains("image")) {
 		        			presentacionImagen.setImagenStreamed(streamedContent);
 		        			presentacionImagen.setImage(true);
+		        			presentacionImagen.setImagen(cargarImagen(f));
 			        	}else if(f.getContentType().contains("video")) {
 			        		presentacionImagen.setVideo(true);
 			        		presentacionImagen.setVideoStreamed(streamedContent);
@@ -1004,7 +1030,21 @@ public class UpdateFTAMrqForm {
     }
 	 * @throws IOException 
     **********************************************/
-	
+	private StreamedContent cargarImagen(UploadedFile f) {
+		StreamedContent file=null;
+		try {
+			byte contents[] = IOUtils.toByteArray(f.getInputStream());
+			 file = DefaultStreamedContent.builder()
+                    .name(f.getFileName())
+                    .contentType("application/octet-stream")
+                    .stream(() -> new ByteArrayInputStream(contents)).build();
+
+		} catch (IOException e) {
+			limpiarMensajes();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,Utilitarios.ERROR_CARGAR_IMAGEN, null));
+		}
+		return file;
+	}
 	public void handleFileUpload(FileUploadEvent event) throws IOException {
 		FacesMessage msg;
 		UploadedFile uploadedFile = event.getFile();

@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.cmrise.ejb.model.mrqs.img.MrqsImagenes;
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
+import com.cmrise.jpa.dto.mrqs.img.MrqsImagenesDto;
 import com.cmrise.jpa.dto.mrqs.img.MrqsImagenesGrpDto;
 
 @Local
@@ -19,5 +21,5 @@ public interface MrqsImagenesGrpLocal {
 	public List<MrqsImagenesGrp> findByFta(long   pNumeroFta
 			                              ,String pSeccion
 			                              ); 
-	
+	public long eliminarImagen(long pNumeroFta, MrqsImagenesGrp pMrqsImagenesGrp,MrqsImagenes item) throws Exception;
 }

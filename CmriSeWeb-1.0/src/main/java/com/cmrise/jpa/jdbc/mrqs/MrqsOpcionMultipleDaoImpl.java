@@ -101,7 +101,8 @@ public class MrqsOpcionMultipleDaoImpl implements MrqsOpcionMultipleDao {
 						  "  WHERE MOM.[NUMERO_FTA] = "+pNumeroFta; 
 		
 	    if(pShuffleOrder) {
-	    	strQuery =strQuery+" ORDER BY NEWID()"; 
+	    	//strQuery =strQuery+" ORDER BY NEWID()"; 
+	    	strQuery =strQuery.concat(" ORDER BY RAND(CHECKSUM(NEWID()))");
 	    }else {
 	    	strQuery =strQuery+" ORDER BY NUMERO_LINEA ASC"; 
 	    }

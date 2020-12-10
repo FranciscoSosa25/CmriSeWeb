@@ -14,7 +14,14 @@ import java.util.List;
 import java.io.FileOutputStream; 
 
 import javax.ejb.Stateless;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+
+import org.apache.commons.io.IOUtils;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.file.UploadedFile;
 
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenes;
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
@@ -64,6 +71,25 @@ public class MrqsImagenesGrpLocalImpl implements MrqsImagenesGrpLocal {
 		
 		}
 	}
+	
+	public long eliminarImagen(long pNumeroFta, MrqsImagenesGrp pMrqsImagenesGrp,MrqsImagenes item) throws Exception {
+		List<MrqsImagenesGrpDto> list=	mrqsImagenesGrpDao.findByFta(pNumeroFta,pMrqsImagenesGrp.getSeccion()); 
+		long rs=-1;
+		if(list!=null&&list.size()>0) {
+			long grpNum=list.get(0).getNumero();
+			rs=mrqsImagenesDao.eliminar(item.getNumero(),grpNum);
+			String ruta=Utilitarios.FS_MRQS+File.separator+pNumeroFta+File.separator+grpNum+File.separator+item.getNumero();
+			File destination = new File(ruta+File.separator+item.getNombreImagen());
+			try {
+		    boolean e=	destination.exists();
+			boolean r=destination.delete();
+			rs=1;
+			}
+			catch(Exception e) {
+				throw new Exception();
+			}
+		}return rs;
+	}
 
 	private void copy(byte[] pBytes, File destination)  throws IOException{
 		try (   InputStream in =  new ByteArrayInputStream(pBytes);
@@ -107,6 +133,7 @@ public class MrqsImagenesGrpLocalImpl implements MrqsImagenesGrpLocal {
 				try {
 					byte[] bytesArray = Files.readAllBytes(Paths.get(Utilitarios.FS_ROOT+j.getRutaImagen()+File.separator+j.getNombreImagen()));
 					mrqsImagenes.setImagenContent(bytesArray);
+					mrqsImagenes.setImagen(cargarImagen(bytesArray,j.getNombreImagen()));
 					mrqsImagenes.setImagenBase64(new String(Base64.getEncoder().encode(bytesArray)));
 				} catch (IOException ie) {
 				   System.out.println("IOException :"+ie.getMessage());
@@ -119,6 +146,19 @@ public class MrqsImagenesGrpLocalImpl implements MrqsImagenesGrpLocal {
 		}
 		return retval;
 	}
+  private StreamedContent cargarImagen(byte contents[],String nombre ) {
+		StreamedContent file=null;
+		try {
+			
+			 file = DefaultStreamedContent.builder()
+                    .name(nombre)
+                    .contentType("application/octet-stream")
+                    .stream(() -> new ByteArrayInputStream(contents)).build();
 
+		} catch (Exception e) {
+		
+		}
+		return file;
+	}
 	
 }
