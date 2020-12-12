@@ -5,6 +5,9 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.faces.context.FacesContext;
+
+import org.primefaces.component.graphicimage.GraphicImage;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -20,6 +23,7 @@ public class MrqsImagenes implements Serializable {
 	private String nombreImagen; 
 	private String rutaImagen; 
 	private StreamedContent imagenStreamed; 
+	private StreamedContent imagen; 
 	private StreamedContent videoStreamed; 
 	private String imagenBase64; 
 	private byte[] imagenContent; 
@@ -27,6 +31,7 @@ public class MrqsImagenes implements Serializable {
 	private String contentType; 
 	private boolean image; 
 	private boolean video; 
+	
 	
 	public long getNumero() {
 		return this.numero;
@@ -85,6 +90,7 @@ public class MrqsImagenes implements Serializable {
 	}
 
 	public StreamedContent getImagenStreamed() {
+	
 		return imagenStreamed;
 	}
 
@@ -168,5 +174,14 @@ public class MrqsImagenes implements Serializable {
 		}
 		this.video = video;
 	}
+
+	public StreamedContent getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(StreamedContent imagen) {
+		this.imagen = imagen;
+	}
+	
 
 }

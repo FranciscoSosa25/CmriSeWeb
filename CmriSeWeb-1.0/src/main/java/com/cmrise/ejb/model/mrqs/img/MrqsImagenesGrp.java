@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.primefaces.model.StreamedContent;
+
 public class MrqsImagenesGrp implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -17,7 +19,6 @@ public class MrqsImagenesGrp implements Serializable {
 	private String tituloInferior; 
 	private String texto; 
 	private String seccion; 
-	
 	private List<MrqsImagenes> listMrqsImagenes; 
 	
 	public long getNumero() {
@@ -108,6 +109,7 @@ public class MrqsImagenesGrp implements Serializable {
 		this.listMrqsImagenes = listMrqsImagenes;
 	}
 
+	
 
 
 }
