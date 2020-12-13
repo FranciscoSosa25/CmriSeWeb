@@ -400,8 +400,7 @@
 		
 											function specialCharacters(input){
 											   if(input==null)return input;
-									           var c=input.toLowerCase();
-									           c = c.replace(new RegExp("\\s", 'g'),"");
+									           var c=input.toLowerCase();									          
 									           c = c.replace(new RegExp("[àáâãäå]", 'g'),"a");
 									           c = c.replace(new RegExp("æ", 'g'),"ae");
 									           c = c.replace(new RegExp("ç", 'g'),"c");

@@ -8,6 +8,7 @@ public interface CcOpcionMultipleDao {
 
 	public long insert(CcOpcionMultipleDto pCcOpcionMultipleDto); 
 	public List<CcOpcionMultipleDto> findByNumeroFta(long pNumeroFta);
+	public List<CcOpcionMultipleDto> findByNumeroFtaAleatorio(long pNumeroFta);
 	public void update(long pNumero,CcOpcionMultipleDto pCcOpcionMultipleDto);
 	public void delete(long pNumero);
 	public int correctOrWrongAnswer(long pNumero

@@ -1100,6 +1100,10 @@ public class UpdateFTAMrqForm {
 		listMrqsCorrelacionColumnas.remove(item);	
 		
 	}
+	public void updateValorRespuesta(MrqsCorrelacionColumnasDto item) {
+		item.setTextoRespuesta(item.getTextoRespuesta());
+	}
+	
 	private <E> void deleteItem(E item) {		
 			try {
 				if(item instanceof MrqsCorrelacionColumnasDto)

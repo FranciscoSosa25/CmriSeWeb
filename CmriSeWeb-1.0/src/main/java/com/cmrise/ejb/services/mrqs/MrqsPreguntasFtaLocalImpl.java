@@ -77,7 +77,7 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
         mrqsPreguntasFtaDto.setRespuestaCorrecta(pMrqsPreguntasFtaV1.getRespuestaCorrecta());
         mrqsPreguntasFtaDto.setNombreImagen(pMrqsPreguntasFtaV1.getNombreImagen());
         mrqsPreguntasFtaDto.setContentType(pMrqsPreguntasFtaV1.getContentType());
-        mrqsPreguntasFtaDto.setTextoPregunta(pMrqsPreguntasFtaV1.getValorPuntuacion());
+        mrqsPreguntasFtaDto.setTextoPregunta(pMrqsPreguntasFtaV1.getTextoPregunta());
         mrqsPreguntasFtaDto.setValorPuntuacion(pMrqsPreguntasFtaV1.getValorPuntuacion());
         mrqsPreguntasFtaDto.setTextoSugerencias(pMrqsPreguntasFtaV1.getTextoSugerencias());
         mrqsPreguntasFtaDto.setSingleAnswerMode(pMrqsPreguntasFtaV1.isSingleAnswerMode());
