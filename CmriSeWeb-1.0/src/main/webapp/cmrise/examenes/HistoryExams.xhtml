@@ -113,7 +113,7 @@
  		}
 	</script>
  
- <p:dataTable var="candidato" value="#{historyExamsForm.listCandidatos}" rendered="#{!historyExamsForm.getShowtable()}">
+ <p:dataTable var="candidato" value="#{historyExamsForm.listCandidatos}" rendered="#{not historyExamsForm.getShowtable()}">
  	<f:facet name="header">Examen</f:facet>
    <p:column headerText="Nombre completo">
     <h:outputText value="#{candidato.nombre}"/>

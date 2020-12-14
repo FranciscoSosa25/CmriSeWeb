@@ -212,6 +212,9 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
                 revtal.setContentType(mrqsPreguntasFtaDto.getContentType());
                 revtal.setPoligonos(mrqsPreguntasFtaDto.getPoligonos());
                 revtal.setRutaImagen(mrqsPreguntasFtaDto.getRutaImagen());
+                revtal.setWidth(mrqsPreguntasFtaDto.getWidth());
+                revtal.setHeight(mrqsPreguntasFtaDto.getHeight());
+                revtal.setContentType(mrqsPreguntasFtaDto.getContentType());
             } catch (IOException ie) {
                 System.out.println("IOException MrqsPreguntasFtaLocalImpl findObjModByNumeroFta:" + ie.getMessage());
             }
@@ -259,6 +262,10 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
         mrqsPreguntasFtaDto.setWidth(pMrqsPreguntasFtaV1.getWidth());
         mrqsPreguntasFtaDto.setHeight(pMrqsPreguntasFtaV1.getHeight());
         mrqsPreguntasFtaDto.setLimiteCaracteres(pMrqsPreguntasFtaV1.getLimiteCaracteres()!=null?pMrqsPreguntasFtaV1.getLimiteCaracteres() :pMrqsPreguntasFtaV1.getRespuestaCorrecta()!=null? pMrqsPreguntasFtaV1.getRespuestaCorrecta().length()   :0 );
+
+        mrqsPreguntasFtaDto.setRespuestas(pMrqsPreguntasFtaV1.getRespuestas());
+        mrqsPreguntasFtaDto.setCorrelaciones(pMrqsPreguntasFtaV1.getCorrelaciones());
+
         mrqsPreguntasFtaDao.update(pNumeroFta, mrqsPreguntasFtaDto);
 
         if (null != pMrqsPreguntasFtaV1.getNombreImagen() && !"".equals(pMrqsPreguntasFtaV1.getNombreImagen())) {

@@ -167,7 +167,7 @@ public class MrqPreviewForm {
 	     mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(mrqsPreguntasHdrV2Dto.getNumeroMpf()
 																	             ,mrqsPreguntasHdrV2Dto.getTipoPregunta()
 																	             );
-	    
+	     
 	     
 	     if(Utilitarios.IMAGEN_ANOTADA.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
 	    	 Gson gson = new Gson();
@@ -231,7 +231,7 @@ public class MrqPreviewForm {
 
 			this.setWrongAnswer(true);
 
-			this.setPuntuacion(0);
+			//this.setPuntuacion(0);
 		}
 	  }
 	  comprobarRespuestasCorrelacionColumnas();
@@ -244,7 +244,7 @@ public class MrqPreviewForm {
 		int respuestasCorrectas=0;		
 		float puntuacion=0.0f;
 		while(lista.hasNext()) {
-			
+	
 			MrqsCorrelacionColumnasRespuestasDto var=lista.next();
 			if(var.getTexto().equals(var.getValorSeleccionado())) {
 				respuestasCorrectas++;
@@ -258,7 +258,7 @@ public class MrqPreviewForm {
 	    setPuntuacion(bd.floatValue());
 	    setPanelCorrelacionColumnasResultados(true);
 	    setCorrelacionColumnas(false);
-		
+	
 		}
 	}
 	
@@ -367,7 +367,7 @@ public class MrqPreviewForm {
 		listMrqsCorrelacionColumnasRespuestasDto=mrqsCorrelacionColumnasLocal.findRespuestasCorrectasByFta(lNumeroFta);
 		int length=listMrqsCorrelacionColumnasDto.size()>listMrqsCorrelacionColumnasRespuestasDto.size()?listMrqsCorrelacionColumnasDto.size():listMrqsCorrelacionColumnasRespuestasDto.size();
 		for(int i=0;i<length;i++) {
-			
+	
 			listMrqsCorrelacionColumnasPrev.add(new 
 					MrqsCorrelacionColumnaPair(i>=listMrqsCorrelacionColumnasDto.size()?
 					null:listMrqsCorrelacionColumnasDto.get(i), 
