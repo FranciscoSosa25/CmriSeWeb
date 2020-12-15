@@ -295,9 +295,11 @@ public class MrqPreviewForm {
 	   System.out.println("this.getRespuestasPreguntaCandidato():"+this.getRespuestasPreguntaCandidato());
 	   int countCorrectAnswers =0; 
 	   int countWrongAnswers = 0; 
+	   int respuestasCorrectasReactivo=0;
 	  if(null!=this.getRespuestasPreguntaCandidato()) {
 		  String [] array = this.getRespuestasPreguntaCandidato(); 
-		  
+		  respuestasCorrectasReactivo= (int)listMrqsOpcionMultiple.stream().filter(a->a.isEstatus()).count();
+          
 		  for(int idx =0;idx<array.length;idx=idx+1) {
 			  for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
 				  long longRespuestaCandidato = Long.parseLong(array[idx]); 
@@ -319,7 +321,7 @@ public class MrqPreviewForm {
 		   }
 	   }
 	  System.out.println("countCorrectAnswers:"+countCorrectAnswers);
-	  if(countCorrectAnswers>0) {
+	  if(countCorrectAnswers>0 && respuestasCorrectasReactivo==countCorrectAnswers) {
 		  this.setCorrectAnswer(true);
 		  System.out.println("metodoPuntuacion:"+this.metodoPuntuacion);
 		  if(Utilitarios.PROP_SCORING.equals(this.metodoPuntuacion)) {

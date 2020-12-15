@@ -1,5 +1,6 @@
 package com.cmrise.ejb.backing.corecases.preview;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -95,7 +96,7 @@ public class CoreCasePreviewForm {
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		Object obNumeroCcHdr = session.getAttribute("NumeroCcHdrSV");
 		this.numeroCcHdr = Utilitarios.objToLong(obNumeroCcHdr);
-		refreshEntity(); /** Inicializa Objetos **/
+		refreshEntity(); /** Inicializa Objetos **/		
 		Object objNumeroCcPreguntaHdrSV = session.getAttribute("NumeroCcPreguntaHdrSV");
 		long longNumeroCcPreguntaHdrSV = Utilitarios.objToLong(objNumeroCcPreguntaHdrSV);
 		System.out.println("longNumeroCcPreguntaHdrSV:" + longNumeroCcPreguntaHdrSV);
@@ -132,7 +133,7 @@ public class CoreCasePreviewForm {
 		this.setQuestionView(true);
 
 	}
-
+	
 	private void buscarPregunta() {
 		ccPreguntasHdrV1 = listCcPreguntasHdrV1.get(element == -1 ? 0 : element);
 		ccPreguntasFtaV1 = ccPreguntasHdrV1.getCcPreguntasFtaV1();
@@ -148,7 +149,7 @@ public class CoreCasePreviewForm {
 			if (this.getRespuestaPreguntaCandidato().equalsIgnoreCase(this.getRespuestaPreguntaSistema())  || validarSinonimos(getRespuestaPreguntaCandidato())) {
 				System.out.println("Respuesta Candidato es:" + this.getRespuestaPreguntaCandidato());
 				this.setCorrectAnswer(true);
-				this.setPuntuacion(1);
+				this.setPuntuacion(ccPreguntasFtaV1.getValorPuntuacion()!=null?Float.valueOf(ccPreguntasFtaV1.getValorPuntuacion()):1);
 			} else {
 				this.setWrongAnswer(true);
 				this.setPuntuacion(0);

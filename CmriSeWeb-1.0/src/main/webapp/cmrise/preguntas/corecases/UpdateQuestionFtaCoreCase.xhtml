@@ -362,7 +362,7 @@
 					</div>
 					<div class="ui-g-12 ui-md-9">
 						<p:selectOneMenu id="scoringValue"
-							value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.valorPuntuacion}"
+							value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.valorPuntuacion}"							
 							required="true"
 							requiredMessage="#{msgs['globalForm.requiredMessage']}">
 							<f:selectItems value="#{selectsHelper.selectScoringValueItems}" />
@@ -420,6 +420,7 @@
 									<p:inputText id="sinonimo"
 										onkeyup="value=specialCharacters(value)"
 										value="#{ccSinonimo.textoSinonimo}" required="true">
+										<p:ajax event="keyup"  delay="1000" update="@this"/>
 									</p:inputText>
 									<p:message for="sinonimo" />
 								</div>
@@ -441,8 +442,7 @@
 										//<![CDATA[ 
 											function specialCharacters(input){
 											   if(input==null)return input;
-									           var c=input.toLowerCase();
-									           c = c.replace(new RegExp("\\s", 'g'),"");
+									           var c=input.toLowerCase();									          
 									           c = c.replace(new RegExp("[àáâãäå]", 'g'),"a");
 									           c = c.replace(new RegExp("æ", 'g'),"ae");
 									           c = c.replace(new RegExp("ç", 'g'),"c");
@@ -471,7 +471,7 @@
 					<!--          <h1>Pregunta de Opción Multiple</h1> -->
 					<div class="ui-g card">
 						<div class="ui-g-12 ui-md-12"></div>
-						<div class="ui-g-12 ui-md-3" style="text-align: right;">
+						<!--div class="ui-g-12 ui-md-3" style="text-align: right;">
 							<p:outputLabel for="scoringMethod" value="Método de puntuación" />
 						</div>
 						<div class="ui-g-12 ui-md-9">
@@ -482,7 +482,7 @@
 									value="#{updateQuestionFtaCoreCaseForm.selectScoringMethodItems}" />
 							</p:selectOneMenu>
 							<p:message for="scoringMethod" />
-						</div>
+						</div-->
 						<div class="ui-g-12 ui-md-3" style="text-align: right;">
 							<p:outputLabel for="scoringValueOpcion"
 								value="Valor de puntuación" />
@@ -565,7 +565,7 @@
 							action="#{updateQuestionFtaCoreCaseForm.update()}" ajax="false" />
 					</div>
 					<div class="ui-g-12 ui-md-3" style="text-align: center">
-						<p:commandButton value=" Previsualizar" icon="fa fa-eye"
+						<p:commandButton value=" Previsualizar" icon="fa fa-eye" 
 							style="BackGround:#2D0D86;" update="createQuestionCoreCaseForm"
 							action="#{updateQuestionFtaCoreCaseForm.saveAndPreview()}" />
 					</div>
