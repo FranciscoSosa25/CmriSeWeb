@@ -358,11 +358,22 @@ public class UpdateFTAMrqForm {
 		this.selectScoringMethodItems = new ArrayList<SelectItem>();
 		List<TablasUtilitariasValoresDto> listScoringMethodValores =  tablasUtilitariasValoresLocal.findByTipoTabla("SCORING_METHOD");  
 		Iterator<TablasUtilitariasValoresDto> iterScoringMethodValores = listScoringMethodValores.iterator(); 
-		if("OPCION_MULTIPLE".equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())||Utilitarios.CORRELACION_COLUMNA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
+		if("OPCION_MULTIPLE".equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			while(iterScoringMethodValores.hasNext()) {
 				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
 				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
 				  ||"PROP_SCORING".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+					) {
+					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+					this.selectScoringMethodItems.add(selectItem); 	
+				  }
+			}	
+		}
+		
+		if(Utilitarios.CORRELACION_COLUMNA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
+			while(iterScoringMethodValores.hasNext()) {
+				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
+				if("PROP_SCORING".equals(tablasUtilitariasValoresDto.getCodigoTabla())
 					) {
 					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
 					this.selectScoringMethodItems.add(selectItem); 	
