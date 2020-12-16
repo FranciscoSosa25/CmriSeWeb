@@ -388,6 +388,7 @@
 											<p:inputText id="sinonimo"
 												onkeyup="value=specialCharacters(value)"
 												value="#{mrqsSinonimo.textoSinonimo}" required="true">
+											<p:ajax event="blur" update="@this"/>
 											</p:inputText>
 											<p:message for="sinonimo" />
 										</div>
