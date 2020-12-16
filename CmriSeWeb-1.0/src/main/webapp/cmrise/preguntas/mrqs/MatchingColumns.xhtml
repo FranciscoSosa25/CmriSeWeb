@@ -8,7 +8,7 @@
 		rendered="#{updateFTAMrqForm.panelCorrelacionColumnas}">
 		<h:panelGroup id="correlacionColumnasPanelI">
 
-			<ui:repeat var="mrqsCorrelacionColumna"
+			<ui:repeat var="mrqsCorrelacionColumna" id="j"
 				value="#{updateFTAMrqForm.listMrqsCorrelacionColumnas}">
 
 				<div class="ui-g-3 ui-g-nopad" style="margin-bottom: 5%;">
@@ -24,7 +24,7 @@
 					<p:inputText id="respuesta"
 						value="#{mrqsCorrelacionColumna.textoRespuesta}" required="true">
 						<p:ajax event="keyup" delay="300"
-							update=":UpdateReactivosForm:ColumnasCorrelacion" />
+							update="@form:ColumnasCorrelacion,@this" />
 					</p:inputText>
 					<p:message for="respuesta" />
 				</div>
@@ -40,7 +40,7 @@
 		</h:panelGroup>
 
 		<h:panelGroup id="correlacionColumnasPanelD">
-			<ui:repeat var="mrqsCorrelacionColumnaDerecha"
+			<ui:repeat var="mrqsCorrelacionColumnaDerecha" id="d"
 				value="#{updateFTAMrqForm.listMrqsCorrelacionRespuestas}">
 				<div class="ui-g-2 ui-g-nopad" style="margin-bottom: 5%;">
 					<p:commandButton id="eliminarRespuestaCorrectaBtn"
@@ -55,11 +55,11 @@
 					<p:inputText id="pregunta" style="width:80%;"
 						value="#{mrqsCorrelacionColumnaDerecha.textoRespuesta}"
 						required="true">
-						<p:ajax event="keyup"  delay="1000"
-							update=":UpdateReactivosForm:ColumnasCorrelacion" />
+						<p:ajax event="keyup"  delay="1000" update="@this"/>
 					</p:inputText>
 					<p:message for="pregunta" />
 				</div>
+				
 				<div class="ui-g-5 ui-g-nopad" style="margin-bottom: 5%;">
 					<p:selectOneMenu id="respuestasCorrectas" required="true" 
 						 value="#{mrqsCorrelacionColumnaDerecha.texto}"
@@ -67,7 +67,7 @@
 						
 							<p:ajax  event="change" 
 							listener="#{updateFTAMrqForm.asignarValor(mrqsCorrelacionColumnaDerecha)}"
-							update=":UpdateReactivosForm:ColumnasCorrelacion" />
+							update=":UpdateReactivosForm:ColumnasCorrelacion,@this" />
 						<f:selectItem itemLabel="Selecione respuesta correcta" id="first"
 							itemValue="#{mrqsCorrelacionColumnaDerecha.valorSeleccionado}"  /> 
 							
@@ -78,7 +78,7 @@
 							var="competitor" itemValue="#{competitor.textoRespuesta}" />
 						</p:selectOneMenu>
 				</div>
-
+			
 			</ui:repeat>
 			<div class="ui-g-12 ui-g-nopad">
 				<p:commandButton id="agregarPreguntaBtn"
