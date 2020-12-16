@@ -1,5 +1,6 @@
 package com.cmrise.ejb.backing.corecases.preview;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,8 +27,11 @@ import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasFtaV1;
 import com.cmrise.ejb.services.corecases.CcHdrLocal;
 import com.cmrise.ejb.services.corecases.CcOpcionMultipleLocal;
+import com.cmrise.ejb.services.corecases.CcPreguntasFtaSinonimosLocal;
 import com.cmrise.jpa.dto.corecases.CcOpcionMultipleDto;
+import com.cmrise.jpa.dto.corecases.CcPreguntasFtaSinonimos;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaSinonimos;
 import com.cmrise.utils.CorrelacionColumnasInsertException;
 import com.cmrise.utils.Utilitarios;
 
@@ -57,7 +61,7 @@ public class CoreCasePreviewForm {
 	private String metodoPuntuacion;
 	private String respuestaPreguntaSistema;
 	private int totalCorrectAnswers;
-	private long numetoFta;
+	private long numeroFta;
 	private boolean annotatedImage;
 
 	private String correctAnswers = "0 Respuesta(s) correctas";
@@ -73,7 +77,9 @@ public class CoreCasePreviewForm {
 	// private CcPreguntasFtaV1 ccPreguntasFtaV1ForRead = new CcPreguntasFtaV1();
 
 	private List<CcImagenesGrp> listPresentCcImagenesGrp = new ArrayList<CcImagenesGrp>();
-
+	private List<CcPreguntasFtaSinonimos> ccListaSinonimos = new ArrayList<CcPreguntasFtaSinonimos>();
+	@Inject
+	CcPreguntasFtaSinonimosLocal ccPreguntasFtaSinonimosLocal;
 	@Inject
 	CcHdrLocal ccHdrLocal;
 
@@ -90,7 +96,7 @@ public class CoreCasePreviewForm {
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		Object obNumeroCcHdr = session.getAttribute("NumeroCcHdrSV");
 		this.numeroCcHdr = Utilitarios.objToLong(obNumeroCcHdr);
-		refreshEntity(); /** Inicializa Objetos **/
+		refreshEntity(); /** Inicializa Objetos **/		
 		Object objNumeroCcPreguntaHdrSV = session.getAttribute("NumeroCcPreguntaHdrSV");
 		long longNumeroCcPreguntaHdrSV = Utilitarios.objToLong(objNumeroCcPreguntaHdrSV);
 		System.out.println("longNumeroCcPreguntaHdrSV:" + longNumeroCcPreguntaHdrSV);
@@ -116,6 +122,7 @@ public class CoreCasePreviewForm {
 		System.out.println("ccPreguntasFtaV1.isSingleAnswerMode():" + ccPreguntasFtaV1.isSingleAnswerMode());
 		if (Utilitarios.LIMIT_RESP_TEXTO_LIBRE.equals(ccPreguntasHdrV1.getTipoPregunta())) {
 			this.setLimitedFreeTextAnswer(true);
+			
 			this.setRespuestaPreguntaSistema(ccPreguntasFtaV1.getRespuestaCorrecta());
 		} else if (Utilitarios.OPCION_MULTIPLE.equals(ccPreguntasHdrV1.getTipoPregunta())) {
 			this.setMultipleChoice(true);
@@ -126,7 +133,7 @@ public class CoreCasePreviewForm {
 		this.setQuestionView(true);
 
 	}
-
+	
 	private void buscarPregunta() {
 		ccPreguntasHdrV1 = listCcPreguntasHdrV1.get(element == -1 ? 0 : element);
 		ccPreguntasFtaV1 = ccPreguntasHdrV1.getCcPreguntasFtaV1();
@@ -138,10 +145,11 @@ public class CoreCasePreviewForm {
 		System.out.println("Entra saveProceed");
 		this.setAnswerView(true);
 		if (this.isLimitedFreeTextAnswer()) {
-			if (this.getRespuestaPreguntaCandidato().equalsIgnoreCase(this.getRespuestaPreguntaSistema())) {
+			obtenerSinonimos();
+			if (this.getRespuestaPreguntaCandidato().equalsIgnoreCase(this.getRespuestaPreguntaSistema())  || validarSinonimos(getRespuestaPreguntaCandidato())) {
 				System.out.println("Respuesta Candidato es:" + this.getRespuestaPreguntaCandidato());
 				this.setCorrectAnswer(true);
-				this.setPuntuacion(1);
+				this.setPuntuacion(ccPreguntasFtaV1.getValorPuntuacion()!=null?Float.valueOf(ccPreguntasFtaV1.getValorPuntuacion()):1);
 			} else {
 				this.setWrongAnswer(true);
 				this.setPuntuacion(0);
@@ -284,9 +292,13 @@ public class CoreCasePreviewForm {
 			init();
 		return element < 0 ? "Preguntas-Update-CoreCase" : "#";
 	}
-
+    private void limpiar() {
+    	setMultipleChoice(false);
+    	setLimitedFreeTextAnswer(false);
+    	setRespuestaPreguntaCandidato("");
+    }
 	public String verPregunta() {
-
+		limpiar();
 		setVisualizacionPregunta(true);
 		setAnswerView(false);
 		element = element >= listCcPreguntasHdrV1.size() ? 0 : element + 1;
@@ -315,7 +327,21 @@ public class CoreCasePreviewForm {
 		saveProceed();
 		setAnswerView(true);
 	}
-
+	private void obtenerSinonimos() {
+		if(!Utilitarios.LIMIT_RESP_TEXTO_LIBRE.equals(ccPreguntasHdrV1.getTipoPregunta()))
+			return ;
+		ccListaSinonimos = ccPreguntasFtaSinonimosLocal.findByFta(ccPreguntasFtaV1.getNumero() );
+		
+		
+	}
+	private boolean validarSinonimos(String textoUsuario) {
+		Iterator<CcPreguntasFtaSinonimos> it=ccListaSinonimos.iterator();
+		while(it.hasNext()) {
+			if(textoUsuario.equalsIgnoreCase(it.next().getTextoSinonimo()))
+					return true;
+		}
+		return false;
+	}
 	public void asignarRespuesta(String query) {
 		setRespuestaPreguntaCandidato(query);
 	}
@@ -532,12 +558,12 @@ public class CoreCasePreviewForm {
 		this.totalCorrectAnswers = totalCorrectAnswers;
 	}
 
-	public long getNumetoFta() {
-		return numetoFta;
+	public long getNumeroFta() {
+		return numeroFta;
 	}
 
-	public void setNumetoFta(long numetoFta) {
-		this.numetoFta = numetoFta;
+	public void setNumeroFta(long numeroFta) {
+		this.numeroFta = numeroFta;
 	}
 
 	public String getRespuestaPreguntaSistema() {
@@ -564,4 +590,12 @@ public class CoreCasePreviewForm {
 		this.visualizacionPregunta = visualizacionPregunta;
 	}
 
+	public List<CcPreguntasFtaSinonimos> getCcListaSinonimos() {
+		return ccListaSinonimos;
+	}
+
+	public void setCcListaSinonimos(List<CcPreguntasFtaSinonimos> ccListaSinonimos) {
+		this.ccListaSinonimos = ccListaSinonimos;
+	}
+	
 }

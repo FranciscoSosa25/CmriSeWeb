@@ -36,10 +36,17 @@ public class CcOpcionMultipleDaoImpl implements CcOpcionMultipleDao {
 	@Override
 	public List<CcOpcionMultipleDto> findByNumeroFta(long pNumeroFta) {
 		String strQuery = "SELECT c FROM CcOpcionMultipleDto c WHERE c.numeroFta ="+pNumeroFta; 
+		
 		Query query = em.createQuery(strQuery); 
 		return query.getResultList();
 	}
-
+	@Override
+	public List<CcOpcionMultipleDto> findByNumeroFtaAleatorio(long pNumeroFta) {
+		String strQuery = "SELECT c FROM CcOpcionMultipleDto c WHERE c.numeroFta ="+pNumeroFta; 
+		strQuery+=" ORDER BY RAND(CHECKSUM(NEWID()))";
+		Query query = em.createQuery(strQuery); 
+		return query.getResultList();
+	}
 	@Override
 	public int correctOrWrongAnswer(long pNumero, long pNumetoFta) {
 		String strQuery = "SELECT COUNT(1)\r " + 
@@ -73,7 +80,7 @@ public class CcOpcionMultipleDaoImpl implements CcOpcionMultipleDao {
 						  "  WHERE MOM.[NUMERO_FTA] = "+pNumeroFta; 
 		
 	    if(pShuffleOrder) {
-	    	strQuery =strQuery+" ORDER BY NEWID()"; 
+	    	strQuery =strQuery.concat(" ORDER BY RAND(CHECKSUM(NEWID()))");
 	    }else {
 	    	strQuery =strQuery+" ORDER BY NUMERO_LINEA ASC"; 
 	    }

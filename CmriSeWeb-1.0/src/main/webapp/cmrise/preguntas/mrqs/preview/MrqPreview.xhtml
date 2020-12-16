@@ -147,17 +147,46 @@
 							<h:panelGroup layout="block"
 								rendered="#{mrqPreviewForm.limitedFreeTextAnswer and mrqPreviewForm.questionView}">
 								<div class="ui-g-12 ui-md-12">
+									<p:outputLabel for="answer" value="Límite de caracteres"
+										style="font-size: 24px;" />
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<p:outputLabel for="answer" value="#{mrqPreviewForm.limiteCaracteres}"
+										style="font-size: 24px;" />
+								</div>		
+								<div class="ui-g-12 ui-md-12">		
 									<p:outputLabel for="answer" value="Su Respuesta:"
 										style="font-size: 24px;" />
 									<p:inputTextarea id="answer" rows="10" cols="50"
 										style="width:98%;font-size: 24px;"
 										value="#{mrqPreviewForm.respuestaPreguntaCandidato}"
-										required="true"
+										onkeyup="value=specialCharacters(value)"
+										required="true" maxlength="#{mrqPreviewForm.limiteCaracteres ==null ?600: mrqPreviewForm.limiteCaracteres}"
 										requiredMessage="#{msgs['globalForm.requiredMessage']}">
-			    </p:inputTextarea>
-			    <p:message for="answer"  />
-			 </div>
-		    </h:panelGroup>
+
+									</p:inputTextarea>
+									<p:message for="answer" />
+								</div>
+							</h:panelGroup>
+							<script type="text/javascript">
+										//<![CDATA[ 
+											function specialCharacters(input){
+											   if(input==null)return input;
+									           var c=input.toLowerCase();									           
+									           c = c.replace(new RegExp("[àáâãäå]", 'g'),"a");
+									           c = c.replace(new RegExp("æ", 'g'),"ae");
+									           c = c.replace(new RegExp("ç", 'g'),"c");
+									           c = c.replace(new RegExp("[èéêë]", 'g'),"e");
+									           c = c.replace(new RegExp("[ìíîï]", 'g'),"i");                           
+									           c = c.replace(new RegExp("[òóôõö]", 'g'),"o");
+									           c = c.replace(new RegExp("œ", 'g'),"oe");
+									           c = c.replace(new RegExp("[ùúûü]", 'g'),"u");
+									           c = c.replace(new RegExp("[ýÿ]", 'g'),"y");
+									           c=c.toUpperCase();
+									           return c;
+										}
+										//]]>
+							   </script>
 
 							<h:panelGroup layout="block"
 								rendered="#{mrqPreviewForm.multipleChoice and mrqPreviewForm.questionView and mrqPreviewForm.singleAnswerMode}">
@@ -306,8 +335,22 @@
 									style="color: black; font-weight: bold;">
 									<p:outputLabel
 										value="#{mrqPreviewForm.respuestaPreguntaSistema}" />
-               </div>
-             </h:panelGroup>
+
+								</div>
+								<div class="ui-g-12 ui-md-12 xXinstructions">
+									<p:outputLabel rendered="#{updateFTAMrqForm.mrqsListaSinonimos.size()>0?true:false}"
+										value="Sinónimos:" />							
+								</div>
+								<ui:repeat var="mrqsSinonimo"
+									value="#{updateFTAMrqForm.mrqsListaSinonimos}">									
+								<div class="ui-g-12 ui-md-12 xXinstructions">
+									<p:outputLabel 
+										value="#{mrqsSinonimo.textoSinonimo}" />							
+								</div>
+								</ui:repeat>
+								
+							</h:panelGroup>
+
 
 							<h:panelGroup layout="block"
 								rendered="#{mrqPreviewForm.answerView and mrqPreviewForm.correctAnswer and mrqPreviewForm.multipleChoice}">
@@ -339,7 +382,7 @@
 		             </div>
 		      </div>
 
-									<ui:repeat var="mrqOpcionMultiple"
+									<ui:repeat var="mrqOpcionMultiple" 
 										value="#{mrqPreviewForm.listMrqsOpcionMultiple}">
 		             <div class="ui-g-12 ui-md-12">
 											<h:panelGroup layout="block"

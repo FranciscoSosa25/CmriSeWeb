@@ -29,7 +29,7 @@
 		<div class="ui-g-12 ui-md-12">
 			<p:selectOneRadio id="answerRadioSingleM"
 				value="#{coreCasePreviewForm.respuestaPreguntaCandidato}"
-				layout="grid" columns="1" required="true"
+				layout="grid" columns="1" required="#{coreCasePreviewForm.multipleChoice?true:false}"
 				requiredMessage="#{msgs['globalForm.requiredMessage']}">
 				<f:selectItems value="#{coreCasePreviewForm.listCcOpcionMultiple}"
 					var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}" />
@@ -44,7 +44,7 @@
 		<div class="ui-g-12 ui-md-12">
 			<p:selectManyCheckbox id="answerRadioMultiple"
 				value="#{coreCasePreviewForm.respuestasPreguntaCandidato}"
-				layout="pageDirection" layoutWidth="6"  columns="1" required="true"
+				layout="pageDirection" layoutWidth="6"  columns="1" required="#{coreCasePreviewForm.multipleChoice==true?true:false}"
 				requiredMessage="#{msgs['globalForm.requiredMessage']}">
 				<br/>
 				<f:selectItems value="#{coreCasePreviewForm.listCcOpcionMultiple}"

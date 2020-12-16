@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -54,6 +55,7 @@ import com.cmrise.ejb.services.mrqs.MrqsCorrelacionColumnasLocal;
 import com.cmrise.ejb.services.mrqs.MrqsListasPalabrasLocal;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
+import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaSinonimosLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
 import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
 import com.cmrise.jpa.dao.mrqs.MrqsCorrelacionColumnaPair;
@@ -62,7 +64,9 @@ import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasRespuestasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsListasPalabrasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaSinonimos;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
+import com.cmrise.jpa.dto.mrqs.img.MrqsImagenesDto;
 import com.cmrise.utils.CorrelacionColumnasInsertException;
 import com.cmrise.utils.Utilitarios;
 import com.cmrise.utils.UtilitariosLocal;
@@ -110,7 +114,7 @@ public class UpdateFTAMrqForm {
 	private List<MrqsCorrelacionColumnasRespuestasDto> listMrqsCorrelacionRespuestas = new ArrayList<MrqsCorrelacionColumnasRespuestasDto>();
 	private boolean panelCorrelacionColumnas;
 	private String respuestaCorrelacionColumnas="Respuesta: ";
-	private String textCorrelacionColumnas="Texto) ";
+	private String textCorrelacionColumnas="Texto ";
 	/************************************************************************
 	 * Archivos E Imagenes
 	 */
@@ -143,6 +147,7 @@ public class UpdateFTAMrqForm {
 	private String[] labels = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"}; 
 	private Boolean isRequired = true;
 	
+	private List<MrqsPreguntasFtaSinonimos> mrqsListaSinonimos= new ArrayList<MrqsPreguntasFtaSinonimos>();
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal;
 	
@@ -178,6 +183,9 @@ public class UpdateFTAMrqForm {
 	
 	@Inject 
 	MrqsCorrelacionColumnasLocal mrqsCorrelacionColumnasLocal;
+	
+	@Inject 
+	MrqsPreguntasFtaSinonimosLocal mrqsPreguntasFtaSinonimosLocal;
 	
 	@ManagedProperty(value="#{userLogin}")
 	private UserLogin userLogin; 
@@ -226,6 +234,7 @@ public class UpdateFTAMrqForm {
 		 mrqsPreguntasHdrV1ForAction = mrqsPreguntasHdrLocal.findV1ByNumero(this.numeroHdr);
 		 if(Utilitarios.RESP_TEXTO_LIBRE.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			 this.setLimitedFreeTextAnswer(true);
+			 obtenerSinonimos();
 		 }else if(Utilitarios.OPCION_MULTIPLE.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			 this.setMultipleChoice(true);
 			 initListMrqsOpcionMultiple(); 
@@ -540,7 +549,7 @@ public class UpdateFTAMrqForm {
 			  
 		   }
 		   
-			
+		    validarRespuestaUnica();
 			lNumeroFta = mrqsPreguntasFtaLocal.insert(mrqsPreguntasFtaV1ForAction); 
 			setNumeroFta(lNumeroFta);
 			
@@ -601,7 +610,7 @@ public class UpdateFTAMrqForm {
 					   mrqsPreguntasFtaV1ForAction.setCorrelaciones(gson.toJson(listRespCorrectReactCorImg));
 				   }
 			}
-			
+			validarRespuestaUnica();
 			mrqsPreguntasFtaLocal.update(lNumeroFta, mrqsPreguntasFtaV1ForAction); 
 			
 			for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
@@ -663,13 +672,26 @@ public class UpdateFTAMrqForm {
 		System.out.println("Entra UpdateFTAMrqForm Sale");
 		
 	}
+	private void validarRespuestaUnica() {
+		mrqsPreguntasFtaV1ForAction.setSingleAnswerMode(false);
+		long respuestaUnica=listMrqsOpcionMultiple.stream().filter(a->a.isEstatus()).count();
+	    if(Utilitarios.OPCION_MULTIPLE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta()) && respuestaUnica==1) {
+			mrqsPreguntasFtaV1ForAction.setSingleAnswerMode(true);
+		}
+	}
 	private long validarCorrelacionColumnas(long lNumeroFta) {
 		if(!Utilitarios.CORRELACION_COLUMNA.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta()))
 			return 1;		
 		 return insertarCorrelacionColumas(listMrqsCorrelacionColumnas, listMrqsCorrelacionRespuestas,lNumeroFta);
 			 
 		
-	}	
+	}
+	private long validarTextoLibre(long lNumeroFta) {
+		if(!Utilitarios.RESP_TEXTO_LIBRE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta()))
+			return 1;		
+		 return insertarSinonimos(mrqsListaSinonimos,lNumeroFta);
+			 
+	}
 	private void obtenerColumnasGuardadas() {
 		long id=mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(getNumeroHdr());
 		listMrqsCorrelacionColumnas = mrqsCorrelacionColumnasLocal.findByFta( id);
@@ -731,14 +753,28 @@ public class UpdateFTAMrqForm {
 		System.out.println("pMrqsImagenesGrp.getNumero():"+pMrqsImagenesGrp.getNumero());
 		mrqsImagenesGrpLocal.insert(pNumetoFta,pMrqsImagenesGrp);
 		System.out.println("pMrqsImagenesGrp.getNumero():"+pMrqsImagenesGrp.getNumero());
+		
 	}
-	
+	public void eliminar(MrqsImagenesGrp pMrqsImagenesGrp,MrqsImagenes item) {
+		if( item.getNumero()==0) {
+		List<MrqsImagenes> li=pMrqsImagenesGrp.getListMrqsImagenes();
+		li.remove(item);}
+		try {
+			mrqsImagenesGrpLocal.eliminarImagen(getNumeroFta(), pMrqsImagenesGrp, item);
+			init();
+		} catch (Exception e) {
+			limpiarMensajes();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, Utilitarios.ERROR_ELIMINAR, null));
+		}
+		
+	}
 	public String cancel() {
 		return "Preguntas-ManageNewMrqs"; 
 	}
 	
 	public String saveAndPreview() {
-		 update();		 
+		 update();	
+		 validarTextoLibre(getNumeroFta());
 		 if( validarCorrelacionColumnas(getNumeroFta())==-1)
 		 return "#";
 		 getGuestPreferences().setTheme("deep-purple");
@@ -926,7 +962,7 @@ public class UpdateFTAMrqForm {
 		            	presentacionImagen.setImagenContent(byteContent);
 		            	presentacionImagen.setImagenBase64(new String(Base64.getEncoder().encode(byteContent)));
 		            	presentacionImagen.setContentType(f.getContentType());
-		            	
+		            
 		        			StreamedContent streamedContent = DefaultStreamedContent.builder()
 		        		                                                            .contentType(f.getContentType())
 		        		                                                            .stream(() -> {
@@ -939,9 +975,13 @@ public class UpdateFTAMrqForm {
 		        		                                                              })
 		        		                                                             .build()
 		        		                                                             ;
+		        			
+		        			
+		        			
 		        		if(f.getContentType().contains("image")) {
 		        			presentacionImagen.setImagenStreamed(streamedContent);
 		        			presentacionImagen.setImage(true);
+		        			presentacionImagen.setImagen(cargarImagen(f));
 			        	}else if(f.getContentType().contains("video")) {
 			        		presentacionImagen.setVideo(true);
 			        		presentacionImagen.setVideoStreamed(streamedContent);
@@ -990,7 +1030,21 @@ public class UpdateFTAMrqForm {
     }
 	 * @throws IOException 
     **********************************************/
-	
+	private StreamedContent cargarImagen(UploadedFile f) {
+		StreamedContent file=null;
+		try {
+			byte contents[] = IOUtils.toByteArray(f.getInputStream());
+			 file = DefaultStreamedContent.builder()
+                    .name(f.getFileName())
+                    .contentType("application/octet-stream")
+                    .stream(() -> new ByteArrayInputStream(contents)).build();
+
+		} catch (IOException e) {
+			limpiarMensajes();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,Utilitarios.ERROR_CARGAR_IMAGEN, null));
+		}
+		return file;
+	}
 	public void handleFileUpload(FileUploadEvent event) throws IOException {
 		FacesMessage msg;
 		UploadedFile uploadedFile = event.getFile();
@@ -1070,6 +1124,10 @@ public class UpdateFTAMrqForm {
 		listMrqsCorrelacionColumnas.remove(item);	
 		
 	}
+	public void updateValorRespuesta(MrqsCorrelacionColumnasDto item) {
+		item.setTextoRespuesta(item.getTextoRespuesta());
+	}
+	
 	private <E> void deleteItem(E item) {		
 			try {
 				if(item instanceof MrqsCorrelacionColumnasDto)
@@ -1081,6 +1139,16 @@ public class UpdateFTAMrqForm {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, CorrelacionColumnasInsertException.ERROR_INSERTAR, null));
 			}
 	}
+	private  void deleteItemSinonimos(MrqsPreguntasFtaSinonimos item) {		
+		try {
+			
+			mrqsPreguntasFtaSinonimosLocal.deleteSinonimo(item);
+			
+		} catch (Exception e) {
+			limpiarMensajes();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, CorrelacionColumnasInsertException.ERROR_INSERTAR, null));
+		}
+}
 	public void eliminarRespuestaCorrecta(MrqsCorrelacionColumnasRespuestasDto item) {
 		if(item.getNumero()!=0)
 			deleteItem(item);
@@ -1096,6 +1164,12 @@ public class UpdateFTAMrqForm {
 			
 	
 	}	
+	public void limpiarRespuestaCorrecta() {
+		if(mrqsPreguntasFtaV1ForAction.getRespuestaCorrecta()!=null && mrqsPreguntasFtaV1ForAction.getLimiteCaracteres()!=null)
+		mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta(mrqsPreguntasFtaV1ForAction.getRespuestaCorrecta().length()>mrqsPreguntasFtaV1ForAction.getLimiteCaracteres()?
+				mrqsPreguntasFtaV1ForAction.getRespuestaCorrecta().substring(0, mrqsPreguntasFtaV1ForAction.getLimiteCaracteres()):
+					mrqsPreguntasFtaV1ForAction.getRespuestaCorrecta());
+	}
 	private boolean validarValoresAsignados(MrqsCorrelacionColumnasRespuestasDto item) {
 		
 		Iterator<MrqsCorrelacionColumnasRespuestasDto> it=listMrqsCorrelacionRespuestas.iterator();
@@ -1107,7 +1181,31 @@ public class UpdateFTAMrqForm {
 		}
 		return false;
 	}
+	public void eliminarSinonimo(MrqsPreguntasFtaSinonimos item) {
+		if(item.getNumero()!=0)
+			deleteItemSinonimos(item);
+		mrqsListaSinonimos.remove(item);	
 		
+	}
+	public void agregarSinonimo() {
+		mrqsListaSinonimos.add(new MrqsPreguntasFtaSinonimos("SINONIMO"));
+	}
+	private long insertarSinonimos(List<MrqsPreguntasFtaSinonimos> sinonimos,long lNumeroFta) {
+		try {
+			return mrqsPreguntasFtaSinonimosLocal.insert(sinonimos, lNumeroFta,mrqsPreguntasFtaV1ForAction.getTextoPregunta()!=null?mrqsPreguntasFtaV1ForAction.getTextoPregunta():"Texto pregunta");
+		} catch (Exception e) {
+			limpiarMensajes();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, CorrelacionColumnasInsertException.ERROR_INSERTAR, null));
+			return -1;
+		}	
+	}	
+	private void obtenerSinonimos() {
+		long id=mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(getNumeroHdr());
+		mrqsListaSinonimos = mrqsPreguntasFtaSinonimosLocal.findByFta( id);
+		
+		
+	}
+	
 	public MrqsPreguntasHdrV1 getMrqsPreguntasHdrV1ForAction() {
 		return mrqsPreguntasHdrV1ForAction;
 	}
@@ -1422,12 +1520,21 @@ public class UpdateFTAMrqForm {
 		this.panelCorrelacionColumnas = panelCorrelacionColumnas;
 	}
 
+
+	public List<MrqsPreguntasFtaSinonimos> getMrqsListaSinonimos() {
+		return mrqsListaSinonimos;
+	}
+
+	public void setMrqsListaSinonimos(List<MrqsPreguntasFtaSinonimos> mrqsListaSinonimos) {
+		this.mrqsListaSinonimos = mrqsListaSinonimos;
+	}
 	public Boolean getIsRequired() {
 		return isRequired;
 	}
 
 	public void setIsRequired(Boolean isRequired) {
 		this.isRequired = isRequired;
+
 	}
 
 	

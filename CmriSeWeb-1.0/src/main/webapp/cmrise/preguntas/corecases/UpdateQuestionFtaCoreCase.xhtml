@@ -362,7 +362,7 @@
 					</div>
 					<div class="ui-g-12 ui-md-9">
 						<p:selectOneMenu id="scoringValue"
-							value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.valorPuntuacion}"
+							value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.valorPuntuacion}"							
 							required="true"
 							requiredMessage="#{msgs['globalForm.requiredMessage']}">
 							<f:selectItems value="#{selectsHelper.selectScoringValueItems}" />
@@ -375,17 +375,88 @@
 					<div class="ui-g card">
 
 						<div class="ui-g-12 ui-md-3" style="text-align: right;">
+							<p:outputLabel for="limiteCaracteres"
+								value="Limite de caracteres" />
+						</div>
+						<div class="ui-g-12 ui-md-9" style="text-align: right;">
+							<p:inputText id="limiteCaracteres"
+								onkeypress="if( (event.which &lt; 48 || event.which &gt; 57) ) return false;"
+								value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.limiteCaracteres}"
+								style="width:100%"
+								requiredMessage="#{msgs['globalForm.requiredMessage']}">
+								<p:ajax event="blur" update="correctAnswer"
+									listener="#{updateQuestionFtaCoreCaseForm.limpiarRespuestaCorrecta()}"
+									process="@this" />
+							</p:inputText>
+							<p:message for="limiteCaracteres" />
+						</div>
+
+						<div class="ui-g-12 ui-md-3" style="text-align: right;">
 							<p:outputLabel for="correctAnswer" value="Respuesta Correcta" />
 						</div>
 						<div class="ui-g-12 ui-md-9" style="text-align: right;">
 							<p:inputText id="correctAnswer"
 								value="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.respuestaCorrecta}"
-								placeholder="Respuesta Correcta" maxlength="600"
-								style="width:100%" required="true"
-								requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+								placeholder="Respuesta Correcta" style="width:100%"
+								required="true"
+								requiredMessage="#{msgs['globalForm.requiredMessage']}"
+								onkeyup="value=specialCharacters(value)"
+								maxlength="#{updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.limiteCaracteres==null ?600: updateQuestionFtaCoreCaseForm.ccPreguntasFtaV1ForUpdate.limiteCaracteres }" />
 							<p:message for="correctAnswer" />
 						</div>
+						<div class="ui-g-12 ui-md-9" >
+						<h:panelGroup id="sinonimosPanel" >
+							<ui:repeat var="ccSinonimo"
+								value="#{updateQuestionFtaCoreCaseForm.ccListaSinonimos}">
+								<div class="ui-g-12 ui-md-4" style="text-align: right;">
+									<p:commandButton id="eliminarSinonimoBtn"
+										action="#{updateQuestionFtaCoreCaseForm.eliminarSinonimo(ccSinonimo)}"
+										update="createQuestionCoreCaseForm:sinonimosPanel" process="@this"
+										icon="pi pi-trash" style="width:50%;BackGround:#2D0D86;"
+										title="Eliminar">
+									</p:commandButton>
+								</div>
+								<div class="ui-g-12 ui-md-8" style="text-align: left;">
+									<p:inputText id="sinonimo"
+										onkeyup="value=specialCharacters(value)"
+										value="#{ccSinonimo.textoSinonimo}" required="true">
+										<p:ajax event="keyup"  delay="1000" update="@this"/>
+									</p:inputText>
+									<p:message for="sinonimo" />
+								</div>
+							</ui:repeat>
+						</h:panelGroup>
+						</div>
+						<div class="ui-g-12 ui-md-9" >
+						<div class="ui-g-12 ui-md-6" style="text-align: right;">
+							<p:commandButton id="agregarSinonimoBtn" process="@this"
+								value="Agregar sinonimo"
+								update="createQuestionCoreCaseForm:sinonimosPanel"
+								action="#{updateQuestionFtaCoreCaseForm.agregarSinonimo()}"
+								style="BackGround:#2D0D86;"></p:commandButton>
+						</div>
+						</div>
+						
 
+						<script type="text/javascript">
+										//<![CDATA[ 
+											function specialCharacters(input){
+											   if(input==null)return input;
+									           var c=input.toLowerCase();									          
+									           c = c.replace(new RegExp("[àáâãäå]", 'g'),"a");
+									           c = c.replace(new RegExp("æ", 'g'),"ae");
+									           c = c.replace(new RegExp("ç", 'g'),"c");
+									           c = c.replace(new RegExp("[èéêë]", 'g'),"e");
+									           c = c.replace(new RegExp("[ìíîï]", 'g'),"i");                           
+									           c = c.replace(new RegExp("[òóôõö]", 'g'),"o");
+									           c = c.replace(new RegExp("œ", 'g'),"oe");
+									           c = c.replace(new RegExp("[ùúûü]", 'g'),"u");
+									           c = c.replace(new RegExp("[ýÿ]", 'g'),"y");
+									           c=c.toUpperCase();
+									           return c;
+										}
+										//]]>
+							   </script>
 						<!-- 		     </div> -->
 
 
@@ -400,7 +471,7 @@
 					<!--          <h1>Pregunta de Opción Multiple</h1> -->
 					<div class="ui-g card">
 						<div class="ui-g-12 ui-md-12"></div>
-						<div class="ui-g-12 ui-md-3" style="text-align: right;">
+						<!--div class="ui-g-12 ui-md-3" style="text-align: right;">
 							<p:outputLabel for="scoringMethod" value="Método de puntuación" />
 						</div>
 						<div class="ui-g-12 ui-md-9">
@@ -411,9 +482,10 @@
 									value="#{updateQuestionFtaCoreCaseForm.selectScoringMethodItems}" />
 							</p:selectOneMenu>
 							<p:message for="scoringMethod" />
-						</div>
+						</div-->
 						<div class="ui-g-12 ui-md-3" style="text-align: right;">
-							<p:outputLabel for="scoringValueOpcion" value="Valor de puntuación" />
+							<p:outputLabel for="scoringValueOpcion"
+								value="Valor de puntuación" />
 						</div>
 						<div class="ui-g-12 ui-md-9">
 							<p:selectOneMenu id="scoringValueOpcion"
@@ -493,7 +565,7 @@
 							action="#{updateQuestionFtaCoreCaseForm.update()}" ajax="false" />
 					</div>
 					<div class="ui-g-12 ui-md-3" style="text-align: center">
-						<p:commandButton value=" Previsualizar" icon="fa fa-eye"
+						<p:commandButton value=" Previsualizar" icon="fa fa-eye" 
 							style="BackGround:#2D0D86;" update="createQuestionCoreCaseForm"
 							action="#{updateQuestionFtaCoreCaseForm.saveAndPreview()}" />
 					</div>

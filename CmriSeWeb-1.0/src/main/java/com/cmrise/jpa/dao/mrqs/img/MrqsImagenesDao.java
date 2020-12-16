@@ -14,4 +14,6 @@ public interface MrqsImagenesDao {
 
 	public List<MrqsImagenesDto> findByGrp(long pNumeroGrp); 
 	
+	public long eliminar(long numero,long pNumeroGrp) throws Exception;
+	
 }

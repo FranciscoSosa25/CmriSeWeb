@@ -47,7 +47,6 @@ public class UpdateCoreCaseForm {
 	private List<SelectItem> selectMateriasHdr = new ArrayList<SelectItem>();  
 	private List<SelectItem> selectSubMaterias = new ArrayList<SelectItem>(); 
 	
-
    private long numeroCcHdr;
 	private String estatus;
 	private Timestamp fechaActualizacion;
@@ -188,8 +187,20 @@ System.out.println("Entra deletePregunta");
       context.addMessage(null, new FacesMessage("Se actualizaron los datos correctamente", "Actualizacion correcta"));
 	  System.out.println("Sale Actualizar");
   }
-  
-	public String saveAndPreview() {	
+    private boolean validar() {
+    	ccHdrV1 = ccHdrLocal.findByNumeroObjMod(this.numeroCcHdr);
+		listCcPreguntasHdrV1 = ccHdrV1.getListCcPreguntasHdrV1();
+		if(listCcPreguntasHdrV1.isEmpty())
+			return false;
+		return true;
+    	
+    }
+	public String saveAndPreview() {
+		if(validar()==false) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, Utilitarios.ALERTA_PREGUNTAS_VACIO, null));
+			return "#"; 
+		}			
 		System.out.println("Entra SaveAndPreview");
 		 actualizar(); 
 		 getGuestPreferences().setTheme("deep-purple");

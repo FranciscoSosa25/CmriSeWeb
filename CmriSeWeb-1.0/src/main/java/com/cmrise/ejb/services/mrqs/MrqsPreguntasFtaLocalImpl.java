@@ -77,7 +77,7 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
         mrqsPreguntasFtaDto.setRespuestaCorrecta(pMrqsPreguntasFtaV1.getRespuestaCorrecta());
         mrqsPreguntasFtaDto.setNombreImagen(pMrqsPreguntasFtaV1.getNombreImagen());
         mrqsPreguntasFtaDto.setContentType(pMrqsPreguntasFtaV1.getContentType());
-        mrqsPreguntasFtaDto.setTextoPregunta(pMrqsPreguntasFtaV1.getValorPuntuacion());
+        mrqsPreguntasFtaDto.setTextoPregunta(pMrqsPreguntasFtaV1.getTextoPregunta());
         mrqsPreguntasFtaDto.setValorPuntuacion(pMrqsPreguntasFtaV1.getValorPuntuacion());
         mrqsPreguntasFtaDto.setTextoSugerencias(pMrqsPreguntasFtaV1.getTextoSugerencias());
         mrqsPreguntasFtaDto.setSingleAnswerMode(pMrqsPreguntasFtaV1.isSingleAnswerMode());
@@ -90,6 +90,7 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
         mrqsPreguntasFtaDto.setAnotaciones(pMrqsPreguntasFtaV1.getAnotaciones());
         mrqsPreguntasFtaDto.setRespuestas(pMrqsPreguntasFtaV1.getRespuestas());
         mrqsPreguntasFtaDto.setCorrelaciones(pMrqsPreguntasFtaV1.getCorrelaciones());
+        mrqsPreguntasFtaDto.setLimiteCaracteres(pMrqsPreguntasFtaV1.getLimiteCaracteres()!=null?pMrqsPreguntasFtaV1.getLimiteCaracteres() : pMrqsPreguntasFtaV1.getRespuestaCorrecta()!=null?pMrqsPreguntasFtaV1.getRespuestaCorrecta().length():0   );
         mrqsPreguntasFtaDao.insert(mrqsPreguntasFtaDto);
         pMrqsPreguntasFtaV1.setNumero(mrqsPreguntasFtaDto.getNumero());
 
@@ -169,7 +170,8 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
         revtal.setSuffleAnswerOrder(mrqsPreguntasFtaDto.isSuffleAnswerOrder());
         revtal.setMetodoPuntuacion(mrqsPreguntasFtaDto.getMetodoPuntuacion());
         revtal.setValorPuntuacion(mrqsPreguntasFtaDto.getValorPuntuacion());
-
+        if(mrqsPreguntasFtaDto.getLimiteCaracteres()!=null)
+        revtal.setLimiteCaracteres(mrqsPreguntasFtaDto.getLimiteCaracteres());
         if (Utilitarios.IMAGEN_INDICADA.equals(pTipoPregunta)) {
 
             try {
@@ -259,8 +261,11 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
         mrqsPreguntasFtaDto.setPoligonos(pMrqsPreguntasFtaV1.getPoligonos());
         mrqsPreguntasFtaDto.setWidth(pMrqsPreguntasFtaV1.getWidth());
         mrqsPreguntasFtaDto.setHeight(pMrqsPreguntasFtaV1.getHeight());
+        mrqsPreguntasFtaDto.setLimiteCaracteres(pMrqsPreguntasFtaV1.getLimiteCaracteres()!=null?pMrqsPreguntasFtaV1.getLimiteCaracteres() :pMrqsPreguntasFtaV1.getRespuestaCorrecta()!=null? pMrqsPreguntasFtaV1.getRespuestaCorrecta().length()   :0 );
+
         mrqsPreguntasFtaDto.setRespuestas(pMrqsPreguntasFtaV1.getRespuestas());
         mrqsPreguntasFtaDto.setCorrelaciones(pMrqsPreguntasFtaV1.getCorrelaciones());
+
         mrqsPreguntasFtaDao.update(pNumeroFta, mrqsPreguntasFtaDto);
 
         if (null != pMrqsPreguntasFtaV1.getNombreImagen() && !"".equals(pMrqsPreguntasFtaV1.getNombreImagen())) {

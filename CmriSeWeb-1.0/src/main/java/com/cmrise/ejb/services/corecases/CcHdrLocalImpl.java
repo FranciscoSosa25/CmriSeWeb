@@ -200,7 +200,8 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 	     	ccPreguntasFtaV1.setSuffleAnswerOrder(ccPreguntasFtaV1Dto.isSuffleAnswerOrder());
 	     	ccPreguntasFtaV1.setMetodoPuntuacion(ccPreguntasFtaV1Dto.getMetodoPuntuacion());
 	    	ccPreguntasFtaV1.setValorPuntuacion(ccPreguntasFtaV1Dto.getValorPuntuacion()); 
-	     	List<CcOpcionMultipleDto> listCcOpcionMultipleDto =  ccOpcionMultipleDao.findByNumeroFta(ccPreguntasFtaV1Dto.getNumero());
+	    	if(ccPreguntasFtaV1Dto.getLimiteCaracteres()!=null)ccPreguntasFtaV1.setLimiteCaracteres(ccPreguntasFtaV1Dto.getLimiteCaracteres());
+	     	List<CcOpcionMultipleDto> listCcOpcionMultipleDto =ccPreguntasFtaV1Dto.isSuffleAnswerOrder()==false?ccOpcionMultipleDao.findByNumeroFta(ccPreguntasFtaV1Dto.getNumero()):ccOpcionMultipleDao.findByNumeroFtaAleatorio(ccPreguntasFtaV1Dto.getNumero())  ;
 			if(null!=listCcOpcionMultipleDto) {
 				List<CcOpcionMultiple> listCcOpcionMultiple = new ArrayList<CcOpcionMultiple>(); 
 				 for(CcOpcionMultipleDto j:listCcOpcionMultipleDto) {
