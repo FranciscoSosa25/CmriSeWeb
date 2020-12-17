@@ -106,6 +106,8 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 		mrqsPreguntasFtaDto.setRespuestaCorrecta(copy.getRespuestaCorrecta());
 		mrqsPreguntasFtaDto.setFechaEfectivaDesde(copy.getFechaEfectivaDesde());
 		mrqsPreguntasFtaDto.setFechaEfectivaHasta(copy.getFechaEfectivaHasta());
+		mrqsPreguntasFtaDto.setCorrelaciones(copy.getCorrelaciones());
+		mrqsPreguntasFtaDto.setRespuestas(copy.getRespuestas());
 		em.persist(mrqsPreguntasFtaDto);
 		return lNumeroS.longValue();
 	}

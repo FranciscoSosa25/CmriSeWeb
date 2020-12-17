@@ -266,10 +266,12 @@
 	              <div class="ui-g-1">#{anotacion.nodo}</div>
 	              <div class="ui-g-11">
 											<p:selectOneMenu id="respuestaCorrelacionada" required="true"
-												requiredMessage="#{msgs['globalForm.requiredMessage']}">
+												requiredMessage="#{msgs['globalForm.requiredMessage']}"
+												value="#{mrqPreviewForm.respuestaSelect.value}">
 		            <f:selectItem itemLabel="Seleccione un Valor.." itemValue="" />
 												<f:selectItems
 													value="#{mrqPreviewForm.selectRespReactCorImg}" />
+													<p:ajax event="change" listener="#{mrqPreviewForm.agregarRespCandidato(status.index)}"/>
 		            </p:selectOneMenu>
 											<p:message for="respuestaCorrelacionada" />
 	              </div>
@@ -300,8 +302,12 @@
 							<h:panelGroup layout="block"
 								rendered="#{mrqPreviewForm.answerView}">
 								<div class="ui-g-12 ui-md-12 xXscores">
-									Puntuacíon:
-									<h:outputText value="#{mrqPreviewForm.puntuacion}" />
+									Valor de la pregunta:
+									<h:outputText value="#{mrqPreviewForm.puntuacion} puntos" />
+									Respuestas acertadas:
+									<h:outputText value="#{mrqPreviewForm.puntaje} puntos" />
+									Tú calificación:
+									<h:outputText value="#{mrqPreviewForm.calificacion} puntos" />
               </div>
               </h:panelGroup>
 
