@@ -572,7 +572,9 @@
                                                 onmousedown="point_it(event)">
                                             Elemento Canvase no soportado
                                         </canvas>-->
-
+										<p:inputText id="numeroPoligonos"
+											value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.poligonos}"
+											type="hidden" />
 										<div id="canvas-container" class="canvas-container"
 											style="visibility: #{empty updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.imagenBase64 ? 'hidden' : 'visible'}">
 											<div id="canvas-content" class="canvas-content"></div>
@@ -589,12 +591,15 @@
 										<script type="text/javascript">
 										//<![CDATA[ 
 											var clicks=0;
+											var poligonos=0;
 											$('#canvas-container').click(function(e){
 												clicks++;											   
 											    e.stopPropagation(); // Prevent bubbling
+											    
 											    if(clicks>=2){
-											    	document.getElementById("UpdateReactivosForm:coordinates").value = "X: "+ e.offsetX+ ", Y: "+ e.offsetY;
 											    	
+											    	document.getElementById("UpdateReactivosForm:coordinates").value = "X: "+ e.offsetX+ ", Y: "+ e.offsetY;
+											    
 											    }
 											  });
 									

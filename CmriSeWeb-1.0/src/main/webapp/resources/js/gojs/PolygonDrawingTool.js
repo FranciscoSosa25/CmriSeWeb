@@ -336,7 +336,10 @@ PolygonDrawingTool.prototype.finishShape = function() {
   console.log("polygonPoints : "+ polygonPoints)
   polygonPoints = [];
   console.log("polygoneList : "+ polygonList)
- 
+  if(poligonos!=null)
+{poligonos++;
+document.getElementById("UpdateReactivosForm:numeroPoligonos").value =poligonos;	
+}
   this.stopTool();  
   finishPolygon();
 };
