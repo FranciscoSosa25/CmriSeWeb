@@ -146,7 +146,7 @@ public class UpdateFTAMrqForm {
 	private int idxLabels = 0; 
 	private String[] labels = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"}; 
 	private Boolean isRequired = true;
-	
+	private int puntos;
 	private List<MrqsPreguntasFtaSinonimos> mrqsListaSinonimos= new ArrayList<MrqsPreguntasFtaSinonimos>();
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal;
@@ -358,11 +358,22 @@ public class UpdateFTAMrqForm {
 		this.selectScoringMethodItems = new ArrayList<SelectItem>();
 		List<TablasUtilitariasValoresDto> listScoringMethodValores =  tablasUtilitariasValoresLocal.findByTipoTabla("SCORING_METHOD");  
 		Iterator<TablasUtilitariasValoresDto> iterScoringMethodValores = listScoringMethodValores.iterator(); 
-		if("OPCION_MULTIPLE".equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())||Utilitarios.CORRELACION_COLUMNA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
+		if("OPCION_MULTIPLE".equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			while(iterScoringMethodValores.hasNext()) {
 				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
 				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
 				  ||"PROP_SCORING".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+					) {
+					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+					this.selectScoringMethodItems.add(selectItem); 	
+				  }
+			}	
+		}
+		
+		if(Utilitarios.CORRELACION_COLUMNA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
+			while(iterScoringMethodValores.hasNext()) {
+				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
+				if("PROP_SCORING".equals(tablasUtilitariasValoresDto.getCodigoTabla())
 					) {
 					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
 					this.selectScoringMethodItems.add(selectItem); 	
@@ -384,7 +395,7 @@ public class UpdateFTAMrqForm {
 		if(Utilitarios.IMAGEN_INDICADA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			while(iterScoringMethodValores.hasNext()) {
 				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
-				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+				if("PROP_SCORING".equals(tablasUtilitariasValoresDto.getCodigoTabla())
 				 	) {
 					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
 					this.selectScoringMethodItems.add(selectItem); 	
@@ -1054,13 +1065,15 @@ public class UpdateFTAMrqForm {
 		int width = bi.getWidth();
 		int height = bi.getHeight();
 		System.out.println("Width: " + width + ", height: " + height);
-		
+		if(width<=500 || height<=500) {
+			msg = new FacesMessage("El archivo", event.getFile().getFileName() + " no se ha sido subido. El tamaño mínimo  es 500x500");
+		}else {
 			msg = new FacesMessage("El archivo", event.getFile().getFileName() + " ha sido subido.");
 			mrqsPreguntasFtaV1ForAction.setNombreImagen(uploadedFile.getFileName());
 			mrqsPreguntasFtaV1ForAction.setContentType(uploadedFile.getContentType());
 			mrqsPreguntasFtaV1ForAction.setImagenContent(uploadedFile.getContent());
 			mrqsPreguntasFtaV1ForAction.setImagenBase64(new String(Base64.getEncoder().encode(uploadedFile.getContent())));
-		
+		}
         FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	

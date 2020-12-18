@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function point_it(event) {
 	
     val=val+1;
-    var sc=document.getElementById("previewForm:score").value;  
+    var sc=parseInt(document.getElementById("previewForm:numeroPoligonos").value);  
     if(val <= 0){    
     paintingCanvasID = document.getElementById("paintingCanvas");
     ctx = paintingCanvasID.getContext("2d");

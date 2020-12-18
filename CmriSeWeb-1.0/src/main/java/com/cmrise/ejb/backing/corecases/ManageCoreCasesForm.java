@@ -1,9 +1,11 @@
 package com.cmrise.ejb.backing.corecases;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -18,6 +20,7 @@ import com.cmrise.ejb.model.admin.AdmonExamenHdr;
 import com.cmrise.ejb.model.admin.AdmonMateriaHdr;
 import com.cmrise.ejb.model.admin.AdmonSubMateria;
 import com.cmrise.ejb.model.corecases.CcHdrV1;
+import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
 import com.cmrise.ejb.services.admin.AdmonExamenHdrLocal;
 import com.cmrise.ejb.services.admin.AdmonMateriaHdrLocal;
 import com.cmrise.ejb.services.admin.AdmonSubMateriaLocal;
@@ -111,7 +114,30 @@ public class ManageCoreCasesForm {
 		retval = "Preguntas-Update-CoreCase";
 		return retval; 
 	}
+	 private boolean validar(CcHdrV1 pCcHdrV1) {
+		 CcHdrV1 ccHdrV1 = ccHdrLocal.findByNumeroObjMod(pCcHdrV1.getNumero());
+		 List<CcPreguntasHdrV1> listCcPreguntasHdrV1 = ccHdrV1.getListCcPreguntasHdrV1();
+			if(listCcPreguntasHdrV1.isEmpty())
+				return false;
+			return true;
+	    	
+	    }
+
+		private void limpiarMensajes() {
+			FacesContext context = FacesContext.getCurrentInstance();
+			Iterator<FacesMessage> it = context.getMessages();
+			while (it.hasNext()) {
+				it.next();
+				it.remove();
+			}
+		}
 	public String view(CcHdrV1 pCcHdrV1) {
+		if(validar(pCcHdrV1)==false) {		
+			limpiarMensajes();
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, Utilitarios.ALERTA_PREGUNTAS_VACIO, null));
+			return "#"; 
+		}
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest();
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
