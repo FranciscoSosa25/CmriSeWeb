@@ -1099,7 +1099,6 @@ public class UpdateFTAMrqForm {
 		listRespCorrectReactCorImg.remove(id);
 		idxLabels--;
 		for(RespCorrectReactCorImg i: listRespCorrectReactCorImg) {
-			System.out.println("así va el ordern po: "+labels[contador]);
 			i.setNodo(" "+labels[contador]);
 			contador++;
 		}
