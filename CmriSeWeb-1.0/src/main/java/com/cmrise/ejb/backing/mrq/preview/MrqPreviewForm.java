@@ -98,6 +98,12 @@ public class MrqPreviewForm {
 	private String indicateImageResult;
 	private Integer limiteCaracteres;
 	private List<MrqsPreguntasFtaSinonimos> mrqsListaSinonimos= new ArrayList<MrqsPreguntasFtaSinonimos>();
+	
+	private int puntaje;
+	private float calificacion; 
+	private List<SelectItem> listRespuestasCandImg = new ArrayList<SelectItem>();
+	private SelectItem respuestaSelect = new SelectItem();
+	
 	@Inject 
 	MrqsPreguntasFtaSinonimosLocal mrqsPreguntasFtaSinonimosLocal;
 	@Inject 
@@ -113,7 +119,8 @@ public class MrqPreviewForm {
 	MrqsImagenesGrpLocal mrqsImagenesGrpLocal;
 	
 	@ManagedProperty(value="#{guestPreferences}")
-	GuestPreferences guestPreferences; 
+	GuestPreferences guestPreferences;
+	
 	
 	
 	@PostConstruct
@@ -178,7 +185,7 @@ public class MrqPreviewForm {
              }
              if(null!=mrqsPreguntasFtaV1ForRead.getAnotaciones()) {
             	 Type collectionType = new TypeToken<List<AnotacionesCorImg>>(){}.getType();
-            	 listAnotacionesCorImg = gson.fromJson(mrqsPreguntasFtaV1ForRead.getAnotaciones(), collectionType); 
+            	 listAnotacionesCorImg = gson.fromJson(mrqsPreguntasFtaV1ForRead.getCorrelaciones(), collectionType); 
              }
 	     }
 	     
@@ -233,7 +240,12 @@ public class MrqPreviewForm {
 
 			//this.setPuntuacion(0);
 		}
+	  	
 	  }
+	  else if (this.isAnnotatedImage()) {
+			evaluateAnnotatedImage();
+		}
+	  
 	  comprobarRespuestasCorrelacionColumnas();
 	  System.out.println("Sale saveProceed");	
 	}
@@ -341,7 +353,34 @@ public class MrqPreviewForm {
 	  this.setWrongAnswers(countWrongAnswers+" Respuesta(s) incorrectas"); 
 	  
 	}
-
+	
+	public void evaluateAnnotatedImage() {
+		int contador = 0;
+		puntaje = 0;
+		
+		System.out.println("valor puntuacion "+puntuacion);
+		for(SelectItem i: listRespuestasCandImg)
+		{
+			System.out.println("value: "+this.listRespuestasCandImg.get(contador).getValue());
+			System.out.println("numeroRespuesta"+this.listAnotacionesCorImg.get(contador).getNumeroRespuesta());
+			System.out.println("contador "+ contador);
+			if(Integer.parseInt((String) i.getValue()) == this.listAnotacionesCorImg.get(contador).getNumeroRespuesta()) {
+				puntaje++;
+			}
+			contador++;
+		}
+		calificacion = puntuacion/listRespuestasCandImg.size() * puntaje;
+		System.out.println("respuestas correctas totales: "+ puntaje);
+		System.out.println("valor al evaluar: "+ calificacion);
+	}
+	
+	public void agregarRespCandidato(int index) {
+		SelectItem nuevaRespuesta = new SelectItem();
+		nuevaRespuesta.setValue(respuestaSelect.getValue());
+		listRespuestasCandImg.set(index, nuevaRespuesta);
+		System.out.println("Sale agregarRespCandidato");
+	}
+	
 	public String skip() {
 		guestPreferences.setTheme(Utilitarios.DEFAULT_THEME);
 		FacesContext context = FacesContext.getCurrentInstance(); 
@@ -355,8 +394,11 @@ public class MrqPreviewForm {
 	}
 	
 	private void refreshRespuestas() {
+		//para inicializar la lista de respuestas a evaluar se inicializa listRespuestasCandImg
+		SelectItem e = new SelectItem();
 		selectRespReactCorImg = new ArrayList<SelectItem>(); 
 		for(RespReactCorImg i:listRespReactCorImg) {
+		     listRespuestasCandImg.add(e);
 			SelectItem selectItem = new SelectItem(i.getNumero(),i.getRespuesta()); 
 			selectRespReactCorImg.add(selectItem); 
 		}
@@ -718,6 +760,38 @@ public class MrqPreviewForm {
 
 	public void setLimiteCaracteres(Integer limiteCaracteres) {
 		this.limiteCaracteres = limiteCaracteres;
+	}
+
+	public int getPuntaje() {
+		return puntaje;
+	}
+
+	public void setPuntaje(int puntaje) {
+		this.puntaje = puntaje;
+	}
+
+	public float getCalificacion() {
+		return calificacion;
+	}
+
+	public void setCalificacion(float calificacion) {
+		this.calificacion = calificacion;
+	}
+
+	public List<SelectItem> getListRespuestasCandImg() {
+		return listRespuestasCandImg;
+	}
+
+	public void setListRespuestasCandImg(List<SelectItem> listRespuestasCandImg) {
+		this.listRespuestasCandImg = listRespuestasCandImg;
+	}
+
+	public SelectItem getRespuestaSelect() {
+		return respuestaSelect;
+	}
+
+	public void setRespuestaSelect(SelectItem respuestaSelect) {
+		this.respuestaSelect = respuestaSelect;
 	}
 	
 	
