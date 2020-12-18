@@ -240,7 +240,7 @@ public class MrqPreviewForm {
 	private void comprobarRespuestasCorrelacionColumnas() {
 		if(Utilitarios.CORRELACION_COLUMNA.equals(getTipoPregunta())){
 		Iterator<MrqsCorrelacionColumnasRespuestasDto> lista=	listMrqsCorrelacionColumnasRespuestasDto.iterator();
-	    float valorItem=Utilitarios.CORRELACION_COLUMNA_VALOR_REACTIVO/listMrqsCorrelacionColumnasRespuestasDto.size();
+	    float valorItem=getPuntuacion()/listMrqsCorrelacionColumnasRespuestasDto.size();
 		int respuestasCorrectas=0;		
 		float puntuacion=0.0f;
 		while(lista.hasNext()) {
