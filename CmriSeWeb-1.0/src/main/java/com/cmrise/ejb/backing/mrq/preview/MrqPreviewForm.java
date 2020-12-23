@@ -7,15 +7,22 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.fileupload.RequestContext;
+import org.primefaces.shaded.json.JSONArray;
+import org.primefaces.shaded.json.JSONObject;
 
 import com.cmrise.ejb.helpers.GuestPreferences;
 import com.cmrise.ejb.model.mrqs.AnotacionesCorImg;
@@ -38,8 +45,12 @@ import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaSinonimos;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
 import com.cmrise.utils.Utilitarios;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
+import org.primefaces.PrimeFaces;
+import org.primefaces.context.PrimeRequestContext;
 @ManagedBean
 @ViewScoped
 public class MrqPreviewForm {
@@ -118,6 +129,7 @@ public class MrqPreviewForm {
 	
 	@PostConstruct
 	public void init() {
+		
         System.out.println("Entra MrqPreviewForm init()");
 		 FacesContext context = FacesContext.getCurrentInstance(); 
 		 System.out.println("Entra context ()"+ context);
@@ -167,7 +179,7 @@ public class MrqPreviewForm {
 	     mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(mrqsPreguntasHdrV2Dto.getNumeroMpf()
 																	             ,mrqsPreguntasHdrV2Dto.getTipoPregunta()
 																	             );
-	     
+	     System.out.println(mrqsPreguntasFtaV1ForRead.getRespuestas());
 	     
 	     if(Utilitarios.IMAGEN_ANOTADA.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
 	    	 Gson gson = new Gson();
@@ -203,9 +215,23 @@ public class MrqPreviewForm {
         	listMrqsOpcionMultiple.add(mrqsOpcionMultiple); 
         }
 	}
-
+    private void validarPuntosUsuario() {
+    	 limpiarMensajes();
+   	  if( (getRespuestaPreguntaCandidato().isEmpty()|| getRespuestaPreguntaCandidato()==null)  ) {
+   		
+   		  PrimeRequestContext context = PrimeRequestContext.getCurrentInstance();   		 
+   		  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, Utilitarios.ERROR_PUNTOS_USUARIO, null));
+   		  
+			
+			PrimeFaces.current().executeScript("location.reload();");
+		
+   		
+   		  return;
+   	  }
+    }
 	public void  saveProceed() {
 	  System.out.println("Entra saveProceed");	
+	  validarPuntosUsuario();
 	  this.setAnswerView(true);
 	  if(this.isLimitedFreeTextAnswer()) {
 		  if(this.getRespuestaPreguntaCandidato().equalsIgnoreCase(this.getRespuestaPreguntaSistema()) || validarSinonimos(getRespuestaPreguntaCandidato())) {
@@ -222,20 +248,37 @@ public class MrqPreviewForm {
 			  evaluateNotIsSingleAnswerMode(listMrqsOpcionMultiple);
 		  }
 	  } else if (this.isIndicateImage()) {
-
-	  	if (Boolean.valueOf(this.getIndicateImageResult())) {
-
+		  
+		 
+		 int puntuacion= Integer.valueOf(mrqsPreguntasFtaV1ForRead.getValorPuntuacion());
+		 int poligonos=Integer.valueOf(mrqsPreguntasFtaV1ForRead.getPoligonos());
+		 String coordenadasPoligonos=mrqsPreguntasFtaV1ForRead.getRespuestas();
+		 String coordenadasUsuario=getRespuestaPreguntaCandidato();
+		 int ancho=mrqsPreguntasFtaV1ForRead.getWidth();
+		 Poligonos ob= new Poligonos();
+		 double puntuacionR=ob.obtenerPuntuacion(puntuacion,poligonos,ancho,coordenadasUsuario,coordenadasPoligonos);
+		 
+	  	if (puntuacionR>0) {
+	  		setPuntuacion((float)puntuacionR);
 			this.setCorrectAnswer(true);
 
 		} else {
 
 			this.setWrongAnswer(true);
 
-			//this.setPuntuacion(0);
+			this.setPuntuacion(0);
 		}
 	  }
 	  comprobarRespuestasCorrelacionColumnas();
 	  System.out.println("Sale saveProceed");	
+	}
+	private void limpiarMensajes() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		Iterator<FacesMessage> it = context.getMessages();
+		while ( it.hasNext() ) {
+		    it.next();
+		    it.remove();
+		}
 	}
 	private void comprobarRespuestasCorrelacionColumnas() {
 		if(Utilitarios.CORRELACION_COLUMNA.equals(getTipoPregunta())){
