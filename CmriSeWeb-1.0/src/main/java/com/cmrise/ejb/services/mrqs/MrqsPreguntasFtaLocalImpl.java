@@ -201,7 +201,7 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
                 System.out.println("IOException MrqsPreguntasFtaLocalImpl findObjModByNumeroFta ImageIO.read:" + e.getMessage());
                 readImage = null;
             }
-
+            revtal.setRespuestas(mrqsPreguntasFtaDto.getRespuestas());
         } else if (Utilitarios.IMAGEN_ANOTADA.equals(pTipoPregunta)) {
 
             try {

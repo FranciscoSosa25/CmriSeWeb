@@ -86,7 +86,7 @@
 	<ui:define name="content">
 		<h1>Previsualización de Reactivo</h1>
 		<h:form id="previewForm">
-			<p:growl id="growl" showDetail="true" life="5000" />
+			<p:growl id="growl" widgetVar="growl" showDetail="true" life="5000" />
 			<p:inputText id="tipoReactivo" value="#{mrqPreviewForm.tipoPregunta}"
 				type="hidden" />
 			<div class="ui-g card">
@@ -243,15 +243,15 @@
 										value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.valorPuntuacion}" />
 									<p:inputText id="numeroPoligonos"
 										value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.poligonos}" type="hidden"/>
-									<h:graphicImage id="graphicImageImgSen"
+									<h:graphicImage id="graphicImageImgSen" style="display:none;"
 										value="data:#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.contentType};base64,#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.imagenBase64}"
-										style="display:none;" />
+										rendered="#{mrqPreviewForm.indicateImage and mrqPreviewForm.questionView}"  />
 									<p:inputText id="coordinates"
 										value="#{mrqPreviewForm.respuestaPreguntaCandidato}"
 										type="hidden" />
 									<canvas id="paintingCanvas" style="cursor: crosshair"
 										onmousedown="point_it(event)">
-			         Elemento Canvase no soportado
+			        
 			      </canvas>
 								</div>
 							</h:panelGroup>
@@ -267,7 +267,7 @@
 										type="hidden" />
 									<h:graphicImage id="graphicImageImgCor"
 										value="data:#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.contentType};base64,#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.imagenBase64}"
-										style="display:none;" />
+										style="display:none;" rendered="#{mrqPreviewForm.annotatedImage and mrqPreviewForm.questionView}"/>
 									<h:panelGroup id="imgCorDiv" layout="block"
 										style="width:400px; height:150px; background-color: #DAE4E4;">
 									</h:panelGroup>
@@ -453,10 +453,10 @@
 							</h:panelGroup>
 
 							<div class="ui-g-12 ui-md-12">
-								<p:commandButton value="Siguiente" update="previewForm"
+								<p:commandButton value="Siguiente"  update="previewForm"
 									style="margin-left:15px; background: #2d0d86;"
 									actionListener="#{mrqPreviewForm.saveProceed()}"
-									rendered="#{mrqPreviewForm.questionView}"
+									rendered="#{mrqPreviewForm.questionView}" 
 									oncomplete="handleUpdateRequest(xhr, status, args)" />
 								<p:commandButton value="Continuar" immediate="true"
 									style="margin-left:15px; background: #2d0d86;"

@@ -565,7 +565,7 @@
 											type="hidden" />
 										<p:inputText id="coordinatesMouseMove" type="hidden" />
 										<p:inputText id="coordinates"
-											value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.poligonos}"
+											value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.respuestas}"
 											placeholder="Coordenadas" maxlength="1000" style="width:100%"
 											required="true"
 											requiredMessage="No se han agregado polígonos" type="hidden" />
@@ -599,7 +599,8 @@
 											    
 											    if(clicks>=2){
 											    	
-											    	document.getElementById("UpdateReactivosForm:coordinates").value = "X: "+ e.offsetX+ ", Y: "+ e.offsetY;
+											    	document.getElementById("UpdateReactivosForm:coordinates").value = JSON.stringify(polygonList);
+											    		//"X: "+ e.offsetX+ ", Y: "+ e.offsetY;
 											    
 											    }
 											  });
