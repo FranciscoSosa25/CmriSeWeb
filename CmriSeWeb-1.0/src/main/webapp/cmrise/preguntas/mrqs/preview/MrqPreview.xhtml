@@ -243,15 +243,15 @@
 										value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.valorPuntuacion}" />
 									<p:inputText id="numeroPoligonos"
 										value="#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.poligonos}" type="hidden"/>
-									<h:graphicImage id="graphicImageImgSen"
+									<h:graphicImage id="graphicImageImgSen" style="display:none;"
 										value="data:#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.contentType};base64,#{mrqPreviewForm.mrqsPreguntasFtaV1ForRead.imagenBase64}"
-										rendered="true"  style="display:none;"/>
+										rendered="#{mrqPreviewForm.indicateImage and mrqPreviewForm.questionView}"  />
 									<p:inputText id="coordinates"
 										value="#{mrqPreviewForm.respuestaPreguntaCandidato}"
 										type="hidden" />
 									<canvas id="paintingCanvas" style="cursor: crosshair"
 										onmousedown="point_it(event)">
-			         Elemento Canvase no soportado
+			        
 			      </canvas>
 								</div>
 							</h:panelGroup>
