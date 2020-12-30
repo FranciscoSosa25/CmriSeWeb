@@ -1,5 +1,6 @@
 package com.cmrise.jpa.dao.admin;
 
+import java.util.Date;
 import java.util.List;
 
 import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesDto;
@@ -27,5 +28,6 @@ public interface AdmonUsuariosRolesDao {
 											        ,String pContrasenia
 											        ); 
 
- 
+ public List<Object> findCandidateNotExam(String cCurp, String cNombre, String c_aPaterno, 
+			String c_aMaterno, String actPor, String fechaActu, long   pNumeroExamen, String pTipoExamen);
 }

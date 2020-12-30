@@ -56,6 +56,14 @@ public class CreateMrqsCandidatesForm {
 	    private String estado; 
 	    private String sedeHospital; 
 	    private String errorCaptura;
+	    ///*****Variables filtro*****///
+	    private String findCurp;
+	    private String findNombre;
+	    private String findAPaterno;
+	    private String findAMaterno;
+	    private String findNombreActPor;
+	    private String findFechaAct;
+	    
 		private AdmonUsuarios admonUsuariosForAction = new AdmonUsuarios();
 	    
 		@ManagedProperty(value="#{userLogin}")
@@ -84,7 +92,7 @@ public class CreateMrqsCandidatesForm {
 			 while(itertAAdmonUsuariosRolesV1Dto.hasNext()) {
 				AdmonUsuariosRolesV1Dto admonUsuariosRolesV1Dto = itertAAdmonUsuariosRolesV1Dto.next(); 
 				AdmonUsuarios admonUsuarios = new AdmonUsuarios();
-				long idUsuarioQueModifico;
+
 				System.out.println("Entra admonUsuarios");
 				admonUsuarios.setNumero(admonUsuariosRolesV1Dto.getNumeroUsuario());
 				System.out.println("admonCandidatosV1.getNumeroRol()");
@@ -104,17 +112,14 @@ public class CreateMrqsCandidatesForm {
 				admonUsuarios.setEstado(admonUsuariosRolesV1Dto.getEstado());
 				admonUsuarios.setSedeHospital(admonUsuariosRolesV1Dto.getSedeHospital());
 				admonUsuarios.setNumeroRol(admonUsuariosRolesV1Dto.getNumeroRol());
-				//admonUsuarios.setNombreRol(admonUsuariosRolesV1Dto.getNombreRol());
-				
-				//admonUsuarios.setActualizadoPorName(admonUsuariosLocal.findName(admonUsuariosRolesV1Dto.getActualizadoPor()));
-				
-				idUsuarioQueModifico = admonUsuariosLocal.selectUsuario((admonUsuariosRolesV1Dto.getNumeroUsuario())).getActualizadoPor();
-				AdmonUsuariosDto usrQueModifico = admonUsuariosLocal.selectUsuario(idUsuarioQueModifico);
-				if(usrQueModifico != null)
-					admonUsuarios.setActualizadoPorName(usrQueModifico.getNombre() + " " + usrQueModifico.getApellidoPaterno() + " " + usrQueModifico.getApellidoMaterno());
+
+				if(admonUsuariosRolesV1Dto.getNombreActPor() != null)
+					admonUsuarios.setActualizadoPorName(admonUsuariosRolesV1Dto.getNombreActPor());
 				else
 					admonUsuarios.setActualizadoPorName("No disponible");
-
+				
+				admonUsuarios.setFechaActualizacion(admonUsuariosRolesV1Dto.getFechaActualizacion());
+				admonUsuarios.setFechaActString(admonUsuariosRolesV1Dto.getFechaActualizacion());	
 				System.out.println("admonCandidatosV1.getCorreoElectronico()");
 				System.out.println("admonCandidatosV1.getCurp()");
 				System.out.println("Sale admonCandidatos");
@@ -220,23 +225,18 @@ public class CreateMrqsCandidatesForm {
 		public long getNumeroRol() {
 			return numeroRol;
 		}
-
 		public void setNumeroRol(long numeroRol) {
 			this.numeroRol = numeroRol;
 		}
-
 		public long getNumeroUsuario() {
 			return numeroUsuario;
 		}
-
 		public void setNumeroUsuario(long numeroUsuario) {
 			this.numeroUsuario = numeroUsuario;
 		}
-
 		public String getNombre() {
 			return nombre;
 		}
-
 		public void setNombre(String nombre) {
 			this.nombre = nombre;
 		}
@@ -282,11 +282,9 @@ public class CreateMrqsCandidatesForm {
 		public void setEstado(String estado) {
 			this.estado = estado;
 		}
-
 		public List<AdmonUsuariosRolesV1Dto> getListAdmonUsuariosRolesV1Dto() {
 			return listAdmonUsuariosRolesV1Dto;
 		}
-
 		public void setListAdmonUsuariosRolesV1(List<AdmonUsuariosRolesV1Dto> listAdmonUsuariosRolesV1Dto) {
 			this.listAdmonUsuariosRolesV1Dto = listAdmonUsuariosRolesV1Dto;
 		}
@@ -452,4 +450,105 @@ public class CreateMrqsCandidatesForm {
 	        java.sql.Date fecha = new java.sql.Date(parsed.getTime());        
 	        return fecha;
 		}
+
+		public String getFindCurp() {
+			return findCurp;
+		}
+
+		public void setFindCurp(String findCurp) {
+			this.findCurp = findCurp;
+		}
+
+		public String getFindNombre() {
+			return findNombre;
+		}
+
+		public void setFindNombre(String findNombre) {
+			this.findNombre = findNombre;
+		}
+
+		public String getFindAPaterno() {
+			return findAPaterno;
+		}
+
+		public void setFindAPaterno(String findAPaterno) {
+			this.findAPaterno = findAPaterno;
+		}
+
+		public String getFindAMaterno() {
+			return findAMaterno;
+		}
+
+		public void setFindAMaterno(String findAMaterno) {
+			this.findAMaterno = findAMaterno;
+		}
+
+		public String getFindNombreActPor() {
+			return findNombreActPor;
+		}
+
+		public void setFindNombreActPor(String findNombreActPor) {
+			this.findNombreActPor = findNombreActPor;
+		}
+
+		public String getFindFechaAct() {
+			return findFechaAct;
+		}
+
+		public void setFindFechaAct(String findFechaAct) {
+			this.findFechaAct = findFechaAct;
+		}
+		
+		 public void findCandidateBy() {
+	    	 List<AdmonUsuariosRolesV1Dto> listAdmonUsuariosRolesV1Dto = admonUsuariosLocal.findCandidateBy(this.getFindCurp(), this.getFindNombre(), this.getFindAPaterno(), this.getFindAMaterno(), this.getFindNombreActPor(), this.getFindFechaAct()); 
+			 Iterator<AdmonUsuariosRolesV1Dto> itertAAdmonUsuariosRolesV1Dto = listAdmonUsuariosRolesV1Dto.iterator();
+			 listAdmonUsuarios = new ArrayList<AdmonUsuarios>();
+			 while(itertAAdmonUsuariosRolesV1Dto.hasNext()) {
+				AdmonUsuariosRolesV1Dto admonUsuariosRolesV1Dto = itertAAdmonUsuariosRolesV1Dto.next(); 
+				AdmonUsuarios admonUsuarios = new AdmonUsuarios();
+				
+				System.out.println("Entra admonUsuarios");
+				admonUsuarios.setNumero(admonUsuariosRolesV1Dto.getNumeroUsuario());
+				System.out.println("admonCandidatosV1.getNumeroRol()");
+				admonUsuarios.setNumeroRol(admonUsuariosRolesV1Dto.getNumeroRol());
+				admonUsuarios.setNombre(admonUsuariosRolesV1Dto.getNombreUsuario());
+				admonUsuarios.setApellidoPaterno(admonUsuariosRolesV1Dto.getApellidoPaterno());
+				admonUsuarios.setApellidoMaterno(admonUsuariosRolesV1Dto.getApellidoMaterno());
+				admonUsuarios.setCorreoElectronico(admonUsuariosRolesV1Dto.getCorreoElectronico());
+				admonUsuarios.setFechaEfectivaDesde(utilitariosLocal.toUtilDate(admonUsuariosRolesV1Dto.getFedAu()));
+				if(Utilitarios.endOfTime.equals(admonUsuariosRolesV1Dto.getFehAu())) {
+					admonUsuarios.setFechaEfectivaHasta(null);	
+				}else {
+					admonUsuarios.setFechaEfectivaHasta(utilitariosLocal.toUtilDate(admonUsuariosRolesV1Dto.getFehAu()));	
+				}
+				
+				admonUsuarios.setCurp(admonUsuariosRolesV1Dto.getCurp());
+				admonUsuarios.setEstado(admonUsuariosRolesV1Dto.getEstado());
+				admonUsuarios.setSedeHospital(admonUsuariosRolesV1Dto.getSedeHospital());
+				admonUsuarios.setNumeroRol(admonUsuariosRolesV1Dto.getNumeroRol());
+
+				if(admonUsuariosRolesV1Dto.getNombreActPor() != null)
+					admonUsuarios.setActualizadoPorName(admonUsuariosRolesV1Dto.getNombreActPor());
+				else
+					admonUsuarios.setActualizadoPorName("No disponible");
+
+				admonUsuarios.setFechaActualizacion(admonUsuariosRolesV1Dto.getFechaActualizacion());
+				admonUsuarios.setFechaActString(admonUsuariosRolesV1Dto.getFechaActualizacion());				
+				System.out.println("admonCandidatosV1.getCorreoElectronico()");
+				System.out.println("admonCandidatosV1.getCurp()");
+				System.out.println("Sale admonCandidatos");
+				listAdmonUsuarios.add(admonUsuarios);
+	    
+			}
+	    }
+		 
+		 public void clearFiltroForm(){
+				setFindCurp("");
+				setFindNombre("");
+				setFindAPaterno("");
+				setFindAMaterno("");
+				setFindNombreActPor("");
+				setFindFechaAct("");
+				refreshEntity();
+		    }
 }

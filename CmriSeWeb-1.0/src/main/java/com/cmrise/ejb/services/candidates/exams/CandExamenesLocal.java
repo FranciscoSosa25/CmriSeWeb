@@ -1,5 +1,6 @@
 package com.cmrise.ejb.services.candidates.exams;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -25,7 +26,8 @@ public interface CandExamenesLocal {
     		                               String pNombreUsuario, 
     		                               String pApellidoPaterno,
     		                                String pApellidoMaterno);
-    public void updateEstatus(long pNumero
-    		                 ,CandExamenesDto pCandExamenesDto);
+    public void updateEstatus(long pNumero, CandExamenesDto pCandExamenesDto);
+    public List<CandExamenesV1> findCandidateByExam(String cCurp, String cNombre, String c_aPaterno, 
+			String c_aMaterno, String actPor, String fechaActu, long pNumeroExamen, String pTipoExamen);
 }
 

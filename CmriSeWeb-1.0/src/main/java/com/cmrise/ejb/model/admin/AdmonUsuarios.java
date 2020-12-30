@@ -1,6 +1,8 @@
 package com.cmrise.ejb.model.admin;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -26,7 +28,7 @@ public class AdmonUsuarios implements Serializable {
 	private String curp; 
 	private String estado;
 	private String sedeHospital;
-	
+	private String fechaActString;
 	
 	public long getNumero() {
 		return numero;
@@ -140,6 +142,14 @@ public class AdmonUsuarios implements Serializable {
 
 	public void setActualizadoPorName(String actualizadoPorName) {
 		this.actualizadoPorName = actualizadoPorName;
+	}
+	public String getFechaActString() {
+		return fechaActString;
+	}
+	public void setFechaActString(Date fechaActString) {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+        String strDate = dateFormat.format(fechaActString);  
+		this.fechaActString = strDate;
 	}
 	
 

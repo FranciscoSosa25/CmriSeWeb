@@ -1,6 +1,8 @@
 package com.cmrise.ejb.model.admin;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AdmonUsuariosRolesV1 implements Serializable {
@@ -32,7 +34,9 @@ public class AdmonUsuariosRolesV1 implements Serializable {
 	private String curp; 
 	private String sedeHospital;
 	private String estado;
-	
+	private String actualizadoPorString;
+	private String fechaActString;
+	private String nombreActualizo;  	
 	
 	public long getActualizadoPor() {
 		return actualizadoPor;
@@ -186,6 +190,26 @@ public class AdmonUsuariosRolesV1 implements Serializable {
 
 	public void setSedeHospital(String sedeHospital) {
 		this.sedeHospital = sedeHospital;
+	}
+	public String getActualizadoPorString() {
+		return actualizadoPorString;
+	}
+	public void setActualizadoPorString() {
+		this.actualizadoPorString = Long.toString(this.actualizadoPor);
+	}
+	public String getFechaActString() {
+		return fechaActString;
+	}
+	public void setFechaActString() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+        String strDate = dateFormat.format(this.fechaActualizacion);  
+		this.fechaActString = strDate;
+	}
+	public String getNombreActualizo() {
+		return this.nombreActualizo;
+	}
+	public void setNombreActualizo(String nombreActualizo) {
+		this.nombreActualizo = nombreActualizo;
 	}
 	
 	

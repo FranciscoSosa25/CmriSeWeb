@@ -1,6 +1,7 @@
 package com.cmrise.jpa.jdbc.admin;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -90,24 +91,27 @@ public class AdmonUsuariosRolesDaoImpl implements AdmonUsuariosRolesDao {
 	}
 
 	@Override
-	public List<Object> findWithFilterExam(long   pNumeroExamen
-			                              ,String pTipoExamen
-			                              ) {
-		String strQuery =   "SELECT [NUMERO]\r" + 
-							"      ,[NUMERO_USUARIO]\r" + 
-							"      ,[MATRICULA]\r" + 
-							"      ,[NOMBRE_USUARIO]\r" + 
-							"      ,[NOMBRE_COMPLETO_USUARIO]\r" + 
-							"      ,[NUMERO_ROL]\r" + 
-							"      ,[NOMBRE_ROL]\r" + 
-							"      ,[DESCRIPCION_ROL]\r" + 
-							"      ,[APELLIDO_PATERNO]\r" + 
-							"      ,[APELLIDO_MATERNO]\r" + 
-							"      ,[CORREO_ELECTRONICO]\r" + 
-							"      ,[CONTRASENIA]\r" + 
-							"      ,[CURP]\r" + 
-							"  FROM [dbo].[ADMON_USUARIOS_ROLES_V1]\r" + 
-							" WHERE NOMBRE_ROL = '"+Utilitarios.ROL_ALUMNO+"'\r" + 
+	public List<Object> findWithFilterExam(long   pNumeroExamen ,String pTipoExamen ) {
+		
+		String strQuery =   "SELECT [AURV1].[NUMERO]\r" + 
+							"      ,[AURV1].[NUMERO_USUARIO]\r" + 
+							"      ,[AURV1].[MATRICULA]\r" + 
+							"      ,[AURV1].[NOMBRE_USUARIO]\r" + 
+							"      ,[AURV1].[NOMBRE_COMPLETO_USUARIO]\r" + 
+							"      ,[AURV1].[NUMERO_ROL]\r" + 
+							"      ,[AURV1].[NOMBRE_ROL]\r" + 
+							"      ,[AURV1].[DESCRIPCION_ROL]\r" + 
+							"      ,[AURV1].[APELLIDO_PATERNO]\r" + 
+							"      ,[AURV1].[APELLIDO_MATERNO]\r" + 
+							"      ,[AURV1].[CORREO_ELECTRONICO]\r" + 
+							"      ,[AURV1].[CONTRASENIA]\r" + 
+							"      ,[AURV1].[CURP]\r" + 
+							"	   ,[ADU].ACTUALIZADO_POR\r" + 
+							"      ,[ADU].FECHA_ACTUALIZACION\r" + 
+							"	   ,(select au.NOMBRE + ' ' + au.APELLIDO_PATERNO + ' ' + au.APELLIDO_PATERNO from dbo.ADMON_USUARIOS au where au.numero = [ADU].[ACTUALIZADO_POR] AND au.numero <> -1) NOMBRE_ACT_POR \r" +
+							"  FROM [dbo].[ADMON_USUARIOS_ROLES_V1] AURV1\r" + 
+							"     , [dbo].[ADMON_USUARIOS] ADU\r"+
+							" WHERE ADU.NUMERO = AURV1.NUMERO_USUARIO AND NOMBRE_ROL = '"+Utilitarios.ROL_ALUMNO+"'\r" + 
 							"   AND [NUMERO_USUARIO] NOT IN ( SELECT NUMERO_USUARIO\r" + 
 							"								    FROM CAND_EXAMENES\r" + 
 							"								   WHERE NUMERO_EXAMEN = "+pNumeroExamen+"\r" + 
@@ -139,4 +143,42 @@ public class AdmonUsuariosRolesDaoImpl implements AdmonUsuariosRolesDao {
 	return query.getResultList();
 	}
 
+	public List<Object> findCandidateNotExam(String cCurp, String cNombre, String c_aPaterno, String c_aMaterno, String actPor, String fechaActu, long   pNumeroExamen, String pTipoExamen){
+		
+		String strQuery =   "SELECT [AURV1].[NUMERO]\r" + 
+				"      ,[AURV1].[NUMERO_USUARIO]\r" + 
+				"      ,[AURV1].[MATRICULA]\r" + 
+				"      ,[AURV1].[NOMBRE_USUARIO]\r" + 
+				"      ,[AURV1].[NOMBRE_COMPLETO_USUARIO]\r" + 
+				"      ,[AURV1].[NUMERO_ROL]\r" + 
+				"      ,[AURV1].[NOMBRE_ROL]\r" + 
+				"      ,[AURV1].[DESCRIPCION_ROL]\r" + 
+				"      ,[AURV1].[APELLIDO_PATERNO]\r" + 
+				"      ,[AURV1].[APELLIDO_MATERNO]\r" + 
+				"      ,[AURV1].[CORREO_ELECTRONICO]\r" + 
+				"      ,[AURV1].[CONTRASENIA]\r" + 
+				"      ,[AURV1].[CURP]\r" + 
+				"	   ,[ADU].[ACTUALIZADO_POR]\r" + 
+				"      ,[ADU].[FECHA_ACTUALIZACION]\r" + 
+				"	   ,(select au.NOMBRE + ' ' + au.APELLIDO_PATERNO + ' ' + au.APELLIDO_PATERNO from dbo.ADMON_USUARIOS au where au.numero = [ADU].[ACTUALIZADO_POR] AND au.numero <> -1) NOMBRE_ACT_POR \r" +
+				"  FROM [dbo].[ADMON_USUARIOS_ROLES_V1] AURV1\r" + 
+				"     , [dbo].[ADMON_USUARIOS] ADU\r"+
+				" WHERE ADU.NUMERO = AURV1.NUMERO_USUARIO AND NOMBRE_ROL = '"+ Utilitarios.ROL_ALUMNO +"'\r" + 
+				"   AND [AURV1].[CURP] LIKE '%"+ cCurp.trim() +"%' AND [AURV1].[NOMBRE_USUARIO] LIKE '%"+ cNombre.trim() +"%'" + 
+				"   AND [AURV1].[APELLIDO_PATERNO] LIKE '%"+ c_aPaterno.trim() +"%' AND [AURV1].[APELLIDO_MATERNO] LIKE '%"+ c_aMaterno.trim() +"%'" ;
+				
+				if(actPor.length()!= 0)
+					strQuery = strQuery +"   AND [ADU].[NOMBRE_ACT_POR] LIKE '%"+ actPor.trim() + "%'\r";
+				
+				if(fechaActu.length() != 0)
+					strQuery = strQuery + " AND convert(varchar(25),[ADU].[FECHA_ACTUALIZACION],126) LIKE '%"+ fechaActu.trim() +"%'\r" ;
+				
+				strQuery = strQuery +"   AND [NUMERO_USUARIO] NOT IN ( SELECT NUMERO_USUARIO\r" + 
+				"								    FROM CAND_EXAMENES\r" + 
+				"								   WHERE NUMERO_EXAMEN = "+pNumeroExamen+"\r" + 
+				"								     AND TIPO = '"+pTipoExamen+"' \r" + 
+				"									)";
+		Query query = em.createNativeQuery(strQuery); 
+		return query.getResultList();
+	}
 }
