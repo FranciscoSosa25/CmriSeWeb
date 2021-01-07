@@ -84,6 +84,7 @@ public class MRQsExamForm {
 	private boolean busquedaSkip = false;
 	private int skipMax = 0;
 	private boolean showFinalMessage = false;
+	private int limiteCaracteres = 50;
 	
 	@Inject
 	UtilitariosLocal utilitariosLocal; 
@@ -167,6 +168,7 @@ public class MRQsExamForm {
 				//for(MrqsGrupoHdr idxHdr:listMrqsGrupoHdr) {
 				MrqsGrupoHdr idxHdr = listMrqsGrupoHdr.get(idxGrupo);
 					mrqsGrupoHdr.setNumero(idxHdr.getNumero());
+					
 					candExamRespSkipDto.setNumeroGrupo(idxHdr.getNumero());
 					mrqsGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
 					mrqsGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
@@ -187,6 +189,7 @@ public class MRQsExamForm {
 						mrqsGrupoLinesV2.setTextoPregunta(idx.getTextoPregunta());
 						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
 						mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
+						
 						candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
 						/* preguntas */
 						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
@@ -519,6 +522,20 @@ public class MRQsExamForm {
 
 	public void setIdxReactivos(int idxReactivos) {
 		this.idxReactivos = idxReactivos;
+	}
+
+		/**
+	 * @return the limiteCaracteres
+	 */
+	public int getLimiteCaracteres() {
+		return limiteCaracteres;
+	}
+
+	/**
+	 * @param limiteCaracteres the limiteCaracteres to set
+	 */
+	public void setLimiteCaracteres(int limiteCaracteres) {
+		this.limiteCaracteres = limiteCaracteres;
 	}
 
 		public void onTimeout() {

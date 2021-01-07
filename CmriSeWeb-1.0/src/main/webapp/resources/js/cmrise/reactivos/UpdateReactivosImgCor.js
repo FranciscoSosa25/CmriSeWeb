@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     agregarRespReactBtn = document.getElementById('UpdateReactivosForm:agregarRespReact');
     preguntaID = document.getElementById('UpdateReactivosForm:pregunta');
     preguntasImgCorDiv = document.getElementById('preguntasImgCorDiv');
-
+	console.log(agregarNodoImgCorID);
     fileImagenCorID.addEventListener('change', (e) => {
 
         console.log("Comienza fileInput change");
@@ -402,7 +402,7 @@ function handleAgregarRespuestaRequest(xhr, status, args) {
 function handleAgregarRespuestaCorrRequest(xhr, status, args) {
     console.log('Comienza handleAgregarRespuestaCorrRequest');
     console.log(nodos);
-
+    
     if (args.validationFailed || null == args.nodo) {
     } else {
         //diagram.startTransaction();
@@ -498,6 +498,24 @@ function handleAgregarRespuestaCorrRequest(xhr, status, args) {
     console.log('Finaliza handleAgregarRespuestaCorrRequest');
 }
 
+function handleRemoverRespuestaCorrRequest(value){
+		    console.log('Comienza handleRemoverRespuestaCorrRequest');
+		    var graph1 =  document.getElementById("UpdateReactivosForm:coordinatesImgCor").value;
+		    console.log("graph1 "+graph1);
+		    var removeKey = 'from'+value;
+		    removeKey=removeKey.replace(' ','');
+		   	console.log(removeKey);
+		   	
+		   	Object.keys(graph1).forEach(function(key){
+		   	console.log(graph1[key]);
+			  if (graph1[key].includes(removeKey)) {
+			    delete graph1[key];
+			  }
+			});
+			console.log("graph1 "+graph1);   
+			
+		    console.log('Finaliza handleRemoverRespuestaCorrRequest');
+		}
 
 // this function is the Node.dragComputation, to limit the movement of the parts
 // use GRIDPT instead of PT if DraggingTool.isGridSnapEnabled and movement should snap to grid

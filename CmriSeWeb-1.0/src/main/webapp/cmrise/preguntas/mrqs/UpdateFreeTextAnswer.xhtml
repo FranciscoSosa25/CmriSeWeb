@@ -82,14 +82,6 @@
 		   el.parentNode.parentNode.removeChild( el.parentNode );
 		};
 		
-		function handleRemoverRespuestaCorrRequest(xhr, status, args) {
-		    console.log('Comienza handleRemoverRespuestaCorrRequest');
-		    console.log(args);
-		    console.log(xhr);
-			//se necesita remover el punto en la imagen también
-		   
-		}
-		
 	</script>
 	</ui:define>
 
@@ -685,14 +677,15 @@
 														varStatus="status">
 														<div class="ui-g ui-md-6">
 															<div class="ui-g-6 ui-md-2">
-																<p:commandButton title="Delete" icon="pi pi-trash"
+																<p:commandButton id="removerRespCorrelReact" icon="pi pi-trash"
 																	actionListener="#{updateFTAMrqForm.removerRespCorrelacionadas(respReact)}"
 																	update="UpdateReactivosForm:repeatIDPanel2 UpdateReactivosForm:repeatIDPanel"
 																	partialSubmit="true"
-																	process="UpdateReactivosForm:repeatIDPanel UpdateReactivosForm:repeatIDPanel2" oncomplete="handleRemoverRespuestaCorrRequest(xhr, status, args)"/>
-																	
-																<h:outputText value="#{respReact.nodo}" />
-
+																	process="UpdateReactivosForm:repeatIDPanel UpdateReactivosForm:repeatIDPanel2" 
+																	oncomplete="handleRemoverRespuestaCorrRequest('#{respReact.nodo}')"/>
+																<span>	
+																	<h:outputText value="#{respReact.nodo}" />
+																</span>
 															</div>
 															<div class="ui-g-6 ui-md-6">
 
