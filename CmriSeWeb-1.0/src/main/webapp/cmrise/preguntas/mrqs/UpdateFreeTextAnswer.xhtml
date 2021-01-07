@@ -564,10 +564,15 @@
 											type="hidden" />
 										<p:inputText id="coordinatesMouseMove" type="hidden" />
 										<p:inputText id="coordinates"
+											value="inicial"
+											placeholder="Coordenadas" maxlength="1000" style="width:100%"
+											
+											requiredMessage="No se han agregado polígonos" type="hidden" />
+										<p:inputText id="coordinatesD"
 											value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.respuestas}"
 											placeholder="Coordenadas" maxlength="1000" style="width:100%"
 											required="true"
-											requiredMessage="No se han agregado polígonos" type="hidden" />
+											requiredMessage="No se han agregado polígonos" type="hidden" />	
 										<!--<canvas id="paintingCanvas" style="cursor:crosshair"
                                                 onmousedown="point_it(event)">
                                             Elemento Canvase no soportado
@@ -598,7 +603,7 @@
 											    
 											    if(clicks>=2){
 											    	
-											    	document.getElementById("UpdateReactivosForm:coordinates").value = JSON.stringify(polygonList);
+											    	document.getElementById("UpdateReactivosForm:coordinatesD").value = JSON.stringify(polygonList);
 											    		//"X: "+ e.offsetX+ ", Y: "+ e.offsetY;
 											    
 											    }

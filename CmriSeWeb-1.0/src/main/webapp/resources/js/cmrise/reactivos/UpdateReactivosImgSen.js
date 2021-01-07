@@ -305,7 +305,7 @@ function draw(end) {
         complete = true;
     }
     ctx.stroke();
-
+    
     // print coordinates
     if (perimeter.length == 0) {
         document.getElementById('UpdateReactivosForm:coordinates').value = '';
