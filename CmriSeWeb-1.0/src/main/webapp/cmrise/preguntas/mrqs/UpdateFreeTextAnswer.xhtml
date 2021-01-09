@@ -615,6 +615,13 @@
 										});
 										$( document ).ready(function() {
 											if($.trim($("#canvas-image").attr("src")) != ""){
+												var valueCoordinates= document.getElementById("UpdateReactivosForm:coordinatesD").value;
+												
+												if(valueCoordinates!=null && valueCoordinates!="")
+												{	
+													polygonList=JSON.parse(valueCoordinates);													
+												    poligonos=polygonList.length;
+												}
 												var im = document.getElementById('canvas-image'); 
 												canvasWidth=im.clientWidth;
 										    	canvasHeight=im.clientHeight;

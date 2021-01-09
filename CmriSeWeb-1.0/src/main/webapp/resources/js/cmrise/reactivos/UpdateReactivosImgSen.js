@@ -221,6 +221,9 @@ function oncompleteFileUpload() {
 
     document.getElementById('UpdateReactivosForm:coordinates').value = '';
 	document.getElementById('UpdateReactivosForm:coordinatesD').value = '';
+	poligonos=0;
+	polygonList=[];
+    polygonPoints = [];
     //start();
 
     console.log('Finaliza oncompleteFileUpload');
@@ -721,7 +724,9 @@ function resetPolygon() {
     this.loadPolygon(true);
 	document.getElementById('UpdateReactivosForm:coordinates').value ='';
 	document.getElementById('UpdateReactivosForm:coordinatesD').value ='';
-	
+	poligonos=0;
+	polygonList=[];
+    polygonPoints = [];
 
 }
 
