@@ -264,9 +264,9 @@ public class MrqPreviewForm {
 		 int ancho=mrqsPreguntasFtaV1ForRead.getWidth();
 		 Poligonos ob= new Poligonos();
 		 double puntuacionR=ob.obtenerPuntuacion(puntuacion,poligonos,ancho,coordenadasUsuario,coordenadasPoligonos);
-		 
+		 BigDecimal bd = new BigDecimal(puntuacionR).setScale(2, BigDecimal.ROUND_DOWN);
 	  	if (puntuacionR>0) {
-	  		setPuntuacion((float)puntuacionR);
+	  		setPuntuacion((float)bd.floatValue());
 			this.setCorrectAnswer(true);
 
 		} else {

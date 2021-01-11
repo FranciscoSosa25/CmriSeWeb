@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const fileReader = new FileReader();
 
         fileReader.readAsDataURL(file);
-
+	
         fileReader.addEventListener('load', (e) => {
 
             var img = new Image();
@@ -74,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 canvasWidth = img.width;
                 canvasHeight = img.height;
+				
             });
         });
 
@@ -219,7 +220,10 @@ function oncompleteFileUpload() {
     complete = false;
 
     document.getElementById('UpdateReactivosForm:coordinates').value = '';
-
+	document.getElementById('UpdateReactivosForm:coordinatesD').value = '';
+	poligonos=0;
+	polygonList=[];
+    polygonPoints = [];
     //start();
 
     console.log('Finaliza oncompleteFileUpload');
@@ -623,16 +627,16 @@ function initImage() {
 
     canvasContent.style.width = canvasWidth + 'px';
     canvasContent.style.height = canvasHeight + 'px';
-
+	
     this.initPolygon(canvasContentName);
 }
 
 function initPolygon(canvasContentName) {
 
     var $ = go.GraphObject.make;
-
+	try{
     polygonDiagram = $(go.Diagram, canvasContentName);
-
+	}catch(ex){}
     polygonDiagram.toolManager.mouseDownTools.insertAt(3, new GeometryReshapingTool());
     polygonDiagram.allowResize = true;
     polygonDiagram.allowReshape = true;
@@ -675,7 +679,7 @@ function initPolygon(canvasContentName) {
     polygonDiagram.toolManager.mouseDownTools.insertAt(0, tool);
     polygonDiagram.allowHorizontalScroll = false;
     polygonDiagram.allowVerticalScroll = false;
-
+	console.log('load');
     this.loadPolygon();  // load a simple diagram from the textarea
 }
 
@@ -689,7 +693,7 @@ function updateAllAdornments() {  // called after checkboxes change Diagram.allo
 function loadPolygon(reset = false) {
 
     let json = {};
-
+	
     if (!reset) {
 
         const polygonData = document.getElementById('UpdateReactivosForm:coordinates').value;
@@ -707,7 +711,7 @@ function loadPolygon(reset = false) {
 
         polygonDiagram.model.undoManager.isEnabled = true;
 
-        console.log(polygonDiagram);
+      
 
     } catch (error) {
 
@@ -718,6 +722,12 @@ function loadPolygon(reset = false) {
 function resetPolygon() {
 
     this.loadPolygon(true);
+	document.getElementById('UpdateReactivosForm:coordinates').value ='';
+	document.getElementById('UpdateReactivosForm:coordinatesD').value ='';
+	poligonos=0;
+	polygonList=[];
+    polygonPoints = [];
+
 }
 
 function savePolygon() {

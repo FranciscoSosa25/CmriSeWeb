@@ -1,8 +1,13 @@
 package com.cmrise.ejb.backing.mrq.preview;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.PrimeRequestContext;
 import org.primefaces.shaded.json.JSONArray;
 import org.primefaces.shaded.json.JSONObject;
 
+import com.cmrise.utils.Utilitarios;
 import com.google.gson.Gson;
 
 public class Poligonos {
@@ -21,7 +26,17 @@ public class Poligonos {
 	}; 
 	
 	public double obtenerPuntuacion(int puntuacion,int poligonos,int ancho,String respuestaPreguntaCandidato ,String respuestas) {
-		
+		double valorPuntuacion=0;
+		try {
+			valorPuntuacion=puntuacion(puntuacion,poligonos,ancho,respuestaPreguntaCandidato ,respuestas);		
+		}
+		catch(Exception e) {			  		 
+	   		  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, Utilitarios.ERROR_PUNTUACION, null));
+			
+		}
+		return valorPuntuacion;
+	}
+	private double puntuacion(int puntuacion,int poligonos,int ancho,String respuestaPreguntaCandidato ,String respuestas) {
 		Gson g = new Gson();
 		JSONArray conjuntoPoligonos = new JSONArray(respuestas);
 		  
@@ -48,7 +63,6 @@ public class Poligonos {
 		return total;
 		
 	}
-	
 	
 	private boolean validarPuntoDentro(int ancho,double usuarioX,double usuarioY,String[] px, String[] py)
 	{

@@ -246,11 +246,12 @@
 								<div class="ui-g-12">
 									<ui:repeat var="imagenes"
 										value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
-										<h:panelGroup layout="block" rendered="#{imagenes.image}" id="imgs">
-											<h:graphicImage id="recurso" 
+										<h:panelGroup layout="block" rendered="#{imagenes.image}"
+											id="imgs">
+											<h:graphicImage id="recurso"
 												value="data:image/jpg;base64,#{imagenes.imagenBase64}"
 												style="max-width: 300px; max-height: 300px;">
-											
+
 											</h:graphicImage>
 											<p:contextMenu style="visibility:hidden;" for="recurso"
 												id="context">
@@ -266,16 +267,19 @@
 
 										<div class="ui-g-12 ui-md-12">
 											<div class="ui-g-12 ui-md-3" style="text-align: left;">
-												<p:commandButton immediate="true" id="decargar"  value="Descargar" ajax="true" onclick="PrimeFaces.monitorDownload(start, stop);" icon="pi pi-arrow-down"
-													process="@this" style="width:60%;BackGround:#2D0D86;"
-													title="Descargar">
-													<p:fileDownload  value="#{imagenes.imagen}" />
+												<p:commandButton immediate="true" id="decargar"
+													value="Descargar" ajax="true"
+													onclick="PrimeFaces.monitorDownload(start, stop);"
+													icon="pi pi-arrow-down" process="@this"
+													style="width:60%;BackGround:#2D0D86;" title="Descargar">
+													<p:fileDownload value="#{imagenes.imagen}" />
 												</p:commandButton>
 											</div>
 											<div class="ui-g-12 ui-md-9">
-												<p:commandButton id="eliminar" value="Eliminar" update="UpdateReactivosForm:inforeactivo"
-													process="@this" style="width:20%;BackGround:#2D0D86;"
-													immediate="true" action="#{updateFTAMrqForm.eliminar(imagenesGrupo,imagenes)}"
+												<p:commandButton id="eliminar" value="Eliminar"
+													update="UpdateReactivosForm:inforeactivo" process="@this"
+													style="width:20%;BackGround:#2D0D86;" immediate="true"
+													action="#{updateFTAMrqForm.eliminar(imagenesGrupo,imagenes)}"
 													title="Descargar">
 												</p:commandButton>
 											</div>
@@ -389,7 +393,7 @@
 											<p:inputText id="sinonimo"
 												onkeyup="value=specialCharacters(value)"
 												value="#{mrqsSinonimo.textoSinonimo}" required="true">
-											<p:ajax event="blur" update="@this"/>
+												<p:ajax event="blur" update="@this" />
 											</p:inputText>
 											<p:message for="sinonimo" />
 										</div>
@@ -564,16 +568,15 @@
 											value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.height}"
 											type="hidden" />
 										<p:inputText id="coordinatesMouseMove" type="hidden" />
-										<p:inputText id="coordinates"
-											value="inicial"
+										<p:inputText id="coordinates" 
+											value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.respuestaCorrecta}"
 											placeholder="Coordenadas" maxlength="1000" style="width:100%"
-											
 											requiredMessage="No se han agregado polígonos" type="hidden" />
 										<p:inputText id="coordinatesD"
 											value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.respuestas}"
 											placeholder="Coordenadas" maxlength="1000" style="width:100%"
 											required="true"
-											requiredMessage="No se han agregado polígonos" type="hidden" />	
+											requiredMessage="No se han agregado polígonos" type="hidden" />
 										<!--<canvas id="paintingCanvas" style="cursor:crosshair"
                                                 onmousedown="point_it(event)">
                                             Elemento Canvase no soportado
@@ -599,19 +602,32 @@
 											var clicks=0;
 											var poligonos=0;
 											$('#canvas-container').click(function(e){
+												console.log('a');
 												clicks++;											   
-											    e.stopPropagation(); // Prevent bubbling
-											    
-											    if(clicks>=2){
-											    	
-											    	document.getElementById("UpdateReactivosForm:coordinatesD").value = JSON.stringify(polygonList);
-											    		//"X: "+ e.offsetX+ ", Y: "+ e.offsetY;
+											    e.stopPropagation(); 											    
+											    if(clicks>=2){											    	
+											    	document.getElementById("UpdateReactivosForm:coordinatesD").value = JSON.stringify(polygonList);							    		
 											    
 											    }
 											  });
 									
 										$( "#canvas-container" ).mouseleave(function() {
 										clicks=0;
+										});
+										$( document ).ready(function() {
+											if($.trim($("#canvas-image").attr("src")) != ""){
+												var valueCoordinates= document.getElementById("UpdateReactivosForm:coordinatesD").value;
+												
+												if(valueCoordinates!=null && valueCoordinates!="")
+												{	
+													polygonList=JSON.parse(valueCoordinates);													
+												    poligonos=polygonList.length;
+												}
+												var im = document.getElementById('canvas-image'); 
+												canvasWidth=im.clientWidth;
+										    	canvasHeight=im.clientHeight;
+										    	initImage();
+											}
 										});
 										//]]>
 										</script>
@@ -621,6 +637,7 @@
 
 						</h:panelGroup>
 					</div>
+
 
 					<div class="ui-g-12 ui-md-12">
 
@@ -683,7 +700,6 @@
 														update="UpdateReactivosForm:repeatIDPanel2 UpdateReactivosForm:repeatIDPanel"
 														partialSubmit="true"
 														process="UpdateReactivosForm:repeatIDPanel UpdateReactivosForm:repeatIDPanel2"
-
 														oncomplete="handleAgregarRespuestaCorrRequest(xhr, status, args)"
 														style="margin:5px 50px 5px 0px;" />
 													<ui:repeat var="respReact"
@@ -712,8 +728,8 @@
 																		value="#{updateFTAMrqForm.selectRespReactCorImg}" />
 																</p:selectOneMenu>
 																<p:message for="respuestaCorrelacionada" />
-															
-														</div>
+
+															</div>
 														</div>
 													</ui:repeat>
 												</h:panelGroup>
@@ -786,8 +802,8 @@
 							<!--<p:commandButton type="button" id="prueba" icon="fa fa-save" value="PRUEBA" onclick="prueba();"/>-->
 						</div>
 						<div class="ui-g-12 ui-md-6 ui-lg-2" style="text-align: center">
-							<p:commandButton icon="fa fa-eye" value="Previsualizar"
-								update="UpdateReactivosForm growl"
+							<p:commandButton icon="fa fa-eye" value="Previsualizar" onstart="savePolygon()"
+								update="UpdateReactivosForm growl" 								
 								action="#{updateFTAMrqForm.saveAndPreview()}"
 								style="backGround:#2D0D86;" />
 						</div>
