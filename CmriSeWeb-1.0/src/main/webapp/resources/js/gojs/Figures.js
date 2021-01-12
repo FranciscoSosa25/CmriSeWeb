@@ -807,7 +807,7 @@ function createStar(points) {
   }
 
   pts[pts.length] = pts[0];
-
+	
   freeArray(polygon);
   return pts;
 };

@@ -161,8 +161,8 @@ public class AdmonUsuariosDaoImpl implements AdmonUsuariosDao {
 	@Override
 	public List<AdmonUsuariosRolesV1Dto> findCand() {
 		String strQuery = "SELECT a FROM AdmonUsuariosRolesV1Dto a WHERE NUMERO_ROL='1'"; 
-	Query query = em.createQuery(strQuery);
-	return query.getResultList();
+		Query query = em.createQuery(strQuery);
+		return query.getResultList();
 	}
 	
 	@Override
@@ -170,6 +170,22 @@ public class AdmonUsuariosDaoImpl implements AdmonUsuariosDao {
 		String strQuery = "SELECT a FROM AdmonUsuariosRolesV1Dto a WHERE NUMERO_ROL !='1'"; 
 	Query query = em.createQuery(strQuery);
 	return query.getResultList();
+	}
+	
+	public List<AdmonUsuariosRolesV1Dto> findCandidateBy(String curp, String nombre, String aPaterno, String aMaterno, String nombreActualizo, String fechaAct){
+		
+		String strQuery = "SELECT a FROM AdmonUsuariosRolesV1Dto a WHERE numeroRol='1' AND a.curp LIKE '%"+curp.trim()+"%' AND a.nombreUsuario LIKE '%"+nombre.trim()+
+				"%' AND a.apellidoPaterno LIKE '%"+aPaterno.trim()+"%' AND a.apellidoMaterno LIKE '%"+aMaterno.trim()+"%'"; 
+		
+		if(nombreActualizo.length()!= 0)
+			strQuery = strQuery + " AND a.nombreActPor LIKE '%"+nombreActualizo.trim()+"%'";
+		
+		if(fechaAct.length()!= 0) {
+			strQuery = strQuery + " AND convert(varchar(25),a.fechaActualizacion,126) LIKE '%"+fechaAct.trim()+"%'";
+		}
+		
+		Query query = em.createQuery(strQuery);
+		return query.getResultList();
 	}
 }
 	

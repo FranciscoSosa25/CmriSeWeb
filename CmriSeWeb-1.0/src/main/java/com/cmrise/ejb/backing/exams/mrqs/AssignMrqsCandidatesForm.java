@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
@@ -39,6 +40,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -62,6 +64,20 @@ public class AssignMrqsCandidatesForm {
     private String sedeHospital; 
 	private long numeroMrqsExamen; 
 	private String ErroresCaptura;
+	///Variables para el filtro de candidatos en el examen
+	private String findCurp; 
+	private String findNombreUsuario; 
+	private String findaMaterno;
+	private String findaPaterno;
+	private String findActPor;
+	private String findFechaAct;
+	///Variables para el filtro de candidatos no en el examen
+	private String findCurpNE; 
+	private String findNombreUsuarioNE; 
+	private String findaMaternoNE;
+	private String findaPaternoNE;
+	private String findActPorNE;
+	private String findFechaActNE;
 	
 	private List<AdmonUsuariosRolesV1> listAdmonUsuariosRolesV1 = new ArrayList<AdmonUsuariosRolesV1>();
 	private List<AdmonUsuariosRolesV1> selectedsAdmonUsuariosRolesV1 = new ArrayList<AdmonUsuariosRolesV1>(); 
@@ -97,8 +113,7 @@ public class AssignMrqsCandidatesForm {
 	 
 	private void refreshEntity() {
 		listCandExamenesV1 = candExamenesLocal.findByExamen(this.getNumeroMrqsExamen(), Utilitarios.MRQS ); 
-		listAdmonUsuariosRolesV1 = admonUsuariosRolesLocal.findWithFilterExam(this.getNumeroMrqsExamen(), Utilitarios.MRQS ); 
-		
+		listAdmonUsuariosRolesV1 = admonUsuariosRolesLocal.findWithFilterExam(this.getNumeroMrqsExamen(), Utilitarios.MRQS ); 		
 	}
 	
 	public String cancel() {
@@ -134,7 +149,6 @@ public class AssignMrqsCandidatesForm {
 		return "Assign-MRQs-Candidates"; 
 	}
 
-	
 	public UserLogin getUserLogin() {
 		return userLogin;
 	}
@@ -153,27 +167,21 @@ public class AssignMrqsCandidatesForm {
 	public void setfechaEH(Date fechaEH) {
 		this.fechaEH = fechaEH;
 	}
-
 	public long getNumeroRol() {
 		return numeroRol;
 	}
-
 	public void setNumeroRol(long numeroRol) {
 		this.numeroRol = numeroRol;
 	}
-
 	public long getNumeroUsuario() {
 		return numeroUsuario;
 	}
-
 	public void setNumeroUsuario(long numeroUsuario) {
 		this.numeroUsuario = numeroUsuario;
 	}
-
 	public String getNombre() {
 		return nombre;
 	}
-
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
@@ -204,27 +212,130 @@ public class AssignMrqsCandidatesForm {
 	public String getCurp() {
 		return curp;
 	}
-
 	public void setCurp(String curp) {
 		this.curp = curp;
 	}
-	
 	public String getSedeHospital() {
 		return this.sedeHospital;
 	}
-
 	public void setSedeHospital(String sedeHospital) {
 		this.sedeHospital = sedeHospital;
 	}
-	
 	public String getEstado() {
 		return estado;
 	}
-
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	
+	public String getFindCurpNE() {
+		return findCurpNE;
+	}
+	public void setFindCurpNE(String findCurpNE) {
+		this.findCurpNE = findCurpNE;
+	}
+	public String getFindNombreUsuarioNE() {
+		return findNombreUsuarioNE;
+	}
+	public void setFindNombreUsuarioNE(String findNombreUsuarioNE) {
+		this.findNombreUsuarioNE = findNombreUsuarioNE;
+	}
+	public String getFindaMaternoNE() {
+		return findaMaternoNE;
+	}
+	public void setFindaMaternoNE(String findaMaternoNE) {
+		this.findaMaternoNE = findaMaternoNE;
+	}
+	public String getFindaPaternoNE() {
+		return findaPaternoNE;
+	}
+	public void setFindaPaternoNE(String findaPaternoNE) {
+		this.findaPaternoNE = findaPaternoNE;
+	}
+	public String getFindActPorNE() {
+		return findActPorNE;
+	}
+	public void setFindActPorNE(String findActPorNE) {
+		this.findActPorNE = findActPorNE;
+	}
+	public String getFindFechaActNE() {
+		return findFechaActNE;
+	}
+	public void setFindFechaActNE(String findFechaActNE) {
+		this.findFechaActNE = findFechaActNE;
+	}
+	public long getNumeroMrqsExamen() {
+		return numeroMrqsExamen;
+	}
+	public void setNumeroMrqsExamen(long numeroMrqsExamen) {
+		this.numeroMrqsExamen = numeroMrqsExamen;
+	}
+	public List<CandExamenesV1> getListCandExamenesV1() {
+		return listCandExamenesV1;
+	}
+	public void setListCandExamenesV1(List<CandExamenesV1> listCandExamenesV1) {
+		this.listCandExamenesV1 = listCandExamenesV1;
+	}
+	public List<CandExamenesV1> getSelectedCandExamenesV2() {
+		return selectedCandExamenesV2;
+	}
+	public void setSelectedCandExamenesV2(List<CandExamenesV1> selectedCandExamenesV2) {
+		this.selectedCandExamenesV2 = selectedCandExamenesV2;
+	}
+	public List<AdmonUsuariosRolesV1> getSelectedsAdmonUsuariosRolesV1() {
+		return selectedsAdmonUsuariosRolesV1;
+	}
+	public void setSelectedsAdmonUsuariosRolesV1(List<AdmonUsuariosRolesV1> selectedsAdmonUsuariosRolesV1) {
+		this.selectedsAdmonUsuariosRolesV1 = selectedsAdmonUsuariosRolesV1;
+	}
+	public CandExamenesV1 getCandExamenesV1ForAction() {
+		return candExamenesV1ForAction;
+	}
+	public void setCandExamenesV1ForAction(CandExamenesV1 candExamenesV1ForAction) {
+		this.candExamenesV1ForAction = candExamenesV1ForAction;
+	}
+	public List<AdmonUsuariosRolesV1> getListAdmonUsuariosRolesV1() {
+		return listAdmonUsuariosRolesV1;
+	}
+	public void setListAdmonUsuariosRolesV1(List<AdmonUsuariosRolesV1> listAdmonUsuariosRolesV1) {
+		this.listAdmonUsuariosRolesV1 = listAdmonUsuariosRolesV1;
+	}
+	public String getFindCurp() {
+		return findCurp;
+	}
+	public void setFindCurp(String findCurp) {
+		this.findCurp = findCurp;
+	}
+	public String getFindNombreUsuario() {
+		return findNombreUsuario;
+	}
+	public void setFindNombreUsuario(String findNombreUsuario) {
+		this.findNombreUsuario = findNombreUsuario;
+	}
+	public String getFindaMaterno() {
+		return findaMaterno;
+	}
+	public void setFindaMaterno(String findaMaterno) {
+		this.findaMaterno = findaMaterno;
+	}
+	public String getFindaPaterno() {
+		return findaPaterno;
+	}
+	public void setFindaPaterno(String findaPaterno) {
+		this.findaPaterno = findaPaterno;
+	}
+	public String getFindActPor() {
+		return findActPor;
+	}
+	public void setFindActPor(String findActPor) {
+		this.findActPor = findActPor;
+	}
+	public String getFindFechaAct() {
+		return findFechaAct;
+	}
+	public void setFindFechaAct(String findFechaAct) {
+		this.findFechaAct = findFechaAct;
+	}
+
 	public void selectForAction(CandExamenesV1 pCandExamenesV1) {
 		candExamenesV1ForAction.setNumero(pCandExamenesV1.getNumero());
 	}
@@ -232,54 +343,6 @@ public class AssignMrqsCandidatesForm {
 	public void delete() {
 		candExamenesLocal.delete(candExamenesV1ForAction.getNumero());
 		refreshEntity(); 
-	}
-	
-	public List<AdmonUsuariosRolesV1> getListAdmonUsuariosRolesV1() {
-		return listAdmonUsuariosRolesV1;
-	}
-
-	public void setListAdmonUsuariosRolesV1(List<AdmonUsuariosRolesV1> listAdmonUsuariosRolesV1) {
-		this.listAdmonUsuariosRolesV1 = listAdmonUsuariosRolesV1;
-	}
-
-	public long getNumeroMrqsExamen() {
-		return numeroMrqsExamen;
-	}
-
-	public void setNumeroMrqsExamen(long numeroMrqsExamen) {
-		this.numeroMrqsExamen = numeroMrqsExamen;
-	}
-
-	public List<CandExamenesV1> getListCandExamenesV1() {
-		return listCandExamenesV1;
-	}
-
-	public void setListCandExamenesV1(List<CandExamenesV1> listCandExamenesV1) {
-		this.listCandExamenesV1 = listCandExamenesV1;
-	}
-	
-	public List<CandExamenesV1> getSelectedCandExamenesV2() {
-		return selectedCandExamenesV2;
-	}
-
-	public void setSelectedCandExamenesV2(List<CandExamenesV1> selectedCandExamenesV2) {
-		this.selectedCandExamenesV2 = selectedCandExamenesV2;
-	}
-
-	public List<AdmonUsuariosRolesV1> getSelectedsAdmonUsuariosRolesV1() {
-		return selectedsAdmonUsuariosRolesV1;
-	}
-
-	public void setSelectedsAdmonUsuariosRolesV1(List<AdmonUsuariosRolesV1> selectedsAdmonUsuariosRolesV1) {
-		this.selectedsAdmonUsuariosRolesV1 = selectedsAdmonUsuariosRolesV1;
-	}
-
-	public CandExamenesV1 getCandExamenesV1ForAction() {
-		return candExamenesV1ForAction;
-	}
-
-	public void setCandExamenesV1ForAction(CandExamenesV1 candExamenesV1ForAction) {
-		this.candExamenesV1ForAction = candExamenesV1ForAction;
 	}
 	
 	public void create() {
@@ -401,7 +464,8 @@ public class AssignMrqsCandidatesForm {
 		}
 	}
 	
-	public boolean insertOnetoOneCandidate(String curp, String nombre, String apPaterno, String apMaterno, String email,String contrasenia, String estado, String sedeH, java.sql.Date fechaEfDesde, java.sql.Date fechaEfHasta, int linea){
+	public boolean insertOnetoOneCandidate(String curp, String nombre, String apPaterno, String apMaterno, String email,String contrasenia, 
+											String estado, String sedeH, java.sql.Date fechaEfDesde, java.sql.Date fechaEfHasta, int linea){
 					
 		 AdmonUsuariosDto admonUsuariosDto = new AdmonUsuariosDto();
 		 boolean createIn = false; 
@@ -474,13 +538,57 @@ public class AssignMrqsCandidatesForm {
 		}
 	}
 	
-	
 	public java.sql.Date ConvertToDate(String fechaDesde) throws ParseException{
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         java.util.Date parsed = format.parse(fechaDesde);
         java.sql.Date fecha = new java.sql.Date(parsed.getTime());        
         return fecha;
 	}
+	
+	public String getNombreUsuario(String numeroUsuario) {
+		long numUsu = 0;
+		String nombreUsuMod = "No disponible";
+		AdmonUsuariosDto usrQueModifico;
+				
+		if(StringUtils.isNotEmpty(numeroUsuario) && numeroUsuario != "" && numeroUsuario != null && numeroUsuario != "-1")
+			numUsu = Long.parseLong(numeroUsuario);
 		
+		if(numUsu > 0)
+		{
+			usrQueModifico = admonUsuariosLocal.selectUsuario(numUsu);
+			nombreUsuMod = usrQueModifico.getNombre() + " " + usrQueModifico.getApellidoPaterno() + " " + usrQueModifico.getApellidoMaterno();
+		}
+		return nombreUsuMod;
+	}
+	
+	public void findCandidateByExam() {
+		listCandExamenesV1 = candExamenesLocal.findCandidateByExam(this.findCurp, this.findNombreUsuario, this.findaPaterno, 
+				this.findaMaterno, this.findActPor, this.findFechaAct, this.getNumeroMrqsExamen(), Utilitarios.MRQS ); 		
+	}
+	
+	public void findCandidateNotExam() {		
+		listAdmonUsuariosRolesV1 = admonUsuariosRolesLocal.findCandidateNotExam(this.findCurpNE, this.findNombreUsuarioNE, this.findaPaternoNE, 
+				this.findaMaternoNE, this.findActPorNE, this.findFechaActNE,this.getNumeroMrqsExamen(), Utilitarios.MRQS ); 		
+	}
+	
+	public void clearFormCE(){
+		setFindCurp("");
+		setFindNombreUsuario("");
+		setFindaPaterno("");
+		setFindaMaterno("");
+		setFindActPor("");
+		setFindFechaAct("");
+		findCandidateByExam();
+    }
+	
+	public void clearFormCNotE(){
+		setFindCurpNE("");
+		setFindNombreUsuarioNE("");
+		setFindaPaternoNE("");
+		setFindaMaternoNE("");
+		setFindActPorNE("");
+		setFindFechaActNE("");
+		findCandidateNotExam();
+    }
 }
 

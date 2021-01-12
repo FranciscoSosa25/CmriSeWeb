@@ -528,7 +528,7 @@ public class UpdateFTAMrqForm {
 			}else if(Utilitarios.RESP_TEXTO_LIBRE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())){
 		     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta(this.mrqsPreguntasFtaV1ForAction.getRespuestaCorrecta());
 		    }else if(Utilitarios.IMAGEN_INDICADA.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
-		     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("Coordenadas Poligonos");
+		     //mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("Coordenadas Poligonos");
 		    if(null==mrqsPreguntasFtaV1ForAction.getNombreImagen()) {
 		    	FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se nececita una","imagen") );

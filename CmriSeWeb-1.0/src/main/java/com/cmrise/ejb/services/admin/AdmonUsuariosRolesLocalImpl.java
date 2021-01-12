@@ -2,6 +2,7 @@ package com.cmrise.ejb.services.admin;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -65,11 +66,11 @@ public class AdmonUsuariosRolesLocalImpl implements AdmonUsuariosRolesLocal {
 	}
 
 	@Override
-	public List<AdmonUsuariosRolesV1> findWithFilterExam(long pNumeroExamen
-			                                           , String pTipoExamen) {
+	public List<AdmonUsuariosRolesV1> findWithFilterExam(long pNumeroExamen, String pTipoExamen) {
+		
 		List<AdmonUsuariosRolesV1> retval = new ArrayList<AdmonUsuariosRolesV1>(); 
-		List<Object> listObjects = admonUsuariosRolesDao.findWithFilterExam(pNumeroExamen
-				                                                          , pTipoExamen); 
+		List<Object> listObjects = admonUsuariosRolesDao.findWithFilterExam(pNumeroExamen, pTipoExamen); 
+		
 		for(Object object:listObjects) {
 			if(object instanceof Object[]) {
 				AdmonUsuariosRolesV1 admonUsuariosRolesV1 = new AdmonUsuariosRolesV1(); 
@@ -113,6 +114,20 @@ public class AdmonUsuariosRolesLocalImpl implements AdmonUsuariosRolesLocal {
 				if(row[12] instanceof String) { /** [CURP] **/
 					admonUsuariosRolesV1.setCurp((String)row[12]);
 				}
+				if(row[13] instanceof BigInteger) { /** [ACTUALIZADO_POR] **/
+					admonUsuariosRolesV1.setActualizadoPor(((BigInteger)row[13]).longValue());
+					admonUsuariosRolesV1.setActualizadoPorString();
+				}
+				if(row[14] instanceof Date) { /** [FECHA_ACTUALIZACION] **/
+					admonUsuariosRolesV1.setFechaActualizacion((Date)row[14]);
+					admonUsuariosRolesV1.setFechaActString();
+				}
+				if(row[15] instanceof String) { /** [NOMBRE_ACT_POR] **/
+					admonUsuariosRolesV1.setNombreActualizo((String)row[15]);
+				}else {
+					admonUsuariosRolesV1.setNombreActualizo("No disponible");
+				}
+				
 				retval.add(admonUsuariosRolesV1); 
 			}
 		}
@@ -129,4 +144,73 @@ public class AdmonUsuariosRolesLocalImpl implements AdmonUsuariosRolesLocal {
 				                                        , pContrasenia);
 	}
 
+	public List<AdmonUsuariosRolesV1> findCandidateNotExam(String cCurp, String cNombre, String c_aPaterno, 
+			String c_aMaterno, String actPor, String fechaActu, long   pNumeroExamen, String pTipoExamen){
+		
+		List<AdmonUsuariosRolesV1> retval = new ArrayList<AdmonUsuariosRolesV1>(); 
+		List<Object> listObjects = admonUsuariosRolesDao.findCandidateNotExam(cCurp, cNombre, c_aPaterno, c_aMaterno, actPor, fechaActu, pNumeroExamen, pTipoExamen); 
+		
+		for(Object object:listObjects) {
+			if(object instanceof Object[]) {
+				AdmonUsuariosRolesV1 admonUsuariosRolesV1 = new AdmonUsuariosRolesV1(); 
+				Object[] row = (Object[]) object;
+				if(row[0] instanceof BigInteger) { /** [NUMERO] **/
+					admonUsuariosRolesV1.setNumero(((BigInteger)row[0]).longValue());
+				}
+				if(row[1] instanceof BigInteger) { /** [NUMERO_USUARIO] **/
+					admonUsuariosRolesV1.setNumeroUsuario(((BigInteger)row[1]).longValue());
+				}
+				if(row[2] instanceof String) { /** [MATRICULA] **/
+					admonUsuariosRolesV1.setMatricula((String)row[2]);
+				}
+				if(row[3] instanceof String) { /** [NOMBRE_USUAURIO] **/
+					admonUsuariosRolesV1.setNombreUsuario((String)row[3]);
+				}
+				if(row[4] instanceof String) { /** [NOMBRE_COMPLETO_USUARIO] **/
+					admonUsuariosRolesV1.setNombreCompletoUsuario((String)row[4]);
+				}
+				if(row[5] instanceof BigInteger) { /** [NUMERO_ROL] **/
+					admonUsuariosRolesV1.setNumeroRol(((BigInteger)row[5]).longValue());
+				}
+				if(row[6] instanceof String) { /** [NOMBRE_ROL] **/
+					admonUsuariosRolesV1.setNombreRol((String)row[6]);
+				}
+				if(row[7] instanceof String) { /** [DESCRIPCION_ROL] **/
+					admonUsuariosRolesV1.setDescripcionRol((String)row[7]);
+				}
+				if(row[8] instanceof String) { /** [APELLIDO_PATERNO] **/
+					admonUsuariosRolesV1.setApellidoPaterno((String)row[8]);
+				}
+				if(row[9] instanceof String) { /** [APELLIDO_MATERNO] **/
+					admonUsuariosRolesV1.setApellidoMaterno((String)row[9]);
+				}
+				if(row[10] instanceof String) { /** [CORREO_ELECTRONICO] **/
+					admonUsuariosRolesV1.setCorreoElectronico((String)row[10]);
+				}
+				if(row[11] instanceof String) { /** [CONTRASENIA] **/
+					admonUsuariosRolesV1.setContrasenia((String)row[11]);
+				}
+				if(row[12] instanceof String) { /** [CURP] **/
+					admonUsuariosRolesV1.setCurp((String)row[12]);
+				}
+				if(row[13] instanceof BigInteger) { /** [ACTUALIZADO_POR] **/
+					admonUsuariosRolesV1.setActualizadoPor(((BigInteger)row[13]).longValue());
+					admonUsuariosRolesV1.setActualizadoPorString();
+				}
+				if(row[14] instanceof Date) { /** [FECHA_ACTUALIZACION] NOMBRE_ACT_POR**/
+					admonUsuariosRolesV1.setFechaActualizacion((Date)row[14]);
+					admonUsuariosRolesV1.setFechaActString();
+				}
+				if(row[15] instanceof String) { /** [NOMBRE_ACT_POR] **/
+					admonUsuariosRolesV1.setNombreActualizo((String)row[15]);
+				}else {
+					admonUsuariosRolesV1.setNombreActualizo("No disponible");
+				}
+				
+				retval.add(admonUsuariosRolesV1); 
+			}
+		}
+		return retval;
+	}
+	
 }

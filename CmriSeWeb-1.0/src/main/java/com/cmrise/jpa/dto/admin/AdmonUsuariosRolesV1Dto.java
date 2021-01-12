@@ -93,6 +93,8 @@ public class AdmonUsuariosRolesV1Dto implements Serializable {
 	@Column(name="SEDE_HOSPITAL")
 	private String sedeHospital; 
 
+	@Column(name="NOMBRE_ACT_POR")
+	private String nombreActPor; 
 
 	public AdmonUsuariosRolesV1Dto() {
 	}
@@ -295,6 +297,12 @@ public class AdmonUsuariosRolesV1Dto implements Serializable {
 		this.sedeHospital = sedeHospital;
 	}
 	
-	
+	public String getNombreActPor() {
+		return this.nombreActPor;
+	}
+
+	public void setActualizadoPor(String nombreActPor) {
+		this.nombreActPor = nombreActPor;
+	}
 
 }

@@ -24,5 +24,5 @@ public interface AdmonUsuariosLocal {
 	public List<AdmonUsuariosRolesV1Dto> findCand();
 	public List<AdmonUsuariosRolesV1Dto> findNotCand();	
 	public AdmonUsuariosDto selectUsuario(long pNumero);
-
+	public List<AdmonUsuariosRolesV1Dto> findCandidateBy(String curp, String nombre, String aPaterno, String aMaterno, String nombreActualizo, String fechaAct);
 }

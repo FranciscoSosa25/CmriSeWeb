@@ -1,6 +1,8 @@
 package com.cmrise.jpa.jdbc.candidates.exams;
 
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -98,4 +100,23 @@ public class CandExamenesDaoImpl implements CandExamenesDao {
 		candExamenesDto.setFechaActualizacion(sqlsysdate);
 	}
 
+	@Override
+	public List<CandExamenesV1Dto> findCandidateByExam(String cCurp, String cNombre, String c_aPaterno, String c_aMaterno, String actPor, String fechaActu
+			, long pNumeroExamen, String pTipoExamen) {
+				 
+		String strQuery = "SELECT c FROM CandExamenesV1Dto c WHERE c.curp like '%"+cCurp.trim()+"%' AND C.nombreUsuario like '%"+cNombre.trim()+"%' AND C.apellidoPaterno like '%"+
+				c_aPaterno.trim()+"%' AND C.apellidoMaterno like '%"+c_aMaterno.trim()+"%'";
+		
+		if(actPor.length()!= 0)
+			strQuery = strQuery + " AND c.nombreActPor like '%"+actPor.trim()+"%'";
+		
+		if(fechaActu.length()!= 0) {
+			strQuery = strQuery + " AND convert(varchar(25),c.fechaActualizacion,126) like '%"+fechaActu.trim()+"%'";
+		}
+		
+		strQuery = strQuery + " AND c.numeroExamen ="+pNumeroExamen+" AND c.tipo='"+pTipoExamen+"'";
+		
+		Query query = em.createQuery(strQuery);
+		return query.getResultList();
+	}
 }

@@ -1,5 +1,6 @@
 package com.cmrise.ejb.services.admin;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Local;
@@ -31,4 +32,6 @@ public interface AdmonUsuariosRolesLocal {
 											            );
 	public List<AdmonUsuariosRolesV1Dto> findCand(); 
 	public List<AdmonUsuariosRolesV1Dto> findNotCand();
+	public List<AdmonUsuariosRolesV1> findCandidateNotExam(String cCurp, String cNombre, String c_aPaterno, 
+			String c_aMaterno, String actPor, String fechaActu, long   pNumeroExamen, String pTipoExamen);
 }
