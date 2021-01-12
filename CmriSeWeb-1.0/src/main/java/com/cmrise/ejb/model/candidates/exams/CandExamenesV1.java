@@ -1,6 +1,9 @@
 package com.cmrise.ejb.model.candidates.exams;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.Column;
 
@@ -22,6 +25,11 @@ public class CandExamenesV1  implements Serializable{
 	private String descripcionRol; 
 	private String curp; 
 	private double totalPuntuacion; 
+	private long actualizadoPor;
+	private Date fechaActualizacion;
+	private String actualizadoPorString;
+	private String fechaActString;
+	private String nombreActPor;
 	
 	public long getNumero() {
 		return numero;
@@ -106,6 +114,38 @@ public class CandExamenesV1  implements Serializable{
 	}
 	public void setTotalPuntuacion(double totalPuntuacion) {
 		this.totalPuntuacion = totalPuntuacion;
+	}
+	public long getActualizadoPor() {
+		return actualizadoPor;
+	}
+	public void setActualizadoPor(long actualizadoPor) {
+		this.actualizadoPor = actualizadoPor;
+	}
+	public Date getFechaActualizacion() {
+		return fechaActualizacion;
+	}
+	public void setFechaActualizacion(Date fechaActualizacion) {
+		this.fechaActualizacion = fechaActualizacion;
+	}
+	public String getActualizadoPorString() {
+		return actualizadoPorString;
+	}
+	public void setActualizadoPorString() {
+		this.actualizadoPorString = Long.toString(this.actualizadoPor);
+	}
+	public String getFechaActString() {
+		return fechaActString;
+	}
+	public void setFechaActString() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+        String strDate = dateFormat.format(this.fechaActualizacion);  
+		this.fechaActString = strDate;
+	}
+	public String getNombreActPor() {
+		return nombreActPor;
+	}
+	public void setNombreActPor(String nombreActPor) {
+		this.nombreActPor = nombreActPor;
 	} 
 
 }

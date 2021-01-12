@@ -67,6 +67,10 @@ public class AdmonUsuariosLocalImpl implements AdmonUsuariosLocal {
 		return admonUsuariosDao.findNotCand();
 	}
 	
+	public List<AdmonUsuariosRolesV1Dto> findCandidateBy(String curp, String nombre, String aPaterno, String aMaterno, String nombreActualizo, String fechaAct){
+		return admonUsuariosDao.findCandidateBy(curp, nombre, aPaterno, aMaterno, nombreActualizo, fechaAct);
+	}
+	
 	}
 
 

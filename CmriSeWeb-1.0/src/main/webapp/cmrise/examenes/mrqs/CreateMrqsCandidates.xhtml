@@ -46,6 +46,56 @@ function handleUpdateRequest(xhr, status, args){
                       auto="true" allowTypes="/(\.|\/)(csv)$/" fileLimit="1" />
         </div>
       </div>
+      
+   <div>
+ 	<f:passThroughAttribute name="autocomplete" value="off"/>
+	 <p:fieldset legend="Buscar Candidato" toggleable="true" toggleSpeed="500" style="margin-bottom:20px" collapsed="true" >
+	   <p:ajax event="toggle" />
+	   <p:panel id="SearchPanel" >
+		  <div class="ui-g ui-fluid" style="width: 100%; margin-top: 5px;">
+		    <div class="ui-g-6 ui-lg-3" >
+		        <p:outputLabel   value="CURP Candidato:" />
+		        <p:inputText id="curp_cand" value="#{createMrqsCandidatesForm.findCurp}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
+		        <p:message for="curp_cand"/>
+		     </div>
+		     <div class="ui-g-6 ui-lg-3">
+		        <p:outputLabel   value="Nombre Candidato:" />
+		        <p:inputText id="nombre_usu" value="#{createMrqsCandidatesForm.findNombre}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
+		        <p:message for="nombre_usu"/>
+		     </div>
+		     <div class="ui-g-6 ui-lg-3">
+		        <p:outputLabel   value="Apellido Paterno:" />
+		        <p:inputText id="a_paterno" value="#{createMrqsCandidatesForm.findAPaterno}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
+		        <p:message for="a_paterno"/>
+		     </div>
+		     <div class="ui-g-6 ui-lg-3">
+		        <p:outputLabel   value="Apellido Materno:" />
+		        <p:inputText id="a_materno" value="#{createMrqsCandidatesForm.findAMaterno}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
+		        <p:message for="a_materno"/>
+		     </div>
+		     <div class="ui-g-6 ui-lg-3">
+		        <p:outputLabel   value="Actualizado por:" />
+		        <p:inputText id="act_por" value="#{createMrqsCandidatesForm.findNombreActPor}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
+		        <p:message for="act_por"/>
+		     </div>
+		     <div class="ui-g-6 ui-lg-3">
+		        <p:outputLabel   value="Fecha actualizado:" />
+		        <p:inputText id="fecha_act" value="#{createMrqsCandidatesForm.findFechaAct}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
+		        <p:message for="fecha_act"/>
+		     </div>
+		  </div>
+	     <div class="ui-g">
+	       <div class="ui-g-12 ui-lg-12" style="text-align: right;">
+	         <p:commandButton value="Cancelar">
+	         <p:ajax listener="#{createMrqsCandidatesForm.clearFiltroForm()}" update="SearchPanel ReadOnlyForm" />
+	         </p:commandButton>
+	         <p:commandButton value="Consultar" actionListener="#{createMrqsCandidatesForm.findCandidateBy()}" update="ReadOnlyForm" style="margin-left: 10px;"/>
+	       </div>
+	     </div>
+	  </p:panel>
+	 </p:fieldset>
+ 	</div>
+   
 <div class="card">
  <p:dataTable var="admonCandidatos" value="#{createMrqsCandidatesForm.listAdmonUsuarios}" emptyMessage="Sin resultados"  paginator="true" rows="30" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">Candidatos</f:facet>
@@ -66,8 +116,11 @@ function handleUpdateRequest(xhr, status, args){
     <p:column headerText="Sede Hospital">
     <h:outputText value="#{admonCandidatos.sedeHospital}"/>
    </p:column>
-   <p:column headerText="ActualizadoPor">
+   <p:column headerText="Actualizado Por">
     <h:outputText value="#{admonCandidatos.actualizadoPorName}"/>
+   </p:column>
+   <p:column headerText="Fecha Actualización">
+    <h:outputText value="#{admonCandidatos.fechaActString}"/>
    </p:column>
      <f:facet name="footer">
 

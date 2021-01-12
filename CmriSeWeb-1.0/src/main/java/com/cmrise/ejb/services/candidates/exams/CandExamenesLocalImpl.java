@@ -1,6 +1,7 @@
 package com.cmrise.ejb.services.candidates.exams;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -43,6 +44,15 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 			candExamenesV1.setCurp(candExamenesV1Dto.getCurp());
 			candExamenesV1.setEstatus(candExamenesV1Dto.getEstatus());
 			candExamenesV1.setTotalPuntuacion(candExamenesV1Dto.getTotalPuntuacion());
+			candExamenesV1.setActualizadoPor(candExamenesV1Dto.getActualizadoPor());
+			
+			if(candExamenesV1Dto.getNombreActPor() != null)
+				candExamenesV1.setNombreActPor(candExamenesV1Dto.getNombreActPor());
+			else
+				candExamenesV1.setNombreActPor("No disponible");
+			
+			candExamenesV1.setFechaActualizacion(candExamenesV1Dto.getFechaActualizacion());
+			candExamenesV1.setFechaActString();
 			retval.add(candExamenesV1); 
 		}
 		return retval;
@@ -126,9 +136,43 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 	}
 	
 	@Override
-	public void updateEstatus(long pNumero
-			                 ,CandExamenesDto pCandExamenesDto) {
+	public void updateEstatus(long pNumero, CandExamenesDto pCandExamenesDto) {
 		 candExamenesDao.updateEstatus(pNumero, pCandExamenesDto);
+	}
+	
+	@Override
+	public List<CandExamenesV1> findCandidateByExam(String cCurp, String cNombre, String c_aPaterno, String c_aMaterno, String actPor, String fechaActu, long pNumeroExamen, String pTipoExamen) {
+		List<CandExamenesV1Dto> listCandExamenesV1Dto = candExamenesDao.findCandidateByExam(cCurp, cNombre, c_aPaterno, c_aMaterno, actPor, fechaActu, pNumeroExamen, pTipoExamen); 
+		List<CandExamenesV1> retval = new ArrayList<CandExamenesV1>(); 
+		
+		for(CandExamenesV1Dto candExamenesV1Dto:listCandExamenesV1Dto) {
+			CandExamenesV1 candExamenesV1 = new CandExamenesV1(); 
+			candExamenesV1.setNumero(candExamenesV1Dto.getNumero());
+			candExamenesV1.setNumeroExamen(candExamenesV1Dto.getNumeroExamen());
+			candExamenesV1.setNumeroUsuario(candExamenesV1Dto.getNumeroUsuario());
+			candExamenesV1.setTipo(candExamenesV1Dto.getTipo());
+			candExamenesV1.setMatricula(candExamenesV1Dto.getMatricula());
+			candExamenesV1.setNombreUsuario(candExamenesV1Dto.getNombreUsuario());
+			candExamenesV1.setApellidoPaterno(candExamenesV1Dto.getApellidoPaterno());
+			candExamenesV1.setApellidoMaterno(candExamenesV1Dto.getApellidoMaterno());
+			candExamenesV1.setDescripcionRol(candExamenesV1Dto.getDescripcionRol());
+			candExamenesV1.setNombreCompletoUsuario(candExamenesV1Dto.getNombreCompletoUsuario());
+			candExamenesV1.setCurp(candExamenesV1Dto.getCurp());
+			candExamenesV1.setEstatus(candExamenesV1Dto.getEstatus());
+			candExamenesV1.setTotalPuntuacion(candExamenesV1Dto.getTotalPuntuacion());
+			candExamenesV1.setActualizadoPor(candExamenesV1Dto.getActualizadoPor());
+			
+			if(candExamenesV1Dto.getNombreActPor() != null)
+				candExamenesV1.setNombreActPor(candExamenesV1Dto.getNombreActPor());
+			else
+				candExamenesV1.setNombreActPor("No disponible");
+			
+			candExamenesV1.setFechaActualizacion(candExamenesV1Dto.getFechaActualizacion());
+			candExamenesV1.setFechaActString();
+			
+			retval.add(candExamenesV1); 
+		}
+		return retval;
 	}
 	
 }

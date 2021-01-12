@@ -1,5 +1,6 @@
 package com.cmrise.jpa.dao.candidates.exams;
 
+import java.util.Date;
 import java.util.List;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesDto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesV1Dto;
@@ -20,7 +21,7 @@ public interface CandExamenesDao {
 			                                  String pNombreUsuario
 			                                  ,String pApellidoPaterno
 			                                  ,String pAPellidoMaterno);
-	public void updateEstatus(long pNumero
-			                  ,CandExamenesDto pCandExamenesDto);
-	
+	public void updateEstatus(long pNumero, CandExamenesDto pCandExamenesDto);
+	public List<CandExamenesV1Dto> findCandidateByExam(String cCurp, String cNombre, String c_aPaterno, 
+									String c_aMaterno, String actPor, String fechaActu, long pNumeroExamen, String pTipoExamen);
 }
