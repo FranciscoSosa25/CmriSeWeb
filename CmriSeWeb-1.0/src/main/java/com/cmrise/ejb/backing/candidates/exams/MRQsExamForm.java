@@ -22,6 +22,7 @@ import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
 import com.cmrise.ejb.model.exams.MrqsGrupoLines;
 import com.cmrise.ejb.model.exams.MrqsGrupoLinesV2;
 import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
+import com.cmrise.ejb.model.mrqs.MrqsPreguntasFtaV1;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
 import com.cmrise.ejb.services.candidates.exams.CandExamRespSkipLocal;
@@ -168,7 +169,6 @@ public class MRQsExamForm {
 				//for(MrqsGrupoHdr idxHdr:listMrqsGrupoHdr) {
 				MrqsGrupoHdr idxHdr = listMrqsGrupoHdr.get(idxGrupo);
 					mrqsGrupoHdr.setNumero(idxHdr.getNumero());
-					
 					candExamRespSkipDto.setNumeroGrupo(idxHdr.getNumero());
 					mrqsGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
 					mrqsGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
@@ -193,6 +193,12 @@ public class MRQsExamForm {
 						candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
 						/* preguntas */
 						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
+						
+						MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,idx.getTipoPregunta());
+						if(pregunta.getLimiteCaracteres() != null)
+							limiteCaracteres = pregunta.getLimiteCaracteres();
+						else
+							limiteCaracteres = 50;
 						candExamRespSkipDto.setNumeroPreguntaFta(this.numeroPreguntaFta);
 						if(Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
 							this.setLimitedFreeTextAnswer(true);
@@ -230,7 +236,7 @@ public class MRQsExamForm {
 				mrqsGrupoHdr.setAdmonMateriaDesc(tmp.getTitulo()); 
 				//mrqsGrupoHdr.setAdmonMateriaDesc(tmp.getTemaPreguntaDesc());
 				mrqsGrupoHdr.setAdmonSubMateriaDesc(tmp.getTemaPreguntaDesc());
-
+				
 				mrqsGrupoLinesV2.setNumero(tmp.getNumero());
 			//	mrqsGrupoLinesV2.setTitulo(tmp.getTitulo());
 				mrqsGrupoLinesV2.setTextoPregunta(tmp.getTextoPregunta());
@@ -239,6 +245,12 @@ public class MRQsExamForm {
 				mrqsGrupoLinesV2.setNumeroPregunta(tmp.getNumeroPregunta());
 				
 				this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
+				
+				MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta, tmp.getTipoPregunta());
+				if(pregunta.getLimiteCaracteres() != null)
+					limiteCaracteres = pregunta.getLimiteCaracteres();
+				else
+					limiteCaracteres = 50;
 				
 				if(Utilitarios.RESP_TEXTO_LIBRE.equals(tmp.getTipoPregunta())) {
 					this.setLimitedFreeTextAnswer(true);
@@ -267,9 +279,8 @@ public class MRQsExamForm {
 				this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
 				
 			}
-			////AQUI!
-			System.out.println("Mensaje final" + mrqsExamen.getMensajeFinalizacion());
-			 listPresentMrqsImagenesGrp =  mrqsImagenesGrpLocal.findByFta(this.numeroPreguntaFta,Utilitarios.INTRODUCCION);
+			
+			listPresentMrqsImagenesGrp =  mrqsImagenesGrpLocal.findByFta(this.numeroPreguntaFta,Utilitarios.INTRODUCCION);
 		        	
 			
 	}
@@ -628,6 +639,14 @@ public class MRQsExamForm {
 						candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
 						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
 						candExamRespSkipDto.setNumeroPreguntaFta(this.numeroPreguntaFta);
+						
+						MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta, idx.getTipoPregunta());
+						System.out.println(pregunta.getTextoPregunta());
+						
+						if(pregunta.getLimiteCaracteres() != null)
+							limiteCaracteres = pregunta.getLimiteCaracteres();
+						else
+							limiteCaracteres = 50;
 						if(Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
 							this.setLimitedFreeTextAnswer(true);
 						}else if(Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
@@ -669,6 +688,13 @@ public class MRQsExamForm {
 				mrqsGrupoLinesV2.setNumeroPregunta(tmp.getNumeroPregunta());
 				
 				this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
+				
+				MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta, tmp.getTipoPregunta());
+				System.out.println(pregunta.getTextoPregunta());
+				if(pregunta.getLimiteCaracteres() != null)
+					limiteCaracteres = pregunta.getLimiteCaracteres();
+				else
+					limiteCaracteres = 50;
 				
 				if(Utilitarios.RESP_TEXTO_LIBRE.equals(tmp.getTipoPregunta())) {
 					this.setLimitedFreeTextAnswer(true);
