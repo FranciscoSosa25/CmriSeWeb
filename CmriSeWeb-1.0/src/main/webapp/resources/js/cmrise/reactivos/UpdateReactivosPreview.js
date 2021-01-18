@@ -54,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         });
 
-
         paintingCanvasID.addEventListener("mousemove", function (e) {
             var cRect = paintingCanvasID.getBoundingClientRect(); // Gets CSS pos, and width/height
             var canvasX = Math.round(e.clientX - cRect.left); // Subtract the 'left' of the canvas
@@ -145,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function point_it(event) {
 	
     val=val+1;
-    var sc=document.getElementById("previewForm:score").value;  
+    var sc=parseInt(document.getElementById("previewForm:numeroPoligonos").value);  
     if(val <= 0){    
     paintingCanvasID = document.getElementById("paintingCanvas");
     ctx = paintingCanvasID.getContext("2d");
@@ -213,7 +212,7 @@ function point_it(event) {
         ctx.lineTo(x, y);
        ctx.lineWidth = 3;
         ctx.stroke();
-
+	
        coordinatesID = document.getElementById('previewForm:coordinates');
        coordinatesID.value = JSON.stringify(perimeter);
     }});
@@ -302,7 +301,7 @@ $(document).ready(function () {
 });
 
 function handleUpdateRequest(xhr, status, args) {
-
+   
     if (args.validationFailed || !args.updateIn) {
         argsValidationFailed();
     }

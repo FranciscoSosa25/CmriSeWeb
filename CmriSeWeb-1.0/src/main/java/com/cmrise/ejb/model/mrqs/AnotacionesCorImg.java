@@ -7,6 +7,7 @@ public class AnotacionesCorImg implements Serializable{
 	private static final long serialVersionUID = 1L;
  	private int numero;
 	private String nodo;
+	private int numeroRespuesta;
 	public int getNumero() {
 		return numero;
 	}
@@ -18,6 +19,12 @@ public class AnotacionesCorImg implements Serializable{
 	}
 	public void setNodo(String nodo) {
 		this.nodo = nodo;
+	}
+	public int getNumeroRespuesta() {
+		return numeroRespuesta;
+	}
+	public void setNumeroRespuesta(int numeroRespuesta) {
+		this.numeroRespuesta = numeroRespuesta;
 	} 
 	
 }

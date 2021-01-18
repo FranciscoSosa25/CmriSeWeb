@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -65,6 +66,7 @@ import com.cmrise.jpa.dto.mrqs.MrqsListasPalabrasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaSinonimos;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
+import com.cmrise.jpa.dto.mrqs.img.MrqsImagenesDto;
 import com.cmrise.utils.CorrelacionColumnasInsertException;
 import com.cmrise.utils.Utilitarios;
 import com.cmrise.utils.UtilitariosLocal;
@@ -144,7 +146,7 @@ public class UpdateFTAMrqForm {
 	private int idxLabels = 0; 
 	private String[] labels = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"}; 
 	private Boolean isRequired = true;
-	
+	private int puntos;
 	private List<MrqsPreguntasFtaSinonimos> mrqsListaSinonimos= new ArrayList<MrqsPreguntasFtaSinonimos>();
 	@Inject 
 	MrqsPreguntasHdrLocal mrqsPreguntasHdrLocal;
@@ -356,11 +358,22 @@ public class UpdateFTAMrqForm {
 		this.selectScoringMethodItems = new ArrayList<SelectItem>();
 		List<TablasUtilitariasValoresDto> listScoringMethodValores =  tablasUtilitariasValoresLocal.findByTipoTabla("SCORING_METHOD");  
 		Iterator<TablasUtilitariasValoresDto> iterScoringMethodValores = listScoringMethodValores.iterator(); 
-		if("OPCION_MULTIPLE".equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())||Utilitarios.CORRELACION_COLUMNA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
+		if("OPCION_MULTIPLE".equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			while(iterScoringMethodValores.hasNext()) {
 				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
 				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
 				  ||"PROP_SCORING".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+					) {
+					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+					this.selectScoringMethodItems.add(selectItem); 	
+				  }
+			}	
+		}
+		
+		if(Utilitarios.CORRELACION_COLUMNA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
+			while(iterScoringMethodValores.hasNext()) {
+				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
+				if("PROP_SCORING".equals(tablasUtilitariasValoresDto.getCodigoTabla())
 					) {
 					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
 					this.selectScoringMethodItems.add(selectItem); 	
@@ -382,7 +395,7 @@ public class UpdateFTAMrqForm {
 		if(Utilitarios.IMAGEN_INDICADA.equals(mrqsPreguntasHdrV1ForAction.getTipoPregunta())) {
 			while(iterScoringMethodValores.hasNext()) {
 				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
-				if("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
+				if("PROP_SCORING".equals(tablasUtilitariasValoresDto.getCodigoTabla())
 				 	) {
 					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
 					this.selectScoringMethodItems.add(selectItem); 	
@@ -515,7 +528,7 @@ public class UpdateFTAMrqForm {
 			}else if(Utilitarios.RESP_TEXTO_LIBRE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())){
 		     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta(this.mrqsPreguntasFtaV1ForAction.getRespuestaCorrecta());
 		    }else if(Utilitarios.IMAGEN_INDICADA.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
-		     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("Coordenadas Poligonos");
+		     //mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("Coordenadas Poligonos");
 		    if(null==mrqsPreguntasFtaV1ForAction.getNombreImagen()) {
 		    	FacesContext context = FacesContext.getCurrentInstance();
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se nececita una","imagen") );
@@ -547,7 +560,7 @@ public class UpdateFTAMrqForm {
 			  
 		   }
 		   
-			
+		    validarRespuestaUnica();
 			lNumeroFta = mrqsPreguntasFtaLocal.insert(mrqsPreguntasFtaV1ForAction); 
 			setNumeroFta(lNumeroFta);
 			
@@ -608,7 +621,7 @@ public class UpdateFTAMrqForm {
 					   mrqsPreguntasFtaV1ForAction.setCorrelaciones(gson.toJson(listRespCorrectReactCorImg));
 				   }
 			}
-			
+			validarRespuestaUnica();
 			mrqsPreguntasFtaLocal.update(lNumeroFta, mrqsPreguntasFtaV1ForAction); 
 			
 			for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
@@ -669,6 +682,13 @@ public class UpdateFTAMrqForm {
         
 		System.out.println("Entra UpdateFTAMrqForm Sale");
 		
+	}
+	private void validarRespuestaUnica() {
+		mrqsPreguntasFtaV1ForAction.setSingleAnswerMode(false);
+		long respuestaUnica=listMrqsOpcionMultiple.stream().filter(a->a.isEstatus()).count();
+	    if(Utilitarios.OPCION_MULTIPLE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta()) && respuestaUnica==1) {
+			mrqsPreguntasFtaV1ForAction.setSingleAnswerMode(true);
+		}
 	}
 	private long validarCorrelacionColumnas(long lNumeroFta) {
 		if(!Utilitarios.CORRELACION_COLUMNA.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta()))
@@ -744,8 +764,21 @@ public class UpdateFTAMrqForm {
 		System.out.println("pMrqsImagenesGrp.getNumero():"+pMrqsImagenesGrp.getNumero());
 		mrqsImagenesGrpLocal.insert(pNumetoFta,pMrqsImagenesGrp);
 		System.out.println("pMrqsImagenesGrp.getNumero():"+pMrqsImagenesGrp.getNumero());
+		
 	}
-	
+	public void eliminar(MrqsImagenesGrp pMrqsImagenesGrp,MrqsImagenes item) {
+		if( item.getNumero()==0) {
+		List<MrqsImagenes> li=pMrqsImagenesGrp.getListMrqsImagenes();
+		li.remove(item);}
+		try {
+			mrqsImagenesGrpLocal.eliminarImagen(getNumeroFta(), pMrqsImagenesGrp, item);
+			init();
+		} catch (Exception e) {
+			limpiarMensajes();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, Utilitarios.ERROR_ELIMINAR, null));
+		}
+		
+	}
 	public String cancel() {
 		return "Preguntas-ManageNewMrqs"; 
 	}
@@ -940,7 +973,7 @@ public class UpdateFTAMrqForm {
 		            	presentacionImagen.setImagenContent(byteContent);
 		            	presentacionImagen.setImagenBase64(new String(Base64.getEncoder().encode(byteContent)));
 		            	presentacionImagen.setContentType(f.getContentType());
-		            	
+		            
 		        			StreamedContent streamedContent = DefaultStreamedContent.builder()
 		        		                                                            .contentType(f.getContentType())
 		        		                                                            .stream(() -> {
@@ -953,9 +986,13 @@ public class UpdateFTAMrqForm {
 		        		                                                              })
 		        		                                                             .build()
 		        		                                                             ;
+		        			
+		        			
+		        			
 		        		if(f.getContentType().contains("image")) {
 		        			presentacionImagen.setImagenStreamed(streamedContent);
 		        			presentacionImagen.setImage(true);
+		        			presentacionImagen.setImagen(cargarImagen(f));
 			        	}else if(f.getContentType().contains("video")) {
 			        		presentacionImagen.setVideo(true);
 			        		presentacionImagen.setVideoStreamed(streamedContent);
@@ -1004,7 +1041,21 @@ public class UpdateFTAMrqForm {
     }
 	 * @throws IOException 
     **********************************************/
-	
+	private StreamedContent cargarImagen(UploadedFile f) {
+		StreamedContent file=null;
+		try {
+			byte contents[] = IOUtils.toByteArray(f.getInputStream());
+			 file = DefaultStreamedContent.builder()
+                    .name(f.getFileName())
+                    .contentType("application/octet-stream")
+                    .stream(() -> new ByteArrayInputStream(contents)).build();
+
+		} catch (IOException e) {
+			limpiarMensajes();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,Utilitarios.ERROR_CARGAR_IMAGEN, null));
+		}
+		return file;
+	}
 	public void handleFileUpload(FileUploadEvent event) throws IOException {
 		FacesMessage msg;
 		UploadedFile uploadedFile = event.getFile();
@@ -1014,13 +1065,15 @@ public class UpdateFTAMrqForm {
 		int width = bi.getWidth();
 		int height = bi.getHeight();
 		System.out.println("Width: " + width + ", height: " + height);
-		
+		if(width<=500 || height<=500) {
+			msg = new FacesMessage("El archivo", event.getFile().getFileName() + " no se ha sido subido. El tamaño mínimo  es 500x500");
+		}else {
 			msg = new FacesMessage("El archivo", event.getFile().getFileName() + " ha sido subido.");
 			mrqsPreguntasFtaV1ForAction.setNombreImagen(uploadedFile.getFileName());
 			mrqsPreguntasFtaV1ForAction.setContentType(uploadedFile.getContentType());
 			mrqsPreguntasFtaV1ForAction.setImagenContent(uploadedFile.getContent());
 			mrqsPreguntasFtaV1ForAction.setImagenBase64(new String(Base64.getEncoder().encode(uploadedFile.getContent())));
-		
+		}
         FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
@@ -1059,7 +1112,6 @@ public class UpdateFTAMrqForm {
 		listRespCorrectReactCorImg.remove(id);
 		idxLabels--;
 		for(RespCorrectReactCorImg i: listRespCorrectReactCorImg) {
-			System.out.println("así va el ordern po: "+labels[contador]);
 			i.setNodo(" "+labels[contador]);
 			contador++;
 		}
@@ -1084,6 +1136,10 @@ public class UpdateFTAMrqForm {
 		listMrqsCorrelacionColumnas.remove(item);	
 		
 	}
+	public void updateValorRespuesta(MrqsCorrelacionColumnasDto item) {
+		item.setTextoRespuesta(item.getTextoRespuesta());
+	}
+	
 	private <E> void deleteItem(E item) {		
 			try {
 				if(item instanceof MrqsCorrelacionColumnasDto)

@@ -7,15 +7,22 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.fileupload.RequestContext;
+import org.primefaces.shaded.json.JSONArray;
+import org.primefaces.shaded.json.JSONObject;
 
 import com.cmrise.ejb.helpers.GuestPreferences;
 import com.cmrise.ejb.model.mrqs.AnotacionesCorImg;
@@ -38,8 +45,12 @@ import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaSinonimos;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
 import com.cmrise.utils.Utilitarios;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
+import org.primefaces.PrimeFaces;
+import org.primefaces.context.PrimeRequestContext;
 @ManagedBean
 @ViewScoped
 public class MrqPreviewForm {
@@ -98,6 +109,12 @@ public class MrqPreviewForm {
 	private String indicateImageResult;
 	private Integer limiteCaracteres;
 	private List<MrqsPreguntasFtaSinonimos> mrqsListaSinonimos= new ArrayList<MrqsPreguntasFtaSinonimos>();
+	
+	private int puntaje;
+	private float calificacion; 
+	private List<SelectItem> listRespuestasCandImg = new ArrayList<SelectItem>();
+	private SelectItem respuestaSelect = new SelectItem();
+	
 	@Inject 
 	MrqsPreguntasFtaSinonimosLocal mrqsPreguntasFtaSinonimosLocal;
 	@Inject 
@@ -113,11 +130,13 @@ public class MrqPreviewForm {
 	MrqsImagenesGrpLocal mrqsImagenesGrpLocal;
 	
 	@ManagedProperty(value="#{guestPreferences}")
-	GuestPreferences guestPreferences; 
+	GuestPreferences guestPreferences;
+	
 	
 	
 	@PostConstruct
 	public void init() {
+		
         System.out.println("Entra MrqPreviewForm init()");
 		 FacesContext context = FacesContext.getCurrentInstance(); 
 		 System.out.println("Entra context ()"+ context);
@@ -167,7 +186,7 @@ public class MrqPreviewForm {
 	     mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(mrqsPreguntasHdrV2Dto.getNumeroMpf()
 																	             ,mrqsPreguntasHdrV2Dto.getTipoPregunta()
 																	             );
-	     
+	     System.out.println(mrqsPreguntasFtaV1ForRead.getRespuestas());
 	     
 	     if(Utilitarios.IMAGEN_ANOTADA.equals(mrqsPreguntasHdrV2Dto.getTipoPregunta())) {
 	    	 Gson gson = new Gson();
@@ -178,7 +197,7 @@ public class MrqPreviewForm {
              }
              if(null!=mrqsPreguntasFtaV1ForRead.getAnotaciones()) {
             	 Type collectionType = new TypeToken<List<AnotacionesCorImg>>(){}.getType();
-            	 listAnotacionesCorImg = gson.fromJson(mrqsPreguntasFtaV1ForRead.getAnotaciones(), collectionType); 
+            	 listAnotacionesCorImg = gson.fromJson(mrqsPreguntasFtaV1ForRead.getCorrelaciones(), collectionType); 
              }
 	     }
 	     
@@ -203,9 +222,23 @@ public class MrqPreviewForm {
         	listMrqsOpcionMultiple.add(mrqsOpcionMultiple); 
         }
 	}
-
+    private void validarPuntosUsuario() {
+    	 limpiarMensajes();
+   	  if( (getRespuestaPreguntaCandidato().isEmpty()|| getRespuestaPreguntaCandidato()==null)  ) {
+   		
+   		  PrimeRequestContext context = PrimeRequestContext.getCurrentInstance();   		 
+   		  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, Utilitarios.ERROR_PUNTOS_USUARIO, null));
+   		  
+			
+			PrimeFaces.current().executeScript("location.reload();");
+		
+   		
+   		  return;
+   	  }
+    }
 	public void  saveProceed() {
 	  System.out.println("Entra saveProceed");	
+	  validarPuntosUsuario();
 	  this.setAnswerView(true);
 	  if(this.isLimitedFreeTextAnswer()) {
 		  if(this.getRespuestaPreguntaCandidato().equalsIgnoreCase(this.getRespuestaPreguntaSistema()) || validarSinonimos(getRespuestaPreguntaCandidato())) {
@@ -222,25 +255,47 @@ public class MrqPreviewForm {
 			  evaluateNotIsSingleAnswerMode(listMrqsOpcionMultiple);
 		  }
 	  } else if (this.isIndicateImage()) {
-
-	  	if (Boolean.valueOf(this.getIndicateImageResult())) {
-
+		  
+		 
+		 int puntuacion= Integer.valueOf(mrqsPreguntasFtaV1ForRead.getValorPuntuacion());
+		 int poligonos=Integer.valueOf(mrqsPreguntasFtaV1ForRead.getPoligonos());
+		 String coordenadasPoligonos=mrqsPreguntasFtaV1ForRead.getRespuestas();
+		 String coordenadasUsuario=getRespuestaPreguntaCandidato();
+		 int ancho=mrqsPreguntasFtaV1ForRead.getWidth();
+		 Poligonos ob= new Poligonos();
+		 double puntuacionR=ob.obtenerPuntuacion(puntuacion,poligonos,ancho,coordenadasUsuario,coordenadasPoligonos);
+		 BigDecimal bd = new BigDecimal(puntuacionR).setScale(2, BigDecimal.ROUND_DOWN);
+	  	if (puntuacionR>0) {
+	  		setPuntuacion((float)bd.floatValue());
 			this.setCorrectAnswer(true);
 
 		} else {
 
 			this.setWrongAnswer(true);
 
-			//this.setPuntuacion(0);
+			this.setPuntuacion(0);
 		}
+	  	
 	  }
+	  else if (this.isAnnotatedImage()) {
+			evaluateAnnotatedImage();
+		}
+	  
 	  comprobarRespuestasCorrelacionColumnas();
 	  System.out.println("Sale saveProceed");	
+	}
+	private void limpiarMensajes() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		Iterator<FacesMessage> it = context.getMessages();
+		while ( it.hasNext() ) {
+		    it.next();
+		    it.remove();
+		}
 	}
 	private void comprobarRespuestasCorrelacionColumnas() {
 		if(Utilitarios.CORRELACION_COLUMNA.equals(getTipoPregunta())){
 		Iterator<MrqsCorrelacionColumnasRespuestasDto> lista=	listMrqsCorrelacionColumnasRespuestasDto.iterator();
-	    float valorItem=Utilitarios.CORRELACION_COLUMNA_VALOR_REACTIVO/listMrqsCorrelacionColumnasRespuestasDto.size();
+	    float valorItem=getPuntuacion()/listMrqsCorrelacionColumnasRespuestasDto.size();
 		int respuestasCorrectas=0;		
 		float puntuacion=0.0f;
 		while(lista.hasNext()) {
@@ -295,9 +350,11 @@ public class MrqPreviewForm {
 	   System.out.println("this.getRespuestasPreguntaCandidato():"+this.getRespuestasPreguntaCandidato());
 	   int countCorrectAnswers =0; 
 	   int countWrongAnswers = 0; 
+	   int respuestasCorrectasReactivo=0;
 	  if(null!=this.getRespuestasPreguntaCandidato()) {
 		  String [] array = this.getRespuestasPreguntaCandidato(); 
-		  
+		  respuestasCorrectasReactivo= (int)listMrqsOpcionMultiple.stream().filter(a->a.isEstatus()).count();
+          
 		  for(int idx =0;idx<array.length;idx=idx+1) {
 			  for(MrqsOpcionMultiple mrqsOpcionMultiple:listMrqsOpcionMultiple) {
 				  long longRespuestaCandidato = Long.parseLong(array[idx]); 
@@ -319,7 +376,7 @@ public class MrqPreviewForm {
 		   }
 	   }
 	  System.out.println("countCorrectAnswers:"+countCorrectAnswers);
-	  if(countCorrectAnswers>0) {
+	  if(countCorrectAnswers>0 && respuestasCorrectasReactivo==countCorrectAnswers) {
 		  this.setCorrectAnswer(true);
 		  System.out.println("metodoPuntuacion:"+this.metodoPuntuacion);
 		  if(Utilitarios.PROP_SCORING.equals(this.metodoPuntuacion)) {
@@ -339,7 +396,34 @@ public class MrqPreviewForm {
 	  this.setWrongAnswers(countWrongAnswers+" Respuesta(s) incorrectas"); 
 	  
 	}
-
+	
+	public void evaluateAnnotatedImage() {
+		int contador = 0;
+		puntaje = 0;
+		
+		System.out.println("valor puntuacion "+puntuacion);
+		for(SelectItem i: listRespuestasCandImg)
+		{
+			System.out.println("value: "+this.listRespuestasCandImg.get(contador).getValue());
+			System.out.println("numeroRespuesta"+this.listAnotacionesCorImg.get(contador).getNumeroRespuesta());
+			System.out.println("contador "+ contador);
+			if(Integer.parseInt((String) i.getValue()) == this.listAnotacionesCorImg.get(contador).getNumeroRespuesta()) {
+				puntaje++;
+			}
+			contador++;
+		}
+		calificacion = puntuacion/listRespuestasCandImg.size() * puntaje;
+		System.out.println("respuestas correctas totales: "+ puntaje);
+		System.out.println("valor al evaluar: "+ calificacion);
+	}
+	
+	public void agregarRespCandidato(int index) {
+		SelectItem nuevaRespuesta = new SelectItem();
+		nuevaRespuesta.setValue(respuestaSelect.getValue());
+		listRespuestasCandImg.set(index, nuevaRespuesta);
+		System.out.println("Sale agregarRespCandidato");
+	}
+	
 	public String skip() {
 		guestPreferences.setTheme(Utilitarios.DEFAULT_THEME);
 		FacesContext context = FacesContext.getCurrentInstance(); 
@@ -353,8 +437,11 @@ public class MrqPreviewForm {
 	}
 	
 	private void refreshRespuestas() {
+		//para inicializar la lista de respuestas a evaluar se inicializa listRespuestasCandImg
+		SelectItem e = new SelectItem();
 		selectRespReactCorImg = new ArrayList<SelectItem>(); 
 		for(RespReactCorImg i:listRespReactCorImg) {
+		     listRespuestasCandImg.add(e);
 			SelectItem selectItem = new SelectItem(i.getNumero(),i.getRespuesta()); 
 			selectRespReactCorImg.add(selectItem); 
 		}
@@ -716,6 +803,38 @@ public class MrqPreviewForm {
 
 	public void setLimiteCaracteres(Integer limiteCaracteres) {
 		this.limiteCaracteres = limiteCaracteres;
+	}
+
+	public int getPuntaje() {
+		return puntaje;
+	}
+
+	public void setPuntaje(int puntaje) {
+		this.puntaje = puntaje;
+	}
+
+	public float getCalificacion() {
+		return calificacion;
+	}
+
+	public void setCalificacion(float calificacion) {
+		this.calificacion = calificacion;
+	}
+
+	public List<SelectItem> getListRespuestasCandImg() {
+		return listRespuestasCandImg;
+	}
+
+	public void setListRespuestasCandImg(List<SelectItem> listRespuestasCandImg) {
+		this.listRespuestasCandImg = listRespuestasCandImg;
+	}
+
+	public SelectItem getRespuestaSelect() {
+		return respuestaSelect;
+	}
+
+	public void setRespuestaSelect(SelectItem respuestaSelect) {
+		this.respuestaSelect = respuestaSelect;
 	}
 	
 	

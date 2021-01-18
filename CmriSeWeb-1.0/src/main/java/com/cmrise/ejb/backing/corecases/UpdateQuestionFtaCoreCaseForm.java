@@ -173,11 +173,11 @@ public class UpdateQuestionFtaCoreCaseForm {
 		if ("OPCION_MULTIPLE".equals(ccPreguntasHdrV1ForAction.getTipoPregunta())) {
 			while (iterScoringMethodValores.hasNext()) {
 				TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterScoringMethodValores.next();
-				if ("WRONG_CORRECT".equals(tablasUtilitariasValoresDto.getCodigoTabla())
-						|| "PROP_SCORING".equals(tablasUtilitariasValoresDto.getCodigoTabla())) {
+				if ("PROP_SCORING".equals(tablasUtilitariasValoresDto.getCodigoTabla())) {
 					SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),
 							tablasUtilitariasValoresDto.getSignificado());
 					this.selectScoringMethodItems.add(selectItem);
+					ccPreguntasFtaV1ForUpdate.setMetodoPuntuacion(tablasUtilitariasValoresDto.getCodigoTabla());
 				}
 			}
 		}
@@ -307,7 +307,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 			ccPreguntasFtaDto.setMetodoPuntuacion(ccPreguntasFtaV1ForUpdate.getMetodoPuntuacion());
 			ccPreguntasFtaDto.setValorPuntuacion(ccPreguntasFtaV1ForUpdate.getValorPuntuacion());
 			ccPreguntasFtaDto.setLimiteCaracteres(ccPreguntasFtaV1ForUpdate.getLimiteCaracteres()!=null?ccPreguntasFtaV1ForUpdate.getLimiteCaracteres():
-				ccPreguntasFtaV1ForUpdate.getRespuestaCorrecta().length());
+				ccPreguntasFtaV1ForUpdate.getRespuestaCorrecta()!=null?ccPreguntasFtaV1ForUpdate.getRespuestaCorrecta().length():0);
 			ccPreguntasFtaLocal.update(this.getNumeroFtaRecord(), ccPreguntasFtaDto);
 
 			if (null != listCcOpcionMultiple) {
@@ -355,7 +355,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 			ccPreguntasFtaDto.setMetodoPuntuacion(ccPreguntasFtaV1ForUpdate.getMetodoPuntuacion());
 			ccPreguntasFtaDto.setValorPuntuacion(ccPreguntasFtaV1ForUpdate.getValorPuntuacion());
 			ccPreguntasFtaDto.setLimiteCaracteres(ccPreguntasFtaV1ForUpdate.getLimiteCaracteres()!=null?ccPreguntasFtaV1ForUpdate.getLimiteCaracteres():
-				ccPreguntasFtaV1ForUpdate.getRespuestaCorrecta().length());
+				ccPreguntasFtaV1ForUpdate.getRespuestaCorrecta()!=null?ccPreguntasFtaV1ForUpdate.getRespuestaCorrecta().length():0);
 			long numeroPreguntaFta = ccPreguntasFtaLocal.insert(ccPreguntasFtaDto);
 
 			if (Utilitarios.OPCION_MULTIPLE.equals(ccPreguntasHdrDto.getTipoPregunta())) {
@@ -436,6 +436,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 	}
 
 	public String saveAndPreview() {
+		ccPreguntasFtaV1ForUpdate.getValorPuntuacion();
 		update();
 		validarTextoLibre(ccPreguntasFtaV1ForUpdate.getNumero());
 		getGuestPreferences().setTheme("deep-purple");
