@@ -5,6 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template/template.xhtml">
 <ui:define name="xxhrwjs">
+
 <script type="text/javascript">
 function handleCreateRequest(xhr, status, args){
 	 if(args.validationFailed|| !args.createIn) {
@@ -87,7 +88,7 @@ function handleUpdateRequest(xhr, status, args){
 	     <div class="ui-g">
 	       <div class="ui-g-12 ui-lg-12" style="text-align: right;">
 	         <p:commandButton value="Cancelar">
-	         <p:ajax listener="#{createMrqsCandidatesForm.clearFiltroForm()}" update="SearchPanel ReadOnlyForm" />
+	         	<p:ajax listener="#{createMrqsCandidatesForm.clearFiltroForm()}" update="SearchPanel ReadOnlyForm" />
 	         </p:commandButton>
 	         <p:commandButton value="Consultar" actionListener="#{createMrqsCandidatesForm.findCandidateBy()}" update="ReadOnlyForm" style="margin-left: 10px;"/>
 	       </div>
@@ -184,8 +185,8 @@ function handleUpdateRequest(xhr, status, args){
                  <p:commandButton id="CreateBtn" update="createPanelID ReadOnlyForm" value="Aceptar" actionListener="#{createMrqsCandidatesForm.create()}" oncomplete="handleCreateRequest(xhr, status, args)"  />
               </div>
              <div class="ui-g-12 ui-lg-2" >
-                 <p:commandButton id="CancelarBtn"  value="Cancelar"  onclick="PF('createCandidatoDialogWV').hide();" />
-              </div>
+                <p:commandButton id="CancelarBtn" value="Cancelar"  onclick="PF('createCandidatoDialogWV').hide()" update="createPanelID"/>               	
+             </div>
             </div>
            </f:facet>
    </p:panelGrid>   
