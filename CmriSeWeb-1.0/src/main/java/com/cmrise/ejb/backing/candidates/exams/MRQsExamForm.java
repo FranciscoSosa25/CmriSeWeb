@@ -627,7 +627,6 @@ public class MRQsExamForm {
 					mrqsGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
 					mrqsGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
 	//				mrqsGrupoHdr.setTitulo(idxHdr.getTitulo());
-										
 					System.out.println("********Cantidad de Preguntas: "+reactivosSize);
 					
 						System.out.println("idx.getTextoPregunta():"+idx.getTextoPregunta());
@@ -869,6 +868,13 @@ public class MRQsExamForm {
 						candExamRespSkipDto.setNumeroPreguntaFta(this.numeroPreguntaFta);
 						if(Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
 							this.setLimitedFreeTextAnswer(true);
+							MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,
+									idx.getTipoPregunta());
+							if (pregunta.getLimiteCaracteres() != null)
+								limiteCaracteres = pregunta.getLimiteCaracteres();
+							else
+								limiteCaracteres = 50;
+							
 						}else if(Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
 							mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
 							mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
@@ -911,6 +917,11 @@ public class MRQsExamForm {
 				
 				if(Utilitarios.RESP_TEXTO_LIBRE.equals(tmp.getTipoPregunta())) {
 					this.setLimitedFreeTextAnswer(true);
+					MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,idx.getTipoPregunta());
+					if(pregunta.getLimiteCaracteres() != null)
+						limiteCaracteres = pregunta.getLimiteCaracteres();
+					else
+						limiteCaracteres = 50;
 				}else if(Utilitarios.OPCION_MULTIPLE.equals(tmp.getTipoPregunta())) {
 					mrqsGrupoLinesV2.setSingleAnswerMode(tmp.isSingleAnswerMode());
 					mrqsGrupoLinesV2.setSuffleAnswerOrder(tmp.isSuffleAnswerOrder());
@@ -1084,6 +1095,11 @@ public class MRQsExamForm {
 						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(lCandExamSkipV1Dto.get(idxSkip).getNumeroPreguntaHdr());
 						if(Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
 							this.setLimitedFreeTextAnswer(true);
+							MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,idx.getTipoPregunta());
+							if(pregunta.getLimiteCaracteres() != null)
+								limiteCaracteres = pregunta.getLimiteCaracteres();
+							else
+								limiteCaracteres = 50;
 						}else if(Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
 							mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
 							mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
