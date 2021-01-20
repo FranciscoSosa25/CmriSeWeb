@@ -4,13 +4,17 @@ import java.math.BigInteger;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import com.cmrise.jpa.dao.mrqs.MrqsPreguntasHdrDao;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV1Dto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
+import com.cmrise.utils.CorrelacionColumnasInsertException;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless
@@ -33,12 +37,17 @@ public class MrqsPreguntasHdrDaoImpl implements MrqsPreguntasHdrDao {
 		MrqsPreguntasHdrDto mrqsPreguntasHdrDto =em.find(MrqsPreguntasHdrDto.class, pNumero);
 		em.remove(mrqsPreguntasHdrDto);
 	}
-
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	@Override
 	public void update(long pNumero, MrqsPreguntasHdrDto pMrqsPreguntasHdrDto) {
 		MrqsPreguntasHdrDto mrqsPreguntasHdrDto =em.find(MrqsPreguntasHdrDto.class, pNumero);
 		mrqsPreguntasHdrDto.setEstatus(pMrqsPreguntasHdrDto.getEstatus());
 		mrqsPreguntasHdrDto.setTipoPregunta(pMrqsPreguntasHdrDto.getTipoPregunta());
+		try {	
+		   em.merge(pMrqsPreguntasHdrDto);}
+		catch(PersistenceException ex) {	
+			System.out.println("Error al actualizar");
+		}
 		
 	}
 

@@ -1,145 +1,177 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template/template.xhtml">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/template.xhtml">
 
-<ui:define name="xxhrwjs">
- <script type="text/javascript">
- function handleCreateRequest(xhr, status, args){
- 	 if(args.validationFailed) {
-		 argsValidationFailed(); 
-     }
- }
- </script>
-</ui:define>
+	<ui:define name="xxhrwjs">
+		<script type="text/javascript">
+			function handleCreateRequest(xhr, status, args) {
+				if (args.validationFailed) {
+					argsValidationFailed();
+				}
+			}
+		</script>
+	</ui:define>
 
-<ui:define name="content">
-<h:form id="createMrqForm">
-<f:passThroughAttribute name="autocomplete" value="off"/>
-<p:growl id="growl" showDetail="true"/>
-  <p:panel id="nuevoReactivo" header="NUEVO REACTIVO" style="margin-bottom:20px">
-<div class="card">
- <p:panel>
-   <div class="ui-g">
-     <div class="ui-g-12 ui-md-12" >
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-        
-         <p:outputLabel for="admonExamen" value="Examen" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-          <p:selectOneMenu id="admonExamen" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.admonExamen}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-           <p:ajax listener="#{createMrqForm.onAdmonExamenChange}" update="materia" />
-           <f:selectItem itemLabel="Seleccione..." itemValue="" />
-           <f:selectItems value="#{createMrqForm.selectExamenesHdr}" />
-          </p:selectOneMenu>
-          <p:message for="admonExamen"/>
-         </div>
-       </div>
-        <div class="ui-g-12 ui-md-12" >
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="materia" value="Materia" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-          <p:selectOneMenu id="materia" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.admonMateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-          <p:ajax listener="#{createMrqForm.onAdmonMateriaChange}" update="subMateria" />
-          <f:selectItem itemLabel="Seleccione..." itemValue="" />
-          <f:selectItems value="#{createMrqForm.selectMateriasHdr}" />
-         </p:selectOneMenu>
-         <p:message for="materia"/>
-         </div>
-       </div>
-       <div class="ui-g-12 ui-md-12" >
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="subMateria" value="Clasificación" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-         <p:selectOneMenu id="subMateria" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.admonSubmateria}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-          <f:selectItem itemLabel="Seleccione..." itemValue="" />
-          <f:selectItems value="#{createMrqForm.selectSubMaterias}" />
-         </p:selectOneMenu>
-         <p:message for="subMateria"/>
-         </div>
-       </div>
-       
-          <div class="ui-g-12 ui-md-12" >
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-         <p:calendar id="fechaElaboracion" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.fechaElaboracion}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
-         <p:message for="fechaElaboracion"/>
-         </div>
-       </div>
-       
-        <div class="ui-g-12 ui-md-12" >
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="creadoPor" value="Elabora" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-         <p:inputText id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" readonly="true"/>
-         <p:message for="creadoPor"/>
-         </div>
-       </div>
-       
-       <div class="ui-g-12 ui-md-12" >
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="questionType" value="Tipo de Pregunta" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-         <p:selectOneMenu id="questionType" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.tipoPregunta}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-          <f:selectItem itemLabel="Seleccione..." itemValue="" />
-          <f:selectItems value="#{selectsHelper.selectTipoPreguntaItems}" />
-         </p:selectOneMenu>
-          <p:message for="questionType"/>
-         </div>
-       </div>
-        <div class="ui-g-12 ui-md-12" >
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="diagnostico" value="Diagnostico" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-           <p:inputText id="diagnostico" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.diagnostico}" maxlength="255" style="width:100%"/>
-         </div>
-       </div>
-       
-        <div class="ui-g-12 ui-md-12" >
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="bibliografia" value="Bibliografia" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-           <p:inputText id="bibliografia" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.bibliografia}" maxlength="255" style="width:100%"/>
-         </div>
-       </div>
-       
-        <div class="ui-g-12 ui-md-12" >
-        <div class="ui-g-12 ui-md-3" style="text-align:right;">
-         <p:outputLabel for="notas" value="Notas" />
-        </div>
-         <div class="ui-g-12 ui-md-9">
-          <p:inputTextarea  id="notas" value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.notas}" rows="1" maxlength="255" style="width:100%"/>
-          <p:message for="notas" />
-        </div>
-       </div>
-   </div> <!--  <div class="ui-g"> -->
- </p:panel>
+	<ui:define name="content">
+		<h:form id="createMrqForm">
+			<f:passThroughAttribute name="autocomplete" value="off" />
+			<p:growl id="growl" showDetail="true" />
+			<p:panel id="nuevoReactivo" header="NUEVO REACTIVO"
+				style="margin-bottom:20px">
+				<div class="card">
+					<p:panel>
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-12">
+								<div class="ui-g-12 ui-md-3" style="text-align: right;">
 
- 
+									<p:outputLabel for="admonExamen" value="Examen" />
+								</div>
+								<div class="ui-g-12 ui-md-9">
+									<p:selectOneMenu id="admonExamen"
+										value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.admonExamen}"
+										required="true"
+										requiredMessage="#{msgs['globalForm.requiredMessage']}">
+										<p:ajax listener="#{createMrqForm.onAdmonExamenChange}"
+											update="materia" />
+										<f:selectItem itemLabel="Seleccione..." itemValue="" />
+										<f:selectItems value="#{createMrqForm.selectExamenesHdr}" />
+									</p:selectOneMenu>
+									<p:message for="admonExamen" />
+								</div>
+							</div>
+							<div class="ui-g-12 ui-md-12">
+								<div class="ui-g-12 ui-md-3" style="text-align: right;">
+									<p:outputLabel for="materia" value="Materia" />
+								</div>
+								<div class="ui-g-12 ui-md-9">
+									<p:selectOneMenu id="materia"
+										value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.admonMateria}"
+										required="true"
+										requiredMessage="#{msgs['globalForm.requiredMessage']}">
+										<p:ajax listener="#{createMrqForm.onAdmonMateriaChange}"
+											update="subMateria" />
+										<f:selectItem itemLabel="Seleccione..." itemValue="" />
+										<f:selectItems value="#{createMrqForm.selectMateriasHdr}" />
+									</p:selectOneMenu>
+									<p:message for="materia" />
+								</div>
+							</div>
+							<div class="ui-g-12 ui-md-12">
+								<div class="ui-g-12 ui-md-3" style="text-align: right;">
+									<p:outputLabel for="subMateria" value="Clasificación" />
+								</div>
+								<div class="ui-g-12 ui-md-9">
+									<p:selectOneMenu id="subMateria"
+										value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.admonSubmateria}"
+										required="true"
+										requiredMessage="#{msgs['globalForm.requiredMessage']}">
+										<f:selectItem itemLabel="Seleccione..." itemValue="" />
+										<f:selectItems value="#{createMrqForm.selectSubMaterias}" />
+									</p:selectOneMenu>
+									<p:message for="subMateria" />
+								</div>
+							</div>
 
- <div class="ui-g">
-     <div class="ui-g-12 ui-md-1" >
-       <p:commandButton  style="BackGround:#2D0D86;"  value="Crear" update="createMrqForm" oncomplete="handleCreateRequest(xhr, status, args)" action="#{createMrqForm.create()}"/>
-     </div>
-      <div class="ui-g-12 ui-md-1" >
-        <p:commandButton icon="fa fa-backward" style="BackGround:#2D0D86;" value="Cerrar" process="@this" update="createMrqForm" action="Preguntas-ManageNewMrqs">
-         <p:resetInput target="createMrqForm"/>
-        </p:commandButton>
-     </div>
-  </div>
-  </div>
-  </p:panel>
-</h:form>  
-</ui:define>
+							<div class="ui-g-12 ui-md-12">
+								<div class="ui-g-12 ui-md-3" style="text-align: right;">
+									<p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" />
+								</div>
+								<div class="ui-g-12 ui-md-9">
+									<p:calendar id="fechaElaboracion"
+										value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.fechaElaboracion}"
+										locale="es" pattern="dd/MM/yyyy" mask="true" required="true"
+										requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+									<p:message for="fechaElaboracion" />
+								</div>
+							</div>
+
+							<div class="ui-g-12 ui-md-12">
+								<div class="ui-g-12 ui-md-3" style="text-align: right;">
+									<p:outputLabel for="creadoPor" value="Elabora" />
+								</div>
+								<div class="ui-g-12 ui-md-9">
+									<p:inputText id="creadoPor"
+										value="#{userLogin.nombreCompletoUsuario}" readonly="true" />
+									<p:message for="creadoPor" />
+								</div>
+							</div>
+
+							<div class="ui-g-12 ui-md-12">
+								<div class="ui-g-12 ui-md-3" style="text-align: right;">
+									<p:outputLabel for="questionType" value="Tipo de Pregunta" />
+								</div>
+								<div class="ui-g-12 ui-md-9">
+									<p:selectOneMenu id="questionType" 
+										value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.tipoPregunta}"
+										required="true"
+										requiredMessage="#{msgs['globalForm.requiredMessage']}">
+										
+										<f:selectItem itemLabel="Seleccione..." itemValue="" />
+										<f:selectItems
+											value="#{selectsHelper.selectTipoPreguntaItems}" />
+									</p:selectOneMenu>
+									<p:message for="questionType" />									
+								</div>
+							</div>
+							<div class="ui-g-12 ui-md-12">
+								<div class="ui-g-12 ui-md-3" style="text-align: right;">
+									<p:outputLabel for="diagnostico" value="Diagnostico" />
+								</div>
+								<div class="ui-g-12 ui-md-9">
+									<p:inputText id="diagnostico"
+										value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.diagnostico}"
+										maxlength="255" style="width:100%" />
+								</div>
+							</div>
+
+							<div class="ui-g-12 ui-md-12">
+								<div class="ui-g-12 ui-md-3" style="text-align: right;">
+									<p:outputLabel for="bibliografia" value="Bibliografia" />
+								</div>
+								<div class="ui-g-12 ui-md-9">
+									<p:inputText id="bibliografia"
+										value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.bibliografia}"
+										maxlength="255" style="width:100%" />
+								</div>
+							</div>
+
+							<div class="ui-g-12 ui-md-12">
+								<div class="ui-g-12 ui-md-3" style="text-align: right;">
+									<p:outputLabel for="notas" value="Notas" />
+								</div>
+								<div class="ui-g-12 ui-md-9">
+									<p:inputTextarea id="notas"
+										value="#{createMrqForm.mrqsPreguntasHdrV1ForInsert.notas}"
+										rows="1" maxlength="255" style="width:100%" />
+									<p:message for="notas" />
+								</div>
+							</div>
+						</div>
+						<!--  <div class="ui-g"> -->
+					</p:panel>
+
+
+
+					<div class="ui-g">
+						<div class="ui-g-12 ui-md-1">
+							<p:commandButton style="BackGround:#2D0D86;" value="Crear"
+								update="createMrqForm"
+								oncomplete="handleCreateRequest(xhr, status, args)"
+								action="#{createMrqForm.create()}" />
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<p:commandButton icon="fa fa-backward"
+								style="BackGround:#2D0D86;" value="Cerrar" process="@this"
+								update="createMrqForm" action="Preguntas-ManageNewMrqs">
+								<p:resetInput target="createMrqForm" />
+							</p:commandButton>
+						</div>
+					</div>
+				</div>
+			</p:panel>
+		</h:form>
+	</ui:define>
 </ui:composition>
-               

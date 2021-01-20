@@ -82,10 +82,11 @@
 		   el.parentNode.parentNode.removeChild( el.parentNode );
 		};
 		
-		function handleRemoverRespuestaCorrRequest(xhr, status, args) {
+		function handleRemoverRespuestaCorrRequest(xhr, status, args,letra) {
 		    console.log('Comienza handleRemoverRespuestaCorrRequest');
 		    console.log(args);
 		    console.log(xhr);
+		    quitarNodo(letra);
 			//se necesita remover el punto en la imagen también
 		   
 		}
@@ -192,7 +193,7 @@
 							<p:outputLabel for="questionType" value="Tipo de Pregunta" />
 						</div>
 						<div class="ui-g-12 ui-md-9">
-							<p:selectOneMenu id="questionType"
+							<p:selectOneMenu widgetVar="ps" id="questionType" onchange="PF('confirmt').show()"
 								value="#{updateFTAMrqForm.mrqsPreguntasHdrV1ForAction.tipoPregunta}"
 								required="true"
 								requiredMessage="#{msgs['globalForm.requiredMessage']}">
@@ -201,6 +202,15 @@
 								<f:selectItems value="#{selectsHelper.selectTipoPreguntaItems}" />
 							</p:selectOneMenu>
 							<p:message for="questionType" />
+							<p:confirmDialog widgetVar="confirmt" closable="false"
+										message="¿Desea confirmar el cambio de tipo de de reactivo?"
+										header="WARN!" severity="alert">										
+									
+										<p:commandButton value="Yes" process="@this,questionType,admonExamen,materia,subMateria,statusMrqs,diagnostico,bibliografia" 
+											update="UpdateReactivosForm" 				
+										action="#{updateFTAMrqForm.updateTipo()}" />
+										<p:commandButton value="No" type="button" onclick="PF('ps').selectValue(PF('ps').preShowValue.val());PF('confirmt').hide()"  />
+									</p:confirmDialog>
 						</div>
 						<div class="ui-g-12 ui-md-3" style="text-align: right;">
 							<p:outputLabel for="diagnostico" value="Diagnostico" />
@@ -296,10 +306,12 @@
 								maxlength="250" />
 						</div>
 						<div class="ui-g-12 ui-md-9">
-							<p:inputTextarea id="questionText"
+							<p:inputTextarea id="questionText" 
 								value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.textoPregunta}"
 								style="width:100%" required="true"
-								requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+								requiredMessage="#{msgs['globalForm.requiredMessage']}" >
+								<p:ajax event="blur" update="@this" />
+								</p:inputTextarea>
 							<p:message for="questionText" />
 						</div>
 
@@ -310,7 +322,9 @@
 							<p:inputTextarea id="hintsText"
 								value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.textoSugerencias}"
 								style="width:30%" required="true"
-								requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+								requiredMessage="#{msgs['globalForm.requiredMessage']}" >
+								<p:ajax event="blur" update="@this" />
+								</p:inputTextarea>
 							<p:message for="hintsText" />
 						</div>
 						<div class="ui-g-12 ui-md-3" style="text-align: right;">
@@ -710,8 +724,8 @@
 																<p:commandButton title="Delete" icon="pi pi-trash"
 																	actionListener="#{updateFTAMrqForm.removerRespCorrelacionadas(respReact)}"
 																	update="UpdateReactivosForm:repeatIDPanel2 UpdateReactivosForm:repeatIDPanel"
-																	partialSubmit="true"
-																	process="UpdateReactivosForm:repeatIDPanel UpdateReactivosForm:repeatIDPanel2" oncomplete="handleRemoverRespuestaCorrRequest(xhr, status, args)"/>
+																	partialSubmit="true"  
+																	process="UpdateReactivosForm:repeatIDPanel UpdateReactivosForm:repeatIDPanel2" oncomplete="handleRemoverRespuestaCorrRequest(xhr, status, args,'#{respReact.nodo}')"/>
 																	
 																<h:outputText value="#{respReact.nodo}" />
 

@@ -39,6 +39,8 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 
 	@Override
 	public void update(long pNumero, MrqsPreguntasFtaDto pMrqsPreguntasFtaDto) {
+		java.util.Date sysdate = new java.util.Date();
+		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
 		MrqsPreguntasFtaDto mrqsPreguntasFtaDto = em.find(MrqsPreguntasFtaDto.class, pNumero);
 		mrqsPreguntasFtaDto.setTitulo(pMrqsPreguntasFtaDto.getTitulo());
 		mrqsPreguntasFtaDto.setMetodoPuntuacion(pMrqsPreguntasFtaDto.getMetodoPuntuacion());
@@ -56,7 +58,7 @@ public class MrqsPreguntasFtaDaoImpl implements MrqsPreguntasFtaDao {
 		mrqsPreguntasFtaDto.setLimiteCaracteres(pMrqsPreguntasFtaDto.getLimiteCaracteres());
 		mrqsPreguntasFtaDto.setRespuestas(pMrqsPreguntasFtaDto.getRespuestas());
 		mrqsPreguntasFtaDto.setCorrelaciones(pMrqsPreguntasFtaDto.getCorrelaciones());
-
+		mrqsPreguntasFtaDto.setFechaActualizacion(sqlsysdate);
 	}
 
 	@Override

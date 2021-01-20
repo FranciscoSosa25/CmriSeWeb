@@ -398,6 +398,20 @@ function handleAgregarRespuestaRequest(xhr, status, args) {
     console.log(args);
     console.log('Comienza handleAgregarRespuestaRequest');
 }
+function quitarNodo(letra){
+	try{
+	var g= diagram.findNodeForKey("to"+String(letra).trim());
+    var h= diagram.findNodeForKey("from"+String(letra).trim());
+
+	diagram.startTransaction();
+	diagram.remove(g);
+	diagram.remove(h);
+	diagram.commitTransaction();}
+	catch(ex){
+		console.log('Error al eliminar nodo');
+	}
+	
+}
 
 function handleAgregarRespuestaCorrRequest(xhr, status, args) {
     console.log('Comienza handleAgregarRespuestaCorrRequest');
