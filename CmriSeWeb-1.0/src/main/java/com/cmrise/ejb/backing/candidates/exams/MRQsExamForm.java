@@ -93,6 +93,8 @@ public class MRQsExamForm {
 	private int skipMax = 0;
 	private boolean showFinalMessage = false;
 	private int limiteCaracteres = 50;
+	private String tipoPregunta; 
+	
 	
 	private MrqsPreguntasFtaV1 mrqsPreguntasFtaV1ForRead = new MrqsPreguntasFtaV1(); 
 	private List<RespReactCorImg> listRespReactCorImg = new ArrayList<RespReactCorImg>();
@@ -198,11 +200,12 @@ public class MRQsExamForm {
 					if(listMrqsGrupoLinesV2 != null || reactivosSize>=0) { //Algunas veces llegaba vacía la lista y truena la página sin está validación
 					 idx = listMrqsGrupoLinesV2.get(idxReactivos);
 					    System.out.println("idx.getTextoPregunta():"+idx.getNumeroPregunta());
-						
 						mrqsGrupoLinesV2.setTitulo(idx.getTitulo());
 						mrqsGrupoLinesV2.setTextoPregunta(idx.getTextoPregunta());
 						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
 						mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
+						this.setTipoPregunta(idx.getTipoPregunta());
+						System.err.println("TIPO PREGUNTA: "+ this.getTipoPregunta());
 						
 						candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
 						/* preguntas */
@@ -279,7 +282,8 @@ public class MRQsExamForm {
 				mrqsGrupoLinesV2.setTextoSugerencias(tmp.getTextoSugerencias());
 				mrqsGrupoLinesV2.setTipoPregunta(tmp.getTipoPregunta());
 				mrqsGrupoLinesV2.setNumeroPregunta(tmp.getNumeroPregunta());
-				
+				this.setTipoPregunta(tmp.getTipoPregunta());
+				System.err.println("TIPO PREGUNTA: "+ this.getTipoPregunta());
 				this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
 				
 				MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta, tmp.getTipoPregunta());
@@ -689,6 +693,7 @@ public class MRQsExamForm {
 						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
 						mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
 						candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
+						this.setTipoPregunta(idx.getTipoPregunta());
 						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
 						candExamRespSkipDto.setNumeroPreguntaFta(this.numeroPreguntaFta);
 						
@@ -738,7 +743,7 @@ public class MRQsExamForm {
 				mrqsGrupoLinesV2.setTextoSugerencias(tmp.getTextoSugerencias());
 				mrqsGrupoLinesV2.setTipoPregunta(tmp.getTipoPregunta());
 				mrqsGrupoLinesV2.setNumeroPregunta(tmp.getNumeroPregunta());
-				
+				this.setTipoPregunta(tmp.getTipoPregunta());
 				this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
 				
 				MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta, tmp.getTipoPregunta());
@@ -917,6 +922,7 @@ public class MRQsExamForm {
 						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
 						mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
 						candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
+						this.setTipoPregunta(idx.getTipoPregunta());
 						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
 						candExamRespSkipDto.setNumeroPreguntaFta(this.numeroPreguntaFta);
 						if(Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
@@ -982,7 +988,7 @@ public class MRQsExamForm {
 				mrqsGrupoLinesV2.setTextoSugerencias(tmp.getTextoSugerencias());
 				mrqsGrupoLinesV2.setTipoPregunta(tmp.getTipoPregunta());
 				mrqsGrupoLinesV2.setNumeroPregunta(tmp.getNumeroPregunta());
-				
+				this.setTipoPregunta(tmp.getTipoPregunta());
 				this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
 				
 				if(Utilitarios.RESP_TEXTO_LIBRE.equals(tmp.getTipoPregunta())) {
@@ -1272,5 +1278,19 @@ public class MRQsExamForm {
 		 */
 		public void setRespuestaSelect(SelectItem respuestaSelect) {
 			this.respuestaSelect = respuestaSelect;
+		}
+
+		/**
+		 * @return the tipoPregunta
+		 */
+		public String getTipoPregunta() {
+			return tipoPregunta;
+		}
+
+		/**
+		 * @param tipoPregunta the tipoPregunta to set
+		 */
+		public void setTipoPregunta(String tipoPregunta) {
+			this.tipoPregunta = tipoPregunta;
 		}
 }

@@ -8,7 +8,6 @@
 <ui:define name="content">
 <h:form id="mqrsExaFormCab">
 <!--  p:growl id="messages" showDetail="true" -->
- 
  <p:growl id="growl" showDetail="true" showSummary="true">
 		     <p:autoUpdate />
  </p:growl> 
@@ -62,6 +61,8 @@
        <h:outputText id="titulo" value="" /><!-- aqui venía la parte de admonmateria que se pidió eliminar -->
        </div>
        <div>
+       <p:inputText id="tipoReactivo" value="#{mRQsExamForm.tipoPregunta}"
+				type="" />
        <ui:repeat var="imagenesGrupo" value="#{mRQsExamForm.listPresentMrqsImagenesGrp}" varStatus="status">
 		    <div>
 		     <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
@@ -94,6 +95,7 @@
 		
 			 </div>
 		    </h:panelGroup>
+		    
 		    
 		    <h:panelGroup layout="block"
 								rendered="#{mRQsExamForm.annotatedImage}">
@@ -130,6 +132,12 @@
 									</ui:repeat>
 								</div>
 							</h:panelGroup>
+							
+				<p:inputTextarea id="coordinatesImgCor"
+								value="#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.poligonos}"
+								placeholder="Coordenadas" style="width:100%;display:none;" />
+							
+								
 		    
 		    <h:panelGroup layout="block" rendered="#{mRQsExamForm.multipleChoice  and mRQsExamForm.mrqsGrupoLinesV2.singleAnswerMode}">
 		      <div class="ui-g-12 ui-md-12" >
@@ -152,10 +160,18 @@
 		 <div class="ui-g-12 ui-md-5">
              <h:outputText id="timerVal" value="#{mRQsExamForm.timerValue}" rendered="true" />
              <p:commandButton value="Saltar Pregunta" style="margin-left:15px"  actionListener="#{mRQsExamForm.SaltarPregunta()}" update="mqrsExaForm" rendered="#{mRQsExamForm.mrqsExamen.saltarPreguntas}" immediate="true"  disabled="#{mRQsExamForm.flag2}" />
-             <p:commandButton value="Siguiente" actionListener="#{mRQsExamForm.siguienteGuardarResp()}" update="mqrsExaForm myDialog" style="margin-left:15px"    />
+             <p:commandButton value="Siguiente" actionListener="#{mRQsExamForm.siguienteGuardarResp()}" onclick="init()" update="mqrsExaForm myDialog" style="margin-left:15px"    />
            </div>   
          </div>   
 <!-- CODIGO FIN -->
 </h:form>
 </ui:define>
+
+<ui:define name="xxhrwjs">
+		<h:outputScript name="gojs/go.js" library="js" />
+		<h:outputScript name="gojs/Figures.js" library="js" />
+		<h:outputScript name="cmrise/reactivos/ReactivosExam.js"
+			library="js" />
+	</ui:define>
+	
 </ui:composition>
