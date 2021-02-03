@@ -172,7 +172,8 @@
    </h:head>
    <h:body styleClass="main-body">
    <div class="layout-wrapper #{guestPreferences.menuLayout} #{guestPreferences.orientationRTL ? 'layout-rtl ' : null}">
-   		<ui:include src="./topbar.xhtml" style="position: absolute;"/>
+   		<ui:include src="./topbar.xhtml"/>
+   		<ui:include src="./menu.xhtml"/>
    		<div class="layout-menu-container" style="position: absolute;">
    		<header><h:outputText value="Candidato: #{userLogin.nombreCompletoUsuario}" style="position: relative; left:0px;"/>
 			<h:outputText value="Curp: #{userLogin.curp}" style="position: relative; left:300px;" />
