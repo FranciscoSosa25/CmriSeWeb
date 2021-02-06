@@ -54,7 +54,8 @@
 	    	});
        		
 		    function updateCount() {
-		        $("[id$='counter']").html($("[id$='answer']").val().length + "/" + $("[id$='answer']").attr('maxlength') + " caracteres");
+		    	if(document.getElementById("answer") )
+		        	$("[id$='counter']").html($("[id$='answer']").val().length + "/" + $("[id$='answer']").attr('maxlength') + " caracteres");
 		    }
 	  </script>
        <div  style="font-size:2em; font-weight:bold; border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;" >
@@ -173,5 +174,6 @@
 		<h:outputScript name="cmrise/reactivos/ReactivosExam.js"
 			library="js" />
 	</ui:define>
-	
+
 </ui:composition>
+

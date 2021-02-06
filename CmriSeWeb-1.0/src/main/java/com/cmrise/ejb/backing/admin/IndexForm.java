@@ -96,7 +96,7 @@ public class IndexForm {
 
 
 		try {
-			context.getExternalContext().redirect("index.xhtml");
+			context.getExternalContext().redirect("/CmriSeWeb/faces/index.xhtml");
 			
 
 		} catch (IOException e) {

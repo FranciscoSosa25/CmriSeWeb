@@ -48,10 +48,10 @@
 						      <div id="userconfig"><p:commandLink style="text-align:right; color:#FFFFFF; hover:color: #2d0d86;" ajax="false"> <i class="pi pi-cog"></i> <span >Configuración De Usuario</span>
 						   	  </p:commandLink>
 						   	  </div>
-						   <p:commandLink action="#{indexForm.logout()}" style="text-align: right; color:#FFFFFF" ajax="false"><i class="fa fa-fw fa-sign-out" ></i>  <span>Cerrar Sesión</span>
+						   <div id="logout"><p:commandLink action="#{indexForm.logout()}" style="text-align: right; color:#FFFFFF" ajax="false"><i class="fa fa-fw fa-sign-out" ></i>  <span>Cerrar Sesión</span>
 						   
 						  </p:commandLink>
-						
+						</div>
 						    </h:form>
 
 						</li>
@@ -91,8 +91,11 @@
 
 	<script>
 			$( document ).ready(function() {
-			    if(document.getElementById("examinationsForm")){
-			    document.getElementById("userconfig").style.display = "none";
+			    if(document.getElementById("examinationsForm")||document.getElementById("mqrsExaFormCab")){
+			    	document.getElementById("userconfig").style.display = "none";
+			    }
+			    if(document.getElementById("mqrsExaFormCab")){
+			    	document.getElementById("logout").style.display = "none";
 			    }
 			});
 		</script> 
