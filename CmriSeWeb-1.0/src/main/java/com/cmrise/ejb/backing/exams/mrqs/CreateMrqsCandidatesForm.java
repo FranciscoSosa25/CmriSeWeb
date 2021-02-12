@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -129,56 +131,33 @@ public class CreateMrqsCandidatesForm {
 	    }
 	    
 		public void create() {
-			AdmonUsuariosDto admonUsuariosDto = new AdmonUsuariosDto();
-			 boolean createIn = false; 
-			admonUsuariosDto.setCurp(this.curp);
-			admonUsuariosDto.setNombre(this.nombre);
-			admonUsuariosDto.setApellidoPaterno(this.apellidoPaterno);
-			admonUsuariosDto.setApellidoMaterno(this.apellidoMaterno);
-			admonUsuariosDto.setContrasenia(this.contrasenia);
-			admonUsuariosDto.setCorreoElectronico(this.correoElectronico);
-			admonUsuariosDto.setEstado(this.estado);
-			admonUsuariosDto.setSedeHospital(this.sedeHospital);
 			 java.sql.Date sqlFechaEfectivaDesde = null; 
 			 java.sql.Date sqlFechaEfectivaHasta = null; 
-			 if(fechaEfectivaDesde != null) {
-			   sqlFechaEfectivaDesde = new java.sql.Date(fechaEfectivaDesde.getTime());
-			   admonUsuariosDto.setFechaEfectivaDesde(sqlFechaEfectivaDesde);
-			 }
 			 
-			 if(fechaEfectivaHasta != null) {
-				 sqlFechaEfectivaHasta = new java.sql.Date(fechaEfectivaHasta.getTime());
-			 }else {
-				 sqlFechaEfectivaHasta = Utilitarios.endOfTime;
-			 }
-			 admonUsuariosDto.setFechaEfectivaHasta(sqlFechaEfectivaHasta);
-			 admonUsuariosDto.setCreadoPor(userLogin.getNumeroUsuario());
-			 admonUsuariosDto.setActualizadoPor(userLogin.getNumeroUsuario());
-			 System.out.println("userLogin.getNumeroUsuario():"+userLogin.getNumeroUsuario());
-			 long longNumeroUsusario = admonUsuariosLocal.insert(admonUsuariosDto);
-			 
-			    /*************************************************************************/
-			    AdmonUsuariosRolesDto admonUsuariosRolesDto = new AdmonUsuariosRolesDto();
-				AdmonRolesDto admonRolesDto = new AdmonRolesDto();
-				AdmonUsuariosDto admonUsuariosV2Dto = new AdmonUsuariosDto();
-				System.out.println("longNumeroUsusario:"+longNumeroUsusario);
-				System.out.println("this.getNumeroRol():"+this.getNumeroRol());
-				admonUsuariosV2Dto.setNumero(longNumeroUsusario);
-				admonRolesDto.setNumero(this.getNumeroRol());
-				admonUsuariosRolesDto.setAdmonUsuario(admonUsuariosV2Dto);
-				admonUsuariosRolesDto.setAdmonRole(admonRolesDto);
-				admonUsuariosRolesDto.setFechaEfectivaDesde(utilitariosLocal.toSqlDate(fechaEfectivaDesde));
-				if(fechaEfectivaHasta!=null) {
-					admonUsuariosRolesDto.setFechaEfectivaHasta(utilitariosLocal.toSqlDate(fechaEfectivaHasta));	
-				}else {
-					admonUsuariosRolesDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
-				}
-		     
-				admonUsuariosRolesLocal.insert(admonUsuariosRolesDto);
-			 
-			 refreshEntity();
-			 createIn = true; 
-			 PrimeFaces.current().ajax().addCallbackParam("createIn", createIn);
+			if(fechaEfectivaDesde != null) 
+				sqlFechaEfectivaDesde = new java.sql.Date(fechaEfectivaDesde.getTime());
+			else
+				errorCaptura += "Fecha efectiva hasta vacia. " + '\n';
+			
+			if(fechaEfectivaHasta != null) 
+				sqlFechaEfectivaHasta = new java.sql.Date(fechaEfectivaHasta.getTime());
+			else 			
+				sqlFechaEfectivaHasta = Utilitarios.endOfTime;
+			
+			if(isEmail(correoElectronico)==false)
+				errorCaptura += "Correo invalido. " + '\n';
+			
+			if(errorCaptura=="" || errorCaptura==null)
+				insertOnetoOneCandidate(getCurp(), getNombre(), getApellidoPaterno(), getApellidoMaterno(), getCorreoElectronico(), getContrasenia(), getEstado(), getSedeHospital(), sqlFechaEfectivaDesde, sqlFechaEfectivaHasta, getNumeroRol(), 0);
+			
+			if(errorCaptura!= ""){
+				FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Errores en el archivo: " + '\n', errorCaptura );
+			    FacesContext.getCurrentInstance().addMessage(null, msg);
+			    errorCaptura = "";
+			}else {
+			    FacesMessage msg = new FacesMessage(" El candidato", " registrado y asignado correctamente");
+			    FacesContext.getCurrentInstance().addMessage(null, msg);
+			}	
 		}
 		
 		public void selectForAction(AdmonUsuarios pAdmonUsuarios) {
@@ -320,7 +299,10 @@ public class CreateMrqsCandidatesForm {
 			    	estado = columns[6].toUpperCase().trim();
 			    	sedeHospital = columns[7].toUpperCase().trim();
 			    	String fechaD = columns[8].trim();
-			    	String fechaH = columns[9].trim();
+			    	String fechaH = "";
+			    	
+			    	if(columns.length > 9)
+			    		fechaH = columns[9].trim();
 			    				    	
 			    	if(curp == null || curp.length() == 0) {
 			    		validaValores += "Linea "+lineaAct+" : 'CURP' vacio. " + '\n';
@@ -339,6 +321,9 @@ public class CreateMrqsCandidatesForm {
 			    	}
 			    	if(correoElectronico == null || correoElectronico.length() == 0) {
 			    		validaValores += "Linea "+lineaAct+" : 'Correo' vacio. " + '\n';
+			    	}else {
+			    		if(isEmail(correoElectronico)==false)
+			    			validaValores += "Linea "+lineaAct+" : Correo invalido. " + '\n';
 			    	}
 			    	if(contrasenia == null || contrasenia.length() == 0) {
 			    		validaValores += "Linea "+lineaAct+" : 'Contraseña' vacia. " + '\n';
@@ -346,18 +331,24 @@ public class CreateMrqsCandidatesForm {
 			    	if(sedeHospital == null || sedeHospital.length() == 0) {
 			    		validaValores += "Linea "+lineaAct+" : 'Sede Hospitalaria' vacio. " + '\n';
 			    	}
+			    	
 			    	try {
-			    		fechaEfDesde = ConvertToDate(fechaD);
-			    		fechaEfHasta = ConvertToDate(fechaH);
+			    		if(fechaD == null ) 
+				    		validaValores += "Linea "+lineaAct+" : 'Fecha Desde' vacio. " + '\n';
+				    	else
+				    		fechaEfDesde = ConvertToDate(fechaD);
 			    	}catch(Exception e) {
-			    		validaValores += "Linea "+lineaAct+" : 'Fecha Desde' vacio. " + '\n';
-			    	}
-			    	if(fechaEfDesde == null ) {
-			    		validaValores += "En la linea "+lineaAct+" el campo 'Fecha Desde' no puede ir vacio. " + '\n';
+			    		validaValores += "Linea "+lineaAct+" : 'Fecha Desde' formato incorrecto. " + '\n';
 			    	}
 			    	
+			    	try {
+			    		fechaEfHasta = ConvertToDate(fechaH);
+			    	}catch(Exception e){
+			    		fechaEfHasta = null;
+			    	}			    	
+			    	
 			    	if(validaValores == null || validaValores.length()==0)
-			    		insertOnetoOneCandidate(curp, nombre, apellidoPaterno, apellidoMaterno, correoElectronico, contrasenia, estado, sedeHospital, fechaEfDesde, fechaEfHasta, lineaAct);
+			    		insertOnetoOneCandidate(curp, nombre, apellidoPaterno, apellidoMaterno, correoElectronico, contrasenia, estado, sedeHospital, fechaEfDesde, fechaEfHasta, 1, lineaAct);
 			    	else
 			    		errorCaptura += validaValores;
 				}
@@ -375,7 +366,7 @@ public class CreateMrqsCandidatesForm {
 			}
 		}
 		
-		public boolean insertOnetoOneCandidate(String curp, String nombre, String apPaterno, String apMaterno, String email, String contrasenia, String estado, String sedeH, java.sql.Date fechaEfDesde, java.sql.Date fechaEfHasta, int linea){
+		public boolean insertOnetoOneCandidate(String curp, String nombre, String apPaterno, String apMaterno, String email, String contrasenia, String estado, String sedeH, java.sql.Date fechaEfDesde, java.sql.Date fechaEfHasta, long nRol, int linea){
 			
 			 AdmonUsuariosDto admonUsuariosDto = new AdmonUsuariosDto();
 			 boolean createIn = false; 
@@ -393,14 +384,15 @@ public class CreateMrqsCandidatesForm {
 				 
 				 if(fechaEfDesde!=null) {
 				   admonUsuariosDto.setFechaEfectivaDesde(fechaEfDesde);
-				 }
-				 
+				 }				 
 				 if(fechaEfHasta==null) {
 					 fechaEfHasta = Utilitarios.endOfTime;
 				 }
+				 
 				 admonUsuariosDto.setFechaEfectivaHasta(fechaEfHasta);
 				 admonUsuariosDto.setCreadoPor(userLogin.getNumeroUsuario());
 				 admonUsuariosDto.setActualizadoPor(userLogin.getNumeroUsuario());
+				 
 				 System.out.println("userLogin.getNumeroUsuario():"+userLogin.getNumeroUsuario());
 				 long longNumeroUsusario = admonUsuariosLocal.insert(admonUsuariosDto);
 				 
@@ -408,10 +400,12 @@ public class CreateMrqsCandidatesForm {
 				    AdmonUsuariosRolesDto admonUsuariosRolesDto = new AdmonUsuariosRolesDto();
 					AdmonRolesDto admonRolesDto = new AdmonRolesDto();
 					AdmonUsuariosDto admonUsuariosV2Dto = new AdmonUsuariosDto();
+					
 					System.out.println("longNumeroUsusario:"+longNumeroUsusario);
 					System.out.println("this.getNumeroRol():"+ "1");
+					
 					admonUsuariosV2Dto.setNumero(longNumeroUsusario);
-					admonRolesDto.setNumero(1);
+					admonRolesDto.setNumero(nRol);
 					admonUsuariosRolesDto.setAdmonUsuario(admonUsuariosV2Dto);
 					admonUsuariosRolesDto.setAdmonRole(admonRolesDto);
 					admonUsuariosRolesDto.setFechaEfectivaDesde(utilitariosLocal.toSqlDate(fechaEfDesde));
@@ -422,7 +416,7 @@ public class CreateMrqsCandidatesForm {
 					
 					admonUsuariosRolesLocal.insert(admonUsuariosRolesDto);
 				    /***********************************************************************/
-				    /// HACE FALTA AGREGAR EL CANDIDATO AL EXAMEN ///////////
+				    
 					createIn = true; 
 					PrimeFaces.current().ajax().addCallbackParam("createIn", createIn);
 					refreshEntity();
@@ -450,56 +444,45 @@ public class CreateMrqsCandidatesForm {
 	        java.sql.Date fecha = new java.sql.Date(parsed.getTime());        
 	        return fecha;
 		}
-
+		
 		public String getFindCurp() {
 			return findCurp;
 		}
-
 		public void setFindCurp(String findCurp) {
 			this.findCurp = findCurp;
 		}
-
 		public String getFindNombre() {
 			return findNombre;
 		}
-
 		public void setFindNombre(String findNombre) {
 			this.findNombre = findNombre;
 		}
-
 		public String getFindAPaterno() {
 			return findAPaterno;
 		}
-
 		public void setFindAPaterno(String findAPaterno) {
 			this.findAPaterno = findAPaterno;
 		}
-
 		public String getFindAMaterno() {
 			return findAMaterno;
 		}
-
 		public void setFindAMaterno(String findAMaterno) {
 			this.findAMaterno = findAMaterno;
 		}
-
 		public String getFindNombreActPor() {
 			return findNombreActPor;
 		}
-
 		public void setFindNombreActPor(String findNombreActPor) {
 			this.findNombreActPor = findNombreActPor;
 		}
-
 		public String getFindFechaAct() {
 			return findFechaAct;
 		}
-
 		public void setFindFechaAct(String findFechaAct) {
 			this.findFechaAct = findFechaAct;
-		}
-		
-		 public void findCandidateBy() {
+		}	
+		 
+		public void findCandidateBy() {
 	    	 List<AdmonUsuariosRolesV1Dto> listAdmonUsuariosRolesV1Dto = admonUsuariosLocal.findCandidateBy(this.getFindCurp(), this.getFindNombre(), this.getFindAPaterno(), this.getFindAMaterno(), this.getFindNombreActPor(), this.getFindFechaAct()); 
 			 Iterator<AdmonUsuariosRolesV1Dto> itertAAdmonUsuariosRolesV1Dto = listAdmonUsuariosRolesV1Dto.iterator();
 			 listAdmonUsuarios = new ArrayList<AdmonUsuarios>();
@@ -551,4 +534,16 @@ public class CreateMrqsCandidatesForm {
 				setFindFechaAct("");
 				refreshEntity();
 		    }
+
+		 public boolean isEmail(String email) {
+				Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+		        boolean result = false;
+		        Matcher mather = pattern.matcher(email);
+		 
+		        if (mather.find() == true) 
+		        	result = true;
+		        
+		        return result;
+			}
+		 
 }
