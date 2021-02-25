@@ -2,6 +2,7 @@ package com.cmrise.ejb.backing.candidates.exams;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -34,14 +35,19 @@ import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;
 import com.cmrise.ejb.services.exams.MrqsExamenesLocal;
 import com.cmrise.ejb.services.exams.MrqsGrupoHdrLocal;
 import com.cmrise.ejb.services.exams.MrqsGrupoLinesLocal;
+import com.cmrise.ejb.services.mrqs.MrqsCorrelacionColumnasLocal;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
+import com.cmrise.jpa.dao.mrqs.MrqsCorrelacionColumnaPair;
 import com.cmrise.jpa.dto.candidates.exams.CandExamRespSkipDto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamSkipV1Dto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesDto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesV1Dto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesV2Dto;
+import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasDto;
+import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasRespuestasDto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
 import com.cmrise.utils.Utilitarios;
 import com.cmrise.utils.UtilitariosLocal;
 import com.google.gson.Gson;
@@ -134,7 +140,13 @@ public class MRQsExamForm {
 	CandExamRespSkipLocal candExamRespSkipLocal;
 	
 	@Inject
-	
+	MrqsCorrelacionColumnasLocal mrqsCorrelacionColumnasLocal;
+	private List<MrqsCorrelacionColumnasDto> listMrqsCorrelacionColumnasDto = new ArrayList<MrqsCorrelacionColumnasDto>();
+	private List<MrqsCorrelacionColumnasRespuestasDto> listMrqsCorrelacionColumnasRespuestasDto = new ArrayList<MrqsCorrelacionColumnasRespuestasDto>();
+	private List<MrqsCorrelacionColumnaPair> listMrqsCorrelacionColumnas = new ArrayList<MrqsCorrelacionColumnaPair>();
+	private boolean correlacionColumnas;
+	private boolean panelCorrelacionColumnasResultados;
+
 	@PostConstruct
 	public void init() {
 		 FacesContext context = FacesContext.getCurrentInstance(); 
@@ -229,6 +241,10 @@ public class MRQsExamForm {
 						else if(Utilitarios.IMAGEN_ANOTADA.equals(idx.getTipoPregunta())) {
 								this.setAnnotatedImage(true);
 						}
+						else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+					    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
+					     }
+						
 						
 					}//
 					
@@ -318,6 +334,7 @@ public class MRQsExamForm {
 		             }
 			     }
 				
+				
 				this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
                         , this.mrqsGrupoHdr.getNumero()
                         , this.mrqsGrupoLinesV2.getNumeroPregunta()
@@ -392,6 +409,23 @@ public class MRQsExamForm {
 								                , this.numeroPreguntaFta
 								                );
 		System.out.println("Sale saveAndProceed()");
+	}
+	
+	private void actualizarTablaCorrelacionColumnas(long lNumeroFta,MrqsGrupoLinesV2 idx) {
+		setCorrelacionColumnas(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta()));
+		listMrqsCorrelacionColumnasDto=mrqsCorrelacionColumnasLocal.findByFta(lNumeroFta);
+		listMrqsCorrelacionColumnasRespuestasDto=mrqsCorrelacionColumnasLocal.findRespuestasCorrectasByFta(lNumeroFta);
+		int length=listMrqsCorrelacionColumnasDto.size()>listMrqsCorrelacionColumnasRespuestasDto.size()?listMrqsCorrelacionColumnasDto.size():listMrqsCorrelacionColumnasRespuestasDto.size();
+		listMrqsCorrelacionColumnas = new ArrayList<MrqsCorrelacionColumnaPair>();
+		for(int i=0;i<length;i++) {
+	
+			listMrqsCorrelacionColumnas.add(new 
+					MrqsCorrelacionColumnaPair(i>=listMrqsCorrelacionColumnasDto.size()?
+					null:listMrqsCorrelacionColumnasDto.get(i), 
+					i>=listMrqsCorrelacionColumnasRespuestasDto.size()?
+							null:listMrqsCorrelacionColumnasRespuestasDto.get(i) ));
+		}
+		
 	}
 	
 	public MrqsExamenes getMrqsExamen() {
@@ -712,7 +746,9 @@ public class MRQsExamForm {
 							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
 							this.setMultipleChoice(true);
 						}
-						
+						else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+					    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
+					     }
 						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
 								                                                     , this.mrqsGrupoHdr.getNumero()
 								                                                     , this.mrqsGrupoLinesV2.getNumeroPregunta()
@@ -761,6 +797,9 @@ public class MRQsExamForm {
 					listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
 					this.setMultipleChoice(true);
 				}
+				else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+			    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
+			     }
 				
 				this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
                         , this.mrqsGrupoHdr.getNumero()
@@ -837,7 +876,9 @@ public class MRQsExamForm {
 							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
 							this.setMultipleChoice(true);
 						}
-						
+						else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+					    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
+					     }
 						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
 								                                                     , this.mrqsGrupoHdr.getNumero()
 								                                                     , this.mrqsGrupoLinesV2.getNumeroPregunta()
@@ -940,7 +981,7 @@ public class MRQsExamForm {
 							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
 							this.setMultipleChoice(true);
 						}
-						
+						else
 						if(Utilitarios.IMAGEN_ANOTADA.equals(idx.getTipoPregunta())) {
 							mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,
 									idx.getTipoPregunta());
@@ -956,6 +997,9 @@ public class MRQsExamForm {
 				            	 Type collectionType = new TypeToken<List<AnotacionesCorImg>>(){}.getType();
 				            	 setListAnotacionesCorImg(gson.fromJson(mrqsPreguntasFtaV1ForRead.getCorrelaciones(), collectionType)); 
 				             }
+					     }
+						else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+					    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
 					     }
 						
 						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
@@ -1004,6 +1048,9 @@ public class MRQsExamForm {
 					listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
 					this.setMultipleChoice(true);
 				}
+				else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+			    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
+			     }
 				
 				this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
                         , this.mrqsGrupoHdr.getNumero()
@@ -1292,5 +1339,75 @@ public class MRQsExamForm {
 		 */
 		public void setTipoPregunta(String tipoPregunta) {
 			this.tipoPregunta = tipoPregunta;
+		}
+
+		/**
+		 * @return the listMrqsCorrelacionColumnasDto
+		 */
+		public List<MrqsCorrelacionColumnasDto> getListMrqsCorrelacionColumnasDto() {
+			return listMrqsCorrelacionColumnasDto;
+		}
+
+		/**
+		 * @param listMrqsCorrelacionColumnasDto the listMrqsCorrelacionColumnasDto to set
+		 */
+		public void setListMrqsCorrelacionColumnasDto(List<MrqsCorrelacionColumnasDto> listMrqsCorrelacionColumnasDto) {
+			this.listMrqsCorrelacionColumnasDto = listMrqsCorrelacionColumnasDto;
+		}
+
+		/**
+		 * @return the listMrqsCorrelacionColumnasRespuestasDto
+		 */
+		public List<MrqsCorrelacionColumnasRespuestasDto> getListMrqsCorrelacionColumnasRespuestasDto() {
+			return listMrqsCorrelacionColumnasRespuestasDto;
+		}
+
+		/**
+		 * @param listMrqsCorrelacionColumnasRespuestasDto the listMrqsCorrelacionColumnasRespuestasDto to set
+		 */
+		public void setListMrqsCorrelacionColumnasRespuestasDto(List<MrqsCorrelacionColumnasRespuestasDto> listMrqsCorrelacionColumnasRespuestasDto) {
+			this.listMrqsCorrelacionColumnasRespuestasDto = listMrqsCorrelacionColumnasRespuestasDto;
+		}
+
+		/**
+		 * @return the listMrqsCorrelacionColumnasPrev
+		 */
+		public List<MrqsCorrelacionColumnaPair> getListMrqsCorrelacionColumnas() {
+			return listMrqsCorrelacionColumnas;
+		}
+
+		/**
+		 * @param listMrqsCorrelacionColumnasPrev the listMrqsCorrelacionColumnasPrev to set
+		 */
+		public void setListMrqsCorrelacionColumnas(List<MrqsCorrelacionColumnaPair> listMrqsCorrelacionColumnasPrev) {
+			this.listMrqsCorrelacionColumnas = listMrqsCorrelacionColumnasPrev;
+		}
+
+		/**
+		 * @return the correlacionColumnas
+		 */
+		public boolean isCorrelacionColumnas() {
+			return correlacionColumnas;
+		}
+
+		/**
+		 * @param correlacionColumnas the correlacionColumnas to set
+		 */
+		public void setCorrelacionColumnas(boolean correlacionColumnas) {
+			this.correlacionColumnas = correlacionColumnas;
+		}
+
+		/**
+		 * @return the panelCorrelacionColumnasResultados
+		 */
+		public boolean isPanelCorrelacionColumnasResultados() {
+			return panelCorrelacionColumnasResultados;
+		}
+
+		/**
+		 * @param panelCorrelacionColumnasResultados the panelCorrelacionColumnasResultados to set
+		 */
+		public void setPanelCorrelacionColumnasResultados(boolean panelCorrelacionColumnasResultados) {
+			this.panelCorrelacionColumnasResultados = panelCorrelacionColumnasResultados;
 		}
 }

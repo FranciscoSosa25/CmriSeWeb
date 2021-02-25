@@ -63,7 +63,7 @@
        </div>
        <div>
        <p:inputText id="tipoReactivo" value="#{mRQsExamForm.tipoPregunta}"
-				type="" />
+				type="hidden" />
        <ui:repeat var="imagenesGrupo" value="#{mRQsExamForm.listPresentMrqsImagenesGrp}" varStatus="status">
 		    <div>
 		     <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
@@ -97,6 +97,31 @@
 			 </div>
 		    </h:panelGroup>
 		    
+		    <p:dataTable  id="ColumnasCorrelacionPrev"  
+		rendered="#{mRQsExamForm.correlacionColumnas}"
+		 var="mrqsCorrelacionColumna"
+				value="#{mRQsExamForm.listMrqsCorrelacionColumnas}">
+				
+				
+ 				 <p:column style="text-align: right;">
+ 					<h:outputLabel id="textoPregunta"
+							value="#{mrqsCorrelacionColumna.texto.textoRespuesta}">
+					</h:outputLabel>
+					<p:message for="textoPregunta" />
+			      </p:column>
+			      <p:column style="text-align: left;">					
+						<p:selectOneMenu id="respuestasPropuestas" required="true"  rendered="#{mrqsCorrelacionColumna.texto != null}"
+							style="width: 90%;min-width: 0 !important;"
+							value="#{mrqsCorrelacionColumna.texto.valorSeleccionado}">
+							<f:selectItem itemLabel="Selecione respuesta" itemValue=""
+								noSelectionOption="true" />
+								
+							<f:selectItems
+								value="#{mRQsExamForm.listMrqsCorrelacionColumnasDto}"
+								var="competitor" itemValue="#{competitor}" />
+						</p:selectOneMenu>		
+			  </p:column>	
+	</p:dataTable>
 		    
 		    <h:panelGroup layout="block"
 								rendered="#{mRQsExamForm.annotatedImage}">

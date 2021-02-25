@@ -3,7 +3,6 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	 
 	<p:dataTable  id="ColumnasCorrelacionPrev"  
 		rendered="#{mrqPreviewForm.correlacionColumnas}"
 		 var="mrqsCorrelacionColumnaPrev"
@@ -22,6 +21,7 @@
 							value="#{mrqsCorrelacionColumnaPrev.texto.valorSeleccionado}">
 							<f:selectItem itemLabel="Selecione respuesta" itemValue=""
 								noSelectionOption="true" />
+								
 							<f:selectItems
 								value="#{mrqPreviewForm.listMrqsCorrelacionColumnasDto}"
 								var="competitor" itemValue="#{competitor}" />
