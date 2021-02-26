@@ -59,5 +59,9 @@ public class AdmonRolesLocalImpl implements AdmonRolesLocal {
 	public List<KeysDto> findKeys() {
 		return admonRolesDao.findKeys();
 	}
-
+	
+	@Override
+	public AdmonRolesDto findRole(long idRole) {
+		return admonRolesDao.findRole(idRole);
+	}
 }

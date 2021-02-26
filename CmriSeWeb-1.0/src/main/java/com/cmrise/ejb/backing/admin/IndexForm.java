@@ -51,28 +51,32 @@ public class IndexForm {
 	    ExternalContext externalContext = context.getExternalContext();
 	    HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
 	    
-		int intLoginMaestro = admonUsuariosRolesLocal.loginUsuarioRol(curp, Utilitarios.ROL_MAESTRO, password);
-		System.out.println("intLoginMaestro:"+intLoginMaestro);
-		if(intLoginMaestro!=0) {
-			request.getSession().setAttribute("xXRole",Utilitarios.ROL_MAESTRO);
-			return "PaginaPrincipal"; 
-		}
+		int intLoginMaestro = admonUsuariosRolesLocal.loginUsuarioRol(curp, Utilitarios.ROL_MAESTRO_REACT, password);
+		int intLoginUsuario = admonUsuariosRolesLocal.loginUsuarioRol(curp, Utilitarios.ROL_ADMIN, password);
+		int intLoginAlumno = admonUsuariosRolesLocal.loginUsuarioRol(curp, Utilitarios.ROL_ALUMNO, password);
 		
-		int intLoginUsuario = admonUsuariosRolesLocal.loginUsuarioRol(curp, Utilitarios.ROL_USUARIO, password);
-		System.out.println("intLoginUsuario:"+intLoginUsuario);
-		if(intLoginUsuario!=0) {
-			AdmonUsuariosRolesV1Dto admonUsuariosRolesV1Dto = admonUsuariosRolesLocal.findLoginUsusarioRol(curp, Utilitarios.ROL_USUARIO, password); 
+		if(intLoginMaestro!=0) {
+			System.out.println("intLoginMaestroReactivo:"+intLoginMaestro);
+			AdmonUsuariosRolesV1Dto admonUsuariosRolesV1Dto = admonUsuariosRolesLocal.findLoginUsusarioRol(curp, Utilitarios.ROL_MAESTRO_REACT, password);
 			userLogin.setNumeroUsuario(admonUsuariosRolesV1Dto.getNumeroUsuario());
 			userLogin.setMatricula(admonUsuariosRolesV1Dto.getMatricula());
 			userLogin.setNombreCompletoUsuario(admonUsuariosRolesV1Dto.getNombreCompletoUsuario());
 			userLogin.setDescripcionRol(admonUsuariosRolesV1Dto.getDescripcionRol());
 			userLogin.setCurp(this.curp);
-			request.getSession().setAttribute("xXRole",Utilitarios.ROL_USUARIO);
+			request.getSession().setAttribute("xXRole",Utilitarios.ROL_MAESTRO_REACT);
 			return "PaginaPrincipal"; 
-		}
-		int intLoginAlumno = admonUsuariosRolesLocal.loginUsuarioRol(curp, Utilitarios.ROL_ALUMNO, password);
-		System.out.println("intLoginAlumno:"+intLoginAlumno);
-		if(intLoginAlumno!=0) {
+		} else if(intLoginUsuario!=0) {
+			System.out.println("intLoginAdmin:"+intLoginUsuario);
+			AdmonUsuariosRolesV1Dto admonUsuariosRolesV1Dto = admonUsuariosRolesLocal.findLoginUsusarioRol(curp, Utilitarios.ROL_ADMIN, password); 
+			userLogin.setNumeroUsuario(admonUsuariosRolesV1Dto.getNumeroUsuario());
+			userLogin.setMatricula(admonUsuariosRolesV1Dto.getMatricula());
+			userLogin.setNombreCompletoUsuario(admonUsuariosRolesV1Dto.getNombreCompletoUsuario());
+			userLogin.setDescripcionRol(admonUsuariosRolesV1Dto.getDescripcionRol());
+			userLogin.setCurp(this.curp);
+			request.getSession().setAttribute("xXRole",Utilitarios.ROL_ADMIN);
+			return "PaginaPrincipal"; 
+		}else if(intLoginAlumno!=0) {
+			System.out.println("intLoginAlumno:"+intLoginAlumno);
 			AdmonUsuariosRolesV1Dto admonUsuariosRolesV1Dto = admonUsuariosRolesLocal.findLoginUsusarioRol(curp, Utilitarios.ROL_ALUMNO, password); 
 			userLogin.setNumeroUsuario(admonUsuariosRolesV1Dto.getNumeroUsuario());
 			userLogin.setMatricula(admonUsuariosRolesV1Dto.getMatricula());
@@ -82,29 +86,22 @@ public class IndexForm {
 			request.getSession().setAttribute("xXRole",Utilitarios.ROL_ALUMNO);
 			getGuestPreferences().setTheme("deep-purple");
 			return "Candidates-Manage-Exams"; 
+		} else {
+			context.addMessage(null, new FacesMessage("Acesso no valido","Porfavor ingrese las credenciales correctas") );
+	        System.out.println("Sale IndexForm login()");
+			return "/index.xhtml"; 
 		}
-		context.addMessage(null, new FacesMessage("Acesso no valido","Porfavor ingrese las credenciales correctas") );
-        System.out.println("Sale IndexForm login()");
-		return "/index.xhtml"; 
-			
 	}
 	
 	public void logout ()  {
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.getExternalContext().invalidateSession();
 		
-
-
 		try {
-			context.getExternalContext().redirect("index.xhtml");
-			
-
+			context.getExternalContext().redirect("index.xhtml");			
 		} catch (IOException e) {
-			e.printStackTrace();
-			
+			e.printStackTrace();			
 		}
-	   
-
 		
        }
 	
@@ -123,25 +120,17 @@ public class IndexForm {
 		this.guestPreferences = guestPreferences;
 	}
 
-
-
 	public UserLogin getUserLogin() {
 		return userLogin;
 	}
-
-
 
 	public void setUserLogin(UserLogin userLogin) {
 		this.userLogin = userLogin;
 	}
 
-
-
 	public String getCurp() {
 		return curp;
 	}
-
-
 
 	public void setCurp(String curp) {
 		this.curp = curp;

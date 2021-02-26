@@ -78,16 +78,22 @@ public class AdmonRolesDaoImpl implements AdmonRolesDao {
 	
 	@Override
 	public List<KeysDto> findKeysCand() {
-		String strQuery = "SELECT new com.cmrise.jpa.dto.admin.KeysDto(a.numero,a.nombre) FROM AdmonRolesDto a WHERE NUMERO='1'";
+		String strQuery = "SELECT new com.cmrise.jpa.dto.admin.KeysDto(a.numero,a.nombre) FROM AdmonRolesDto a WHERE a.numero ='1'";
 		Query q = em.createQuery(strQuery); 
 		return q.getResultList();
 	}
 	
 	@Override
 	public List<KeysDto> findKeysNotCand() {
-		String strQuery = "SELECT new com.cmrise.jpa.dto.admin.KeysDto(a.numero,a.nombre) FROM AdmonRolesDto a WHERE NUMERO != '1'";
+		String strQuery = "SELECT new com.cmrise.jpa.dto.admin.KeysDto(a.numero,a.nombre) FROM AdmonRolesDto a WHERE a.numero != '1'";
 		Query q = em.createQuery(strQuery); 
 		return q.getResultList();
+	}
+	
+	@Override
+	public AdmonRolesDto findRole(long idRole) {
+		AdmonRolesDto admonRolesDto = em.find(AdmonRolesDto.class, idRole);
+		return admonRolesDto;		
 	}
 
 }

@@ -7,11 +7,15 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.PrimeFaces;
 
+import com.cmrise.ejb.helpers.UserLogin;
 import com.cmrise.ejb.model.admin.AdmonUsuarios;
 import com.cmrise.ejb.services.admin.AdmonUsuariosLocal;
 import com.cmrise.ejb.services.admin.AdmonUsuariosRolesLocal;
@@ -142,8 +146,7 @@ public class AdmonUsuariosForm {
 		admonUsuariosForAction.setContrasenia(pAdmonUsuarios.getContrasenia());
 		admonUsuariosForAction.setNumeroRol(pAdmonUsuarios.getNumeroRol());
 	}
-	
-	
+		
 	public void delete() {
 		boolean deleteIn = false; 
 		admonUsuariosLocal.delete(admonUsuariosForAction.getNumero());
@@ -259,20 +262,23 @@ public class AdmonUsuariosForm {
 	public void setAdmonUsuariosForAction(AdmonUsuarios admonUsuariosForAction) {
 		this.admonUsuariosForAction = admonUsuariosForAction;
 	}
-
 	public long getNumeroRol() {
 		return numeroRol;
 	}
-
 	public void setNumeroRol(long numeroRol) {
 		this.numeroRol = numeroRol;
 	}
-
 	public String getCurp() {
 		return curp;
 	}
-
 	public void setCurp(String curp) {
 		this.curp = curp;
 	}
+		
+	public String newUser() {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		return "Admon-New-Usuario"; 
+	}	
+	
 }
