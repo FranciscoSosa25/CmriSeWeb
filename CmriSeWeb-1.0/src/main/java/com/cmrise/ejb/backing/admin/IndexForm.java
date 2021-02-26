@@ -98,7 +98,7 @@ public class IndexForm {
 		context.getExternalContext().invalidateSession();
 		
 		try {
-			context.getExternalContext().redirect("index.xhtml");			
+			context.getExternalContext().redirect("/CmriSeWeb/faces/index.xhtml");
 		} catch (IOException e) {
 			e.printStackTrace();			
 		}

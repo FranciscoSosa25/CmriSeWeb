@@ -8,7 +8,6 @@
 <ui:define name="content">
 <h:form id="mqrsExaFormCab">
 <!--  p:growl id="messages" showDetail="true" -->
- 
  <p:growl id="growl" showDetail="true" showSummary="true">
 		     <p:autoUpdate />
  </p:growl> 
@@ -55,13 +54,16 @@
 	    	});
        		
 		    function updateCount() {
-		        $("[id$='counter']").html($("[id$='answer']").val().length + "/" + $("[id$='answer']").attr('maxlength') + " caracteres");
+		    	if(document.getElementById("answer") )
+		        	$("[id$='counter']").html($("[id$='answer']").val().length + "/" + $("[id$='answer']").attr('maxlength') + " caracteres");
 		    }
 	  </script>
        <div  style="font-size:2em; font-weight:bold; border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;" >
        <h:outputText id="titulo" value="" /><!-- aqui venía la parte de admonmateria que se pidió eliminar -->
        </div>
        <div>
+       <p:inputText id="tipoReactivo" value="#{mRQsExamForm.tipoPregunta}"
+				type="hidden" />
        <ui:repeat var="imagenesGrupo" value="#{mRQsExamForm.listPresentMrqsImagenesGrp}" varStatus="status">
 		    <div>
 		     <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
@@ -95,6 +97,74 @@
 			 </div>
 		    </h:panelGroup>
 		    
+		    <p:dataTable  id="ColumnasCorrelacionPrev"  
+		rendered="#{mRQsExamForm.correlacionColumnas}"
+		 var="mrqsCorrelacionColumna"
+				value="#{mRQsExamForm.listMrqsCorrelacionColumnas}">
+				
+				
+ 				 <p:column style="text-align: right;">
+ 					<h:outputLabel id="textoPregunta"
+							value="#{mrqsCorrelacionColumna.texto.textoRespuesta}">
+					</h:outputLabel>
+					<p:message for="textoPregunta" />
+			      </p:column>
+			      <p:column style="text-align: left;">					
+						<p:selectOneMenu id="respuestasPropuestas" required="true"  rendered="#{mrqsCorrelacionColumna.texto != null}"
+							style="width: 90%;min-width: 0 !important;"
+							value="#{mrqsCorrelacionColumna.texto.valorSeleccionado}">
+							<f:selectItem itemLabel="Selecione respuesta" itemValue=""
+								noSelectionOption="true" />
+								
+							<f:selectItems
+								value="#{mRQsExamForm.listMrqsCorrelacionColumnasDto}"
+								var="competitor" itemValue="#{competitor}" />
+						</p:selectOneMenu>		
+			  </p:column>	
+	</p:dataTable>
+		    
+		    <h:panelGroup layout="block"
+								rendered="#{mRQsExamForm.annotatedImage}">
+								<div class="ui-g-12">
+									<p:inputText id="widthImgCor"
+										value="#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.width}"
+										type="hidden" />
+									<p:inputText id="heightImgCor"
+										value="#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.height}"
+										type="hidden" />
+									<h:graphicImage id="graphicImageImgCor"
+										value="data:#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.contentType};base64,#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.imagenBase64}"
+										style="display:none;" rendered="#{mRQsExamForm.annotatedImage}"/>
+									<h:panelGroup id="imgCorDiv" layout="block"
+										style="width:400px; height:150px; background-color: #DAE4E4;">
+									</h:panelGroup>
+								</div>
+								<div>
+									<ui:repeat var="anotacion"
+										value="#{mRQsExamForm.listAnotacionesCorImg}"
+										varStatus="status">
+										<div class="ui-g-1">#{anotacion.nodo}</div>
+										<div class="ui-g-11">
+											<p:selectOneMenu id="respuestaCorrelacionada" required="true"
+												requiredMessage="#{msgs['globalForm.requiredMessage']}"
+												value="#{mRQsExamForm.respuestaSelect.value}">
+		            <f:selectItem itemLabel="Seleccione un Valor.." itemValue="" />
+												<f:selectItems
+													value="#{mRQsExamForm.selectRespReactCorImg}" />
+													<!-- <p:ajax event="change" listener="#{mRQsExamForm.agregarRespCandidato(status.index)}"/> -->
+		            </p:selectOneMenu>
+											<p:message for="respuestaCorrelacionada" />
+										</div>
+									</ui:repeat>
+								</div>
+							</h:panelGroup>
+							
+				<p:inputTextarea id="coordinatesImgCor"
+								value="#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.poligonos}"
+								placeholder="Coordenadas" style="width:100%;display:none;" />
+							
+								
+		    
 		    <h:panelGroup layout="block" rendered="#{mRQsExamForm.multipleChoice  and mRQsExamForm.mrqsGrupoLinesV2.singleAnswerMode}">
 		      <div class="ui-g-12 ui-md-12" >
 		         <p:selectOneRadio id="answerRadioSingle" value="#{mRQsExamForm.respuestaCandidato}" layout="grid" columns="1"  requiredMessage="#{msgs['globalForm.requiredMessage']}" required="true">
@@ -116,10 +186,19 @@
 		 <div class="ui-g-12 ui-md-5">
              <h:outputText id="timerVal" value="#{mRQsExamForm.timerValue}" rendered="true" />
              <p:commandButton value="Saltar Pregunta" style="margin-left:15px"  actionListener="#{mRQsExamForm.SaltarPregunta()}" update="mqrsExaForm" rendered="#{mRQsExamForm.mrqsExamen.saltarPreguntas}" immediate="true"  disabled="#{mRQsExamForm.flag2}" />
-             <p:commandButton value="Siguiente" actionListener="#{mRQsExamForm.siguienteGuardarResp()}" update="mqrsExaForm myDialog" style="margin-left:15px"    />
+             <p:commandButton value="Siguiente" actionListener="#{mRQsExamForm.siguienteGuardarResp()}" onclick="init()" update="mqrsExaForm myDialog" style="margin-left:15px"    />
            </div>   
          </div>   
 <!-- CODIGO FIN -->
 </h:form>
 </ui:define>
+
+<ui:define name="xxhrwjs">
+		<h:outputScript name="gojs/go.js" library="js" />
+		<h:outputScript name="gojs/Figures.js" library="js" />
+		<h:outputScript name="cmrise/reactivos/ReactivosExam.js"
+			library="js" />
+	</ui:define>
+
 </ui:composition>
+

@@ -32,7 +32,7 @@
 			<ui:insert name="guardar" />
 			<ui:insert name="actualizar" />
 			<ul class="topbar-items fadeInDown animated">
-				<li class="profile-item"><a href="#">
+				<li class="profile-item">
 <!-- 						<div class="profile-image"> -->
 <!-- 						</div> <span class="topbar-item-name">Jane -->
 <!-- 							Williams</span> -->
@@ -40,19 +40,18 @@
             <span class="username">#{userLogin.nombreCompletoUsuario}</span>
 
             <i class="fa fa-angle-down"></i>
-        </a>
-				</a>
-
+       		 </a>
+				
 					<ul class="estilo" style="BackGround:#2D0D86; text-align:right ">
 						<li role="menuitem" style=" BackGround:#2D0D86;"> 
 						  <h:form>
-						      <p:commandLink style="text-align:right; color:#FFFFFF; hover:color: #2d0d86;" ajax="false"><i class="pi pi-cog"></i> <span>Configuración De Usuario</span>
+						      <div id="userconfig"><p:commandLink style="text-align:right; color:#FFFFFF; hover:color: #2d0d86;" ajax="false"> <i class="pi pi-cog"></i> <span >Configuración De Usuario</span>
 						   	  </p:commandLink>
-						   	  
-						   <p:commandLink action="#{indexForm.logout()}" style="text-align: right; color:#FFFFFF" ajax="false"><i class="fa fa-fw fa-sign-out" ></i>  <span>Cerrar Sesión</span>
+						   	  </div>
+						   <div id="logout"><p:commandLink action="#{indexForm.logout()}" style="text-align: right; color:#FFFFFF" ajax="false"><i class="fa fa-fw fa-sign-out" ></i>  <span>Cerrar Sesión</span>
 						   
 						  </p:commandLink>
-						
+						</div>
 						    </h:form>
 
 						</li>
@@ -89,5 +88,16 @@
 			</ul>
 		</div>
 	</div>
+
+	<script>
+			$( document ).ready(function() {
+			    if(document.getElementById("examinationsForm")||document.getElementById("mqrsExaFormCab")){
+			    	document.getElementById("userconfig").style.display = "none";
+			    }
+			    if(document.getElementById("mqrsExaFormCab")){
+			    	document.getElementById("logout").style.display = "none";
+			    }
+			});
+		</script> 
 
 </ui:composition>

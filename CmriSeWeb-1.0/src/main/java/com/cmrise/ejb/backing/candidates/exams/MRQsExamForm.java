@@ -2,12 +2,14 @@ package com.cmrise.ejb.backing.candidates.exams;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -21,9 +23,11 @@ import com.cmrise.ejb.model.exams.MrqsExamenes;
 import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
 import com.cmrise.ejb.model.exams.MrqsGrupoLines;
 import com.cmrise.ejb.model.exams.MrqsGrupoLinesV2;
+import com.cmrise.ejb.model.mrqs.AnotacionesCorImg;
 import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasFtaV1;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
+import com.cmrise.ejb.model.mrqs.RespReactCorImg;
 import com.cmrise.ejb.model.mrqs.img.MrqsImagenesGrp;
 import com.cmrise.ejb.services.candidates.exams.CandExamRespSkipLocal;
 import com.cmrise.ejb.services.candidates.exams.CandExamRespuestasLocal;
@@ -31,17 +35,26 @@ import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;
 import com.cmrise.ejb.services.exams.MrqsExamenesLocal;
 import com.cmrise.ejb.services.exams.MrqsGrupoHdrLocal;
 import com.cmrise.ejb.services.exams.MrqsGrupoLinesLocal;
+import com.cmrise.ejb.services.mrqs.MrqsCorrelacionColumnasLocal;
 import com.cmrise.ejb.services.mrqs.MrqsOpcionMultipleLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
+import com.cmrise.jpa.dao.mrqs.MrqsCorrelacionColumnaPair;
 import com.cmrise.jpa.dto.candidates.exams.CandExamRespSkipDto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamSkipV1Dto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesDto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesV1Dto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesV2Dto;
+import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasDto;
+import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasRespuestasDto;
+import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrV2Dto;
 import com.cmrise.utils.Utilitarios;
 import com.cmrise.utils.UtilitariosLocal;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 
 @ManagedBean
@@ -86,6 +99,15 @@ public class MRQsExamForm {
 	private int skipMax = 0;
 	private boolean showFinalMessage = false;
 	private int limiteCaracteres = 50;
+	private String tipoPregunta; 
+	
+	
+	private MrqsPreguntasFtaV1 mrqsPreguntasFtaV1ForRead = new MrqsPreguntasFtaV1(); 
+	private List<RespReactCorImg> listRespReactCorImg = new ArrayList<RespReactCorImg>();
+	private List<AnotacionesCorImg> listAnotacionesCorImg = new ArrayList<AnotacionesCorImg>();
+	private List<SelectItem> selectRespReactCorImg = new ArrayList<SelectItem>(); 
+	
+	private SelectItem respuestaSelect = new SelectItem();
 	
 	@Inject
 	UtilitariosLocal utilitariosLocal; 
@@ -118,7 +140,13 @@ public class MRQsExamForm {
 	CandExamRespSkipLocal candExamRespSkipLocal;
 	
 	@Inject
-	
+	MrqsCorrelacionColumnasLocal mrqsCorrelacionColumnasLocal;
+	private List<MrqsCorrelacionColumnasDto> listMrqsCorrelacionColumnasDto = new ArrayList<MrqsCorrelacionColumnasDto>();
+	private List<MrqsCorrelacionColumnasRespuestasDto> listMrqsCorrelacionColumnasRespuestasDto = new ArrayList<MrqsCorrelacionColumnasRespuestasDto>();
+	private List<MrqsCorrelacionColumnaPair> listMrqsCorrelacionColumnas = new ArrayList<MrqsCorrelacionColumnaPair>();
+	private boolean correlacionColumnas;
+	private boolean panelCorrelacionColumnasResultados;
+
 	@PostConstruct
 	public void init() {
 		 FacesContext context = FacesContext.getCurrentInstance(); 
@@ -184,11 +212,12 @@ public class MRQsExamForm {
 					if(listMrqsGrupoLinesV2 != null || reactivosSize>=0) { //Algunas veces llegaba vacía la lista y truena la página sin está validación
 					 idx = listMrqsGrupoLinesV2.get(idxReactivos);
 					    System.out.println("idx.getTextoPregunta():"+idx.getNumeroPregunta());
-						
 						mrqsGrupoLinesV2.setTitulo(idx.getTitulo());
 						mrqsGrupoLinesV2.setTextoPregunta(idx.getTextoPregunta());
 						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
 						mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
+						this.setTipoPregunta(idx.getTipoPregunta());
+						System.err.println("TIPO PREGUNTA: "+ this.getTipoPregunta());
 						
 						candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
 						/* preguntas */
@@ -209,7 +238,33 @@ public class MRQsExamForm {
 							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
 							this.setMultipleChoice(true);
 						}
+						else if(Utilitarios.IMAGEN_ANOTADA.equals(idx.getTipoPregunta())) {
+								this.setAnnotatedImage(true);
+						}
+						else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+					    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
+					     }
+						
+						
 					}//
+					
+					if(Utilitarios.IMAGEN_ANOTADA.equals(idx.getTipoPregunta())) {
+						mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,
+								idx.getTipoPregunta());
+				    	 Gson gson = new Gson();
+				    	System.out.println("mrqsPreguntasFtaV1ForRead.widht"+mrqsPreguntasFtaV1ForRead.getWidth());
+				    	System.out.println("mrqsPreguntasFtaV1ForRead el content type"+ mrqsPreguntasFtaV1ForRead.getContentType());
+			             if(null!=mrqsPreguntasFtaV1ForRead.getRespuestas()) {
+			            	Type collectionType = new TypeToken<List<RespReactCorImg>>(){}.getType();
+			            	setListRespReactCorImg(gson.fromJson(mrqsPreguntasFtaV1ForRead.getRespuestas(), collectionType)); 
+			            	refreshRespuestas();
+			             }
+			             if(null!=mrqsPreguntasFtaV1ForRead.getAnotaciones()) {
+			            	 Type collectionType = new TypeToken<List<AnotacionesCorImg>>(){}.getType();
+			            	 setListAnotacionesCorImg(gson.fromJson(mrqsPreguntasFtaV1ForRead.getCorrelaciones(), collectionType)); 
+			             }
+				     }
+					
 						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
 								                                                     , this.mrqsGrupoHdr.getNumero()
 								                                                     , this.mrqsGrupoLinesV2.getNumeroPregunta()
@@ -243,7 +298,8 @@ public class MRQsExamForm {
 				mrqsGrupoLinesV2.setTextoSugerencias(tmp.getTextoSugerencias());
 				mrqsGrupoLinesV2.setTipoPregunta(tmp.getTipoPregunta());
 				mrqsGrupoLinesV2.setNumeroPregunta(tmp.getNumeroPregunta());
-				
+				this.setTipoPregunta(tmp.getTipoPregunta());
+				System.err.println("TIPO PREGUNTA: "+ this.getTipoPregunta());
 				this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
 				
 				MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta, tmp.getTipoPregunta());
@@ -260,6 +316,24 @@ public class MRQsExamForm {
 					listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
 					this.setMultipleChoice(true);
 				}
+				
+				if(Utilitarios.IMAGEN_ANOTADA.equals(tmp.getTipoPregunta())) {
+					mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,
+							tmp.getTipoPregunta());
+			    	 Gson gson = new Gson();
+			    	System.out.println("mrqsPreguntasFtaV1ForRead.widht"+mrqsPreguntasFtaV1ForRead.getWidth());
+			    	System.out.println("mrqsPreguntasFtaV1ForRead el content type"+ mrqsPreguntasFtaV1ForRead.getContentType());
+		             if(null!=mrqsPreguntasFtaV1ForRead.getRespuestas()) {
+		            	Type collectionType = new TypeToken<List<RespReactCorImg>>(){}.getType();
+		            	setListRespReactCorImg(gson.fromJson(mrqsPreguntasFtaV1ForRead.getRespuestas(), collectionType)); 
+		            	refreshRespuestas();
+		             }
+		             if(null!=mrqsPreguntasFtaV1ForRead.getAnotaciones()) {
+		            	 Type collectionType = new TypeToken<List<AnotacionesCorImg>>(){}.getType();
+		            	 setListAnotacionesCorImg(gson.fromJson(mrqsPreguntasFtaV1ForRead.getCorrelaciones(), collectionType)); 
+		             }
+			     }
+				
 				
 				this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
                         , this.mrqsGrupoHdr.getNumero()
@@ -335,6 +409,23 @@ public class MRQsExamForm {
 								                , this.numeroPreguntaFta
 								                );
 		System.out.println("Sale saveAndProceed()");
+	}
+	
+	private void actualizarTablaCorrelacionColumnas(long lNumeroFta,MrqsGrupoLinesV2 idx) {
+		setCorrelacionColumnas(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta()));
+		listMrqsCorrelacionColumnasDto=mrqsCorrelacionColumnasLocal.findByFta(lNumeroFta);
+		listMrqsCorrelacionColumnasRespuestasDto=mrqsCorrelacionColumnasLocal.findRespuestasCorrectasByFta(lNumeroFta);
+		int length=listMrqsCorrelacionColumnasDto.size()>listMrqsCorrelacionColumnasRespuestasDto.size()?listMrqsCorrelacionColumnasDto.size():listMrqsCorrelacionColumnasRespuestasDto.size();
+		listMrqsCorrelacionColumnas = new ArrayList<MrqsCorrelacionColumnaPair>();
+		for(int i=0;i<length;i++) {
+	
+			listMrqsCorrelacionColumnas.add(new 
+					MrqsCorrelacionColumnaPair(i>=listMrqsCorrelacionColumnasDto.size()?
+					null:listMrqsCorrelacionColumnasDto.get(i), 
+					i>=listMrqsCorrelacionColumnasRespuestasDto.size()?
+							null:listMrqsCorrelacionColumnasRespuestasDto.get(i) ));
+		}
+		
 	}
 	
 	public MrqsExamenes getMrqsExamen() {
@@ -627,7 +718,6 @@ public class MRQsExamForm {
 					mrqsGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
 					mrqsGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
 	//				mrqsGrupoHdr.setTitulo(idxHdr.getTitulo());
-										
 					System.out.println("********Cantidad de Preguntas: "+reactivosSize);
 					
 						System.out.println("idx.getTextoPregunta():"+idx.getTextoPregunta());
@@ -637,6 +727,7 @@ public class MRQsExamForm {
 						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
 						mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
 						candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
+						this.setTipoPregunta(idx.getTipoPregunta());
 						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
 						candExamRespSkipDto.setNumeroPreguntaFta(this.numeroPreguntaFta);
 						
@@ -655,7 +746,9 @@ public class MRQsExamForm {
 							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
 							this.setMultipleChoice(true);
 						}
-						
+						else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+					    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
+					     }
 						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
 								                                                     , this.mrqsGrupoHdr.getNumero()
 								                                                     , this.mrqsGrupoLinesV2.getNumeroPregunta()
@@ -686,7 +779,7 @@ public class MRQsExamForm {
 				mrqsGrupoLinesV2.setTextoSugerencias(tmp.getTextoSugerencias());
 				mrqsGrupoLinesV2.setTipoPregunta(tmp.getTipoPregunta());
 				mrqsGrupoLinesV2.setNumeroPregunta(tmp.getNumeroPregunta());
-				
+				this.setTipoPregunta(tmp.getTipoPregunta());
 				this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
 				
 				MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta, tmp.getTipoPregunta());
@@ -704,6 +797,9 @@ public class MRQsExamForm {
 					listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
 					this.setMultipleChoice(true);
 				}
+				else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+			    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
+			     }
 				
 				this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
                         , this.mrqsGrupoHdr.getNumero()
@@ -780,7 +876,9 @@ public class MRQsExamForm {
 							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
 							this.setMultipleChoice(true);
 						}
-						
+						else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+					    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
+					     }
 						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
 								                                                     , this.mrqsGrupoHdr.getNumero()
 								                                                     , this.mrqsGrupoLinesV2.getNumeroPregunta()
@@ -865,16 +963,44 @@ public class MRQsExamForm {
 						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
 						mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
 						candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
+						this.setTipoPregunta(idx.getTipoPregunta());
 						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
 						candExamRespSkipDto.setNumeroPreguntaFta(this.numeroPreguntaFta);
 						if(Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
 							this.setLimitedFreeTextAnswer(true);
+							mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,
+									idx.getTipoPregunta());
+							if (mrqsPreguntasFtaV1ForRead.getLimiteCaracteres() != null)
+								limiteCaracteres = mrqsPreguntasFtaV1ForRead.getLimiteCaracteres();
+							else
+								limiteCaracteres = 50;
+							
 						}else if(Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
 							mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
 							mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
 							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
 							this.setMultipleChoice(true);
 						}
+						else
+						if(Utilitarios.IMAGEN_ANOTADA.equals(idx.getTipoPregunta())) {
+							mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,
+									idx.getTipoPregunta());
+					    	 Gson gson = new Gson();
+					    	System.out.println("mrqsPreguntasFtaV1ForRead.widht"+mrqsPreguntasFtaV1ForRead.getWidth());
+					    	System.out.println("mrqsPreguntasFtaV1ForRead el content type"+ mrqsPreguntasFtaV1ForRead.getContentType());
+				             if(null!=mrqsPreguntasFtaV1ForRead.getRespuestas()) {
+				            	Type collectionType = new TypeToken<List<RespReactCorImg>>(){}.getType();
+				            	setListRespReactCorImg(gson.fromJson(mrqsPreguntasFtaV1ForRead.getRespuestas(), collectionType)); 
+				            	refreshRespuestas();
+				             }
+				             if(null!=mrqsPreguntasFtaV1ForRead.getAnotaciones()) {
+				            	 Type collectionType = new TypeToken<List<AnotacionesCorImg>>(){}.getType();
+				            	 setListAnotacionesCorImg(gson.fromJson(mrqsPreguntasFtaV1ForRead.getCorrelaciones(), collectionType)); 
+				             }
+					     }
+						else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+					    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
+					     }
 						
 						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
 								                                                     , this.mrqsGrupoHdr.getNumero()
@@ -906,17 +1032,25 @@ public class MRQsExamForm {
 				mrqsGrupoLinesV2.setTextoSugerencias(tmp.getTextoSugerencias());
 				mrqsGrupoLinesV2.setTipoPregunta(tmp.getTipoPregunta());
 				mrqsGrupoLinesV2.setNumeroPregunta(tmp.getNumeroPregunta());
-				
+				this.setTipoPregunta(tmp.getTipoPregunta());
 				this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
 				
 				if(Utilitarios.RESP_TEXTO_LIBRE.equals(tmp.getTipoPregunta())) {
 					this.setLimitedFreeTextAnswer(true);
+					MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,idx.getTipoPregunta());
+					if(pregunta.getLimiteCaracteres() != null)
+						limiteCaracteres = pregunta.getLimiteCaracteres();
+					else
+						limiteCaracteres = 50;
 				}else if(Utilitarios.OPCION_MULTIPLE.equals(tmp.getTipoPregunta())) {
 					mrqsGrupoLinesV2.setSingleAnswerMode(tmp.isSingleAnswerMode());
 					mrqsGrupoLinesV2.setSuffleAnswerOrder(tmp.isSuffleAnswerOrder());
 					listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
 					this.setMultipleChoice(true);
 				}
+				else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+			    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
+			     }
 				
 				this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
                         , this.mrqsGrupoHdr.getNumero()
@@ -967,6 +1101,17 @@ public class MRQsExamForm {
 			
 		}
 		
+		
+		private void refreshRespuestas() {
+			//para inicializar la lista de respuestas a evaluar se inicializa listRespuestasCandImg
+			SelectItem e = new SelectItem();
+			selectRespReactCorImg = new ArrayList<SelectItem>(); 
+			for(RespReactCorImg i:listRespReactCorImg) {
+			     //listRespuestasCandImg.add(e);
+				SelectItem selectItem = new SelectItem(i.getNumero(),i.getRespuesta()); 
+				selectRespReactCorImg.add(selectItem); 
+			}
+		}
 		
 		public List<MrqsGrupoHdr> GrupoAleatorio(List<MrqsGrupoHdr> lmqrsGrouoHdr) {
 			int elementosMax = lmqrsGrouoHdr.size();
@@ -1084,6 +1229,11 @@ public class MRQsExamForm {
 						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(lCandExamSkipV1Dto.get(idxSkip).getNumeroPreguntaHdr());
 						if(Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
 							this.setLimitedFreeTextAnswer(true);
+							MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,idx.getTipoPregunta());
+							if(pregunta.getLimiteCaracteres() != null)
+								limiteCaracteres = pregunta.getLimiteCaracteres();
+							else
+								limiteCaracteres = 50;
 						}else if(Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
 							mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
 							mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
@@ -1111,5 +1261,153 @@ public class MRQsExamForm {
 					
 						idxSkip++;
 		   }
+		}
+
+		public MrqsPreguntasFtaV1 getMrqsPreguntasFtaV1ForRead() {
+			return mrqsPreguntasFtaV1ForRead;
+		}
+
+		public void setMrqsPreguntasFtaV1ForRead(MrqsPreguntasFtaV1 mrqsPreguntasFtaV1ForRead) {
+			this.mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaV1ForRead;
+		}
+
+		/**
+		 * @return the listAnotacionesCorImg
+		 */
+		public List<AnotacionesCorImg> getListAnotacionesCorImg() {
+			return listAnotacionesCorImg;
+		}
+
+		/**
+		 * @param listAnotacionesCorImg the listAnotacionesCorImg to set
+		 */
+		public void setListAnotacionesCorImg(List<AnotacionesCorImg> listAnotacionesCorImg) {
+			this.listAnotacionesCorImg = listAnotacionesCorImg;
+		}
+
+		/**
+		 * @return the listRespReactCorImg
+		 */
+		public List<RespReactCorImg> getListRespReactCorImg() {
+			return listRespReactCorImg;
+		}
+
+		/**
+		 * @param listRespReactCorImg the listRespReactCorImg to set
+		 */
+		public void setListRespReactCorImg(List<RespReactCorImg> listRespReactCorImg) {
+			this.listRespReactCorImg = listRespReactCorImg;
+		}
+
+		/**
+		 * @return the selectRespReactCorImg
+		 */
+		public List<SelectItem> getSelectRespReactCorImg() {
+			return selectRespReactCorImg;
+		}
+
+		/**
+		 * @param selectRespReactCorImg the selectRespReactCorImg to set
+		 */
+		public void setSelectRespReactCorImg(List<SelectItem> selectRespReactCorImg) {
+			this.selectRespReactCorImg = selectRespReactCorImg;
+		}
+
+		/**
+		 * @return the respuestaSelect
+		 */
+		public SelectItem getRespuestaSelect() {
+			return respuestaSelect;
+		}
+
+		/**
+		 * @param respuestaSelect the respuestaSelect to set
+		 */
+		public void setRespuestaSelect(SelectItem respuestaSelect) {
+			this.respuestaSelect = respuestaSelect;
+		}
+
+		/**
+		 * @return the tipoPregunta
+		 */
+		public String getTipoPregunta() {
+			return tipoPregunta;
+		}
+
+		/**
+		 * @param tipoPregunta the tipoPregunta to set
+		 */
+		public void setTipoPregunta(String tipoPregunta) {
+			this.tipoPregunta = tipoPregunta;
+		}
+
+		/**
+		 * @return the listMrqsCorrelacionColumnasDto
+		 */
+		public List<MrqsCorrelacionColumnasDto> getListMrqsCorrelacionColumnasDto() {
+			return listMrqsCorrelacionColumnasDto;
+		}
+
+		/**
+		 * @param listMrqsCorrelacionColumnasDto the listMrqsCorrelacionColumnasDto to set
+		 */
+		public void setListMrqsCorrelacionColumnasDto(List<MrqsCorrelacionColumnasDto> listMrqsCorrelacionColumnasDto) {
+			this.listMrqsCorrelacionColumnasDto = listMrqsCorrelacionColumnasDto;
+		}
+
+		/**
+		 * @return the listMrqsCorrelacionColumnasRespuestasDto
+		 */
+		public List<MrqsCorrelacionColumnasRespuestasDto> getListMrqsCorrelacionColumnasRespuestasDto() {
+			return listMrqsCorrelacionColumnasRespuestasDto;
+		}
+
+		/**
+		 * @param listMrqsCorrelacionColumnasRespuestasDto the listMrqsCorrelacionColumnasRespuestasDto to set
+		 */
+		public void setListMrqsCorrelacionColumnasRespuestasDto(List<MrqsCorrelacionColumnasRespuestasDto> listMrqsCorrelacionColumnasRespuestasDto) {
+			this.listMrqsCorrelacionColumnasRespuestasDto = listMrqsCorrelacionColumnasRespuestasDto;
+		}
+
+		/**
+		 * @return the listMrqsCorrelacionColumnasPrev
+		 */
+		public List<MrqsCorrelacionColumnaPair> getListMrqsCorrelacionColumnas() {
+			return listMrqsCorrelacionColumnas;
+		}
+
+		/**
+		 * @param listMrqsCorrelacionColumnasPrev the listMrqsCorrelacionColumnasPrev to set
+		 */
+		public void setListMrqsCorrelacionColumnas(List<MrqsCorrelacionColumnaPair> listMrqsCorrelacionColumnasPrev) {
+			this.listMrqsCorrelacionColumnas = listMrqsCorrelacionColumnasPrev;
+		}
+
+		/**
+		 * @return the correlacionColumnas
+		 */
+		public boolean isCorrelacionColumnas() {
+			return correlacionColumnas;
+		}
+
+		/**
+		 * @param correlacionColumnas the correlacionColumnas to set
+		 */
+		public void setCorrelacionColumnas(boolean correlacionColumnas) {
+			this.correlacionColumnas = correlacionColumnas;
+		}
+
+		/**
+		 * @return the panelCorrelacionColumnasResultados
+		 */
+		public boolean isPanelCorrelacionColumnasResultados() {
+			return panelCorrelacionColumnasResultados;
+		}
+
+		/**
+		 * @param panelCorrelacionColumnasResultados the panelCorrelacionColumnasResultados to set
+		 */
+		public void setPanelCorrelacionColumnasResultados(boolean panelCorrelacionColumnasResultados) {
+			this.panelCorrelacionColumnasResultados = panelCorrelacionColumnasResultados;
 		}
 }

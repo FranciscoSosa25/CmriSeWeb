@@ -57,7 +57,7 @@
   <mime-type>application/x-font-eot</mime-type>
  </mime-mapping>
  <welcome-file-list>
-  <welcome-file>faces/index.xhtml</welcome-file>
+  <welcome-file>/faces/index.xhtml</welcome-file>
  </welcome-file-list>
  
 <filter>  
