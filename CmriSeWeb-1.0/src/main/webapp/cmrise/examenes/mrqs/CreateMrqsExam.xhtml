@@ -113,7 +113,7 @@
 		   <p:message  for="canSkipQuestions"/>
          </div>
        </div>
-       
+       <!--  
             <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
           <p:outputLabel for="canSkipCases"  value="¿Puede Saltar Casos?" />
@@ -143,7 +143,7 @@
          <p:message  for="shufleGroupOrder"/>
          </div>
        </div>
-       
+       -->
          <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
           <p:outputLabel for="shufleQuestionOrder"  value="¿Orden Aleatorio de Preguntas?" />
@@ -153,7 +153,7 @@
           <p:message  for="shufleQuestionOrder"/>
          </div>
        </div>
-       
+       <!--  
         <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
          <p:outputLabel for="randomCasesSelection"  value="¿Selección de Casos Aleatorios?" />
@@ -163,7 +163,7 @@
           <p:message  for="randomCasesSelection"/> 
          </div>
        </div>
-       
+       -->
         <div class="ui-g-12 ui-md-12" >
         <div class="ui-g-12 ui-md-3" style="text-align:right;">
           <p:outputLabel for="finishingMessage" value="Mensaje Final"/>
@@ -181,7 +181,8 @@
   <p:commandButton value="Crear" update="createForm" action="#{createMrqsExamForm.create()}" style="background: #2D0D86;" oncomplete="handleCreateRequest(xhr, status, args)"/>
  </div>
  <div class="ui-g-12 ui-md-6 ui-lg-2">
-  <p:commandButton value="Cerrar" icon="fa fa-backward" immediate="true" action="Exams-MRQs-Manage" style="background: #2D0D86;"/>
+  <p:messages autoUpdate="true" />
+  <p:commandButton value="Cerrar" icon="fa fa-backward" immediate="true" action="Exams-MRQs-Manage"  style="background: #2D0D86;"/>
  </div>
 </div>
 

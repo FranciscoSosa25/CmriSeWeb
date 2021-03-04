@@ -43,6 +43,8 @@ public class CreateMrqsExamForm {
 	@ManagedProperty(value="#{userLogin}")
 	private UserLogin userLogin; 
 	
+	long numeroDeExamen; 
+	
 	 @PostConstruct
 	 public void init() {
 		 examenesHdr = admonExamenHdrLocal.findByTipo(Utilitarios.MRQS); 
@@ -77,14 +79,15 @@ public class CreateMrqsExamForm {
 		}
 		
 		long numeroMrqExamen = mrqsExamenesLocal.insert(mrqsExamenesForInsert); 
+		setNumeroDeExamen(numeroMrqExamen);
 		session.setAttribute("NumeroMrqsExamenSV", numeroMrqExamen);
 		
 		context.addMessage(null, new FacesMessage("se creo correctamente el examen","Correctamente") );
+		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error","DEBE TENER AL MENOS UN REACTIVO ASIGNADO AL EXAMEN”") );
+
 		return "Exams-MRQs-Update"; 
 		 
 	}
-	
-	
 
 	public List<AdmonExamenHdr> getExamenesHdr() {
 		return examenesHdr;
@@ -115,6 +118,14 @@ public class CreateMrqsExamForm {
 	}
 	public void setUserLogin(UserLogin userLogin) {
 		this.userLogin = userLogin;
+	}
+
+	public long getNumeroDeExamen() {
+		return numeroDeExamen;
+	}
+
+	public void setNumeroDeExamen(long numeroDeExamen) {
+		this.numeroDeExamen = numeroDeExamen;
 	}
 	
 	

@@ -76,7 +76,6 @@ public class UpdateMrqsExamForm {
 	@ManagedProperty(value="#{userLogin}")
 	private UserLogin userLogin; 
 	
-	
 	 @PostConstruct
 	 public void init() {
 		System.out.println("Comienza UpdateTestExamForm init()");
@@ -225,7 +224,23 @@ public class UpdateMrqsExamForm {
    	 session.setAttribute("NumeroMrqsExamenSV", mrqsExamenesForUpdate.getNumero());
      /*return "Preview-Examen-Reactivos";*/
    	 return "Prev-Exam-React-OneByOne";
-    }	
+    }
+	
+	public String validateNoOfQuestions() {
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		MrqsExamenes exam = mrqsExamenesLocal.findObjMod(getNumeroMrqsExamen());
+		
+		System.out.println("getNumeroReactivos: "+exam.getListMrqsGrupoHdr().get(0).getListMrqsGrupoLines().size());
+		if(exam.getListMrqsGrupoHdr().get(0).getListMrqsGrupoLines().size() <=0)
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+				"DEBE TENER AL MENOS UN REACTIVO ASIGNADO AL EXAMEN"));
+		
+		else {
+			return "Exams-MRQs-Manage";
+		}
+		return null;
+	}
 	
 	public String cancel() {
 		return "Exams-MRQs-Manage"; 
