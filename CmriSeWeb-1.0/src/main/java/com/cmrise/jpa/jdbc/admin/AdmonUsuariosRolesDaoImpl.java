@@ -27,8 +27,6 @@ public class AdmonUsuariosRolesDaoImpl implements AdmonUsuariosRolesDao {
 		pAdmonUsuariosRolesDto.setNumero(lNumeroS.longValue());
 		java.util.Date sysdate = new java.util.Date();
 		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
-		pAdmonUsuariosRolesDto.setCreadoPor((long)-1);
-		pAdmonUsuariosRolesDto.setActualizadoPor((long)-1);
 		pAdmonUsuariosRolesDto.setFechaCreacion(sqlsysdate);
 		pAdmonUsuariosRolesDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pAdmonUsuariosRolesDto);

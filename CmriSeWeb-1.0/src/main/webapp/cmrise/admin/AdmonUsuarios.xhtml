@@ -37,11 +37,11 @@ function handleUpdateRequest(xhr, status, args){
 <ui:define name="content">
 <div class="card">
 <h2>
-   <p:commandButton id="RegistrarBtn" value="Nuevo Usuario" icon="fa fa-plus"  style="text-align: left; BackGround:#2D0D86;" onclick="PF('createUsuarioDialogWV').show();" />
+   <p:commandButton id="RegistrarBtn" value="Nuevo Usuario" icon="fa fa-plus"  style="text-align: left; BackGround:#2D0D86;" action="#{admonUsuariosForm.newUser()}"  /> 
  </h2>             
 <h:form id="ReadOnlyForm">
 
- <p:dataTable var="admonUsuario" value="#{admonUsuariosForm.listAdmonUsuarios }"  emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+ <p:dataTable var="admonUsuario" value="#{admonUsuariosForm.listAdmonUsuarios }"  emptyMessage="Sin resultados" paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">USUARIOS</f:facet>
     <p:column headerText="CURP" style="text-overflow: ellipsis; white-space: nowrap;width:150px" >
     <h:outputText value="#{admonUsuario.curp}"/>
@@ -49,12 +49,12 @@ function handleUpdateRequest(xhr, status, args){
    <p:column headerText="Nombre">
     <h:outputText value="#{admonUsuario.nombre}"/>
    </p:column>
-   <p:column headerText="Apellido Paterno">
+   <!-- <p:column headerText="Apellido Paterno">
     <h:outputText value="#{admonUsuario.apellidoPaterno}"/>
-   </p:column>
+   </p:column> 
    <p:column headerText="Apellido Materno">
     <h:outputText value="#{admonUsuario.apellidoMaterno}"/>
-   </p:column>
+   </p:column>-->
     <p:column headerText="Correo Electronico">
     <h:outputText value="#{admonUsuario.correoElectronico}"/>
    </p:column>

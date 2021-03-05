@@ -28,8 +28,7 @@ public class UserRoleFilter implements Filter {
 		 String strxXRole = (String)httpRequest.getSession().getAttribute("xXRole");
 		 System.out.println("strxXRole:"+strxXRole);
 		 System.out.println("httpRequest.getContextPath():"+httpRequest.getContextPath());
-		 if(Utilitarios.ROL_USUARIO.equals(strxXRole)
-		   ||Utilitarios.ROL_MAESTRO.equals(strxXRole)
+		 if(Utilitarios.ROL_ADMIN.equals(strxXRole)||Utilitarios.ROL_MAESTRO_REACT.equals(strxXRole)||Utilitarios.ROL_MAESTRO_CASOS.equals(strxXRole)
 		   ) {
 			 chain.doFilter(httpRequest, response);
 			 return; 
