@@ -242,6 +242,7 @@ public class MRQsExamForm {
 								this.setAnnotatedImage(true);
 						}
 						else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+							this.setCorrelacionColumnas(true);
 					    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
 					     }
 						
@@ -495,6 +496,7 @@ public class MRQsExamForm {
 			this.setLimitedFreeTextAnswer(false);
 			this.setAnnotatedImage(false);
 			this.setIndicateImage(false);
+			this.setCorrelacionColumnas(false);
 		}
 		this.multipleChoice = multipleChoice;
 	}
@@ -508,6 +510,7 @@ public class MRQsExamForm {
 			this.setMultipleChoice(false);
 			this.setAnnotatedImage(false);
 			this.setIndicateImage(false);
+			this.setCorrelacionColumnas(false);
 		}
 		this.limitedFreeTextAnswer = limitedFreeTextAnswer;
 	}
@@ -521,6 +524,7 @@ public class MRQsExamForm {
 			this.setMultipleChoice(false);
 			this.setAnnotatedImage(false);
 			this.setLimitedFreeTextAnswer(false);
+			this.setCorrelacionColumnas(false);
 		}
 		this.indicateImage = indicateImage;
 	}
@@ -747,6 +751,7 @@ public class MRQsExamForm {
 							this.setMultipleChoice(true);
 						}
 						else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+							this.setCorrelacionColumnas(true);
 					    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
 					     }
 						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
@@ -798,6 +803,7 @@ public class MRQsExamForm {
 					this.setMultipleChoice(true);
 				}
 				else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+					this.setCorrelacionColumnas(true);
 			    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
 			     }
 				
@@ -877,6 +883,7 @@ public class MRQsExamForm {
 							this.setMultipleChoice(true);
 						}
 						else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+							this.setCorrelacionColumnas(true);
 					    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
 					     }
 						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
@@ -983,6 +990,7 @@ public class MRQsExamForm {
 						}
 						else
 						if(Utilitarios.IMAGEN_ANOTADA.equals(idx.getTipoPregunta())) {
+							this.setAnnotatedImage(true);
 							mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,
 									idx.getTipoPregunta());
 					    	 Gson gson = new Gson();
@@ -999,6 +1007,7 @@ public class MRQsExamForm {
 				             }
 					     }
 						else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+							this.setCorrelacionColumnas(true);
 					    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
 					     }
 						
@@ -1049,6 +1058,7 @@ public class MRQsExamForm {
 					this.setMultipleChoice(true);
 				}
 				else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
+					this.setCorrelacionColumnas(true);
 			    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
 			     }
 				
