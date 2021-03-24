@@ -133,7 +133,9 @@
    </p:column>
    <p:column headerText="Acciones">
    <p:commandButton value="Actualizar" style="margin-left: 10px" ajax="true" update="ReadOnlyForm"/>
+   <p:commandButton value="Ver más" style="margin-left: 10px" action="#{historyExamsForm.toPreviewExamDetails()}" />
    </p:column>
+   
  </p:dataTable>
  
  </h:form>
