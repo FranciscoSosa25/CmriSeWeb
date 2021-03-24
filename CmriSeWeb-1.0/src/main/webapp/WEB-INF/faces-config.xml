@@ -37,6 +37,11 @@
 			<redirect />
 		</navigation-case>
 		<navigation-case>
+			<from-outcome>Admon-Update-Usuario</from-outcome>
+			<to-view-id>/cmrise/admin/AdmonUpdateUsuario.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>		
+		<navigation-case>
 			<from-outcome>Admon-Usuarios-Roles</from-outcome>
 			<to-view-id>/cmrise/admin/AdmonUsuariosRoles.xhtml</to-view-id>
 			<redirect />

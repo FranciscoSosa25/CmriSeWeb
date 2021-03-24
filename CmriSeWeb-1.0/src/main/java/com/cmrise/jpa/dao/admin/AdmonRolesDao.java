@@ -16,4 +16,5 @@ public interface AdmonRolesDao {
   public List<KeysDto> findKeysCand();
   public List<KeysDto> findKeysNotCand();
   public AdmonRolesDto findRole(long idRole);
+  public List<Object> findKeysRolesUser(long idUser);
 }

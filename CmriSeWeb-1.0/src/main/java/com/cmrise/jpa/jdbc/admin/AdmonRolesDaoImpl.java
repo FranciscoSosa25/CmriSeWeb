@@ -95,5 +95,15 @@ public class AdmonRolesDaoImpl implements AdmonRolesDao {
 		AdmonRolesDto admonRolesDto = em.find(AdmonRolesDto.class, idRole);
 		return admonRolesDto;		
 	}
+	
+	@Override
+	public List<Object> findKeysRolesUser(long idUser){
+		String strQuery = "select a.NUMERO, a.NOMBRE, aur.NUMERO_ROL \n"
+				+ "from dbo.ADMON_ROLES a inner join dbo.ADMON_USUARIOS_ROLES aur \n"
+				+ "on aur.NUMERO_ROL = a.NUMERO where aur.NUMERO_USUARIO =" + idUser + "AND aur.ESTATUS = 1";
+		Query q = em.createNativeQuery(strQuery); 
+		return q.getResultList();
+	}
+
 
 }
