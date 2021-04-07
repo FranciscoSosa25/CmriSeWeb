@@ -9,6 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -104,9 +105,10 @@ public class MRQsExamForm {
 	
 	private MrqsPreguntasFtaV1 mrqsPreguntasFtaV1ForRead = new MrqsPreguntasFtaV1(); 
 	private List<RespReactCorImg> listRespReactCorImg = new ArrayList<RespReactCorImg>();
+	private List<RespReactCorImg> listRespCandCorImg = new ArrayList<RespReactCorImg>();
 	private List<AnotacionesCorImg> listAnotacionesCorImg = new ArrayList<AnotacionesCorImg>();
 	private List<SelectItem> selectRespReactCorImg = new ArrayList<SelectItem>(); 
-	
+	private List<SelectItem> candRespReactCorImg = new ArrayList<SelectItem>(); 
 	private SelectItem respuestaSelect = new SelectItem();
 	
 	@Inject
@@ -146,7 +148,7 @@ public class MRQsExamForm {
 	private List<MrqsCorrelacionColumnaPair> listMrqsCorrelacionColumnas = new ArrayList<MrqsCorrelacionColumnaPair>();
 	private boolean correlacionColumnas;
 	private boolean panelCorrelacionColumnasResultados;
-
+	
 	@PostConstruct
 	public void init() {
 		 FacesContext context = FacesContext.getCurrentInstance(); 
@@ -259,6 +261,7 @@ public class MRQsExamForm {
 			            	Type collectionType = new TypeToken<List<RespReactCorImg>>(){}.getType();
 			            	setListRespReactCorImg(gson.fromJson(mrqsPreguntasFtaV1ForRead.getRespuestas(), collectionType)); 
 			            	refreshRespuestas();
+			            	
 			             }
 			             if(null!=mrqsPreguntasFtaV1ForRead.getAnotaciones()) {
 			            	 Type collectionType = new TypeToken<List<AnotacionesCorImg>>(){}.getType();
@@ -272,7 +275,7 @@ public class MRQsExamForm {
 								                                                     , this.numeroPreguntaFta
 								                                                     ); 
 						if(!mrqsGrupoLinesV2.isSingleAnswerMode()) {
-						  if(null!=this.candExamRespuestasV1.getRespuesta()) {	
+						  if(null!=this.candExamRespuestasV1.getRespuesta()) {
 						  if(this.candExamRespuestasV1.getRespuesta().contains(",")) {
 							  this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
 						  }else {
@@ -397,6 +400,20 @@ public class MRQsExamForm {
 				}
 			}
 		}
+		if (this.isAnnotatedImage()) {
+			//updateRespuestas();
+			Gson gson = new Gson();
+			String strRespuestas = "";
+			strRespuestas = gson.toJson(listRespCandCorImg);
+
+			System.out.println("strRespuestas: "+strRespuestas);
+			this.setRespuestaCandidato(strRespuestas);
+		}
+		if(this.isCorrelacionColumnas())
+		{
+			//falta añadir logica.
+		}
+		
 		
 		candExamRespuestasLocal.updateRespuesta( this.candExamenesV1.getNumero()
 				                              , this.mrqsGrupoHdr.getNumero()
@@ -411,7 +428,7 @@ public class MRQsExamForm {
 								                );
 		System.out.println("Sale saveAndProceed()");
 	}
-	
+		
 	private void actualizarTablaCorrelacionColumnas(long lNumeroFta,MrqsGrupoLinesV2 idx) {
 		setCorrelacionColumnas(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta()));
 		listMrqsCorrelacionColumnasDto=mrqsCorrelacionColumnasLocal.findByFta(lNumeroFta);
@@ -535,6 +552,7 @@ public class MRQsExamForm {
 
 	public void setAnnotatedImage(boolean annotatedImage) {
 		if(annotatedImage) {
+			this.setCorrelacionColumnas(false);
 			this.setMultipleChoice(false);
 			this.setIndicateImage(false);
 			this.setLimitedFreeTextAnswer(false);
@@ -1112,15 +1130,26 @@ public class MRQsExamForm {
 		}
 		
 		
-		private void refreshRespuestas() {
-			//para inicializar la lista de respuestas a evaluar se inicializa listRespuestasCandImg
-			SelectItem e = new SelectItem();
+		public void refreshRespuestas() {
 			selectRespReactCorImg = new ArrayList<SelectItem>(); 
 			for(RespReactCorImg i:listRespReactCorImg) {
-			     //listRespuestasCandImg.add(e);
 				SelectItem selectItem = new SelectItem(i.getNumero(),i.getRespuesta()); 
 				selectRespReactCorImg.add(selectItem); 
+				System.out.println("SELECT ITEM "+selectItem);
+				candRespReactCorImg.add(selectItem);
 			}
+		}
+		
+		public void updateRespuestasImgCor(Object x) {
+			System.out.println("X=>"+x.toString());
+			SelectItem selectItem = new SelectItem(
+					x,
+					listRespReactCorImg.get(Integer.parseInt(respuestaSelect.getValue().toString())).getRespuesta());
+			System.out.println("getLabel "+selectItem.getLabel());
+			System.out.println("getValue "+selectItem.getValue());
+
+			candRespReactCorImg.add(selectItem);
+			// listRespReactCandCorImg.add(candRespReactCorImg);
 		}
 		
 		public List<MrqsGrupoHdr> GrupoAleatorio(List<MrqsGrupoHdr> lmqrsGrouoHdr) {
@@ -1404,6 +1433,12 @@ public class MRQsExamForm {
 		 * @param correlacionColumnas the correlacionColumnas to set
 		 */
 		public void setCorrelacionColumnas(boolean correlacionColumnas) {
+			if(correlacionColumnas) {
+				this.setAnnotatedImage(false);
+				this.setMultipleChoice(false);
+				this.setIndicateImage(false);
+				this.setLimitedFreeTextAnswer(false);
+			}
 			this.correlacionColumnas = correlacionColumnas;
 		}
 
