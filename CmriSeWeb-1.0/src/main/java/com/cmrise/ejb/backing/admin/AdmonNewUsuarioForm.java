@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +20,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+
 
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.ToggleEvent;
@@ -45,12 +47,14 @@ public class AdmonNewUsuarioForm {
     private String apellidoPaterno; 
     private String apellidoMaterno; 
     private String contrasenia; 
+
     private String correoElectronico;
     private Date fechaEfectivaDesde;
 	private Date fechaEfectivaHasta;
 	private String ErrorCaptura;
 	private List<AdmonUsuarios> listAdmonUsuarios = new ArrayList<AdmonUsuarios>();
 	private AdmonUsuarios admonUsuariosForAction = new AdmonUsuarios();
+
 	private String curp; 
 	private List<SelectItem> Roles;
 	private String[] selectedRoles;
@@ -58,7 +62,9 @@ public class AdmonNewUsuarioForm {
 	private String[] selectedMaterias;
 	private boolean dispMaterias = false;
 	private List<Long> arrNumMaestro = new ArrayList<Long>();
+
 	private boolean createIn;
+
 	
 	@Inject 
 	AdmonUsuariosLocal admonUsuariosLocal; 
@@ -84,7 +90,9 @@ public class AdmonNewUsuarioForm {
     @PostConstruct
 	public void init() {
 		 refreshEntity();
+
 		 createIn=false;
+
 		 List<SelectItem> data = selhel.getSelectAdmonRolesItemsNotCand();
 		 data.forEach(item -> {
 			 if (item.getLabel().toUpperCase().contains("MAESTRO")) {
@@ -98,19 +106,23 @@ public class AdmonNewUsuarioForm {
 		setApellidoPaterno("");
 		setApellidoMaterno("");
 		setContrasenia("");
+
 		setCorreoElectronico("");
 		setFechaEfectivaDesde(new Date());
 		setFechaEfectivaHasta(null);
 		setCurp("");
+
 		setSelectedRoles(new String[0]);
 		setSelectedMaterias(new String[0]);
 	}
 	
+
 	public void create() throws IOException {
 		ErrorCaptura = "";
 		java.sql.Date fechaED;
 		java.sql.Date fechaEH;
 		createIn = false;
+
 		
 		if(getCurp().length() != 18)
 			ErrorCaptura+="Curp invalida";
@@ -143,6 +155,7 @@ public class AdmonNewUsuarioForm {
 	    if(ErrorCaptura != ""){
 			
 			System.out.println("NuevoUsuario: Error "+ErrorCaptura);
+
 	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cambios no realizados", ErrorCaptura));
 	        ErrorCaptura = "";	        
 		}
@@ -151,7 +164,7 @@ public class AdmonNewUsuarioForm {
 	    	showMessage();
 	    	cancel();
 	    }
-	}
+
 	
 	private boolean creaNuevoUsuario(String curp, String nombre, String a_paterno, String a_materno, String password, String email, 
 			java.sql.Date fechaED, java.sql.Date fechaEH, String[] rol, String[] materias) {
@@ -193,7 +206,9 @@ public class AdmonNewUsuarioForm {
 			for(int i = 0; i< rol.length; i++)
 			{
 				System.out.println("this.getNumeroRol():" + rol[i]);
+
 				admonUsuariosRolesDto.setEstatus(true);
+
 				admonRolesDto.setNumero(Long.parseLong(rol[i]));				
 				admonUsuariosRolesLocal.insert(admonUsuariosRolesDto);	
 			}
@@ -254,6 +269,7 @@ public class AdmonNewUsuarioForm {
 	public void setContrasenia(String contrasenia) {
 		this.contrasenia = contrasenia;
 	}
+
 	public String getCorreoElectronico() {
 		return correoElectronico;
 	}
@@ -284,6 +300,7 @@ public class AdmonNewUsuarioForm {
 	public void setAdmonUsuariosForAction(AdmonUsuarios admonUsuariosForAction) {
 		this.admonUsuariosForAction = admonUsuariosForAction;
 	}
+
 	public String getCurp() {
 		return curp;
 	}
@@ -321,11 +338,13 @@ public class AdmonNewUsuarioForm {
 		this.dispMaterias = dispMaterias;
 	}
 	
+
 	public void cancel() throws IOException {
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		System.out.println("Finaliza CreaUsuarioForm init()");
 		context.getExternalContext().redirect("/CmriSeWeb/faces/cmrise/admin/AdmonUsuarios.xhtml");
+
 	}
 	
 	public boolean isEmail(String email) {
@@ -363,6 +382,7 @@ public class AdmonNewUsuarioForm {
 	    }	    
 	}
 	
+
 	public void handleToggle(ToggleEvent event) {	}
 	
 	 public void showMessage() {
@@ -374,4 +394,5 @@ public class AdmonNewUsuarioForm {
         PrimeFaces.current().dialog().showMessageDynamic(message);
     }
 	
+
 }

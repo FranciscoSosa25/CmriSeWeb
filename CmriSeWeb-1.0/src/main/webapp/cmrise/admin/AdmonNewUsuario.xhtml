@@ -8,6 +8,7 @@
 <ui:define name="xxhrwjs">
 <script type="text/javascript">
 
+
 </script>
 </ui:define>
 
@@ -17,6 +18,7 @@
 	<p:panel id="nuevoUsuario" header="Crear Usuario" style="margin-bottom:20px">
 	  <h:form id="CreateForm">
 	  <p:growl id="growl" showDetail="true" life="1000" widgetVar="growlWV"/>
+
 	  
 	  <div class="ui-g"> 
 		<div class="ui-g-12 ui-md-12" >
@@ -119,6 +121,7 @@
 	    	</div>
 	        <div class="ui-g-12 ui-lg-3" >
 	           <p:commandButton id="CreateBtn" value="Aceptar" style="BackGround:#2D0D86;" update="CreateForm" actionListener="#{admonNewUsuarioForm.create()}"/> 
+
             </div>
 	        <div class="ui-g-12 ui-lg-3" >
 	           <p:commandButton id="CancelarBtn"  style="BackGround:#2D0D86;" value="Regresar" immediate="true" action="#{admonNewUsuarioForm.cancel()}" />
@@ -129,6 +132,6 @@
 	 	
  	</p:panel>
    </div>
-   
+
 </ui:define>
 </ui:composition>

@@ -95,7 +95,7 @@ public class AdmonRolesDaoImpl implements AdmonRolesDao {
 		AdmonRolesDto admonRolesDto = em.find(AdmonRolesDto.class, idRole);
 		return admonRolesDto;		
 	}
-	
+
 	@Override
 	public List<Object> findKeysRolesUser(long idUser){
 		String strQuery = "select a.NUMERO, a.NOMBRE, aur.NUMERO_ROL \n"
