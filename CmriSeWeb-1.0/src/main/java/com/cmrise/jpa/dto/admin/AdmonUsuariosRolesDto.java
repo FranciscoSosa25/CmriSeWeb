@@ -38,6 +38,9 @@ public class AdmonUsuariosRolesDto implements Serializable {
 	@Column(name="FECHA_EFECTIVA_HASTA")
 	private Date fechaEfectivaHasta;
 	
+	@Column(name="ESTATUS")
+	private boolean estatus;
+	
 	//bi-directional many-to-one association to AdmonRolesDto
 	@ManyToOne
 	@JoinColumn(name="NUMERO_ROL")
@@ -123,6 +126,12 @@ public class AdmonUsuariosRolesDto implements Serializable {
 	public void setAdmonUsuario(AdmonUsuariosDto admonUsuario) {
 		this.admonUsuario = admonUsuario;
 	}
+	
+	public boolean getEstatus() {
+		return this.estatus;
+	}
 
-
+	public void setEstatus(boolean estatus) {
+		this.estatus = estatus;
+	}
 }

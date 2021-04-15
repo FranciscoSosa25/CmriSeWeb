@@ -3,9 +3,11 @@ package com.cmrise.ejb.services.admin;
 import java.util.List;
 
 import javax.ejb.Local;
+import javax.faces.model.SelectItem;
 
 import com.cmrise.jpa.dto.admin.AdmonRolesDto;
 import com.cmrise.jpa.dto.admin.KeysDto;
+import com.cmrise.jpa.dto.admin.KeysRolesDto;
 
 @Local
 public interface AdmonRolesLocal {
@@ -20,4 +22,8 @@ public interface AdmonRolesLocal {
 	public List<KeysDto> findKeysCand();
 	public List<KeysDto> findKeysNotCand();
 	public AdmonRolesDto findRole(long idRole);
+
+	public String[] findKeysRolesUser(long idUser);
+	public List<KeysRolesDto> findKeysRolesUsuario(long idUser);
+
 }

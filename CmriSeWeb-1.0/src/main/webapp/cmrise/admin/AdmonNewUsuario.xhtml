@@ -8,19 +8,6 @@
 <ui:define name="xxhrwjs">
 <script type="text/javascript">
 
-function limpiarFormulario() {
-    document.getElementById("CreateForm").reset();
-  }
-  
-function MostrarOcultarMaterias() {
-    document.getElementById("divMaterias");
-  }
-  
-$(document).ready(function(){
-	   $("#grid").click(function(){
-		   $("#materias").css("display", "block"); 
-	   });
-	}); 
 
 </script>
 </ui:define>
@@ -30,10 +17,8 @@ $(document).ready(function(){
              
 	<p:panel id="nuevoUsuario" header="Crear Usuario" style="margin-bottom:20px">
 	  <h:form id="CreateForm">
-	  
-	  <p:messages id="messages" showDetail="true" closable="true">
-            <p:autoUpdate/>
-       </p:messages>
+	  <p:growl id="growl" showDetail="true" life="1000" widgetVar="growlWV"/>
+
 	  
 	  <div class="ui-g"> 
 		<div class="ui-g-12 ui-md-12" >
@@ -135,7 +120,8 @@ $(document).ready(function(){
 	    	<div class="ui-g-12 ui-lg-2" >
 	    	</div>
 	        <div class="ui-g-12 ui-lg-3" >
-	           <p:commandButton id="CreateBtn" value="Aceptar" style="BackGround:#2D0D86;" update="CreateForm" actionListener="#{admonNewUsuarioForm.create()}" oncomplete="limpiarFormulario()" /> <!--  -->
+	           <p:commandButton id="CreateBtn" value="Aceptar" style="BackGround:#2D0D86;" update="CreateForm" actionListener="#{admonNewUsuarioForm.create()}"/> 
+
             </div>
 	        <div class="ui-g-12 ui-lg-3" >
 	           <p:commandButton id="CancelarBtn"  style="BackGround:#2D0D86;" value="Regresar" immediate="true" action="#{admonNewUsuarioForm.cancel()}" />
@@ -146,5 +132,6 @@ $(document).ready(function(){
 	 	
  	</p:panel>
    </div>
+
 </ui:define>
 </ui:composition>

@@ -1,6 +1,8 @@
 package com.cmrise.ejb.backing.admin;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
@@ -9,6 +11,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,12 +21,16 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+import org.primefaces.event.SelectEvent;
 
 import com.cmrise.ejb.helpers.GuestPreferences;
+import com.cmrise.ejb.helpers.SelectsHelper;
 import com.cmrise.ejb.helpers.UserLogin;
+import com.cmrise.ejb.services.admin.AdmonRolesLocal;
 import com.cmrise.ejb.services.admin.AdmonUsuariosRolesLocal;
+import com.cmrise.jpa.dto.admin.AdmonRolesDto;
 import com.cmrise.jpa.dto.admin.AdmonUsuariosRolesV1Dto;
+import com.cmrise.jpa.dto.admin.KeysRolesDto;
 import com.cmrise.utils.Utilitarios;
 
 @ManagedBean
@@ -32,6 +40,11 @@ public class IndexForm {
 	private String curp; 
 	private String password;
 	
+	@Inject
+	SelectsHelper selectHelper;
+	
+	@Inject
+	AdmonRolesLocal admonRolesLocal;
 	
 	@Inject 
 	AdmonUsuariosRolesLocal admonUsuariosRolesLocal; 
@@ -61,8 +74,12 @@ public class IndexForm {
 			userLogin.setNumeroUsuario(admonUsuariosRolesV1Dto.getNumeroUsuario());
 			userLogin.setMatricula(admonUsuariosRolesV1Dto.getMatricula());
 			userLogin.setNombreCompletoUsuario(admonUsuariosRolesV1Dto.getNombreCompletoUsuario());
-			userLogin.setDescripcionRol(admonUsuariosRolesV1Dto.getDescripcionRol());
+
+			userLogin.setDescripcionRol(admonUsuariosRolesV1Dto.getNombreRol());
 			userLogin.setCurp(this.curp);
+			userLogin.setRoles(admonRolesLocal.findKeysRolesUsuario(admonUsuariosRolesV1Dto.getNumeroUsuario()));
+			userLogin.rolActual();
+
 			request.getSession().setAttribute("xXRole",Utilitarios.ROL_MAESTRO_REACT);
 			return "PaginaPrincipal"; 
 		} else if(intLoginUsuario!=0) {
@@ -71,8 +88,12 @@ public class IndexForm {
 			userLogin.setNumeroUsuario(admonUsuariosRolesV1Dto.getNumeroUsuario());
 			userLogin.setMatricula(admonUsuariosRolesV1Dto.getMatricula());
 			userLogin.setNombreCompletoUsuario(admonUsuariosRolesV1Dto.getNombreCompletoUsuario());
-			userLogin.setDescripcionRol(admonUsuariosRolesV1Dto.getDescripcionRol());
+			userLogin.setDescripcionRol(admonUsuariosRolesV1Dto.getNombreRol());
 			userLogin.setCurp(this.curp);
+
+			userLogin.setRoles(admonRolesLocal.findKeysRolesUsuario(admonUsuariosRolesV1Dto.getNumeroUsuario()));
+			userLogin.rolActual();
+
 			request.getSession().setAttribute("xXRole",Utilitarios.ROL_ADMIN);
 			return "PaginaPrincipal"; 
 		}else if(intLoginAlumno!=0) {
@@ -81,7 +102,7 @@ public class IndexForm {
 			userLogin.setNumeroUsuario(admonUsuariosRolesV1Dto.getNumeroUsuario());
 			userLogin.setMatricula(admonUsuariosRolesV1Dto.getMatricula());
 			userLogin.setNombreCompletoUsuario(admonUsuariosRolesV1Dto.getNombreCompletoUsuario());
-			userLogin.setDescripcionRol(admonUsuariosRolesV1Dto.getDescripcionRol());
+			userLogin.setDescripcionRol(admonUsuariosRolesV1Dto.getNombreRol());
 			userLogin.setCurp(this.curp);
 			request.getSession().setAttribute("xXRole",Utilitarios.ROL_ALUMNO);
 			getGuestPreferences().setTheme("deep-purple");
@@ -101,9 +122,22 @@ public class IndexForm {
 			context.getExternalContext().redirect("/CmriSeWeb/faces/index.xhtml");
 		} catch (IOException e) {
 			e.printStackTrace();			
-		}
-		
-       }
+
+		}		
+    }
+	
+	public String changeRoleUsuario(KeysRolesDto rol) {
+		if(!rol.isSelected()) {
+			FacesContext context = FacesContext.getCurrentInstance();
+		    ExternalContext externalContext = context.getExternalContext();
+		    HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+			userLogin.setDescripcionRol(rol.getNombre());
+			userLogin.rolActual();
+			request.getSession().setAttribute("xXRole",rol.getNombre());
+			return "PaginaPrincipal"; 
+		}else { return "";}		
+	}
+
 	
 	public String getPassword() {
 		return password;
@@ -134,6 +168,5 @@ public class IndexForm {
 
 	public void setCurp(String curp) {
 		this.curp = curp;
-	} 
-	
+	}
 }

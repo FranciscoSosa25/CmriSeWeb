@@ -37,6 +37,13 @@
 			<redirect />
 		</navigation-case>
 		<navigation-case>
+
+			<from-outcome>Admon-Update-Usuario</from-outcome>
+			<to-view-id>/cmrise/admin/AdmonUpdateUsuario.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>		
+		<navigation-case>
+
 			<from-outcome>Admon-Usuarios-Roles</from-outcome>
 			<to-view-id>/cmrise/admin/AdmonUsuariosRoles.xhtml</to-view-id>
 			<redirect />
@@ -277,6 +284,13 @@
 			<to-view-id>/cmrise/examenes/mrqs/preview/PrevExamReactOneByOne.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>		
+
+		<navigation-case>
+			<from-outcome>Candidate-Exam-Details</from-outcome>
+			<to-view-id>/cmrise/examenes/CandidateExamDetails.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
 		<navigation-case>
 			<from-outcome>Assign-MRQs-Candidates</from-outcome>
 			<to-view-id>/cmrise/examenes/mrqs/AssignMrqsCandidates.xhtml</to-view-id>

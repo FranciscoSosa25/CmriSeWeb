@@ -4,11 +4,39 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:po="http://primefaces.org/poseidon">
+	<script type="text/javascript">
+	$(document).ready(function () {
+		document.getElementsByClassName("statuscheck").disabled = false;
+	});
+	</script>
+	
  <style>
  .estilo ul:hover{
  color: #2d0d86;
  
  }
+  
+ .tableRoles {
+    width: none;
+    padding: 0px;
+    text-align: right;
+    background-color:#373738;
+    color:#fcfcfc;
+}
+
+.scrollnot div{
+	 overflow: hidden !important;
+	 overflow-x: hidden !important;
+     overflow-y: hidden !important;
+}
+
+.rowRoles td{
+    padding: 0px !important;
+}
+
+.headRoles thead th {
+    display: none;
+}
  
  </style> 
 
@@ -45,16 +73,28 @@
 					<ul class="estilo" style="BackGround:#2D0D86; text-align:right ">
 						<li role="menuitem" style=" BackGround:#2D0D86;"> 
 						  <h:form>
-						      <div id="userconfig"><p:commandLink style="text-align:right; color:#FFFFFF; hover:color: #2d0d86;" ajax="false"> <i class="pi pi-cog"></i> <span >Configuración De Usuario</span>
+						   <div id="userconfig">
+						      <p:commandLink style="text-align:right; color:#FFFFFF; hover:color: #2d0d86;" ajax="false"> <i class="pi pi-cog"></i> 
+						      	<span >Configuración De Usuario</span>
 						   	  </p:commandLink>
-						   	  </div>
-						   <div id="logout"><p:commandLink action="#{indexForm.logout()}" style="text-align: right; color:#FFFFFF" ajax="false"><i class="fa fa-fw fa-sign-out" ></i>  <span>Cerrar Sesión</span>
+						   </div>
+						   <div class="scrollnot">
+						   		<p:dataTable var="item" value="#{userLogin.roles }"  
+							      class="tableRoles headRoles rowRoles" rowKey="#{item.value}">
+								    <p:column >
+								    	<p:commandLink value="#{item.nombre}" action="#{indexForm.changeRoleUsuario(item)}" style="#{item.style}"/>
+								   </p:column>			
+								  </p:dataTable>
+						   </div>
 						   
-						  </p:commandLink>
-						</div>
-						    </h:form>
+						   <div id="logout">
+						   	<p:commandLink action="#{indexForm.logout()}" style="text-align: right; color:#FFFFFF" ajax="false"><i class="fa fa-fw fa-sign-out" ></i>  
+						   	<span>Cerrar Sesión</span>					
+						    </p:commandLink>
+						  </div>
+					   </h:form>
 
-						</li>
+					</li>
 					</ul>
 					</li>
 					<!--

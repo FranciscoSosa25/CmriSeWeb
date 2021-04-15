@@ -78,7 +78,7 @@ public class AssignMrqsCandidatesForm {
 	private String findaPaternoNE;
 	private String findActPorNE;
 	private String findFechaActNE;
-	
+	private boolean createIn;
 	private List<AdmonUsuariosRolesV1> listAdmonUsuariosRolesV1 = new ArrayList<AdmonUsuariosRolesV1>();
 	private List<AdmonUsuariosRolesV1> selectedsAdmonUsuariosRolesV1 = new ArrayList<AdmonUsuariosRolesV1>(); 
     private List<CandExamenesV1> listCandExamenesV1 = new ArrayList<CandExamenesV1>(); 
@@ -119,7 +119,6 @@ public class AssignMrqsCandidatesForm {
 	public String cancel() {
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-		session.setAttribute("NumeroMrqsExamenSV",this.getNumeroMrqsExamen());
 		return "Exams-MRQs-Update"; 
 	}
 	
@@ -361,7 +360,7 @@ public class AssignMrqsCandidatesForm {
 			ErroresCaptura += "Correo invalido. " + '\n';
 		
 		if(ErroresCaptura=="" || ErroresCaptura==null)
-	    	insertOnetoOneCandidate(getCurp(), getNombre(), getApellidoPaterno(), getApellidoMaterno(), getCorreoElectronico(), getContrasenia(), getEstado(), getSedeHospital(), fechaEfectivaDesde, fechaEfectivaHasta, getNumeroRol(), 0);
+			createIn = insertOnetoOneCandidate(getCurp(), getNombre(), getApellidoPaterno(), getApellidoMaterno(), getCorreoElectronico(), getContrasenia(), getEstado(), getSedeHospital(), fechaEfectivaDesde, fechaEfectivaHasta, getNumeroRol(), 0);
 	    
 	    if(ErroresCaptura!= ""){
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Errores en el archivo: " + '\n', ErroresCaptura );
@@ -371,6 +370,9 @@ public class AssignMrqsCandidatesForm {
 	        FacesMessage msg = new FacesMessage(" El candidato", " registrado y asignado correctamente");
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
+
+		PrimeFaces.current().ajax().addCallbackParam("createIn", createIn);
+		refreshEntity();
 	}
 	
 	public void handleFileUpload(FileUploadEvent event) throws IOException, ParseException {
@@ -467,7 +469,7 @@ public class AssignMrqsCandidatesForm {
 											String estado, String sedeH, java.sql.Date fechaEfDesde, java.sql.Date fechaEfHasta, long nRol, int linea){
 					
 		 AdmonUsuariosDto admonUsuariosDto = new AdmonUsuariosDto();
-		 boolean createIn = false; 
+		 createIn = false; 
 		 
 		 try{
 			 
@@ -500,6 +502,7 @@ public class AssignMrqsCandidatesForm {
 				admonRolesDto.setNumero(nRol);
 				admonUsuariosRolesDto.setAdmonUsuario(admonUsuariosV2Dto);
 				admonUsuariosRolesDto.setAdmonRole(admonRolesDto);
+				admonUsuariosRolesDto.setEstatus(true);
 				admonUsuariosRolesDto.setFechaEfectivaDesde(utilitariosLocal.toSqlDate(fechaEfDesde));
 				if(fechaEfHasta!=null) 
 					admonUsuariosRolesDto.setFechaEfectivaHasta(utilitariosLocal.toSqlDate(fechaEfHasta));	
@@ -517,8 +520,6 @@ public class AssignMrqsCandidatesForm {
 				
 				/***********************************************************************/
 				createIn = true; 
-				refreshEntity();
-				PrimeFaces.current().ajax().addCallbackParam("createIn", createIn);
 				return createIn;
 				
 		} catch (Exception  ex) {

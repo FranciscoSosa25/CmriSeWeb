@@ -72,6 +72,14 @@ public class HistoryExamsForm {
 	    return listExamenes= examenesLocal.findByTituloExamen(this.idExamen,this.nombreExamen,this.fechaDesde,this.fechaHasta,this.tiempo,this.tipoExamen);
 	}
 	
+	public String toPreviewExamDetails() {
+		 FacesContext context = FacesContext.getCurrentInstance(); 
+    	 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+    	 session.setAttribute("NumeroMrqsExamenSV", this.idExamen);
+        	/*return "Preview-Examen-Reactivos";*/
+    	 return "Candidate-Exam-Details";
+	}
+	
 	public Boolean getShowtable() {
 	    return showtable;
 	}

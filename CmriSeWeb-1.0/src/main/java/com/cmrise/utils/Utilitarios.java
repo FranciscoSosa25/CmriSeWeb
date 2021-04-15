@@ -26,7 +26,9 @@ public class Utilitarios {
     public static final String CAN_WORDS = "CAN_WORDS";
     public static final String EXCLUDED_WORDS = "EXCLUDED_WORDS";
     public static final String ROL_ADMIN = "ADMINISTRADOR";
-    public static final String ROL_MAESTRO_REACT = "MAESTRO DE REACTIVOS";
+
+    public static final String ROL_MAESTRO_REACT = "MAESTRO DE REACTIVO";
+
     public static final String ROL_MAESTRO_CASOS = "MAESTRO DE CASOS";
     public static final String EXAMINADOR = "EXAMINADOR";
     public static final String REVISOR = "REVISOR";
