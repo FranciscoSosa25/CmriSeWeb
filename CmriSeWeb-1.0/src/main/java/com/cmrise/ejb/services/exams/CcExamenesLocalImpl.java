@@ -104,26 +104,14 @@ public class CcExamenesLocalImpl implements CcExamenesLocal {
 	public CcExamenes findByNumeroObjMod(long pNumeroCcExamen) {
 		CcExamenes retval = new CcExamenes(); 
 		CcExamenesDto ccExamenesDto = ccExamenesDao.findById(pNumeroCcExamen); 
-		retval.setTitulo(ccExamenesDto.getTitulo());
-		retval.setNombre(ccExamenesDto.getNombre());
 		retval.setDescripcion(ccExamenesDto.getDescripcion());
-		retval.setComentarios(ccExamenesDto.getComentarios());
 		retval.setTiempoLimite(ccExamenesDto.getTiempoLimite());
-		retval.setSaltarPreguntas(ccExamenesDto.getSaltarPreguntas());
 		retval.setSaltarCasos(ccExamenesDto.getSaltarCasos());
 		retval.setMostrarRespuestas(ccExamenesDto.getMostrarRespuestas());
-		retval.setTienePassmark(ccExamenesDto.getTienePassmark());
-		retval.setAleatorioGrupo(ccExamenesDto.getAleatorioGrupo());
-		retval.setAleatorioPreguntas(ccExamenesDto.getAleatorioPreguntas());
-		retval.setSeleccionCasosAleatorios(ccExamenesDto.getSeleccionCasosAleatorios());
 		retval.setMensajeFinalizacion(ccExamenesDto.getMensajeFinalizacion());
-		retval.setConfirmacionAsistencia(ccExamenesDto.getConfirmacionAsistencia());
-		retval.setDiploma(ccExamenesDto.getDiploma());
-		retval.setTipoPregunta(ccExamenesDto.getTipoPregunta());
-		retval.setTipoExamen(ccExamenesDto.getTipoExamen());
+		retval.setIdTipoExamen(ccExamenesDto.getIdTipoExamen());
 		retval.setVisibilidad(ccExamenesDto.getVisibilidad());
 		retval.setEstatus(ccExamenesDto.getEstatus());
-		retval.setTema(ccExamenesDto.getTema());
 		retval.setSociedad(ccExamenesDto.getSociedad());
 		retval.setFechaEfectivaDesde(new java.util.Date(ccExamenesDto.getFechaEfectivaDesde().getTime()));
 		if(Utilitarios.endOfTime.equals(ccExamenesDto.getFechaEfectivaHasta())) {
@@ -195,26 +183,14 @@ public class CcExamenesLocalImpl implements CcExamenesLocal {
 	public CcExamenes findByNumeroObjModCand(long pNumeroCcExamen) {
 		CcExamenes retval = new CcExamenes(); 
 		CcExamenesDto ccExamenesDto = ccExamenesDao.findById(pNumeroCcExamen); 
-		retval.setTitulo(ccExamenesDto.getTitulo());
-		retval.setNombre(ccExamenesDto.getNombre());
 		retval.setDescripcion(ccExamenesDto.getDescripcion());
-		retval.setComentarios(ccExamenesDto.getComentarios());
 		retval.setTiempoLimite(ccExamenesDto.getTiempoLimite());
-		retval.setSaltarPreguntas(ccExamenesDto.getSaltarPreguntas());
 		retval.setSaltarCasos(ccExamenesDto.getSaltarCasos());
 		retval.setMostrarRespuestas(ccExamenesDto.getMostrarRespuestas());
-		retval.setTienePassmark(ccExamenesDto.getTienePassmark());
-		retval.setAleatorioGrupo(ccExamenesDto.getAleatorioGrupo());
-		retval.setAleatorioPreguntas(ccExamenesDto.getAleatorioPreguntas());
-		retval.setSeleccionCasosAleatorios(ccExamenesDto.getSeleccionCasosAleatorios());
 		retval.setMensajeFinalizacion(ccExamenesDto.getMensajeFinalizacion());
-		retval.setConfirmacionAsistencia(ccExamenesDto.getConfirmacionAsistencia());
-		retval.setDiploma(ccExamenesDto.getDiploma());
-		retval.setTipoPregunta(ccExamenesDto.getTipoPregunta());
-		retval.setTipoExamen(ccExamenesDto.getTipoExamen());
+		//retval.setTipoExamen(ccExamenesDto.getTipoExamen());
 		retval.setVisibilidad(ccExamenesDto.getVisibilidad());
 		retval.setEstatus(ccExamenesDto.getEstatus());
-		retval.setTema(ccExamenesDto.getTema());
 		retval.setSociedad(ccExamenesDto.getSociedad());
 		retval.setFechaEfectivaDesde(new java.util.Date(ccExamenesDto.getFechaEfectivaDesde().getTime()));
 		if(Utilitarios.endOfTime.equals(ccExamenesDto.getFechaEfectivaHasta())) {

@@ -57,6 +57,9 @@ public class CandExamenesV2Dto implements Serializable {
 	@Column(name="APELLIDO_MATERNO")
 	private String apellidoMaterno;
 	
+	@Column(name="NOMBRE_ACT_POR")
+	private String nombreActualizadoPor;
+	
 	@Column(name="NOMBRE_COMPLETO_USUARIO")
 	private String nombreCompletoUsuario;
 	
@@ -71,6 +74,9 @@ public class CandExamenesV2Dto implements Serializable {
 	
 	@Column(name="TIEMPO_LIMITE")
 	private short tiempoLimite;
+	
+	@Column(name="TOTAL_PUNTUACION")
+	private double totalPuntuacion;
 
 	@Column(name="CURP")
 	private String curp; 
@@ -186,6 +192,14 @@ public class CandExamenesV2Dto implements Serializable {
 		this.apellidoMaterno = apellidoMaterno;
 	}
 
+	public String getNombreActualizadoPor() {
+		return nombreActualizadoPor;
+	}
+
+	public void setNombreActualizadoPor(String nombreActualizadoPor) {
+		this.nombreActualizadoPor = nombreActualizadoPor;
+	}
+	
 	public String getNombreCompletoUsuario() {
 		return nombreCompletoUsuario;
 	}
@@ -224,6 +238,14 @@ public class CandExamenesV2Dto implements Serializable {
 
 	public void setTiempoLimite(short tiempoLimite) {
 		this.tiempoLimite = tiempoLimite;
+	}
+	
+	public double getTotalPuntuacion() {
+		return totalPuntuacion;
+	}
+
+	public void setTotalPuntuacion(double totalPuntuacion) {
+		this.totalPuntuacion = totalPuntuacion;
 	}
 
 	public String getCurp() {

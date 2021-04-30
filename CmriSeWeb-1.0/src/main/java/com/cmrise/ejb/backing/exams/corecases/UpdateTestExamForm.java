@@ -1,13 +1,17 @@
 package com.cmrise.ejb.backing.exams.corecases;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -15,10 +19,13 @@ import org.primefaces.PrimeFaces;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import com.cmrise.ejb.helpers.UserLogin;
+import com.cmrise.ejb.model.admin.AdmonExamenHdr;
 import com.cmrise.ejb.model.corecases.CcHdrV1;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
 import com.cmrise.ejb.model.exams.CcExamAsignaciones;
 import com.cmrise.ejb.model.exams.CcExamenes;
+import com.cmrise.ejb.services.admin.AdmonExamenHdrLocal;
 import com.cmrise.ejb.services.exams.CcExamAsignacionesLocal;
 import com.cmrise.ejb.services.exams.CcExamenesLocal;
 import com.cmrise.jpa.dto.exams.CcExamenesDto;
@@ -31,29 +38,18 @@ public class UpdateTestExamForm {
 
 	private long numeroCcExamen;
 	private String estatus; 
-	private String titulo; 
-	private String nombre; 
 	private String descripcion; 
-	private String tipoPregunta; 
-	private String tipoExamen; 
-	private String tema; 
-	private String comentarios; 
+	private long idTipoExamen; 
 	private String visibilidad; 
 	private Date fechaEfectivaDesde; 
 	private Date fechaEfectivaHasta; 
 	private short limiteTiempo; 
-	private boolean saltarPreguntas; 
 	private boolean saltarCasos; 
 	private boolean mostrarRespuestas; 
-	private boolean tienePassmark; 
-	private boolean aleatorioGrupo; 
-	private boolean aleatorioPreguntas; 
-	private boolean seleccionCasosAleatorios; 
 	private String mensajeFinalizacion; 
-	private boolean confirmacionAsistencia; 
-	private boolean diploma;
 	private String nombreCaso;
-	
+	private List<AdmonExamenHdr> examenesHdr = new ArrayList<AdmonExamenHdr>();
+	private List<SelectItem> selectExamenesHdr = new ArrayList<SelectItem>();
 	private List<CcExamAsignaciones> listCcExamAsignaciones = new ArrayList<CcExamAsignaciones>(); 
 	
 	private TreeNode rootCcExamAsignaciones;
@@ -68,6 +64,12 @@ public class UpdateTestExamForm {
 	@Inject 
 	CcExamAsignacionesLocal ccExamAsignacionesLocal;
 	
+	@Inject 
+	AdmonExamenHdrLocal admonExamenHdrLocal;
+	
+	@ManagedProperty(value="#{userLogin}")
+	private UserLogin userLogin;
+	
 	 @PostConstruct
 	 public void init() {
 		System.out.println("Comienza UpdateTestExamForm init()");
@@ -75,7 +77,14 @@ public class UpdateTestExamForm {
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		Object objNumeroCcExamen = session.getAttribute("NumeroCcExamenSV");
 		numeroCcExamen = utilitariosLocal.objToLong(objNumeroCcExamen); 
-		System.out.println(" numeroCcExamen:"+numeroCcExamen);
+		System.out.println(" numeroCcExamen:"+ numeroCcExamen);
+		examenesHdr = admonExamenHdrLocal.findByTipo(Utilitarios.CORE_CASES); 
+		 
+		for(AdmonExamenHdr i:examenesHdr) {
+			 SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
+			 selectExamenesHdr.add(selectItem); 
+		 }		
+		
 		refreshEntity(); 
 	    System.out.println("Finaliza UpdateTestExamForm init()");
 	 }
@@ -84,27 +93,15 @@ public class UpdateTestExamForm {
 		CcExamenes ccExamenesObjMod = ccExamenesLocal.findByNumeroObjMod(this.getNumeroCcExamen()); 
 		
 		this.setEstatus(ccExamenesObjMod.getEstatus());
-		this.setTitulo(ccExamenesObjMod.getTitulo());
-		this.setNombre(ccExamenesObjMod.getNombre());
 		this.setDescripcion(ccExamenesObjMod.getDescripcion());
-		this.setTipoPregunta(ccExamenesObjMod.getTipoPregunta());
-		this.setTipoExamen(ccExamenesObjMod.getTipoExamen());
-		this.setTema(ccExamenesObjMod.getTema());
-		this.setComentarios(ccExamenesObjMod.getComentarios());
+		this.setIdTipoExamen(ccExamenesObjMod.getIdTipoExamen());
 		this.setVisibilidad(ccExamenesObjMod.getVisibilidad());
 		this.setFechaEfectivaDesde(ccExamenesObjMod.getFechaEfectivaDesde());
 		this.setFechaEfectivaHasta(ccExamenesObjMod.getFechaEfectivaHasta());
 		this.setLimiteTiempo(ccExamenesObjMod.getTiempoLimite());
-		this.setSaltarPreguntas(ccExamenesObjMod.getSaltarPreguntas());
 		this.setSaltarCasos(ccExamenesObjMod.getSaltarCasos());
 		this.setMostrarRespuestas(ccExamenesObjMod.getMostrarRespuestas());
-		this.setTienePassmark(ccExamenesObjMod.getTienePassmark());
-		this.setAleatorioGrupo(ccExamenesObjMod.getAleatorioGrupo());
-		this.setAleatorioPreguntas(ccExamenesObjMod.getAleatorioPreguntas());
-		this.setSeleccionCasosAleatorios(ccExamenesObjMod.getSeleccionCasosAleatorios());
 		this.setMensajeFinalizacion(ccExamenesObjMod.getMensajeFinalizacion());
-		this.setConfirmacionAsistencia(ccExamenesObjMod.getConfirmacionAsistencia());
-		this.setDiploma(ccExamenesObjMod.getDiploma());
 		
 		//listCcExamAsignaciones = ccExamAsignacionesLocal.findByNumeroExamenWD(this.getNumeroCcExamen());
 		listCcExamAsignaciones = ccExamenesObjMod.getListCcExamAsignaciones(); 
@@ -126,20 +123,15 @@ public class UpdateTestExamForm {
 	}
 	
 	public void update() {
+		
 		System.out.println("Entra UpdateTestExamForm update()");
 		boolean updateIn = false; 
 		CcExamenesDto ccExamenesUpdateDto = new CcExamenesDto();
 		
 		ccExamenesUpdateDto.setNumero(this.getNumeroCcExamen());
 		ccExamenesUpdateDto.setEstatus(this.getEstatus());
-		ccExamenesUpdateDto.setTitulo(this.getTitulo());
-		ccExamenesUpdateDto.setNombre(this.getNombre());
-		
 		ccExamenesUpdateDto.setDescripcion(this.getDescripcion());
-		ccExamenesUpdateDto.setTipoPregunta(this.getTipoPregunta());
-		ccExamenesUpdateDto.setTipoExamen(this.getTipoExamen());
-		ccExamenesUpdateDto.setTema(this.getTema());
-		ccExamenesUpdateDto.setComentarios(this.getComentarios());
+		ccExamenesUpdateDto.setIdTipoExamen(this.getIdTipoExamen());
 		ccExamenesUpdateDto.setVisibilidad(this.getVisibilidad());
 		ccExamenesUpdateDto.setFechaEfectivaDesde(utilitariosLocal.toSqlDate(this.getFechaEfectivaDesde()));
 		if(null!=this.getFechaEfectivaHasta()) {
@@ -147,23 +139,24 @@ public class UpdateTestExamForm {
 		}else {
 			ccExamenesUpdateDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
 		}
+		ccExamenesUpdateDto.setActualizadoPor(userLogin.getNumeroUsuario());
 		ccExamenesUpdateDto.setTiempoLimite(this.getLimiteTiempo());
-		ccExamenesUpdateDto.setSaltarPreguntas(this.isSaltarPreguntas());
 		ccExamenesUpdateDto.setSaltarCasos(this.isSaltarCasos());
 		ccExamenesUpdateDto.setMostrarRespuestas(this.isMostrarRespuestas());
-		ccExamenesUpdateDto.setTienePassmark(this.isTienePassmark());
-		ccExamenesUpdateDto.setAleatorioGrupo(this.isAleatorioGrupo());
-		ccExamenesUpdateDto.setAleatorioPreguntas(this.isAleatorioPreguntas());
-		ccExamenesUpdateDto.setSeleccionCasosAleatorios(this.isSeleccionCasosAleatorios());
 		ccExamenesUpdateDto.setMensajeFinalizacion(this.getMensajeFinalizacion());
-		ccExamenesUpdateDto.setConfirmacionAsistencia(this.isConfirmacionAsistencia());
-		ccExamenesUpdateDto.setDiploma(this.isDiploma());
-		
-		ccExamenesLocal.update(this.getNumeroCcExamen(), ccExamenesUpdateDto);
-		refreshEntity(); 
-		updateIn = true; 
-		PrimeFaces.current().ajax().addCallbackParam("updateIn", updateIn);
-		System.out.println("Sale UpdateTestExamForm update()");
+		try {
+			ccExamenesLocal.update(this.getNumeroCcExamen(), ccExamenesUpdateDto);
+			refreshEntity(); 
+			updateIn = true; 
+			PrimeFaces.current().ajax().addCallbackParam("updateIn", updateIn);
+			System.out.println("Sale UpdateTestExamForm update()");		
+			salir();
+		}
+		catch(Exception e) {
+			System.out.println("ActualizaUsuario: Error "+ e.getMessage());
+	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Cambios no realizados", e.getMessage()));
+	        
+		}
 	}
 	
 
@@ -187,6 +180,22 @@ public class UpdateTestExamForm {
 		return "Exams-CoreCases-Update-AddCoreCase"; 
 	}
 	
+	public String assignCandidates() {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		session.setAttribute("NumeroMrqsExamenSV", this.getNumeroCcExamen());
+		session.setAttribute("tipoExamen", Utilitarios.CORE_CASES);
+		session.setAttribute("nombrePantalla", "Exams-CoreCases-Update");
+		return "Assign-MRQs-Candidates"; 
+	}
+	
+	public void salir() throws IOException {
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);		
+		System.out.println("Finaliza UpdateUsuarioForm init()");
+		context.getExternalContext().redirect("/CmriSeWeb/faces/cmrise/examenes/corecases/ManageTestExam.xhtml");
+	}
+	
 	public String cancel() {
 		return "Exams-CoreCases-Manage"; 
 	}
@@ -207,22 +216,6 @@ public class UpdateTestExamForm {
 		this.estatus = estatus;
 	}
 
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
 	public String getDescripcion() {
 		return descripcion;
 	}
@@ -231,36 +224,12 @@ public class UpdateTestExamForm {
 		this.descripcion = descripcion;
 	}
 
-	public String getTipoPregunta() {
-		return tipoPregunta;
+	public long getIdTipoExamen() {
+		return idTipoExamen;
 	}
 
-	public void setTipoPregunta(String tipoPregunta) {
-		this.tipoPregunta = tipoPregunta;
-	}
-
-	public String getTipoExamen() {
-		return tipoExamen;
-	}
-
-	public void setTipoExamen(String tipoExamen) {
-		this.tipoExamen = tipoExamen;
-	}
-
-	public String getTema() {
-		return tema;
-	}
-
-	public void setTema(String tema) {
-		this.tema = tema;
-	}
-
-	public String getComentarios() {
-		return comentarios;
-	}
-
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
+	public void setIdTipoExamen(long idTipoExamen) {
+		this.idTipoExamen = idTipoExamen;
 	}
 
 	public String getVisibilidad() {
@@ -295,14 +264,6 @@ public class UpdateTestExamForm {
 		this.limiteTiempo = limiteTiempo;
 	}
 
-	public boolean isSaltarPreguntas() {
-		return saltarPreguntas;
-	}
-
-	public void setSaltarPreguntas(boolean saltarPreguntas) {
-		this.saltarPreguntas = saltarPreguntas;
-	}
-
 	public boolean isSaltarCasos() {
 		return saltarCasos;
 	}
@@ -319,38 +280,6 @@ public class UpdateTestExamForm {
 		this.mostrarRespuestas = mostrarRespuestas;
 	}
 
-	public boolean isTienePassmark() {
-		return tienePassmark;
-	}
-
-	public void setTienePassmark(boolean tienePassmark) {
-		this.tienePassmark = tienePassmark;
-	}
-
-	public boolean isAleatorioGrupo() {
-		return aleatorioGrupo;
-	}
-
-	public void setAleatorioGrupo(boolean aleatorioGrupo) {
-		this.aleatorioGrupo = aleatorioGrupo;
-	}
-
-	public boolean isAleatorioPreguntas() {
-		return aleatorioPreguntas;
-	}
-
-	public void setAleatorioPreguntas(boolean aleatorioPreguntas) {
-		this.aleatorioPreguntas = aleatorioPreguntas;
-	}
-
-	public boolean isSeleccionCasosAleatorios() {
-		return seleccionCasosAleatorios;
-	}
-
-	public void setSeleccionCasosAleatorios(boolean seleccionCasosAleatorios) {
-		this.seleccionCasosAleatorios = seleccionCasosAleatorios;
-	}
-
 	public String getMensajeFinalizacion() {
 		return mensajeFinalizacion;
 	}
@@ -359,22 +288,6 @@ public class UpdateTestExamForm {
 		this.mensajeFinalizacion = mensajeFinalizacion;
 	}
 
-	public boolean isConfirmacionAsistencia() {
-		return confirmacionAsistencia;
-	}
-
-	public void setConfirmacionAsistencia(boolean confirmacionAsistencia) {
-		this.confirmacionAsistencia = confirmacionAsistencia;
-	}
-
-	public boolean isDiploma() {
-		return diploma;
-	}
-
-	public void setDiploma(boolean diploma) {
-		this.diploma = diploma;
-	}
-	
 	public List<CcExamAsignaciones> getListCcExamAsignaciones() {
 		return listCcExamAsignaciones;
 	}
@@ -407,5 +320,29 @@ public class UpdateTestExamForm {
 	public void setRootCcExamAsignaciones(TreeNode rootCcExamAsignaciones) {
 		this.rootCcExamAsignaciones = rootCcExamAsignaciones;
 	}
+
+	public List<AdmonExamenHdr> getExamenesHdr() {
+		return examenesHdr;
+	}
+
+	public void setExamenesHdr(List<AdmonExamenHdr> examenesHdr) {
+		this.examenesHdr = examenesHdr;
+	}
+
+	public List<SelectItem> getSelectExamenesHdr() {
+		return selectExamenesHdr;
+	}
+
+	public void setSelectExamenesHdr(List<SelectItem> selectExamenesHdr) {
+		this.selectExamenesHdr = selectExamenesHdr;
+	}
+	
+	public UserLogin getUserLogin() {
+		return userLogin;
+	}
+	public void setUserLogin(UserLogin userLogin) {
+		this.userLogin = userLogin;
+	}
+
 	 
 }

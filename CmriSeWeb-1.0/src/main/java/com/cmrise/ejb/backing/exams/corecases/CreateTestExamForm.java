@@ -1,14 +1,21 @@
 package com.cmrise.ejb.backing.exams.corecases;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.cmrise.ejb.helpers.UserLogin;
+import com.cmrise.ejb.model.admin.AdmonExamenHdr;
+import com.cmrise.ejb.services.admin.AdmonExamenHdrLocal;
 import com.cmrise.ejb.services.exams.CcExamenesLocal;
 import com.cmrise.jpa.dto.exams.CcExamenesDto;
 import com.cmrise.utils.Utilitarios;
@@ -18,28 +25,18 @@ import com.cmrise.utils.UtilitariosLocal;
 @ViewScoped
 public class CreateTestExamForm {
 
-	private String titulo; 
-	private String nombre; 
-	private String descripcion; 
-	private String tipoPregunta; 
-	private String tipoExamen; 
-	private String tema; 
-	private String comentarios; 
+	private String descripcion;  
 	private String visibilidad; 
+	private int idTipoExamen;
 	private Date fechaEfectivaDesde; 
 	private Date fechaEfectivaHasta; 
 	private short limiteTiempo; 
-	private boolean saltarPreguntas; 
 	private boolean saltarCasos; 
 	private boolean mostrarRespuestas; 
-	private boolean tienePassmark; 
-	private boolean aleatorioGrupo; 
-	private boolean aleatorioPreguntas; 
-	private boolean seleccionCasosAleatorios; 
-	private String mensajeFinalizacion; 
-	private boolean confirmacionAsistencia; 
-	private boolean diploma;
-	
+	private String mensajeFinalizacion; 	
+	private List<AdmonExamenHdr> examenesHdr = new ArrayList<AdmonExamenHdr>();
+	private List<SelectItem> selectExamenesHdr = new ArrayList<SelectItem>(); 
+	private CcExamenesDto ccExamenesDto = new CcExamenesDto();
 	
 	@Inject
 	CcExamenesLocal ccExamenesLocal; 
@@ -47,17 +44,28 @@ public class CreateTestExamForm {
 	@Inject 
 	UtilitariosLocal utilitariosLocal; 
 	
+	@Inject 
+	AdmonExamenHdrLocal admonExamenHdrLocal;
+	
+	@ManagedProperty(value="#{userLogin}")
+	private UserLogin userLogin; 
+	
+	@PostConstruct
+	 public void init() {
+		 examenesHdr = admonExamenHdrLocal.findByTipo(Utilitarios.CORE_CASES); 
+		 for(AdmonExamenHdr i:examenesHdr) {
+			 SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
+			 selectExamenesHdr.add(selectItem); 
+		 }		 
+	 }
+	
 	public String create() {
-		CcExamenesDto ccExamenesDto = new CcExamenesDto();
-		
-		ccExamenesDto.setTitulo(this.getTitulo());
-		ccExamenesDto.setNombre(this.getNombre());
+				
 		ccExamenesDto.setDescripcion(this.getDescripcion());
-		ccExamenesDto.setTipoPregunta(this.getTipoPregunta());
-		ccExamenesDto.setTipoExamen(this.getTipoExamen());
-		ccExamenesDto.setTema(this.getTema());
-		ccExamenesDto.setComentarios(this.getComentarios());
+		//ccExamenesDto.setIdTipoExamen(this.getTipoExamen());
 		ccExamenesDto.setVisibilidad(this.getVisibilidad());
+		ccExamenesDto.setCreadoPor(userLogin.getNumeroUsuario());
+		ccExamenesDto.setActualizadoPor(userLogin.getNumeroUsuario());
 		ccExamenesDto.setFechaEfectivaDesde(utilitariosLocal.toSqlDate(this.getFechaEfectivaDesde()));
 		if(null!=this.getFechaEfectivaHasta()) {
 			ccExamenesDto.setFechaEfectivaHasta(utilitariosLocal.toSqlDate(this.getFechaEfectivaHasta()));
@@ -65,16 +73,9 @@ public class CreateTestExamForm {
 			ccExamenesDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
 		}
 		ccExamenesDto.setTiempoLimite(this.getLimiteTiempo());
-		ccExamenesDto.setSaltarPreguntas(this.isSaltarPreguntas());
 		ccExamenesDto.setSaltarCasos(this.isSaltarCasos());
 		ccExamenesDto.setMostrarRespuestas(this.isMostrarRespuestas());
-		ccExamenesDto.setTienePassmark(this.isTienePassmark());
-		ccExamenesDto.setAleatorioGrupo(this.isAleatorioGrupo());
-		ccExamenesDto.setAleatorioPreguntas(this.isAleatorioPreguntas());
-		ccExamenesDto.setSeleccionCasosAleatorios(this.isSeleccionCasosAleatorios());
 		ccExamenesDto.setMensajeFinalizacion(this.getMensajeFinalizacion());
-		ccExamenesDto.setConfirmacionAsistencia(this.isConfirmacionAsistencia());
-		ccExamenesDto.setDiploma(this.isDiploma());
 		ccExamenesDto.setSociedad(Utilitarios.SOCIEDAD);
 		ccExamenesDto.setEstatus(Utilitarios.INITIAL_STATUS_CC_EXAM);
 		long numeroCcExamen = ccExamenesLocal.insert(ccExamenesDto); 
@@ -86,47 +87,23 @@ public class CreateTestExamForm {
 		return "Exams-CoreCases-Update"; 
 	}
 	
-	public String getTitulo() {
-		return titulo;
+	public CcExamenesDto getCcExamenesDto() {
+		return ccExamenesDto;
 	}
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+	public void setCcExamenesDto(CcExamenesDto ccExamenesDto) {
+		this.ccExamenesDto = ccExamenesDto;
 	}
-	public String getNombre() {
-		return nombre;
+	public int getTipoExamen() {
+		return idTipoExamen;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setIdTipoExamen(int idTipoExamen) {
+		this.idTipoExamen = idTipoExamen;
 	}
 	public String getDescripcion() {
 		return descripcion;
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-	public String getTipoPregunta() {
-		return tipoPregunta;
-	}
-	public void setTipoPregunta(String tipoPregunta) {
-		this.tipoPregunta = tipoPregunta;
-	}
-	public String getTipoExamen() {
-		return tipoExamen;
-	}
-	public void setTipoExamen(String tipoExamen) {
-		this.tipoExamen = tipoExamen;
-	}
-	public String getTema() {
-		return tema;
-	}
-	public void setTema(String tema) {
-		this.tema = tema;
-	}
-	public String getComentarios() {
-		return comentarios;
-	}
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
 	}
 	public String getVisibilidad() {
 		return visibilidad;
@@ -152,12 +129,6 @@ public class CreateTestExamForm {
 	public void setLimiteTiempo(short limiteTiempo) {
 		this.limiteTiempo = limiteTiempo;
 	}
-	public boolean isSaltarPreguntas() {
-		return saltarPreguntas;
-	}
-	public void setSaltarPreguntas(boolean saltarPreguntas) {
-		this.saltarPreguntas = saltarPreguntas;
-	}
 	public boolean isSaltarCasos() {
 		return saltarCasos;
 	}
@@ -170,47 +141,33 @@ public class CreateTestExamForm {
 	public void setMostrarRespuestas(boolean mostrarRespuestas) {
 		this.mostrarRespuestas = mostrarRespuestas;
 	}
-	public boolean isTienePassmark() {
-		return tienePassmark;
-	}
-	public void setTienePassmark(boolean tienePassmark) {
-		this.tienePassmark = tienePassmark;
-	}
-	public boolean isAleatorioGrupo() {
-		return aleatorioGrupo;
-	}
-	public void setAleatorioGrupo(boolean aleatorioGrupo) {
-		this.aleatorioGrupo = aleatorioGrupo;
-	}
-	public boolean isAleatorioPreguntas() {
-		return aleatorioPreguntas;
-	}
-	public void setAleatorioPreguntas(boolean aleatorioPreguntas) {
-		this.aleatorioPreguntas = aleatorioPreguntas;
-	}
-	public boolean isSeleccionCasosAleatorios() {
-		return seleccionCasosAleatorios;
-	}
-	public void setSeleccionCasosAleatorios(boolean seleccionCasosAleatorios) {
-		this.seleccionCasosAleatorios = seleccionCasosAleatorios;
-	}
 	public String getMensajeFinalizacion() {
 		return mensajeFinalizacion;
 	}
 	public void setMensajeFinalizacion(String mensajeFinalizacion) {
 		this.mensajeFinalizacion = mensajeFinalizacion;
 	}
-	public boolean isConfirmacionAsistencia() {
-		return confirmacionAsistencia;
-	}
-	public void setConfirmacionAsistencia(boolean confirmacionAsistencia) {
-		this.confirmacionAsistencia = confirmacionAsistencia;
-	}
-	public boolean isDiploma() {
-		return diploma;
-	}
-	public void setDiploma(boolean diploma) {
-		this.diploma = diploma;
-	} 
 	
+	public List<AdmonExamenHdr> getExamenesHdr() {
+		return examenesHdr;
+	}
+
+	public void setExamenesHdr(List<AdmonExamenHdr> examenesHdr) {
+		this.examenesHdr = examenesHdr;
+	}
+
+	public List<SelectItem> getSelectExamenesHdr() {
+		return selectExamenesHdr;
+	}
+
+	public void setSelectExamenesHdr(List<SelectItem> selectExamenesHdr) {
+		this.selectExamenesHdr = selectExamenesHdr;
+	}
+	
+	public UserLogin getUserLogin() {
+		return userLogin;
+	}
+	public void setUserLogin(UserLogin userLogin) {
+		this.userLogin = userLogin;
+	}
 }

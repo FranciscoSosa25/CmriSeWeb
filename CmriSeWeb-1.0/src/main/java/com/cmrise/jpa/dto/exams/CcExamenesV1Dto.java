@@ -20,26 +20,14 @@ public class CcExamenesV1Dto implements Serializable {
 	@Column(name="ACTUALIZADO_POR")
 	private long actualizadoPor;
 
-	@Column(name="ALEATORIO_GRUPO")
-	private boolean aleatorioGrupo;
-
-	@Column(name="ALEATORIO_PREGUNTAS")
-	private boolean aleatorioPreguntas;
-
-	@Column(name="COMENTARIOS")
-	private String comentarios;
-
-	@Column(name="CONFIRMACION_ASISTENCIA")
-	private boolean confirmacionAsistencia;
-
 	@Column(name="CREADO_POR")
 	private long creadoPor;
+	
+	@Column(name="CREADO_POR_NOMBRE")
+	private String creadoPorNombre;
 
 	@Column(name="DESCRIPCION")
 	private String descripcion;
-
-	@Column(name="DIPLOMA")
-	private boolean diploma;
 
 	@Column(name="ESTATUS")
 	private String estatus;
@@ -65,9 +53,6 @@ public class CcExamenesV1Dto implements Serializable {
 	@Column(name="MOSTRAR_RESPUESTAS")
 	private boolean mostrarRespuestas;
 
-	@Column(name="NOMBRE")
-	private String nombre;
-
 	@Id
 	@Column(name="NUMERO")
 	private long numero;
@@ -75,41 +60,20 @@ public class CcExamenesV1Dto implements Serializable {
 	@Column(name="SALTAR_CASOS")
 	private boolean saltarCasos;
 
-	@Column(name="SALTAR_PREGUNTAS")
-	private boolean saltarPreguntas;
-
-	@Column(name="SELECCION_CASOS_ALEATORIOS")
-	private boolean seleccionCasosAleatorios;
-
 	@Column(name="SOCIEDAD")
 	private String sociedad;
-
-	@Column(name="TEMA")
-	private String tema;
-
-	@Column(name="TEMA_DESC")
-	private String temaDesc;
 
 	@Column(name="TIEMPO_LIMITE")
 	private short tiempoLimite;
 
-	@Column(name="TIENE_PASSMARK")
-	private boolean tienePassmark;
-
-	@Column(name="TIPO_EXAMEN")
+	@Column(name="ID_TIPO_EXAMEN")
+	private String idTipoExamen;
+	
+	@Column(name="EXAMEN")
 	private String tipoExamen;
 
-	@Column(name="TIPO_EXAMEN_DESC")
+	@Column(name="EXAMEN_DESC")
 	private String tipoExamenDesc;
-
-	@Column(name="TIPO_PREGUNTA")
-	private String tipoPregunta;
-
-	@Column(name="TIPO_PREGUNTA_DESC")
-	private String tipoPreguntaDesc;
-
-	@Column(name="TITULO")
-	private String titulo;
 
 	@Column(name="VISIBILIDAD")
 	private String visibilidad;
@@ -128,36 +92,12 @@ public class CcExamenesV1Dto implements Serializable {
 		this.actualizadoPor = actualizadoPor;
 	}
 
-	public boolean getAleatorioGrupo() {
-		return this.aleatorioGrupo;
+	public String getCreadoPorNombre() {
+		return this.creadoPorNombre;
 	}
 
-	public void setAleatorioGrupo(boolean aleatorioGrupo) {
-		this.aleatorioGrupo = aleatorioGrupo;
-	}
-
-	public boolean getAleatorioPreguntas() {
-		return this.aleatorioPreguntas;
-	}
-
-	public void setAleatorioPreguntas(boolean aleatorioPreguntas) {
-		this.aleatorioPreguntas = aleatorioPreguntas;
-	}
-
-	public String getComentarios() {
-		return this.comentarios;
-	}
-
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
-	}
-
-	public boolean getConfirmacionAsistencia() {
-		return this.confirmacionAsistencia;
-	}
-
-	public void setConfirmacionAsistencia(boolean confirmacionAsistencia) {
-		this.confirmacionAsistencia = confirmacionAsistencia;
+	public void setCreadoPorNombre(String creadoPorNombre) {
+		this.creadoPorNombre = creadoPorNombre;
 	}
 
 	public long getCreadoPor() {
@@ -174,14 +114,6 @@ public class CcExamenesV1Dto implements Serializable {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-
-	public boolean getDiploma() {
-		return this.diploma;
-	}
-
-	public void setDiploma(boolean diploma) {
-		this.diploma = diploma;
 	}
 
 	public String getEstatus() {
@@ -248,14 +180,6 @@ public class CcExamenesV1Dto implements Serializable {
 		this.mostrarRespuestas = mostrarRespuestas;
 	}
 
-	public String getNombre() {
-		return this.nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
 	public long getNumero() {
 		return this.numero;
 	}
@@ -272,44 +196,12 @@ public class CcExamenesV1Dto implements Serializable {
 		this.saltarCasos = saltarCasos;
 	}
 
-	public boolean getSaltarPreguntas() {
-		return this.saltarPreguntas;
-	}
-
-	public void setSaltarPreguntas(boolean saltarPreguntas) {
-		this.saltarPreguntas = saltarPreguntas;
-	}
-
-	public boolean getSeleccionCasosAleatorios() {
-		return this.seleccionCasosAleatorios;
-	}
-
-	public void setSeleccionCasosAleatorios(boolean seleccionCasosAleatorios) {
-		this.seleccionCasosAleatorios = seleccionCasosAleatorios;
-	}
-
 	public String getSociedad() {
 		return this.sociedad;
 	}
 
 	public void setSociedad(String sociedad) {
 		this.sociedad = sociedad;
-	}
-
-	public String getTema() {
-		return this.tema;
-	}
-
-	public void setTema(String tema) {
-		this.tema = tema;
-	}
-
-	public String getTemaDesc() {
-		return this.temaDesc;
-	}
-
-	public void setTemaDesc(String temaDesc) {
-		this.temaDesc = temaDesc;
 	}
 
 	public short getTiempoLimite() {
@@ -320,14 +212,14 @@ public class CcExamenesV1Dto implements Serializable {
 		this.tiempoLimite = tiempoLimite;
 	}
 
-	public boolean getTienePassmark() {
-		return this.tienePassmark;
+	public String getIdTipoExamen() {
+		return this.idTipoExamen;
 	}
 
-	public void setTienePassmark(boolean tienePassmark) {
-		this.tienePassmark = tienePassmark;
+	public void setIdTipoExamen(String idTipoExamen) {
+		this.idTipoExamen = idTipoExamen;
 	}
-
+	
 	public String getTipoExamen() {
 		return this.tipoExamen;
 	}
@@ -342,30 +234,6 @@ public class CcExamenesV1Dto implements Serializable {
 
 	public void setTipoExamenDesc(String tipoExamenDesc) {
 		this.tipoExamenDesc = tipoExamenDesc;
-	}
-
-	public String getTipoPregunta() {
-		return this.tipoPregunta;
-	}
-
-	public void setTipoPregunta(String tipoPregunta) {
-		this.tipoPregunta = tipoPregunta;
-	}
-
-	public String getTipoPreguntaDesc() {
-		return this.tipoPreguntaDesc;
-	}
-
-	public void setTipoPreguntaDesc(String tipoPreguntaDesc) {
-		this.tipoPreguntaDesc = tipoPreguntaDesc;
-	}
-
-	public String getTitulo() {
-		return this.titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
 	}
 
 	public String getVisibilidad() {

@@ -1,6 +1,8 @@
 package com.cmrise.ejb.model.candidates.exams;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CandExamenesV2 implements Serializable{
@@ -21,9 +23,14 @@ public class CandExamenesV2 implements Serializable{
 	private String descripcionRol; 
 	private String titulo; 
 	private short tiempoLimite; 
+	private double totalPuntuacion;
 	private String curp; 
 	private Date fechaEfectivaDesdeExamen; 
 	private Date fechaEfectivaHastaExamen; 
+	private long actualizadoPor;
+	private String nombreActualizadoPor;
+	private Date fechaActualizado;
+	private String stringFechaAct;
 	
 	public long getNumero() {
 		return numero;
@@ -126,6 +133,38 @@ public class CandExamenesV2 implements Serializable{
 	}
 	public void setFechaEfectivaHastaExamen(Date fechaEfectivaHastaExamen) {
 		this.fechaEfectivaHastaExamen = fechaEfectivaHastaExamen;
+	}
+	public long getActualizadoPor() {
+		return actualizadoPor;
+	}
+	public void setActualizadoPor(long actualizadoPor) {
+		this.actualizadoPor = actualizadoPor;
+	}
+	public String getNombreActualizadoPor() {
+		return nombreActualizadoPor;
+	}
+	public void setNombreActualizadoPor(String nombreActualizadoPor) {
+		this.nombreActualizadoPor = nombreActualizadoPor;
+	}
+	public Date getFechaActualizado() {
+		return fechaActualizado;
+	}
+	public void setFechaActualizado(Date fechaActualizado) {
+		this.fechaActualizado = fechaActualizado;
+	}
+	public String getStringFechaAct() {
+		return stringFechaAct;
+	}
+	public void setStringFechaAct() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+        String strDate = dateFormat.format(this.fechaActualizado);  
+		this.stringFechaAct = strDate;
+	}
+	public double getTotalPuntuacion() {
+		return totalPuntuacion;
+	}
+	public void setTotalPuntuacion(double totalPuntuacion) {
+		this.totalPuntuacion = totalPuntuacion;
 	} 
 
 }
