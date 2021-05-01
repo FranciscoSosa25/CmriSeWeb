@@ -74,10 +74,12 @@ public class IndexForm {
 			userLogin.setNumeroUsuario(admonUsuariosRolesV1Dto.getNumeroUsuario());
 			userLogin.setMatricula(admonUsuariosRolesV1Dto.getMatricula());
 			userLogin.setNombreCompletoUsuario(admonUsuariosRolesV1Dto.getNombreCompletoUsuario());
+
 			userLogin.setDescripcionRol(admonUsuariosRolesV1Dto.getNombreRol());
 			userLogin.setCurp(this.curp);
 			userLogin.setRoles(admonRolesLocal.findKeysRolesUsuario(admonUsuariosRolesV1Dto.getNumeroUsuario()));
 			userLogin.rolActual();
+
 			request.getSession().setAttribute("xXRole",Utilitarios.ROL_MAESTRO_REACT);
 			return "PaginaPrincipal"; 
 		} else if(intLoginUsuario!=0) {
@@ -88,8 +90,10 @@ public class IndexForm {
 			userLogin.setNombreCompletoUsuario(admonUsuariosRolesV1Dto.getNombreCompletoUsuario());
 			userLogin.setDescripcionRol(admonUsuariosRolesV1Dto.getNombreRol());
 			userLogin.setCurp(this.curp);
+
 			userLogin.setRoles(admonRolesLocal.findKeysRolesUsuario(admonUsuariosRolesV1Dto.getNumeroUsuario()));
 			userLogin.rolActual();
+
 			request.getSession().setAttribute("xXRole",Utilitarios.ROL_ADMIN);
 			return "PaginaPrincipal"; 
 		}else if(intLoginAlumno!=0) {
@@ -118,6 +122,7 @@ public class IndexForm {
 			context.getExternalContext().redirect("/CmriSeWeb/faces/index.xhtml");
 		} catch (IOException e) {
 			e.printStackTrace();			
+
 		}		
     }
 	
@@ -132,6 +137,7 @@ public class IndexForm {
 			return "PaginaPrincipal"; 
 		}else { return "";}		
 	}
+
 	
 	public String getPassword() {
 		return password;

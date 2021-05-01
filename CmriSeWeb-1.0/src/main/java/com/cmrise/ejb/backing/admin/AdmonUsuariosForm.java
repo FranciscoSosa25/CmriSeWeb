@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.primefaces.PrimeFaces;
 
+import com.cmrise.ejb.helpers.UserLogin;
 import com.cmrise.ejb.model.admin.AdmonUsuarios;
 import com.cmrise.ejb.services.admin.AdmonUsuariosLocal;
 import com.cmrise.ejb.services.admin.AdmonUsuariosRolesLocal;
@@ -175,6 +177,7 @@ public class AdmonUsuariosForm {
 	public String newUser() {
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+
 		System.out.println("Entra "+this.getClass()+" Admon-New-Usuario");
 		return "Admon-New-Usuario"; 
 	}	
@@ -188,4 +191,5 @@ public class AdmonUsuariosForm {
 		 return "Admon-Update-Usuario"; 	
 		}
 	
+
 }

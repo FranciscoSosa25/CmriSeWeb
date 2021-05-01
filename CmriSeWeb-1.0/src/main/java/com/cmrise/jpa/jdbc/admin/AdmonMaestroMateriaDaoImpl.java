@@ -72,6 +72,7 @@ public class AdmonMaestroMateriaDaoImpl implements AdmonMaestroMateriaDao {
 	    catch(Exception e) {
 	    	return 0;
 	    }
+
 	}
 	
 	@Override
@@ -80,6 +81,7 @@ public class AdmonMaestroMateriaDaoImpl implements AdmonMaestroMateriaDao {
 		Query q = em.createQuery(strQuery); 
 		return q.getResultList();
 	}
+
 	
 	@Override
 	public List<Object> findKeysMateriasOfMaestros(long usuario){
@@ -97,4 +99,5 @@ public class AdmonMaestroMateriaDaoImpl implements AdmonMaestroMateriaDao {
 		AdmonMaestroMateriaDto pAdmonMaestroMateriaDto = em.find(AdmonMaestroMateriaDto.class, pNumero);
 		em.remove(pAdmonMaestroMateriaDto);
 	}
+
 }

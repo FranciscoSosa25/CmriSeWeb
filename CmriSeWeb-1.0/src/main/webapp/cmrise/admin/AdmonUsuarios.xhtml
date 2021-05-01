@@ -41,9 +41,11 @@ function handleUpdateRequest(xhr, status, args){
    <p:commandButton id="RegistrarBtn" value="Nuevo Usuario" icon="fa fa-plus"  style="text-align: left; BackGround:#2D0D86;" action="#{admonUsuariosForm.newUser()}"  /> 
  </h2>             
 <h:form id="ReadOnlyForm">
+
  <!-- <p:growl id="growl" showDetail="true" life="1000" widgetVar="growlWV"/> -->
  <p:dataTable var="admonUsuario" value="#{admonUsuariosForm.listAdmonUsuarios }"  emptyMessage="Sin resultados" paginator="true" rows="10" 
  paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+
    <f:facet name="header">USUARIOS</f:facet>
     <p:column headerText="CURP" style="text-overflow: ellipsis; white-space: nowrap;width:150px" >
     <h:outputText value="#{admonUsuario.curp}"/>
@@ -51,6 +53,7 @@ function handleUpdateRequest(xhr, status, args){
    <p:column headerText="Nombre">
     <h:outputText value="#{admonUsuario.nombre}"/>
    </p:column>
+
     <p:column headerText="Correo Electronico">
     <h:outputText value="#{admonUsuario.correoElectronico}"/>
    </p:column>

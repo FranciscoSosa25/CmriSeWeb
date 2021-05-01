@@ -13,6 +13,7 @@ public interface AdmonMaestroMateriaLocal {
 
 	public void insert(AdmonMaestroMateriaDto pAdmonMaestroMateriaDto);
 	
+
 	public void deleteLogico(long pNumero, AdmonMaestroMateriaDto pAdmonMaestroMateriaDto);
 	
 	public void activaRolUsuario(long pNumero, AdmonMaestroMateriaDto pAdmonMaestroMateriaDto);
@@ -26,4 +27,5 @@ public interface AdmonMaestroMateriaLocal {
 	public String[] findKeysMateriasOfMaestros(long usuario);
 	
 	public void delete(long usuario);
+
 }

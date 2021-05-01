@@ -2,14 +2,17 @@
 package com.cmrise.ejb.services.admin;
 
 import java.math.BigInteger;
+
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+
 import com.cmrise.jpa.dao.admin.AdmonMaestroMateriaDao;
 import com.cmrise.jpa.dto.admin.AdmonMaestroMateriaDto;
 import com.cmrise.jpa.dto.admin.KeysDto;
+
 
 @Stateless 
 public class AdmonMaestroMateriaLocalImpl implements AdmonMaestroMateriaLocal {
@@ -72,4 +75,5 @@ public class AdmonMaestroMateriaLocalImpl implements AdmonMaestroMateriaLocal {
 	public void delete(long usuario) {
 		admonMaestroMateriaDao.delete(usuario);
 	}
+
 }

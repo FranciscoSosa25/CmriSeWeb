@@ -69,6 +69,7 @@ public class AdmonRolesLocalImpl implements AdmonRolesLocal {
 	public AdmonRolesDto findRole(long idRole) {
 		return admonRolesDao.findRole(idRole);
 	}
+
 	
 	@Override
 	public String[] findKeysRolesUser(long idUser){
@@ -115,4 +116,5 @@ public class AdmonRolesLocalImpl implements AdmonRolesLocal {
 		}
 		return roles;
 	}
+
 }

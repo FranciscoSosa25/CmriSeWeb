@@ -7,6 +7,7 @@ import com.cmrise.jpa.dto.admin.KeysDto;
 
 public interface AdmonMaestroMateriaDao {
 
+
 	public void insert(AdmonMaestroMateriaDto pAdmonMaestroMateriaDto);
 	
 	public void deleteLogico(long pNumero, AdmonMaestroMateriaDto pAdmonMaestroMateriaDto);
@@ -22,4 +23,5 @@ public interface AdmonMaestroMateriaDao {
 	public List<Object> findKeysMateriasOfMaestros(long usuario);
 	
 	public void delete(long usuario);
+
 }

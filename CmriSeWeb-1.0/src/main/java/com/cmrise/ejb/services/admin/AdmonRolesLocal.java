@@ -22,6 +22,8 @@ public interface AdmonRolesLocal {
 	public List<KeysDto> findKeysCand();
 	public List<KeysDto> findKeysNotCand();
 	public AdmonRolesDto findRole(long idRole);
+
 	public String[] findKeysRolesUser(long idUser);
 	public List<KeysRolesDto> findKeysRolesUsuario(long idUser);
+
 }
