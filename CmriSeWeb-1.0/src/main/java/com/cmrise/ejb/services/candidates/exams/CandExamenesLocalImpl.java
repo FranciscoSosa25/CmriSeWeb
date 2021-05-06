@@ -26,34 +26,34 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 	}
 
 	@Override
-	public List<CandExamenesV1> findByExamen(long pNumeroExamen, String pTipoExamen) {
-		List<CandExamenesV1Dto> listCandExamenesV1Dto = candExamenesDao.findByExamen(pNumeroExamen, pTipoExamen); 
-		List<CandExamenesV1> retval = new ArrayList<CandExamenesV1>(); 
-		for(CandExamenesV1Dto candExamenesV1Dto:listCandExamenesV1Dto) {
-			CandExamenesV1 candExamenesV1 = new CandExamenesV1(); 
-			candExamenesV1.setNumero(candExamenesV1Dto.getNumero());
-			candExamenesV1.setNumeroExamen(candExamenesV1Dto.getNumeroExamen());
-			candExamenesV1.setNumeroUsuario(candExamenesV1Dto.getNumeroUsuario());
-			candExamenesV1.setTipo(candExamenesV1Dto.getTipo());
-			candExamenesV1.setMatricula(candExamenesV1Dto.getMatricula());
-			candExamenesV1.setNombreUsuario(candExamenesV1Dto.getNombreUsuario());
-			candExamenesV1.setApellidoPaterno(candExamenesV1Dto.getApellidoPaterno());
-			candExamenesV1.setApellidoMaterno(candExamenesV1Dto.getApellidoMaterno());
-			candExamenesV1.setDescripcionRol(candExamenesV1Dto.getDescripcionRol());
-			candExamenesV1.setNombreCompletoUsuario(candExamenesV1Dto.getNombreCompletoUsuario());
-			candExamenesV1.setCurp(candExamenesV1Dto.getCurp());
-			candExamenesV1.setEstatus(candExamenesV1Dto.getEstatus());
-			candExamenesV1.setTotalPuntuacion(candExamenesV1Dto.getTotalPuntuacion());
-			candExamenesV1.setActualizadoPor(candExamenesV1Dto.getActualizadoPor());
+	public List<CandExamenesV2> findByExamen(long pNumeroExamen, String pTipoExamen) {
+		List<CandExamenesV2Dto> listCandExamenesV2Dto = candExamenesDao.findByExamen(pNumeroExamen, pTipoExamen); 
+		List<CandExamenesV2> retval = new ArrayList<CandExamenesV2>(); 
+		for(CandExamenesV2Dto candExamenesV2Dto:listCandExamenesV2Dto) {
+			CandExamenesV2 candExamenesV2 = new CandExamenesV2(); 
+			candExamenesV2.setNumero(candExamenesV2Dto.getNumero());
+			candExamenesV2.setNumeroExamen(candExamenesV2Dto.getNumeroExamen());
+			candExamenesV2.setNumeroUsuario(candExamenesV2Dto.getNumeroUsuario());
+			candExamenesV2.setTipo(candExamenesV2Dto.getTipo());
+			candExamenesV2.setMatricula(candExamenesV2Dto.getMatricula());
+			candExamenesV2.setNombreUsuario(candExamenesV2Dto.getNombreUsuario());
+			candExamenesV2.setApellidoPaterno(candExamenesV2Dto.getApellidoPaterno());
+			candExamenesV2.setApellidoMaterno(candExamenesV2Dto.getApellidoMaterno());
+			candExamenesV2.setDescripcionRol(candExamenesV2Dto.getDescripcionRol());
+			candExamenesV2.setNombreCompletoUsuario(candExamenesV2Dto.getNombreCompletoUsuario());
+			candExamenesV2.setCurp(candExamenesV2Dto.getCurp());
+			candExamenesV2.setTotalPuntuacion(candExamenesV2Dto.getTotalPuntuacion());
+			candExamenesV2.setEstatus(candExamenesV2Dto.getEstatus());
+			candExamenesV2.setActualizadoPor(candExamenesV2Dto.getActualizadoPor());
 			
-			if(candExamenesV1Dto.getNombreActPor() != null)
-				candExamenesV1.setNombreActPor(candExamenesV1Dto.getNombreActPor());
+			if(candExamenesV2Dto.getNombreActualizadoPor() != null)
+				candExamenesV2.setNombreActualizadoPor(candExamenesV2Dto.getNombreActualizadoPor());
 			else
-				candExamenesV1.setNombreActPor("No disponible");
+				candExamenesV2.setNombreActualizadoPor("No disponible");
 			
-			candExamenesV1.setFechaActualizacion(candExamenesV1Dto.getFechaActualizacion());
-			candExamenesV1.setFechaActString();
-			retval.add(candExamenesV1); 
+			candExamenesV2.setFechaActualizado(candExamenesV2Dto.getFechaActualizacion());
+			candExamenesV2.setStringFechaAct();
+			retval.add(candExamenesV2); 
 		}
 		return retval;
 	}
@@ -141,36 +141,36 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 	}
 	
 	@Override
-	public List<CandExamenesV1> findCandidateByExam(String cCurp, String cNombre, String c_aPaterno, String c_aMaterno, String actPor, String fechaActu, long pNumeroExamen, String pTipoExamen) {
-		List<CandExamenesV1Dto> listCandExamenesV1Dto = candExamenesDao.findCandidateByExam(cCurp, cNombre, c_aPaterno, c_aMaterno, actPor, fechaActu, pNumeroExamen, pTipoExamen); 
-		List<CandExamenesV1> retval = new ArrayList<CandExamenesV1>(); 
+	public List<CandExamenesV2> findCandidateByExam(String cCurp, String cNombre, String c_aPaterno, String c_aMaterno, String actPor, String fechaActu, long pNumeroExamen, String pTipoExamen) {
+		List<CandExamenesV2Dto> listCandExamenesV2Dto = candExamenesDao.findCandidateByExam(cCurp, cNombre, c_aPaterno, c_aMaterno, actPor, fechaActu, pNumeroExamen, pTipoExamen); 
+		List<CandExamenesV2> retval = new ArrayList<CandExamenesV2>(); 
 		
-		for(CandExamenesV1Dto candExamenesV1Dto:listCandExamenesV1Dto) {
-			CandExamenesV1 candExamenesV1 = new CandExamenesV1(); 
-			candExamenesV1.setNumero(candExamenesV1Dto.getNumero());
-			candExamenesV1.setNumeroExamen(candExamenesV1Dto.getNumeroExamen());
-			candExamenesV1.setNumeroUsuario(candExamenesV1Dto.getNumeroUsuario());
-			candExamenesV1.setTipo(candExamenesV1Dto.getTipo());
-			candExamenesV1.setMatricula(candExamenesV1Dto.getMatricula());
-			candExamenesV1.setNombreUsuario(candExamenesV1Dto.getNombreUsuario());
-			candExamenesV1.setApellidoPaterno(candExamenesV1Dto.getApellidoPaterno());
-			candExamenesV1.setApellidoMaterno(candExamenesV1Dto.getApellidoMaterno());
-			candExamenesV1.setDescripcionRol(candExamenesV1Dto.getDescripcionRol());
-			candExamenesV1.setNombreCompletoUsuario(candExamenesV1Dto.getNombreCompletoUsuario());
-			candExamenesV1.setCurp(candExamenesV1Dto.getCurp());
-			candExamenesV1.setEstatus(candExamenesV1Dto.getEstatus());
-			candExamenesV1.setTotalPuntuacion(candExamenesV1Dto.getTotalPuntuacion());
-			candExamenesV1.setActualizadoPor(candExamenesV1Dto.getActualizadoPor());
+		for(CandExamenesV2Dto candExamenesV2Dto:listCandExamenesV2Dto) {
+			CandExamenesV2 candExamenesV2 = new CandExamenesV2(); 
+			candExamenesV2.setNumero(candExamenesV2Dto.getNumero());
+			candExamenesV2.setNumeroExamen(candExamenesV2Dto.getNumeroExamen());
+			candExamenesV2.setNumeroUsuario(candExamenesV2Dto.getNumeroUsuario());
+			candExamenesV2.setTipo(candExamenesV2Dto.getTipo());
+			candExamenesV2.setMatricula(candExamenesV2Dto.getMatricula());
+			candExamenesV2.setNombreUsuario(candExamenesV2Dto.getNombreUsuario());
+			candExamenesV2.setApellidoPaterno(candExamenesV2Dto.getApellidoPaterno());
+			candExamenesV2.setApellidoMaterno(candExamenesV2Dto.getApellidoMaterno());
+			candExamenesV2.setDescripcionRol(candExamenesV2Dto.getDescripcionRol());
+			candExamenesV2.setNombreCompletoUsuario(candExamenesV2Dto.getNombreCompletoUsuario());
+			candExamenesV2.setCurp(candExamenesV2Dto.getCurp());
+			candExamenesV2.setEstatus(candExamenesV2Dto.getEstatus());
+			candExamenesV2.setTotalPuntuacion(candExamenesV2Dto.getTotalPuntuacion());
+			candExamenesV2.setActualizadoPor(candExamenesV2Dto.getActualizadoPor());
 			
-			if(candExamenesV1Dto.getNombreActPor() != null)
-				candExamenesV1.setNombreActPor(candExamenesV1Dto.getNombreActPor());
+			if(candExamenesV2Dto.getNombreActualizadoPor() != null)
+				candExamenesV2.setNombreActualizadoPor(candExamenesV2Dto.getNombreActualizadoPor());
 			else
-				candExamenesV1.setNombreActPor("No disponible");
+				candExamenesV2.setNombreActualizadoPor("No disponible");
 			
-			candExamenesV1.setFechaActualizacion(candExamenesV1Dto.getFechaActualizacion());
-			candExamenesV1.setFechaActString();
+			candExamenesV2.setFechaActualizado(candExamenesV2Dto.getFechaActualizacion());
+			candExamenesV2.setStringFechaAct();
 			
-			retval.add(candExamenesV1); 
+			retval.add(candExamenesV2); 
 		}
 		return retval;
 	}

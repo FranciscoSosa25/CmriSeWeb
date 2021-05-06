@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import com.cmrise.ejb.model.candidates.exams.CandExamenesV1;
+import com.cmrise.ejb.model.candidates.exams.CandExamenesV2;
 import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;
 import com.cmrise.utils.Utilitarios;
 
@@ -18,7 +19,7 @@ import com.cmrise.utils.Utilitarios;
 @ViewScoped
 public class HistoryExamsDetailForm {
 	
-	private List<CandExamenesV1> listCandExamenesV1 = new ArrayList<CandExamenesV1>();
+	private List<CandExamenesV2> listCandExamenesV2 = new ArrayList<CandExamenesV2>();
 
 	@Inject
 	CandExamenesLocal candExamenesLocal;
@@ -31,7 +32,7 @@ public class HistoryExamsDetailForm {
 	 Object objNumeroExamen = session.getAttribute("NumeroExamenSV"); 
 	 Object objTipoExamen = session.getAttribute("TipoExamenSV"); 
 	 long longNumeroExamen = Utilitarios.objToLong(objNumeroExamen); 
-	 listCandExamenesV1 = candExamenesLocal.findByExamen(longNumeroExamen, (String)objTipoExamen); 
+	 listCandExamenesV2 = candExamenesLocal.findByExamen(longNumeroExamen, (String)objTipoExamen); 
 	 System.out.println("Sale "+this.getClass()+" init()");
 	 }		 
 	 
@@ -42,12 +43,12 @@ public class HistoryExamsDetailForm {
 		 return "History-Questions"; 
 	 }
 	 
-	public List<CandExamenesV1> getListCandExamenesV1() {
-		return listCandExamenesV1;
+	public List<CandExamenesV2> getListCandExamenesV1() {
+		return listCandExamenesV2;
 	}
 
-	public void setListCandExamenesV1(List<CandExamenesV1> listCandExamenesV1) {
-		this.listCandExamenesV1 = listCandExamenesV1;
+	public void setListCandExamenesV1(List<CandExamenesV2> listCandExamenesV2) {
+		this.listCandExamenesV2 = listCandExamenesV2;
 	} 
 
 }

@@ -139,25 +139,24 @@
 										style="width:400px; height:150px; background-color: #DAE4E4;">
 									</h:panelGroup>
 								</div>
-								<div>
-									<ui:repeat var="anotacion"
-										value="#{mRQsExamForm.listAnotacionesCorImg}"
-										varStatus="status">
-										<div class="ui-g-1">#{anotacion.nodo}</div>
-										<div class="ui-g-11">
-											<p:selectOneMenu id="respuestaCorrelacionada" required="true"
-												requiredMessage="#{msgs['globalForm.requiredMessage']}"
-												value="#{mRQsExamForm.respuestaSelect.value}">
-		            <f:selectItem itemLabel="Seleccione un Valor.." itemValue="" />
-												<f:selectItems
-													value="#{mRQsExamForm.selectRespReactCorImg}" />
-													<!-- <p:ajax event="change" listener="#{mRQsExamForm.agregarRespCandidato(status.index)}"/> -->
-		            </p:selectOneMenu>
-											<p:message for="respuestaCorrelacionada" />
-										</div>
-									</ui:repeat>
-								</div>
-							</h:panelGroup>
+							<div>
+								<ui:repeat var="anotacion"
+									value="#{mRQsExamForm.listAnotacionesCorImg}"
+									varStatus="status">
+									<div class="ui-g-1">#{anotacion.nodo}</div>
+									<div class="ui-g-11">
+										<p:selectOneMenu id="respuestaCorrelacionada" required="true"
+											requiredMessage="#{msgs['globalForm.requiredMessage']}"
+											value="#{mRQsExamForm.respuestaSelect.value}">
+											<f:selectItem itemLabel="Seleccione un Valor.." itemValue="" />
+											<p:ajax event="change" process="@this"  listener="#{mRQsExamForm.updateRespuestasImgCor(anotacion.numero)}" /> />
+											<f:selectItems value="#{mRQsExamForm.selectRespReactCorImg}" />
+										</p:selectOneMenu>
+										<p:message for="respuestaCorrelacionada" />
+									</div>
+								</ui:repeat>
+							</div>
+						</h:panelGroup>
 							
 				<p:inputTextarea id="coordinatesImgCor"
 								value="#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.poligonos}"
