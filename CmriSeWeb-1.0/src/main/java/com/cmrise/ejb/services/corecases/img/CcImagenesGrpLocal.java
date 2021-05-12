@@ -15,7 +15,15 @@ public interface CcImagenesGrpLocal {
 			          ,CcImagenesGrp pCcImagenesGrp
 			          );
 
+	
 	public List<CcImagenesGrp> findByFta(long   pNumeroFta
 			                              ,String pSeccion
-			                              ); 
+			                              );
+	
+	public List<CcImagenesGrp> findByCcHDR(long   pNumeroFta
+            ,String pSeccion
+            );
+	
+	public void deleteByCcHrd(long pNumetoCcHRD, String pSeccion);
+	public boolean deleteGroup(long pNumetoFta , CcImagenesGrp pCcImagenesGrp);
 }

@@ -20,6 +20,8 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
+
 import com.cmrise.dicom.attribute.DicomAttributeReaderService;
 import com.cmrise.dicom.attribute.DicomProperties;
 import com.cmrise.dicom.exception.InvalidParamException;
@@ -35,6 +37,8 @@ import com.cmrise.utils.Utilitarios;
 
 @Stateless
 public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
+	
+	private final static Logger LOGGER = Logger.getLogger(CcImagenesGrpLocalImpl.class);
 
 	private DicomAttributeReaderService dicomAttributeReaderService = new DicomAttributeReaderService();
 	private DicomImageReaderService dicomImageReaderService = new DicomImageReaderService();
@@ -55,11 +59,19 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 	@Override
 	public void insert(long pNumetoFta, CcImagenesGrp pCcImagenesGrp) {
 		CcImagenesGrpDto ccImagenesGrpDto = new CcImagenesGrpDto();
+		
+		if(pCcImagenesGrp.isCcHDR()) {
+			ccImagenesGrpDto.setNumeroCcHDR(pNumetoFta);
+		}else {
+			ccImagenesGrpDto.setNumeroFta(pNumetoFta);
+		}
 		ccImagenesGrpDto.setNumeroFta(pNumetoFta);
 		ccImagenesGrpDto.setTipo(pCcImagenesGrp.getTipo());
 		ccImagenesGrpDto.setSeccion(pCcImagenesGrp.getSeccion());
 		ccImagenesGrpDto.setTituloSuperior(pCcImagenesGrp.getTituloSuperior());
 		ccImagenesGrpDto.setTituloInferior(pCcImagenesGrp.getTituloInferior());
+		ccImagenesGrpDto.setModality(pCcImagenesGrp.getModality());
+		
 		long numeroImagenesGrp = insert(ccImagenesGrpDto);
 		for(CcImagenes ccImagenes:pCcImagenesGrp.getListCcImagenes()) {
 			/****************************************************************************************
@@ -149,8 +161,8 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 				ccImagenes.setNumeroGrp(j.getNumeroGrp());
 				ccImagenes.setNombreImagen(j.getNombreImagen());
 				ccImagenes.setRutaImagen(j.getRutaImagen());
-				String strJpgRuta  = j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX);
-				String strThumbailRuta  = j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX);
+				String strJpgRuta  = Utilitarios.FS_ROOT + j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX);
+				String strThumbailRuta  = Utilitarios.FS_ROOT + j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX);
 				try {
 					/** byte[] bytesArray = Files.readAllBytes(Paths.get(j.getRutaImagen()+"\\"+j.getNombreImagen())); **/
 					/** ccImagenes.setImagenContent(bytesArray); **/
@@ -186,6 +198,7 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 	}
 	
 	
+	
 	public static void setOutputStream(InputStream inputStream) throws IOException {
 		outputStream.reset();
 		int len;
@@ -210,6 +223,87 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
         saveJpegFileService.saveJpegFile(properties, jpegFile, image, false);
         return jpegFile;
     }
+
+	@Override
+	public List<CcImagenesGrp> findByCcHDR(long pNumeroCcHDR, String pSeccion) {
+		  List<CcImagenesGrp> retval = new ArrayList<CcImagenesGrp>(); 
+			
+			List<CcImagenesGrpDto> listCcImagenesGrpDto = ccImagenesGrpDao.findByCcHDR(pNumeroCcHDR
+					                                                                ,pSeccion
+					                                                                ); 
+			for(CcImagenesGrpDto i:listCcImagenesGrpDto) {
+				CcImagenesGrp ccImagenesGrp = new CcImagenesGrp();
+				ccImagenesGrp.setNumero(i.getNumero());
+				ccImagenesGrp.setSeccion(i.getSeccion());
+				ccImagenesGrp.setTipo(i.getTipo());
+				ccImagenesGrp.setTituloSuperior(i.getTituloSuperior());
+				ccImagenesGrp.setTituloInferior(i.getTituloInferior());
+				ccImagenesGrp.setTexto(i.getTexto());
+				ccImagenesGrp.setModality(i.getModality());
+				
+				List<CcImagenes> listCcImagenes = new ArrayList<CcImagenes>(); 
+				List<CcImagenesDto> listCcImagenesDto = ccImagenesDao.findByGrp(i.getNumero()); 
+				for(CcImagenesDto j:listCcImagenesDto) {
+					CcImagenes ccImagenes = new CcImagenes(); 
+					ccImagenes.setNumero(j.getNumero());
+					ccImagenes.setNumeroGrp(j.getNumeroGrp());
+					ccImagenes.setNombreImagen(j.getNombreImagen());
+					ccImagenes.setRutaImagen(j.getRutaImagen());
+					String strJpgRuta  = Utilitarios.FS_ROOT + j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX);
+					String strThumbailRuta  = Utilitarios.FS_ROOT + j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX);
+					try {
+						/** byte[] bytesArray = Files.readAllBytes(Paths.get(j.getRutaImagen()+"\\"+j.getNombreImagen())); **/
+						/** ccImagenes.setImagenContent(bytesArray); **/
+						byte[] bytesArray = Files.readAllBytes(Paths.get(strJpgRuta));
+						ccImagenes.setJpgContent(bytesArray);
+						ccImagenes.setJpgBase64(new String(Base64.getEncoder().encode(bytesArray)));
+						bytesArray = Files.readAllBytes(Paths.get(strThumbailRuta));
+						ccImagenes.setThumbailContent(bytesArray);
+						ccImagenes.setThumbailBase64(new String(Base64.getEncoder().encode(bytesArray)));
+					} catch (IOException ie) {
+					   System.out.println("IOException :"+ie.getMessage());
+					}
+					listCcImagenes.add(ccImagenes);
+				}
+				ccImagenesGrp.setListCcImagenes(listCcImagenes);
+				retval.add(ccImagenesGrp); 
+			}
+			return retval;
+	}
+	
+	@Override
+	public void deleteByCcHrd(long pNumetoCcHRD, String pSeccion) {
+		List<CcImagenesGrp> ccImagenesGrps = findByCcHDR(pNumetoCcHRD, pSeccion);
+		for(CcImagenesGrp ccImagenesGrp: ccImagenesGrps) {
+			deleteGroup(pNumetoCcHRD, ccImagenesGrp);
+		}		
+	}
+	
+	@Override
+	public boolean deleteGroup(long pNumetoFta , CcImagenesGrp pCcImagenesGrp) {
+		List<CcImagenesDto> listCcImagenesDto = ccImagenesDao.findByGrp(pCcImagenesGrp.getNumero()); 
+		
+		boolean isSuccess = false;
+		long numeroImagenesGrp = pCcImagenesGrp.getNumero();
+		for(CcImagenesDto ccImagenes:listCcImagenesDto) {
+			List<String> removeFileList = new ArrayList<>();
+			removeFileList.add(Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen());
+			removeFileList.add(Utilitarios.FS_ROOT + ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX));
+			removeFileList.add(Utilitarios.FS_ROOT + ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX));
+			ccImagenesDao.deleteByGroupId(ccImagenes.getNumero(), ccImagenes.getNumeroGrp());
+			for(String filePath: removeFileList) {
+				File destination = new File(filePath);
+				LOGGER.debug("File deleted "+filePath + " " +destination.delete());
+			}
+		}
+		 listCcImagenesDto = ccImagenesDao.findByGrp(pCcImagenesGrp.getNumero()); 
+		 if(listCcImagenesDto == null || listCcImagenesDto.isEmpty()) {
+			 isSuccess = ccImagenesGrpDao.delete(numeroImagenesGrp);
+		 }
+		return isSuccess;
+	}
+
+
 	
 	
 }

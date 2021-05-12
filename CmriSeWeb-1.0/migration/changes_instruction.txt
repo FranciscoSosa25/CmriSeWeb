@@ -1,0 +1,18 @@
+##-----------------------------------------------------------------------------------------------------
+## Kishan wappnet : 11:26 AM 5/15/2021
+wappnet_release branch setup to view .com file
+
+Download dcm4che-5.15.1-bin.zip from below link
+https://master.dl.sourceforge.net/project/dcm4che/dcm4che3/5.15.1/dcm4che-5.15.1-bin.zip?viasf=1 
+
+Setup below enviroment variable, in system variables
+Name : DCM4CHE_HOME
+Value : D:\dcm4che-5.15.1
+
+Add below VM argument in wildy file server launch cofiguation
+-Djava.library.path=D:\dcm4che-5.15.1\lib\win-x86_64 
+
+##-----------------------------------------------------------------------------------------------------
+
+
+

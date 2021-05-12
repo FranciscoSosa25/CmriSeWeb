@@ -11,6 +11,11 @@ public interface CcImagenesDao {
 
 	public void insert(long pNumeroImagenesGrp
 			         , CcImagenes pCcImagenes);
+	
+	public boolean deleteByGroupId(long numero, long groupId);
+	public boolean delete(long pNumeroGrp);
+	
+	
 
 	public List<CcImagenesDto> findByGrp(long pNumeroGrp); 
 	
