@@ -61,6 +61,7 @@ public class SelectsHelper {
 	private List<SelectItem> selectAdmonMateriaItems; 
 	private List<SelectItem> selectAdmonSubMateriaItems; 
 	private List<SelectItem> selectInstruccionesItems; 
+	private List<SelectItem> selectDicomModalityItems; 
 	
 	@PostConstruct
     public void init() {
@@ -83,6 +84,7 @@ public class SelectsHelper {
        environmentAdmonMateria(); 
        environmentAdmonSubMateria(); 
        enviromentInstrucciones();
+       enviromentDicomModality();
        System.out.println("Sale SelectsHelper init()");
     }
 	
@@ -174,6 +176,22 @@ public class SelectsHelper {
 		}
 	}
 	
+	private void enviromentDicomModality() {
+		this.selectDicomModalityItems = new ArrayList<SelectItem>();
+		List<TablasUtilitariasValoresDto> listInstruccionesValores =  tablasUtilitariasValoresLocal.findByTipoTabla("DICOM_MODALITY");  
+		Iterator<TablasUtilitariasValoresDto> iterInstruccionesValores = listInstruccionesValores.iterator(); 
+		while(iterInstruccionesValores.hasNext()) {
+			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterInstruccionesValores.next();
+			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+			this.selectDicomModalityItems.add(selectItem); 
+		}
+	}
+	
+	
+	public List<SelectItem> getSelectDicomModalityItems() {
+		return selectDicomModalityItems;
+	}
+
 	public List<SelectItem> getSelectInstruccionesItems(){
 		
 		return this.selectInstruccionesItems; 
