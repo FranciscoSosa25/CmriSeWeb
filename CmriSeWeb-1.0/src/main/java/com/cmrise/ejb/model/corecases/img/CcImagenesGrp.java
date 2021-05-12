@@ -17,6 +17,8 @@ public class CcImagenesGrp implements Serializable {
 	private String tituloInferior; 
 	private String texto; 
 	private String seccion; 
+	private String modality;
+	private boolean isCcHDR;
 	
 	private List<CcImagenes> listCcImagenes; 
 	
@@ -108,9 +110,23 @@ public class CcImagenesGrp implements Serializable {
 		this.listCcImagenes = listCcImagenes;
 	}
 
+	public String getModality() {
+		return modality;
+	}
 
+	public void setModality(String modality) {
+		this.modality = modality;
+	}
 
+	public boolean isCcHDR() {
+		return isCcHDR;
+	}
 
+	public void setCcHDR(boolean isCcHDR) {
+		this.isCcHDR = isCcHDR;
+	}
+	
+	
 
 }
 

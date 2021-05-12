@@ -55,5 +55,46 @@ public class CcImagenesDaoImpl implements CcImagenesDao {
 		Query query = em.createQuery(strQuery); 
 		return query.getResultList();
 	}
+	
+	
+	@Override
+	public boolean deleteByGroupId(long numero, long groupId) {
+		StringBuilder query =new StringBuilder();
+		query.append("DELETE FROM CcImagenesDto m WHERE m.numeroGrp=")
+		.append(groupId)
+		.append(" AND m.numero=")
+		.append(numero);
+		
+		CcImagenesDto ob=new CcImagenesDto();
+	
+		ob.setNumeroGrp(groupId);
+		ob.setNumero(numero);
+		try {
+			em.find(CcImagenesDto.class, numero);
+			em.remove(em.contains(ob) ? ob : em.merge(ob));
+			em.flush();
+			return true;
+		}catch(Exception e) {
+			return false;
+		}
+		
+	}
+	
+	
+	@Override
+	public boolean delete(long numero) {
+		
+		CcImagenesDto ob=new CcImagenesDto();
+	
+		ob.setNumero(numero);
+		try {
+			em.remove(em.contains(ob) ? ob : em.merge(ob));
+			em.flush();
+			return true;
+		}catch(Exception e) {
+			return false;
+		}
+		
+	}
 
 }
