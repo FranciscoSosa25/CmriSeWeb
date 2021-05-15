@@ -269,7 +269,7 @@ System.out.println("Entra deletePregunta");
 	 public void deleteCCImageGroup(CcImagenesGrp ccImageGroup) {
 		 FacesContext context = FacesContext.getCurrentInstance();
 		 try {			
-			 if(this.ccImagenesGrpLocal.deleteGroup(this.numeroCcHdr, ccImageGroup)) {
+			 if(this.ccImagenesGrpLocal.deleteGroup(ccImageGroup)) {
 				 context.addMessage(null, new FacesMessage("Deleted successfully", "Actualizacion correcta"));
 				 listPresentCcImagenesGrp = ccImagenesGrpLocal.findByCcHDR(this.numeroCcHdr, Utilitarios.INTRODUCCION);
 			 }else {

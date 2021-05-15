@@ -25,5 +25,5 @@ public interface CcImagenesGrpLocal {
             );
 	
 	public void deleteByCcHrd(long pNumetoCcHRD, String pSeccion);
-	public boolean deleteGroup(long pNumetoFta , CcImagenesGrp pCcImagenesGrp);
+	public boolean deleteGroup(CcImagenesGrp pCcImagenesGrp);
 }

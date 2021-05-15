@@ -152,6 +152,7 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 			ccImagenesGrp.setTituloSuperior(i.getTituloSuperior());
 			ccImagenesGrp.setTituloInferior(i.getTituloInferior());
 			ccImagenesGrp.setTexto(i.getTexto());
+			ccImagenesGrp.setModality(i.getModality());
 			
 			List<CcImagenes> listCcImagenes = new ArrayList<CcImagenes>(); 
 			List<CcImagenesDto> listCcImagenesDto = ccImagenesDao.findByGrp(i.getNumero()); 
@@ -275,12 +276,12 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 	public void deleteByCcHrd(long pNumetoCcHRD, String pSeccion) {
 		List<CcImagenesGrp> ccImagenesGrps = findByCcHDR(pNumetoCcHRD, pSeccion);
 		for(CcImagenesGrp ccImagenesGrp: ccImagenesGrps) {
-			deleteGroup(pNumetoCcHRD, ccImagenesGrp);
+		//	deleteGroup(pNumetoCcHRD, ccImagenesGrp);
 		}		
 	}
 	
 	@Override
-	public boolean deleteGroup(long pNumetoFta , CcImagenesGrp pCcImagenesGrp) {
+	public boolean deleteGroup(CcImagenesGrp pCcImagenesGrp) {
 		List<CcImagenesDto> listCcImagenesDto = ccImagenesDao.findByGrp(pCcImagenesGrp.getNumero()); 
 		
 		boolean isSuccess = false;
