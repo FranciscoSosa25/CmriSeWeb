@@ -1,6 +1,6 @@
 ##-----------------------------------------------------------------------------------------------------
 ## Kishan wappnet : 11:26 AM 5/15/2021
-wappnet_release branch setup to view .com file
+wappnet_release branch setup to view .dcm file
 
 Download dcm4che-5.15.1-bin.zip from below link
 https://master.dl.sourceforge.net/project/dcm4che/dcm4che3/5.15.1/dcm4che-5.15.1-bin.zip?viasf=1 
