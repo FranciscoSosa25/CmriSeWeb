@@ -57,6 +57,8 @@ public class UpdateCoreCaseForm {
 
 	private UploadedFiles presentationFiles;
 	private CcImagenesGrp presentCcImagenesGrp = new CcImagenesGrp();
+	private CcImagenesGrp editPresentCcImagenesGrp = new CcImagenesGrp();
+	
 	private List<CcImagenesGrp> listPresentCcImagenesGrp = new ArrayList<CcImagenesGrp>();
 	private long numeroFta;
 	
@@ -115,7 +117,7 @@ public class UpdateCoreCaseForm {
 	ccHdrV1 = ccHdrLocal.findByNumeroObjMod(this.numeroCcHdr);
 	
 	listPresentCcImagenesGrp = ccImagenesGrpLocal.findByCcHDR(this.numeroCcHdr, Utilitarios.INTRODUCCION);
-
+	
 
 	listCcPreguntasHdrV1 = ccHdrV1.getListCcPreguntasHdrV1();
 	examenesHdr = admonExamenHdrLocal.findByTipo(Utilitarios.CORE_CASES); 
@@ -282,6 +284,21 @@ System.out.println("Entra deletePregunta");
 		 
 	 }
 	 
+	 public void onEditCCImageGroup(CcImagenesGrp ccImageGroup) {
+		this.editPresentCcImagenesGrp = ccImageGroup;
+		 
+	 }
+	 
+	 public void deleteImageFromGroup(CcImagenesGrp ccImageGroup, CcImagenes imagenes) {
+		 
+		this.editPresentCcImagenesGrp.getListCcImagenes().remove(imagenes);
+		 ccImagenesGrpLocal.deleteGroupImage(ccImageGroup, imagenes);
+		  FacesContext context = FacesContext.getCurrentInstance();
+	      context.addMessage(null, new FacesMessage("Dicom image deleted successfully.", "Actualizacion correcta"));
+		  System.out.println("Sale Actualizar");
+		 refreshEntity();
+	 }
+	 
 	 public void uploadMultiple() {
 		 System.out.println("Entra uploadMultiple");
 			if (this.presentationFiles != null) {
@@ -324,6 +341,39 @@ System.out.println("Entra deletePregunta");
 			  listPresentCcImagenesGrp = ccImagenesGrpLocal.findByCcHDR(this.numeroCcHdr, Utilitarios.INTRODUCCION);
 			  FacesContext context = FacesContext.getCurrentInstance();
 		      context.addMessage(null, new FacesMessage("Se actualizaron los datos correctamente", "Actualizacion correcta"));
+			  System.out.println("Sale Actualizar");
+			
+	  
+		 
+	 }
+	 
+	 public void uploadMultiple(CcImagenesGrp pCcImagenesGrp) {
+		 pCcImagenesGrp = this.editPresentCcImagenesGrp;
+		 pCcImagenesGrp.getListCcImagenes().clear();
+		 System.out.println("Entra uploadMultiple");
+			if (this.presentationFiles != null) {
+				if (this.presentationFiles.getSize() > 0) {
+					List<CcImagenes> lListCcPresentaciones = new ArrayList<CcImagenes>();
+					for (UploadedFile f : this.presentationFiles.getFiles()) {
+						byte[] byteContent = f.getContent();
+
+						System.out.println(f.getFileName());
+						CcImagenes presentacionImagen = new CcImagenes();
+
+						presentacionImagen.setNombreImagen(f.getFileName());
+						presentacionImagen.setImagenContent(byteContent);
+						lListCcPresentaciones.add(presentacionImagen);
+					}
+
+					pCcImagenesGrp.setListCcImagenes(lListCcPresentaciones);
+					
+				}
+			}
+			
+			  ccImagenesGrpLocal.update(ccHdrV1.getNumero(), pCcImagenesGrp);
+			  refreshEntity();
+			  FacesContext context = FacesContext.getCurrentInstance();
+		      context.addMessage(null, new FacesMessage("Update DICOM image group successfully.", "Actualizacion correcta"));
 			  System.out.println("Sale Actualizar");
 			
 	  
@@ -496,6 +546,16 @@ public long getNumeroFta() {
 
 public void setNumeroFta(long numeroFta) {
 	this.numeroFta = numeroFta;
+}
+
+
+public CcImagenesGrp getEditPresentCcImagenesGrp() {
+	return editPresentCcImagenesGrp;
+}
+
+
+public void setEditPresentCcImagenesGrp(CcImagenesGrp editPresentCcImagenesGrp) {
+	this.editPresentCcImagenesGrp = editPresentCcImagenesGrp;
 }
 
 

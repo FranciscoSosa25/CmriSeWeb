@@ -55,6 +55,75 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 	public long insert(CcImagenesGrpDto pCcImagenesGrpDto) {
 		return ccImagenesGrpDao.insert(pCcImagenesGrpDto);
 	}
+	
+	@Override
+	public void update(long pNumetoFta,  CcImagenesGrp pCcImagenesGrp) {
+		CcImagenesGrpDto ccImagenesGrpDto = new CcImagenesGrpDto();
+		ccImagenesGrpDto.setNumero(pCcImagenesGrp.getNumero());
+		ccImagenesGrpDto.setTituloSuperior(pCcImagenesGrp.getTituloSuperior());
+	
+		ccImagenesGrpDto.setModality(pCcImagenesGrp.getModality());
+		ccImagenesGrpDao.update(ccImagenesGrpDto);
+		long numeroImagenesGrp = pCcImagenesGrp.getNumero();
+		for(CcImagenes ccImagenes:pCcImagenesGrp.getListCcImagenes()) {
+			ccImagenes.setRutaImagen(Utilitarios.FS_CORE_CASES+File.separator+pNumetoFta+File.separator+numeroImagenesGrp);
+			System.out.println("V1 mrqsImagenes.getRutaImagen():"+ccImagenes.getRutaImagen());
+			ccImagenesDao.insert(numeroImagenesGrp,ccImagenes); 
+			System.out.println("V2 mrqsImagenes.getRutaImagen():"+ccImagenes.getRutaImagen());
+			System.out.println("*");
+			System.out.println("Utilitarios.FS_ROOT+ccImagenes.getRutaImagen():"+Utilitarios.FS_ROOT+ccImagenes.getRutaImagen());
+			File directory =new File(Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()); 
+			directory.mkdirs(); 
+			System.out.println("Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+\"\\\\\"+ccImagenes.getNombreImagen():"+Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen());
+			String strRutaImgDcm = Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen();
+			File destination = new File(strRutaImgDcm); 
+		    System.out.println("**");
+		    System.out.println("mrqsImagenes.getImagenContent():"+ccImagenes.getImagenContent());
+
+		    try {
+				copy(ccImagenes.getImagenContent(),destination);
+			} catch (IOException ie) {
+			   System.out.println("IOException MrqsImagenesGrpLocalImpl.insert "+ie.getMessage());
+			} 	
+		    /****************************************************************************************
+		     **************************************************************************************** FINALIZA DCM 
+		     */
+		    
+		    String strRutaImgJpg =Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen().replace(".dcm", ".jpg");
+		    
+		    InputStream inputStream;
+			try {
+				inputStream = new FileInputStream(Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen());
+				setOutputStream(inputStream);
+				//Validate the file
+				String xml = dicomAttributeReaderService.readAttributes(getInputStream());
+				if(null!=xml) {
+					System.out.println("xml.length():"+xml.length());
+				}else {
+					System.out.println("xml:"+xml);
+				}
+				//Get the dicom attributes
+				DicomProperties properties = dicomAttributeReaderService.translateData(dicomAttributeReaderService.translateData(xml));
+				
+				//Read the image
+				BufferedImage image = dicomImageReaderService.generateBufferedImage(getInputStream());
+				System.out.println("image:"+image);
+				File jpegFile = saveJpegFile(image, properties,strRutaImgJpg);
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+	}
 
 	@Override
 	public void insert(long pNumetoFta, CcImagenesGrp pCcImagenesGrp) {
@@ -304,7 +373,27 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 		return isSuccess;
 	}
 
+	@Override
+	public boolean deleteGroupImage(CcImagenesGrp pCcImagenesGrp, CcImagenes imagenes) {
+		CcImagenesDto ccImagenesDto = ccImagenesDao.findById(imagenes.getNumero());
+		// TODO Auto-generated method stub
+		return removeFileFromFSandUpdateDB(ccImagenesDto);
+	}
 
+	private boolean removeFileFromFSandUpdateDB(CcImagenesDto ccImagenes) {
+		boolean isSuccess = false;
+		List<String> removeFileList = new ArrayList<>();
+		removeFileList.add(Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen());
+		removeFileList.add(Utilitarios.FS_ROOT + ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX));
+		removeFileList.add(Utilitarios.FS_ROOT + ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX));
+		isSuccess = ccImagenesDao.deleteByGroupId(ccImagenes.getNumero(), ccImagenes.getNumeroGrp());
+		for(String filePath: removeFileList) {
+			File destination = new File(filePath);
+			LOGGER.debug("File deleted "+filePath + " " +destination.delete());
+		}
+		
+		return isSuccess;
+	}
 	
 	
 }

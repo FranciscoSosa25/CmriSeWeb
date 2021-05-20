@@ -35,18 +35,11 @@ public class CcImagenesGrpDaoImpl implements CcImagenesGrpDao {
 		return lNumeroS.longValue();
 	}
 	
-	public long update(CcImagenesGrpDto pCcImagenesGrpDto) {
-		Query q = em.createNativeQuery("SELECT NEXT VALUE FOR dbo.CC_IMAGENES_GRP_S");
-		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
-		pCcImagenesGrpDto.setNumero(lNumeroS.longValue());
-		java.util.Date sysdate = new java.util.Date();
-		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
-		pCcImagenesGrpDto.setCreadoPor((long)-1);
-		pCcImagenesGrpDto.setActualizadoPor((long)-1);
-		pCcImagenesGrpDto.setFechaCreacion(sqlsysdate);
-		pCcImagenesGrpDto.setFechaActualizacion(sqlsysdate);
-		em.persist(pCcImagenesGrpDto);
-		return lNumeroS.longValue();
+	@Override
+	public void update(CcImagenesGrpDto pCcImagenesGrpDto) {
+		CcImagenesGrpDto ccImagenesGrpDto = em.find(CcImagenesGrpDto.class, pCcImagenesGrpDto.getNumero());
+		ccImagenesGrpDto.setModality(pCcImagenesGrpDto.getModality());
+		ccImagenesGrpDto.setTituloSuperior(pCcImagenesGrpDto.getTituloSuperior());
 	}
 	
 	public long delete(CcImagenesGrpDto pCcImagenesGrpDto) {

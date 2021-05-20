@@ -142,8 +142,12 @@
 		<p:accordionPanel styleClass="ui-accordion" activeIndex="null">
 			<p:tab title="DICOM Series">
 			    <p:dataTable var="imagenesGrupo" value="#{updateCoreCaseForm.listPresentCcImagenesGrp}">
+			    
+			    
+			      
+			    
 		          <p:column headerText="Serie Title" style="width:60%; text-align: left;">
-		            	<div class="ui-g-12" >
+		            	<div class="ui-g-12" >		            	 	
 							<h:outputText value="#{imagenesGrupo.tituloSuperior}" />
 						</div>
 						 <p:scrollPanel style="width:100%; height:100px">
@@ -152,7 +156,7 @@
 								value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
 								<h:graphicImage
 									value="data:image/jpg;base64,#{imagenes.thumbailBase64}"
-									style="max-width: 300px; max-height: 300px; padding: 2px;" />
+									style="max-width: 250px; max-height: 300px; padding: 2px;" />
 							</ui:repeat>
 						
 						</p:scrollPanel>
@@ -164,41 +168,13 @@
 		                <h:outputText value="#{imagenesGrupo.listCcImagenes.size()}" />
 		            </p:column>
 		            <p:column headerText="Action"  style="width:15%; text-align:center">
-			            <p:commandButton icon="fa fa-edit" style="margin-left: 10px;BackGround:#2D0D86" action="#{manageMrqsForm.update(preguntasHdrV1)}" title="Editar"/>
-						<p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86" ajax="false" actionListener="#{updateCoreCaseForm.deleteCCImageGroup(imagenesGrupo)}" title="Eliminar"/>
-						
-						
-						<p:dialog id="eliminar-dicom-dialog" widgetVar="eliminarDicomDlg" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" header="Eliminar pregunta">
-			
-			                <div class="ui-g ui-fluid">
-			                    <div class="ui-g-12 ui-lg-12">
-			                        <h:panelGroup >
-			                            <p:outputLabel value="La Pregunta #{pregunta.numero} se eliminará de forma permanente. Considere que esta acción no se puede deshacer." />
-			                        </h:panelGroup>
-			                        <h:panelGroup >
-			                            <p:outputLabel value="¿Desea continuar?" />
-			                        </h:panelGroup>
-			                    </div>
-			                </div>
-			
-			                <div class="ui-g" >
-			                    <div class="ui-g-12 ui-lg-12" style="text-align: right;">
-			                        <p:commandButton value="Cancelar"
-			                                       ajax="true"
-			                                       immediate="true"
-			                                       onclick="PF('eliminarDicomDlg').hide();"/>
-			                        <p:commandButton value="Eliminar"
-			                                         ajax="false"
-			                                         update="updateForm"
-			                                         actionListener="#{updateCoreCaseForm.deleteCCImageGroup(imagenesGrupo)}"
-			                                         onstart="PF('eliminarDicomDlg').hide();"
-			                                         style="margin-left: 10px;"/>
-			                    </div>
-			                </div>
-			
-			            </p:dialog>
-            
-						
+			              <p:commandButton icon="fa fa-edit" style="margin-left: 10px; background: #2D0D86;"
+			                          oncomplete="PF('editPresentationDialogWV').show();"
+			                        	  ajax="true"
+			                          update=":presentationForm1:editImagenes :presentationForm1:editTituloSuperior :presentationForm1:editDcmModality"
+			                          actionListener="#{updateCoreCaseForm.onEditCCImageGroup(imagenesGrupo)}"
+			                          />
+			            <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86" ajax="false" actionListener="#{updateCoreCaseForm.deleteCCImageGroup(imagenesGrupo)}" title="Eliminar"/>
 						
 		            </p:column>
 		        </p:dataTable>
@@ -308,7 +284,13 @@
  <div class="ui-g-12 ui-md-6 ui-lg-2">
   <p:commandButton value="Regresar" icon="fa fa-backward" action="Preguntas-Manage-CoreCases" immediate="true" style="background: #2D0D86;"/>
  </div>
-</div>   
+</div> 
+
+
+
+
+
+  
 	
 
 </p:panel>
@@ -377,9 +359,70 @@
 				</h:form>
 </p:dialog>
 
-
-
-
+<p:dialog id="editPresentationDialogId" widgetVar="editPresentationDialogWV"
+				modal="true" closable="true" closeOnEscape="true" draggable="false"
+				resizable="false" width="1000" header="Editar imagenes">
+				<h:form id="presentationForm1" enctype="multipart/form-data">
+					<p:outputPanel rendered="#{not empty updateCoreCaseForm.editPresentCcImagenesGrp}"> 
+					<p:growl id="messages" showDetail="true" />
+					<div class="ui-g">
+						<div class="ui-g-12">
+							<p:outputLabel value="Título Superior" />
+						</div>
+						<div class="ui-g-12">
+							<p:inputText style="width:60%" id="editTituloSuperior"
+								value="#{updateCoreCaseForm.editPresentCcImagenesGrp.tituloSuperior}" />
+						</div>
+					<div class="ui-g-12">
+							<div class="ui-g-6" style="text-align: left;" >	
+							<p:fileUpload id="editPresentatioFilesID"
+								value="#{updateCoreCaseForm.presentationFiles}"
+								label="Seleccionar" mode="simple" multiple="true"
+								allowTypes="/(\.|\/)(dcm|DCM)$/" update="presentationForm1"
+								/>
+							</div>
+							 <div class="ui-g-5" >	
+						        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+						         <p:outputLabel for="editDcmModality" value="Modality" />
+						        </div>
+						         <div class="ui-g-12 ui-md-9">
+						          <p:selectOneMenu id="editDcmModality" value="#{updateCoreCaseForm.editPresentCcImagenesGrp.modality}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+						          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+						          <f:selectItems value="#{selectsHelper.selectDicomModalityItems}" />
+						         </p:selectOneMenu>
+						         <p:message for="editDcmModality"/> 
+						         </div>
+		            	  </div>    			
+					</div>
+					<div class="ui-g-12" >
+					 <p:scrollPanel style="width:100%; height:130px"  id="editImagenes">
+							<ui:repeat var="imagenes"
+								value="#{updateCoreCaseForm.editPresentCcImagenesGrp.listCcImagenes}" varStatus="status">
+								<h:graphicImage
+									value="data:image/jpg;base64,#{imagenes.thumbailBase64}"
+									style="max-width: 300px; max-height: 300px; padding: 2px;" />
+								<p:commandButton icon="fa fa-trash" 
+								action="#{updateCoreCaseForm.deleteImageFromGroup(editPresentCcImagenesGrp,imagenes)}"
+								update="presentationForm1" ajax="false"
+								style="BackGround:#2D0D86"  title="Eliminar"/>
+							</ui:repeat>
+						</p:scrollPanel>
+					</div>
+					<div class="ui-g-6">
+						<p:commandButton value="Procesar"
+							action="#{updateCoreCaseForm.uploadMultiple(editPresentCcImagenesGrp)}"
+							update="presentationForm1" ajax="false"
+							style="background: #2d0d86;" />
+					</div>
+					<div class="ui-g-6">
+						<p:commandButton value="Cancelar"
+							onclick="PF('editPresentationDialogWV').hide();"
+							style="background: #2d0d86;" />
+					</div>
+					</div>
+					</p:outputPanel>
+				</h:form>
+</p:dialog>
 
 </ui:define>
 </ui:composition>
