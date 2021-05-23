@@ -24,7 +24,7 @@ import org.primefaces.model.file.UploadedFile;
 
 import com.cmrise.ejb.helpers.UserLogin;
 import com.cmrise.ejb.model.admin.AdmonUsuariosRolesV1;
-import com.cmrise.ejb.model.candidates.exams.CandExamenesV1;
+import com.cmrise.ejb.model.candidates.exams.CandExamenesV2;
 import com.cmrise.ejb.services.admin.AdmonUsuariosLocal;
 import com.cmrise.ejb.services.admin.AdmonUsuariosRolesLocal;
 import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;
@@ -78,12 +78,14 @@ public class AssignMrqsCandidatesForm {
 	private String findaPaternoNE;
 	private String findActPorNE;
 	private String findFechaActNE;
-	
+	private boolean createIn;
+	private String tipoExamenAsig;
+	private String pantallaVolver;
 	private List<AdmonUsuariosRolesV1> listAdmonUsuariosRolesV1 = new ArrayList<AdmonUsuariosRolesV1>();
 	private List<AdmonUsuariosRolesV1> selectedsAdmonUsuariosRolesV1 = new ArrayList<AdmonUsuariosRolesV1>(); 
-    private List<CandExamenesV1> listCandExamenesV1 = new ArrayList<CandExamenesV1>(); 
-    private List<CandExamenesV1> selectedCandExamenesV2 = new ArrayList<CandExamenesV1>();     
-	private CandExamenesV1 candExamenesV1ForAction = new CandExamenesV1(); 
+    private List<CandExamenesV2> listCandExamenesV2 = new ArrayList<CandExamenesV2>(); 
+    private List<CandExamenesV2> selectedCandExamenesV2 = new ArrayList<CandExamenesV2>();     
+	private CandExamenesV2 candExamenesV2ForAction = new CandExamenesV2(); 
     
 	@Inject 
 	UtilitariosLocal utilitariosLocal; 
@@ -107,20 +109,24 @@ public class AssignMrqsCandidatesForm {
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		Object objNumeroMrqsExamen = session.getAttribute("NumeroMrqsExamenSV");
 		this.numeroMrqsExamen = utilitariosLocal.objToLong(objNumeroMrqsExamen); 
+		Object objTipoExamenAsig = session.getAttribute("tipoExamen");
+		setTipoExamenAsig(objTipoExamenAsig.toString().trim());
+		Object objNombrePantalla = session.getAttribute("nombrePantalla");
+		setPantallaVolver(objNombrePantalla.toString().trim());
+		
 		refreshEntity(); 
 	    System.out.println("Finaliza AssignMrqsCandidatesForm init()");
 	 }
 	 
 	private void refreshEntity() {
-		listCandExamenesV1 = candExamenesLocal.findByExamen(this.getNumeroMrqsExamen(), Utilitarios.MRQS ); 
-		listAdmonUsuariosRolesV1 = admonUsuariosRolesLocal.findWithFilterExam(this.getNumeroMrqsExamen(), Utilitarios.MRQS ); 		
+		listCandExamenesV2 = candExamenesLocal.findByExamen(this.getNumeroMrqsExamen(), getTipoExamenAsig() ); 
+		listAdmonUsuariosRolesV1 = admonUsuariosRolesLocal.findWithFilterExam(this.getNumeroMrqsExamen(), getTipoExamenAsig() ); 		
 	}
 	
 	public String cancel() {
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-		session.setAttribute("NumeroMrqsExamenSV",this.getNumeroMrqsExamen());
-		return "Exams-MRQs-Update"; 
+		return pantallaVolver; 
 	}
 	
 	public String addMRQsCandidates() {
@@ -128,7 +134,8 @@ public class AssignMrqsCandidatesForm {
 			CandExamenesDto candExamenesDto = new CandExamenesDto(); 
 			candExamenesDto.setNumeroUsuario(admonUsuariosRolesV1.getNumeroUsuario());
 			candExamenesDto.setNumeroExamen(this.getNumeroMrqsExamen());
-			candExamenesDto.setTipo(Utilitarios.MRQS);
+			candExamenesDto.setTipo(getTipoExamenAsig());
+			candExamenesDto.setActualizadoPor(userLogin.getNumeroUsuario());
 			candExamenesDto.setEstatus(Utilitarios.EE_ASIGNADO);
 			candExamenesLocal.insert(candExamenesDto); 
 		}
@@ -139,8 +146,8 @@ public class AssignMrqsCandidatesForm {
 	}
 	
 	public String deleteMRQsCandidates() {
-		for(CandExamenesV1 candExamenesV1:selectedCandExamenesV2) {
-			candExamenesLocal.delete(candExamenesV1.getNumero()); 
+		for(CandExamenesV2 candExamenesV2:selectedCandExamenesV2) {
+			candExamenesLocal.delete(candExamenesV2.getNumero()); 
 			refreshEntity();
 		}
 		FacesContext context = FacesContext.getCurrentInstance(); 
@@ -264,21 +271,22 @@ public class AssignMrqsCandidatesForm {
 		this.findFechaActNE = findFechaActNE;
 	}
 	public long getNumeroMrqsExamen() {
+		System.out.println("numero examen" + numeroMrqsExamen);
 		return numeroMrqsExamen;
 	}
 	public void setNumeroMrqsExamen(long numeroMrqsExamen) {
 		this.numeroMrqsExamen = numeroMrqsExamen;
 	}
-	public List<CandExamenesV1> getListCandExamenesV1() {
-		return listCandExamenesV1;
+	public List<CandExamenesV2> getListCandExamenesV2() {
+		return listCandExamenesV2;
 	}
-	public void setListCandExamenesV1(List<CandExamenesV1> listCandExamenesV1) {
-		this.listCandExamenesV1 = listCandExamenesV1;
+	public void setListCandExamenesV2(List<CandExamenesV2> listCandExamenesV2) {
+		this.listCandExamenesV2 = listCandExamenesV2;
 	}
-	public List<CandExamenesV1> getSelectedCandExamenesV2() {
+	public List<CandExamenesV2> getSelectedCandExamenesV2() {
 		return selectedCandExamenesV2;
 	}
-	public void setSelectedCandExamenesV2(List<CandExamenesV1> selectedCandExamenesV2) {
+	public void setSelectedCandExamenesV2(List<CandExamenesV2> selectedCandExamenesV2) {
 		this.selectedCandExamenesV2 = selectedCandExamenesV2;
 	}
 	public List<AdmonUsuariosRolesV1> getSelectedsAdmonUsuariosRolesV1() {
@@ -287,11 +295,11 @@ public class AssignMrqsCandidatesForm {
 	public void setSelectedsAdmonUsuariosRolesV1(List<AdmonUsuariosRolesV1> selectedsAdmonUsuariosRolesV1) {
 		this.selectedsAdmonUsuariosRolesV1 = selectedsAdmonUsuariosRolesV1;
 	}
-	public CandExamenesV1 getCandExamenesV1ForAction() {
-		return candExamenesV1ForAction;
+	public CandExamenesV2 getCandExamenesV2ForAction() {
+		return candExamenesV2ForAction;
 	}
-	public void setCandExamenesV1ForAction(CandExamenesV1 candExamenesV1ForAction) {
-		this.candExamenesV1ForAction = candExamenesV1ForAction;
+	public void setCandExamenesV2ForAction(CandExamenesV2 candExamenesV2ForAction) {
+		this.candExamenesV2ForAction = candExamenesV2ForAction;
 	}
 	public List<AdmonUsuariosRolesV1> getListAdmonUsuariosRolesV1() {
 		return listAdmonUsuariosRolesV1;
@@ -336,12 +344,12 @@ public class AssignMrqsCandidatesForm {
 		this.findFechaAct = findFechaAct;
 	}
 
-	public void selectForAction(CandExamenesV1 pCandExamenesV1) {
-		candExamenesV1ForAction.setNumero(pCandExamenesV1.getNumero());
+	public void selectForAction(CandExamenesV2 pCandExamenesV2) {
+		candExamenesV2ForAction.setNumero(pCandExamenesV2.getNumero());
 	}
 	
 	public void delete() {
-		candExamenesLocal.delete(candExamenesV1ForAction.getNumero());
+		candExamenesLocal.delete(candExamenesV2ForAction.getNumero());
 		refreshEntity(); 
 	}
 	
@@ -361,7 +369,7 @@ public class AssignMrqsCandidatesForm {
 			ErroresCaptura += "Correo invalido. " + '\n';
 		
 		if(ErroresCaptura=="" || ErroresCaptura==null)
-	    	insertOnetoOneCandidate(getCurp(), getNombre(), getApellidoPaterno(), getApellidoMaterno(), getCorreoElectronico(), getContrasenia(), getEstado(), getSedeHospital(), fechaEfectivaDesde, fechaEfectivaHasta, getNumeroRol(), 0);
+			createIn = insertOnetoOneCandidate(getCurp(), getNombre(), getApellidoPaterno(), getApellidoMaterno(), getCorreoElectronico(), getContrasenia(), getEstado(), getSedeHospital(), fechaEfectivaDesde, fechaEfectivaHasta, getNumeroRol(), 0);
 	    
 	    if(ErroresCaptura!= ""){
 			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Errores en el archivo: " + '\n', ErroresCaptura );
@@ -371,6 +379,9 @@ public class AssignMrqsCandidatesForm {
 	        FacesMessage msg = new FacesMessage(" El candidato", " registrado y asignado correctamente");
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
+
+		PrimeFaces.current().ajax().addCallbackParam("createIn", createIn);
+		refreshEntity();
 	}
 	
 	public void handleFileUpload(FileUploadEvent event) throws IOException, ParseException {
@@ -467,7 +478,7 @@ public class AssignMrqsCandidatesForm {
 											String estado, String sedeH, java.sql.Date fechaEfDesde, java.sql.Date fechaEfHasta, long nRol, int linea){
 					
 		 AdmonUsuariosDto admonUsuariosDto = new AdmonUsuariosDto();
-		 boolean createIn = false; 
+		 createIn = false; 
 		 
 		 try{
 			 
@@ -500,6 +511,7 @@ public class AssignMrqsCandidatesForm {
 				admonRolesDto.setNumero(nRol);
 				admonUsuariosRolesDto.setAdmonUsuario(admonUsuariosV2Dto);
 				admonUsuariosRolesDto.setAdmonRole(admonRolesDto);
+				admonUsuariosRolesDto.setEstatus(true);
 				admonUsuariosRolesDto.setFechaEfectivaDesde(utilitariosLocal.toSqlDate(fechaEfDesde));
 				if(fechaEfHasta!=null) 
 					admonUsuariosRolesDto.setFechaEfectivaHasta(utilitariosLocal.toSqlDate(fechaEfHasta));	
@@ -511,14 +523,12 @@ public class AssignMrqsCandidatesForm {
 				CandExamenesDto candExamenesDto = new CandExamenesDto(); 
 				candExamenesDto.setNumeroUsuario(admonUsuariosV2Dto.getNumero());
 				candExamenesDto.setNumeroExamen(this.getNumeroMrqsExamen());
-				candExamenesDto.setTipo(Utilitarios.MRQS);
+				candExamenesDto.setTipo(getTipoExamenAsig());
 				candExamenesDto.setEstatus(Utilitarios.EE_ASIGNADO);
 				candExamenesLocal.insert(candExamenesDto); 
 				
 				/***********************************************************************/
 				createIn = true; 
-				refreshEntity();
-				PrimeFaces.current().ajax().addCallbackParam("createIn", createIn);
 				return createIn;
 				
 		} catch (Exception  ex) {
@@ -561,13 +571,13 @@ public class AssignMrqsCandidatesForm {
 	}
 	
 	public void findCandidateByExam() {
-		listCandExamenesV1 = candExamenesLocal.findCandidateByExam(this.findCurp, this.findNombreUsuario, this.findaPaterno, 
-				this.findaMaterno, this.findActPor, this.findFechaAct, this.getNumeroMrqsExamen(), Utilitarios.MRQS ); 		
+		listCandExamenesV2 = candExamenesLocal.findCandidateByExam(this.findCurp, this.findNombreUsuario, this.findaPaterno, 
+				this.findaMaterno, this.findActPor, this.findFechaAct, this.getNumeroMrqsExamen(), getTipoExamenAsig() ); 		
 	}
 	
 	public void findCandidateNotExam() {		
 		listAdmonUsuariosRolesV1 = admonUsuariosRolesLocal.findCandidateNotExam(this.findCurpNE, this.findNombreUsuarioNE, this.findaPaternoNE, 
-				this.findaMaternoNE, this.findActPorNE, this.findFechaActNE,this.getNumeroMrqsExamen(), Utilitarios.MRQS ); 		
+				this.findaMaternoNE, this.findActPorNE, this.findFechaActNE,this.getNumeroMrqsExamen(), getTipoExamenAsig() ); 		
 	}
 	
 	public void clearFormCE(){
@@ -599,6 +609,23 @@ public class AssignMrqsCandidatesForm {
         	result = true;
         
         return result;
+	}
+
+	public String getTipoExamenAsig() {
+		System.out.println("Tipo examen" + tipoExamenAsig);
+		return tipoExamenAsig;
+	}
+
+	public void setTipoExamenAsig(String tipoExamenAsig) {
+		this.tipoExamenAsig = tipoExamenAsig;
+	}
+
+	public String getPantallaVolver() {
+		return pantallaVolver;
+	}
+
+	public void setPantallaVolver(String pantallaVolver) {
+		this.pantallaVolver = pantallaVolver;
 	}
 
 }

@@ -41,13 +41,15 @@ private void refreshEntity() {
     	CcExamenes ccExamenes = new CcExamenes();
     	System.out.println("ccExamenesDto.getNumero():"+ccExamenesV1Dto.getNumero());
     	ccExamenes.setNumero(ccExamenesV1Dto.getNumero());
-    	ccExamenes.setTitulo(ccExamenesV1Dto.getTitulo());
-    	ccExamenes.setTipoPreguntaDesc(ccExamenesV1Dto.getTipoPreguntaDesc());
     	ccExamenes.setTipoExamenDesc(ccExamenesV1Dto.getTipoExamenDesc());
+    	ccExamenes.setTipoExamen(ccExamenesV1Dto.getTipoExamen());
     	ccExamenes.setVisibilidad(ccExamenesV1Dto.getVisibilidad());
     	ccExamenes.setVisibilidadDesc(ccExamenesV1Dto.getVisibilidadDesc());
     	ccExamenes.setEstatus(ccExamenesV1Dto.getEstatus());
     	ccExamenes.setEstatusDesc(ccExamenesV1Dto.getEstatusDesc());
+    	ccExamenes.setCreadoPorNombre(ccExamenesV1Dto.getCreadoPorNombre());
+    	ccExamenes.setFechaCreacion(ccExamenesV1Dto.getFechaCreacion());
+    	ccExamenes.setFechaCreacionString();
     	listCcExamenes.add(ccExamenes); 
     }
 } 
