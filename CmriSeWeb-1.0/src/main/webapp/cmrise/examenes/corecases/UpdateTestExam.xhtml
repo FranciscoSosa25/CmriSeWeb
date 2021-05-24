@@ -19,8 +19,21 @@
 <p:panel id="NuevoExamenCasoClinico"  header="ACTUALIZAR EXAMEN CASO CLINICO" style="margin-bottom:20px">
 <div class="card">
 <h:form id="updateForm">
-  <p:growl id="growl" showDetail="true"/>
+  <p:growl id="growl" showDetail="true" life="1000" widgetVar="growlWV"/>
   <div class="ui-g">
+  	<div class="ui-g-12 ui-md-12" >
+      <div class="ui-g-12 ui-md-3" style="text-align:right;">
+  	    <p:outputLabel for="estatusExamen" value="Estatus Examen"/>
+  	  </div>
+  	  <div class="ui-g-12 ui-md-9">
+        <p:selectOneMenu id="estatusExamen" value="#{updateTestExamForm.estatus}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+          <f:selectItems value="#{selectsHelper.selectEstatusExamenItems}" />
+        </p:selectOneMenu>
+        <p:message for="estatusExamen"/>
+      </div>
+    </div>
+    
+  
     <div class="ui-g-12 ui-md-12" >
   	  <div class="ui-g-12 ui-md-3" style="text-align:right;"> 
   	    <p:outputLabel for="idTipoExamen" value="Tipo de Examen" />
@@ -43,7 +56,6 @@
 	    <p:message  for="description"/> 
 	  </div>
   	</div>
-  	
   	<div class="ui-g-12 ui-md-12" >
       <div class="ui-g-12 ui-md-3" style="text-align:right;">
   	    <p:outputLabel for="visibility" value="Visibilidad" />
@@ -56,17 +68,24 @@
         <p:message  for="visibility"/>
       </div>
     </div>
-    
-    <div class="ui-g-12 ui-md-12" >
-      <div class="ui-g-12 ui-md-3" style="text-align:right;">
-  	    <p:outputLabel for="estatusExamen" value="Estatus Examen"/>
-  	  </div>
-  	  <div class="ui-g-12 ui-md-9">
-        <p:selectOneMenu id="estatusExamen" value="#{updateTestExamForm.estatus}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
-          <f:selectItems value="#{selectsHelper.selectEstatusExamenItems}" />
-        </p:selectOneMenu>
-        <p:message for="estatusExamen"/>
-      </div>
+  	<div class="ui-g-12 ui-md-12" >
+	   <div class="ui-g-12 ui-md-3" style="text-align:right;">
+	    <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" />
+	   </div>
+	    <div class="ui-g-12 ui-md-9">
+	    <h:outputLabel id="fechaElaboracion" value="#{createTestExamForm.fechaCreacion}">
+	    	<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+	    </h:outputLabel>
+	    </div>
+	 </div>
+	  
+	 <div class="ui-g-12 ui-md-12" >
+	   <div class="ui-g-12 ui-md-3" style="text-align:right;">
+	    <p:outputLabel for="creadoPor" value="Elabora" />
+	   </div>
+	    <div class="ui-g-12 ui-md-9">
+	    	<p:outputLabel id="creadoPor" value="#{userLogin.nombreCompletoUsuario}" />
+	    </div>
     </div>
     
     <div class="ui-g-12 ui-md-12" >
@@ -74,14 +93,14 @@
         <p:outputLabel for="fechaDisponibleDesdeInput" value="Disponible Desde" />
       </div>
       <div class="ui-g-12 ui-md-3">
-        <p:calendar id="fechaDisponibleDesdeInput" value="#{updateTestExamForm.fechaEfectivaDesde}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+        <p:calendar id="fechaDisponibleDesdeInput" value="#{updateTestExamForm.fechaEfectivaDesde}" locale="es" pattern="dd/MM/yyyy HH:mm" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
         <p:message for="fechaDisponibleDesdeInput"/>
       </div>
       <div class="ui-g-12 ui-md-3" style="text-align:right;">
         <p:outputLabel value="Disponible Hasta" />
       </div>
       <div class="ui-g-12 ui-md-3">
-        <p:calendar id="fechaDisponibleHastaInput" value="#{updateTestExamForm.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy" mask="true" />
+        <p:calendar id="fechaDisponibleHastaInput" value="#{updateTestExamForm.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy HH:mm" mask="true" />
         <p:message for="fechaDisponibleHastaInput"/>
       </div>
     </div>
@@ -132,12 +151,149 @@
      <p:commandButton value="Candidatos" icon="fa fa-user-plus" immediate="true" action="#{updateTestExamForm.assignCandidates()}"  style="background: #2D0D86;align:center;"/>
    </div>
    <div class="ui-g-12 ui-md-6 ui-lg-2">
-	 <p:commandButton value="Cerrar" icon="fa fa-backward" action="#{updateTestExamForm.cancel()}" immediate="true" style="background: #2D0D86;"/>
+     <p:commandButton value="Agregar Caso Clínico" icon="fa fa-user-plus" action="#{updateTestExamForm.resetModalAdd()}" oncomplete="PF('addCoreCasesDialogWV').show();"  update="AddCCForm" style="background: #2D0D86;align:center;"/>
+   </div>
+   <div class="ui-g-12 ui-md-6 ui-lg-2">
+     <p:commandButton value="Eliminar Caso Clínico" icon="fa fa-user-plus" action="#{updateTestExamForm.resetModalDelete()}" oncomplete="PF('deleteCoreCasesDialogWV').show();" update="DeleteCCForm" style="background: #2D0D86;align:center;"/>
+   </div>
+   <div class="ui-g-12 ui-md-6 ui-lg-2">
+	 <p:commandButton value="Cerrar" icon="fa fa-backward" actionListener="#{updateTestExamForm.salir()}" update="growl" immediate="true" style="background: #2D0D86;"/>
    </div>
  </div>
   
    
 </h:form>
+
+ <h:form id="AddCCForm"> 
+ 
+ <p:dialog id="addCoreCasesDialogId" widgetVar="addCoreCasesDialogWV" modal="true" closable="true" closeOnEscape="true" 
+ draggable="false" resizable="false" width="90%" height="60%" header="Agregar Caso Clínico" onShow="PF('materiaWV').selectValue('');PF('submateriaWV').selectValue('');PF('estatusCCWV').selectValue('');">
+    
+	  <p:dataTable  var="ccHdrV1"  value="#{updateTestExamForm.listCcHdrV1}" widgetVar="ccHdrV1WV"
+	  selection="#{updateTestExamForm.selectedlistCcHdrV1}" rowKey="#{ccHdrV1.numero}" 
+	  emptyMessage="Sin resultados" paginator="true" rows="8" paginatorPosition="bottom" 
+	  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+	   <f:facet name="header">Casos Clínicos Disponibles</f:facet>
+	   <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+	   <p:column headerText="ID" style="width:20px !Important;">
+	      <h:outputText value="#{ccHdrV1.numero}" />
+	   </p:column>
+	   <p:column headerText="Descripción" >      
+	      <h:outputText value="#{ccHdrV1.descripcionTecnica}" />
+	   </p:column>   
+	   <p:column filterBy="#{ccHdrV1.admonMateria}" headerText="Materia" filterMatchMode="exact">
+	      <f:facet name="filter">
+	   	     <p:selectOneMenu onchange="PF('ccHdrV1WV').filter()" value="#{updateTestExamForm.admonMateria}" id="materia" widgetVar="materiaWV" styleClass="custom-filter">
+		        <p:ajax listener="#{updateTestExamForm.onAdmonMateriaChange}" oncomplete="PF('ccHdrV1WV').unselectAllRows();" update="submateria"/>
+		        <f:selectItem itemLabel="Seleccione..." itemValue="" />
+		        <f:selectItems value="#{updateTestExamForm.selectMateriasHdr}" />
+		     </p:selectOneMenu>
+		  </f:facet>
+	      <h:outputText value="#{ccHdrV1.admonMateriaDesc}"/>
+	   </p:column>
+	   <p:column filterBy="#{ccHdrV1.admonSubMateria}" headerText="Clasificación" filterMatchMode="exact">
+	      <f:facet name="filter">
+	         <p:selectOneMenu onchange="PF('ccHdrV1WV').filter()" value="#{updateTestExamForm.admonSubmateria}" id="submateria" widgetVar="submateriaWV" styleClass="custom-filter">
+	           <p:ajax listener="#{updateTestExamForm.onAdmonChangeAdd}" oncomplete="PF('ccHdrV1WV').unselectAllRows();" />
+	           <f:selectItem itemLabel="Seleccione..." itemValue="" />
+	           <f:selectItems value="#{updateTestExamForm.selectSubMaterias}" />
+	         </p:selectOneMenu>
+	      </f:facet>
+	      <h:outputText value="#{ccHdrV1.admonSubMateriaDesc}"/>
+	   </p:column>
+	    <p:column filterBy="#{ccHdrV1.estatus}" headerText="Estatus" filterMatchMode="exact">
+	       <f:facet name="filter">
+	          <p:selectOneMenu onchange="PF('ccHdrV1WV').filter()" value="#{updateTestExamForm.admonEstatus}" id="estatusCC" widgetVar="estatusCCWV" styleClass="custom-filter">
+	            <p:ajax listener="#{updateTestExamForm.onAdmonChangeAdd}" oncomplete="PF('ccHdrV1WV').unselectAllRows();" />
+	            <f:selectItem itemLabel="Seleccione Estatus..." itemValue="" />
+	            <f:selectItems value="#{updateTestExamForm.selectEstatusCC}" />
+	          </p:selectOneMenu>
+	       </f:facet>
+	       <h:outputText value="#{ccHdrV1.estatusDesc}"/>          
+	   </p:column> 
+	   <p:column headerText="Fecha Creación">
+	     <h:outputText value="#{ccHdrV1.fechaElaboracion}">
+	        <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+	     </h:outputText>
+	   </p:column>
+	   </p:dataTable>
+	   <div class="ui-g">
+		   <div class="ui-g-4"></div>
+		   <div class="ui-g-4">
+		   		<p:commandButton value="Agregar"  action="#{updateTestExamForm.addCCtoExam()}" oncomplete="PF('addCoreCasesDialogWV').hide();" update="AddCCForm DeleteCCForm" style="width:100%"/>
+		   </div>
+		   <div class="ui-g-4">
+	   	    <p:commandButton value="Cancelar" oncomplete="PF('addCoreCasesDialogWV').hide();" update="AddCCForm DeleteCCForm" style="width:100%"/>
+	   </div> 
+	   </div>
+	 </p:dialog>
+ </h:form> 
+
+  <h:form id="DeleteCCForm"> 
+ 
+	 <p:dialog id="DeleteCoreCasesDialogId" widgetVar="deleteCoreCasesDialogWV" modal="true" closable="true" closeOnEscape="true" 
+	 draggable="false" resizable="false" width="90%" height="60%" header="Eliminar Caso Clínico" onShow="PF('materiaDeleteWV').selectValue('');PF('submateriaDeleteWV').selectValue('');PF('estatusDeleteWV').selectValue('');">
+	    
+	  <p:dataTable  var="ccHdrV1Delete"  value="#{updateTestExamForm.listCcHdrV1Delete}" widgetVar="ccHdrV1DeleteWV"
+	  selection="#{updateTestExamForm.selectedlistCcHdrV1Delete}" rowKey="#{ccHdrV1Delete.numero}" 
+	  emptyMessage="Sin resultados" paginator="true" rows="8" paginatorPosition="bottom" 
+	  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+	   <f:facet name="header">Eliminar Casos Clínico</f:facet>
+	   <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+	   <p:column headerText="ID" style="width:20px !Important;">
+	      <h:outputText value="#{ccHdrV1Delete.numeroCoreCase}" />
+	   </p:column>
+	   <p:column  headerText="Descripción" >
+	      <h:outputText value="#{ccHdrV1Delete.descripcionTecnica}" />
+	   </p:column>
+	   <p:column filterBy="#{ccHdrV1Delete.admonMateria}" headerText="Materia" filterMatchMode="exact">
+	      <f:facet name="filter">
+	   	     <p:selectOneMenu onchange="PF('ccHdrV1DeleteWV').filter()" value="#{updateTestExamForm.admonMateriaDelete}" id="materiaDelete" widgetVar="materiaDeleteWV" styleClass="custom-filter">
+		        <p:ajax listener="#{updateTestExamForm.onAdmonMateriaChangeDelete}" oncomplete="PF('ccHdrV1DeleteWV').unselectAllRows();" update="submateriaDelete"/>
+		        <f:selectItem itemLabel="Seleccione..." itemValue="" />
+		        <f:selectItems value="#{updateTestExamForm.selectMateriasHdrDelete}" />
+		     </p:selectOneMenu>
+		  </f:facet>
+	      <h:outputText value="#{ccHdrV1Delete.admonMateriaDesc}"/>
+	   </p:column>
+	   <p:column filterBy="#{ccHdrV1Delete.admonSubMateria}" headerText="Clasificación" filterMatchMode="exact">
+	      <f:facet name="filter">
+	         <p:selectOneMenu onchange="PF('ccHdrV1DeleteWV').filter()" value="#{updateTestExamForm.admonSubmateriaDelete}" id="submateriaDelete" widgetVar="submateriaDeleteWV" styleClass="custom-filter">
+	         	<p:ajax listener="#{updateTestExamForm.onAdmonChangeDelete}" oncomplete="PF('ccHdrV1DeleteWV').unselectAllRows();" />
+	           <f:selectItem itemLabel="Seleccione..." itemValue="" />
+	           <f:selectItems value="#{updateTestExamForm.selectSubMateriasDelete}" />
+	         </p:selectOneMenu>
+	      </f:facet>
+	      <h:outputText value="#{ccHdrV1Delete.admonSubMateriaDesc}"/>
+	   </p:column>
+	    <p:column filterBy="#{ccHdrV1Delete.estatusCoreCases}" headerText="Estatus" filterMatchMode="exact">
+	       <f:facet name="filter">
+	          <p:selectOneMenu onchange="PF('ccHdrV1DeleteWV').filter()" value="#{updateTestExamForm.admonEstatusDelete}"  id="estatusDelete" widgetVar="estatusDeleteWV" styleClass="custom-filter">
+	            <p:ajax listener="#{updateTestExamForm.onAdmonChangeDelete}" oncomplete="PF('ccHdrV1DeleteWV').unselectAllRows();" />
+	            <f:selectItem itemLabel="Seleccione Estatus..." itemValue="" />
+	            <f:selectItems value="#{updateTestExamForm.selectEstatusDelete}" />
+	          </p:selectOneMenu>
+	       </f:facet>
+	       <h:outputText value="#{ccHdrV1Delete.estatusCoreCasesDesc}"/>          
+	   </p:column> 
+	   <p:column headerText="Fecha Creación">
+	     <h:outputText value="#{ccHdrV1Delete.fechaCreacion}">
+	        <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+	     </h:outputText>
+	   </p:column>
+	   </p:dataTable>
+	   <div class="ui-g">
+		   <div class="ui-g-4"></div>
+		   <div class="ui-g-4">
+		   		<p:commandButton value="Quitar"  action="#{updateTestExamForm.deleteCCtoExam()}" oncomplete="PF('deleteCoreCasesDialogWV').hide();" update="DeleteCCForm AddCCForm" style="width:100%"/>
+		   </div>
+		   <div class="ui-g-4">
+	   		<p:commandButton value="Cancelar" oncomplete="PF('deleteCoreCasesDialogWV').hide();" update="DeleteCCForm AddCCForm" style="width:100%"/>
+	   </div> 
+	   </div>
+	 </p:dialog>
+  </h:form> 
+
 </div>
 </p:panel>
 </ui:define>

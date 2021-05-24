@@ -25,10 +25,6 @@ public class CcExamenesDaoImpl implements CcExamenesDao {
 		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
 		long longNumeroS = lNumeroS.longValue(); 
 		pCcExamenesDto.setNumero(lNumeroS.longValue());
-		java.util.Date sysdate = new java.util.Date();
-		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
-		pCcExamenesDto.setFechaCreacion(sqlsysdate);
-		pCcExamenesDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pCcExamenesDto);
 		return longNumeroS; 
 	}
@@ -69,6 +65,7 @@ public class CcExamenesDaoImpl implements CcExamenesDao {
 		ccExamenesDto.setVisibilidad(pCcExamenesDto.getVisibilidad());
 		ccExamenesDto.setFechaEfectivaDesde(pCcExamenesDto.getFechaEfectivaDesde());
 		ccExamenesDto.setFechaEfectivaHasta(pCcExamenesDto.getFechaEfectivaHasta());
+		pCcExamenesDto.setFechaActualizacion(pCcExamenesDto.getFechaActualizacion());
 		ccExamenesDto.setTiempoLimite(pCcExamenesDto.getTiempoLimite());
 		ccExamenesDto.setSaltarCasos(pCcExamenesDto.getSaltarCasos());
 		ccExamenesDto.setMostrarRespuestas(pCcExamenesDto.getMostrarRespuestas());

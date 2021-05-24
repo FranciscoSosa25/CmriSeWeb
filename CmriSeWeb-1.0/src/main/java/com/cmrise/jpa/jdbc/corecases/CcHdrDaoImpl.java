@@ -36,6 +36,7 @@ public class CcHdrDaoImpl implements CcHdrDao {
 		CcHdrDto ccHdrDto = em.find(CcHdrDto.class, pNumero);
 		em.remove(ccHdrDto);
 	}
+	
 	@Override
 	public void deletePregunta(long pNumero) {
 		CcPreguntasHdrDto ccPreguntasHdrDto = em.find(CcPreguntasHdrDto.class, pNumero);
@@ -81,11 +82,65 @@ public class CcHdrDaoImpl implements CcHdrDao {
 		Query query = em.createNativeQuery(strQuery); 
 		return query.getResultList();
 	}
+	
+	@Override
+	public List<Object> findCCNotInExam(long pNumeroExamen, long tipoExamen) {
+		String strQuery="SELECT CCV1.[NUMERO]\r" + 
+						"     ,CCV1.DESCRIPCION_TECNICA\r" + 
+						"     ,CCV1.ADMON_EXAMEN\r" + 
+						"     ,CCV1.ADMON_EXAMEN_DESC\r" + 
+						"	  ,CCV1.ADMON_MATERIA\r" + 
+						"	  ,CCV1.ADMON_MATERIA_DESC\r" + 
+						"	  ,CCV1.ADMON_SUBMATERIA\r" + 
+						"	  ,CCV1.ADMON_SUBMATERIA_DESC\r" + 
+						"	  ,CCV1.ESTATUS\r" +
+						"	  ,CCV1.ESTATUS_DESC\r" +
+						"	  ,CCV1.[FECHA_EFECTIVA_DESDE]\r" +
+					    "     ,CCV1.[FECHA_EFECTIVA_HASTA]\r  "+
+						"	  ,CCV1.[FECHA_CREACION]\r"
+						+ "	FROM [dbo].[CC_HDR_V1] CCV1\r"
+						+ "      ,[dbo].[CC_PREGUNTAS_HDR] CPH\r"
+						+ "	  ,[dbo].[TABLAS_UTILITARIAS_VALORES] TUV1\r"
+						+ "   WHERE CCV1.NUMERO = CPH.NUMERO_CC_HDR   \r"
+						+ "    AND TUV1.TIPO_TABLA='ESTATUS_MRQ'\r"
+						+ "    AND TUV1.CODIGO_TABLA = CPH.ESTATUS\r"
+						+ "	   AND CCV1.ADMON_EXAMEN = " + tipoExamen + "\r"
+						+ "	   AND CCV1.[NUMERO] NOT IN ( SELECT CEA.[NUMERO_CORE_CASE]\r"
+						+ "			FROM [dbo].[CC_EXAM_ASIGNACIONES] CEA WHERE CEA.[NUMERO_CC_EXAMEN] = "+ pNumeroExamen +")\r"
+						+ "	GROUP BY CCV1.NUMERO, CCV1.DESCRIPCION_TECNICA, CCV1.ADMON_EXAMEN, CCV1.ADMON_EXAMEN_DESC,\r"
+						+ "			CCV1.ADMON_MATERIA, CCV1.ADMON_MATERIA_DESC, CCV1.ADMON_SUBMATERIA,\r"
+						+ "			CCV1.ADMON_SUBMATERIA_DESC, CCV1.ESTATUS, CCV1.ESTATUS_DESC,  CCV1.FECHA_EFECTIVA_DESDE,\r"
+						+ "			CCV1.FECHA_EFECTIVA_HASTA, CCV1.FECHA_CREACION";
+		Query query = em.createNativeQuery(strQuery); 
+		return query.getResultList();
+	}
+	
+	@Override
+	public List<Object> findCCInExam(long pNumeroExamen) {
+		String strQuery="SELECT CCEA.NUMERO\r" + 
+						"     ,CCV1.NUMERO NUMERO_CC\r" + 
+						"     ,CCV1.ADMON_EXAMEN\r" + 
+						"     ,CCV1.ADMON_EXAMEN_DESC\r" + 
+						"	  ,CCV1.ADMON_MATERIA\r" + 
+						"	  ,CCV1.ADMON_MATERIA_DESC\r" + 
+						"	  ,CCV1.ADMON_SUBMATERIA\r" + 
+						"	  ,CCV1.ADMON_SUBMATERIA_DESC\r" + 
+						"	  ,CCV1.DESCRIPCION_TECNICA\r" + 
+						"	  ,CCV1.ESTATUS\r" + 
+						"	  ,CCV1.ESTATUS_DESC\r" + 
+						"	  ,CCV1.FECHA_CREACION\r" + 
+						" FROM CC_EXAM_ASIGNACIONES_V1 CCEA, [CC_HDR_V1] CCV1 \r" + 
+						"WHERE CCEA.NUMERO_CORE_CASE = CCV1.NUMERO AND CCEA.NUMERO_CC_EXAMEN ="+ pNumeroExamen +"\r"+
+						"GROUP BY CCEA.NUMERO, CCV1.NUMERO, CCV1.ADMON_EXAMEN, CCV1.ADMON_EXAMEN_DESC\r" +
+						" , CCV1.ADMON_MATERIA, CCV1.ADMON_MATERIA_DESC, CCV1.ADMON_SUBMATERIA, CCV1.ADMON_SUBMATERIA_DESC"+
+						" , CCV1.DESCRIPCION_TECNICA, CCV1.ESTATUS, CCV1.ESTATUS_DESC, CCV1.FECHA_CREACION\r";
+		Query query = em.createNativeQuery(strQuery); 
+		return query.getResultList();
+	}
 
 	@Override
 	public void update(long pNumero, CcHdrDto pCcHdrDto) {
-		CcHdrDto ccHdrDto = em.find(CcHdrDto.class, pNumero);
-		
+		CcHdrDto ccHdrDto = em.find(CcHdrDto.class, pNumero);	
 		
 		ccHdrDto.setEstatus(pCcHdrDto.getEstatus());
 		ccHdrDto.setAdmonExamen(pCcHdrDto.getAdmonExamen());

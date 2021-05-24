@@ -189,5 +189,7 @@ public class CcExamAsignacionesLocalImpl implements CcExamAsignacionesLocal {
 		return retval;
 	}
 
-
+	public void delete(long pNumero) {
+		ccExamAsignacionesDao.delete(pNumero);
+	}
 }
