@@ -3,6 +3,9 @@ package com.cmrise.ejb.model.corecases;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+
+import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
 
 
 public class CcPreguntasHdrV1 implements Serializable{
@@ -37,6 +40,7 @@ public class CcPreguntasHdrV1 implements Serializable{
 	private String admonMateriaDesc; 
 	private String admonSubMateriaDesc; 
 	private String metodoPuntuacion; 
+	private List<CcImagenesGrp> listCcImagenesGrp; 
 	
 	private CcPreguntasFtaV1 ccPreguntasFtaV1; 
 	
@@ -214,6 +218,14 @@ public class CcPreguntasHdrV1 implements Serializable{
 	public void setMetodoPuntuacion(String metodoPuntuacion) {
 		this.metodoPuntuacion = metodoPuntuacion;
 	}
+	public List<CcImagenesGrp> getListCcImagenesGrp() {
+		return listCcImagenesGrp;
+	}
+	public void setListCcImagenesGrp(List<CcImagenesGrp> listCcImagenesGrp) {
+		this.listCcImagenesGrp = listCcImagenesGrp;
+	}
+	
+	
 	
 
 }
