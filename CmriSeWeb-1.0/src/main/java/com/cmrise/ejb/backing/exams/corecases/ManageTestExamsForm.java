@@ -42,6 +42,7 @@ private void refreshEntity() {
     	System.out.println("ccExamenesDto.getNumero():"+ccExamenesV1Dto.getNumero());
     	ccExamenes.setNumero(ccExamenesV1Dto.getNumero());
     	ccExamenes.setTipoExamenDesc(ccExamenesV1Dto.getTipoExamenDesc());
+    	ccExamenes.setDescripcion(ccExamenesV1Dto.getDescripcion());
     	ccExamenes.setTipoExamen(ccExamenesV1Dto.getTipoExamen());
     	ccExamenes.setVisibilidad(ccExamenesV1Dto.getVisibilidad());
     	ccExamenes.setVisibilidadDesc(ccExamenesV1Dto.getVisibilidadDesc());

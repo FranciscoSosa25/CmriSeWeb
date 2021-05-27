@@ -29,6 +29,8 @@
 <h:form id="createForm">
 <p:growl id="growl" showDetail="true"/>
 <div class="ui-g">
+  
+
   <div class="ui-g-12 ui-md-12" >
   	<div class="ui-g-12 ui-md-3" style="text-align:right;">
   		<p:outputLabel for="idTipoExamen" value="Examen" />
@@ -50,8 +52,7 @@
 	  </div>
 	</div>	  
   </div>
-  
-   <div class="ui-g-12 ui-md-12" >
+  <div class="ui-g-12 ui-md-12" >
     <div class="ui-g-12 ui-md-3" style="text-align:right;">
       <p:outputLabel for="visibility" value="Visibilidad" />
     </div>
@@ -63,20 +64,39 @@
       <p:message  for="visibility"/>
     </div>
    </div>
+  <div class="ui-g-12 ui-md-12" >
+    <div class="ui-g-12 ui-md-3" style="text-align:right;">
+     <p:outputLabel for="fechaElaboracion" value="Fecha Elaboracion" />
+    </div>
+     <div class="ui-g-12 ui-md-9">
+     	<h:outputLabel id="fechaElaboracion" value="#{createTestExamForm.fechaCreacion}">
+	    	<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+	    </h:outputLabel>
+     </div>
+   </div>
+   
+    <div class="ui-g-12 ui-md-12" >
+    <div class="ui-g-12 ui-md-3" style="text-align:right;">
+        <p:outputLabel for="creadoPor" value="Elabora" />
+    </div>
+     <div class="ui-g-12 ui-md-9">
+     	<h:outputLabel id="creadoPor" value="#{userLogin.nombreCompletoUsuario}"/>
+     </div>
+   </div>
   
   <div class="ui-g-12 ui-md-12" >
     <div class="ui-g-12 ui-md-3" style="text-align:right;">
       <p:outputLabel for="fechaDisponibleDesdeInput" value="Disponible Desde" />
     </div>
     <div class="ui-g-12 ui-md-3">
-      <p:calendar id="fechaDisponibleDesdeInput" value="#{createTestExamForm.fechaEfectivaDesde}" locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
+      <p:calendar id="fechaDisponibleDesdeInput" value="#{createTestExamForm.fechaEfectivaDesde}" locale="es" pattern="dd/MM/yyyy HH:mm" mask="true" required="true"  requiredMessage="#{msgs['globalForm.requiredMessage']}"/>
       <p:message for="fechaDisponibleDesdeInput"/>
     </div>
     <div class="ui-g-12 ui-md-3" style="text-align:right;">
       <p:outputLabel value="Disponible Hasta" />
     </div>
     <div class="ui-g-12 ui-md-3">
-      <p:calendar id="fechaDisponibleHastaInput" value="#{createTestExamForm.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy" mask="true" />
+      <p:calendar id="fechaDisponibleHastaInput" value="#{createTestExamForm.fechaEfectivaHasta}" locale="es" pattern="dd/MM/yyyy HH:mm" mask="true" />
       <p:message for="fechaDisponibleHastaInput"/>
     </div>
   </div>

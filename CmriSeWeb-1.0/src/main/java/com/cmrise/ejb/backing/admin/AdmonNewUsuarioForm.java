@@ -164,7 +164,7 @@ public class AdmonNewUsuarioForm {
 	    	showMessage();
 	    	cancel();
 	    }
-
+	}
 	
 	private boolean creaNuevoUsuario(String curp, String nombre, String a_paterno, String a_materno, String password, String email, 
 			java.sql.Date fechaED, java.sql.Date fechaEH, String[] rol, String[] materias) {
