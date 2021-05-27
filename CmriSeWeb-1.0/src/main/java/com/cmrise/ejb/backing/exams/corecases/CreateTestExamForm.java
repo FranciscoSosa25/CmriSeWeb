@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -30,6 +31,7 @@ public class CreateTestExamForm {
 	private int idTipoExamen;
 	private Date fechaEfectivaDesde; 
 	private Date fechaEfectivaHasta; 
+	private Date fechaCreacion;
 	private short limiteTiempo; 
 	private boolean saltarCasos; 
 	private boolean mostrarRespuestas; 
@@ -56,34 +58,48 @@ public class CreateTestExamForm {
 		 for(AdmonExamenHdr i:examenesHdr) {
 			 SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
 			 selectExamenesHdr.add(selectItem); 
-		 }		 
+		 }		
+		 setFechaCreacion(new java.util.Date());
 	 }
 	
 	public String create() {
-				
+		java.util.Date sysdate = new java.util.Date();
+		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
+		ccExamenesDto.setFechaCreacion(sqlsysdate);
+		ccExamenesDto.setFechaActualizacion(sqlsysdate);
 		ccExamenesDto.setDescripcion(this.getDescripcion());
-		//ccExamenesDto.setIdTipoExamen(this.getTipoExamen());
 		ccExamenesDto.setVisibilidad(this.getVisibilidad());
 		ccExamenesDto.setCreadoPor(userLogin.getNumeroUsuario());
 		ccExamenesDto.setActualizadoPor(userLogin.getNumeroUsuario());
-		ccExamenesDto.setFechaEfectivaDesde(utilitariosLocal.toSqlDate(this.getFechaEfectivaDesde()));
+		
+		ccExamenesDto.setFechaEfectivaDesde(new java.sql.Timestamp(this.getFechaEfectivaDesde().getTime()));
 		if(null!=this.getFechaEfectivaHasta()) {
-			ccExamenesDto.setFechaEfectivaHasta(utilitariosLocal.toSqlDate(this.getFechaEfectivaHasta()));
+			ccExamenesDto.setFechaEfectivaHasta(new java.sql.Timestamp(this.getFechaEfectivaHasta().getTime()));
 		}else {
-			ccExamenesDto.setFechaEfectivaHasta(Utilitarios.endOfTime);
+			ccExamenesDto.setFechaEfectivaHasta(new java.sql.Timestamp(Utilitarios.endOfTime.getTime()));
 		}
+		
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		
+		if(ccExamenesDto.getFechaEfectivaHasta() != null) {
+			if(ccExamenesDto.getFechaEfectivaDesde().equals(ccExamenesDto.getFechaEfectivaHasta()) || !ccExamenesDto.getFechaEfectivaDesde().before(ccExamenesDto.getFechaEfectivaHasta())) {
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+						"La fecha efectiva desde no puede ser igual o menor que la fecha efectiva hasta"));
+				System.out.println("error de fechas!");
+				return null;
+			}
+		}
+		
 		ccExamenesDto.setTiempoLimite(this.getLimiteTiempo());
 		ccExamenesDto.setSaltarCasos(this.isSaltarCasos());
 		ccExamenesDto.setMostrarRespuestas(this.isMostrarRespuestas());
 		ccExamenesDto.setMensajeFinalizacion(this.getMensajeFinalizacion());
 		ccExamenesDto.setSociedad(Utilitarios.SOCIEDAD);
 		ccExamenesDto.setEstatus(Utilitarios.INITIAL_STATUS_CC_EXAM);
-		long numeroCcExamen = ccExamenesLocal.insert(ccExamenesDto); 
+		long numeroCcExamen = ccExamenesLocal.insert(ccExamenesDto); 		
 		
-		FacesContext context = FacesContext.getCurrentInstance(); 
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-		session.setAttribute("NumeroCcExamenSV", numeroCcExamen);  
-		
+		session.setAttribute("NumeroCcExamenSV", numeroCcExamen);  		
 		return "Exams-CoreCases-Update"; 
 	}
 	
@@ -169,5 +185,13 @@ public class CreateTestExamForm {
 	}
 	public void setUserLogin(UserLogin userLogin) {
 		this.userLogin = userLogin;
+	}
+
+	public Date getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
 	}
 }

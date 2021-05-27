@@ -19,10 +19,19 @@ public class CcExamAsignaciones implements Serializable {
 	private Date fechaEfectivaDesde;
 	private Date fechaEfectivaHasta;
 	private long numeroCoreCase;
+	private long admonExamen; 
+	private long admonMateria; 
+	private long admonSubMateria; 
+	private String admonExamenDesc; 
+	private String admonMateriaDesc; 
+	private String admonSubMateriaDesc;
+	private String descripcionTecnica;
 	private String tituloPregunta; 
 	private String tipoPreguntaDesc; 
 	private String estatusPregunta; 
 	private String estatusPreguntaDesc; 
+	private String estatusCoreCases;
+	private String estatusCoreCasesDesc;
 	private BigDecimal maxPuntuacionPregunta; 
 	private String temaPregunta; 
 	private String temaPreguntaDesc; 
@@ -202,6 +211,78 @@ public class CcExamAsignaciones implements Serializable {
 
 	public void setNumeroCcExamen(long numeroCcExamen) {
 		this.numeroCcExamen = numeroCcExamen;
+	}
+
+	public long getAdmonExamen() {
+		return admonExamen;
+	}
+
+	public void setAdmonExamen(long admonExamen) {
+		this.admonExamen = admonExamen;
+	}
+
+	public long getAdmonMateria() {
+		return admonMateria;
+	}
+
+	public void setAdmonMateria(long admonMateria) {
+		this.admonMateria = admonMateria;
+	}
+
+	public long getAdmonSubMateria() {
+		return admonSubMateria;
+	}
+
+	public void setAdmonSubMateria(long admonSubMateria) {
+		this.admonSubMateria = admonSubMateria;
+	}
+
+	public String getAdmonExamenDesc() {
+		return admonExamenDesc;
+	}
+
+	public void setAdmonExamenDesc(String admonExamenDesc) {
+		this.admonExamenDesc = admonExamenDesc;
+	}
+
+	public String getAdmonMateriaDesc() {
+		return admonMateriaDesc;
+	}
+
+	public void setAdmonMateriaDesc(String admonMateriaDesc) {
+		this.admonMateriaDesc = admonMateriaDesc;
+	}
+
+	public String getAdmonSubMateriaDesc() {
+		return admonSubMateriaDesc;
+	}
+
+	public void setAdmonSubMateriaDesc(String admonSubMateriaDesc) {
+		this.admonSubMateriaDesc = admonSubMateriaDesc;
+	}
+
+	public String getEstatusCoreCases() {
+		return estatusCoreCases;
+	}
+
+	public void setEstatusCoreCases(String estatusCoreCases) {
+		this.estatusCoreCases = estatusCoreCases;
+	}
+
+	public String getDescripcionTecnica() {
+		return descripcionTecnica;
+	}
+
+	public void setDescripcionTecnica(String descripcionTecnica) {
+		this.descripcionTecnica = descripcionTecnica;
+	}
+
+	public String getEstatusCoreCasesDesc() {
+		return estatusCoreCasesDesc;
+	}
+
+	public void setEstatusCoreCasesDesc(String estatusCoreCasesDesc) {
+		this.estatusCoreCasesDesc = estatusCoreCasesDesc;
 	}
 
 	

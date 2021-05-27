@@ -41,10 +41,10 @@ public class CcExamenesDto implements Serializable {
 	private Timestamp fechaCreacion;
 
 	@Column(name="FECHA_EFECTIVA_DESDE")
-	private Date fechaEfectivaDesde;
+	private Timestamp fechaEfectivaDesde;
 
 	@Column(name="FECHA_EFECTIVA_HASTA")
-	private Date fechaEfectivaHasta;
+	private Timestamp fechaEfectivaHasta;
 
 	@Column(name="MENSAJE_FINALIZACION")
 	private String mensajeFinalizacion;
@@ -126,19 +126,19 @@ public class CcExamenesDto implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public Date getFechaEfectivaDesde() {
+	public Timestamp getFechaEfectivaDesde() {
 		return this.fechaEfectivaDesde;
 	}
 
-	public void setFechaEfectivaDesde(Date fechaEfectivaDesde) {
+	public void setFechaEfectivaDesde(Timestamp fechaEfectivaDesde) {
 		this.fechaEfectivaDesde = fechaEfectivaDesde;
 	}
 
-	public Date getFechaEfectivaHasta() {
+	public Timestamp getFechaEfectivaHasta() {
 		return this.fechaEfectivaHasta;
 	}
 
-	public void setFechaEfectivaHasta(Date fechaEfectivaHasta) {
+	public void setFechaEfectivaHasta(Timestamp fechaEfectivaHasta) {
 		this.fechaEfectivaHasta = fechaEfectivaHasta;
 	}
 

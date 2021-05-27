@@ -15,7 +15,8 @@ public interface CcHdrDao {
 	public void update(long pNumero ,CcHdrDto pCcHdrDto);
 	public List<CcHdrV1Dto> findAll();
 	public CcHdrV1Dto findByNumero(long pNumero);
-	
+	public List<Object> findCCNotInExam(long pNumeroExamen, long tipoExamen);
+	public List<Object> findCCInExam(long pNumeroExamen);
 	public List<KeysDto> findKeys(); 
 	public List<Object> findCoreCasesForExam(long pNumeroExamen);
 	

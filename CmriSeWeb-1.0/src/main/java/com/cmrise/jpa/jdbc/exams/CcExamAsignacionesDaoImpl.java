@@ -78,5 +78,11 @@ public class CcExamAsignacionesDaoImpl implements CcExamAsignacionesDao {
 		Query query = em.createQuery(strQuery); 
 		return query.getResultList();
 	}
+	
+	@Override
+	public void delete(long pNumero) {
+		CcExamAsignacionesDto ccExamAsignacionesDto = em.find(CcExamAsignacionesDto.class, pNumero);
+		em.remove(ccExamAsignacionesDto);
+	}
 
 }

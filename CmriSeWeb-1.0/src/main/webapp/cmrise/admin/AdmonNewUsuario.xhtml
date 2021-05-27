@@ -88,7 +88,7 @@
 	     	<div class="ui-g-12 ui-md-2" style="text-align:right;" />
 	     	<div class="ui-g-12 ui-md-10" style="text-align:left;">
 		     	<p:outputPanel id="containerMaterias">
-		     	<p:fieldset id="popo2" legend="Materias" toggleable="true" toggleSpeed="500" rendered="#{admonNewUsuarioForm.dispMaterias}"  >
+		     	<p:fieldset legend="Materias" toggleable="true" toggleSpeed="500" rendered="#{admonNewUsuarioForm.dispMaterias}"  >
 		            <p:ajax event="toggle" listener="#{admonNewUsuarioForm.handleToggle}" />
 				    <div >	     		      	
 			     		<p:selectManyCheckbox id="materias" value="#{admonNewUsuarioForm.selectedMaterias}" layout="responsive" columns="3">
