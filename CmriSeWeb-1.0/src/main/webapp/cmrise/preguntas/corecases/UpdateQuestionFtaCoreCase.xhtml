@@ -290,26 +290,40 @@
 									onclick="PF('presentationDialogWV').show();" />
 							</p:splitButton>
 						</div>
-						<div class="ui-g-12 ui-md-9" style="text-align: right;">
-
-							<ui:repeat var="imagenesGrupo"
-								value="#{updateQuestionFtaCoreCaseForm.listPresentCcImagenesGrp}"
-								varStatus="status">
-								<div class="ui-g">
-									<div class="ui-g-12">
-										<h3>#{imagenesGrupo.tituloSuperior}</h3>
-									</div>
-									<div class="ui-g-12">
-										<ui:repeat var="imagenes"
-											value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
-											<h:graphicImage
-												value="data:image/jpg;base64,#{imagenes.thumbailBase64}"
-												style="max-width: 300px; max-height: 300px;" />
-										</ui:repeat>
-									</div>
-								</div>
-							</ui:repeat>
-
+						<div class="ui-g-12 ui-md-12">
+							<p:accordionPanel styleClass="ui-accordion" activeIndex="null">
+								<p:tab title="DICOM Series">
+						        <p:dataTable var="imagenesGrupo" value="#{updateQuestionFtaCoreCaseForm.listPresentCcImagenesGrp}">
+						          <p:column headerText="Serie Title" style="width:60%; text-align: left;">
+						            	<div class="ui-g-12" >
+											<h:outputText value="#{imagenesGrupo.tituloSuperior}" />
+										</div>
+										 <p:scrollPanel style="width:100%; height:100px">
+										
+											<ui:repeat var="imagenes"
+												value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
+												<h:graphicImage
+													value="data:image/jpg;base64,#{imagenes.thumbailBase64}"
+													style="max-width: 300px; max-height: 300px; padding: 2px;" />
+											</ui:repeat>
+										
+										</p:scrollPanel>
+						            </p:column>
+						            <p:column headerText="Modality" style="width:15%;">
+						               		 <h:outputText value="#{imagenesGrupo.modality}" />
+						            </p:column>
+						            <p:column headerText="Total Slices"  style="width:10%;" >
+						                <h:outputText value="#{imagenesGrupo.listCcImagenes.size()}" />
+						            </p:column>
+						            <p:column headerText="Action"  style="width:15%; text-align:center">
+						                      <p:commandButton icon="fa fa-edit" style="margin-left: 10px;BackGround:#2D0D86" action="#{manageMrqsForm.update(preguntasHdrV1)}" title="Editar"/>
+											  <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86" ajax="false" actionListener="#{updateQuestionFtaCoreCaseForm.deleteCCImageGroup(imagenesGrupo)}" title="Eliminar"/>
+						
+					
+						            </p:column>
+						        </p:dataTable>
+							   </p:tab>
+							</p:accordionPanel> 
 						</div>
 					</div>
 					<div class="ui-g-12 ui-md-3" style="text-align: right;">
@@ -603,12 +617,30 @@
 							<p:message for="tituloSuperiorId" />
 						</div>
 						<div class="ui-g-12">
+							<div class="ui-g-7">
 							<p:fileUpload id="presentatioFilesID"
 								value="#{updateQuestionFtaCoreCaseForm.presentationFiles}"
 								label="Seleccionar" mode="simple" multiple="true"
-								allowTypes="/(\.|\/)(dcm)$/" update="presentationForm"
+								allowTypes="/(\.|\/)(dcm|DCM)$/" update="presentationForm"
 								required="true"
 								requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+							</div>
+							<div class="ui-g-5" >	
+				  		      
+						        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+						         <p:outputLabel for="dcmModality" value="Modality" />
+						        </div>
+						         <div class="ui-g-12 ui-md-9">
+						        
+						          <p:selectOneMenu id="dcmModality" value="#{updateQuestionFtaCoreCaseForm.presentCcImagenesGrp.modality}" required="true" requiredMessage="#{msgs['globalForm.requiredMessage']}">
+						      
+						          <f:selectItem itemLabel="Seleccione..." itemValue="" />
+						          <f:selectItems value="#{selectsHelper.selectDicomModalityItems}" />
+						         </p:selectOneMenu>
+						         <p:message for="dcmModality"/> 
+						         </div>
+						     
+		            	  </div>   
 						</div>
 						<div class="ui-g-12">
 							<p:message for="presentatioFilesID" />

@@ -26,8 +26,6 @@ public class CcExamAsignacionesDaoImpl implements CcExamAsignacionesDao {
 		pCcExamAsignacionesDto.setNumero(lNumeroS.longValue());
 		java.util.Date sysdate = new java.util.Date();
 		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
-		pCcExamAsignacionesDto.setCreadoPor((long)-1);
-		pCcExamAsignacionesDto.setActualizadoPor((long)-1);
 		pCcExamAsignacionesDto.setFechaCreacion(sqlsysdate);
 		pCcExamAsignacionesDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pCcExamAsignacionesDto);
@@ -79,6 +77,12 @@ public class CcExamAsignacionesDaoImpl implements CcExamAsignacionesDao {
 		String strQuery = "SELECT c FROM CcExamAsignacionesDto c WHERE c.numeroCcExamen = "+pNumeroCcExamen; 
 		Query query = em.createQuery(strQuery); 
 		return query.getResultList();
+	}
+	
+	@Override
+	public void delete(long pNumero) {
+		CcExamAsignacionesDto ccExamAsignacionesDto = em.find(CcExamAsignacionesDto.class, pNumero);
+		em.remove(ccExamAsignacionesDto);
 	}
 
 }

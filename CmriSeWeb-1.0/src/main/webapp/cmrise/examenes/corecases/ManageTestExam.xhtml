@@ -39,20 +39,23 @@ function handleDeleteRequest(xhr, status, args){
    <p:column headerText="Id">
      <h:outputText value="#{ccExamenes.numero}" />
    </p:column>
-    <p:column headerText="Título Público">
-      <h:outputText value="#{ccExamenes.titulo}" />
-    </p:column>
-    <p:column headerText="Tipo Pregunta">
-      <h:outputText value="#{ccExamenes.tipoPreguntaDesc}" />
-    </p:column>
-     <p:column headerText="Tipo Examen">
+    <p:column headerText="Categoría">
       <h:outputText value="#{ccExamenes.tipoExamenDesc}" />
+    </p:column>
+    <p:column headerText="Descripción">
+      <h:outputText value="#{ccExamenes.descripcion}" />
     </p:column>
     <p:column headerText="Visibilidad">
       <h:outputText value="#{ccExamenes.visibilidadDesc}" />
     </p:column>
     <p:column headerText="Estatus">
       <h:outputText value="#{ccExamenes.estatusDesc}" />
+    </p:column>
+    <p:column headerText="Elaboración">
+      <h:outputText value="#{ccExamenes.fechaCreacionString}" />
+    </p:column>
+    <p:column headerText="Elaborado por">
+      <h:outputText value="#{ccExamenes.creadoPorNombre}" />
     </p:column>
      <p:column headerText="Acciones">
         <p:commandButton icon="fa fa-edit" style="margin-left: 10px;" action="#{manageTestExamsForm.update(ccExamenes)}"/>

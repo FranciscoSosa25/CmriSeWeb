@@ -334,11 +334,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 			}
 			/** END if(null!=listCcOpcionMultiple) { **/
 
-			for (CcImagenesGrp ccImagenesGrp : listPresentCcImagenesGrp) {
-				ccImagenesGrp.setTipo(Utilitarios.CORE_CASES);
-				ccImagenesGrp.setSeccion(Utilitarios.INTRODUCCION);
-				updateImagenesGrp(this.getNumeroFtaRecord(), ccImagenesGrp);
-			}
+			
 
 		} else {
 			CcPreguntasFtaDto ccPreguntasFtaDto = new CcPreguntasFtaDto();
@@ -466,6 +462,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 				CcImagenesGrp ccPresentaciones = new CcImagenesGrp();
 				ccPresentaciones.setTituloSuperior(this.presentCcImagenesGrp.getTituloSuperior());
 				ccPresentaciones.setTituloInferior(this.presentCcImagenesGrp.getTituloInferior());
+				ccPresentaciones.setModality(this.presentCcImagenesGrp.getModality());
 				List<CcImagenes> lListCcPresentaciones = new ArrayList<CcImagenes>();
 
 				for (UploadedFile f : this.presentationFiles.getFiles()) {
@@ -485,7 +482,41 @@ public class UpdateQuestionFtaCoreCaseForm {
 			}
 		}
 		System.out.println("Sale uploadMultiple");
+		
+		
+		
+		try {
+			for (CcImagenesGrp ccImagenesGrp : listPresentCcImagenesGrp) {
+				ccImagenesGrp.setTipo(Utilitarios.CORE_CASES);
+				ccImagenesGrp.setSeccion(Utilitarios.INTRODUCCION);
+				updateImagenesGrp(this.getNumeroFtaRecord(), ccImagenesGrp);
+			}
+		  }catch (Exception e) {
+			// TODO: handle exception
+		  }
+		  listPresentCcImagenesGrp = ccImagenesGrpLocal.findByFta(this.numeroFtaRecord, Utilitarios.INTRODUCCION);
+		  FacesContext context = FacesContext.getCurrentInstance();
+	      context.addMessage(null, new FacesMessage("Se actualizaron los datos correctamente", "Actualizacion correcta"));
+		  System.out.println("Sale Actualizar");
 	}
+	
+	 public void deleteCCImageGroup(CcImagenesGrp ccImageGroup) {
+		 FacesContext context = FacesContext.getCurrentInstance();
+		 try {			
+			 if(this.ccImagenesGrpLocal.deleteGroup(ccImageGroup)) {
+				 context.addMessage(null, new FacesMessage("Deleted successfully", "Actualizacion correcta"));
+				 listPresentCcImagenesGrp = ccImagenesGrpLocal.findByFta(this.numeroFtaRecord, Utilitarios.INTRODUCCION);
+			 }else {
+				 context.addMessage(null, new FacesMessage("Failed to delete .dcm image group.", "Actualizacion correcta"));
+			 }
+		 }catch (RuntimeException e) {
+			
+		      context.addMessage(null, new FacesMessage("Error while delete .dcm image group.", "Actualizacion correcta"));
+		}
+		 
+	 }
+	
+	
 
 	public void onAdmonExamenChange() {
 		if (0 != ccPreguntasHdrV1ForAction.getAdmonExamen()) {

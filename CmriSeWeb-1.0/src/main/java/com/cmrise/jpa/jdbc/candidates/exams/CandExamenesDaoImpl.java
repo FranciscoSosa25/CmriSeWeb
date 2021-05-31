@@ -31,8 +31,8 @@ public class CandExamenesDaoImpl implements CandExamenesDao {
 		pCandExamenesDto.setNumero(lNumeroS.longValue());
 		java.util.Date sysdate = new java.util.Date();
 		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
-		pCandExamenesDto.setCreadoPor((long)-1);
-		pCandExamenesDto.setActualizadoPor((long)-1);
+		pCandExamenesDto.setCreadoPor(pCandExamenesDto.getCreadoPor());
+		pCandExamenesDto.setActualizadoPor(pCandExamenesDto.getActualizadoPor());
 		pCandExamenesDto.setFechaCreacion(sqlsysdate);
 		pCandExamenesDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pCandExamenesDto);
@@ -40,8 +40,8 @@ public class CandExamenesDaoImpl implements CandExamenesDao {
 	}
 
 	@Override
-	public List<CandExamenesV1Dto> findByExamen(long pNumeroExamen, String pTipoExamen) {
-		String strQuery ="SELECT c FROM CandExamenesV1Dto c WHERE c.numeroExamen ="+pNumeroExamen+" AND c.tipo='"+pTipoExamen+"'";
+	public List<CandExamenesV2Dto> findByExamen(long pNumeroExamen, String pTipoExamen) {
+		String strQuery ="SELECT c FROM CandExamenesV2Dto c WHERE c.numeroExamen ="+pNumeroExamen+" AND c.tipo='"+pTipoExamen+"'";
 		Query query = em.createQuery(strQuery); 
 		return query.getResultList();
 	}
@@ -101,14 +101,14 @@ public class CandExamenesDaoImpl implements CandExamenesDao {
 	}
 
 	@Override
-	public List<CandExamenesV1Dto> findCandidateByExam(String cCurp, String cNombre, String c_aPaterno, String c_aMaterno, String actPor, String fechaActu
+	public List<CandExamenesV2Dto> findCandidateByExam(String cCurp, String cNombre, String c_aPaterno, String c_aMaterno, String actPor, String fechaActu
 			, long pNumeroExamen, String pTipoExamen) {
 				 
-		String strQuery = "SELECT c FROM CandExamenesV1Dto c WHERE c.curp like '%"+cCurp.trim()+"%' AND C.nombreUsuario like '%"+cNombre.trim()+"%' AND C.apellidoPaterno like '%"+
+		String strQuery = "SELECT c FROM CandExamenesV2Dto c WHERE c.curp like '%"+cCurp.trim()+"%' AND C.nombreUsuario like '%"+cNombre.trim()+"%' AND C.apellidoPaterno like '%"+
 				c_aPaterno.trim()+"%' AND C.apellidoMaterno like '%"+c_aMaterno.trim()+"%'";
 		
 		if(actPor.length()!= 0)
-			strQuery = strQuery + " AND c.nombreActPor like '%"+actPor.trim()+"%'";
+			strQuery = strQuery + " AND c.nombreActualizadoPor like '%"+actPor.trim()+"%'";
 		
 		if(fechaActu.length()!= 0) {
 			strQuery = strQuery + " AND convert(varchar(25),c.fechaActualizacion,126) like '%"+fechaActu.trim()+"%'";

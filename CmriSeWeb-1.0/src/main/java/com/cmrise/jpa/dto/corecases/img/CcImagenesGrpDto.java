@@ -48,7 +48,13 @@ public class CcImagenesGrpDto implements Serializable {
 	private String seccion; 
 	
 	@Column(name="NUMERO_FTA")
-	private long numeroFta; 
+	private Long numeroFta; 
+	
+	@Column(name="MODALITY")
+	private String modality; 
+	
+	@Column(name="NUMERO_CC_HDR",nullable = true)
+	private Long numeroCcHDR; 
 	
 	public long getNumero() {
 		return this.numero;
@@ -130,13 +136,32 @@ public class CcImagenesGrpDto implements Serializable {
 		this.seccion = seccion;
 	}
 
-	public long getNumeroFta() {
+	public Long getNumeroFta() {
 		return numeroFta;
 	}
 
-	public void setNumeroFta(long numeroFta) {
+	public void setNumeroFta(Long numeroFta) {
 		this.numeroFta = numeroFta;
 	}
 
+	public Long getNumeroCcHDR() {
+		return numeroCcHDR;
+	}
+
+	public void setNumeroCcHDR(Long numeroCcHDR) {
+		this.numeroCcHDR = numeroCcHDR;
+	}
+
+	public String getModality() {
+		return modality;
+	}
+
+	public void setModality(String modality) {
+		this.modality = modality;
+	}
+
+	
+	
+	
 }
 

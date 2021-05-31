@@ -14,7 +14,7 @@ import com.cmrise.jpa.dto.candidates.exams.CandExamenesV2Dto;
 public interface CandExamenesLocal {
 
 	public long insert(CandExamenesDto pCandExamenesDto); 
-	public List<CandExamenesV1> findByExamen(long pNumeroExamen
+	public List<CandExamenesV2> findByExamen(long pNumeroExamen
 								            ,String pTipoExamen
 								            ); 
 	public void delete(long pNumero); 
@@ -27,7 +27,7 @@ public interface CandExamenesLocal {
     		                               String pApellidoPaterno,
     		                                String pApellidoMaterno);
     public void updateEstatus(long pNumero, CandExamenesDto pCandExamenesDto);
-    public List<CandExamenesV1> findCandidateByExam(String cCurp, String cNombre, String c_aPaterno, 
+    public List<CandExamenesV2> findCandidateByExam(String cCurp, String cNombre, String c_aPaterno, 
 			String c_aMaterno, String actPor, String fechaActu, long pNumeroExamen, String pTipoExamen);
 }
 

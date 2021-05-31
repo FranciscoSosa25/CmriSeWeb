@@ -4,6 +4,8 @@ import java.io.*;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -24,6 +26,7 @@ import com.cmrise.ejb.model.corecases.CcPreguntasFtaV1;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
 import com.cmrise.ejb.model.corecases.img.CcImagenes;
 import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
+import com.cmrise.ejb.model.exams.CcExamAsignaciones;
 import com.cmrise.jpa.dao.corecases.CcHdrDao;
 import com.cmrise.jpa.dao.corecases.CcOpcionMultipleDao;
 import com.cmrise.jpa.dao.corecases.CcPreguntasFtaDao;
@@ -140,6 +143,111 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 					ccHdrForAction.setTemaDesc((String)row[5]);
 				}
 				retval.add(ccHdrForAction); 
+			}
+		}	
+		return retval;
+	}
+	
+	@Override
+	public List<CcHdrV1> findCCNotInExam(long pNumeroExamen, long tipoExamen) {
+		List<CcHdrV1> retval = new ArrayList<CcHdrV1>();
+		List<Object> listObjects = ccHdrDao.findCCNotInExam(pNumeroExamen, tipoExamen); 
+		for(Object object:listObjects) {
+			if(object instanceof Object[]) {
+				CcHdrV1 ccHdrV1 = new CcHdrV1(); 
+				Object[] row = (Object[]) object;
+				if(row[0] instanceof BigInteger) { /** [NUMERO] **/
+					ccHdrV1.setNumero(((BigInteger)row[0]).longValue());
+				}
+				if(row[1] instanceof String) { /** [DESCRIPCION_TECNICA] **/
+					ccHdrV1.setDescripcionTecnica((row[1]).toString().trim());
+				}
+				if(row[2] instanceof BigInteger) { /** [ADMON_EXAMEN] **/
+					ccHdrV1.setAdmonExamen(((BigInteger)row[2]).longValue());
+				}
+				if(row[3] instanceof String) { /** [ADMON_EXAMEN_DESC] **/
+					ccHdrV1.setAdmonExamenDesc(row[3].toString().trim());
+				}
+				if(row[4] instanceof BigInteger) { /** [ADMON_MATERIA] **/
+					ccHdrV1.setAdmonMateria(((BigInteger)row[4]).longValue());
+				}
+				if(row[5] instanceof String) { /** [ADMON_MATERIA_DESC] **/
+					ccHdrV1.setAdmonMateriaDesc(row[5].toString().trim());
+				}
+				if(row[6] instanceof BigInteger) { /** [NUMERO SUBMATERIA] **/
+					ccHdrV1.setAdmonSubMateria(((BigInteger)row[6]).longValue());
+				}
+				if(row[7] instanceof String) { /** [ADMON_SUBMATERIA_DESC] **/
+					ccHdrV1.setAdmonSubMateriaDesc(row[7].toString().trim());
+				}
+				if(row[8] instanceof String) { /** [ESTATUS] **/
+					ccHdrV1.setEstatus(row[8].toString().trim());
+				}
+				if(row[9] instanceof String) { /** [ESTATUS_DESC] **/
+					ccHdrV1.setEstatusDesc(row[9].toString().trim());
+				}
+				if(row[10] instanceof Date) { /** [FECHA_EFECTIVA_DESDE] **/
+					ccHdrV1.setFechaEfectivaDesde((Date)row[10]);
+				}
+				if(row[11] instanceof Date) { /** [FECHA_EFECTIVA_HASTA] **/
+					ccHdrV1.setFechaEfectivaHasta((Date)row[11]);
+				}
+				if(row[12] instanceof Timestamp) { /** [FECHA_CREACION] **/
+					ccHdrV1.setFechaElaboracion((Timestamp)row[12]);
+				}
+				
+				retval.add(ccHdrV1); 
+			}
+		}	
+		return retval;
+	}
+	
+	@Override
+	public List<CcExamAsignaciones> findCCInExam(long pNumeroExamen) {
+		List<CcExamAsignaciones> retval = new ArrayList<CcExamAsignaciones>();
+		List<Object> listObjects = ccHdrDao.findCCInExam(pNumeroExamen); 
+		for(Object object:listObjects) {
+			if(object instanceof Object[]) {
+				CcExamAsignaciones ccHdrV1 = new CcExamAsignaciones(); 
+				Object[] row = (Object[]) object;
+				if(row[0] instanceof BigInteger) { /** [NUMERO] **/
+					ccHdrV1.setNumero(((BigInteger)row[0]).longValue());
+				}
+				if(row[1] instanceof BigInteger) { /** [NUMERO_CC] **/
+					ccHdrV1.setNumeroCoreCase(((BigInteger)row[1]).longValue());
+				}
+				if(row[2] instanceof BigInteger) { /** [ADMON_EXAMEN] **/
+					ccHdrV1.setAdmonExamen(((BigInteger)row[2]).longValue());
+				}
+				if(row[3] instanceof String) { /** [ADMON_EXAMEN_DESC] **/
+					ccHdrV1.setAdmonExamenDesc(row[3].toString().trim());
+				}
+				if(row[4] instanceof BigInteger) { /** [ADMON_MATERIA] **/
+					ccHdrV1.setAdmonMateria(((BigInteger)row[4]).longValue());
+				}
+				if(row[5] instanceof String) { /** [ADMON_MATERIA_DESC] **/
+					ccHdrV1.setAdmonMateriaDesc(row[5].toString().trim());
+				}
+				if(row[6] instanceof BigInteger) { /** [ADMON_SUBMATERIA] **/
+					ccHdrV1.setAdmonSubMateria(((BigInteger)row[6]).longValue());
+				}
+				if(row[7] instanceof String) { /** [ADMON_SUBMATERIA_DESC] **/
+					ccHdrV1.setAdmonSubMateriaDesc(row[7].toString().trim());
+				}
+				if(row[8] instanceof String) { /** [DESCRIPCION_TECNICA] **/
+					ccHdrV1.setDescripcionTecnica(row[8].toString().trim());
+				}
+				if(row[9] instanceof String) { /** [ESTATUS] **/
+					ccHdrV1.setEstatusCoreCases(row[9].toString().trim());
+				}
+				if(row[10] instanceof String) { /** [ESTATUS_DESC] **/
+					ccHdrV1.setEstatusCoreCasesDesc(row[10].toString().trim());
+				}
+				if(row[11] instanceof Timestamp) { /** [FECHA_CREACION] **/
+					ccHdrV1.setFechaCreacion((Timestamp)row[11]);
+				}
+				
+				retval.add(ccHdrV1); 
 			}
 		}	
 		return retval;

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.cmrise.ejb.model.admin.AdmonUsuariosRolesV1;
 import com.cmrise.ejb.model.candidates.exams.CandExamenesV1;
+import com.cmrise.ejb.model.candidates.exams.CandExamenesV2;
 import com.cmrise.ejb.services.admin.AdmonUsuariosRolesLocal;
 import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesDto;
@@ -25,7 +26,7 @@ public class AssignCoreCasesCandidatesForm {
 	private long numeroCcExamen; 
 	
 	private List<AdmonUsuariosRolesV1> listAdmonUsuariosRolesV1 = new ArrayList<AdmonUsuariosRolesV1>();
-    private List<CandExamenesV1> listCandExamenesV1 = new ArrayList<CandExamenesV1>(); 
+    private List<CandExamenesV2> listCandExamenesV2 = new ArrayList<CandExamenesV2>(); 
     private List<AdmonUsuariosRolesV1> selectedsAdmonUsuariosRolesV1 = new ArrayList<AdmonUsuariosRolesV1>(); 
 	private CandExamenesV1 candExamenesV1ForAction = new CandExamenesV1(); 
     
@@ -50,7 +51,7 @@ public class AssignCoreCasesCandidatesForm {
 	 }
 	 
 	private void refreshEntity() {
-		listCandExamenesV1 = candExamenesLocal.findByExamen(this.getNumeroCcExamen()
+		listCandExamenesV2 = candExamenesLocal.findByExamen(this.getNumeroCcExamen()
 				                                           ,Utilitarios.CORE_CASES
 				                                           ); 
 		listAdmonUsuariosRolesV1 = admonUsuariosRolesLocal.findWithFilterExam(this.getNumeroCcExamen()
@@ -100,12 +101,12 @@ public class AssignCoreCasesCandidatesForm {
 	}
 
 
-	public List<CandExamenesV1> getListCandExamenesV1() {
-		return listCandExamenesV1;
+	public List<CandExamenesV2> getListCandExamenesV2() {
+		return listCandExamenesV2;
 	}
 
-	public void setListCandExamenesV1(List<CandExamenesV1> listCandExamenesV1) {
-		this.listCandExamenesV1 = listCandExamenesV1;
+	public void setListCandExamenesV2(List<CandExamenesV2> listCandExamenesV2) {
+		this.listCandExamenesV2 = listCandExamenesV2;
 	}
 
 	public List<AdmonUsuariosRolesV1> getSelectedsAdmonUsuariosRolesV1() {

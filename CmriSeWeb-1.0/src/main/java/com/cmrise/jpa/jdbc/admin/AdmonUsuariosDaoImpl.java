@@ -31,8 +31,6 @@ public class AdmonUsuariosDaoImpl implements AdmonUsuariosDao {
 		pAdmonUsuariosDto.setNumero(lNumeroS.longValue());
 		java.util.Date sysdate = new java.util.Date();
 		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
-		//pAdmonUsuariosDto.setCreadoPor((long)-1);
-		//pAdmonUsuariosDto.setActualizadoPor((long)-1);
 		pAdmonUsuariosDto.setFechaCreacion(sqlsysdate);
 		pAdmonUsuariosDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pAdmonUsuariosDto);
@@ -62,6 +60,9 @@ public class AdmonUsuariosDaoImpl implements AdmonUsuariosDao {
 	 if(null!=pAdmonUsuariosDto.getNombre()) {
 	 admonUsuariosDto.setNombre(pAdmonUsuariosDto.getNombre());
 	 }
+	 java.util.Date sysdate = new java.util.Date();
+	 java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
+	 pAdmonUsuariosDto.setFechaActualizacion(sqlsysdate);
 	 admonUsuariosDto.setCurp(pAdmonUsuariosDto.getCurp());
 	 admonUsuariosDto.setApellidoPaterno(pAdmonUsuariosDto.getApellidoPaterno());
 	 admonUsuariosDto.setApellidoMaterno(pAdmonUsuariosDto.getApellidoMaterno());
