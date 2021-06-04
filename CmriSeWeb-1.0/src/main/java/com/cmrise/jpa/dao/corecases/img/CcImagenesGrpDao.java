@@ -15,6 +15,8 @@ public interface CcImagenesGrpDao {
 	
 	public List<CcImagenesGrpDto> findByCcHDR(long pNumeroFta
             ,String pSeccion
-            ); 
+            );
+
+	public void update(CcImagenesGrpDto pCcImagenesGrpDto); 
 	
 }
