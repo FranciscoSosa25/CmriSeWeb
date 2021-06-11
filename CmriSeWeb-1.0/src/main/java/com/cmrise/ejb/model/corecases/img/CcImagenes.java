@@ -33,6 +33,8 @@ public class CcImagenes implements Serializable {
 	private String jpgBase64;
 	private byte[] jpgContent; 
 	private StreamedContent jpgStreamedContent; 
+	private String filePath;
+	private String dcmKey;
 	
 	public long getNumero() {
 		return this.numero;
@@ -160,4 +162,21 @@ public class CcImagenes implements Serializable {
 		this.jpgStreamedContent = jpgStreamedContent;
 	}
 
+	public String getFilePath() {
+		return filePath;
+	}
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
+
+	public String getDcmKey() {
+		return dcmKey;
+	}
+
+	public void setDcmKey(String dcmKey) {
+		this.dcmKey = dcmKey;
+	}
+	
+	
 }

@@ -13,12 +13,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -208,49 +212,79 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 
 	@Override
 	public List<CcImagenesGrp> findByFta(long pNumeroFta, String pSeccion) {
-        List<CcImagenesGrp> retval = new ArrayList<CcImagenesGrp>(); 
-		
-		List<CcImagenesGrpDto> listCcImagenesGrpDto = ccImagenesGrpDao.findByFta(pNumeroFta
-				                                                                ,pSeccion
-				                                                                ); 
-		for(CcImagenesGrpDto i:listCcImagenesGrpDto) {
-			CcImagenesGrp ccImagenesGrp = new CcImagenesGrp();
-			ccImagenesGrp.setNumero(i.getNumero());
-			ccImagenesGrp.setSeccion(i.getSeccion());
-			ccImagenesGrp.setTipo(i.getTipo());
-			ccImagenesGrp.setTituloSuperior(i.getTituloSuperior());
-			ccImagenesGrp.setTituloInferior(i.getTituloInferior());
-			ccImagenesGrp.setTexto(i.getTexto());
-			ccImagenesGrp.setModality(i.getModality());
-			
-			List<CcImagenes> listCcImagenes = new ArrayList<CcImagenes>(); 
-			List<CcImagenesDto> listCcImagenesDto = ccImagenesDao.findByGrp(i.getNumero()); 
-			for(CcImagenesDto j:listCcImagenesDto) {
-				CcImagenes ccImagenes = new CcImagenes(); 
-				ccImagenes.setNumero(j.getNumero());
-				ccImagenes.setNumeroGrp(j.getNumeroGrp());
-				ccImagenes.setNombreImagen(j.getNombreImagen());
-				ccImagenes.setRutaImagen(j.getRutaImagen());
-				String strJpgRuta  = Utilitarios.FS_ROOT + j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX);
-				String strThumbailRuta  = Utilitarios.FS_ROOT + j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX);
-				try {
-					/** byte[] bytesArray = Files.readAllBytes(Paths.get(j.getRutaImagen()+"\\"+j.getNombreImagen())); **/
-					/** ccImagenes.setImagenContent(bytesArray); **/
-					byte[] bytesArray = Files.readAllBytes(Paths.get(strJpgRuta));
-					ccImagenes.setJpgContent(bytesArray);
-					ccImagenes.setJpgBase64(new String(Base64.getEncoder().encode(bytesArray)));
-					bytesArray = Files.readAllBytes(Paths.get(strThumbailRuta));
-					ccImagenes.setThumbailContent(bytesArray);
-					ccImagenes.setThumbailBase64(new String(Base64.getEncoder().encode(bytesArray)));
-				} catch (IOException ie) {
-				   System.out.println("IOException :"+ie.getMessage());
+		return getImages(ccImagenesGrpDao.findByFta(pNumeroFta,pSeccion));
+	}
+	
+	public List<CcImagenesGrp> getImages(List<CcImagenesGrpDto> listCcImagenesGrpDto) {
+		 List<CcImagenesGrp> retval = new ArrayList<CcImagenesGrp>(); 
+		 try {
+			for(CcImagenesGrpDto i:listCcImagenesGrpDto) {
+				CcImagenesGrp ccImagenesGrp = new CcImagenesGrp();
+				ccImagenesGrp.setNumero(i.getNumero());
+				ccImagenesGrp.setSeccion(i.getSeccion());
+				ccImagenesGrp.setTipo(i.getTipo());
+				ccImagenesGrp.setTituloSuperior(i.getTituloSuperior());
+				ccImagenesGrp.setTituloInferior(i.getTituloInferior());
+				ccImagenesGrp.setTexto(i.getTexto());
+				ccImagenesGrp.setModality(i.getModality());
+				
+				List<CcImagenes> listCcImagenes = new ArrayList<CcImagenes>(); 
+				List<CcImagenesDto> listCcImagenesDto = ccImagenesDao.findByGrp(i.getNumero()); 
+				for(CcImagenesDto j:listCcImagenesDto) {
+					CcImagenes ccImagenes = new CcImagenes(); 
+					ccImagenes.setNumero(j.getNumero());
+					ccImagenes.setNumeroGrp(j.getNumeroGrp());
+					ccImagenes.setNombreImagen(j.getNombreImagen());
+					ccImagenes.setRutaImagen(j.getRutaImagen());
+					ccImagenes.setFilePath( Utilitarios.FS_ROOT+j.getRutaImagen()+ File.separator+j.getNombreImagen());
+					ccImagenes.setDcmKey(getDigest(ccImagenes.getFilePath()));
+					String strJpgRuta  = Utilitarios.FS_ROOT + j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX);
+					String strThumbailRuta  = Utilitarios.FS_ROOT + j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX);
+					try {
+						/** byte[] bytesArray = Files.readAllBytes(Paths.get(j.getRutaImagen()+"\\"+j.getNombreImagen())); **/
+						/** ccImagenes.setImagenContent(bytesArray); **/
+						byte[] bytesArray = Files.readAllBytes(Paths.get(strJpgRuta));
+						ccImagenes.setJpgContent(bytesArray);
+						ccImagenes.setJpgBase64(new String(Base64.getEncoder().encode(bytesArray)));
+						bytesArray = Files.readAllBytes(Paths.get(strThumbailRuta));
+						ccImagenes.setThumbailContent(bytesArray);
+						ccImagenes.setThumbailBase64(new String(Base64.getEncoder().encode(bytesArray)));
+					} catch (IOException ie) {
+					   System.out.println("IOException :"+ie.getMessage());
+					}
+					listCcImagenes.add(ccImagenes);
 				}
-				listCcImagenes.add(ccImagenes);
+				ccImagenesGrp.setListCcImagenes(listCcImagenes);
+				retval.add(ccImagenesGrp); 
 			}
-			ccImagenesGrp.setListCcImagenes(listCcImagenes);
-			retval.add(ccImagenesGrp); 
+		 }catch (RuntimeException e) {
+			// TODO: handle exception
+		}	
+			return retval;
+		
+	}
+	
+	private String getDigest(String value) {
+		String digest = "";
+		try {
+			if(value!=null) {
+				String filePath = value;
+				MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+				byte[] ar = messageDigest.digest(value.getBytes());
+				StringBuilder sb = new StringBuilder();
+				for(byte d:ar) {
+					sb.append(String.format("%02x", d));
+				}
+				digest = sb.toString();
+				FacesContext context = FacesContext.getCurrentInstance();
+				HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+				
+				session.setAttribute(digest, filePath);
+			}
+		}catch (RuntimeException | NoSuchAlgorithmException e) {
+			e.printStackTrace();
 		}
-		return retval;
+		return digest;
 	}
 
 	private void copy(byte[] pBytes, File destination)  throws IOException{
@@ -296,49 +330,7 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 
 	@Override
 	public List<CcImagenesGrp> findByCcHDR(long pNumeroCcHDR, String pSeccion) {
-		  List<CcImagenesGrp> retval = new ArrayList<CcImagenesGrp>(); 
-			
-			List<CcImagenesGrpDto> listCcImagenesGrpDto = ccImagenesGrpDao.findByCcHDR(pNumeroCcHDR
-					                                                                ,pSeccion
-					                                                                ); 
-			for(CcImagenesGrpDto i:listCcImagenesGrpDto) {
-				CcImagenesGrp ccImagenesGrp = new CcImagenesGrp();
-				ccImagenesGrp.setNumero(i.getNumero());
-				ccImagenesGrp.setSeccion(i.getSeccion());
-				ccImagenesGrp.setTipo(i.getTipo());
-				ccImagenesGrp.setTituloSuperior(i.getTituloSuperior());
-				ccImagenesGrp.setTituloInferior(i.getTituloInferior());
-				ccImagenesGrp.setTexto(i.getTexto());
-				ccImagenesGrp.setModality(i.getModality());
-				
-				List<CcImagenes> listCcImagenes = new ArrayList<CcImagenes>(); 
-				List<CcImagenesDto> listCcImagenesDto = ccImagenesDao.findByGrp(i.getNumero()); 
-				for(CcImagenesDto j:listCcImagenesDto) {
-					CcImagenes ccImagenes = new CcImagenes(); 
-					ccImagenes.setNumero(j.getNumero());
-					ccImagenes.setNumeroGrp(j.getNumeroGrp());
-					ccImagenes.setNombreImagen(j.getNombreImagen());
-					ccImagenes.setRutaImagen(j.getRutaImagen());
-					String strJpgRuta  = Utilitarios.FS_ROOT + j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX);
-					String strThumbailRuta  = Utilitarios.FS_ROOT + j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX);
-					try {
-						/** byte[] bytesArray = Files.readAllBytes(Paths.get(j.getRutaImagen()+"\\"+j.getNombreImagen())); **/
-						/** ccImagenes.setImagenContent(bytesArray); **/
-						byte[] bytesArray = Files.readAllBytes(Paths.get(strJpgRuta));
-						ccImagenes.setJpgContent(bytesArray);
-						ccImagenes.setJpgBase64(new String(Base64.getEncoder().encode(bytesArray)));
-						bytesArray = Files.readAllBytes(Paths.get(strThumbailRuta));
-						ccImagenes.setThumbailContent(bytesArray);
-						ccImagenes.setThumbailBase64(new String(Base64.getEncoder().encode(bytesArray)));
-					} catch (IOException ie) {
-					   System.out.println("IOException :"+ie.getMessage());
-					}
-					listCcImagenes.add(ccImagenes);
-				}
-				ccImagenesGrp.setListCcImagenes(listCcImagenes);
-				retval.add(ccImagenesGrp); 
-			}
-			return retval;
+		return getImages(ccImagenesGrpDao.findByCcHDR(pNumeroCcHDR,pSeccion));
 	}
 	
 	@Override
