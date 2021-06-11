@@ -45,13 +45,9 @@ public class UpdateMrqsExamForm {
 	private List<SelectItem> selectExamenesHdr = new ArrayList<SelectItem>(); 
 	private List<SelectItem> selectMateriasHdr = new ArrayList<SelectItem>();  
 	
-	private MrqsExamenes mrqsExamenesForUpdate = new MrqsExamenes(); 
-	
-	private long numeroMrqsExamen;
-	
-	private MrqsGrupoHdr mrqsGrupoHdrForInsert = new MrqsGrupoHdr(); 
-	
-	
+	private MrqsExamenes mrqsExamenesForUpdate = new MrqsExamenes(); 	
+	private long numeroMrqsExamen;	
+	private MrqsGrupoHdr mrqsGrupoHdrForInsert = new MrqsGrupoHdr(); 	
 	private TreeNode rootMrqsGrupo;
 	private TreeNode selectedNode;
 	
@@ -200,6 +196,8 @@ public class UpdateMrqsExamForm {
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		session.setAttribute("NumeroMrqsExamenSV", this.getNumeroMrqsExamen());
+		session.setAttribute("tipoExamen", Utilitarios.MRQS);
+		session.setAttribute("nombrePantalla", "Exams-MRQs-Update");
 		return "Assign-MRQs-Candidates"; 
 	}
 	
@@ -231,6 +229,8 @@ public class UpdateMrqsExamForm {
 
 		MrqsExamenes exam = mrqsExamenesLocal.findObjMod(getNumeroMrqsExamen());
 		
+		//BUG: Despues de crear examen de reactivo y al cerrar la pantalla de actualizar SIEMPRE marca error dado q no se han ligado preguntas
+		// y no es posible hacerlo de ninguna forma desde la misma pagina actualizar
 		System.out.println("getNumeroReactivos: "+exam.getListMrqsGrupoHdr().get(0).getListMrqsGrupoLines().size());
 		if(exam.getListMrqsGrupoHdr().get(0).getListMrqsGrupoLines().size() <=0)
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",

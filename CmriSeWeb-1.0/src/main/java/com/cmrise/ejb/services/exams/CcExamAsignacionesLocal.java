@@ -12,4 +12,5 @@ public interface CcExamAsignacionesLocal {
 	public long insert(CcExamAsignacionesDto pCcExamAsignacionesDto);
 	public List<CcExamAsignaciones> findByNumeroExamenWD(long pNumeroExamen);
 	public List<CcExamAsignaciones> findByNumeroExamenObjMod(long pNumeroExamen);
+	public void delete(long pNumero);
 }
