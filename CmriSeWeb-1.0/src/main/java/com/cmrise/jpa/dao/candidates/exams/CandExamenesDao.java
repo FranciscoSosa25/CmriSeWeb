@@ -9,7 +9,7 @@ import com.cmrise.jpa.dto.candidates.exams.CandExamenesV2Dto;
 public interface CandExamenesDao {
 
 	public long insert(CandExamenesDto pCandExamenesDto); 
-	public List<CandExamenesV1Dto> findByExamen(long pNumeroExamen
+	public List<CandExamenesV2Dto> findByExamen(long pNumeroExamen
 			                                   ,String pTipoExamen
 			                                   ); 
 	public void delete(long pNumero); 
@@ -22,6 +22,6 @@ public interface CandExamenesDao {
 			                                  ,String pApellidoPaterno
 			                                  ,String pAPellidoMaterno);
 	public void updateEstatus(long pNumero, CandExamenesDto pCandExamenesDto);
-	public List<CandExamenesV1Dto> findCandidateByExam(String cCurp, String cNombre, String c_aPaterno, 
+	public List<CandExamenesV2Dto> findCandidateByExam(String cCurp, String cNombre, String c_aPaterno, 
 									String c_aMaterno, String actPor, String fechaActu, long pNumeroExamen, String pTipoExamen);
 }

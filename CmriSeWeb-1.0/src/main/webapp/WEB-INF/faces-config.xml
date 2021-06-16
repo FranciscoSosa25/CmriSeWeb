@@ -32,6 +32,18 @@
 			<redirect />
 		</navigation-case>
 		<navigation-case>
+			<from-outcome>Admon-New-Usuario</from-outcome>
+			<to-view-id>/cmrise/admin/AdmonNewUsuario.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+
+			<from-outcome>Admon-Update-Usuario</from-outcome>
+			<to-view-id>/cmrise/admin/AdmonUpdateUsuario.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>		
+		<navigation-case>
+
 			<from-outcome>Admon-Usuarios-Roles</from-outcome>
 			<to-view-id>/cmrise/admin/AdmonUsuariosRoles.xhtml</to-view-id>
 			<redirect />
@@ -261,8 +273,7 @@
 			<from-outcome>Exams-MRQs-Update-Group</from-outcome>
 			<to-view-id>/cmrise/examenes/mrqs/UpdateMrqsExamGroup.xhtml</to-view-id>
 			<redirect />
-		</navigation-case>
-		
+		</navigation-case>		
 		<navigation-case>
 			<from-outcome>Preview-Examen-Reactivos</from-outcome>
 			<to-view-id>/cmrise/examenes/mrqs/preview/PreviewExamenReactivos.xhtml</to-view-id>
@@ -272,12 +283,14 @@
 			<from-outcome>Prev-Exam-React-OneByOne</from-outcome>
 			<to-view-id>/cmrise/examenes/mrqs/preview/PrevExamReactOneByOne.xhtml</to-view-id>
 			<redirect />
-		</navigation-case>
+		</navigation-case>		
+
 		<navigation-case>
 			<from-outcome>Candidate-Exam-Details</from-outcome>
 			<to-view-id>/cmrise/examenes/CandidateExamDetails.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
+
 		<navigation-case>
 			<from-outcome>Assign-MRQs-Candidates</from-outcome>
 			<to-view-id>/cmrise/examenes/mrqs/AssignMrqsCandidates.xhtml</to-view-id>
@@ -297,14 +310,12 @@
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
-
-	
-		<navigation-rule>
+		
+	<navigation-rule>
 		<navigation-case>
 			<from-outcome>CoreCase-Preview-Full</from-outcome>
 			<to-view-id>/cmrise/preguntas/corecases/preview/CoreCasePreviewFull.xhtml</to-view-id>
-
-	</navigation-case>
+		</navigation-case>
 	</navigation-rule>
 
 

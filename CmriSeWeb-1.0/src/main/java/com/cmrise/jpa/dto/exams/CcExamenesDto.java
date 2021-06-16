@@ -25,26 +25,11 @@ public class CcExamenesDto implements Serializable {
 	@Column(name="ACTUALIZADO_POR")
 	private long actualizadoPor;
 
-	@Column(name="ALEATORIO_GRUPO")
-	private boolean aleatorioGrupo;
-
-	@Column(name="ALEATORIO_PREGUNTAS")
-	private boolean aleatorioPreguntas;
-
-	@Column(name="COMENTARIOS")
-	private String comentarios;
-
-	@Column(name="CONFIRMACION_ASISTENCIA")
-	private boolean confirmacionAsistencia;
-
 	@Column(name="CREADO_POR")
 	private long creadoPor;
 
 	@Column(name="DESCRIPCION")
 	private String descripcion;
-
-	@Column(name="DIPLOMA")
-	private boolean diploma;
 
 	@Column(name="ESTATUS")
 	private String estatus;
@@ -56,10 +41,10 @@ public class CcExamenesDto implements Serializable {
 	private Timestamp fechaCreacion;
 
 	@Column(name="FECHA_EFECTIVA_DESDE")
-	private Date fechaEfectivaDesde;
+	private Timestamp fechaEfectivaDesde;
 
 	@Column(name="FECHA_EFECTIVA_HASTA")
-	private Date fechaEfectivaHasta;
+	private Timestamp fechaEfectivaHasta;
 
 	@Column(name="MENSAJE_FINALIZACION")
 	private String mensajeFinalizacion;
@@ -67,38 +52,17 @@ public class CcExamenesDto implements Serializable {
 	@Column(name="MOSTRAR_RESPUESTAS")
 	private boolean mostrarRespuestas;
 
-	@Column(name="NOMBRE")
-	private String nombre;
-
 	@Column(name="SALTAR_CASOS")
 	private boolean saltarCasos;
-
-	@Column(name="SALTAR_PREGUNTAS")
-	private boolean saltarPreguntas;
-
-	@Column(name="SELECCION_CASOS_ALEATORIOS")
-	private boolean seleccionCasosAleatorios;
 
 	@Column(name="SOCIEDAD")
 	private String sociedad;
 
-	@Column(name="TEMA")
-	private String tema;
-
 	@Column(name="TIEMPO_LIMITE")
 	private short tiempoLimite;
 
-	@Column(name="TIENE_PASSMARK")
-	private boolean tienePassmark;
-
-	@Column(name="TIPO_EXAMEN")
-	private String tipoExamen;
-
-	@Column(name="TIPO_PREGUNTA")
-	private String tipoPregunta;
-
-	@Column(name="TITULO")
-	private String titulo;
+	@Column(name="EXAMEN")
+	private long idTipoExamen;
 
 	@Column(name="VISIBILIDAD")
 	private String visibilidad;
@@ -122,38 +86,6 @@ public class CcExamenesDto implements Serializable {
 		this.actualizadoPor = actualizadoPor;
 	}
 
-	public boolean getAleatorioGrupo() {
-		return this.aleatorioGrupo;
-	}
-
-	public void setAleatorioGrupo(boolean aleatorioGrupo) {
-		this.aleatorioGrupo = aleatorioGrupo;
-	}
-
-	public boolean getAleatorioPreguntas() {
-		return this.aleatorioPreguntas;
-	}
-
-	public void setAleatorioPreguntas(boolean aleatorioPreguntas) {
-		this.aleatorioPreguntas = aleatorioPreguntas;
-	}
-
-	public String getComentarios() {
-		return this.comentarios;
-	}
-
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
-	}
-
-	public boolean getConfirmacionAsistencia() {
-		return this.confirmacionAsistencia;
-	}
-
-	public void setConfirmacionAsistencia(boolean confirmacionAsistencia) {
-		this.confirmacionAsistencia = confirmacionAsistencia;
-	}
-
 	public long getCreadoPor() {
 		return this.creadoPor;
 	}
@@ -168,14 +100,6 @@ public class CcExamenesDto implements Serializable {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-
-	public boolean getDiploma() {
-		return this.diploma;
-	}
-
-	public void setDiploma(boolean diploma) {
-		this.diploma = diploma;
 	}
 
 	public String getEstatus() {
@@ -202,19 +126,19 @@ public class CcExamenesDto implements Serializable {
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public Date getFechaEfectivaDesde() {
+	public Timestamp getFechaEfectivaDesde() {
 		return this.fechaEfectivaDesde;
 	}
 
-	public void setFechaEfectivaDesde(Date fechaEfectivaDesde) {
+	public void setFechaEfectivaDesde(Timestamp fechaEfectivaDesde) {
 		this.fechaEfectivaDesde = fechaEfectivaDesde;
 	}
 
-	public Date getFechaEfectivaHasta() {
+	public Timestamp getFechaEfectivaHasta() {
 		return this.fechaEfectivaHasta;
 	}
 
-	public void setFechaEfectivaHasta(Date fechaEfectivaHasta) {
+	public void setFechaEfectivaHasta(Timestamp fechaEfectivaHasta) {
 		this.fechaEfectivaHasta = fechaEfectivaHasta;
 	}
 
@@ -234,36 +158,12 @@ public class CcExamenesDto implements Serializable {
 		this.mostrarRespuestas = mostrarRespuestas;
 	}
 
-	public String getNombre() {
-		return this.nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
 	public boolean getSaltarCasos() {
 		return this.saltarCasos;
 	}
 
 	public void setSaltarCasos(boolean saltarCasos) {
 		this.saltarCasos = saltarCasos;
-	}
-
-	public boolean getSaltarPreguntas() {
-		return this.saltarPreguntas;
-	}
-
-	public void setSaltarPreguntas(boolean saltarPreguntas) {
-		this.saltarPreguntas = saltarPreguntas;
-	}
-
-	public boolean getSeleccionCasosAleatorios() {
-		return this.seleccionCasosAleatorios;
-	}
-
-	public void setSeleccionCasosAleatorios(boolean seleccionCasosAleatorios) {
-		this.seleccionCasosAleatorios = seleccionCasosAleatorios;
 	}
 
 	public String getSociedad() {
@@ -274,14 +174,6 @@ public class CcExamenesDto implements Serializable {
 		this.sociedad = sociedad;
 	}
 
-	public String getTema() {
-		return this.tema;
-	}
-
-	public void setTema(String tema) {
-		this.tema = tema;
-	}
-
 	public short getTiempoLimite() {
 		return this.tiempoLimite;
 	}
@@ -290,36 +182,12 @@ public class CcExamenesDto implements Serializable {
 		this.tiempoLimite = tiempoLimite;
 	}
 
-	public boolean getTienePassmark() {
-		return this.tienePassmark;
+	public long getIdTipoExamen() {
+		return this.idTipoExamen;
 	}
 
-	public void setTienePassmark(boolean tienePassmark) {
-		this.tienePassmark = tienePassmark;
-	}
-
-	public String getTipoExamen() {
-		return this.tipoExamen;
-	}
-
-	public void setTipoExamen(String tipoExamen) {
-		this.tipoExamen = tipoExamen;
-	}
-
-	public String getTipoPregunta() {
-		return this.tipoPregunta;
-	}
-
-	public void setTipoPregunta(String tipoPregunta) {
-		this.tipoPregunta = tipoPregunta;
-	}
-
-	public String getTitulo() {
-		return this.titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+	public void setIdTipoExamen(long idTipoExamen) {
+		this.idTipoExamen = idTipoExamen;
 	}
 
 	public String getVisibilidad() {

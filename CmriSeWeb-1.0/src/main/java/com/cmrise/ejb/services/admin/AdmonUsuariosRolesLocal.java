@@ -14,11 +14,14 @@ public interface AdmonUsuariosRolesLocal {
 
 	public void insert(AdmonUsuariosRolesDto pAdmonUsuariosRolesDto);
 	public void delete(long pNumero);
+	public void deleteLogico(long pNumero, AdmonUsuariosRolesDto pAdmonUsuariosRolesDto);
 	public void update(long pNumero,AdmonUsuariosRolesDto pAdmonUsuariosRolesDto);
+	public void activaRolUsuario(long pNumero, AdmonUsuariosRolesDto pAdmonUsuariosRolesDto);
 	public List<AdmonUsuariosRolesV1Dto> findAll(); 
 	public int validaUsuarioRol(long pNumeroUsuario
 					           ,long pNumeroRol
 					           );
+	public int validaUsuarioRolID(long pNumeroUsuario,long pNumeroRol);
 	 public int loginUsuarioRol(String pCurp
 					             ,String pRol
 					             ,String pContrasenia
@@ -34,4 +37,6 @@ public interface AdmonUsuariosRolesLocal {
 	public List<AdmonUsuariosRolesV1Dto> findNotCand();
 	public List<AdmonUsuariosRolesV1> findCandidateNotExam(String cCurp, String cNombre, String c_aPaterno, 
 			String c_aMaterno, String actPor, String fechaActu, long   pNumeroExamen, String pTipoExamen);
+	List<AdmonUsuariosRolesV1> findUser(long numberUser);
+	public List<AdmonUsuariosRolesV1Dto> findUsers();
 }

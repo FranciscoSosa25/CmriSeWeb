@@ -408,6 +408,7 @@ public class CreateMrqsCandidatesForm {
 					admonRolesDto.setNumero(nRol);
 					admonUsuariosRolesDto.setAdmonUsuario(admonUsuariosV2Dto);
 					admonUsuariosRolesDto.setAdmonRole(admonRolesDto);
+					admonUsuariosRolesDto.setEstatus(true);
 					admonUsuariosRolesDto.setFechaEfectivaDesde(utilitariosLocal.toSqlDate(fechaEfDesde));
 					if(null!=fechaEfHasta) 
 						admonUsuariosRolesDto.setFechaEfectivaHasta(utilitariosLocal.toSqlDate(fechaEfHasta));	

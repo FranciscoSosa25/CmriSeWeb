@@ -101,35 +101,35 @@ function handleUpdateRequest(xhr, status, args){
 	 </p:fieldset>
  </div>
 		 
-  <p:dataTable  var="candExamenesV1"  value="#{assignMrqsCandidatesForm.listCandExamenesV1}" 
-  emptyMessage="Sin resultados" rowKey="#{candExamenesV1.numeroUsuario}" selection="#{assignMrqsCandidatesForm.selectedCandExamenesV2}" 
+  <p:dataTable  var="candExamenesV2"  value="#{assignMrqsCandidatesForm.listCandExamenesV2}" 
+  emptyMessage="Sin resultados" rowKey="#{candExamenesV2.numeroUsuario}" selection="#{assignMrqsCandidatesForm.selectedCandExamenesV2}" 
   paginator="true" rows="20" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" 
-  disabledSelection="#{candExamenesV1.estatus != 'ASIGNADO'}" >
+  disabledSelection="#{candExamenesV2.estatus != 'ASIGNADO'}" >
    <f:facet name="header">Candidatos Asignados</f:facet>
    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
    <p:column headerText="Matricula">
-      <h:outputText value="#{candExamenesV1.matricula}"/>
+      <h:outputText value="#{candExamenesV2.matricula}"/>
    </p:column>
    <p:column headerText="CURP">
-      <h:outputText value="#{candExamenesV1.curp}"/>
+      <h:outputText value="#{candExamenesV2.curp}"/>
    </p:column>
    <p:column headerText="Apellido Paterno">
-      <h:outputText value="#{candExamenesV1.apellidoPaterno}"/>
+      <h:outputText value="#{candExamenesV2.apellidoPaterno}"/>
    </p:column>
    <p:column headerText="Apellido Materno">
-      <h:outputText value="#{candExamenesV1.apellidoMaterno}"/>
+      <h:outputText value="#{candExamenesV2.apellidoMaterno}"/>
    </p:column>
    <p:column headerText="Nombre">
-      <h:outputText value="#{candExamenesV1.nombreUsuario}"/>
+      <h:outputText value="#{candExamenesV2.nombreUsuario}"/>
    </p:column>
    <p:column headerText="Estatus">
-      <h:outputText value="#{candExamenesV1.estatus}"/>
+      <h:outputText value="#{candExamenesV2.estatus}"/>
    </p:column>
    <p:column headerText="Actualizado por">
-      <h:outputText value="#{candExamenesV1.nombreActPor}"/>
+      <h:outputText value="#{candExamenesV2.nombreActualizadoPor}"/>
    </p:column> 
    <p:column headerText="Fecha Actualizado">
-     <h:outputText value="#{candExamenesV1.fechaActString}"/>
+     <h:outputText value="#{candExamenesV2.stringFechaAct}"/>
    </p:column>
   </p:dataTable>
   <div class="ui-g">  

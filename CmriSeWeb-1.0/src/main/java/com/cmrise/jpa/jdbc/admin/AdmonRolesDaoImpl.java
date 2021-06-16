@@ -78,16 +78,32 @@ public class AdmonRolesDaoImpl implements AdmonRolesDao {
 	
 	@Override
 	public List<KeysDto> findKeysCand() {
-		String strQuery = "SELECT new com.cmrise.jpa.dto.admin.KeysDto(a.numero,a.nombre) FROM AdmonRolesDto a WHERE NUMERO='1'";
+		String strQuery = "SELECT new com.cmrise.jpa.dto.admin.KeysDto(a.numero,a.nombre) FROM AdmonRolesDto a WHERE a.numero ='1'";
 		Query q = em.createQuery(strQuery); 
 		return q.getResultList();
 	}
 	
 	@Override
 	public List<KeysDto> findKeysNotCand() {
-		String strQuery = "SELECT new com.cmrise.jpa.dto.admin.KeysDto(a.numero,a.nombre) FROM AdmonRolesDto a WHERE NUMERO != '1'";
+		String strQuery = "SELECT new com.cmrise.jpa.dto.admin.KeysDto(a.numero,a.nombre) FROM AdmonRolesDto a WHERE a.numero != '1'";
 		Query q = em.createQuery(strQuery); 
 		return q.getResultList();
 	}
+	
+	@Override
+	public AdmonRolesDto findRole(long idRole) {
+		AdmonRolesDto admonRolesDto = em.find(AdmonRolesDto.class, idRole);
+		return admonRolesDto;		
+	}
+
+	@Override
+	public List<Object> findKeysRolesUser(long idUser){
+		String strQuery = "select a.NUMERO, a.NOMBRE, aur.NUMERO_ROL \n"
+				+ "from dbo.ADMON_ROLES a inner join dbo.ADMON_USUARIOS_ROLES aur \n"
+				+ "on aur.NUMERO_ROL = a.NUMERO where aur.NUMERO_USUARIO =" + idUser + "AND aur.ESTATUS = 1";
+		Query q = em.createNativeQuery(strQuery); 
+		return q.getResultList();
+	}
+
 
 }

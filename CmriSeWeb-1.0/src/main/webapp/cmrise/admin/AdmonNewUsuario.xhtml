@@ -1,0 +1,137 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template/template.xhtml">
+
+<ui:define name="xxhrwjs">
+<script type="text/javascript">
+
+
+</script>
+</ui:define>
+
+<ui:define name="content">
+<div class="card">
+             
+	<p:panel id="nuevoUsuario" header="Crear Usuario" style="margin-bottom:20px">
+	  <h:form id="CreateForm">
+	  <p:growl id="growl" showDetail="true" life="1000" widgetVar="growlWV"/>
+
+	  
+	  <div class="ui-g"> 
+		<div class="ui-g-12 ui-md-12" >
+	        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+		     	<p:outputLabel for="curp" value="CURP"/>
+		     </div>
+			 <p:inputText id="curp" value="#{admonNewUsuarioForm.curp}" required="true"  style="width:50%">
+			  <f:validateLength minimum="18" />
+			 </p:inputText> 
+			 <p:message for="curp"/>
+		</div>
+		<div class="ui-g-12 ui-md-12" >
+	        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+		 		<p:outputLabel for="nombre" value="Nombre"/>
+		 	</div>
+			 <p:inputText id="nombre" value="#{admonNewUsuarioForm.nombre}" required="true" style="width:50%"/>
+			 <p:message for="nombre"/>
+		 </div>
+		 
+		 <div class="ui-g-12 ui-md-12" >
+	        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+		 		<p:outputLabel for="apellidoPaterno" value="Apellido Paterno"/>
+		 	</div>
+			 <p:inputText id="apellidoPaterno" value="#{admonNewUsuarioForm.apellidoPaterno}" required="true" style="width:50%"/>
+			 <p:message for="apellidoPaterno"/>
+		 </div>
+		 
+		 <div class="ui-g-12 ui-md-12" >
+	        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+		 		<p:outputLabel for="apellidoMaterno" value="Apellido Materno"/>
+		 	</div>
+		 	<p:inputText id="apellidoMaterno" value="#{admonNewUsuarioForm.apellidoMaterno}" required="true" style="width:50%"/>
+		 	<p:message for="apellidoMaterno"/>
+		 </div>	 
+	     
+	     <div class="ui-g-12 ui-md-12" >
+	        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+	     		<p:outputLabel for="correoElectronico" value="Correo Electronico"/>
+	     	</div>
+	     	<p:inputText id="correoElectronico" value="#{admonNewUsuarioForm.correoElectronico}" required="true" style="width:50%"/>
+	     	<p:message for="correoElectronico"/>
+	     </div>
+	     
+	     <div class="ui-g-12 ui-md-12" >
+	        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+	     		<p:outputLabel for="contrasenia" value="Contraseña"/>
+	     	</div>
+	     	<p:password id="contrasenia" value="#{admonNewUsuarioForm.contrasenia}" required="true"   />
+	     	<p:message for="contrasenia"/>
+	     </div>
+	     
+	     <div class="ui-g-12 ui-md-12" >
+	        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+	     		<p:outputLabel for="grid" value="Rol"/>
+	     	</div>	 
+	     	<div class="ui-g-12 ui-md-9">     	
+	     		<p:selectManyCheckbox id="grid" value="#{admonNewUsuarioForm.selectedRoles}" 
+	     		layout="responsive" columns="3">
+	           		<f:selectItems id="selectRoleItems" value="#{selectsHelper.selectAdmonRolesItemsNotCand}" var="l" itemLabel="#{l.label}" itemValue="#{l.value}" />
+	           		<p:ajax  listener="#{admonNewUsuarioForm.mostrarMaterias}" update="containerMaterias"/>
+	       		</p:selectManyCheckbox>		     	
+	     	</div>
+	     	<p:message for="grid"/>
+	     </div>
+	     
+	     <div id="divMaterias" class="ui-g-12 ui-md-11">          
+	     	<div class="ui-g-12 ui-md-2" style="text-align:right;" />
+	     	<div class="ui-g-12 ui-md-10" style="text-align:left;">
+		     	<p:outputPanel id="containerMaterias">
+		     	<p:fieldset legend="Materias" toggleable="true" toggleSpeed="500" rendered="#{admonNewUsuarioForm.dispMaterias}"  >
+		            <p:ajax event="toggle" listener="#{admonNewUsuarioForm.handleToggle}" />
+				    <div >	     		      	
+			     		<p:selectManyCheckbox id="materias" value="#{admonNewUsuarioForm.selectedMaterias}" layout="responsive" columns="3">
+			           		<f:selectItems value="#{admonNewUsuarioForm.selectAdmonFindAllMaterias}" />
+			       		</p:selectManyCheckbox>
+		       		</div>
+	       		</p:fieldset>
+	       		</p:outputPanel>
+       		</div>
+	     	<p:message for="materias"/>
+	     </div>
+	      
+	      <div class="ui-g-12 ui-md-12" >
+	        <div class="ui-g-12 ui-md-3" style="text-align:right;">
+	     		<p:outputLabel for="fechaEfectivaDesdeInput" value="Desde"/>
+	     	</div>
+		  	<p:calendar id="fechaEfectivaDesdeInput" value="#{admonNewUsuarioForm.fechaEfectivaDesde}"  locale="es" pattern="dd/MM/yyyy" mask="true" required="true"  />
+	      	<p:message for="fechaEfectivaDesdeInput"/>
+	      </div>
+	      <div class="ui-g-12 ui-md-12" >
+	      	<div class="ui-g-12 ui-md-3" style="text-align:right;">
+	      		<p:outputLabel for="fechaEfectivaHastaInput" value="Hasta"/>
+	      	</div>
+	      	<p:calendar id="fechaEfectivaHastaInput" value="#{admonNewUsuarioForm.fechaEfectivaHasta}"  locale="es" pattern="dd/MM/yyyy" mask="true" />
+	      	<p:message for="fechaEfectivaHastaInput"/>
+	      </div>
+	    </div>
+	    <div class="ui-g" >
+	    	<div class="ui-g-12 ui-lg-2" >
+	    	</div>
+	        <div class="ui-g-12 ui-lg-3" >
+	           <p:commandButton id="CreateBtn" value="Aceptar" style="BackGround:#2D0D86;" update="CreateForm" actionListener="#{admonNewUsuarioForm.create()}"/> 
+
+            </div>
+	        <div class="ui-g-12 ui-lg-3" >
+	           <p:commandButton id="CancelarBtn"  style="BackGround:#2D0D86;" value="Regresar" immediate="true" action="#{admonNewUsuarioForm.cancel()}" />
+	        </div>
+	   	</div>
+	   	  
+	   </h:form>
+	 	
+ 	</p:panel>
+   </div>
+
+</ui:define>
+</ui:composition>

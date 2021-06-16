@@ -25,12 +25,6 @@ public class CcExamenesDaoImpl implements CcExamenesDao {
 		BigInteger lNumeroS = (BigInteger)q.getSingleResult();
 		long longNumeroS = lNumeroS.longValue(); 
 		pCcExamenesDto.setNumero(lNumeroS.longValue());
-		java.util.Date sysdate = new java.util.Date();
-		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
-		pCcExamenesDto.setCreadoPor((long)-1);
-		pCcExamenesDto.setActualizadoPor((long)-1);
-		pCcExamenesDto.setFechaCreacion(sqlsysdate);
-		pCcExamenesDto.setFechaActualizacion(sqlsysdate);
 		em.persist(pCcExamenesDto);
 		return longNumeroS; 
 	}
@@ -65,27 +59,17 @@ public class CcExamenesDaoImpl implements CcExamenesDao {
 		CcExamenesDto ccExamenesDto  = em.find(CcExamenesDto.class, pNumero); 
 		System.out.println();
 		ccExamenesDto.setEstatus(pCcExamenesDto.getEstatus());
-		ccExamenesDto.setTitulo(pCcExamenesDto.getTitulo());
-		ccExamenesDto.setNombre(pCcExamenesDto.getNombre());
 		ccExamenesDto.setDescripcion(pCcExamenesDto.getDescripcion());
-		ccExamenesDto.setTipoPregunta(pCcExamenesDto.getTipoPregunta());
-		ccExamenesDto.setTipoExamen(pCcExamenesDto.getTipoExamen());
-		ccExamenesDto.setTema(pCcExamenesDto.getTema());
-		ccExamenesDto.setComentarios(pCcExamenesDto.getComentarios());
+		ccExamenesDto.setIdTipoExamen(pCcExamenesDto.getIdTipoExamen());
+		ccExamenesDto.setActualizadoPor(pCcExamenesDto.getActualizadoPor());
 		ccExamenesDto.setVisibilidad(pCcExamenesDto.getVisibilidad());
 		ccExamenesDto.setFechaEfectivaDesde(pCcExamenesDto.getFechaEfectivaDesde());
 		ccExamenesDto.setFechaEfectivaHasta(pCcExamenesDto.getFechaEfectivaHasta());
+		pCcExamenesDto.setFechaActualizacion(pCcExamenesDto.getFechaActualizacion());
 		ccExamenesDto.setTiempoLimite(pCcExamenesDto.getTiempoLimite());
-		ccExamenesDto.setSaltarPreguntas(pCcExamenesDto.getSaltarPreguntas());
 		ccExamenesDto.setSaltarCasos(pCcExamenesDto.getSaltarCasos());
 		ccExamenesDto.setMostrarRespuestas(pCcExamenesDto.getMostrarRespuestas());
-		ccExamenesDto.setTienePassmark(pCcExamenesDto.getTienePassmark());
-		ccExamenesDto.setAleatorioGrupo(pCcExamenesDto.getAleatorioGrupo());
-		ccExamenesDto.setAleatorioPreguntas(pCcExamenesDto.getAleatorioPreguntas());
-		ccExamenesDto.setSeleccionCasosAleatorios(pCcExamenesDto.getSeleccionCasosAleatorios());
 		ccExamenesDto.setMensajeFinalizacion(pCcExamenesDto.getMensajeFinalizacion());
-		ccExamenesDto.setConfirmacionAsistencia(pCcExamenesDto.getConfirmacionAsistencia());
-		ccExamenesDto.setDiploma(pCcExamenesDto.getDiploma());
 		
 	}
 
