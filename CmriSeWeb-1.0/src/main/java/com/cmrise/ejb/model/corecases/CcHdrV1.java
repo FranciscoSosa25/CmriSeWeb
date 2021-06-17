@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
+
 
 public class CcHdrV1 implements Serializable {
 
@@ -34,6 +36,7 @@ public class CcHdrV1 implements Serializable {
 	private String admonExamenDesc; 
 	private String admonMateriaDesc; 
 	private String admonSubMateriaDesc; 
+	private List<CcImagenesGrp> listCcImagenesGrp; 
 	
 	private List<CcPreguntasHdrV1> listCcPreguntasHdrV1; 
 	
@@ -195,6 +198,12 @@ public class CcHdrV1 implements Serializable {
 	public void setAdmonSubMateriaDesc(String admonSubMateriaDesc) {
 		this.admonSubMateriaDesc = admonSubMateriaDesc;
 	}
-
+	public List<CcImagenesGrp> getListCcImagenesGrp() {
+		return listCcImagenesGrp;
+	}
+	public void setListCcImagenesGrp(List<CcImagenesGrp> listCcImagenesGrp) {
+		this.listCcImagenesGrp = listCcImagenesGrp;
+	}
+	
 	
 }

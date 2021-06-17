@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.cmrise.ejb.model.corecases.img.CcImagenes;
 import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
 import com.cmrise.jpa.dto.corecases.img.CcImagenesGrpDto;
 
@@ -26,4 +27,7 @@ public interface CcImagenesGrpLocal {
 	
 	public void deleteByCcHrd(long pNumetoCcHRD, String pSeccion);
 	public boolean deleteGroup(CcImagenesGrp pCcImagenesGrp);
+	public boolean deleteGroupImage(CcImagenesGrp pCcImagenesGrp, CcImagenes imagenes);
+
+	public void update(long pNumetoFta, CcImagenesGrp pCcImagenesGrp);
 }

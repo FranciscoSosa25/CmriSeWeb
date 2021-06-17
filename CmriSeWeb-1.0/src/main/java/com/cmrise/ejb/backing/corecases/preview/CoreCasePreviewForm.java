@@ -28,6 +28,7 @@ import com.cmrise.ejb.model.mrqs.MrqsPreguntasFtaV1;
 import com.cmrise.ejb.services.corecases.CcHdrLocal;
 import com.cmrise.ejb.services.corecases.CcOpcionMultipleLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasFtaSinonimosLocal;
+import com.cmrise.ejb.services.corecases.img.CcImagenesGrpLocal;
 import com.cmrise.jpa.dto.corecases.CcOpcionMultipleDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaSinonimos;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
@@ -41,6 +42,9 @@ public class CoreCasePreviewForm {
 
 	@ManagedProperty(value = "#{guestPreferences}")
 	GuestPreferences guestPreferences;
+	
+	@Inject
+	CcImagenesGrpLocal ccImagenesGrpLocal;
 
 	private long numeroCcHdr;
 	private CcHdrV1 ccHdrV1;
@@ -107,7 +111,8 @@ public class CoreCasePreviewForm {
 					ccPreguntasHdrV1 = i;
 					ccPreguntasFtaV1 = i.getCcPreguntasFtaV1();
 					listCcOpcionMultiple = ccPreguntasFtaV1.getListCcOpcionMultiple();
-					listPresentCcImagenesGrp = ccPreguntasFtaV1.getListCcImagenesGrp();
+					listPresentCcImagenesGrp =  ccImagenesGrpLocal.findByCcHDR(i.getNumeroCcHdr(), Utilitarios.INTRODUCCION);
+					//  ccPreguntasFtaV1.getListCcImagenesGrp();
 					encontrada = true;
 					break;
 				}
@@ -138,7 +143,7 @@ public class CoreCasePreviewForm {
 		ccPreguntasHdrV1 = listCcPreguntasHdrV1.get(element == -1 ? 0 : element);
 		ccPreguntasFtaV1 = ccPreguntasHdrV1.getCcPreguntasFtaV1();
 		listCcOpcionMultiple = ccPreguntasFtaV1.getListCcOpcionMultiple();
-		listPresentCcImagenesGrp = ccPreguntasFtaV1.getListCcImagenesGrp();
+		listPresentCcImagenesGrp = ccImagenesGrpLocal.findByCcHDR(ccPreguntasHdrV1.getNumeroCcHdr(), Utilitarios.INTRODUCCION);
 	}
 
 	public void saveProceed() {
@@ -278,6 +283,11 @@ public class CoreCasePreviewForm {
 	private void refreshEntity() {
 		ccHdrV1 = ccHdrLocal.findByNumeroObjMod(this.numeroCcHdr);
 		listCcPreguntasHdrV1 = ccHdrV1.getListCcPreguntasHdrV1();
+	//	for (CcPreguntasHdrV1 ccPreguntasHdrV1 : listCcPreguntasHdrV1) {
+	//		ccPreguntasHdrV1.setListCcImagenesGrp(ccImagenesGrpLocal.findByFta(ccPreguntasHdrV1., pSeccion));
+			
+	//	}
+		
 	}
 
 	public String returnUpdateFta() {

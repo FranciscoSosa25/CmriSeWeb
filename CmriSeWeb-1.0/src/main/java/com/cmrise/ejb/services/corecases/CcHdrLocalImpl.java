@@ -4,6 +4,8 @@ import java.io.*;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -275,7 +277,7 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 	    retval.setAdmonMateriaDesc(ccHdrV1Dto.getAdmonMateriaDesc());
 	    retval.setAdmonSubMateriaDesc(ccHdrV1Dto.getAdmonSubmateriaDesc());
 	    retval.setFechaElaboracion(ccHdrV1Dto.getFechaElaboracion());
-		
+	    
 		List<CcPreguntasHdrV1Dto> listCcPreguntasHdrV1Dto =  ccPreguntasHdrDao.findListByNumeroCcHdr(pNumeroCcHdr); 
 		
 		List<CcPreguntasHdrV1> listCcPreguntasHdrV1 = new ArrayList<CcPreguntasHdrV1>();
@@ -325,7 +327,7 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 				 ccPreguntasFtaV1.setListCcOpcionMultiple(listCcOpcionMultiple);
 			}
 	     	
-			List<CcImagenesGrp> localListCcImagenesGrp = new ArrayList<CcImagenesGrp>(); 
+/**			List<CcImagenesGrp> localListCcImagenesGrp = new ArrayList<CcImagenesGrp>(); 
 			
 			List<CcImagenesGrpDto> listCcImagenesGrpDto = ccImagenesGrpDao.findByFta(ccPreguntasFtaV1Dto.getNumero()
 					                                                                ,Utilitarios.INTRODUCCION
@@ -356,7 +358,7 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 						
 						try {
 							/** byte[] bytesArray = Files.readAllBytes(Paths.get(j.getRutaImagen()+"\\"+j.getNombreImagen())); **/
-							/** ccImagenes.setImagenContent(bytesArray); **/
+							/** ccImagenes.setImagenContent(bytesArray); **
 							byte[] bytesArray = Files.readAllBytes(Paths.get(strJpgRuta));
 							ccImagenes.setJpgContent(bytesArray);
 							ccImagenes.setJpgBase64(new String(Base64.getEncoder().encode(bytesArray)));

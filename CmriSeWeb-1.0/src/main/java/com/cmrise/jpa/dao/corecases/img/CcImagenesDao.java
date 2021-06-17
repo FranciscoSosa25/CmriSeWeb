@@ -17,6 +17,8 @@ public interface CcImagenesDao {
 	
 	
 
-	public List<CcImagenesDto> findByGrp(long pNumeroGrp); 
+	public List<CcImagenesDto> findByGrp(long pNumeroGrp);
+
+	public CcImagenesDto findById(long numero); 
 	
 }
