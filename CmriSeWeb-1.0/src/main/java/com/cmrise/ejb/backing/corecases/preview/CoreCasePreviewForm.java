@@ -81,6 +81,7 @@ public class CoreCasePreviewForm {
 	// private CcPreguntasFtaV1 ccPreguntasFtaV1ForRead = new CcPreguntasFtaV1();
 
 	private List<CcImagenesGrp> listPresentCcImagenesGrp = new ArrayList<CcImagenesGrp>();
+	private List<CcImagenesGrp> listPresentQCcImagenesGrp = new ArrayList<CcImagenesGrp>();
 	private List<CcPreguntasFtaSinonimos> ccListaSinonimos = new ArrayList<CcPreguntasFtaSinonimos>();
 	@Inject
 	CcPreguntasFtaSinonimosLocal ccPreguntasFtaSinonimosLocal;
@@ -104,23 +105,22 @@ public class CoreCasePreviewForm {
 		Object objNumeroCcPreguntaHdrSV = session.getAttribute("NumeroCcPreguntaHdrSV");
 		long longNumeroCcPreguntaHdrSV = Utilitarios.objToLong(objNumeroCcPreguntaHdrSV);
 		System.out.println("longNumeroCcPreguntaHdrSV:" + longNumeroCcPreguntaHdrSV);
-		boolean encontrada = false;
+		
+		buscarPregunta();
 		if (0 != longNumeroCcPreguntaHdrSV) {
+			
+			
 			for (CcPreguntasHdrV1 i : listCcPreguntasHdrV1) {
 				if (i.getNumero() == longNumeroCcPreguntaHdrSV) {
 					ccPreguntasHdrV1 = i;
 					ccPreguntasFtaV1 = i.getCcPreguntasFtaV1();
 					listCcOpcionMultiple = ccPreguntasFtaV1.getListCcOpcionMultiple();
-					listPresentCcImagenesGrp =  ccImagenesGrpLocal.findByCcHDR(i.getNumeroCcHdr(), Utilitarios.INTRODUCCION);
+					listPresentQCcImagenesGrp =  ccImagenesGrpLocal.findByFta(ccPreguntasFtaV1.getNumero(), Utilitarios.INTRODUCCION);
 					//  ccPreguntasFtaV1.getListCcImagenesGrp();
-					encontrada = true;
+					
 					break;
 				}
 			}
-			if (encontrada == false)
-				buscarPregunta();
-		} else {
-			buscarPregunta();
 		}
 
 		System.out.println("ccPreguntasHdrV1.getTipoPregunta():" + ccPreguntasHdrV1.getTipoPregunta());
@@ -312,9 +312,18 @@ public class CoreCasePreviewForm {
 		setVisualizacionPregunta(true);
 		setAnswerView(false);
 		element = element >= listCcPreguntasHdrV1.size() ? 0 : element + 1;
-		if (element < listCcPreguntasHdrV1.size())
+		if (element < listCcPreguntasHdrV1.size()) {
+			try {
+			FacesContext context = FacesContext.getCurrentInstance();
+			HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+			long question = listCcPreguntasHdrV1.get(element).getCcPreguntasFtaV1().getNumero();
+			session.setAttribute("NumeroCcPreguntaHdrSV", question);
+			}catch (RuntimeException e) {
+				// TODO: handle exception
+			}
+			
 			init();
-		if (listCcPreguntasHdrV1.size() == 0) {
+		}if (listCcPreguntasHdrV1.size() == 0) {
 			limpiarMensajes();
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, Utilitarios.ERROR_LISTA_PREGUNTAS_VACIA, null));
@@ -607,5 +616,14 @@ public class CoreCasePreviewForm {
 	public void setCcListaSinonimos(List<CcPreguntasFtaSinonimos> ccListaSinonimos) {
 		this.ccListaSinonimos = ccListaSinonimos;
 	}
+
+	public List<CcImagenesGrp> getListPresentQCcImagenesGrp() {
+		return listPresentQCcImagenesGrp;
+	}
+
+	public void setListPresentQCcImagenesGrp(List<CcImagenesGrp> listPresentQCcImagenesGrp) {
+		this.listPresentQCcImagenesGrp = listPresentQCcImagenesGrp;
+	}
+	
 	
 }
