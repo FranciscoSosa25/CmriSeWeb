@@ -30,4 +30,6 @@ public interface CcImagenesGrpLocal {
 	public boolean deleteGroupImage(CcImagenesGrp pCcImagenesGrp, CcImagenes imagenes);
 
 	public void update(long pNumetoFta, CcImagenesGrp pCcImagenesGrp);
+
+	void deleteByCcFTA(long pNumeroFta, String pSeccion);
 }
