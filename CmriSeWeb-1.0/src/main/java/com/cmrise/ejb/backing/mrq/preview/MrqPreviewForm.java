@@ -224,13 +224,13 @@ public class MrqPreviewForm {
 	}
     private void validarPuntosUsuario() {
     	 limpiarMensajes();
-   	  if( (getRespuestaPreguntaCandidato().isEmpty()|| getRespuestaPreguntaCandidato()==null)  ) {
+   	  if( (getRespuestaPreguntaCandidato()==null || getRespuestaPreguntaCandidato().isEmpty()  )  ) {
    		
    		  PrimeRequestContext context = PrimeRequestContext.getCurrentInstance();   		 
-   		  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, Utilitarios.ERROR_PUNTOS_USUARIO, null));
+   		//  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, Utilitarios.ERROR_PUNTOS_USUARIO, null));
    		  
 			
-			PrimeFaces.current().executeScript("location.reload();");
+			// PrimeFaces.current().executeScript("location.reload();");
 		
    		
    		  return;
