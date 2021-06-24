@@ -34,12 +34,13 @@ function handleUpdateRequest(xhr, status, args){
 </script>
 </ui:define>
 <ui:define name="content">
+<div class="card">
  <h:form>
  	<p:outputPanel>
  		<h1>Candidatos asignados al examen <h:outputText value="#{assignMrqsCandidatesForm.getNumeroMrqsExamen()}"/></h1>
  	</p:outputPanel>
  </h:form>
-  
+   
 <h:form id="ReadOnlyCandExamenForm">
   <p:growl id="growl" showDetail="true" life="1000" widgetVar="growlWV"/>
   <div  class="ui-g">
@@ -133,17 +134,18 @@ function handleUpdateRequest(xhr, status, args){
    </p:column>
   </p:dataTable>
   <div class="ui-g">  
-	  <div class="ui-g-3">
-	  	<p:commandButton value="Desasignar"  oncomplete="PF('deleteCandExamenesDialogWV').show();"  style="width:100%"/>
+  	  <div class="ui-g-3">
+	   <p:commandButton value="Regresar" action="#{assignMrqsCandidatesForm.cancel()}" immediate="true" style="width:100%"/>
 	  </div>
-	  <div class="ui-g-3">
-	   <p:commandButton value="Cancelar" action="#{assignMrqsCandidatesForm.cancel()}" immediate="true" style="width:100%"/>
-	  </div>
-	  <div class="ui-g-3"></div>
+
 	  <div class="ui-g-3">
 	   <p:commandButton id="seleccioneMRQsCandidatos" value="Asignar" icon="fa fa-external-link" oncomplete="PF('admonUsuarioRolDialogWV').show();" style="width:98%"/>
 	   <p:tooltip id="toolTipFade" for="seleccioneMRQsCandidatos" value="Seleccionar Candidatos" position="top"/>
 	  </div>
+	  	  <div class="ui-g-3">
+	  	<p:commandButton value="Desasignar"  oncomplete="PF('deleteCandExamenesDialogWV').show();"  style="width:100%"/>
+	  </div>
+	  
   </div>
  </h:form>
  
@@ -314,6 +316,6 @@ function handleUpdateRequest(xhr, status, args){
    </p:panelGrid>   
   </p:dialog>
   </h:form>
- 
+ </div>
 </ui:define>
 </ui:composition>                
