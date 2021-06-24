@@ -170,6 +170,11 @@ System.out.println("Entra deletePregunta");
          boolean deleteIn = false; 
 	    // System.out.println("la pregunta es:"+pCcPreguntasHdrV1.getNumero());
 //	     long lNumeroPreguntaHdr = pCcPreguntasHdrV1.getNumero();
+         try {
+         ccImagenesGrpLocal.deleteByCcFTA(pCcPreguntasHdrV1.getNumero(), Utilitarios.INTRODUCCION);
+         }catch (RuntimeException e) {
+			// TODO: handle exception
+		}
 		 ccHdrLocal.deletePregunta(pCcPreguntasHdrV1.getNumero());
 		 System.out.println("se elimino pregunta:"+ccPreguntasHdrV1ForAction.getNumero());
 	//	System.out.println("se eliminara la pregunta:"+pCcPreguntasHdrV1.getNumero());
