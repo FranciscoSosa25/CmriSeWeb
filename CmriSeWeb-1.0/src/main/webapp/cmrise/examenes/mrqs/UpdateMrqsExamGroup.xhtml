@@ -29,8 +29,10 @@
 <ui:define name="content">
 <h:form id="updateMrqsExamGroupForm">
 <p:growl id="messages" showDetail="true" />
+<div class="card">
 <h1>#{updateMrqsExamGroupForm.mrqsExamenesForRead.admonExamenDesc}</h1>
-<h2>Materia:#{updateMrqsExamGroupForm.mrqsGrupoHdrForUpdate.admonMateriaDesc}</h2>
+<h2>#{updateMrqsExamGroupForm.mrqsGrupoHdrForUpdate.admonMateriaDesc}</h2>
+
 <div class="ui-g">
  <div class="ui-g-12">
     
@@ -72,6 +74,7 @@
  </div>
  <div class="ui-g-12">
   <p:commandButton value="Regresar" style="BackGround:#2D0D86;" immediate="true" action="Exams-MRQs-Update" icon="fa fa-backward"/>
+ </div>
  </div>
  </div>
 </h:form>
