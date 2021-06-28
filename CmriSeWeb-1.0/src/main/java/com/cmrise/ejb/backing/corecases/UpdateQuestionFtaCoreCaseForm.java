@@ -537,9 +537,23 @@ public class UpdateQuestionFtaCoreCaseForm {
 	 }
 	
 	 public void deleteCCImageGroup(CcImagenesGrp ccImageGroup) {
+		 this.selCcImagenesGrpDelete = ccImageGroup;
+		 
+	 }
+	 
+	 private CcImagenesGrp selCcImagenesGrpDelete;
+	 private CcImagenes selCcImagenesToDelete;
+	 
+	 public void deleteImageFromGroup(CcImagenesGrp ccImageGroup, CcImagenes imagenes) {
+		 this.selCcImagenesGrpDelete = ccImageGroup;
+		 this.selCcImagenesToDelete = imagenes;
+		 
+	 }
+	 
+	 public void deleteCCImageGroup() {
 		 FacesContext context = FacesContext.getCurrentInstance();
 		 try {			
-			 if(this.ccImagenesGrpLocal.deleteGroup(ccImageGroup)) {
+			 if(this.ccImagenesGrpLocal.deleteGroup(selCcImagenesGrpDelete)) {
 				 context.addMessage(null, new FacesMessage("Deleted successfully", "Actualizacion correcta"));
 				 listPresentCcImagenesGrp = ccImagenesGrpLocal.findByFta(this.numeroFtaRecord, Utilitarios.INTRODUCCION);
 			 }else {
@@ -557,10 +571,10 @@ public class UpdateQuestionFtaCoreCaseForm {
 			 
 		 }
 		 
-	 public void deleteImageFromGroup(CcImagenesGrp ccImageGroup, CcImagenes imagenes) {
+	 public void deleteImageFromGroup() {
 		 
-		this.editPresentCcImagenesGrp.getListCcImagenes().remove(imagenes);
-		 ccImagenesGrpLocal.deleteGroupImage(ccImageGroup, imagenes);
+		this.editPresentCcImagenesGrp.getListCcImagenes().remove(selCcImagenesToDelete);
+		 ccImagenesGrpLocal.deleteGroupImage(selCcImagenesGrpDelete, selCcImagenesToDelete);
 		  FacesContext context = FacesContext.getCurrentInstance();
 	      context.addMessage(null, new FacesMessage("Dicom image deleted successfully.", "Actualizacion correcta"));
 		  System.out.println("Sale Actualizar");

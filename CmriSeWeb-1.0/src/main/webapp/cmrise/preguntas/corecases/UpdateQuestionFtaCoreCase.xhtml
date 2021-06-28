@@ -323,7 +323,11 @@
 			                          actionListener="#{updateQuestionFtaCoreCaseForm.onEditCCImageGroup(imagenesGrupo)}"
 			                          />
 						                      
-											  <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86" ajax="false" actionListener="#{updateQuestionFtaCoreCaseForm.deleteCCImageGroup(imagenesGrupo)}" title="Eliminar"/>
+								 <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86" ajax="true"
+								  oncomplete="PF('eliminarDicomSeriesDlg').show();"
+								 
+								  actionListener="#{updateQuestionFtaCoreCaseForm.deleteCCImageGroup(imagenesGrupo)}" 
+								  title="Eliminar"/>
 						
 					
 						            </p:column>
@@ -332,6 +336,71 @@
 							</p:accordionPanel> 
 						</div>
 					</div>
+					
+					
+					
+					
+					<p:dialog id="eliminar-dicom-series-dialog" widgetVar="eliminarDicomSeriesDlg" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" header="Eliminar SERIE DICOM">
+
+				      <div class="ui-g ui-fluid">
+				          <div class="ui-g-12 ui-lg-12">
+				              <h:panelGroup >
+				                  <p:outputLabel value="SERIE DICOM se eliminará de forma permanente. Considere que esta acción no se puede deshacer." />
+				              </h:panelGroup>
+				              <h:panelGroup >
+				                  <p:outputLabel value="¿Desea continuar?" />
+				              </h:panelGroup>
+				          </div>
+				      </div>
+				
+				       <div class="ui-g" >
+				           <div class="ui-g-12 ui-lg-12" style="text-align: right;">
+				          <p:commandButton value="Cancelar"
+				                         ajax="true"
+				                         immediate="true"
+				                         onclick="PF('eliminarDicomSeriesDlg').hide();"/>
+				          <p:commandButton value="Eliminar"
+				                           ajax="false"
+				                           update="updateForm"
+				                           actionListener="#{updateQuestionFtaCoreCaseForm.deleteCCImageGroup()}"
+				                           onstart="PF('eliminarDicomSeriesDlg').hide();"
+				                           style="margin-left: 10px;"/>
+				      		</div>
+				 	 </div>
+				</p:dialog>
+
+					<p:dialog id="eliminar-dicom-series-img-dialog" widgetVar="eliminarDicomSeriesImgDlg" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" header="Eliminar SERIE DICOM image">
+					
+					      <div class="ui-g ui-fluid">
+					          <div class="ui-g-12 ui-lg-12">
+					              <h:panelGroup >
+					                  <p:outputLabel value="SERIE DICOM image se eliminará de forma permanente. Considere que esta acción no se puede deshacer." />
+					              </h:panelGroup>
+					              <h:panelGroup >
+					                  <p:outputLabel value="¿Desea continuar?" />
+					              </h:panelGroup>
+					          </div>
+					      </div>
+					
+					       <div class="ui-g" >
+					           <div class="ui-g-12 ui-lg-12" style="text-align: right;">
+					          <p:commandButton value="Cancelar"
+					                         ajax="true"
+					                         immediate="true"
+					                         onclick="PF('eliminarDicomSeriesImgDlg').hide();"/>
+					          <p:commandButton value="Eliminar"
+					                           ajax="false"
+					                           update="updateForm"
+					                           actionListener="#{updateQuestionFtaCoreCaseForm.deleteImageFromGroup()}"
+					                           onstart="PF('eliminarDicomSeriesImgDlg').hide();"
+					                           style="margin-left: 10px;"/>
+					      		</div>
+					 	 </div>
+					</p:dialog>
+					
+					
+					
+					
 					<div class="ui-g-12 ui-md-3" style="text-align: right;">
 						<p:outputLabel for="questionTitle" value="Pregunta" />
 					</div>
@@ -668,6 +737,7 @@
 			</p:dialog>
 
 
+
 <!-- Dicome Image Group edit dialog -->
 
 <p:dialog id="editPresentationDialogId" widgetVar="editPresentationDialogWV"
@@ -714,7 +784,9 @@
 									style="max-width: 300px; max-height: 300px; padding: 2px;" />
 								<p:commandButton icon="fa fa-trash" 
 								action="#{updateQuestionFtaCoreCaseForm.deleteImageFromGroup(editPresentCcImagenesGrp,imagenes)}"
-								update="presentationForm1" ajax="false"
+								update="presentationForm1" 
+								ajax="true"
+								  oncomplete="PF('eliminarDicomSeriesImgDlg').show();"
 								style="BackGround:#2D0D86"  title="Eliminar"/>
 							</ui:repeat>
 						</p:scrollPanel>
