@@ -111,11 +111,11 @@ public class CoreCasePreviewForm {
 			
 			
 			for (CcPreguntasHdrV1 i : listCcPreguntasHdrV1) {
-				if (i.getNumero() == longNumeroCcPreguntaHdrSV) {
+				if (i.getCcPreguntasFtaV1().getNumero() == longNumeroCcPreguntaHdrSV) {
 					ccPreguntasHdrV1 = i;
 					ccPreguntasFtaV1 = i.getCcPreguntasFtaV1();
 					listCcOpcionMultiple = ccPreguntasFtaV1.getListCcOpcionMultiple();
-					listPresentQCcImagenesGrp =  ccImagenesGrpLocal.findByFta(ccPreguntasFtaV1.getNumero(), Utilitarios.INTRODUCCION);
+					listPresentQCcImagenesGrp =  ccImagenesGrpLocal.findByFta(i.getCcPreguntasFtaV1().getNumero(), Utilitarios.INTRODUCCION);
 					//  ccPreguntasFtaV1.getListCcImagenesGrp();
 					
 					break;

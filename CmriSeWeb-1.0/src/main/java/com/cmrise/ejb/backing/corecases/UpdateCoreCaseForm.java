@@ -273,10 +273,13 @@ System.out.println("Entra deletePregunta");
 		 
 	 }
 	 
-	 public void deleteCCImageGroup(CcImagenesGrp ccImageGroup) {
+	 public void deleteCCImageGroup(CcImagenesGrp ccImagenesGrp) {
+		 this.selCcImagenesGrpDelete = ccImagenesGrp;
+	 }
+	 public void deleteCCImageGroup() {
 		 FacesContext context = FacesContext.getCurrentInstance();
 		 try {			
-			 if(this.ccImagenesGrpLocal.deleteGroup(ccImageGroup)) {
+			 if(this.ccImagenesGrpLocal.deleteGroup(selCcImagenesGrpDelete)) {
 				 context.addMessage(null, new FacesMessage("Deleted successfully", "Actualizacion correcta"));
 				 listPresentCcImagenesGrp = ccImagenesGrpLocal.findByCcHDR(this.numeroCcHdr, Utilitarios.INTRODUCCION);
 			 }else {
@@ -289,15 +292,23 @@ System.out.println("Entra deletePregunta");
 		 
 	 }
 	 
-	 public void onEditCCImageGroup(CcImagenesGrp ccImageGroup) {
+	 private CcImagenesGrp selCcImagenesGrpDelete;
+	 private CcImagenes selCcImagenesToDelete;
+	
+	public void onEditCCImageGroup(CcImagenesGrp ccImageGroup) {
 		this.editPresentCcImagenesGrp = ccImageGroup;
 		 
 	 }
-	 
+	
 	 public void deleteImageFromGroup(CcImagenesGrp ccImageGroup, CcImagenes imagenes) {
+		 this.selCcImagenesGrpDelete = ccImageGroup;
+		 this.selCcImagenesToDelete = imagenes;
 		 
-		this.editPresentCcImagenesGrp.getListCcImagenes().remove(imagenes);
-		 ccImagenesGrpLocal.deleteGroupImage(ccImageGroup, imagenes);
+	 }
+	 
+	 public void deleteImageFromGroup() {
+		this.editPresentCcImagenesGrp.getListCcImagenes().remove(selCcImagenesToDelete);
+		 ccImagenesGrpLocal.deleteGroupImage(selCcImagenesGrpDelete, selCcImagenesToDelete);
 		  FacesContext context = FacesContext.getCurrentInstance();
 	      context.addMessage(null, new FacesMessage("Dicom image deleted successfully.", "Actualizacion correcta"));
 		  System.out.println("Sale Actualizar");
