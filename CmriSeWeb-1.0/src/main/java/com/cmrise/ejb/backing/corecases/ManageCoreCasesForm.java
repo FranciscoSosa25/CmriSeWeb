@@ -25,6 +25,7 @@ import com.cmrise.ejb.services.admin.AdmonExamenHdrLocal;
 import com.cmrise.ejb.services.admin.AdmonMateriaHdrLocal;
 import com.cmrise.ejb.services.admin.AdmonSubMateriaLocal;
 import com.cmrise.ejb.services.corecases.CcHdrLocal;
+import com.cmrise.ejb.services.corecases.img.CcImagenesGrpLocal;
 import com.cmrise.utils.Utilitarios;
 
 @ManagedBean
@@ -56,6 +57,9 @@ public class ManageCoreCasesForm {
 	
 	@Inject 
 	AdmonExamenHdrLocal admonExamenHdrLocal;
+	
+	@Inject
+	CcImagenesGrpLocal ccImagenesGrpLocal;
 	
 	 @PostConstruct
 	 public void init() {
@@ -152,6 +156,7 @@ public class ManageCoreCasesForm {
 	public void delete() {
 		 System.out.println("Entra "+this.getClass()+" delete()");
 		 boolean deleteIn = false; 
+		 ccImagenesGrpLocal.deleteByCcHrd(ccHdrV1ForAction.getNumero(), Utilitarios.INTRODUCCION);
 		 ccHdrLocal.delete(ccHdrV1ForAction.getNumero());
 		 refreshEntity();
 		 deleteIn = true;

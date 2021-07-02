@@ -138,7 +138,7 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 		}else {
 			ccImagenesGrpDto.setNumeroFta(pNumetoFta);
 		}
-		ccImagenesGrpDto.setNumeroFta(pNumetoFta);
+	//	ccImagenesGrpDto.setNumeroFta(pNumetoFta);
 		ccImagenesGrpDto.setTipo(pCcImagenesGrp.getTipo());
 		ccImagenesGrpDto.setSeccion(pCcImagenesGrp.getSeccion());
 		ccImagenesGrpDto.setTituloSuperior(pCcImagenesGrp.getTituloSuperior());
@@ -337,7 +337,15 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 	public void deleteByCcHrd(long pNumetoCcHRD, String pSeccion) {
 		List<CcImagenesGrp> ccImagenesGrps = findByCcHDR(pNumetoCcHRD, pSeccion);
 		for(CcImagenesGrp ccImagenesGrp: ccImagenesGrps) {
-		//	deleteGroup(pNumetoCcHRD, ccImagenesGrp);
+			deleteGroup(ccImagenesGrp);
+		}		
+	}
+	
+	@Override
+	public void deleteByCcFTA(long pNumeroFta, String pSeccion) {
+		List<CcImagenesGrp> ccImagenesGrps = findByFta(pNumeroFta, pSeccion);
+		for(CcImagenesGrp ccImagenesGrp: ccImagenesGrps) {
+			deleteGroup(ccImagenesGrp);
 		}		
 	}
 	

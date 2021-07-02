@@ -70,8 +70,10 @@
 	{
 	background-color: #d43f3a;
 	border-color: #d9534f;
-}
+	}
+
 </style>
+
 
 <script type="text/javascript">
 	var previewDicom = {
@@ -83,8 +85,18 @@
 	}
 </script>
 
+
 	</ui:define>
 	<ui:define name="content">
+	<script type="text/javascript">
+	var previewDicom = {
+			reload : function(key){
+				//debugger;
+				var frame = $('#dcmpreview');
+				frame.attr('src', '/CmriSeWeb/resources/dicom-viewer/stable/index.jsp?dcmkey='+key);
+			}
+	}
+</script>
 		<h1>Previsualización Caso Clínico</h1>
 		<h:form id="coreCaseForm">
 			<div class="ui-g">
@@ -107,12 +119,16 @@
 				<!--    </div> -->
 				<!--  </div> -->
 
+
 				<div class="ui-g-12 ui-md-12 ui-g-nopad">
 					<div class="ui-g-12 ui-md-12">
+						<div class="ui-g-12 ui-md-12">	
 						<div class="ui-g-12 ui-md-12">
-							<div class="ui-g-12 ui-md-7">
-								<!--             <h3>#{coreCasePreviewForm.ccHdrV1.nombre} > #{coreCasePreviewForm.ccPreguntasHdrV1.titulo}</h3> -->
+							<h2>#{coreCasePreviewForm.ccPreguntasFtaV1.tituloPregunta}?</h2>
 							</div>
+							<h4>(#{coreCasePreviewForm.ccPreguntasFtaV1.textoSugerencias})</h4>
+							
+
 
 							<!--   
            <ui:repeat var="imagenesGrupo" value="#{coreCasePreviewForm.listPresentCcImagenesGrp}" varStatus="status">
@@ -152,6 +168,7 @@
 						<h:panelGroup layout="block"
 								rendered="#{coreCasePreviewForm.listPresentQCcImagenesGrp.size() > 0}">	
 						<div class="card">
+
 							<section>
 								<fieldset>
 									<legend>DICOM Series</legend>
@@ -242,7 +259,9 @@
 									<p:selectOneRadio id="answerRadioSingle"
 										value="#{coreCasePreviewForm.respuestaPreguntaCandidato}"
 										layout="grid" columns="1" required="true"
-										requiredMessage="#{msgs['globalForm.requiredMessage']}">
+										requiredMessage="#{msgs['globalForm.requiredMessage']}"
+										style="font-size: 24px;"
+										 styleClass="grid-radio">
 										<f:selectItems
 											value="#{coreCasePreviewForm.listCcOpcionMultiple}" var="l"
 											itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}" />

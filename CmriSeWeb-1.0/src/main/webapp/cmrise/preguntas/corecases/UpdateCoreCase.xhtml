@@ -167,14 +167,18 @@
 		            <p:column headerText="Total Slices"  style="width:10%;" >
 		                <h:outputText value="#{imagenesGrupo.listCcImagenes.size()}" />
 		            </p:column>
-		            <p:column headerText="Action"  style="width:15%; text-align:center">
+		            <p:column headerText="Action"  style="width:15%; text-align:center"> 
 			              <p:commandButton icon="fa fa-edit" style="margin-left: 10px; background: #2D0D86;"
 			                          oncomplete="PF('editPresentationDialogWV').show();"
 			                        	  ajax="true"
 			                          update=":presentationForm1:editImagenes :presentationForm1:editTituloSuperior :presentationForm1:editDcmModality"
 			                          actionListener="#{updateCoreCaseForm.onEditCCImageGroup(imagenesGrupo)}"
 			                          />
-			            <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86" ajax="false" actionListener="#{updateCoreCaseForm.deleteCCImageGroup(imagenesGrupo)}" title="Eliminar"/>
+			            <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86" 
+			            ajax="true"
+			             actionListener="#{updateCoreCaseForm.deleteCCImageGroup(imagenesGrupo)}"
+			             oncomplete="PF('eliminarDicomSeriesDlg').show();"			             
+			              title="Eliminar"/>
 						
 		            </p:column>
 		        </p:dataTable>
@@ -185,6 +189,77 @@
 </div>
 
 </div>
+
+
+
+<p:dialog id="eliminar-dicom-series-dialog" widgetVar="eliminarDicomSeriesDlg" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" header="Eliminar SERIE DICOM">
+
+      <div class="ui-g ui-fluid">
+          <div class="ui-g-12 ui-lg-12">
+              <h:panelGroup >
+                  <p:outputLabel value="La SERIE DICOM se eliminará de forma permanente. Considere que esta acción no se puede deshacer." />
+              </h:panelGroup>
+              <h:panelGroup >
+                  <p:outputLabel value="¿Desea continuar?" />
+              </h:panelGroup>
+          </div>
+      </div>
+
+       <div class="ui-g" >
+           <div class="ui-g-12 ui-lg-12" style="text-align: right;">
+          <p:commandButton value="Cancelar"
+                         ajax="true"
+                         immediate="true"
+                         onclick="PF('eliminarDicomSeriesDlg').hide();"/>
+          <p:commandButton value="Eliminar"
+                           ajax="false"
+                           update="updateForm"
+                           actionListener="#{updateCoreCaseForm.deleteCCImageGroup()}"
+                           onstart="PF('eliminarDicomSeriesDlg').hide();"
+                           style="margin-left: 10px;"/>
+      		</div>
+ 	 </div>
+</p:dialog>
+
+<p:dialog id="eliminar-dicom-series-img-dialog" widgetVar="eliminarDicomSeriesImgDlg" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" header="Eliminar SERIE DICOM image">
+
+      <div class="ui-g ui-fluid">
+          <div class="ui-g-12 ui-lg-12">
+              <h:panelGroup >
+                  <p:outputLabel value="SERIE DICOM image se eliminará de forma permanente. Considere que esta acción no se puede deshacer." />
+              </h:panelGroup>
+              <h:panelGroup >
+                  <p:outputLabel value="¿Desea continuar?" />
+              </h:panelGroup>
+          </div>
+      </div>
+
+       <div class="ui-g" >
+           <div class="ui-g-12 ui-lg-12" style="text-align: right;">
+          <p:commandButton value="Cancelar"
+                         ajax="true"
+                         immediate="true"
+                         onclick="PF('eliminarDicomSeriesImgDlg').hide();"/>
+          <p:commandButton value="Eliminar"
+                           ajax="false"
+                           update="updateForm"
+                           actionListener="#{updateCoreCaseForm.deleteImageFromGroup()}"
+                           onstart="PF('eliminarDicomSeriesImgDlg').hide();"
+                           style="margin-left: 10px;"/>
+      		</div>
+ 	 </div>
+</p:dialog>
+
+
+
+
+
+
+
+
+
+
+
 <div class="card">
  <div class="ui-g">
 	
@@ -296,6 +371,10 @@
 </p:panel>
 
 </h:form>
+
+
+
+
 <p:dialog id="presentationDialogId" widgetVar="presentationDialogWV"
 				modal="true" closable="true" closeOnEscape="true" draggable="false"
 				resizable="false" width="1000" header="Agregar Imagenes">
@@ -402,8 +481,13 @@
 									value="data:image/jpg;base64,#{imagenes.thumbailBase64}"
 									style="max-width: 300px; max-height: 300px; padding: 2px;" />
 								<p:commandButton icon="fa fa-trash" 
-								action="#{updateCoreCaseForm.deleteImageFromGroup(editPresentCcImagenesGrp,imagenes)}"
-								update="presentationForm1" ajax="false"
+								actionListener="#{updateCoreCaseForm.deleteImageFromGroup(editPresentCcImagenesGrp,imagenes)}"
+								update="presentationForm1" ajax="true"
+								
+								 
+			             oncomplete="PF('eliminarDicomSeriesImgDlg').show();"		
+			             
+			             
 								style="BackGround:#2D0D86"  title="Eliminar"/>
 							</ui:repeat>
 						</p:scrollPanel>

@@ -126,8 +126,8 @@
 								</div>
 							</ui:repeat>
 
-							<div class="ui-g-12 ui-md-12">
-								<h3>#{mrqPreviewForm.textoPregunta}</h3>
+							<div class="ui-g-12 ui-md-12" style="font-size: 32px;">
+								<h2>#{mrqPreviewForm.textoPregunta}</h2>
 							</div>
 
 							<div class="ui-g-12 ui-md-12">
@@ -204,7 +204,8 @@
 									<p:selectOneRadio id="answerRadioSingle"
 										value="#{mrqPreviewForm.respuestaPreguntaCandidato}"
 										layout="grid" columns="1" required="true"
-										requiredMessage="#{msgs['globalForm.requiredMessage']}">
+										requiredMessage="#{msgs['globalForm.requiredMessage']}"
+										style="font-size: 24px;">
 										<f:selectItems
 											value="#{mrqPreviewForm.listMrqsOpcionMultiple}" var="l"
 											itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}" />
@@ -219,7 +220,8 @@
 									<p:selectManyCheckbox id="answerRadioMultiple"
 										value="#{mrqPreviewForm.respuestasPreguntaCandidato}"
 										layout="grid" columns="1" required="true"
-										requiredMessage="#{msgs['globalForm.requiredMessage']}">
+										requiredMessage="#{msgs['globalForm.requiredMessage']}"
+										style="font-size: 24px;">
 										<f:selectItems
 											value="#{mrqPreviewForm.listMrqsOpcionMultiple}" var="l"
 											itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}" />
