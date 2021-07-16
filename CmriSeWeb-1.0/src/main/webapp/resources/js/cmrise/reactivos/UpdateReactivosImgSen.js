@@ -217,13 +217,13 @@ function oncompleteFileUpload() {
 
     //perimeter = new Array();
 
-    complete = false;
-
-    document.getElementById('UpdateReactivosForm:coordinates').value = '';
-	document.getElementById('UpdateReactivosForm:coordinatesD').value = '';
-	poligonos=0;
-	polygonList=[];
-    polygonPoints = [];
+//    complete = false;
+//
+//    document.getElementById('UpdateReactivosForm:coordinates').value = '';
+//	document.getElementById('UpdateReactivosForm:coordinatesD').value = '';
+//	poligonos=0;
+//	polygonList=[];
+//    polygonPoints = [];
     //start();
 
     console.log('Finaliza oncompleteFileUpload');
@@ -722,21 +722,28 @@ function loadPolygon(reset = false) {
 function resetPolygon() {
 
     this.loadPolygon(true);
-	document.getElementById('UpdateReactivosForm:coordinates').value ='';
-	document.getElementById('UpdateReactivosForm:coordinatesD').value ='';
-	poligonos=0;
-	polygonList=[];
-    polygonPoints = [];
+//	document.getElementById('UpdateReactivosForm:coordinates').value ='';
+//	document.getElementById('UpdateReactivosForm:coordinatesD').value ='';
+//	poligonos=0;
+//	polygonList=[];
+//    polygonPoints = [];
 
 }
 
 function savePolygon() {
 
     const polygonData = document.getElementById('UpdateReactivosForm:coordinates');
-
+    const polygonDataD = document.getElementById('UpdateReactivosForm:coordinatesD');
+    
     if (polygonDiagram.model.nodeDataArray.length > 0) {
+    	document.getElementById("UpdateReactivosForm:numeroPoligonos").value = polygonDiagram.model.nodeDataArray.length;
     	updatePosition()
-        polygonData.value = '{ "position": "' + go.Point.stringify(polygonDiagram.position) + '",\n  "model": ' + polygonDiagram.model.toJson() + ' }';        
+        polygonData.value = '{ "position": "' + go.Point.stringify(polygonDiagram.position) + '",\n  "model": ' + polygonDiagram.model.toJson() + ' }';    
+    	polygonDataD.value =  polygonData.value;
+    }else  {
+    	document.getElementById("UpdateReactivosForm:numeroPoligonos").value = 0;
+    	polygonData.value = '{}';    
+    	polygonDataD.value =  polygonData.value;
     }
 }
 
