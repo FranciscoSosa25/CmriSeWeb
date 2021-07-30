@@ -12,6 +12,7 @@ import javax.persistence.Query;
 import com.cmrise.ejb.model.corecases.img.CcImagenes;
 import com.cmrise.jpa.dao.corecases.img.CcImagenesDao;
 import com.cmrise.jpa.dto.corecases.img.CcImagenesDto;
+import com.cmrise.jpa.dto.corecases.img.CcImagenesGrpDto;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless
@@ -108,6 +109,20 @@ public class CcImagenesDaoImpl implements CcImagenesDao {
 			return false;
 		}
 		
+	}
+
+	@Override
+	public boolean savePolygon(CcImagenesDto pCcImagenesDto) {
+		try {
+		CcImagenesDto ccImagenesDto = em.find(CcImagenesDto.class, pCcImagenesDto.getNumero());
+		ccImagenesDto.setPolygonoModel(pCcImagenesDto.getPolygonoModel());
+		ccImagenesDto.setHeight(pCcImagenesDto.getHeight());
+		ccImagenesDto.setWidth(pCcImagenesDto.getWidth());
+		ccImagenesDto.setPoligonos(pCcImagenesDto.getPoligonos());
+			return true;
+		}catch(RuntimeException e) {
+			return false;
+		}
 	}
 
 }

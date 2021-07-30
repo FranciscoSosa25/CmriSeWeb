@@ -34,8 +34,11 @@ public class CcImagenes implements Serializable {
 	private byte[] jpgContent; 
 	private StreamedContent jpgStreamedContent; 
 	private String filePath;
-	private String dcmKey;
-	
+	private String dcmKey;	
+	private String poligonoModel;
+	private int height;
+	private int width;
+	private int poligonos; 
 	public long getNumero() {
 		return this.numero;
 	}
@@ -176,6 +179,38 @@ public class CcImagenes implements Serializable {
 
 	public void setDcmKey(String dcmKey) {
 		this.dcmKey = dcmKey;
+	}
+
+	public String getPoligonoModel() {
+		return poligonoModel;
+	}
+
+	public void setPoligonoModel(String poligonoModel) {
+		this.poligonoModel = poligonoModel;
+	}
+
+	public int getPoligonos() {
+		return poligonos;
+	}
+
+	public void setPoligonos(int poligonos) {
+		this.poligonos = poligonos;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
 	}
 	
 	
