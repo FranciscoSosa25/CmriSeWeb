@@ -17,11 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.cmrise.ejb.backing.corecases.UpdateQuestionFtaCoreCaseForm;
+import com.cmrise.ejb.backing.mrq.preview.Poligonos;
 import com.cmrise.ejb.helpers.GuestPreferences;
 import com.cmrise.ejb.model.corecases.CcHdrV1;
 import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
 import com.cmrise.ejb.model.corecases.CcPreguntasFtaV1;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
+import com.cmrise.ejb.model.corecases.img.CcImagenes;
 import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
 import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasFtaV1;
@@ -83,6 +85,11 @@ public class CoreCasePreviewForm {
 	private List<CcImagenesGrp> listPresentCcImagenesGrp = new ArrayList<CcImagenesGrp>();
 	private List<CcImagenesGrp> listPresentQCcImagenesGrp = new ArrayList<CcImagenesGrp>();
 	private List<CcPreguntasFtaSinonimos> ccListaSinonimos = new ArrayList<CcPreguntasFtaSinonimos>();
+	
+	private CcImagenes selCcImagenes;
+	private String respuestasPuntos;
+	
+
 	@Inject
 	CcPreguntasFtaSinonimosLocal ccPreguntasFtaSinonimosLocal;
 	@Inject
@@ -361,6 +368,25 @@ public class CoreCasePreviewForm {
 		}
 		return false;
 	}
+	
+	
+	public void selCCImagenes(CcImagenes ccImagenes) {
+		this.selCcImagenes = ccImagenes;
+	}
+	
+	public void calculateScore(CcImagenes ccImagenes) {
+		 Poligonos ob= new Poligonos();
+		 double score = ob.obtenerPuntuacion(this.selCcImagenes.getPoligonos(), this.selCcImagenes.getPoligonos(), this.selCcImagenes.getWidth(), this.respuestasPuntos, selCcImagenes.getPoligonoModel());
+		 BigDecimal bd = new BigDecimal(score).setScale(2, BigDecimal.ROUND_DOWN);
+		 if(score > 0) {
+			 this.selCcImagenes.setPuntoCorrectos((float)bd.floatValue());
+		 }else {
+			 this.selCcImagenes.setPuntoCorrectos(0f);
+		 }
+	}
+	
+	
+	
 	public void asignarRespuesta(String query) {
 		setRespuestaPreguntaCandidato(query);
 	}
@@ -623,6 +649,22 @@ public class CoreCasePreviewForm {
 
 	public void setListPresentQCcImagenesGrp(List<CcImagenesGrp> listPresentQCcImagenesGrp) {
 		this.listPresentQCcImagenesGrp = listPresentQCcImagenesGrp;
+	}
+
+	public CcImagenes getSelCcImagenes() {
+		return selCcImagenes;
+	}
+
+	public void setSelCcImagenes(CcImagenes selCcImagenes) {
+		this.selCcImagenes = selCcImagenes;
+	}
+
+	public String getRespuestasPuntos() {
+		return respuestasPuntos;
+	}
+
+	public void setRespuestasPuntos(String respuestasPuntos) {
+		this.respuestasPuntos = respuestasPuntos;
 	}
 	
 	

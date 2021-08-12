@@ -1,5 +1,6 @@
 
 var poligonos=0;
+var cursorPos;
 var polyModel = {
 		
 		setCanvasDimention : function(canvas, height, width){
@@ -9,6 +10,112 @@ var polyModel = {
 			 canvasContainer.style.width = h + 'px';
 			 canvasContainer.style.height = w + 'px';
 		},
+		drawCanvas : function(canvas, canvasContainer, height, width, cursor, ansPoints){
+			var imgSrc = jQuery('#'+canvasContainer).find('img').attr('src')
+			if(imgSrc == undefined || imgSrc === 'data:jpeg;base64,'){
+				return false
+			}
+			document.getElementById(canvas).style.display = "block";
+			if(ansPoints){
+				try{
+				document.getElementById(ansPoints).value = '[]';
+				}catch (e) {
+				}
+			}
+		    
+			var img = new Image();
+	        img.setAttribute('src', imgSrc);
+	        img.addEventListener('load', (e) => {
+	            paintingCanvasID.width = img.width;
+	            paintingCanvasID.height = img.height;
+	            ctx = paintingCanvasID.getContext("2d");
+	            ctx.drawImage(img, 0, 0, paintingCanvasID.width, paintingCanvasID.height);
+
+	        });
+	        paintingCanvasID = document.getElementById(canvas);
+         	paintingCanvasID.width = document.getElementById(width).value;
+         	paintingCanvasID.height = document.getElementById(height).value;
+         	
+		    ctx = paintingCanvasID.getContext("2d");
+		    ctx.clearRect(0, 0, paintingCanvasID.width, paintingCanvasID.height);
+		    
+		    cursorPos = cursor;
+		    paintingCanvasID.addEventListener("mousemove", function (e, cursor) {
+	            var cRect = paintingCanvasID.getBoundingClientRect(); // Gets CSS pos, and width/height
+	            var canvasX = Math.round(e.clientX - cRect.left); // Subtract the 'left' of the canvas
+	            var canvasY = Math.round(e.clientY - cRect.top); // from the X/Y positions to make
+	            document.getElementById(cursorPos).value = "X: " + canvasX + ", Y: " + canvasY;
+	        });
+		},
+		drawPoint : function(event, canvas,ansPoints,numeroPolygon){
+			var paintingCanvasID = document.getElementById(canvas);
+			let pVal = document.getElementById(ansPoints).value;
+			let noOfpolygon = document.getElementById(numeroPolygon).value;
+			
+			let clickCount = 0;
+			let points = [];
+			
+			if(pVal){
+				points = JSON.parse(pVal);
+				if(points.length >=  noOfpolygon){
+					return;
+				}
+			}else{
+				points = [];
+			}
+			
+			rect = paintingCanvasID.getBoundingClientRect(); 	
+		   ctx = paintingCanvasID.getContext("2d");		
+		   x = event.clientX - rect.left;
+	       y = event.clientY - rect.top;
+	       x = x.toFixed(5);
+	       y = y.toFixed(5);
+	       points.push({'x': x, 'y': y});	
+	       polyModel.drawCursor(ctx, x,y)
+	       document.getElementById(ansPoints).value = JSON.stringify(points);
+		},
+		
+		clearPoint : function(canvas, canvasContainer, height, width, cursor, ansPoints, scorePoints){
+			let paintingCanvasID = document.getElementById(canvas);
+		    ctx = paintingCanvasID.getContext("2d");
+		    ctx.clearRect(0, 0, paintingCanvasID.width, paintingCanvasID.height);		
+		    polyModel.drawCanvas(canvas, canvasContainer, height, width, cursor, ansPoints)
+		    polyModel.clearScore(scorePoints)
+		},
+		clearScore: function(scorePoints){
+			try{
+			let score = document.getElementById(scorePoints);
+				if(score){
+					score.innerText = '0.0';
+				}
+			}catch(e){
+				
+			}
+			
+		},
+		drawCursor : function(ctx, x, y){
+			  var tmpX, tmpY;
+		        ctx.strokeStyle = 'red';
+		        ctx.beginPath();
+		        tmpX = parseFloat(x) + 20;
+		        ctx.moveTo(tmpX, y);
+		        ctx.lineTo(x, y);
+		        tmpX = parseFloat(x) - 20;
+		        ctx.moveTo(tmpX, y);
+		        ctx.lineTo(x, y);
+		        tmpY = parseFloat(y) + 20;
+		        ctx.moveTo(x, tmpY);
+		        ctx.lineTo(x, y);
+		        tmpY = parseFloat(y) - 20;
+		        ctx.moveTo(x, tmpY);
+		        ctx.lineTo(x, y);
+		        ctx.lineWidth = 3;
+		        ctx.stroke();
+			
+		},
+		
+		
+		
 		
 		initPolygon : function(canvas, canvasContainer, model, height, width){
 			var imgSrc = jQuery('#'+canvasContainer).find('img').attr('src')

@@ -39,6 +39,10 @@ public class CcImagenes implements Serializable {
 	private int height;
 	private int width;
 	private int poligonos; 
+	private String respuestasPuntos;
+	private float puntoCorrectos;
+ 
+	
 	public long getNumero() {
 		return this.numero;
 	}
@@ -212,6 +216,23 @@ public class CcImagenes implements Serializable {
 	public void setWidth(int width) {
 		this.width = width;
 	}
+
+	public String getRespuestasPuntos() {
+		return respuestasPuntos;
+	}
+
+	public void setRespuestasPuntos(String respuestasPuntos) {
+		this.respuestasPuntos = respuestasPuntos;
+	}
+
+	public float getPuntoCorrectos() {
+		return puntoCorrectos;
+	}
+
+	public void setPuntoCorrectos(float puntoCorrectos) {
+		this.puntoCorrectos = puntoCorrectos;
+	}
+
 	
 	
 }
