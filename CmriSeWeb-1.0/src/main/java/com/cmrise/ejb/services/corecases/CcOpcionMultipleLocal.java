@@ -23,5 +23,5 @@ public interface CcOpcionMultipleLocal {
 	public List<CcOpcionMultipleDto> findByNumeroFtaShuffleOrder(long pNumeroFta
             ,boolean pShuffleOrder
             );
-	
+	public List<CcOpcionMultiple> findByNumeroFtaShuffleOrderOM(long pNumeroFta, boolean pShuffleOrder);
 }

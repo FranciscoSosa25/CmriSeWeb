@@ -1,0 +1,138 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions" 
+                template="/WEB-INF/template/templateCandidates.xhtml">
+<ui:define name="content">
+<h:form id="ccExaFormCab">
+ <p:growl id="growl" showDetail="true" showSummary="true">
+		     <p:autoUpdate />
+ </p:growl> 
+<p:panelGrid id="panel" styleClass="panelgrid-dotted-border">
+   <p:row>
+        <p:column style="font-weight: bold;width: 100px; font-size: 20px;">Examen</p:column>
+        <p:column style="font-weight: bold;">
+        <h:outputText value="#{ccExamForm.titularCasos} : #{ccExamForm.ccExamen.descripcion}  " style="position: relative; left:0px; font-size: 20px;"/></p:column>
+        <p:column style="font-weight: bold; font-size: 20px;">
+          <h:outputText id="FechaExa" value="#{ccExamForm.strDate}" />
+         </p:column>
+         <p:column style="font-weight: bold; font-size: 20px;" class="text_right">Tiempo Restante:</p:column>
+         <p:column style="width: 100px; font-size: 20px;">
+         <pe:timer id="timer2"
+              timeout="#{ccExamForm.ccExamen.tiempoLimite}"
+              format="HH:mm:ss"
+              forward="false"
+              listener="#{ccExamForm.onTimeout}"           
+              style=" background-color:hsl(210, 99%, 27%);
+					  color:#fff;
+					  border-radius:5px;  
+					  padding:0px 0px 0px 8px;
+					  left:500px;"
+              /></p:column>
+    </p:row>
+    
+</p:panelGrid>
+</h:form>
+<h:form id="ccExaForm">
+
+		<p:dialog style="background-color:#D9E0E7;" id="myDialog" header="Examen finalizado" resizable="false" rendered="#{ccExamForm.showFinalMessage}" visible="#{ccExamForm.showFinalMessage}" modal="true">
+			<div style="font-size:35pt;  border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;">
+  				<h:outputText value="#{ccExamForm.ccExamen.getMensajeFinalizacion()}" />
+  				<p:ajax event="close" listener="#{ccExamForm.redirectPage()}" update="ccExaForm" />
+  			</div>
+        </p:dialog>
+        
+<!-- CODIGO INICIO -->
+   <div id="ccExaForm" style="width: 100%; height: 700px; overflow-y: scroll;">
+       <div >
+       <script>
+	       $( document ).ready(function() {
+	    	    updateCount();
+	    	});
+       		
+		    function updateCount() {
+		    	if(document.getElementById("answer") )
+		        	$("[id$='counter']").html($("[id$='answer']").val().length + "/" + $("[id$='answer']").attr('maxlength') + " caracteres");
+		    }
+	  </script>
+       <div  style="font-size:2em; font-weight:bold; border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;" >
+       <h:outputText id="titulo" value="" /><!-- aqui venía la parte de admonmateria que se pidió eliminar -->
+       </div>
+       <div>
+       <p:inputText id="tipoReactivo" value="#{ccExamForm.tipoPregunta}"
+				type="hidden" />
+       <ui:repeat var="imagenesGrupo" value="#{ccExamForm.listPresentCcImagenesGrp}" varStatus="status">
+		    <div>
+		     <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
+		        <h:panelGroup layout="block" rendered="#{imagenes.image}">
+		         <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="width: 20%;height:20%;" />
+		       </h:panelGroup>
+		       <h:panelGroup layout="block" rendered="#{imagenes.video}">
+		        <video controls="controls" style="width: 20%;height:20%;" >
+		         <source src="data:#{imagenes.contentType};base64,#{imagenes.imagenBase64}" />
+		        </video>
+		       </h:panelGroup> 
+		     </ui:repeat>
+		    </div>
+		    </ui:repeat>
+       </div>
+       <div style="font-size:2em;  border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;">
+       	 <!--h:outputText id="caso"  value="Caso Clínico #{ccExamForm.idxGrupo+1} de #{ccExamForm.hdrGrupoSize} " />       	
+         <h:outputText id="pregunta" value=" - Pregunta #{ccExamForm.idxCasos+1} de #{ccExamForm.casosSize} : #{ccExamForm.ccPreguntasV1.ccPreguntasFtaV1.tituloPregunta}" /-->
+         <h:outputText id="pregunta" value="#{ccExamForm.titularPregunta}" />
+       </div>
+       </div>
+       <div class="ui-g-12 ui-md-12 card" style="font-size:1em;  border-spacing: 0px;	padding:8px 15px 8px 15px; background-color:#D9E0E7;">
+          <p:fieldset legend="#{ccExamForm.ccPreguntasV1.ccPreguntasFtaV1.textoSugerencias}" style="border-spacing: 2px;	padding:2px 2px 2px 2px;  background-color:#D9E0E7; font-size: 20px;">
+            <h:outputText id="limiteCaracteres" value="#{ccExamForm.limiteCaracteresString}" />
+            <h:panelGroup layout="block" rendered="#{ccExamForm.limitedFreeTextAnswer}">
+             <div class="ui-g-12 ui-md-12" >
+			    <p:outputLabel for="answer" value="Intrucciones: Su Respuesta:" style="font-weight: bold;"/>
+			    <p:inputTextarea id="answer"  value="#{ccExamForm.respuestaCandidato}" rows="10" cols="50" style="width:98%;font-size: 24px;"  maxlength="#{ccExamForm.limiteCaracteres}" onfocus="updateCount()" onkeyup="updateCount()" requiredMessage="#{msgs['globalForm.requiredMessage']}" autoResize="false" required="true"/>
+			     <br />
+			     <h:outputText id="counter"/>
+			   
+			     <p:message for="answer"  />
+		
+			 </div>
+		    </h:panelGroup>
+		    
+		    <h:panelGroup layout="block" rendered="#{ccExamForm.multipleChoice  and ccExamForm.ccPreguntasV1.ccPreguntasFtaV1.singleAnswerMode}">
+		      <div class="ui-g-12 ui-md-12" >
+		         <p:selectOneRadio id="answerRadioSingle" value="#{ccExamForm.respuestaCandidato}" layout="grid" columns="1"  requiredMessage="#{msgs['globalForm.requiredMessage']}" required="true">
+				 <f:selectItems value="#{ccExamForm.listCcOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
+				 </p:selectOneRadio>
+				   <p:message for="answerRadioSingle"  />
+		      </div>
+             </h:panelGroup>  
+             
+            
+            <h:panelGroup layout="block" rendered="#{ccExamForm.multipleChoice and not ccExamForm.ccPreguntasV1.ccPreguntasFtaV1.singleAnswerMode}" style="border-spacing: 1px;	padding:1px 1px 1px 1px;  background-color:#D9E0E7;">
+		         <p:selectManyCheckbox id="answerRadioMultiple"  value="#{ccExamForm.respuestasPreguntaCandidato}" layout="grid" columns="1" requiredMessage="#{msgs['globalForm.requiredMessage']}"  requerid="true">
+				 <f:selectItems value="#{ccExamForm.listCcOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
+				 </p:selectManyCheckbox>
+				 <p:message for="answerRadioMultiple"  />
+             </h:panelGroup>  
+            </p:fieldset>
+		</div>  
+		 <div class="ui-g-12 ui-md-5">
+             <h:outputText id="timerVal" value="#{ccExamForm.timerValue}" rendered="true" />
+             <p:commandButton value="Saltar Pregunta" style="margin-left:15px"  actionListener="#{ccExamForm.SaltarCaso()}" update="ccExaForm" rendered="#{ccExamForm.ccExamen.saltarCasos}" immediate="true"  disabled="#{ccExamForm.flag2}" />
+             <p:commandButton value="Siguiente" actionListener="#{ccExamForm.siguienteGuardarResp()}" onclick="init()" update="ccExaForm myDialog" style="margin-left:15px"    />
+           </div>   
+         </div>   
+<!-- CODIGO FIN -->
+</h:form>
+</ui:define>
+
+<ui:define name="xxhrwjs">
+		<h:outputScript name="gojs/go.js" library="js" />
+		<h:outputScript name="gojs/Figures.js" library="js" />
+		<h:outputScript name="cmrise/reactivos/ReactivosExam.js"
+			library="js" />
+	</ui:define>
+
+</ui:composition>
+

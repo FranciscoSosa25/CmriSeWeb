@@ -65,7 +65,7 @@ public class CandExamenesDaoImpl implements CandExamenesDao {
 	public List<CandExamenesV2Dto> findByUsuarioOnlyEfectiveDates(long pNumeroUsuario) {
 		Date date = new Date();
 		Object today = new java.sql.Timestamp(date.getTime());
-		String strQuery="SELECT c FROM CandExamenesV2Dto c WHERE c.numeroUsuario="+pNumeroUsuario +" AND '"+ today +"' BETWEEN c.fechaEfectivaDesdeExamen AND c.fechaEfectivaHastaExamen ";
+		String strQuery="SELECT c FROM CandExamenesV2Dto c WHERE c.numeroUsuario="+pNumeroUsuario +" AND CONVERT(DATETIME,'"+ today +"',121) BETWEEN c.fechaEfectivaDesdeExamen AND c.fechaEfectivaHastaExamen ";
 		Query query = em.createQuery(strQuery);
 		return query.getResultList();
 	}
@@ -118,5 +118,12 @@ public class CandExamenesDaoImpl implements CandExamenesDao {
 		
 		Query query = em.createQuery(strQuery);
 		return query.getResultList();
+	}
+	
+	@Override
+	public CandExamenesV2Dto findByNumeroV2(long pNumero) {
+		String strQuery="SELECT c FROM CandExamenesV2Dto c WHERE c.numero=" + pNumero; 
+		Query query = em.createQuery(strQuery);
+		return (CandExamenesV2Dto)query.getSingleResult();
 	}
 }

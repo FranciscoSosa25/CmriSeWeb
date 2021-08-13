@@ -2,6 +2,8 @@ package com.cmrise.ejb.services.exams;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,9 +44,9 @@ public class CcExamAsignacionesLocalImpl implements CcExamAsignacionesLocal {
 	}
 
 	@Override
-	public List<CcExamAsignaciones> findByNumeroExamenWD(long pNumeroExamen) {
+	public List<CcExamAsignaciones> findByNumeroExamenWD(long pNumeroExamen, long nNumeroCC) {
 		List<CcExamAsignaciones> retval = new ArrayList<CcExamAsignaciones>(); 
-		List<Object> listObjects = ccExamAsignacionesDao.findByNumeroExamenWD(pNumeroExamen); 
+		List<Object> listObjects = ccExamAsignacionesDao.findByNumeroExamenWD(pNumeroExamen,nNumeroCC); 
 		for(Object object:listObjects) {
 			if(object instanceof Object[]) {
 				CcExamAsignaciones ccExamAsignaciones = new CcExamAsignaciones(); 
@@ -53,31 +55,33 @@ public class CcExamAsignacionesLocalImpl implements CcExamAsignacionesLocal {
 					ccExamAsignaciones.setId(((BigInteger)row[0]).longValue());
 				}
 				if(row[1] instanceof Object) {
-									
+					ccExamAsignaciones.setNumero(((BigInteger)row[1]).longValue());		
 				}
 				if(row[2] instanceof Object) {
-					
+					ccExamAsignaciones.setNumeroCcExamen(((BigInteger)row[2]).longValue());
 				}
 				if(row[3] instanceof Object) {  /** NUMERO_CORE_CASE **/
 					ccExamAsignaciones.setNumeroCoreCase(((BigInteger)row[3]).longValue());					
 				}
 				if(row[4] instanceof Object) {
-					
+					ccExamAsignaciones.setFechaEfectivaDesde((Date)row[4]);
 				}
 				if(row[5] instanceof Object) {
-					
+					ccExamAsignaciones.setFechaEfectivaHasta((Date)row[5]);
 				}
 				if(row[6] instanceof Object) {
-					
+					ccExamAsignaciones.setCreadoPor(((BigInteger)row[6]).longValue());
 				}
 				if(row[7] instanceof Object) {
-					
+					Timestamp timestamp = (Timestamp)row[7];
+					ccExamAsignaciones.setFechaCreacion(new java.util.Date(timestamp.getTime()));
 				}
 				if(row[8] instanceof Object) {
-					
+					ccExamAsignaciones.setActualizadoPor(((BigInteger)row[8]).longValue());
 				}
 				if(row[9] instanceof Object) {
-					
+					Timestamp timestamp = (Timestamp)row[9];
+					ccExamAsignaciones.setFechaActualizacion(new java.util.Date(timestamp.getTime()));
 				}
 				if(row[10] instanceof BigInteger) { /** NUMERO_PREGUNTA **/
 					ccExamAsignaciones.setNumeroPreguntaHdr(((BigInteger)row[10]).longValue());
@@ -91,23 +95,17 @@ public class CcExamAsignacionesLocalImpl implements CcExamAsignacionesLocal {
 				if(row[13] instanceof String) { /** ESTATUS_DESC **/
 					ccExamAsignaciones.setEstatusPreguntaDesc((String)row[13]);
 				}
-				if(row[14] instanceof Object) { /** TEMA_PREGUNTA **/
-					ccExamAsignaciones.setTemaPregunta((String)row[14]);
+				if(row[14] instanceof BigDecimal) { /** MAX_PUNTUACION **/
+					ccExamAsignaciones.setMaxPuntuacionPregunta((BigDecimal)row[14]);
 				}
-				if(row[15] instanceof Object) { /** TEMA_PREGUNTA_DESC **/
-					ccExamAsignaciones.setTemaPreguntaDesc((String)row[15]);
+				if(row[15] instanceof Object) { /** ETIQUETAS **/
+					ccExamAsignaciones.setEtiquetas((String)row[15]);
 				}
-				if(row[16] instanceof BigDecimal) { /** MAX_PUNTUACION **/
-					ccExamAsignaciones.setMaxPuntuacionPregunta((BigDecimal)row[16]);
+				if(row[16] instanceof String) { /** TIPO_PREGUNTA **/
+					ccExamAsignaciones.setTipoPregunta((String)row[16]);					
 				}
-				if(row[17] instanceof Object) { /** ETIQUETAS **/
-					ccExamAsignaciones.setEtiquetas((String)row[17]);
-				}
-				if(row[18] instanceof String) { /** TIPO_PREGUNTA **/
-					ccExamAsignaciones.setTipoPregunta((String)row[18]);					
-				}
-				if(row[19] instanceof String) { /** TIPO_PREGUNTA_DESC **/
-					ccExamAsignaciones.setTipoPreguntaDesc((String)row[19]);
+				if(row[17] instanceof String) { /** TIPO_PREGUNTA_DESC **/
+					ccExamAsignaciones.setTipoPreguntaDesc((String)row[17]);
 				}
 				retval.add(ccExamAsignaciones); 
 			} /** END if(object instanceof Object[]) { **/
@@ -191,5 +189,75 @@ public class CcExamAsignacionesLocalImpl implements CcExamAsignacionesLocal {
 
 	public void delete(long pNumero) {
 		ccExamAsignacionesDao.delete(pNumero);
+	}
+	
+	@Override
+	public List<CcExamAsignaciones> findByNumeroExamen(long pNumeroExamen) {
+		List<CcExamAsignaciones> retval = new ArrayList<CcExamAsignaciones>(); 
+		List<Object> listObjects = ccExamAsignacionesDao.findByNumeroExamen(pNumeroExamen); 
+		for(Object object:listObjects) {
+			if(object instanceof Object[]) {
+				CcExamAsignaciones ccExamAsignaciones = new CcExamAsignaciones(); 
+				Object[] row = (Object[]) object;
+				if(row[0] instanceof BigInteger) {
+					ccExamAsignaciones.setId(((BigInteger)row[0]).longValue());
+				}
+				if(row[1] instanceof Object) {
+					ccExamAsignaciones.setNumero(((BigInteger)row[1]).longValue());		
+				}
+				if(row[2] instanceof Object) {
+					ccExamAsignaciones.setNumeroCcExamen(((BigInteger)row[2]).longValue());
+				}
+				if(row[3] instanceof Object) {  /** NUMERO_CORE_CASE **/
+					ccExamAsignaciones.setNumeroCoreCase(((BigInteger)row[3]).longValue());					
+				}
+				if(row[4] instanceof Object) {
+					ccExamAsignaciones.setFechaEfectivaDesde((Date)row[4]);
+				}
+				if(row[5] instanceof Object) {
+					ccExamAsignaciones.setFechaEfectivaHasta((Date)row[5]);
+				}
+				if(row[6] instanceof Object) {
+					ccExamAsignaciones.setCreadoPor(((BigInteger)row[6]).longValue());
+				}
+				if(row[7] instanceof Object) {
+					Timestamp timestamp = (Timestamp)row[7];
+					ccExamAsignaciones.setFechaCreacion(new java.util.Date(timestamp.getTime()));
+				}
+				if(row[8] instanceof Object) {
+					ccExamAsignaciones.setActualizadoPor(((BigInteger)row[8]).longValue());
+				}
+				if(row[9] instanceof Object) {
+					Timestamp timestamp = (Timestamp)row[9];
+					ccExamAsignaciones.setFechaActualizacion(new java.util.Date(timestamp.getTime()));
+				}
+				if(row[10] instanceof BigInteger) { /** NUMERO_PREGUNTA **/
+					ccExamAsignaciones.setNumeroPreguntaHdr(((BigInteger)row[10]).longValue());
+				}
+				if(row[11] instanceof String) { /** TITULO_PREGUNTA **/
+					ccExamAsignaciones.setTituloPregunta((String)row[11]);
+				}
+				if(row[12] instanceof String) { /** ESTATUS **/
+					ccExamAsignaciones.setEstatusPregunta((String)row[12]);
+				}
+				if(row[13] instanceof String) { /** ESTATUS_DESC **/
+					ccExamAsignaciones.setEstatusPreguntaDesc((String)row[13]);
+				}
+				if(row[14] instanceof BigDecimal) { /** MAX_PUNTUACION **/
+					ccExamAsignaciones.setMaxPuntuacionPregunta((BigDecimal)row[14]);
+				}
+				if(row[15] instanceof Object) { /** ETIQUETAS **/
+					ccExamAsignaciones.setEtiquetas((String)row[15]);
+				}
+				if(row[16] instanceof String) { /** TIPO_PREGUNTA **/
+					ccExamAsignaciones.setTipoPregunta((String)row[16]);					
+				}
+				if(row[17] instanceof String) { /** TIPO_PREGUNTA_DESC **/
+					ccExamAsignaciones.setTipoPreguntaDesc((String)row[17]);
+				}
+				retval.add(ccExamAsignaciones); 
+			} /** END if(object instanceof Object[]) { **/
+		} /** END for(Object object:listObjects) { **/
+		return retval; 
 	}
 }

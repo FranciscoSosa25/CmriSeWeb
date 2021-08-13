@@ -1,9 +1,14 @@
 package com.cmrise.ejb.backing.candidates.exams;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -14,6 +19,7 @@ import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import com.cmrise.ejb.model.candidates.exams.CandExamRespuestasV1;
 import com.cmrise.ejb.model.candidates.exams.CandExamenesV1;
 import com.cmrise.ejb.model.corecases.CcHdrV1;
 import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
@@ -25,31 +31,59 @@ import com.cmrise.ejb.model.exams.CcExamenes;
 import com.cmrise.ejb.services.candidates.exams.CandExamRespuestasLocal;
 import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;
 import com.cmrise.ejb.services.exams.CcExamenesLocal;
+import com.cmrise.jpa.dto.candidates.exams.CandExamRespSkipDto;
+import com.cmrise.jpa.dto.candidates.exams.CandExamenesDto;
 import com.cmrise.utils.Utilitarios;
 import com.cmrise.utils.UtilitariosLocal;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 @ManagedBean
 @ViewScoped
 public class CoreCasesExamForm {
 
 	private CandExamenesV1 candExamenesV1 = new CandExamenesV1(); 
+	private CandExamRespuestasV1 candExamRespuestasV1 = new CandExamRespuestasV1(); 
 	private CcExamenes ccExamen = new CcExamenes(); 
+	private TreeNode rootCcExamAsignaciones;
+	private TreeNode selectedNode;
 	private List<CcExamAsignaciones> listCcExamAsignaciones = new ArrayList<CcExamAsignaciones>(); 
 	private CcHdrV1 ccHdrV1; 
 	private CcPreguntasHdrV1 ccPreguntasHdrV1; 
 	private CcPreguntasFtaV1 ccPreguntasFtaV1; 
 	private List<CcOpcionMultiple> listCcOpcionMultiple = new ArrayList<CcOpcionMultiple>(); 
+	private CandExamRespSkipDto candExamRespSkipDto = new CandExamRespSkipDto();
 	
-	private TreeNode rootCcExamAsignaciones;
-	private TreeNode selectedNode;
-	private boolean multipleChoice; 
+	private long numeroCcExamen;
+	private long numeroCandExamen;
+	private long numeroPreguntaFta; 
+    private boolean multipleChoice; 
 	private boolean limitedFreeTextAnswer;
 	private boolean indicateImage;
 	private boolean annotatedImage;
-	private boolean singleAnswerMode;
-	private boolean suffleAnswerOrder; 
+	private Short sSegundos =60;
 	private String respuestaCandidato; 
 	private String[] respuestasPreguntaCandidato;
+	private String timerValue;
+	private String strDate;
+	private boolean flag2;
+	private long reactivosSize;
+	private int idxReactivos;
+	private long hdrGrupoSize;
+	private int idxGrupo;
+	private boolean nuevaBusqueda = false;
+	private int idxSkip = 0;
+	private boolean busquedaSkip = false;
+	private int skipMax = 0;
+	private boolean showFinalMessage = false;
+	private int limiteCaracteres = 50;
+	private String tipoPregunta;
+	private long numCand;
+	
+	private boolean singleAnswerMode;
+	private boolean suffleAnswerOrder; 
+	
+	 
 	
 	/********************************************************************
 	 * Attributos Imagenes 
@@ -71,23 +105,37 @@ public class CoreCasesExamForm {
 	
 	@PostConstruct
 	public void init() {
-		 System.out.println("Comienza CoreCasesExamForm init()");
-		 FacesContext context = FacesContext.getCurrentInstance(); 
-		 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-		 Object objNumeroCandExamen = session.getAttribute("NumeroCandExamenSV"); 
-		 long numeroCandExamen = utilitariosLocal.objToLong(objNumeroCandExamen);
-		 this.candExamenesV1 = candExamenesLocal.findByNumero(numeroCandExamen); 
-		 Object objNumeroCcExamenSV = session.getAttribute("NumeroCcExamenSV"); 
-		 long numeroCcExamen = utilitariosLocal.objToLong(objNumeroCcExamenSV); 
+		System.out.println("Comienza CoreCasesExamForm init()");
+		FacesContext context = FacesContext.getCurrentInstance(); 
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		Object objNumeroCandExamen = session.getAttribute("NumeroCandExamenSV"); 
+		numeroCandExamen = utilitariosLocal.objToLong(objNumeroCandExamen);
+		candExamRespSkipDto.setNumeroCandExamen(numeroCandExamen);
+		this.candExamenesV1 = candExamenesLocal.findByNumero(numeroCandExamen); 
+		Object objNumeroCcExamenSV = session.getAttribute("NumeroCcExamenSV"); 
+		numeroCcExamen = utilitariosLocal.objToLong(objNumeroCcExamenSV); 
 		 
-		 System.out.println("numeroCandExamen:"+numeroCandExamen);
-		 System.out.println("this.candExamenesV1.getNumeroExamen():"+this.candExamenesV1.getNumeroExamen());
-		 System.out.println("numeroCcExamen:"+numeroCcExamen);
-		 ccExamen = ccExamenesLocal.findByNumeroObjModCand(numeroCcExamen); 
+		setIdxReactivos(0);
+		setIdxGrupo(0);
+		setFlag2(false);
+		setReactivosSize(0);
+		setHdrGrupoSize(0);
 		 
-		 listCcExamAsignaciones = ccExamen.getListCcExamAsignaciones(); 
+		//this.mrqsExamen = mrqsExamenesLocal.findByIdWD(numeroMRQsExamen,numCand); 
+		candExamRespSkipDto.setExamen(numeroCcExamen);
+		ccExamen = ccExamenesLocal.findByNumeroObjModCand(numeroCcExamen); 
+		numCand = Long.valueOf(session.getAttribute("numCand").toString()).longValue();
+		System.out.println("Numero buscado de examen: "+numCand);
+		 
+		Date date = new Date();  
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+		strDate= formatter.format(date);
+		Short intTime = Short.parseShort(String.valueOf(Integer.parseInt(session.getAttribute("tiempoExamen").toString())*sSegundos));
+		ccExamen.setTiempoLimite(intTime);
+		 
+		listCcExamAsignaciones = ccExamen.getListCcExamAsignaciones(); 
 			
-			rootCcExamAsignaciones = new DefaultTreeNode("Root", null);
+		rootCcExamAsignaciones = new DefaultTreeNode("Root", null);
 			if(null!=listCcExamAsignaciones) {
 				for(CcExamAsignaciones i:listCcExamAsignaciones) {
 					CcHdrV1 ccHdrV1 = i.getCcHdrV1(); 
@@ -178,6 +226,20 @@ public class CoreCasesExamForm {
 		}
 	}
 
+	public void onTimeout() {
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "FIN DE TIEMPO", "Fin de tiempo"));
+		CandExamenesDto candExamenesDto = new CandExamenesDto();
+    	candExamenesLocal.updateEstatus(numeroCandExamen, candExamenesDto);
+		redirectPage();
+}
+
+public void redirectPage() {
+	try {
+        FacesContext.getCurrentInstance().getExternalContext().redirect("ManageExams.xhtml");
+     } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 
 	public CandExamenesV1 getCandExamenesV1() {
 		return candExamenesV1;
@@ -337,5 +399,215 @@ public class CoreCasesExamForm {
 
 	public void setListPresentCcImagenesGrp(List<CcImagenesGrp> listPresentCcImagenesGrp) {
 		this.listPresentCcImagenesGrp = listPresentCcImagenesGrp;
+	}
+
+
+	public long getNumeroCcExamen() {
+		return numeroCcExamen;
+	}
+
+
+	public void setNumeroCcExamen(long numeroCcExamen) {
+		this.numeroCcExamen = numeroCcExamen;
+	}
+
+
+	public long getNumeroCandExamen() {
+		return numeroCandExamen;
+	}
+
+
+	public void setNumeroCandExamen(long numeroCandExamen) {
+		this.numeroCandExamen = numeroCandExamen;
+	}
+
+
+	public boolean isFlag2() {
+		return flag2;
+	}
+
+
+	public void setFlag2(boolean flag2) {
+		this.flag2 = flag2;
+	}
+
+
+	public long getReactivosSize() {
+		return reactivosSize;
+	}
+
+
+	public void setReactivosSize(long reactivosSize) {
+		this.reactivosSize = reactivosSize;
+	}
+
+
+	public int getIdxReactivos() {
+		return idxReactivos;
+	}
+
+
+	public void setIdxReactivos(int idxReactivos) {
+		this.idxReactivos = idxReactivos;
+	}
+
+
+	public long getHdrGrupoSize() {
+		return hdrGrupoSize;
+	}
+
+
+	public void setHdrGrupoSize(long hdrGrupoSize) {
+		this.hdrGrupoSize = hdrGrupoSize;
+	}
+
+
+	public int getIdxGrupo() {
+		return idxGrupo;
+	}
+
+
+	public void setIdxGrupo(int idxGrupo) {
+		this.idxGrupo = idxGrupo;
+	}
+
+
+	public boolean isNuevaBusqueda() {
+		return nuevaBusqueda;
+	}
+
+
+	public void setNuevaBusqueda(boolean nuevaBusqueda) {
+		this.nuevaBusqueda = nuevaBusqueda;
+	}
+
+
+	public int getIdxSkip() {
+		return idxSkip;
+	}
+
+
+	public void setIdxSkip(int idxSkip) {
+		this.idxSkip = idxSkip;
+	}
+
+
+	public boolean isBusquedaSkip() {
+		return busquedaSkip;
+	}
+
+
+	public void setBusquedaSkip(boolean busquedaSkip) {
+		this.busquedaSkip = busquedaSkip;
+	}
+
+
+	public int getSkipMax() {
+		return skipMax;
+	}
+
+
+	public void setSkipMax(int skipMax) {
+		this.skipMax = skipMax;
+	}
+
+
+	public boolean isShowFinalMessage() {
+		return showFinalMessage;
+	}
+
+
+	public void setShowFinalMessage(boolean showFinalMessage) {
+		this.showFinalMessage = showFinalMessage;
+	}
+
+
+	public int getLimiteCaracteres() {
+		return limiteCaracteres;
+	}
+
+
+	public void setLimiteCaracteres(int limiteCaracteres) {
+		this.limiteCaracteres = limiteCaracteres;
+	}
+
+
+	public String getTipoPregunta() {
+		return tipoPregunta;
+	}
+
+
+	public void setTipoPregunta(String tipoPregunta) {
+		this.tipoPregunta = tipoPregunta;
+	}
+
+
+	public CandExamRespuestasV1 getCandExamRespuestasV1() {
+		return candExamRespuestasV1;
+	}
+
+
+	public void setCandExamRespuestasV1(CandExamRespuestasV1 candExamRespuestasV1) {
+		this.candExamRespuestasV1 = candExamRespuestasV1;
+	}
+
+
+	public long getNumeroPreguntaFta() {
+		return numeroPreguntaFta;
+	}
+
+
+	public void setNumeroPreguntaFta(long numeroPreguntaFta) {
+		this.numeroPreguntaFta = numeroPreguntaFta;
+	}
+
+
+	public Short getsSegundos() {
+		return sSegundos;
+	}
+
+
+	public void setsSegundos(Short sSegundos) {
+		this.sSegundos = sSegundos;
+	}
+
+
+	public String getTimerValue() {
+		return timerValue;
+	}
+
+
+	public void setTimerValue(String timerValue) {
+		this.timerValue = timerValue;
+	}
+
+
+	public String getStrDate() {
+		return strDate;
+	}
+
+
+	public void setStrDate(String strDate) {
+		this.strDate = strDate;
+	}
+
+
+	public long getNumCand() {
+		return numCand;
+	}
+
+
+	public void setNumCand(long numCand) {
+		this.numCand = numCand;
+	}
+
+
+	public CandExamRespSkipDto getCandExamRespSkipDto() {
+		return candExamRespSkipDto;
+	}
+
+
+	public void setCandExamRespSkipDto(CandExamRespSkipDto candExamRespSkipDto) {
+		this.candExamRespSkipDto = candExamRespSkipDto;
 	}
 }
