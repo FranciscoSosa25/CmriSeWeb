@@ -18,5 +18,5 @@ public interface CcExamenesLocal {
 	public void update(long pNumero,CcExamenesDto pCcExamenesDto);
 	public CcExamenes findByNumeroObjMod(long numeroCcExamen);
 	public CcExamenes findByNumeroObjModCand(long numeroCcExamen);
-	
+	public CcExamenes findByNumeroWD(long pNumero, long pNCandidato);
 }

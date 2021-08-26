@@ -138,7 +138,11 @@ public class CcPreguntasHdrLocalImpl implements CcPreguntasHdrLocal {
 		return ccPreguntasHdrDto.getNumero();
 	}
 
-	
+	public List<CcPreguntasHdrV1> findListByNumeroCcHdrWD(long pNumeroCcHdr){
+		List<CcPreguntasHdrV1> listCcPreg = new ArrayList<CcPreguntasHdrV1>();
+		listCcPreg = ccPreguntasHdrDao.findListByNumeroCcHdrWD(pNumeroCcHdr);
+		return listCcPreg;
+	}
 	
 
 }

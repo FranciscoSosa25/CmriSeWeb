@@ -35,6 +35,7 @@ public class Utilitarios {
     public static final String ROL_ALUMNO = "ALUMNO";
     public static final String MRQS = "MRQS";
     public static final String CORE_CASES = "CORE_CASES";
+    public static final String CORE_CASES_TITLE = "CASOS CLINICOS";
     public static final String CORRELACION_COLUMNA = "CORRELACION_COLUMNA";
     public static final float CORRELACION_COLUMNA_VALOR_REACTIVO = 5.0f;
     public static final float OPCION_MULTIPLE_VALOR_REACTIVO = 5.0f;

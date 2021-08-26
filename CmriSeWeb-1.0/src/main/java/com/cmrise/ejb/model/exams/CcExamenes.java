@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.cmrise.ejb.model.corecases.CcHdrV1;
+
 
 public class CcExamenes implements Serializable {
 
@@ -33,6 +35,7 @@ public class CcExamenes implements Serializable {
 	private String visibilidadDesc; 
 
 	private List<CcExamAsignaciones> listCcExamAsignaciones; 
+	private List<CcHdrV1> listCcHdr; 
 	
 	public long getNumero() {
 		return this.numero;
@@ -214,6 +217,14 @@ public class CcExamenes implements Serializable {
 
 	public void setCreadoPorNombre(String creadoPorNombre) {
 		this.creadoPorNombre = creadoPorNombre;
+	}
+
+	public List<CcHdrV1> getListCcHdr() {
+		return listCcHdr;
+	}
+
+	public void setListCcHdr(List<CcHdrV1> listCcHdr) {
+		this.listCcHdr = listCcHdr;
 	}
 
 

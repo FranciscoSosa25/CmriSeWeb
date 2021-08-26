@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
+import com.cmrise.jpa.dto.corecases.CcPreguntasHdrV1Dto;
 
 
 public class CcHdrV1 implements Serializable {
@@ -25,6 +26,7 @@ public class CcHdrV1 implements Serializable {
 	private String nombre;
 	private String nota;
 	private long numero;
+	private long numeroExamen;
 	private boolean opcionInsegura;
 	private String sociedad;
 	private String tema;
@@ -36,6 +38,7 @@ public class CcHdrV1 implements Serializable {
 	private String admonExamenDesc; 
 	private String admonMateriaDesc; 
 	private String admonSubMateriaDesc; 
+	
 	private List<CcImagenesGrp> listCcImagenesGrp; 
 	
 	private List<CcPreguntasHdrV1> listCcPreguntasHdrV1; 
@@ -203,6 +206,12 @@ public class CcHdrV1 implements Serializable {
 	}
 	public void setListCcImagenesGrp(List<CcImagenesGrp> listCcImagenesGrp) {
 		this.listCcImagenesGrp = listCcImagenesGrp;
+	}
+	public long getNumeroExamen() {
+		return numeroExamen;
+	}
+	public void setNumeroExamen(long numeroExamen) {
+		this.numeroExamen = numeroExamen;
 	}
 	
 	

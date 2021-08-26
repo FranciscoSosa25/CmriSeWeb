@@ -26,5 +26,5 @@ public interface CcHdrLocal {
 	public List<CcExamAsignaciones> findCCInExam(long pNumeroExamen);
 	public CcHdrV1 findByNumeroObjMod(long pNumeroCcHdr);
 	public long insert(CcHdrV1 pCcHdrV1); 
-	
+	public List<CcHdrV1> findByCCByExamen(long pNumeroExamen);
 }
