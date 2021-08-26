@@ -524,16 +524,16 @@ public class UpdateFTAMrqForm {
 			}else if(Utilitarios.RESP_TEXTO_LIBRE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())){
 		     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta(this.mrqsPreguntasFtaV1ForAction.getRespuestaCorrecta());
 		    }else if(Utilitarios.IMAGEN_INDICADA.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
-		     //mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("Coordenadas Poligonos");
-		    if(null==mrqsPreguntasFtaV1ForAction.getNombreImagen()) {
-		    	FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se nececita una","imagen") );
-				return; 
-		     }else if(null==mrqsPreguntasFtaV1ForAction.getPoligonos()||"".equals(mrqsPreguntasFtaV1ForAction.getPoligonos())) {
-		    	 FacesContext context = FacesContext.getCurrentInstance();
-				 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se nececita dibujar un","Poligono") );
-				 return; 
-		     }
+		     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("Coordenadas Poligonos");
+			    if(null==mrqsPreguntasFtaV1ForAction.getNombreImagen()) {
+			    	FacesContext context = FacesContext.getCurrentInstance();
+					context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se nececita una","imagen") );
+					return; 
+			     }else if(null==mrqsPreguntasFtaV1ForAction.getPoligonos()||"".equals(mrqsPreguntasFtaV1ForAction.getPoligonos())) {
+			    	 FacesContext context = FacesContext.getCurrentInstance();
+					 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se nececita dibujar un","Poligono") );
+					 return; 
+			     }
 		   }else if(Utilitarios.IMAGEN_ANOTADA.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
 			   mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("Modelo de Relaciones");
 			   List<AnotacionesCorImg> listAnotacionesCorImg = new ArrayList<AnotacionesCorImg>(); 

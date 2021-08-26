@@ -12,6 +12,7 @@ public interface CcImagenesDao {
 	public void insert(long pNumeroImagenesGrp
 			         , CcImagenes pCcImagenes);
 	
+	public boolean savePolygon(CcImagenesDto pCcImagenesDto);
 	public boolean deleteByGroupId(long numero, long groupId);
 	public boolean delete(long pNumeroGrp);
 	

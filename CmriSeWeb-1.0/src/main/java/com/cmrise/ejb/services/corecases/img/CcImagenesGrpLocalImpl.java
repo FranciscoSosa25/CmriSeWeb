@@ -236,6 +236,21 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 					ccImagenes.setNumeroGrp(j.getNumeroGrp());
 					ccImagenes.setNombreImagen(j.getNombreImagen());
 					ccImagenes.setRutaImagen(j.getRutaImagen());
+					int h =0;
+					int w=0;
+					int p=0;
+					try {
+						h = Math.toIntExact(j.getHeight());
+						w = Math.toIntExact(j.getWidth());
+						p = Math.toIntExact(j.getPoligonos());
+					} catch (RuntimeException e) {
+						h=510;
+						w=510;
+					}
+					ccImagenes.setHeight(h);
+					ccImagenes.setWidth(w);
+					ccImagenes.setPoligonoModel(j.getPolygonoModel());
+					ccImagenes.setPoligonos(p);
 					ccImagenes.setFilePath( Utilitarios.FS_ROOT+j.getRutaImagen()+ File.separator+j.getNombreImagen());
 					ccImagenes.setDcmKey(getDigest(ccImagenes.getFilePath()));
 					String strJpgRuta  = Utilitarios.FS_ROOT + j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX);
@@ -393,6 +408,25 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 		}
 		
 		return isSuccess;
+	}
+
+	@Override
+	public boolean savePolygon(CcImagenes ccImagenes) {
+		boolean isSuccess = false;
+		try {
+			CcImagenesDto dto = new CcImagenesDto();
+			dto.setNumero(ccImagenes.getNumero());
+			dto.setPolygonoModel(ccImagenes.getPoligonoModel());
+			dto.setHeight(new Long(ccImagenes.getHeight()));
+			dto.setWidth(new Long(ccImagenes.getWidth()));
+			dto.setPoligonos(new Long(ccImagenes.getPoligonos()));
+			isSuccess = ccImagenesDao.savePolygon(dto);	
+		}catch (RuntimeException e) {
+			LOGGER.error("Save polygon failed", e);
+		}
+		return isSuccess;
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

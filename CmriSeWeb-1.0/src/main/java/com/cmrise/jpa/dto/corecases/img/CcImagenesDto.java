@@ -41,6 +41,19 @@ public class CcImagenesDto implements Serializable {
 	@Column(name="NUMERO_GRP")
 	private long numeroGrp; 
 	
+	@Column(name="POLIGONO_MODEL")
+	private String polygonoModel;
+	
+	@Column(name="HEIGHT")
+	private Long height;
+	
+	@Column(name="WIDTH")
+	private Long width;
+	
+	@Column(name="POLIGONOS")
+	private Long poligonos; 
+
+	
 	public long getNumero() {
 		return this.numero;
 	}
@@ -104,6 +117,42 @@ public class CcImagenesDto implements Serializable {
 	public void setNumeroGrp(long numeroGrp) {
 		this.numeroGrp = numeroGrp;
 	}
+
+	public String getPolygonoModel() {
+		return polygonoModel;
+	}
+
+	public void setPolygonoModel(String poligonoModel) {
+		this.polygonoModel = poligonoModel;
+	}
+
+	public Long getHeight() {
+		return height;
+	}
+
+	public void setHeight(Long height) {
+		this.height = height;
+	}
+
+	public Long getWidth() {
+		return width;
+	}
+
+	public void setWidth(Long width) {
+		this.width = width;
+	}
+
+	public Long getPoligonos() {
+		return poligonos;
+	}
+
+	public void setPoligonos(Long poligons) {
+		this.poligonos = poligons;
+	}
+
+	
+	
+	
 
 }
 
