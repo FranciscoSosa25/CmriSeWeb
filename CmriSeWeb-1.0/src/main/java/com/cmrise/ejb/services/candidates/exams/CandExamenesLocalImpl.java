@@ -13,6 +13,7 @@ import com.cmrise.jpa.dao.candidates.exams.CandExamenesDao;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesDto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesV1Dto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesV2Dto;
+import com.cmrise.utils.Utilitarios;
 
 @Stateless 
 public class CandExamenesLocalImpl implements CandExamenesLocal {
@@ -104,7 +105,10 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 		retval.setMatricula(pCandExamenesV2Dto.getMatricula());
 		retval.setNombreCompletoUsuario(pCandExamenesV2Dto.getNombreCompletoUsuario());
 		retval.setDescripcionRol(pCandExamenesV2Dto.getDescripcionRol());
-		retval.setTipo(pCandExamenesV2Dto.getTipo());
+		if(Utilitarios.CORE_CASES.equals(pCandExamenesV2Dto.getTipo()))
+			retval.setTipo(Utilitarios.CORE_CASES_TITLE);
+		else
+			retval.setTipo(pCandExamenesV2Dto.getTipo());
 		retval.setTitulo(pCandExamenesV2Dto.getTitulo());
 		retval.setTiempoLimite(pCandExamenesV2Dto.getTiempoLimite());
 		retval.setEstatus(pCandExamenesV2Dto.getEstatus());
@@ -175,4 +179,13 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 		return retval;
 	}
 	
+	@Override
+	public CandExamenesV1 findByNumeroV2(long pNumero) {
+		CandExamenesV1 retval = new CandExamenesV1(); 
+		CandExamenesV2Dto candExamenesV2Dto = candExamenesDao.findByNumeroV2(pNumero); 
+		retval.setNumero(candExamenesV2Dto.getNumero());
+		retval.setNumeroExamen(candExamenesV2Dto.getNumeroExamen());
+		retval.setTipo(candExamenesV2Dto.getTipo());
+		return retval;
+	}
 }

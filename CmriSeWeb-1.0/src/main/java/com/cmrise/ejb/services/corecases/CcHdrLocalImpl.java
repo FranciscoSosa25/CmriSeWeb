@@ -29,6 +29,7 @@ import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
 import com.cmrise.ejb.model.corecases.img.CcImagenes;
 import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
 import com.cmrise.ejb.model.exams.CcExamAsignaciones;
+import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
 import com.cmrise.jpa.dao.corecases.CcHdrDao;
 import com.cmrise.jpa.dao.corecases.CcOpcionMultipleDao;
 import com.cmrise.jpa.dao.corecases.CcPreguntasFtaDao;
@@ -43,6 +44,7 @@ import com.cmrise.jpa.dto.corecases.CcPreguntasFtaV1Dto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasHdrV1Dto;
 import com.cmrise.jpa.dto.corecases.img.CcImagenesDto;
 import com.cmrise.jpa.dto.corecases.img.CcImagenesGrpDto;
+import com.cmrise.jpa.dto.exams.MrqsGrupoHdrDto;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless 
@@ -112,7 +114,6 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 		return ccHdrDao.findByNumero(pNumero);
 	}
 	
-
 	@Override
 	public List<KeysDto> findKeys() {
 		return ccHdrDao.findKeys();
@@ -424,8 +425,19 @@ public class CcHdrLocalImpl implements CcHdrLocal {
 		ccHdrDto.setOpcionInsegura(pCcHdrV1.isOpcionInsegura());
 		ccHdrDao.insert(ccHdrDto);
 		pCcHdrV1.setNumero(ccHdrDto.getNumero());
-		return ccHdrDto.getNumero();
+		long numCC = ccHdrDto.getNumero();
+		return numCC;
 	}
 
-	
+	@Override
+	public List<CcHdrV1> findByCCByExamen(long pNumeroExamen) {
+		List<CcHdrV1> listCc = ccHdrDao.findCCByExamen(pNumeroExamen); 
+		for(CcHdrV1 coreCase : listCc) {
+			List<CcPreguntasHdrV1> ccPreguntasV1 = new ArrayList<CcPreguntasHdrV1>();
+			ccPreguntasV1 = ccPreguntasHdrDao.findListByNumeroCcHdrWD(coreCase.getNumero());
+			
+			coreCase.setListCcPreguntasHdrV1(ccPreguntasV1);
+		}
+		return listCc;
+	}
 }

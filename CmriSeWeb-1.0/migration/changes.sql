@@ -9,3 +9,11 @@ ALTER TABLE [CC_IMAGENES_GRP] ADD MODALITY [varchar](500) NULL;
 ALTER TABLE [dbo].[CC_IMAGENES_GRP]  WITH CHECK ADD  CONSTRAINT [CC_IMAGENES_GRP_FK2] FOREIGN KEY(NUMERO_CC_HDR)
 REFERENCES [dbo].[CC_HDR] ([NUMERO]);
 ------------------------------------------------------------
+--changeset kisha.wappnet:23234 
+--comment July 30, 2021 6:26:43 AM wappnet_release, Core Case DICOM image- Draw Poligonos
+
+ALTER TABLE [CC_IMAGENES] ADD POLIGONO_MODEL [varchar](max) NULL,
+ALTER TABLE [CC_IMAGENES] ADD HEIGHT [int] NULL;
+ALTER TABLE [CC_IMAGENES] ADD WIDTH [int] NULL;
+ALTER TABLE [CC_IMAGENES] ADD POLIGONOS [int] NULL;
+------------------------------------------------------------

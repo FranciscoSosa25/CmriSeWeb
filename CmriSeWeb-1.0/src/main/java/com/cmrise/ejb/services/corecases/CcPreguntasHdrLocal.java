@@ -21,5 +21,5 @@ public interface CcPreguntasHdrLocal {
 	public List<CcPreguntasHdrV1Dto> findListByNumeroCcHdr(long pNumeroCcHdr);
 	public CcPreguntasHdrV1 findByNumeroObjMod(long pNumeroCcPreguntaHdr);
 	public long insert(CcPreguntasHdrV1 pCcPreguntasHdrV1); 
-	
+	public List<CcPreguntasHdrV1> findListByNumeroCcHdrWD(long pNumeroCcHdr);
 }

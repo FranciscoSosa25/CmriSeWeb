@@ -24,6 +24,9 @@ import com.cmrise.ejb.model.corecases.img.CcImagenes;
 import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
 import com.cmrise.ejb.model.exams.CcExamAsignaciones;
 import com.cmrise.ejb.model.exams.CcExamenes;
+import com.cmrise.ejb.model.exams.MrqsExamenes;
+import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
+import com.cmrise.ejb.services.corecases.CcHdrLocal;
 import com.cmrise.jpa.dao.corecases.CcHdrDao;
 import com.cmrise.jpa.dao.corecases.CcOpcionMultipleDao;
 import com.cmrise.jpa.dao.corecases.CcPreguntasFtaDao;
@@ -41,6 +44,8 @@ import com.cmrise.jpa.dto.corecases.img.CcImagenesGrpDto;
 import com.cmrise.jpa.dto.exams.CcExamAsignacionesDto;
 import com.cmrise.jpa.dto.exams.CcExamenesDto;
 import com.cmrise.jpa.dto.exams.CcExamenesV1Dto;
+import com.cmrise.jpa.dto.exams.MrqsExamenesV1Dto;
+import com.cmrise.jpa.dto.exams.MrqsGrupoHdrV1Dto;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless
@@ -51,6 +56,9 @@ public class CcExamenesLocalImpl implements CcExamenesLocal {
 
 	@Inject 
 	CcExamAsignacionesDao ccExamAsignacionesDao; 
+	
+	@Inject 
+	CcExamAsignacionesLocal ccExamAsignacionesLocal; 
 	
 	@Inject 
 	CcHdrDao ccHdrDao; 
@@ -69,6 +77,9 @@ public class CcExamenesLocalImpl implements CcExamenesLocal {
 	
 	@Inject 
 	CcImagenesDao ccImagenesDao; 
+	
+	@Inject 
+	CcHdrLocal ccHdrLocal; 
 	
 	@Override
 	public long insert(CcExamenesDto pCcExamenesDto) {
@@ -364,4 +375,14 @@ public class CcExamenesLocalImpl implements CcExamenesLocal {
 		return retval;
 	}
 
+	@Override
+	public CcExamenes findByNumeroWD(long pNumero,long pNCandidato) {
+		List<CcExamenes> retval = ccExamenesDao.findByNumeroWD(pNumero,pNCandidato); 
+		CcExamenes ccexam = retval.get(0);
+		//List<CcExamAsignaciones> listCcExam =  ccExamAsignacionesLocal.findByNumeroExamenWD(pNumero);
+		//ccexam.setListCcExamAsignaciones(listCcExam);		
+		//List<CcHdrV1> listCcExam = ccHdrLocal.
+		return ccexam;
+	}
+	
 }

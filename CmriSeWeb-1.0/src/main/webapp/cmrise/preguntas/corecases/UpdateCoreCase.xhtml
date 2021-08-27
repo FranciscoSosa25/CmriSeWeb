@@ -13,6 +13,18 @@
 .no-border {
     border-style: hidden !important ; /* or none */
 }
+.canvas-container {
+	position: relative;
+}
+
+.canvas-content {
+	float: left;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: 98;
+	background-color: transparent;
+}
 </style>
 
 
@@ -142,21 +154,31 @@
 		<p:accordionPanel styleClass="ui-accordion" activeIndex="null">
 			<p:tab title="DICOM Series">
 			    <p:dataTable var="imagenesGrupo" value="#{updateCoreCaseForm.listPresentCcImagenesGrp}">
-			    
-			    
-			      
-			    
 		          <p:column headerText="Serie Title" style="width:60%; text-align: left;">
 		            	<div class="ui-g-12" >		            	 	
 							<h:outputText value="#{imagenesGrupo.tituloSuperior}" />
 						</div>
-						 <p:scrollPanel style="width:100%; height:100px">
+						 <p:scrollPanel style="width:100%; height:130px">
 						
 							<ui:repeat var="imagenes"
 								value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
 								<h:graphicImage
 									value="data:image/jpg;base64,#{imagenes.thumbailBase64}"
 									style="max-width: 250px; max-height: 300px; padding: 2px;" />
+									 <p:commandButton icon="fa fa-edit" style="margin-left: 10px; background: #2D0D86;"
+			                          oncomplete="PF('editPolygonDialogWV').show();"
+			                          ajax="true"
+			                          update=":presentationForm2:graphicImageImgSenID 
+			                          :presentationForm2:canvas-image
+			                          :presentationForm2:numeroPoligonos
+			                          :presentationForm2:imgHeight
+			                          :presentationForm2:imgWidth
+			                          :presentationForm2:coordinates
+			                          "
+			                          actionListener="#{updateCoreCaseForm.updateCcImagenes(imagenes)}"
+			                          />
+									
+									
 							</ui:repeat>
 						
 						</p:scrollPanel>
@@ -508,5 +530,80 @@
 				</h:form>
 </p:dialog>
 
+
+<p:dialog id="editPolygonDialogId" widgetVar="editPolygonDialogWV"
+				onShow="polyModel.initPolygon('canvas-content','canvas-container', 'presentationForm2:coordinates', 'presentationForm2:imgHeight', 'presentationForm2:imgWidth')"
+				modal="true" closable="false" closeOnEscape="false" draggable="true"
+				position="center top" 
+				resizable="false" width="800" header="Señalizacion de imagen">
+				   <h:form id="presentationForm2" rendered="#{updateCoreCaseForm.editCCImagenes != null}">
+							<div class="ui-g card">
+								<div class="ui-g-12 ui-md-12">
+									<div class="ui-g-12 ui-md-2" style="text-align: right;">
+										<h:graphicImage
+											id="graphicImageImgSenID"
+											value="data:jpeg;base64,#{updateCoreCaseForm.editCCImagenes.thumbailBase64}"
+											style="max-width: 100px;  max-height: 100px; visibility: #{empty updateCoreCaseForm.editCCImagenes.jpgBase64 ? 'hidden' : 'visible'}" 
+										></h:graphicImage>
+									</div>
+									<div class="ui-g-12 ui-md-10">
+										<p:inputText id="imgWidth"
+											value="510"
+											type="hidden" />
+										<p:inputText id="imgHeight"
+											value="510"
+											type="hidden" />
+										<p:inputText id="coordinates" 
+											value="#{updateCoreCaseForm.editCCImagenes.poligonoModel}"
+											placeholder="Coordenadas" maxlength="1000" style="width:100%"
+											requiredMessage="No se han agregado polígonos" type="hidden" />
+										<p:inputText id="numeroPoligonos"
+											value="#{updateCoreCaseForm.editCCImagenes.poligonos}"
+											type="hidden" />
+										<div id="canvas-container" class="canvas-container"
+											style="visibility:visible">
+											<div id="canvas-content" class="canvas-content"></div>
+											<h:graphicImage id="canvas-image"
+												value="data:jpeg;base64,#{updateCoreCaseForm.editCCImagenes.jpgBase64}">
+											</h:graphicImage>
+										</div>
+									</div>
+								</div>
+								
+								<div class="ui-g-12 ui-md-12">
+									<div class="ui-g-12 ui-md-6" style="text-align: right;">
+										  <p:commandButton value="Guardar Poligonos"
+										  	   icon="fa fa-save"
+					                           ajax="true"
+					                           actionListener="#{updateCoreCaseForm.savePolygon()}"
+					                           onstart="polyModel.save('presentationForm2:coordinates', 'presentationForm2:numeroPoligonos')"
+					                           style="background: #2d0d86;" />	 
+										<p:commandButton value="Limpiar" type="button"
+											onclick="polyModel.load('presentationForm2:coordinates', true)"
+											 style="background: #2d0d86;" />	 
+										<p:commandButton value="Cancelar"
+											onclick="PF('editPolygonDialogWV').hide();"
+											style="background: #2d0d86;" />
+									</div>
+								</div>
+								
+							</div>
+		        </h:form>
+		        
+</p:dialog>
+
 </ui:define>
+
+<ui:define name="xxhrwjs">
+		<h:outputScript name="gojs/go.js" library="js" />
+		<h:outputScript name="gojs/PolygonDrawingTool.js" library="js" />
+		<h:outputScript name="gojs/Figures.js" library="js" />
+		<h:outputScript name="gojs/GeometryReshapingTool.js" library="js" />		
+		<h:outputScript name="cmrise/corecases/UpdateCoreCasesImgSen.js" library="js" />
+	
+		
+</ui:define>
+
+
+
 </ui:composition>

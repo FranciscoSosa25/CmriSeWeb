@@ -16,16 +16,16 @@
         <ui:repeat var="examination" value="#{manageExamsForm.listCandExamenesV2}">
         <p:fieldset legend="#{examination.titulo}" style="margin-bottom:20px; border-spacing: 2px;	padding:2px 2px 2px 2px;  background-color:#D9E0E7;">
         <div class="ui-g card" style="border-spacing: 2px;	padding:2px 2px 2px 2px;  background-color:#D9E0E7;">
-		    <div class="ui-g-6">
-		        <div class="ui-g">
-				 <div class="ui-g-6" style="padding:30px;background-color:#D9E0E7;">
-				   <h3>Tiempo de examen asignado:</h3>#{examination.tiempoLimite} minutos
-				 </div>
-				 </div>
-		     </div>
-		     <div class="ui-g-3" style="padding:30px;background-color:#D9E0E7;">
-		      <h2>Tipo de Examen</h2> #{examination.tipo}
-		     </div>
+		  <div class="ui-g-6">
+	         <div class="ui-g">
+			   <div class="ui-g-6" style="padding:30px;background-color:#D9E0E7;">
+			     <h3>Tiempo de examen asignado:</h3>#{examination.tiempoLimite} minutos
+			   </div>
+			 </div>
+	      </div>
+		  <div class="ui-g-3" style="padding:30px;background-color:#D9E0E7;">
+		     <h2>Tipo de Examen</h2> #{examination.tipo}
+		  </div>
 		    <div class="ui-g-3" style="padding:30px;background-color:#D9E0E7;"><p:commandButton value="Presentar Examen" action="#{manageExamsForm.takeExam(examination)}"/></div>
 		   </div>
 		   </p:fieldset>

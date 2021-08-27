@@ -37,6 +37,7 @@ public class CreateCoreCaseForm {
 	private List<SelectItem> selectMateriasHdr = new ArrayList<SelectItem>();  
 	private List<SelectItem> selectSubMaterias = new ArrayList<SelectItem>(); 
 	private CcHdrV1 ccHdrV1ForInsert = new CcHdrV1(); 
+	private long numeroCcHdr;
 	
 	@Inject 
 	CcHdrLocal ccHdrLocal; 
@@ -74,9 +75,9 @@ public class CreateCoreCaseForm {
    	    ccHdrV1ForInsert.setEstatus(Utilitarios.INITIAL_STATUS_MRQ);
 		ccHdrV1ForInsert.setFechaCreacion(new java.util.Date());
 		ccHdrV1ForInsert.setFechaActualizacion(new java.util.Date());
-		long numeroCcHdr = 0; 
+		setNumeroCcHdr(0); 
 		try {
-		 numeroCcHdr = ccHdrLocal.insert(ccHdrV1ForInsert);
+		 setNumeroCcHdr(ccHdrLocal.insert(ccHdrV1ForInsert));
 		}catch(Exception e) {
 			 Throwable throwable = e.getCause();
 			 while(null!=throwable) {
@@ -189,6 +190,14 @@ public class CreateCoreCaseForm {
 	}
 	public void setUserLogin(UserLogin userLogin) {
 		this.userLogin = userLogin;
+	}
+
+	public long getNumeroCcHdr() {
+		return numeroCcHdr;
+	}
+
+	public void setNumeroCcHdr(long numeroCcHdr) {
+		this.numeroCcHdr = numeroCcHdr;
 	}
 	
 }

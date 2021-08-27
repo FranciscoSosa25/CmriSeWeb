@@ -88,6 +88,9 @@ public class UpdateQuestionFtaCoreCaseForm {
 	private UploadedFiles presentationFiles;
 	private CcImagenesGrp presentCcImagenesGrp = new CcImagenesGrp();
 	private CcImagenesGrp editPresentCcImagenesGrp = new CcImagenesGrp();
+	private CcImagenes editCCImagenes = new CcImagenes();
+
+	
 	private List<CcImagenesGrp> listPresentCcImagenesGrp = new ArrayList<CcImagenesGrp>();
 	private long numeroFta;
 	private List<CcPreguntasFtaSinonimos> ccListaSinonimos = new ArrayList<CcPreguntasFtaSinonimos>();
@@ -580,6 +583,14 @@ public class UpdateQuestionFtaCoreCaseForm {
 		  System.out.println("Sale Actualizar");
 		 refreshEntity();
 	 }
+	 
+		public void updateCcImagenes(CcImagenes ccImagenes) {
+			this.editCCImagenes = ccImagenes;
+		}
+		
+		public void savePolygon() {
+			ccImagenesGrpLocal.savePolygon(this.editCCImagenes);
+		}
 		 
 	
 
@@ -899,6 +910,14 @@ public class UpdateQuestionFtaCoreCaseForm {
 
 	public void setEditPresentCcImagenesGrp(CcImagenesGrp editPresentCcImagenesGrp) {
 		this.editPresentCcImagenesGrp = editPresentCcImagenesGrp;
+	}
+
+	public CcImagenes getEditCCImagenes() {
+		return editCCImagenes;
+	}
+
+	public void setEditCCImagenes(CcImagenes editCCImagenes) {
+		this.editCCImagenes = editCCImagenes;
 	}
 	
 	

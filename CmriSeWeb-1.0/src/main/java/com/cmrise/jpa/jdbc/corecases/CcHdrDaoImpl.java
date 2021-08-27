@@ -1,6 +1,8 @@
 package com.cmrise.jpa.jdbc.corecases;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -10,11 +12,13 @@ import javax.persistence.Query;
 
 import com.cmrise.ejb.model.corecases.CcHdrV1;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
+import com.cmrise.ejb.model.exams.CcExamenes;
 import com.cmrise.jpa.dao.corecases.CcHdrDao;
 import com.cmrise.jpa.dto.admin.KeysDto;
 import com.cmrise.jpa.dto.corecases.CcHdrDto;
 import com.cmrise.jpa.dto.corecases.CcHdrV1Dto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasHdrDto;
+import com.cmrise.jpa.dto.exams.MrqsGrupoHdrDto;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless
@@ -154,5 +158,70 @@ public class CcHdrDaoImpl implements CcHdrDao {
 
 	}
 	
-
+	@Override
+	public List<CcHdrV1> findCCByExamen(long pNumeroExamen) {
+		List<CcHdrV1> listCc = new ArrayList<CcHdrV1>();
+		String strQuery = "select HDR.NUMERO,\r\n" + 
+				"		EA.NUMERO_CC_EXAMEN,\r\n" + 
+				"		hdr.ADMON_EXAMEN,\r\n" + 
+				"		hdr.ADMON_EXAMEN_DESC,\r\n" + 
+				"		HDR.ADMON_MATERIA,\r\n" + 
+				"		hdr.ADMON_MATERIA_DESC,\r\n" + 
+				"		hdr.ADMON_SUBMATERIA,\r\n" + 
+				"		hdr.ADMON_SUBMATERIA_DESC,\r\n" + 
+				"		HDR.HISTORIAL_CLINICO,\r\n" + 
+				"		HDR.ETIQUETAS,\r\n" + 
+				"		hdr.NOTA\r\n" + 
+				"	from CC_HDR_V1	hdr\r\n" + 
+				"	inner join CC_EXAM_ASIGNACIONES EA on EA.NUMERO_CORE_CASE = hdr.NUMERO\r\n" + 
+				"	WHERE EA.NUMERO_CC_EXAMEN = "+pNumeroExamen;		
+		
+		Query query = em.createNativeQuery(strQuery); 
+		List<Object> listObject = query.getResultList();
+		Iterator<Object> iterObject = listObject.iterator();
+		
+		while(iterObject.hasNext()) {
+	    	Object result = iterObject.next();
+	    	CcHdrV1 cc = new CcHdrV1();
+	    	if(result instanceof Object[]) {
+	    		Object[] row = (Object[]) result;
+	    		if(row[0] instanceof BigInteger){/*NUMERO*/
+					cc.setNumero(((BigInteger)row[0]).longValue());
+				}
+				if(row[1] instanceof BigInteger) {
+					cc.setNumeroExamen(((BigInteger)row[1]).longValue());
+				}
+				if(row[2] instanceof BigInteger) {
+					cc.setAdmonExamen(((BigInteger)row[2]).longValue());
+				}
+				if(row[3] instanceof String) {
+					cc.setAdmonExamenDesc((String)row[3]);
+				}
+				if(row[4] instanceof BigInteger) {
+					cc.setAdmonMateria(((BigInteger)row[4]).longValue());
+				}
+				if(row[5] instanceof String) {
+					cc.setAdmonMateriaDesc((String)row[5]);
+				}
+				if(row[6] instanceof BigInteger) {
+					cc.setAdmonSubMateria(((BigInteger)row[6]).longValue());
+				}
+				if(row[7] instanceof String) {
+					cc.setAdmonSubMateriaDesc((String)row[7]);
+				}
+				if(row[8] instanceof String) {
+					cc.setHistorialClinico((String)row[8]);
+				}
+				if(row[9] instanceof String) {
+					cc.setEtiquetas((String)row[9]);
+				}
+				if(row[10] instanceof String) {
+					cc.setNota((String)row[10]);
+				}
+				listCc.add(cc);
+	    	}
+		}
+	    	
+		return listCc;
+	}
 }

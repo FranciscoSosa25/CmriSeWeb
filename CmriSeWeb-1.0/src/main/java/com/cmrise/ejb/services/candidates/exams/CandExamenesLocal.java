@@ -29,5 +29,6 @@ public interface CandExamenesLocal {
     public void updateEstatus(long pNumero, CandExamenesDto pCandExamenesDto);
     public List<CandExamenesV2> findCandidateByExam(String cCurp, String cNombre, String c_aPaterno, 
 			String c_aMaterno, String actPor, String fechaActu, long pNumeroExamen, String pTipoExamen);
+	public CandExamenesV1 findByNumeroV2(long pNumero);
 }
 

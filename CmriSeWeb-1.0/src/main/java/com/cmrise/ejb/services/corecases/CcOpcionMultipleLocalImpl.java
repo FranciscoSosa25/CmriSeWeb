@@ -14,7 +14,9 @@ import javax.ejb.Stateless;
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
 
+import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
 import com.cmrise.ejb.model.corecases.CcPreguntasFtaV1;
+import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasFtaV1;
 import com.cmrise.jpa.dao.corecases.CcOpcionMultipleDao;
 import com.cmrise.jpa.dao.corecases.CcPreguntasFtaDao;
@@ -116,5 +118,21 @@ public class CcOpcionMultipleLocalImpl implements CcOpcionMultipleLocal {
 	@Override
 	public int correctOrWrongAnswer(long pNumero, long pNumeroFta) {
 		return ccOpcionMultipleDao.correctOrWrongAnswer(pNumero, pNumeroFta);
+	}
+	
+	@Override
+	public List<CcOpcionMultiple> findByNumeroFtaShuffleOrderOM(long pNumeroFta, boolean pShuffleOrder) {
+		List<CcOpcionMultiple> retval = new ArrayList<CcOpcionMultiple>(); 
+		List<Object> listObjects = ccOpcionMultipleDao.findByNumeroFtaShuffleOrder(pNumeroFta, pShuffleOrder); 
+		List<CcOpcionMultipleDto> listMrqsOpcionMultipleDto = objectsToDtos(listObjects); 
+		for(CcOpcionMultipleDto mrqsOpcionMultipleDto:listMrqsOpcionMultipleDto) {
+			CcOpcionMultiple mrqsOpcionMultiple = new CcOpcionMultiple(); 
+			mrqsOpcionMultiple.setNumero(mrqsOpcionMultipleDto.getNumero());
+			mrqsOpcionMultiple.setNumeroFta(mrqsOpcionMultipleDto.getNumeroFta());
+			mrqsOpcionMultiple.setTextoRespuesta(mrqsOpcionMultipleDto.getTextoRespuesta());
+			mrqsOpcionMultiple.setTextoExplicacion(mrqsOpcionMultipleDto.getTextoExplicacion());
+			retval.add(mrqsOpcionMultiple); 
+		}
+		return retval;
 	}
 }

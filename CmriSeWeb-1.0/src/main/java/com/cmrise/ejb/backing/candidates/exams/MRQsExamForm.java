@@ -72,29 +72,30 @@ public class MRQsExamForm {
 	private List<MrqsGrupoHdr> listMrqsGrupoHdr = new ArrayList<MrqsGrupoHdr>(); 
 	private List<MrqsPreguntasHdrV1> listMrqsGrupoPreguntas = new ArrayList<MrqsPreguntasHdrV1>();
     private MrqsGrupoLinesV2 mrqsGrupoLinesV2 = new MrqsGrupoLinesV2(); 
-    private long numeroPreguntaFta; 
+    private List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
+	private List<MrqsImagenesGrp> listPresentMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
+	private CandExamRespSkipDto candExamRespSkipDto = new CandExamRespSkipDto();
+	List<MrqsGrupoLinesV2> listMrqsGrupoLinesV2 =new ArrayList<MrqsGrupoLinesV2>();
+	List<CandExamSkipV1Dto> lCandExamSkipV1Dto = new ArrayList<CandExamSkipV1Dto>();
+	
+	private long numeroMRQsExamen;
+	private long numeroCandExamen;
+	private long numeroPreguntaFta; 
     private boolean multipleChoice; 
 	private boolean limitedFreeTextAnswer;
 	private boolean indicateImage;
 	private boolean annotatedImage;
 	private Short sSegundos =60;
-	private List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
 	private String respuestaCandidato; 
 	private String[] respuestasPreguntaCandidato;
 	private String timerValue;
 	private String strDate;
-	private List<MrqsImagenesGrp> listPresentMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
-	private long numeroMRQsExamen;
-	private long numeroCandExamen;
-	private CandExamRespSkipDto candExamRespSkipDto = new CandExamRespSkipDto();
 	private boolean flag2;
 	private long reactivosSize;
 	private int idxReactivos;
 	private long hdrGrupoSize;
 	private int idxGrupo;
 	private boolean nuevaBusqueda = false;
-	List<MrqsGrupoLinesV2> listMrqsGrupoLinesV2 =new ArrayList<MrqsGrupoLinesV2>();
-	List<CandExamSkipV1Dto> lCandExamSkipV1Dto = new ArrayList<CandExamSkipV1Dto>();
 	private int idxSkip = 0;
 	private boolean busquedaSkip = false;
 	private int skipMax = 0;
@@ -171,16 +172,20 @@ public class MRQsExamForm {
 		 //this.mrqsExamen = mrqsExamenesLocal.findByIdWD(numeroMRQsExamen,numCand); 
 		 this.mrqsExamen = mrqsExamenesLocal.findByNumeroWD(numeroMRQsExamen,numCand); 
 		 candExamRespSkipDto.setExamen(numeroMRQsExamen);
+		 
 		 System.out.println("Examen: "+mrqsExamen.getDescripcion());
+		 
 		 Date date = new Date();  
 		 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
 		 strDate= formatter.format(date); 
 		 Short intTime = Short.parseShort(String.valueOf(Integer.parseInt(session.getAttribute("tiempoExamen").toString())*sSegundos));
 		 this.mrqsExamen.setTiempoLimite(intTime);
+		 
 		 rootMrqsGrupo = new DefaultTreeNode("Root", null);
-			listMrqsGrupoHdr = mrqsGrupoHdrLocal.findByNumeroExamen(this.getMrqsExamen().getNumero()); 
-			listMrqsGrupoHdr = GrupoAleatorio(listMrqsGrupoHdr);
-			hdrGrupoSize = listMrqsGrupoHdr.size();
+		 listMrqsGrupoHdr = mrqsGrupoHdrLocal.findByNumeroExamen(this.getMrqsExamen().getNumero()); 
+		 listMrqsGrupoHdr = GrupoAleatorio(listMrqsGrupoHdr);
+		 hdrGrupoSize = listMrqsGrupoHdr.size();
+			
 			for(MrqsGrupoHdr idxHdr:listMrqsGrupoHdr) {
 				TreeNode nodeGrupoHdr = new DefaultTreeNode(idxHdr, rootMrqsGrupo);
 				listMrqsGrupoPreguntas = mrqsGrupoLinesLocal.findByNumeroHdrWD(idxHdr.getNumero());
