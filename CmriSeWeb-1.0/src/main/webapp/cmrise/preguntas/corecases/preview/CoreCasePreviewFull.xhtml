@@ -87,6 +87,12 @@ label {
     border-style: solid;
     border-width: inherit;
 }
+.dicom .dicom-border{
+	padding: inherit;
+    border: solid;
+    border-width: thin;
+    border-color: #6c6c6c;
+}
 </style>
 </h:head>
 <body>
@@ -104,10 +110,9 @@ label {
 		library="primefaces" />
 	<h:form id="coreCaseForm">
 		<div class="ui-g">
+			<h:panelGroup rendered="#{!coreCasePreviewForm.visualizacionPregunta}">
 			<div class="ui-g-12 ui-md-12">
 				<div class="ui-g-12 ui-md-12">
-					<h:panelGroup
-						rendered="#{!coreCasePreviewForm.visualizacionPregunta}">
 						<div class="card">
 							<section>
 								<fieldset>
@@ -116,125 +121,129 @@ label {
 								</fieldset>
 							</section>
 						</div>
-					</h:panelGroup>
 				</div>
 			</div>
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" rendered="#{coreCasePreviewForm.visualizacionPregunta}">
+				<div class="ui-g-12 ui-md-12">
+					<div class="ui-g-12 ui-md-12 ui-lg-7" style="text-align: center;">
+							<h1>#{coreCasePreviewForm.ccPreguntasFtaV1.tituloPregunta}?</h1>
+							<h3>(#{coreCasePreviewForm.ccPreguntasFtaV1.textoSugerencias})</h3>
+					</div>
+				</div>
+			</h:panelGroup>	
+			
+			<h:panelGroup rendered="#{coreCasePreviewForm.listPresentCcImagenesGrp.size()>0}">
 			<div class="ui-g-12 ui-md-12 dicom">
 				<div class="ui-g-12 ui-md-12">
-					<h:panelGroup
-						rendered="#{!coreCasePreviewForm.visualizacionPregunta and coreCasePreviewForm.listPresentCcImagenesGrp.size()>0}">
-						
-						<div class="card">
+						<script type="text/javascript">
+								$(document).ready(function(){
+									polyModel.loadDICOMPlayer('divSeries', 
+											'paintingCanvas',
+											'coreCaseForm:divSeriesPlay',
+											'cursorCor');	
+								})
+						</script>
+						<div class="card" >
 							<section>
-								<fieldset>
+								<fieldset style="height: 640px;">
 									<legend>DICOM Series</legend>
-									<div class="ui-g-4" >		
+									<div class="ui-g-5" >		
 										 <p:dataTable var="imagenesGrupo"  value="#{coreCasePreviewForm.listPresentCcImagenesGrp}" 
-										 	scrollable="true" scrollHeight="420">
+										 	scrollable="true" scrollHeight="420" >
 			    
-										  <p:column headerText="Series Title" style="width:60%; text-align: left;">
+										  <p:column headerText="Series Title" style="width:80%; text-align: left;" >
 												<div class="ui-g-12" >		            	 	
 													<h:outputText value="#{imagenesGrupo.tituloSuperior}" />
 												</div>
 												<div class="dicom dicom-tile" style="height: 130px">
-													
-												 <!-- <p:scrollPanel style=" width: 100%; height:130px;" styleClass="image-tile"> -->
 													<ui:repeat var="imagenes"
 														value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
 														<div class="image-tile" style="float: left;">
 														<h:graphicImage
 															value="data:image/jpg;base64,#{imagenes.thumbailBase64}"
 															style="max-width: 250px; max-height: 300px; padding: 2px;"
-															ajax="true"
-															actionListener="#{coreCasePreviewForm.selCCImagenes(imagenes)}" 
 															alt="#{imagenes.nombreImagen}" title="#{imagenes.nombreImagen}"
-															
 															/>
-															 <p:commandButton icon="fa fa-edit" 
-																oncomplete="polyModel.drawCanvas('paintingCanvas', 'canvas-container', 'coreCaseForm:imgHeight', 'coreCaseForm:imgWidth', 'coreCaseForm:cursorCor', 'coreCaseForm:respuestasPuntos')"
-																ajax="true"
-																process="@this"
-																update="
-																:coreCaseForm:canvas-image
-																:coreCaseForm:numeroPoligonos
-																:coreCaseForm:imgHeight
-																:coreCaseForm:imgWidth
-																:coreCaseForm:output
-																:coreCaseForm:respuestasPuntos
-																"
-																actionListener="#{coreCasePreviewForm.selCCImagenes(imagenes)}"
-															/>	
 															</div>	
 													</ui:repeat>
 												<!-- </p:scrollPanel> -->
 												</div>
-												
-											</p:column>		           
+											</p:column>
+											 <p:column headerText="Total Slice" style="width:10%; text-align: left;">
+												  <h:outputText value="#{imagenesGrupo.listCcImagenes.size()}" />	
+											</p:column>		  
+											<p:column headerText="Action" style="width:10%; text-align: left;">
+												 <p:commandButton id="dicom" icon="fa fa-eye" 
+														oncomplete="polyModel.loadSeries(
+														'coreCaseForm:dicomSeriesJSON',
+														'coreCaseForm:respuestasPuntos'
+														)"
+														ajax="true"
+														process="@this"
+														update="
+														:coreCaseForm:dicomSeriesJSON
+														"
+														actionListener="#{coreCasePreviewForm.selCCImagenesList(imagenesGrupo.listCcImagenes)}"
+													/>	
+											</p:column>		  		           
 										</p:dataTable>
 									</div>
-									<div class="ui-g-8">
+									<div class="ui-g-7">
 									
-								<h:panelGroup layout="block" id="output"   rendered="true"> 	
+									
+								<h:panelGroup layout="block" id="output"   rendered="true">
+									<div class="ui-g-12 dicom-border" style="text-align: center; margin-top: -15px">
+										<div class="ui-g-12 ui-md-2" style="text-align: left;">
+										<p:commandButton id="divSeriesPlay" icon="fa fa-play"  type="button"
+													onclick="playSeries.play()"
+												 	style="background: #2d0d86;" />
+										<span id="divSeriesIndex" style="padding-right:10px ">0/0</span>												 	
+										</div>
+										
+										<div class="ui-g-12 ui-md-3" style="text-align: left;">
+											<p:commandButton id="divSeriesClear" icon="fa fa-remove"  type="button"
+														onclick="playSeries.clearPoint()"
+														title="Clear Puntos"
+													 	style="background: #2d0d86;" />
+											<p:commandButton id="divSeriesVerify" icon="fa fa-check" 
+													title="Verify "
+													ajax="true"
+													process="@this,respuestasPuntos"
+													update=":coreCaseForm:dicomSeriesJSON"
+									                actionListener="#{coreCasePreviewForm.calculateScore()}"
+									                onstart="playSeries.saveDrawPoints()"
+									                oncomplete="playSeries.updateSeries('coreCaseForm:dicomSeriesJSON')"
+												 	style="background: #2d0d86;" />	 	
+											<p:commandButton id="divSeriesSave" icon="fa fa-save"  type="button"
+														onclick="playSeries.clearPoint()"
+														title="Save points"
+													 	style="background: #2d0d86;" />		 			 	
+										</div>
+										<div class="ui-g-12 ui-md-3" style="text-align: left; margin-top: 7px">
+										Poligonos: <span id="divSeriesPoly"></span>
+										<br/>Punto Correctos : <span id="divSeriesPuntoCorrect" ></span>
+										<br/>Cursor: <span id="cursorCor" style="padding-right:10px"></span>
+										</div>
+									</div>	 	
 									<div class="ui-g-12">
 										
-										<div class="ui-g-12 ui-md-8" style="text-align: left;">
-											<p:inputText id="imgWidth"
-												value="#{coreCasePreviewForm.selCcImagenes.width}"
-												type="hidden" />
-											<p:inputText id="imgHeight"
-												value="#{coreCasePreviewForm.selCcImagenes.height}"
-												type="hidden" />
+										<div class="ui-g-12 ui-md-12" style="text-align: center;">
+										    
 											<p:inputText id="respuestasPuntos"
 												value="#{coreCasePreviewForm.respuestasPuntos}"
 												type="hidden" />	
-											<p:inputText id="numeroPoligonos"
-												value="#{coreCasePreviewForm.selCcImagenes.poligonos}"
-												type="hidden" />
-											<div id="canvas-container" class="canvas-container" style="visibility:visible;">	
-												<div class="canvas-content">	
-													<h:graphicImage id="canvas-image" style="display:none;"
-																value="data:jpeg;base64,#{coreCasePreviewForm.selCcImagenes.jpgBase64}"
-																>
-    												</h:graphicImage>	
-												</div>
-											</div>
-											<canvas  id="paintingCanvas"  style="cursor: crosshair; display: none;"
-												onmousedown="polyModel.drawPoint(event, 'paintingCanvas', 'coreCaseForm:respuestasPuntos', 'coreCaseForm:numeroPoligonos')"
-											>	</canvas>	
-										</div>
-										<div class="ui-g-12 ui-md-4">
-											<div class="ui-g-12" style="text-align: right;">
-												<p:inputText id="cursorCor"	value="" />
-											</div>
-											<div class="ui-g-12" style="text-align: right;">
-												Poligonos : <h:outputText value="#{coreCasePreviewForm.selCcImagenes.poligonos}" />
-											</div>
-											<div class="ui-g-12" style="text-align: right;" >
-												Punto Correctos : <h:outputText id="scorePoints" value="#{coreCasePreviewForm.selCcImagenes.puntoCorrectos}" />
-											</div>
-											<div class="ui-g-12" style="text-align: right;">
-												<p:commandButton value="Puntos claros" type="button"
-													onclick="polyModel.clearPoint('paintingCanvas', 'canvas-container',
-															'coreCaseForm:imgHeight', 
-															'coreCaseForm:imgWidth',
-															'coreCaseForm:cursorCor', 
-															'coreCaseForm:respuestasPuntos',
-															'coreCaseForm:scorePoints')"
-												 	style="background: #2d0d86;" />
-												<p:commandButton value="Verify" 
-													ajax="true"
-													process="@this,respuestasPuntos"
-													update=":coreCaseForm:scorePoints"
-									                actionListener="#{coreCasePreviewForm.calculateScore(coreCasePreviewForm.selCcImagenes)}"
-												 	style="background: #2d0d86;" />
-											</div>
-											<div class="ui-g-12" style="text-align: right;">
-												 <p:commandButton value="Guardar puntos"
-											  	   icon="fa fa-save"
-						                           ajax="true"
-						                           actionListener="#{coreCasePreviewForm.savePolygon()}"
-						                           onstart="polyModel.save('presentationForm2:coordinates', 'presentationForm2:numeroPoligonos')"
-						                           style="background: #2d0d86;" />	
+											<p:inputText id="dicomSeriesJSON"
+												value="#{coreCasePreviewForm.selDICOMSeries}"
+												type="hidden" />		
+											<div id="divSeries" class="dicom-border" style="height: 510px; width: 510px; 
+											position: absolute;
+											overflow: hidden;
+											display: block;">
+											<canvas  id="divSeriesCanvas"  style="cursor: crosshair; display: none;"
+												onmousedown="playSeries.addPoint(event)"
+											>	</canvas>
 											</div>
 										</div>
 									</div>
@@ -243,140 +252,19 @@ label {
 								</fieldset>
 							</section>
 						</div>
-					</h:panelGroup>
+					
 				</div>
 			</div>
-			<div class="ui-g-12 ui-md-12">
-				<div class="ui-g-12 ui-md-12 ui-lg-7" style="text-align: center;">
-					<h:panelGroup layout="block"
+			</h:panelGroup>
+			<h:panelGroup layout="block"
 						rendered="#{coreCasePreviewForm.visualizacionPregunta}">
-						<h1>#{coreCasePreviewForm.ccPreguntasFtaV1.tituloPregunta}?</h1>
-						<h3>(#{coreCasePreviewForm.ccPreguntasFtaV1.textoSugerencias})</h3>
-					</h:panelGroup>
-				</div>
-				<div class="ui-g-12 ui-md-12 ui-lg-12 dicom">
-					<h:panelGroup layout="block"
-						rendered="#{coreCasePreviewForm.visualizacionPregunta and coreCasePreviewForm.listPresentQCcImagenesGrp.size()>0}">
-						
-						<div class="card">
-							<section>
-								<fieldset>
-									<legend>DICOM Series</legend>
-									<div class="ui-g-4" >		
-										 <p:dataTable var="imagenesGrupo"  value="#{coreCasePreviewForm.listPresentQCcImagenesGrp}" 
-										 	scrollable="true" scrollHeight="420">
-			    
-										  <p:column headerText="Series Title" style="width:60%; text-align: left;">
-												<div class="ui-g-12" >		            	 	
-													<h:outputText value="#{imagenesGrupo.tituloSuperior}" />
-												</div>
-												<div class="dicom dicom-tile" style="height: 130px">
-													
-												 <!-- <p:scrollPanel style=" width: 100%; height:130px;" styleClass="image-tile"> -->
-													<ui:repeat var="imagenes"
-														value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
-														<div class="image-tile" style="float: left;">
-														<h:graphicImage
-															value="data:image/jpg;base64,#{imagenes.thumbailBase64}"
-															style="max-width: 250px; max-height: 300px; padding: 2px;"
-															ajax="true"
-															actionListener="#{coreCasePreviewForm.selCCImagenes(imagenes)}" 
-															alt="#{imagenes.nombreImagen}" title="#{imagenes.nombreImagen}"
-															
-															/>
-															 <p:commandButton icon="fa fa-edit" 
-																oncomplete="polyModel.drawCanvas('paintingCanvasQ', 'canvas-containerQ', 'coreCaseForm:imgHeightQ', 'coreCaseForm:imgWidthQ', 'coreCaseForm:cursorCorQ', 'coreCaseForm:respuestasPuntosQ')"
-																ajax="true"
-																process="@this"
-																update="
-																:coreCaseForm:canvas-imageQ
-																:coreCaseForm:numeroPoligonosQ
-																:coreCaseForm:imgHeightQ
-																:coreCaseForm:imgWidthQ
-																:coreCaseForm:outputQ
-																:coreCaseForm:respuestasPuntosQ
-																"
-																actionListener="#{coreCasePreviewForm.selCCImagenes(imagenes)}"
-															/>	
-															</div>	
-													</ui:repeat>
-												<!-- </p:scrollPanel> -->
-												</div>
-												
-											</p:column>		           
-										</p:dataTable>
-									</div>
-									<div class="ui-g-8">
-							<h:panelGroup layout="block" id="outputQ"   rendered="true"> 	
-									<div class="ui-g-12">
-										<div class="ui-g-12 ui-md-8" style="text-align: left;">
-											<p:inputText id="imgWidthQ"
-												value="#{coreCasePreviewForm.selCcImagenes.width}"
-												type="hidden" />
-											<p:inputText id="imgHeightQ"
-												value="#{coreCasePreviewForm.selCcImagenes.height}"
-												type="hidden" />
-											<p:inputText id="respuestasPuntosQ"
-												value="#{coreCasePreviewForm.respuestasPuntos}"
-												type="hidden" />	
-											<p:inputText id="numeroPoligonosQ"
-												value="#{coreCasePreviewForm.selCcImagenes.poligonos}"
-												type="hidden" />
-											<div id="canvas-containerQ" class="canvas-container" style="visibility:visible;">	
-												<div class="canvas-contenQt">	
-													<h:graphicImage id="canvas-imageQ" style="display:none;"
-																value="data:jpeg;base64,#{coreCasePreviewForm.selCcImagenes.jpgBase64}"
-																>
-    												</h:graphicImage>	
-												</div>
-											</div>
-											<canvas  id="paintingCanvasQ"  style="cursor: crosshair; display: none;"
-												onmousedown="polyModel.drawPoint(event, 'paintingCanvasQ', 'coreCaseForm:respuestasPuntosQ', 'coreCaseForm:numeroPoligonosQ')"
-											>	</canvas>	
-										</div>
-										<div class="ui-g-12 ui-md-4">
-											<div class="ui-g-12" style="text-align: right;">
-												<p:inputText id="cursorCorQ"	value="" />
-											</div>
-											<div class="ui-g-12" style="text-align: right;">
-												Poligonos : <h:outputText value="#{coreCasePreviewForm.selCcImagenes.poligonos}" />
-											</div>
-											<div class="ui-g-12" style="text-align: right;" >
-												Punto Correctos : <h:outputText id="scorePointsQ" value="#{coreCasePreviewForm.selCcImagenes.puntoCorrectos}" />
-											</div>
-											<div class="ui-g-12" style="text-align: right;">
-												<p:commandButton value="Puntos claros" type="button"
-													onclick="polyModel.clearPoint('paintingCanvasQ', 'canvas-containerQ',
-															'coreCaseForm:imgHeightQ', 
-															'coreCaseForm:imgWidthQ',
-															'coreCaseForm:cursorCorQ', 
-															'coreCaseForm:respuestasPuntosQ',
-															'coreCaseForm:scorePointsQ')"
-												 	style="background: #2d0d86;" />
-												<p:commandButton value="Verify" 
-													ajax="true"
-													process="@this,respuestasPuntosQ"
-													update=":coreCaseForm:scorePointsQ"
-									                actionListener="#{coreCasePreviewForm.calculateScore(coreCasePreviewForm.selCcImagenes)}"
-												 	style="background: #2d0d86;" />
-											</div>
-											<div class="ui-g-12" style="text-align: right;">
-												 <p:commandButton value="Guardar puntos"
-											  	   icon="fa fa-save"
-						                           ajax="true"
-						                           actionListener="#{coreCasePreviewForm.savePolygon()}"
-						                           style="background: #2d0d86;" />	
-											</div>
-										</div>
-									</div>
-								</h:panelGroup>
-								</div>
-								</fieldset>
-							</section>
-						</div>
-					</h:panelGroup>
-				</div>
+			
+			<div class="ui-g-12 ui-md-12">
+
 			</div>
+			
+			</h:panelGroup>
+			
 			<div class="ui-g-12 ui-md-12">
 				<div class="ui-g-12 ui-md-12 ui-lg-7" style="text-align: center;">
 					<ui:include

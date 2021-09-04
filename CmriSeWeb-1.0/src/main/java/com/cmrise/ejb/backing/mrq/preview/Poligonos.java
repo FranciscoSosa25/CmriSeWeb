@@ -49,8 +49,8 @@ public class Poligonos {
 		for(int i=0;i<conjuntoPoligonos.length();i++) {
 			 JSONObject poligono  = conjuntoPoligonos.getJSONObject(i);
 			
-			String[] px= poligono.get("pointX").toString().replace('[', ' ').replace(']', ' ').trim().split(",");
-			String[] py=poligono.get("pointY").toString().replace('[', ' ').replace(']', ' ').trim().split(",");
+			JSONArray px= poligono.optJSONArray("pointX");
+			JSONArray py= poligono.optJSONArray("pointY");
 			
 			for(int j=0;j<usuarioCordenadas.length();j++) {
 				JSONObject punto  = usuarioCordenadas.getJSONObject(j);
@@ -69,9 +69,84 @@ public class Poligonos {
 		
 	}
 	
-	private boolean validarPuntoDentro(int ancho,double usuarioX,double usuarioY,String[] px, String[] py)
+	
+	
+	public double calculateScore(int puntuacion,int poligonos,int width, JSONArray points ,String respuestas) {
+		double valorPuntuacion=0;
+		try {
+			valorPuntuacion=calculatePuntuacion(puntuacion,poligonos,width,points,respuestas);		
+		}
+		catch(Exception e) {			  		 
+	   		  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, Utilitarios.ERROR_PUNTUACION, null));
+			
+		}
+		return valorPuntuacion;
+	}
+	private double calculatePuntuacion(int puntuacion,int poligonos,int width,JSONArray points,String respuestas) {
+		JSONObject model = new JSONObject(respuestas);
+		JSONArray conjuntoPoligonos = model.getJSONObject("model").getJSONArray("nodeDataArray");
+		double valor=(double)puntuacion/(double)poligonos;
+		double total=0;
+		
+		for(int j=0;j<points.length();j++) {
+			points.getJSONObject(j).put("color", "red");
+		}	
+		
+		for(int i=0;i<conjuntoPoligonos.length();i++) {
+    		JSONObject poligono  = conjuntoPoligonos.getJSONObject(i);
+			JSONArray px= poligono.optJSONArray("pointX");
+			JSONArray py= poligono.optJSONArray("pointY");
+			for(int j=0;j<points.length();j++) {
+				JSONObject punto  = points.getJSONObject(j);
+				String x=punto.getString("x");
+				String y=punto.getString("y");
+				if(validarPuntoDentro(width,Double.valueOf(x),Double.valueOf(y),px, py)) {
+					punto.put("color", "green");
+					total+=valor;	
+					break; // TO Stop, for multiple point in same polygon
+				}
+			}			
+		}
+		return total;
+		
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	private boolean validarPuntoDentro(int ancho,double usuarioX,double usuarioY,JSONArray px, JSONArray py)
 	{
-		int lados=px.length;
+		int lados=px.length();
 		int vecesCruza=0;
 		Punto usuarioA=new Punto(usuarioX,usuarioY);
 		Punto usuarioB=new Punto(usuarioX+ancho,usuarioY);
@@ -79,11 +154,11 @@ public class Poligonos {
 			Punto lineaA=null;
 			Punto lineaB=null;
 			if(i<lados-1) {
-			lineaA=new Punto(Double.valueOf(px[i]),Double.valueOf(py[i]));
-			lineaB=new Punto(Double.valueOf(px[i+1]),Double.valueOf(py[i+1]));
+			lineaA=new Punto(px.optDouble(i), py.optDouble(i));
+			lineaB=new Punto(px.optDouble(i+1), py.optDouble(i+1));
 			}else {
-				lineaA=new Punto(Double.valueOf(px[i]),Double.valueOf(py[i]));
-				lineaB=new Punto(Double.valueOf(px[0]),Double.valueOf(py[0]));
+				lineaA=new Punto(px.optDouble(i), py.optDouble(i));
+				lineaB=new Punto(px.optDouble(0), py.optDouble(0));
 			}
 			if(validarInterseccion(usuarioA,usuarioB,lineaA,lineaB))
 				vecesCruza++;
