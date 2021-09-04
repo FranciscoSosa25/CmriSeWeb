@@ -177,6 +177,13 @@ var playSeries = {
          	playSeries.canvas.drawImage(playSeries.img, 0, 0, 510, 510);
          	playSeries.drawPoints();
 			
+		},
+		stop: function(){
+			if(playSeries.timeOut){
+				clearInterval(playSeries.timeOut)
+				playSeries.timeOut = undefined
+				playSeries.showPlay();
+			}
 		}
 		
 };

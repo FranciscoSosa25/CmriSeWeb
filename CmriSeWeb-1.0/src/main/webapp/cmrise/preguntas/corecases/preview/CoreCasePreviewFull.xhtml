@@ -285,6 +285,7 @@ label {
 			</div>
 			<div class="ui-g-12 ui-md-5">
 				<p:commandButton value="Siguiente"
+					onstart="playSeries.stop()"
 					action="#{coreCasePreviewForm.verPregunta()}" immediate="true"
 					update="@form" style="margin-left:15px; background: #2d0d86;" />
 				<p:commandButton value="Regresar"
