@@ -150,7 +150,7 @@
 							
 							
 						<h:panelGroup layout="block"
-								rendered="#{coreCasePreviewForm.listPresentCcImagenesGrp.size() > 0}">
+								rendered="#{coreCasePreviewForm.listPresentCcImagenesGrp.size() > 0 and coreCasePreviewForm.questionView}">
 								<script type="text/javascript">
 								$(document).ready(function(){
 									polyModel.loadDICOMPlayer('divSeries', 
@@ -501,11 +501,13 @@
 						actionListener="#{coreCasePreviewForm.saveProceed()}"
 						rendered="#{coreCasePreviewForm.questionView}"
 						style="margin-left:15px"
-						oncomplete="handleUpdateRequest(xhr, status, args)" />
+						 />
 					<p:commandButton value="Saltar" style="margin-left:15px"
-						immediate="true" action="#{coreCasePreviewForm.returnUpdateFta()}" />
+						immediate="true"
+						action="#{coreCasePreviewForm.returnUpdateFta()}" />
 					<p:commandButton value="Regresar" style="margin-left:15px"
-						immediate="true" action="#{coreCasePreviewForm.returnUpdateFta()}" />
+						immediate="true"
+						action="#{coreCasePreviewForm.returnUpdateFta()}" />
 				</div>
 			</div>
 
