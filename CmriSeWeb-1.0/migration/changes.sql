@@ -17,3 +17,7 @@ ALTER TABLE [CC_IMAGENES] ADD HEIGHT [int] NULL;
 ALTER TABLE [CC_IMAGENES] ADD WIDTH [int] NULL;
 ALTER TABLE [CC_IMAGENES] ADD POLIGONOS [int] NULL;
 ------------------------------------------------------------
+--changeset kisha.wappnet:23234 
+--comment Sep 11, 2021 6:26:43 AM wappnet_release, Core Case DICOM image- Draw Poligonos
+ALTER TABLE CC_IMAGENES ADD CONTENT_TYPE [varchar](200) NULL ;
+------------------------------------------------------------

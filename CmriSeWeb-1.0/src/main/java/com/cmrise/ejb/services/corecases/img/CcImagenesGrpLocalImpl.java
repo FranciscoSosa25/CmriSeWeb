@@ -24,7 +24,10 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import com.cmrise.dicom.attribute.DicomAttributeReaderService;
 import com.cmrise.dicom.attribute.DicomProperties;
@@ -153,6 +156,7 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 			
 			ccImagenes.setRutaImagen(Utilitarios.FS_CORE_CASES+File.separator+pNumetoFta+File.separator+numeroImagenesGrp);
 			System.out.println("V1 mrqsImagenes.getRutaImagen():"+ccImagenes.getRutaImagen());
+			
 			ccImagenesDao.insert(numeroImagenesGrp,ccImagenes); 
 			System.out.println("V2 mrqsImagenes.getRutaImagen():"+ccImagenes.getRutaImagen());
 			System.out.println("*");
@@ -173,40 +177,43 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 		    /****************************************************************************************
 		     **************************************************************************************** FINALIZA DCM 
 		     */
+		    boolean isDICOM = ccImagenes.getNombreImagen().toLowerCase().endsWith(".dcm");
 		    
+		    
+		    if(isDICOM) {
 		    String strRutaImgJpg =Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen().replace(".dcm", ".jpg");
 		    
-		    InputStream inputStream;
-			try {
-				inputStream = new FileInputStream(Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen());
-				setOutputStream(inputStream);
-				//Validate the file
-				String xml = dicomAttributeReaderService.readAttributes(getInputStream());
-				if(null!=xml) {
-					System.out.println("xml.length():"+xml.length());
-				}else {
-					System.out.println("xml:"+xml);
+			    InputStream inputStream;
+				try {
+					inputStream = new FileInputStream(Utilitarios.FS_ROOT+ccImagenes.getRutaImagen()+File.separator+ccImagenes.getNombreImagen());
+					setOutputStream(inputStream);
+					//Validate the file
+					String xml = dicomAttributeReaderService.readAttributes(getInputStream());
+					if(null!=xml) {
+						System.out.println("xml.length():"+xml.length());
+					}else {
+						System.out.println("xml:"+xml);
+					}
+					//Get the dicom attributes
+					DicomProperties properties = dicomAttributeReaderService.translateData(dicomAttributeReaderService.translateData(xml));
+					
+					//Read the image
+					BufferedImage image = dicomImageReaderService.generateBufferedImage(getInputStream());
+					System.out.println("image:"+image);
+					File jpegFile = saveJpegFile(image, properties,strRutaImgJpg);
+					
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				//Get the dicom attributes
-				DicomProperties properties = dicomAttributeReaderService.translateData(dicomAttributeReaderService.translateData(xml));
-				
-				//Read the image
-				BufferedImage image = dicomImageReaderService.generateBufferedImage(getInputStream());
-				System.out.println("image:"+image);
-				File jpegFile = saveJpegFile(image, properties,strRutaImgJpg);
-				
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		    
-		
+			    
+		    }
 		}
 	}
 
@@ -236,36 +243,51 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 					ccImagenes.setNumeroGrp(j.getNumeroGrp());
 					ccImagenes.setNombreImagen(j.getNombreImagen());
 					ccImagenes.setRutaImagen(j.getRutaImagen());
-					int h =0;
-					int w=0;
-					int p=0;
-					try {
-						h = Math.toIntExact(j.getHeight());
-						w = Math.toIntExact(j.getWidth());
-						p = Math.toIntExact(j.getPoligonos());
-					} catch (RuntimeException e) {
-						h=510;
-						w=510;
-					}
-					ccImagenes.setHeight(h);
-					ccImagenes.setWidth(w);
-					ccImagenes.setPoligonoModel(j.getPolygonoModel());
-					ccImagenes.setPoligonos(p);
+					ccImagenes.setContentType(StringUtils.isEmpty(j.getContentType()) ? "image" : j.getContentType() );
 					ccImagenes.setFilePath( Utilitarios.FS_ROOT+j.getRutaImagen()+ File.separator+j.getNombreImagen());
-					ccImagenes.setDcmKey(getDigest(ccImagenes.getFilePath()));
-					String strJpgRuta  = Utilitarios.FS_ROOT + j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX);
-					String strThumbailRuta  = Utilitarios.FS_ROOT + j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX);
-					try {
-						/** byte[] bytesArray = Files.readAllBytes(Paths.get(j.getRutaImagen()+"\\"+j.getNombreImagen())); **/
-						/** ccImagenes.setImagenContent(bytesArray); **/
-						byte[] bytesArray = Files.readAllBytes(Paths.get(strJpgRuta));
-						ccImagenes.setJpgContent(bytesArray);
-						ccImagenes.setJpgBase64(new String(Base64.getEncoder().encode(bytesArray)));
-						bytesArray = Files.readAllBytes(Paths.get(strThumbailRuta));
-						ccImagenes.setThumbailContent(bytesArray);
-						ccImagenes.setThumbailBase64(new String(Base64.getEncoder().encode(bytesArray)));
-					} catch (IOException ie) {
-					   System.out.println("IOException :"+ie.getMessage());
+					boolean isDICOM = ccImagenes.getNombreImagen().toLowerCase().endsWith(".dcm");
+					ccImagenes.setDicom(isDICOM);
+					if(isDICOM) {
+						ccImagenesGrp.setDicom(isDICOM);
+						int h =0;
+						int w=0;
+						int p=0;
+						try {
+							h = Math.toIntExact(j.getHeight());
+							w = Math.toIntExact(j.getWidth());
+							p = Math.toIntExact(j.getPoligonos());
+						} catch (RuntimeException e) {
+							h=510;
+							w=510;
+						}
+						ccImagenes.setHeight(h);
+						ccImagenes.setWidth(w);
+						ccImagenes.setPoligonoModel(j.getPolygonoModel());
+						ccImagenes.setPoligonos(p);
+						ccImagenes.setDcmKey(getDigest(ccImagenes.getFilePath()));
+						String strJpgRuta  = Utilitarios.FS_ROOT + j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.JPG_SUFFIX);
+						String strThumbailRuta  = Utilitarios.FS_ROOT + j.getRutaImagen()+File.separator+j.getNombreImagen().replace(".dcm", Utilitarios.THUMBNAIL_SUFFIX);
+						try {
+							/** byte[] bytesArray = Files.readAllBytes(Paths.get(j.getRutaImagen()+"\\"+j.getNombreImagen())); **/
+							/** ccImagenes.setImagenContent(bytesArray); **/
+							byte[] bytesArray = Files.readAllBytes(Paths.get(strJpgRuta));
+							ccImagenes.setJpgContent(bytesArray);
+							ccImagenes.setJpgBase64(new String(Base64.getEncoder().encode(bytesArray)));
+							bytesArray = Files.readAllBytes(Paths.get(strThumbailRuta));
+							ccImagenes.setThumbailContent(bytesArray);
+							ccImagenes.setThumbailBase64(new String(Base64.getEncoder().encode(bytesArray)));
+						} catch (IOException ie) {
+						   System.out.println("IOException :"+ie.getMessage());
+						}
+					}else {
+						try {
+							byte[] bytesArray = Files.readAllBytes(Paths.get(Utilitarios.FS_ROOT+j.getRutaImagen()+File.separator+j.getNombreImagen()));
+							ccImagenes.setImagenContent(bytesArray);
+							ccImagenes.setImagen(cargarImagen(bytesArray,j.getNombreImagen()));
+							ccImagenes.setImagenBase64(new String(Base64.getEncoder().encode(bytesArray)));
+						} catch (IOException ie) {
+						   System.out.println("IOException :"+ie.getMessage());
+						}
 					}
 					listCcImagenes.add(ccImagenes);
 				}
@@ -277,6 +299,20 @@ public class CcImagenesGrpLocalImpl implements CcImagenesGrpLocal {
 		}	
 			return retval;
 		
+	}
+	private StreamedContent cargarImagen(byte contents[],String nombre ) {
+		StreamedContent file=null;
+		try {
+			
+			 file = DefaultStreamedContent.builder()
+                    .name(nombre)
+                    .contentType("application/octet-stream")
+                    .stream(() -> new ByteArrayInputStream(contents)).build();
+
+		} catch (Exception e) {
+		
+		}
+		return file;
 	}
 	
 	private String getDigest(String value) {

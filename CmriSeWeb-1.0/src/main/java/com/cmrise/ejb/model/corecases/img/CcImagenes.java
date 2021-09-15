@@ -32,7 +32,7 @@ public class CcImagenes implements Serializable {
 	private byte[] thumbailContent; 
 	private String jpgBase64;
 	private byte[] jpgContent; 
-	private StreamedContent jpgStreamedContent; 
+	private StreamedContent jpgStreamedContent;
 	private String filePath;
 	private String dcmKey;	
 	private String poligonoModel;
@@ -41,6 +41,14 @@ public class CcImagenes implements Serializable {
 	private int poligonos; 
 	private String respuestasPuntos;
 	private float puntoCorrectos;
+	private String contentType; 
+	private boolean image; 
+	private boolean video;
+	private boolean dicom;
+	private StreamedContent imagenStreamed; 
+	private StreamedContent imagen; 
+	private StreamedContent videoStreamed; 
+	private String imagenBase64; 
  
 	
 	public long getNumero() {
@@ -233,6 +241,77 @@ public class CcImagenes implements Serializable {
 		this.puntoCorrectos = puntoCorrectos;
 	}
 
+	public StreamedContent getImagenStreamed() {
+		return imagenStreamed;
+	}
+
+	public void setImagenStreamed(StreamedContent imagenStreamed) {
+		this.imagenStreamed = imagenStreamed;
+	}
+
+	public StreamedContent getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(StreamedContent imagen) {
+		this.imagen = imagen;
+	}
+
+	public StreamedContent getVideoStreamed() {
+		return videoStreamed;
+	}
+
+	public void setVideoStreamed(StreamedContent videoStreamed) {
+		this.videoStreamed = videoStreamed;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		if(contentType.contains("video")) {
+			this.setVideo(true);
+		}else if(contentType.contains("image")) {
+			this.setImage(true);
+		}
+		this.contentType = contentType;
+	}
+
+	public boolean isImage() {
+		return image;
+	}
+
+	public void setImage(boolean image) {
+		this.image = image;
+	}
+
+	public boolean isVideo() {
+		return video;
+	}
+
+	public void setVideo(boolean video) {
+		this.video = video;
+	}
+
+	public String getImagenBase64() {
+		return imagenBase64;
+	}
+
+	public void setImagenBase64(String imagenBase64) {
+		this.imagenBase64 = imagenBase64;
+	}
+
+	public boolean isDicom() {
+		return dicom;
+	}
+
+	public void setDicom(boolean dicom) {
+		this.dicom = dicom;
+	}
+
+		
+	
 	
 	
 }

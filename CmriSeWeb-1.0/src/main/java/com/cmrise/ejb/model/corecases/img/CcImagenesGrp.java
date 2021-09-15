@@ -19,6 +19,8 @@ public class CcImagenesGrp implements Serializable {
 	private String seccion; 
 	private String modality;
 	private boolean isCcHDR;
+	private boolean dicom;
+
 	
 	private List<CcImagenes> listCcImagenes; 
 	
@@ -125,6 +127,15 @@ public class CcImagenesGrp implements Serializable {
 	public void setCcHDR(boolean isCcHDR) {
 		this.isCcHDR = isCcHDR;
 	}
+
+	public boolean isDicom() {
+		return dicom;
+	}
+
+	public void setDicom(boolean dicom) {
+		this.dicom = dicom;
+	}
+
 	
 	
 

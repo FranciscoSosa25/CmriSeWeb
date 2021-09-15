@@ -361,7 +361,7 @@ public class CoreCasePreviewForm {
 	}
 	
 	
-	private JSONObject selDICOMSeries = new JSONObject();
+	private String selDICOMSeries = "{}";
 	private List<CcImagenes> selCCImagenesList;
 	
 	public void selCCImagenesList(List<CcImagenes> ccImagenes) {
@@ -382,7 +382,7 @@ public class CoreCasePreviewForm {
 			series.put(dicom);
 		}
 		response.put("series", series);
-		this.selDICOMSeries = response;
+		this.selDICOMSeries = response.toString();
 	}
 	
 	
@@ -409,7 +409,7 @@ public class CoreCasePreviewForm {
 				}
 			}
 		}
-		this.selDICOMSeries = jsonObject;
+		this.selDICOMSeries = jsonObject.toString();
 	}
 	
 	public void asignarRespuesta(String query) {
@@ -685,11 +685,11 @@ public class CoreCasePreviewForm {
 		this.respuestasPuntos = respuestasPuntos;
 	}
 
-	public JSONObject getSelDICOMSeries() {
+	public String getSelDICOMSeries() {
 		return selDICOMSeries;
 	}
 
-	public void setSelDICOMSeries(JSONObject selDICOMSeries) {
+	public void setSelDICOMSeries(String selDICOMSeries) {
 		this.selDICOMSeries = selDICOMSeries;
 	}
 
