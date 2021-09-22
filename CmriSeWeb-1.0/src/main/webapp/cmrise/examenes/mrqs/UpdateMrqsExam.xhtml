@@ -65,13 +65,10 @@
 <div class="card">
 <h:form id="updateForm">
 
-<p:growl id="messages" showDetail="true" />
-
+<p:growl id="messages" showDetail="true" life="1000" widgetVar="growlWV"/>
 <div class="ui-g">
-<!-- <div class="ui-g-4"> -->
-<!-- </div> -->
-
-<!-- <div class="ui-g-3">
+<!-- <div class="ui-g-4"> </div> 
+ <div class="ui-g-3">
 <p:commandButton value="Agregar Nuevos Candidados"  immediate="true" action="#{updateMrqsExamForm.createNewCandidates()}" icon="fa fa-user-plus" style="background: #2D0D86;align:center;"/>
 </div>
 <div class="ui-g-4">

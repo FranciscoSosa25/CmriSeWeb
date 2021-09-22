@@ -28,7 +28,7 @@
 
 <ui:define name="content">
 <h:form id="updateMrqsExamGroupForm">
-<p:growl id="messages" showDetail="true" />
+<p:growl id="messages" showDetail="true" life="1500" widgetVar="growlWV"/>
 <div class="card">
 <h1>#{updateMrqsExamGroupForm.mrqsExamenesForRead.admonExamenDesc}</h1>
 <h2>#{updateMrqsExamGroupForm.mrqsGrupoHdrForUpdate.admonMateriaDesc}</h2>
@@ -73,7 +73,7 @@
     
  </div>
  <div class="ui-g-12">
-  <p:commandButton value="Regresar" style="BackGround:#2D0D86;" immediate="true" action="Exams-MRQs-Update" icon="fa fa-backward"/>
+  <p:commandButton value="Regresar" style="BackGround:#2D0D86;" update="updateMrqsExamGroupForm" immediate="true" actionListener="#{updateMrqsExamGroupForm.regresar()}" icon="fa fa-backward"/>
  </div>
  </div>
  </div>
@@ -81,7 +81,9 @@
 
 <h:form id="ReadOnlyForm">
 <p:dialog id="preguntasHdrDialogId" widgetVar="preguntasHdrDialogWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" width="98%" >
- <p:dataTable var="preguntasHdrV1" widgetVar="preguntasHdrWV" value="#{updateMrqsExamGroupForm.listMrqsPreguntasHdrV1}"   selection="#{updateMrqsExamGroupForm.selectedsMrqsPreguntasHdrV1}" rowKey="#{preguntasHdrV1.numero}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+ <p:dataTable var="preguntasHdrV1" widgetVar="preguntasHdrWV" value="#{updateMrqsExamGroupForm.listMrqsPreguntasHdrV1}"   
+ selection="#{updateMrqsExamGroupForm.selectedsMrqsPreguntasHdrV1}" rowKey="#{preguntasHdrV1.numero}" paginator="true" 
+ rows="10" paginatorPosition="bottom" emptyMessage="Sin resultados" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
    <f:facet name="header">Reactivos</f:facet>
     <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
     <p:column headerText="Número">
