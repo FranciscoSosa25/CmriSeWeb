@@ -1,5 +1,7 @@
 package com.cmrise.ejb.backing.corecases;
 
+import java.io.IOException;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,31 +91,41 @@ public class UpdateCoreCaseForm {
    GuestPreferences guestPreferences; 
 	
      @PostConstruct
-	 public void init() {
+	 public void init() throws IOException {
 		 System.out.println("Entra "+this.getClass()+" init()");
 		 FacesContext context = FacesContext.getCurrentInstance(); 
 	     HttpServletRequest request = (HttpServletRequest)context.getExternalContext().getRequest(); 
 	     HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 	     Object obNumeroCcHdr= session.getAttribute("NumeroCcHdrSV");
-	     if(null!=obNumeroCcHdr) {
-	    	 if(obNumeroCcHdr instanceof Long) {
-	    		 long numeroCcHdr = (Long)obNumeroCcHdr;
-	    		 System.out.println("numeroCcHdr:"+numeroCcHdr);
-	    		 this.numeroCcHdr = numeroCcHdr; 
-	    	 }else {
-	    		 System.out.println("numeroCcHdr instanceof Long:false");
-	    	 }
-	     }else {
-	    	 System.out.println("(null!=numeroCcHdr:false");
-	    	 return;
-	     }	
+	     try {
+	    	 if(null!=obNumeroCcHdr) {
+		    	 if(obNumeroCcHdr instanceof BigInteger || obNumeroCcHdr instanceof Long) {
+		    		 long numeroCcHdr = (Long)obNumeroCcHdr;
+		    		 System.out.println("numeroCcHdr:"+numeroCcHdr);
+		    		 this.numeroCcHdr = numeroCcHdr; 
+		    	 }else {
+		    		 System.out.println("numeroCcHdr instanceof Long:false");
+		    		 ///long numeroCcHdr = (Long)obNumeroCcHdr;
+		    		 //System.out.println("numeroCcHdr:"+numeroCcHdr);
+		    		 //this.numeroCcHdr = numeroCcHdr; 
+		    	 }
+		     }else {
+		    	 System.out.println("(null!=numeroCcHdr:false");
+		    	 return;
+		     }	
+		     
+			 refreshEntity();
+			 System.out.println("Sale "+this.getClass()+" init() Sale init");
+	     }
+	     catch(Exception e) {	 							
+	 	    context.getExternalContext().redirect("CmriSeWeb/faces/cmrise/preguntas/corecases/ManageCoreCases.xhtml");	
+	     }
 	     
-		 refreshEntity();
-		 System.out.println("Sale "+this.getClass()+" init() Sale init");
 	 }		 
 	 
    
   private void refreshEntity() {
+	  
 	ccHdrV1 = ccHdrLocal.findByNumeroObjMod(this.numeroCcHdr);
 	
 	listPresentCcImagenesGrp = ccImagenesGrpLocal.findByCcHDR(this.numeroCcHdr, Utilitarios.INTRODUCCION);
