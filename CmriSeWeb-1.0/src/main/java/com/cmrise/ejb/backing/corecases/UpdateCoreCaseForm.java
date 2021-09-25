@@ -105,9 +105,9 @@ public class UpdateCoreCaseForm {
 		    		 this.numeroCcHdr = numeroCcHdr; 
 		    	 }else {
 		    		 System.out.println("numeroCcHdr instanceof Long:false");
-		    		 ///long numeroCcHdr = (Long)obNumeroCcHdr;
-		    		 //System.out.println("numeroCcHdr:"+numeroCcHdr);
-		    		 //this.numeroCcHdr = numeroCcHdr; 
+		    		 long numeroCcHdr = (Long)obNumeroCcHdr;
+		    		 System.out.println("numeroCcHdr:"+numeroCcHdr);
+		    		 this.numeroCcHdr = numeroCcHdr; 
 		    	 }
 		     }else {
 		    	 System.out.println("(null!=numeroCcHdr:false");
