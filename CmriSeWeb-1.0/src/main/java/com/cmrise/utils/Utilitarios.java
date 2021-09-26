@@ -142,5 +142,24 @@ public class Utilitarios {
     public static Date timestampDateToUtilDate(java.sql.Timestamp pFecha) {
         return new java.util.Date(pFecha.getTime());
     }
+    
+    public static void makeDir(String dirPath) {
+    	
+    	  File directory = new File(dirPath);
+          try {
+        	 
+        		  boolean canWrite = directory.setWritable(true);
+                  System.out.println("CREATED - " + canWrite);
+
+                  boolean creationResponse = directory.mkdirs();
+
+                  System.out.println("CREATED - " + creationResponse);
+              
+          } catch (RuntimeException e) {
+
+              e.printStackTrace();
+          }
+    	
+    }
 
 }

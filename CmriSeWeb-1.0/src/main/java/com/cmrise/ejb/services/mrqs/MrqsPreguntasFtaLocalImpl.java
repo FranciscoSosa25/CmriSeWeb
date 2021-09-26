@@ -24,6 +24,7 @@ import com.cmrise.jpa.dao.mrqs.MrqsPreguntasFtaDao;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaV1Dto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
+import com.cmrise.utils.ImageIOUtils;
 import com.cmrise.utils.Utilitarios;
 
 @Stateless
@@ -175,13 +176,16 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
         if (Utilitarios.IMAGEN_INDICADA.equals(pTipoPregunta)) {
 
             try {
+            	revtal.setNombreImagen(mrqsPreguntasFtaDto.getNombreImagen());
+            	 revtal.setRutaImagen(mrqsPreguntasFtaDto.getRutaImagen());
+            	
                 byte[] bytesArray = Files.readAllBytes(Paths.get(Utilitarios.FS_ROOT + mrqsPreguntasFtaDto.getRutaImagen() + File.separator + mrqsPreguntasFtaDto.getNombreImagen()));
                 revtal.setImagenContent(bytesArray);
                 revtal.setImagenBase64(new String(Base64.getEncoder().encode(bytesArray)));
-                revtal.setNombreImagen(mrqsPreguntasFtaDto.getNombreImagen());
+                
                 revtal.setContentType(mrqsPreguntasFtaDto.getContentType());
                 revtal.setPoligonos(mrqsPreguntasFtaDto.getPoligonos());
-                revtal.setRutaImagen(mrqsPreguntasFtaDto.getRutaImagen());
+               
             } catch (IOException ie) {
                 System.out.println("IOException MrqsPreguntasFtaLocalImpl findObjModByNumeroFta:" + ie.getMessage());
             }
@@ -189,7 +193,7 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
             BufferedImage readImage = null;
 
             try {
-                readImage = ImageIO.read(new File(Utilitarios.FS_ROOT + mrqsPreguntasFtaDto.getRutaImagen() + File.separator + mrqsPreguntasFtaDto.getNombreImagen()));
+                readImage = ImageIOUtils.generateBufferedImage(new File(Utilitarios.FS_ROOT + mrqsPreguntasFtaDto.getRutaImagen() + File.separator + mrqsPreguntasFtaDto.getNombreImagen()));
                 int h = readImage.getHeight();
                 int w = readImage.getWidth();
                 revtal.setHeight(h);
@@ -222,7 +226,7 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
             BufferedImage readImage = null;
 
             try {
-                readImage = ImageIO.read(new File(Utilitarios.FS_ROOT + mrqsPreguntasFtaDto.getRutaImagen() + File.separator + mrqsPreguntasFtaDto.getNombreImagen()));
+                readImage = ImageIOUtils.generateBufferedImage(new File(Utilitarios.FS_ROOT + mrqsPreguntasFtaDto.getRutaImagen() + File.separator + mrqsPreguntasFtaDto.getNombreImagen()));
                 int h = readImage.getHeight();
                 int w = readImage.getWidth();
                 revtal.setHeight(h);
@@ -269,7 +273,8 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
         mrqsPreguntasFtaDao.update(pNumeroFta, mrqsPreguntasFtaDto);
 
         if (null != pMrqsPreguntasFtaV1.getNombreImagen() && !"".equals(pMrqsPreguntasFtaV1.getNombreImagen())) {
-            File destination = new File(pMrqsPreguntasFtaV1.getRutaImagen() + File.separator + pMrqsPreguntasFtaV1.getNombreImagen());
+        	Utilitarios.makeDir(Utilitarios.FS_ROOT+pMrqsPreguntasFtaV1.getRutaImagen());
+            File destination = new File(Utilitarios.FS_ROOT+pMrqsPreguntasFtaV1.getRutaImagen() + File.separator + pMrqsPreguntasFtaV1.getNombreImagen());
 
             try {
                 copy(pMrqsPreguntasFtaV1.getImagenContent(), destination);
@@ -280,5 +285,5 @@ public class MrqsPreguntasFtaLocalImpl implements MrqsPreguntasFtaLocal {
 
 
     }
-
+    
 }

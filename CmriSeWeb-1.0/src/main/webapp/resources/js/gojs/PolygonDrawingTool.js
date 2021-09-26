@@ -338,7 +338,7 @@ PolygonDrawingTool.prototype.finishShape = function() {
   console.log("polygoneList : "+ polygonList)
   if(poligonos!=null)
 {poligonos++;
-document.getElementById("UpdateReactivosForm:numeroPoligonos").value =poligonos;	
+//document.getElementById("UpdateReactivosForm:numeroPoligonos").value =poligonos;	
 }
   this.stopTool();  
   finishPolygon();

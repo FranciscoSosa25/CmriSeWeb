@@ -75,7 +75,7 @@
 }
 </style>
 		<script type="text/javascript">
-	document.getElementById("demo").innerHTML = "My First JavaScript";
+//	document.getElementById("demo").innerHTML = "My First JavaScript";
 
 	function removeThis(_this){
 		   var el = document.getElementById( _this.id ); //assuming '_this' is the 'this' reference not the 'id'
@@ -561,7 +561,7 @@
 											type="hidden" />
 										<p:inputText id="coordinatesMouseMove" type="hidden" />
 										<p:inputText id="coordinates" 
-											value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.respuestaCorrecta}"
+											value="#{updateFTAMrqForm.mrqsPreguntasFtaV1ForAction.respuestas}"
 											placeholder="Coordenadas" maxlength="1000" style="width:100%"
 											requiredMessage="No se han agregado polígonos" type="hidden" />
 										<p:inputText id="coordinatesD"
@@ -609,12 +609,11 @@
 										$( document ).ready(function() {
 											if($.trim($("#canvas-image").attr("src")) != ""){
 												var valueCoordinates= document.getElementById("UpdateReactivosForm:coordinatesD").value;
-												
-												if(valueCoordinates!=null && valueCoordinates!="")
+												/* if(valueCoordinates!=null && valueCoordinates!="")
 												{	
 													polygonList=JSON.parse(valueCoordinates);													
 												    poligonos=polygonList.length;
-												}
+												} */
 												var im = document.getElementById('canvas-image'); 
 												canvasWidth=im.clientWidth;
 										    	canvasHeight=im.clientHeight;

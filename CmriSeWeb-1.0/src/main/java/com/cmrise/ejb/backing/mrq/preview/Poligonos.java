@@ -38,7 +38,8 @@ public class Poligonos {
 	}
 	private double puntuacion(int puntuacion,int poligonos,int ancho,String respuestaPreguntaCandidato ,String respuestas) {
 		Gson g = new Gson();
-		JSONArray conjuntoPoligonos = new JSONArray(respuestas);
+		JSONObject model = new JSONObject(respuestas);
+		JSONArray conjuntoPoligonos = model.getJSONObject("model").getJSONArray("nodeDataArray");
 		  
 		JSONArray usuarioCordenadas = new JSONArray(respuestaPreguntaCandidato);
 
@@ -55,8 +56,12 @@ public class Poligonos {
 				JSONObject punto  = usuarioCordenadas.getJSONObject(j);
 				String x=punto.getString("x");
 				String y=punto.getString("y");
-				if(validarPuntoDentro(ancho,Double.valueOf(x),Double.valueOf(y),px, py))
-				total+=valor;	
+				if(validarPuntoDentro(ancho,Double.valueOf(x),Double.valueOf(y),px, py)) {
+					total+=valor;	
+					break; // TO Stop, for multiple point in same polygon
+					
+				}
+				
 				
 			}			
 		}

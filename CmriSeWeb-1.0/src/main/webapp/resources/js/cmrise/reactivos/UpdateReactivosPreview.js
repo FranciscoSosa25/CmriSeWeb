@@ -150,22 +150,22 @@ function point_it(event) {
     ctx = paintingCanvasID.getContext("2d");
     ctx.clearRect(0, 0, paintingCanvasID.width, paintingCanvasID.height);
     }
-    var img = new Image();
-    img.setAttribute('src', graphicImageImgSenID.src);
-    
-    
-    img.addEventListener('load', (e) => {
-    	if(val <= 0){
-        paintingCanvasID.width = img.width;
-       paintingCanvasID.height = img.height;
-       ctx = paintingCanvasID.getContext("2d");
-       ctx.drawImage(img, 0, 0, paintingCanvasID.width, paintingCanvasID.height);
-       var rect, x, y;
-       if (event.ctrlKey || event.which === 3 || event.button === 2) {
-           event.preventDefault();
-            return;
-       }M2
-   	} 
+//    var img = new Image();
+//    img.setAttribute('src', graphicImageImgSenID.src);
+//    
+//    
+//    img.addEventListener('load', (e) => {
+//    	if(val <= 0){
+//        paintingCanvasID.width = img.width;
+//       paintingCanvasID.height = img.height;
+//       ctx = paintingCanvasID.getContext("2d");
+//       ctx.drawImage(img, 0, 0, paintingCanvasID.width, paintingCanvasID.height);
+//       var rect, x, y;
+//       if (event.ctrlKey || event.which === 3 || event.button === 2) {
+//           event.preventDefault();
+//            return;
+//       }
+//   	} 
        if(val<=sc){
         rect = paintingCanvasID.getBoundingClientRect();
         x = event.clientX - rect.left;
@@ -173,7 +173,7 @@ function point_it(event) {
        x = x.toFixed(5);
        y = y.toFixed(5);
        perimeter.push({'x': x, 'y': y});
-
+       /*
         setPointAnswer(x,y).then((polygon) => {
           
           if(polygon.length > 3 && isInside(polygon, polygon.length, new Point(x, y))){
@@ -193,7 +193,7 @@ function point_it(event) {
 
           
        });
-        
+        */
         var tmpX, tmpY;
 
         ctx.strokeStyle = 'red';
@@ -215,7 +215,8 @@ function point_it(event) {
 	
        coordinatesID = document.getElementById('previewForm:coordinates');
        coordinatesID.value = JSON.stringify(perimeter);
-    }});
+    }
+       //});
 
 }
 
@@ -257,6 +258,7 @@ var model = {
 		correctPoly : [],
 		polyValue : 0,
 		score : 0,
+		totalPolygons : 0,
 		resultScore : 0,
 		updateScore : function()	{
 			model.resultScore += model.polyValue;
@@ -283,15 +285,14 @@ $(document).ready(function () {
     console.log("Comienza ready");
 
     console.log("Finaliza ready");
-    try{
-    	        
-        let polygonPoints = JSON.parse(document.getElementById('previewForm:coordinatesImgCor').value);
-        model.score = parseInt(document.getElementById('previewForm:score').value);
-    	
-    	if(polygonPoints.model && polygonPoints.model.nodeDataArray && polygonPoints.model.nodeDataArray.length > 0){
-    		model.polygons = polygonPoints.model.nodeDataArray;
-    		model.polyValue = model.score / polygonPoints.model.nodeDataArray.length;
-    	}
+    try{    	       
+//        let polygonPoints = JSON.parse(document.getElementById('previewForm:coordinates').value);
+//        model.score = parseInt(document.getElementById('previewForm:score').value);       
+//    	if(polygonPoints.model && polygonPoints.model.nodeDataArray && polygonPoints.model.nodeDataArray.length > 0){
+//    		model.polygons = polygonPoints.model.nodeDataArray;
+//    		model.totalPolygons = polygonPoints.model.nodeDataArray.length;
+//    		model.polyValue = model.score / polygonPoints.model.nodeDataArray.length;
+//    	}
     	
     	
         }catch(e){

@@ -64,6 +64,8 @@ public class UpdateCoreCaseForm {
 	private List<CcImagenesGrp> listPresentCcImagenesGrp = new ArrayList<CcImagenesGrp>();
 	private long numeroFta;
 	
+	private CcImagenes editCCImagenes = new CcImagenes();
+	
 	
 
    private List<CcPreguntasHdrV1> listCcPreguntasHdrV1 = new ArrayList<CcPreguntasHdrV1>();
@@ -419,7 +421,14 @@ System.out.println("Entra deletePregunta");
 		private void insertaImagenesGrp(long pNumeroCcHRD, CcImagenesGrp pCcImagenesGrp) {
 			ccImagenesGrpLocal.insert(pNumeroCcHRD, pCcImagenesGrp);
 		}
-	 
+		
+		public void updateCcImagenes(CcImagenes ccImagenes) {
+			this.editCCImagenes = ccImagenes;
+		}
+		
+		public void savePolygon() {
+			ccImagenesGrpLocal.savePolygon(this.editCCImagenes);
+		}
 
 	
 
@@ -587,8 +596,14 @@ public void setEditPresentCcImagenesGrp(CcImagenesGrp editPresentCcImagenesGrp) 
 }
 
 
+public CcImagenes getEditCCImagenes() {
+	return editCCImagenes;
+}
 
 
+public void setEditCCImagenes(CcImagenes editCCImagenes) {
+	this.editCCImagenes = editCCImagenes;
+}
 
 
 

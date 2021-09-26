@@ -1,7 +1,6 @@
 package com.cmrise.ejb.backing.mrq;
 
 import java.util.List;
-import java.util.Set;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -9,8 +8,6 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 
 import javax.annotation.PostConstruct;
@@ -20,11 +17,11 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
@@ -58,7 +55,6 @@ import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasFtaSinonimosLocal;
 import com.cmrise.ejb.services.mrqs.MrqsPreguntasHdrLocal;
 import com.cmrise.ejb.services.mrqs.img.MrqsImagenesGrpLocal;
-import com.cmrise.jpa.dao.mrqs.MrqsCorrelacionColumnaPair;
 import com.cmrise.jpa.dto.admin.TablasUtilitariasValoresDto;
 import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsCorrelacionColumnasRespuestasDto;
@@ -66,8 +62,8 @@ import com.cmrise.jpa.dto.mrqs.MrqsListasPalabrasDto;
 import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaSinonimos;
 import com.cmrise.jpa.dto.mrqs.MrqsPreguntasHdrDto;
-import com.cmrise.jpa.dto.mrqs.img.MrqsImagenesDto;
 import com.cmrise.utils.CorrelacionColumnasInsertException;
+import com.cmrise.utils.ImageIOUtils;
 import com.cmrise.utils.Utilitarios;
 import com.cmrise.utils.UtilitariosLocal;
 import com.google.gson.Gson;
@@ -322,7 +318,7 @@ public class UpdateFTAMrqForm {
             
             Gson gson = new Gson();
             Type collectionType = new TypeToken<List<RespReactCorImg>>(){}.getType();
-            if(null!=mrqsPreguntasFtaV1ForAction.getRespuestas()) {
+            if(null!=mrqsPreguntasFtaV1ForAction.getRespuestas() && mrqsPreguntasFtaV1ForAction.getRespuestas().startsWith("[")) {
             	listRespReactCorImg = gson.fromJson(mrqsPreguntasFtaV1ForAction.getRespuestas(), collectionType);
             	idxLabels = listRespReactCorImg.size();
             	refreshRespuestas();
@@ -528,16 +524,16 @@ public class UpdateFTAMrqForm {
 			}else if(Utilitarios.RESP_TEXTO_LIBRE.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())){
 		     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta(this.mrqsPreguntasFtaV1ForAction.getRespuestaCorrecta());
 		    }else if(Utilitarios.IMAGEN_INDICADA.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
-		     //mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("Coordenadas Poligonos");
-		    if(null==mrqsPreguntasFtaV1ForAction.getNombreImagen()) {
-		    	FacesContext context = FacesContext.getCurrentInstance();
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se nececita una","imagen") );
-				return; 
-		     }else if(null==mrqsPreguntasFtaV1ForAction.getPoligonos()||"".equals(mrqsPreguntasFtaV1ForAction.getPoligonos())) {
-		    	 FacesContext context = FacesContext.getCurrentInstance();
-				 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se nececita dibujar un","Poligono") );
-				 return; 
-		     }
+		     mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("Coordenadas Poligonos");
+			    if(null==mrqsPreguntasFtaV1ForAction.getNombreImagen()) {
+			    	FacesContext context = FacesContext.getCurrentInstance();
+					context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se nececita una","imagen") );
+					return; 
+			     }else if(null==mrqsPreguntasFtaV1ForAction.getPoligonos()||"".equals(mrqsPreguntasFtaV1ForAction.getPoligonos())) {
+			    	 FacesContext context = FacesContext.getCurrentInstance();
+					 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Se nececita dibujar un","Poligono") );
+					 return; 
+			     }
 		   }else if(Utilitarios.IMAGEN_ANOTADA.equals(this.getMrqsPreguntasHdrV1ForAction().getTipoPregunta())) {
 			   mrqsPreguntasFtaV1ForAction.setRespuestaCorrecta("Modelo de Relaciones");
 			   List<AnotacionesCorImg> listAnotacionesCorImg = new ArrayList<AnotacionesCorImg>(); 
@@ -1061,7 +1057,7 @@ public class UpdateFTAMrqForm {
 		UploadedFile uploadedFile = event.getFile();
 		
 		byte[] image = uploadedFile.getContent();
-		BufferedImage bi = ImageIO.read(new ByteArrayInputStream(image));
+		BufferedImage bi =  ImageIOUtils.generateBufferedImage(new ByteArrayInputStream(image),FilenameUtils.getExtension(uploadedFile.getFileName()));
 		int width = bi.getWidth();
 		int height = bi.getHeight();
 		System.out.println("Width: " + width + ", height: " + height);

@@ -71,22 +71,22 @@
 	background-color: #d43f3a;
 	border-color: #d9534f;
 	}
+	
+
+	
 
 </style>
-
-
-<script type="text/javascript">
-	var previewDicom = {
-			reload : function(key){
-				//debugger;
-				var frame = $('#dcmpreview');
-				frame.attr('src', '/CmriSeWeb/resources/dicom-viewer/stable/index.jsp?dcmkey='+key);
-			}
-	}
-</script>
-
-
 	</ui:define>
+	
+<ui:define name="xxhrwjs">
+		<h:outputScript name="gojs/go.js" library="js" />
+		<h:outputScript name="gojs/PolygonDrawingTool.js" library="js" />
+		<h:outputScript name="gojs/Figures.js" library="js" />
+		<h:outputScript name="gojs/GeometryReshapingTool.js" library="js" />		
+		<h:outputScript name="cmrise/corecases/UpdateCoreCasesImgSen.js" library="js" />
+	
+		
+</ui:define>
 	<ui:define name="content">
 	<script type="text/javascript">
 	var previewDicom = {
@@ -97,6 +97,34 @@
 			}
 	}
 </script>
+	<style type="text/css">
+	.canvas-container {
+	position: relative;
+}
+
+.canvas-content {
+	float: left;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: 98;
+	background-color: transparent;
+}
+.dicom .ui-button-text{
+	font-size : 15px !important;
+}
+.dicom .ui-button{
+	margin: 2px !important;
+}
+.dicom .dicom-tile{
+	height: 130px;
+    overflow-y: scroll;
+    border: #5f666c;
+    box-sizing: border-box;
+    border-style: solid;
+    border-width: inherit;
+}
+	</style>
 		<h1>Previsualización Caso Clínico</h1>
 		<h:form id="coreCaseForm">
 			<div class="ui-g">
@@ -167,12 +195,12 @@
 							
 						<h:panelGroup layout="block"
 								rendered="#{coreCasePreviewForm.listPresentQCcImagenesGrp.size() > 0}">	
-						<div class="card">
+						<div class="card dicom">
 
 							<section>
 								<fieldset>
 									<legend>DICOM Series</legend>
-									<div class="ui-g-4" >		
+<!-- 									<div class="ui-g-4" >		
 										 <p:dataTable var="imagenesGrupo"  value="#{coreCasePreviewForm.listPresentQCcImagenesGrp}" 
 										 	scrollable="true" scrollHeight="420">
 			    
@@ -195,10 +223,119 @@
 												</p:scrollPanel>
 											</p:column>		           
 										</p:dataTable>
+									</div> -->
+									<div class="ui-g-4" >		
+										 <p:dataTable var="imagenesGrupo"  value="#{coreCasePreviewForm.listPresentQCcImagenesGrp}" 
+										 	scrollable="true" scrollHeight="420">
+			    
+										  <p:column headerText="Series Title" style="width:60%; text-align: left;">
+												<div class="ui-g-12" >		            	 	
+													<h:outputText value="#{imagenesGrupo.tituloSuperior}" />
+												</div>
+												<div class="dicom dicom-tile" style="height: 130px">
+													
+												 <!-- <p:scrollPanel style=" width: 100%; height:130px;" styleClass="image-tile"> -->
+													<ui:repeat var="imagenes"
+														value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
+														<div class="image-tile" style="float: left;">
+														<h:graphicImage
+															value="data:image/jpg;base64,#{imagenes.thumbailBase64}"
+															style="max-width: 250px; max-height: 300px; padding: 2px;"
+															ajax="true"
+															actionListener="#{coreCasePreviewForm.selCCImagenes(imagenes)}" 
+															alt="#{imagenes.nombreImagen}" title="#{imagenes.nombreImagen}"
+															
+															/>
+															 <p:commandButton icon="fa fa-edit" 
+																oncomplete="polyModel.drawCanvas('paintingCanvasQ', 'canvas-containerQ', 'coreCaseForm:imgHeightQ', 'coreCaseForm:imgWidthQ', 'coreCaseForm:cursorCorQ', 'coreCaseForm:respuestasPuntosQ')"
+																ajax="true"
+																process="@this"
+																update="
+																:coreCaseForm:canvas-imageQ
+																:coreCaseForm:numeroPoligonosQ
+																:coreCaseForm:imgHeightQ
+																:coreCaseForm:imgWidthQ
+																:coreCaseForm:outputQ
+																:coreCaseForm:respuestasPuntosQ
+																"
+																actionListener="#{coreCasePreviewForm.selCCImagenes(imagenes)}"
+															/>	
+															</div>	
+													</ui:repeat>
+												<!-- </p:scrollPanel> -->
+												</div>
+												
+											</p:column>		           
+										</p:dataTable>
 									</div>
-									<div class="ui-g-8">
+									<!-- <div class="ui-g-8">
 										<iframe id="dcmpreview" src="" style="height:450px;width:100%;border:none;overflow:hidden;"></iframe>
 										
+									</div> -->
+							<div class="ui-g-8">
+								<h:panelGroup layout="block" id="outputQ"   rendered="true"> 	
+										<div class="ui-g-12">
+											<div class="ui-g-12 ui-md-8" style="text-align: left;">
+												<p:inputText id="imgWidthQ"
+													value="#{coreCasePreviewForm.selCcImagenes.width}"
+													type="hidden" />
+												<p:inputText id="imgHeightQ"
+													value="#{coreCasePreviewForm.selCcImagenes.height}"
+													type="hidden" />
+												<p:inputText id="respuestasPuntosQ"
+													value="#{coreCasePreviewForm.respuestasPuntos}"
+													type="hidden" />	
+												<p:inputText id="numeroPoligonosQ"
+													value="#{coreCasePreviewForm.selCcImagenes.poligonos}"
+													type="hidden" />
+												<div id="canvas-containerQ" class="canvas-container" style="visibility:visible;">	
+													<div class="canvas-contenQt">	
+														<h:graphicImage id="canvas-imageQ" style="display:none;"
+																	value="data:jpeg;base64,#{coreCasePreviewForm.selCcImagenes.jpgBase64}"
+																	>
+	    												</h:graphicImage>	
+													</div>
+												</div>
+												<canvas  id="paintingCanvasQ"  style="cursor: crosshair; display: none;"
+													onmousedown="polyModel.drawPoint(event, 'paintingCanvasQ', 'coreCaseForm:respuestasPuntosQ', 'coreCaseForm:numeroPoligonosQ')"
+												>	</canvas>	
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<div class="ui-g-12" style="text-align: right;">
+													<p:inputText id="cursorCorQ"	value="" />
+												</div>
+												<div class="ui-g-12" style="text-align: right;">
+													Poligonos : <h:outputText value="#{coreCasePreviewForm.selCcImagenes.poligonos}" />
+												</div>
+												<div class="ui-g-12" style="text-align: right;" >
+													Punto Correctos : <h:outputText id="scorePointsQ" value="#{coreCasePreviewForm.selCcImagenes.puntoCorrectos}" />
+												</div>
+												<div class="ui-g-12" style="text-align: right;">
+													<p:commandButton value="Puntos claros" type="button"
+														onclick="polyModel.clearPoint('paintingCanvasQ', 'canvas-containerQ',
+																'coreCaseForm:imgHeightQ', 
+																'coreCaseForm:imgWidthQ',
+																'coreCaseForm:cursorCorQ', 
+																'coreCaseForm:respuestasPuntosQ',
+																'coreCaseForm:scorePointsQ')"
+													 	style="background: #2d0d86;" />
+													<p:commandButton value="Verify" 
+														ajax="true"
+														process="@this,respuestasPuntosQ"
+														update=":coreCaseForm:scorePointsQ"
+										                actionListener="#{coreCasePreviewForm.calculateScore(coreCasePreviewForm.selCcImagenes)}"
+													 	style="background: #2d0d86;" />
+												</div>
+												<div class="ui-g-12" style="text-align: right;">
+													 <p:commandButton value="Guardar puntos"
+												  	   icon="fa fa-save"
+							                           ajax="true"
+							                           actionListener="#{coreCasePreviewForm.savePolygon()}"
+							                           style="background: #2d0d86;" />	
+												</div>
+											</div>
+										</div>
+									</h:panelGroup>
 									</div>
 								</fieldset>
 							</section>
