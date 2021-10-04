@@ -7,6 +7,23 @@
                 
 <ui:define name="content">
 
+	<style>
+.ui-accordion-header {
+	background-color: #2d0d86;
+}
+.no-border {
+    border-style: hidden !important ; /* or none */
+}
+.canvas-container {
+	position: relative;
+}
+.cmrise .output-lable{
+    font-weight: 600;
+    font-size: medium;
+}
+
+</style>
+
 <h:form id="SearchForm">
 <f:passThroughAttribute name="autocomplete" value="off"/>
  <p:fieldset legend="Buscar Candidato" toggleable="true" toggleSpeed="500" style="margin-bottom:20px" collapsed="true" >
@@ -18,21 +35,10 @@
          <p:inputText id="curp_candidato" value="#{historyCandidatesForm.curp}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
          <p:message for="curp_candidato"/>
       </div>
-   
-           <div class="ui-g-6 ui-lg-3">
-         <p:outputLabel   value="Nombre Candidato:" />
-          <p:inputText id="nombre_usuario" value="#{historyCandidatesForm.nombreUsuario}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
+     <div class="ui-g-6 ui-lg-3">
+         <p:outputLabel   value="Matricula:" />
+          <p:inputText id="nombre_usuario" value="#{historyCandidatesForm.matricula}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
          <p:message for="nombre_usuario"/>
-   </div>
-      <div class="ui-g-6 ui-lg-3">
-         <p:outputLabel   value="Apellido Paterno:" />
-         <p:inputText id="apellido_paterno" value="#{historyCandidatesForm.apellidoPaterno}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
-         <p:message for="apellido_paterno"/>
-   </div>
-         <div class="ui-g-6 ui-lg-3">
-         <p:outputLabel   value="Apellido Materno:" />
-         <p:inputText id="apellido_materno" value="#{historyCandidatesForm.apellidoMaterno}" style="width: 100%; margin-top: 5px;"  maxlength="50" />
-         <p:message for="apellido_materno"/>
    </div>
     </div>
        <div class="ui-g">
@@ -48,35 +54,88 @@
 </h:form>
 
 <h:form id="ReadOnlyForm">
- <p:dataTable var="candExamenesV2" value="#{historyCandidatesForm.listCandExamenesV2}" emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
-   <f:facet name="header">Historial de Candidatos</f:facet>
-    <p:column headerText="Título Examen" style="text-overflow: ellipsis; white-space: nowrap;width:130px">
-     <p:commandLink action="#{historyCandidatesForm.candidatesDetail(candExamenesV2)}">
-       <h:outputText value="#{candExamenesV2.titulo}"/>
-       </p:commandLink>
-   </p:column>
-   <p:column headerText="Nombre Candidato" style="text-overflow: ellipsis; white-space: nowrap;width:300px">
-    <h:outputText value="#{candExamenesV2.nombreCompletoUsuario}"/>
-   </p:column>
-   <p:column headerText="CURP">
-    <h:outputText value="#{candExamenesV2.curp}"/>
-   </p:column>
-    <p:column headerText="Tipo Examen">
-    <h:outputText value="#{candExamenesV2.tipo}"/>
-   </p:column>
-  
-    <p:column headerText="Estatus Examen">
-    <h:outputText value="#{candExamenesV2.estatus}"/>
-   </p:column>
-    <p:column headerText="Tiempo Límite" >
-    <h:outputText value="#{candExamenesV2.tiempoLimite}"/>
-   </p:column>
-   <p:column headerText="Desde" style="text-overflow: ellipsis; white-space: nowrap;width:130px">
-    <h:outputText value="#{candExamenesV2.fechaEfectivaDesdeExamen}">
-     <f:convertDateTime type="date" pattern= "dd/MM/yyyy HH:mm" />
-     </h:outputText>
-   </p:column>
- </p:dataTable>
+<div class="card cmrise">
+	<div class="ui-g">
+  		<div class="ui-g-12">
+  				 <p:dataTable var="ce" value="#{historyCandidatesForm.listCandExams}" emptyMessage="Sin resultados"   paginator="true" rows="5" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+				   <f:facet name="header">Candidate Exams</f:facet>
+				   <p:column headerText="CANDIDATO" style="text-overflow: ellipsis; white-space: nowrap;width:300px">
+				    <h:outputText value="#{ce.nombreCompletoUsuario}"/>
+				   </p:column>
+				   <p:column headerText="CURP">
+				    <h:outputText value="#{ce.curp}"/>
+				   </p:column>
+				      <p:column headerText="Matricula">
+				    <h:outputText value="#{ce.matricula}"/>
+				   </p:column>
+				     <p:column headerText="EXAMENES PRESENTADOS">
+				    <h:outputText value="#{ce.examCount}"/>
+				   </p:column>
+				   <p:column headerText="ACCIONES">
+				   	<p:commandButton value="Ver Exámenes" style="margin-left: 10px" 
+				   	ajax="true"
+				   	actionListener="#{historyCandidatesForm.loadCandExams(ce)}"
+				   	 update="ReadOnlyForm"/>
+				   </p:column>
+				</p:dataTable>
+  		</div>
+  </div>				
+ 	
+ </div>
+ <div class="card cmrise">	
+ <div class="ui-g">	
+  		<h:panelGroup rendered="#{historyCandidatesForm.listCandExamenesV2.size() > 0}">
+  			
+  			<div class="ui-g-12 ui-md-6">
+					<p:outputLabel value="Candidato: " styleClass="output-lable" /> 
+					 <h:outputLabel  value="#{historyCandidatesForm.selCandExams.nombreCompletoUsuario}" />
+			</div>
+			<div class="ui-g-12 ui-md-6">
+					<p:outputLabel value="CURP: " styleClass="output-lable" /> 
+					 <h:outputLabel  value="#{historyCandidatesForm.selCandExams.curp}" />
+			</div>
+  		</h:panelGroup>
+  		
+  		<h:panelGroup rendered="#{historyCandidatesForm.listCandExamenesV2.size() > 0}">
+	 		<div class="ui-g-12">
+					 <p:dataTable var="candExamenesV2"   value="#{historyCandidatesForm.listCandExamenesV2}" emptyMessage="Sin resultados"   paginator="true" rows="5" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+					   <p:column headerText="EXAMEN" style="text-overflow: ellipsis; white-space: nowrap;width:250px">
+					       <h:outputText value="#{candExamenesV2.titulo}"/>
+					   </p:column>
+					    <p:column headerText="DESCRIPCION">
+					    <h:outputText value="#{candExamenesV2.descripcion}"/>
+					   </p:column>
+					    <p:column headerText="TIPO EXAMEN">
+					    <h:outputText value="#{candExamenesV2.tipo}"/>
+					   </p:column>
+					   <p:column headerText="TIEMPO LIMITE" >
+					    <h:outputText value="#{candExamenesV2.tiempoLimite} minutos"/>
+					   </p:column>
+					   <p:column headerText="CALIFICACION">
+					    <h:outputText value="#{candExamenesV2.totalPuntuacion}"/>
+					   </p:column>
+					   
+					    <p:column headerText="ESTATUS">
+					    <h:outputText value="#{candExamenesV2.estatus}"/>
+					   </p:column>
+					   
+					   
+					    
+					   <p:column headerText="Desde" style="text-overflow: ellipsis; white-space: nowrap;width:130px">
+					    <h:outputText value="#{candExamenesV2.fechaEfectivaDesdeExamen}">
+					     <f:convertDateTime type="date" pattern= "dd/MM/yyyy HH:mm" />
+					     </h:outputText>
+					   </p:column>
+					   
+					   <p:column headerText="ACCIONES" style="text-overflow: ellipsis; white-space: nowrap;width:130px">
+					     <p:commandButton value="Ver Respuestas" 
+					      action="#{historyCandidatesForm.candidatesDetail(candExamenesV2)}"> </p:commandButton>
+					   </p:column>
+					 </p:dataTable>
+	 			</div>	
+	 		</h:panelGroup>	
+ 	</div>
+ </div>	  	
  </h:form>
  </ui:define>
  </ui:composition>

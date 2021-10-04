@@ -228,7 +228,7 @@ public class CcExamForm {
 				setTitularPregunta("Historial Clínico: " + idx.getCcPreguntasFtaV1().getTituloPregunta());
 			else
 				setTitularPregunta("Pregunta " + idxCasos + " de " + (casosSize - 1) + " : " + idx.getCcPreguntasFtaV1().getTituloPregunta());
-			
+			ccPreguntasV1.setStartTime(new Date());
 			ccPreguntasV1.setCcPreguntasFtaV1(idx.getCcPreguntasFtaV1());						
 			candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumero());	
 			setTipoPregunta(idx.getTipoPregunta());
@@ -318,13 +318,22 @@ public class CcExamForm {
 		}	
 		//////SE COMENTO PORQUE NO SABEMOS DONDE GUSARDAR ESTOS DATOS///////
 		
+		long duration = 0;
+		if(ccPreguntasV1.getStartTime()!=null) {
+			duration = new Date().getTime() - ccPreguntasV1.getStartTime().getTime();
+		}
+		
+		
+		
 		if(ccPreguntasV1.getTipoPregunta() != "HISTORIALCLINICO")
 		{
 			candExamRespuestasLocal.updateRespuesta( this.candExamenesV1.getNumero()
 					                              , this.ccGrupoHdr.getNumero()
 					                              , this.ccPreguntasV1.getNumero()
 					                              , this.numeroPreguntaFta
+					                              , duration
 					                              , this.respuestaCandidato
+					                              
 					                              ); 
 			candExamRespuestasLocal.calificaRespuesta(this.candExamenesV1.getNumero()
 									                , this.ccGrupoHdr.getNumero()
@@ -395,6 +404,7 @@ public class CcExamForm {
 				ccGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
 				ccGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
 				idx = listCcPreguntas2.get(getIdxCasos());
+				idx.setStartTime(new Date());
 				setCcPreguntasV1(idx);
 				
 				if(idx.getTipoPregunta() == "HISTORIALCLINICO")

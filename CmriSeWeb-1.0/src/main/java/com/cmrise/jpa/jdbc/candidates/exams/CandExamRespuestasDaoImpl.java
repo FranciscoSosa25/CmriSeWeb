@@ -53,6 +53,7 @@ public class CandExamRespuestasDaoImpl implements CandExamRespuestasDao {
 			                  , long pNumeroGrupo
 			                  , long pNumeroPreguntaHdr
 			                  , long pNumeroPreguntaFta
+			                  ,long duration
 			                  , String pRespuesta) {
 		String strQuery ="SELECT c FROM CandExamRespuestasDto c WHERE c.numeroCandExamen="+pNumeroCandExamen;
 		strQuery = strQuery+" AND c.numeroGrupo="+pNumeroGrupo; 
@@ -62,6 +63,7 @@ public class CandExamRespuestasDaoImpl implements CandExamRespuestasDao {
 		
 		CandExamRespuestasDto candExamRespuestasDto = (CandExamRespuestasDto)query.getSingleResult(); 
 		candExamRespuestasDto.setRespuesta(pRespuesta);
+		candExamRespuestasDto.setDuration(duration);
 		
 	}
 
