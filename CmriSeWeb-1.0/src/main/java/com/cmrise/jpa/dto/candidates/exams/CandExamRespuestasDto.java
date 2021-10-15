@@ -50,6 +50,9 @@ public class CandExamRespuestasDto  implements Serializable {
 	@Column(name="PUNTUACION")
 	private double puntuacion; 
 	
+	@Column(name="DURATION")
+	private long duration; 
+	
 	public long getNumero() {
 		return this.numero;
 	}
@@ -137,5 +140,15 @@ public class CandExamRespuestasDto  implements Serializable {
 	public void setRespuesta(String respuesta) {
 		this.respuesta = respuesta;
 	}
+
+	public long getDuration() {
+		return duration;
+	}
+
+	public void setDuration(long duration) {
+		this.duration = duration;
+	}
+	
+	
 
 }

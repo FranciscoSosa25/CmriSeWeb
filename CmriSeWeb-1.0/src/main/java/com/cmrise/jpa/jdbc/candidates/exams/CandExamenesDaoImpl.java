@@ -11,6 +11,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.cmrise.jpa.dao.candidates.exams.CandExamenesDao;
 import com.cmrise.jpa.dto.candidates.exams.CandExamRespSkipDto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesDto;
@@ -86,11 +88,83 @@ public class CandExamenesDaoImpl implements CandExamenesDao {
 
 	@Override
 	public List<CandExamenesV2Dto> findByCURP(String pCurp, String pNombreUsuario,String pApellidoPaterno,String pApellidoMaterno) {
-		String strQuery="SELECT c FROM CandExamenesV2Dto c WHERE c.curp like '%"+pCurp+"%'AND C.nombreUsuario like '%"+pNombreUsuario+"%'AND C.apellidoPaterno like '%"+pApellidoPaterno+"%'AND C.apellidoMaterno like '%"+pApellidoMaterno+"%'"; 
+		String strQuery="SELECT c FROM CandExamenesV2Dto c WHERE c.curp like '%"+pCurp+"%' ";
+		if(pNombreUsuario!=null && !"".endsWith(pNombreUsuario)) {
+			strQuery += "AND c.numeroUsuario like '%"+pNombreUsuario+"%'  ";
+		}
+		
+			//	+ "AND C.apellidoPaterno like '%"+pApellidoPaterno+"%'AND C.apellidoMaterno like '%"+pApellidoMaterno+"%'"; 
 		Query query = em.createQuery(strQuery);
 		return query.getResultList();
 	}
 	
+	
+	public List<Object> findAllByCandidate(long pNumeroUsuario, String matricula, String cCurp){
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String strQuery = "SELECT \r\n" + 
+				"NUMERO_USUARIO , CURP , NOMBRE_COMPLETO_USUARIO , [MATRICULA] ,COUNT(NUMERO_USUARIO) EXAM_COUNT\r\n" + 
+				"\r\n" + 
+				"FROM( \r\n" + 
+				"	(SELECT CE.[NUMERO]       \r\n" + 
+				"	  ,CE.[NUMERO_USUARIO]\r\n" + 
+				"      ,CE.[NUMERO_EXAMEN]\r\n" + 
+				"	  ,AURV1.[NOMBRE_USUARIO]\r\n" + 
+				"	  ,AURV1.[MATRICULA]\r\n" + 
+				"      ,AURV1.[NOMBRE_COMPLETO_USUARIO]\r\n" + 
+				"	  ,AURV1.[CURP]\r\n" + 
+				"  FROM [dbo].[CAND_EXAMENES] CE\r\n" + 
+				"      ,[dbo].[MRQS_EXAMENES] ME\r\n" + 
+				"	  ,[dbo].[ADMON_USUARIOS_ROLES_V1] AURV1\r\n" + 
+				"	  ,[dbo].ADMON_USUARIOS AD\r\n" + 
+				"  WHERE CE.TIPO = 'MRQS' AND CE.NUMERO_USUARIO = AURV1.NUMERO_USUARIO \r\n" + 
+				" AND   ME.NUMERO = CE.[NUMERO_EXAMEN] AND AD.NUMERO = AURV1.NUMERO_USUARIO\r\n" + 
+				" AND CE.[ESTATUS] IN ('ASIGNADO','REVISADO'))\r\n" + 
+				" \r\n" + 
+				" UNION \r\n" + 
+				" (SELECT CE.[NUMERO]\r\n" + 
+				"	  ,CE.[NUMERO_USUARIO]\r\n" + 
+				"      ,CE.[NUMERO_EXAMEN]\r\n" + 
+				"	  ,AURV1.[NOMBRE_USUARIO]\r\n" + 
+				"	  ,AURV1.[MATRICULA]\r\n" + 
+				"      ,AURV1.[NOMBRE_COMPLETO_USUARIO]\r\n" + 
+				"	  ,AURV1.[CURP]\r\n" + 
+				"  FROM [dbo].[CAND_EXAMENES] CE\r\n" + 
+				"      ,[dbo].[CC_EXAMENES] CCE\r\n" + 
+				"	  ,[dbo].[ADMON_USUARIOS_ROLES_V1] AURV1\r\n" + 
+				"	  ,[dbo].ADMON_USUARIOS AD\r\n" + 
+				"  WHERE CE.TIPO = 'CORE_CASES' AND CE.NUMERO_USUARIO = AURV1.NUMERO_USUARIO\r\n" + 
+				" AND   CCE.NUMERO = CE.[NUMERO_EXAMEN] AND AD.NUMERO = AURV1.NUMERO_USUARIO\r\n" + 
+				" AND CE.[ESTATUS] IN ('ASIGNADO','REVISADO') )\r\n" + 
+				" )\r\n" + 
+				"\r\n" + 
+				"C_EXMA \r\n WHERE 0=0"; 
+				
+		if(pNumeroUsuario > 0) {
+			strQuery += " AND NUMERO_USUARIO ="+pNumeroUsuario+" ";
+		}
+		
+		if(!StringUtils.isEmpty(matricula)) {
+			strQuery += " AND MATRICULA LIKE '"+matricula+"'";
+		}
+		
+		if(!StringUtils.isEmpty(cCurp)) {
+			strQuery += " AND CURP LIKE '"+cCurp+"' ";
+		}
+				
+				
+				
+		strQuery +=	" GROUP BY CURP, NOMBRE_COMPLETO_USUARIO, [MATRICULA], NUMERO_USUARIO \r\n" + 
+				"ORDER by C_EXMA.NOMBRE_COMPLETO_USUARIO\r\n" + 
+				"";
+
+		System.out.println(strQuery);
+		
+		
+
+		Query query = em.createNativeQuery(strQuery);
+		return query.getResultList();
+	}
 	@Override
 	public void updateEstatus(long pNumero, CandExamenesDto pCandExamenesDto) {
 		CandExamenesDto candExamenesDto = em.find(CandExamenesDto.class, pNumero); 

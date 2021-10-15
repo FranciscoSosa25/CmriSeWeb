@@ -41,6 +41,8 @@ public class CcPreguntasHdrV1 implements Serializable{
 	private String admonSubMateriaDesc; 
 	private String metodoPuntuacion; 
 	private List<CcImagenesGrp> listCcImagenesGrp; 
+	private Date startTime;
+	private long duration;
 	
 	private CcPreguntasFtaV1 ccPreguntasFtaV1; 
 	
@@ -223,6 +225,18 @@ public class CcPreguntasHdrV1 implements Serializable{
 	}
 	public void setListCcImagenesGrp(List<CcImagenesGrp> listCcImagenesGrp) {
 		this.listCcImagenesGrp = listCcImagenesGrp;
+	}
+	public Date getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+	public long getDuration() {
+		return duration;
+	}
+	public void setDuration(long duration) {
+		this.duration = duration;
 	}
 	
 	

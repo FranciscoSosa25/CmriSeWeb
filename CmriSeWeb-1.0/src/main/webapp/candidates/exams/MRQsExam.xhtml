@@ -85,6 +85,9 @@
        </div>
        <div class="ui-g-12 ui-md-12 card" style="font-size:1em;  border-spacing: 0px;	padding:8px 15px 8px 15px; background-color:#D9E0E7;">
           <p:fieldset legend="#{mRQsExamForm.mrqsGrupoLinesV2.textoSugerencias}" style="border-spacing: 2px;	padding:2px 2px 2px 2px;  background-color:#D9E0E7; font-size: 20px;">
+          
+          
+			<!-- Free text answer -->          
             <h:panelGroup layout="block" rendered="#{mRQsExamForm.limitedFreeTextAnswer}">
              <div class="ui-g-12 ui-md-12" >
 			    <p:outputLabel for="answer" value="Intrucciones: Su Respuesta:" style="font-weight: bold;"/>
@@ -97,11 +100,11 @@
 			 </div>
 		    </h:panelGroup>
 		    
+		    <!-- correlacionColumnas  -->
 		    <p:dataTable  id="ColumnasCorrelacionPrev"  
-		rendered="#{mRQsExamForm.correlacionColumnas}"
-		 var="mrqsCorrelacionColumna"
-				value="#{mRQsExamForm.listMrqsCorrelacionColumnas}">
-				
+					rendered="#{mRQsExamForm.correlacionColumnas}"
+					var="mrqsCorrelacionColumna"
+					value="#{mRQsExamForm.listMrqsCorrelacionColumnas}">
 				
  				 <p:column style="text-align: right;">
  					<h:outputLabel id="textoPregunta"
@@ -120,9 +123,10 @@
 								value="#{mRQsExamForm.listMrqsCorrelacionColumnasDto}"
 								var="competitor" itemValue="#{competitor}" />
 						</p:selectOneMenu>		
-			  </p:column>	
-	</p:dataTable>
+			 	 </p:column>	
+			</p:dataTable>
 		    
+		    <!-- annotatedImage  -->
 		    <h:panelGroup layout="block"
 								rendered="#{mRQsExamForm.annotatedImage}">
 								<div class="ui-g-12">
@@ -163,7 +167,7 @@
 								placeholder="Coordenadas" style="width:100%;display:none;" />
 							
 								
-		    
+		    <!-- multipleChoice -->
 		    <h:panelGroup layout="block" rendered="#{mRQsExamForm.multipleChoice  and mRQsExamForm.mrqsGrupoLinesV2.singleAnswerMode}">
 		      <div class="ui-g-12 ui-md-12" >
 		         <p:selectOneRadio id="answerRadioSingle" value="#{mRQsExamForm.respuestaCandidato}" layout="grid" columns="1"  requiredMessage="#{msgs['globalForm.requiredMessage']}" required="true">
@@ -181,7 +185,9 @@
 				 <p:message for="answerRadioMultiple"  />
              </h:panelGroup>  
             </p:fieldset>
-		</div>  
+		</div> 
+		
+		 
 		 <div class="ui-g-12 ui-md-5">
              <h:outputText id="timerVal" value="#{mRQsExamForm.timerValue}" rendered="true" />
              <p:commandButton value="Saltar Pregunta" style="margin-left:15px"  actionListener="#{mRQsExamForm.SaltarPregunta()}" update="mqrsExaForm" rendered="#{mRQsExamForm.mrqsExamen.saltarPreguntas}" immediate="true"  disabled="#{mRQsExamForm.flag2}" />

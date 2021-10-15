@@ -7,6 +7,7 @@ import javax.ejb.Local;
 
 import com.cmrise.ejb.model.candidates.exams.CandExamenesV1;
 import com.cmrise.ejb.model.candidates.exams.CandExamenesV2;
+import com.cmrise.ejb.model.exams.CandExams;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesDto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesV2Dto;
 
@@ -21,6 +22,7 @@ public interface CandExamenesLocal {
 	public List<CandExamenesV2> findByUsuario(long pNumeroUsuario); 
 	public List<CandExamenesV2> findByUsuarioOnlyEfectiveDates(long pNumeroUsuario);
 	public List<CandExamenesV2> findAll(); 
+	public List<CandExams> findAllByCandidate(long pNumeroUsuario, String matricula, String cCurp); 
     public CandExamenesV1 findByNumero(long pNumero); 
     public List<CandExamenesV2> findByCURP(String pCurp,
     		                               String pNombreUsuario, 

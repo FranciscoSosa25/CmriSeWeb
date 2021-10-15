@@ -55,6 +55,32 @@ public class ExamenesLocalImpl implements ExamenesLocal {
 		return retval;
 	}
 	
+	@Override
+	public Examenes findByIdExamen(int idExamen) {
+		List<Examenes> listObjects = findByTituloExamen(idExamen,"",null,null,0,"");
+		Examenes examenes = new Examenes();
+		if(!listObjects.isEmpty()) {
+			examenes = listObjects.get(0);
+		}
+		return examenes;
+		
+		
+	}
+
+	@Override
+	public CandHExamenes findCandidatesExamDetails(long idExamen, long numeroCandExamen) {
+		
+		List<Object> listObjects = examenesDao.findCandidatesExamDetails((int)idExamen, numeroCandExamen);
+		List<CandHExamenes> retval = new ArrayList<CandHExamenes>(); 
+		for(Object object:listObjects) {
+			CandHExamenes cand = objToCandHistorial(object); 
+			retval.add(cand);
+		}
+		return retval.get(0);
+	}
+
+	
+	
 	private Examenes objToExamenes(Object pObject) {
 		Examenes retval = new Examenes(); 
 		if(pObject instanceof Object[]) {
@@ -109,6 +135,12 @@ public class ExamenesLocalImpl implements ExamenesLocal {
 			}
 			if(row[3] instanceof Short) { /** TIEMPO_LIMITE **/
 				retval.setTiempoLimite(((Short)row[3]).shortValue()); 
+			}
+			if(row[4] instanceof Integer) { /** TIEMPO_LIMITE **/
+				retval.setReactivosRespondidos(((Integer)row[4]).intValue()); 
+			}
+			if(row[5] instanceof BigInteger) { /** TIEMPO_LIMITE **/
+				retval.setNumeroCandExamen(((BigInteger)row[5]).longValue()); 
 			}
 		}
 		

@@ -467,6 +467,13 @@ public class UpdateQuestionFtaCoreCaseForm {
 
 	public void uploadMultiple() {
 		System.out.println("Entra uploadMultiple");
+        FacesContext context = FacesContext.getCurrentInstance();
+	  
+		if(this.numeroFtaRecord <= 0l) {
+		    context.addMessage(null, new FacesMessage("Guarde la pregunta antes de cargar multimedia.", "Actualizacion correcta"));
+			return;
+		}
+		
 		if (this.presentationFiles != null) {
 			if (this.presentationFiles.getSize() > 0) {
 
@@ -506,7 +513,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 			// TODO: handle exception
 		  }
 		  listPresentCcImagenesGrp = ccImagenesGrpLocal.findByFta(this.numeroFtaRecord, Utilitarios.INTRODUCCION);
-		  FacesContext context = FacesContext.getCurrentInstance();
+		  ;
 	      context.addMessage(null, new FacesMessage("Se actualizaron los datos correctamente", "Actualizacion correcta"));
 		  System.out.println("Sale Actualizar");
 	}
@@ -603,6 +610,12 @@ public class UpdateQuestionFtaCoreCaseForm {
 	
 	 public void uploadMultiple(CcImagenesGrp pCcImagenesGrp) {
 		 System.out.println("Entra uploadMultiple");
+		 FacesContext context = FacesContext.getCurrentInstance();
+		 if(this.numeroFtaRecord== 0) {
+			 context.addMessage(null, new FacesMessage("Guarde la pregunta antes de cargar multimedia.", "Actualizacion correcta"));
+			 return;
+		 }
+		 
 		 pCcImagenesGrp = this.editPresentCcImagenesGrp;
 		 pCcImagenesGrp.getListCcImagenes().clear();
 			if (this.presentationFiles != null) {
@@ -627,7 +640,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 			
 			  ccImagenesGrpLocal.update(this.numeroFtaRecord, pCcImagenesGrp);
 			  refreshEntity();
-			  FacesContext context = FacesContext.getCurrentInstance();
+			  
 		      context.addMessage(null, new FacesMessage("Update DICOM image group successfully.", "Actualizacion correcta"));
 			  System.out.println("Sale Actualizar");
 			

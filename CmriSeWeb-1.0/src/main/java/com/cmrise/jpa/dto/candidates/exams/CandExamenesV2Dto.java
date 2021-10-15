@@ -27,6 +27,10 @@ public class CandExamenesV2Dto implements Serializable {
 	@Column(name="NUMERO_USUARIO")
 	private long numeroUsuario;
 	
+	
+	@Column(name="DESCRIPCION")
+	private String descripcion; 
+	
 	@Column(name="TIPO")
 	private String tipo; 
 	
@@ -271,5 +275,15 @@ public class CandExamenesV2Dto implements Serializable {
 	public void setFechaEfectivaHastaExamen(Timestamp fechaEfectivaHastaExamen) {
 		this.fechaEfectivaHastaExamen = fechaEfectivaHastaExamen;
 	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+	
+	
 	
 }
