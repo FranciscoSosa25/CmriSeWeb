@@ -236,13 +236,13 @@ label {
 								<h:panelGroup layout="block" id="output"   rendered="true">
 									<div class="ui-g-12 dicom-border" style="text-align: center; margin-top: -15px">
 										<div class="ui-g-12 ui-md-2" style="text-align: left;">
-										<p:commandButton id="divSeriesPlay" icon="fa fa-play"  type="button"
-													onclick="playSeries.play()"
-												 	style="background: #2d0d86;" />
-										<span id="divSeriesIndex" style="padding-right:10px ">0/0</span>												 	
+											<p:commandButton id="divSeriesPlay" icon="fa fa-play"  type="button"
+														onclick="playSeries.play()"
+													 	style="background: #2d0d86;" />
+											<span id="divSeriesIndex" style="padding-right:10px ">0/0</span>
 										</div>
 										
-										<div class="ui-g-12 ui-md-3" style="text-align: left;">
+										<div class="ui-g-12 ui-md-4" style="text-align: left;">
 											<p:commandButton id="divSeriesClear" icon="fa fa-remove"  type="button"
 														onclick="playSeries.clearPoint()"
 														title="Clear Puntos"
@@ -259,7 +259,17 @@ label {
 											<p:commandButton id="divSeriesSave" icon="fa fa-save"  type="button"
 														onclick="playSeries.clearPoint()"
 														title="Save points"
-													 	style="background: #2d0d86;" />		 			 	
+													 	style="background: #2d0d86;" />	
+											<p:commandButton id="divSeriesReset" icon="fa fa-refresh"  type="button"
+														title="Reiniciar"
+														onclick="playSeries.resetPlayer()"
+													 	style="background: #2d0d86;" />															 	
+											
+											  <p:splitButton value="Opciones" type="button" style="BackGround:#2D0D86;">
+											        <p:menuitem id="divSeriesZoom" value="Zoom"  onclick="playSeries.setActiveBtn(2)"/>
+											        <p:menuitem id="divSeriesCont" value="Contraste" onclick="playSeries.setActiveBtn(3)" />
+											    </p:splitButton>
+											    				 		 			 	
 										</div>
 										<div class="ui-g-12 ui-md-3" style="text-align: left; margin-top: 7px">
 										Poligonos: <span id="divSeriesPoly"></span>

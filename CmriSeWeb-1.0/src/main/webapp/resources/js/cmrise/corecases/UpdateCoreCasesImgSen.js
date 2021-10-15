@@ -1,21 +1,55 @@
 
+
+       var scale = 1.0;
+      var scaleMultiplier = 0.8;
+
 var poligonos=0;
+var zoomIntensity = 0.1;
 var cursorPos;
+var canMouseX, canMouseY;
 var playSeries = {
 		last: 0,
 		intervalMs : 75,
+		scale : 1,
+		contrast : 0,
+		zoomIntensity : 0.8,
+		isDragging : false,
 		canvas : "",
 		dicomJSON : {},
-		img : new Image(), 
+		img : new Image(),
+		activeButton : 1,
+		getTranslatePos : function() {
+		 return	{
+		        x: playSeries.canvas.width / 2,
+		        y: playSeries.canvas.height / 2
+		      };
+		}, 
 		showPause: function(){
 			$('#'+playSeries.playBtn.replaceAll(":","\\:")+' > span.ui-button-icon-left').removeClass("fa-play fa-pause").addClass("fa-pause");
 		},
 		showPlay: function(){
 			$('#'+playSeries.playBtn.replaceAll(":","\\:")+' > span.ui-button-icon-left').removeClass("fa-play fa-pause").addClass("fa-play");
 		},
+		setActiveBtn : function(val){
+			playSeries.resetImage();
+			playSeries.activeButton = val
+		},
+		contrastImage : function(imageData, contrast){
+			  var data = imageData.data;  // Note: original dataset modified directly!
+			    contrast *= 255;
+			    var factor = (contrast + 255) / (255.01 - contrast);  //add .1 to avoid /0 error.
+
+			    for(var i=0;i<data.length;i+=4)
+			    {
+			        data[i] = factor * (data[i] - 128) + 128;
+			        data[i+1] = factor * (data[i+1] - 128) + 128;
+			        data[i+2] = factor * (data[i+2] - 128) + 128;
+			    }
+			    return imageData;  //optional (e.g. for filter function ch
+			
+		},
 		bindMouseWheel : function(divSeries){
 			$('#'+divSeries).bind('mousewheel', function(e){
-				
 				  var now = new Date().getTime();
 				  if (playSeries.last + playSeries.intervalMs < now && playSeries.dicomJSON.series ) {
 					  playSeries.last = now;
@@ -25,15 +59,99 @@ var playSeries = {
 						}
 					  
 					  if(e.originalEvent.wheelDelta /120 > 0) {
-						    playSeries.playNext()
+						  switch (playSeries.activeButton) {
+							case 2:
+								playSeries.zoomIn()
+								break;
+							case 3:
+								playSeries.contrastIn()
+								break;
+							default:
+								playSeries.playNext()
+						  }
 				        }
 				        else{
-				        	playSeries.playPrev()
+							  switch (playSeries.activeButton) {
+								case 2:
+									playSeries.zoomOut()
+									break;
+								case 3:
+									playSeries.contrastOut()
+									break;
+								default:
+									playSeries.playPrev()
+							  }
 				        }
 					  playSeries.showPlay();
 				  }
 		        e.preventDefault();
 		    });
+			
+			
+			$('#'+divSeries).bind('mousedown', function(e){
+				if(playSeries.activeButton==2){
+					var canvasOffset=$('#'+divSeries).offset();
+				    var offsetX=canvasOffset.left;
+				    var offsetY=canvasOffset.top;
+				    
+					canMouseX=parseInt(e.clientX-offsetX);
+				    canMouseY=parseInt(e.clientY-offsetY);
+				    playSeries.isDragging=true;
+				}
+		    });
+			
+			$('#'+divSeries).bind('mousemove', function(e){
+				if(playSeries.activeButton==2){
+					var canvasOffset=$('#'+divSeries).offset();
+				    var offsetX=canvasOffset.left;
+				    var offsetY=canvasOffset.top;
+				    
+					canMouseX=parseInt(e.clientX-offsetX);
+				      canMouseY=parseInt(e.clientY-offsetY);
+				      // if the drag flag is set, clear the canvas and draw the image
+				      if(playSeries.isDragging){
+				    	  	playSeries.canvas.clearRect(0, 0, 510, 510);
+							playSeries.canvas.save();
+							playSeries.canvas.scale(playSeries.scale, playSeries.scale)
+							playSeries.canvas.drawImage(playSeries.img,canMouseX-510/2,canMouseY-510/2,510,510);
+							playSeries.canvas.restore();
+				      }
+			      
+				} 
+		    });
+
+			
+			$('#'+divSeries).bind('mouseup', function(e){
+				if(playSeries.activeButton==2){
+					var canvasOffset=$('#'+divSeries).offset();
+				    var offsetX=canvasOffset.left;
+				    var offsetY=canvasOffset.top;
+
+					canMouseX=parseInt(e.clientX-offsetX);
+				    canMouseY=parseInt(e.clientY-offsetY);
+				    playSeries.isDragging=false;
+				}
+		    });
+
+			
+			$('#'+divSeries).bind('mouseout', function(e){
+				if(playSeries.activeButton==2){
+					var canvasOffset=$('#'+divSeries).offset();
+				    var offsetX=canvasOffset.left;
+				    var offsetY=canvasOffset.top;
+					canMouseX=parseInt(e.clientX-offsetX);
+				    canMouseY=parseInt(e.clientY-offsetY);
+				}
+		    });
+
+			
+			
+			
+			
+			
+			
+			
+			
 		},
 		getCanvasImg : function(){
 			if(playSeries.img){
@@ -45,6 +163,9 @@ var playSeries = {
 		addPoint : function(event){
 			if(!playSeries.dicomJSON.series){
 				alert("Seleccione la serie DICOM para dibujar puntos.")
+				return;
+			}
+			if(playSeries.activeButton != 1){
 				return;
 			}
 			var dicom = playSeries.dicomJSON.series[playSeries.index];
@@ -127,6 +248,46 @@ var playSeries = {
 			playSeries.index++;
 			playSeries.changeImage();
 		},
+		contrastIn : function(){
+			playSeries.contrast += 0.05
+			if(playSeries.contrast >= 0.50 ){
+				playSeries.resetImage()
+				return;
+			}
+			playSeries.canvas.save();
+		    var origBits = playSeries.canvas.getImageData(0, 0, 510, 510);
+		    playSeries.contrastImage(origBits, (playSeries.contrast).toFixed(2));	
+			playSeries.canvas.putImageData(origBits, 0, 0)
+			playSeries.canvas.restore();
+		},
+		contrastOut : function(){
+			playSeries.contrast -= 0.05
+			if(playSeries.contrast <= -0.50) {
+				playSeries.resetImage()
+				return;
+			}
+			playSeries.canvas.save();
+			var origBits = playSeries.canvas.getImageData(0, 0, 510, 510);
+		    playSeries.contrastImage(origBits, -(playSeries.contrast).toFixed(2));	
+			playSeries.canvas.putImageData(origBits, 0, 0)
+			playSeries.canvas.restore();
+		},
+		zoomIn : function(){
+			playSeries.scale += 0.1;
+			playSeries.canvas.clearRect(0, 0, 510, 510);
+			playSeries.canvas.save();
+			playSeries.canvas.scale(playSeries.scale, playSeries.scale)
+		    playSeries.canvas.drawImage(playSeries.img, 0, 0, 510, 510);
+			playSeries.canvas.restore();
+		},
+		zoomOut : function(){
+			playSeries.scale -= 0.1;
+			playSeries.canvas.clearRect(0, 0, 510, 510);
+			playSeries.canvas.save();
+			playSeries.canvas.scale(playSeries.scale, playSeries.scale)
+		    playSeries.canvas.drawImage(playSeries.img, 0, 0, 510, 510);
+			playSeries.canvas.restore();
+		},
 		playPrev : function(){
 			playSeries.index--;
 			playSeries.changeImage();
@@ -149,6 +310,7 @@ var playSeries = {
 			}
 		},
 		play: function(reset){
+			playSeries.activeButton = 1;
 			if(playSeries.timeOut){
 				clearInterval(playSeries.timeOut)
 				playSeries.timeOut = undefined
@@ -159,6 +321,18 @@ var playSeries = {
 			}
 			playSeries.timeOut = setInterval(function(){ playSeries.playNow() }, 200);
 			playSeries.showPause()
+			
+		},
+		resetPlayer : function(){
+			playSeries.activeButton = 1;
+			playSeries.resetImage();
+			
+		},
+		resetImage: function(){
+			playSeries.contrast = 0;
+			playSeries.scale = 1;
+			playSeries.canvas.drawImage(playSeries.img, 0, 0, 510, 510);
+         	playSeries.drawPoints();
 			
 		},
 		changeImage: function(){
