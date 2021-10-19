@@ -19,6 +19,7 @@ public interface CandExamRespuestasDao {
 				               ,long pNumeroGrupo
 				               ,long pNumeroPreguntaHdr
 				               ,long pNumeroPreguntaFta
+				               ,long duration
 				               ,String pRespuesta
 				               );
 	

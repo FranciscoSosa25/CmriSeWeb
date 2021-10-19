@@ -38,7 +38,7 @@ public class UpdateGroupForm {
 			return;
 		}
 		
-		listCcExamAsignaciones = ccExamAsignacionesLocal.findByNumeroExamenWD(this.getNumeroCcExamen());
+		listCcExamAsignaciones = ccExamAsignacionesLocal.findByNumeroExamenWD(this.getNumeroCcExamen(),0l);
 		
 	 }
 

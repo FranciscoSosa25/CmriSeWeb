@@ -301,21 +301,28 @@
 								icon="pi pi-plus">
 								<p:menuitem value="Series Dicom"
 									onclick="PF('presentationDialogWV').show();" />
+								<p:menuitem value="Agregar Video" title="Agregar Video" 
+									onclick="PF('presentationDialogVideoWV').show();" />	
 							</p:splitButton>
 						</div>
 						<div class="ui-g-12 ui-md-12">
 							<p:accordionPanel styleClass="ui-accordion" activeIndex="null">
-								<p:tab title="DICOM Series">
+								<p:tab title="Multimedia añadido">
 						        <p:dataTable var="imagenesGrupo" value="#{updateQuestionFtaCoreCaseForm.listPresentCcImagenesGrp}">
 						          <p:column headerText="Serie Title" style="width:60%; text-align: left;">
-						            	<div class="ui-g-12" >
+						            	<div class="ui-g-8" >		            	 	
 											<h:outputText value="#{imagenesGrupo.tituloSuperior}" />
 										</div>
-										 <p:scrollPanel style="width:100%; height:100px">
+										<div class="ui-g-4" >		            	 	
+											 <h:outputText rendered="#{imagenesGrupo.dicom}" value="Modality: #{imagenesGrupo.modality}" />
+										</div>
+										<div class="ui-g-12" >
+										
+										 <p:scrollPanel style="width:100%; height:200px">
 										
 											<ui:repeat var="imagenes"
 												value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
-												<h:graphicImage
+												<!-- <h:graphicImage
 													value="data:image/jpg;base64,#{imagenes.thumbailBase64}"
 													style="max-width: 300px; max-height: 300px; padding: 2px;" />
 													<p:commandButton icon="fa fa-edit" style="margin-left: 10px; background: #2D0D86;"
@@ -329,33 +336,94 @@
 							                          :presentationForm2:coordinates
 							                          "
 							                          actionListener="#{updateQuestionFtaCoreCaseForm.updateCcImagenes(imagenes)}"
-							                          />
+							                          /> -->
+							                         <h:panelGroup layout="block" rendered="#{imagenes.dicom}">
+													 <div class="ui-g-2">
+													 <div class="ui-g-12" style="text-align: center; " >      
+													<h:graphicImage 
+														value="data:image/jpg;base64,#{imagenes.thumbailBase64}"
+														style="max-width: 250px; max-height: 300px; padding: 2px;" />
+													</div>
+													<div class="ui-g-12" style="text-align: center;" >	
+														 <p:commandButton icon="fa fa-edit" style="margin-left: 10px; background: #2D0D86;"
+								                          oncomplete="PF('editPolygonDialogWV').show();"
+								                          ajax="true"
+								                          update=":presentationForm2:graphicImageImgSenID 
+								                          :presentationForm2:canvas-image
+								                          :presentationForm2:numeroPoligonos
+								                          :presentationForm2:imgHeight
+								                          :presentationForm2:imgWidth
+								                          :presentationForm2:coordinates
+								                          "
+								                          actionListener="#{updateQuestionFtaCoreCaseForm.updateCcImagenes(imagenes)}"
+								                          />
+								                        </div>
+								                          
+								                     </div>     
+							                     </h:panelGroup>
+							                     <h:panelGroup rendered="#{!imagenes.dicom}">
+								                    <div class="ui-g-3">
+														<div class="ui-g-12" style="text-align: center; " >      
+															<h:panelGroup layout="block" rendered="#{imagenes.image and !imagenes.dicom}">
+																		<h:graphicImage id="recurso"
+																			value="data:image/jpg;base64,#{imagenes.imagenBase64}"
+																			style="max-width: 150px; max-height: 150px; padding: 2px;"
+																			>
+																		</h:graphicImage>
+															</h:panelGroup>
+															<h:panelGroup layout="block" rendered="#{imagenes.video}">
+																		
+																		<video width="220" height="120" controls="controls">
+																			<source src="data:#{imagenes.contentType};base64,#{imagenes.imagenBase64}" />
+																		</video>
+															</h:panelGroup>
+														</div>
+															<div class="ui-g-12" style="text-align: center;" >
+																<p:commandButton immediate="true" id="decargar"
+																					ajax="true"
+																					onclick="PrimeFaces.monitorDownload(start, stop);"
+																					icon="fa fa-arrow-down" process="@this"
+																					style="BackGround:#2D0D86;" title="Descargar">
+																					<p:fileDownload value="#{imagenes.imagen}" />
+																</p:commandButton>
+																
+																<p:commandButton icon="fa fa-trash" 
+																	actionListener="#{updateQuestionFtaCoreCaseForm.deleteImageFromGroupMultiMedia(imagenesGrupo,imagenes)}"
+																	 ajax="false"
+																	 update="casoClinicoForm"
+							             							style="BackGround:#2D0D86"  title="Eliminar"/>
+															</div>
+													</div> 	
+												</h:panelGroup> 
+							                     
+							                     
 													
 											</ui:repeat>
 										
 										</p:scrollPanel>
-						            </p:column>
-						            <p:column headerText="Modality" style="width:15%;">
-						               		 <h:outputText value="#{imagenesGrupo.modality}" />
+									   </div>	
 						            </p:column>
 						            <p:column headerText="Total Slices"  style="width:10%;" >
 						                <h:outputText value="#{imagenesGrupo.listCcImagenes.size()}" />
 						            </p:column>
 						            <p:column headerText="Action"  style="width:15%; text-align:center">
-						                      <p:commandButton icon="fa fa-edit" style="margin-left: 10px; background: #2D0D86;"
-			                          oncomplete="PF('editPresentationDialogWV').show();"
-			                        	  ajax="true"
-			                          update=":presentationForm1:editImagenes :presentationForm1:editTituloSuperior :presentationForm1:editDcmModality"
-			                          actionListener="#{updateQuestionFtaCoreCaseForm.onEditCCImageGroup(imagenesGrupo)}"
-			                          />
-						                      
-								 <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86" ajax="true"
-								  oncomplete="PF('eliminarDicomSeriesDlg').show();"
-								 
-								  actionListener="#{updateQuestionFtaCoreCaseForm.deleteCCImageGroup(imagenesGrupo)}" 
-								  title="Eliminar"/>
-						
-					
+										  <div class="ui-g-6" style="text-align: right;" >
+								              <p:commandButton icon="fa fa-edit" style="margin-left: 10px; background: #2D0D86;"
+							                          oncomplete="PF('editPresentationDialogWV').show();"
+							                        	  ajax="true"
+							                        	   rendered="#{imagenesGrupo.dicom}"
+							                          update=":presentationForm1:editImagenes :presentationForm1:editTituloSuperior :presentationForm1:editDcmModality"
+							                          actionListener="#{updateQuestionFtaCoreCaseForm.onEditCCImageGroup(imagenesGrupo)}"
+							                          />
+					                          
+					               		</div>
+							               <div class="ui-g-6" style="text-align: left;" > 	          
+							             <p:commandButton icon="fa fa-trash" style="margin-left: 10px;BackGround:#2D0D86" ajax="true"
+										  oncomplete="PF('eliminarDicomSeriesDlg').show();"
+										 
+										  actionListener="#{updateQuestionFtaCoreCaseForm.deleteCCImageGroup(imagenesGrupo)}" 
+										  title="Eliminar"/>
+									</div>
 						            </p:column>
 						        </p:dataTable>
 							   </p:tab>
@@ -366,12 +434,12 @@
 					
 					
 					
-					<p:dialog id="eliminar-dicom-series-dialog" widgetVar="eliminarDicomSeriesDlg" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" header="Eliminar SERIE DICOM">
+					<p:dialog id="eliminar-dicom-series-dialog" widgetVar="eliminarDicomSeriesDlg" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" header="Eliminar Multimedia añadido">
 
 				      <div class="ui-g ui-fluid">
 				          <div class="ui-g-12 ui-lg-12">
 				              <h:panelGroup >
-				                  <p:outputLabel value="SERIE DICOM se eliminará de forma permanente. Considere que esta acción no se puede deshacer." />
+				                  <p:outputLabel value="La Multimedia añadido se eliminará de forma permanente. Considere que esta acción no se puede deshacer." />
 				              </h:panelGroup>
 				              <h:panelGroup >
 				                  <p:outputLabel value="¿Desea continuar?" />
@@ -762,7 +830,51 @@
 				</h:form>
 			</p:dialog>
 
+<p:dialog id="presentationDialogVideoId" widgetVar="presentationDialogVideoWV"
+				modal="true" closable="true" closeOnEscape="true" draggable="false"
+				resizable="false" width="1000" header="Agregar Video">
+				<h:form id="presentationFormVideo" enctype="multipart/form-data">
+					<div class="ui-g">
+						<div class="ui-g-12">
+							<p:outputLabel for="tituloSuperiorVideoId" value="Título Superior" />
+						</div>
+						<div class="ui-g-12">
+							<p:inputText id="tituloSuperiorVideoId" style="width:60%"
+								value="#{updateQuestionFtaCoreCaseForm.presentCcImagenesGrp.tituloSuperior}" />
+						</div>
+						<h5>Soporta imagenes JPG, PNG GIF y Videos MP4, AVI</h5>
+						<p:spacer width="5" height="5" />
+						<h5>Se recomienda imagenes mayor a 500x500</h5>
+						<div class="ui-g-12">
+							<p:message for="tituloSuperiorVideoId" />
+						</div>
+						<div class="ui-g-12">
+							<p:fileUpload id="presentatioFilesVideoID"
+								value="#{updateQuestionFtaCoreCaseForm.presentationFiles}"
+								label="Seleccionar" mode="simple" multiple="true"
+								allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG|mp4|avi|flv|WMV|TIFF|wmv|tiff)$/" update="presentationFormVideo"
+								required="true"
+								requiredMessage="#{msgs['globalForm.requiredMessage']}" />
+							
+						</div>
+						<div class="ui-g-12">
+							<p:message for="presentatioFilesVideoID" />
+						</div>
+						<div class="ui-g-6">
+							<p:commandButton value="Procesar"
+								action="#{updateQuestionFtaCoreCaseForm.uploadMultipleMultiMedia}"
+								update="presentationForm" ajax="false"
+								style="background: #2d0d86;" />
+						</div>
+						<div class="ui-g-6">
+							<p:commandButton value="Cancelar"
+								onclick="PF('presentationDialogVideoWV').hide();"
+								style="background: #2d0d86;" />
+						</div>
+					</div>
 
+				</h:form>
+</p:dialog>
 
 <!-- Dicome Image Group edit dialog -->
 

@@ -124,68 +124,24 @@
     border-style: solid;
     border-width: inherit;
 }
+.dicom .dicom-border{
+	padding: inherit;
+    border: solid;
+    border-width: thin;
+    border-color: #6c6c6c;
+}
+.dicom .card{
+	background: unset;
+}
+
 	</style>
 		<h1>Previsualización Caso Clínico</h1>
 		<h:form id="coreCaseForm">
 			<div class="ui-g">
-				<!--  <div class="ui-g-12 ui-md-3"> -->
-				<!--    <div class="ui-g-12 ui-md-12" style="background-color: #4a4058;color: #fff;"> -->
-				<!--      <div class="ui-g-12" > -->
-				<!--      <h3>Pregunta</h3> -->
-				<!--     </div> -->
-				<!--    </div> -->
-				<!--    <div class="ui-g-12 ui-md-12" style="background-color: rgba(0, 0, 0, 0.3);color: #fff;"> -->
-				<!--    </div>   -->
-				<!--    <div class="ui-g-12 ui-md-12" style="background-color: rgba(0, 0, 0, 0.3);color: #fff;"> -->
-				<!--     <h1>Tabla de Contenidos</h1> -->
-				<!--    </div> -->
-				<!--    <div class="ui-g-12 ui-md-12" style="background-color: #343633;color: #fff;"> -->
-				<!--     <h3>#{coreCasePreviewForm.ccHdrV1.nombre}</h3> -->
-				<!--      <ui:repeat var="preguntas" value="#{coreCasePreviewForm.listCcPreguntasHdrV1}"> -->
-				<!--      <h3 style="margin-left: 30px">#{preguntas.titulo}</h3> -->
-				<!--     </ui:repeat> -->
-				<!--    </div> -->
-				<!--  </div> -->
-
 
 				<div class="ui-g-12 ui-md-12 ui-g-nopad">
 					<div class="ui-g-12 ui-md-12">
-						<div class="ui-g-12 ui-md-12">	
-						<div class="ui-g-12 ui-md-12">
-							<h2>#{coreCasePreviewForm.ccPreguntasFtaV1.tituloPregunta}?</h2>
-							</div>
-							<h4>(#{coreCasePreviewForm.ccPreguntasFtaV1.textoSugerencias})</h4>
-							
-
-
-							<!--   
-           <ui:repeat var="imagenesGrupo" value="#{coreCasePreviewForm.listPresentCcImagenesGrp}" varStatus="status">
-		      <div class="ui-g-12 ui-md-12">
-		       <h3>#{imagenesGrupo.tituloSuperior}</h3>
-		      </div>
-		      <div class="ui-g-12 ui-md-12">
-		       <ui:repeat var="imagenes" value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
-		         <h:graphicImage value="data:image/jpg;base64,#{imagenes.jpgBase64}" style="max-width: 300px; max-height: 300px;" />
-		       </ui:repeat>
-		      </div>
-		    </ui:repeat>
-		    
-
-							<ui:repeat var="imagenesGrupo"
-								value="#{coreCasePreviewForm.listPresentCcImagenesGrp}"
-								varStatus="status">
-								<div class="ui-g-12 ui-md-12">
-									<p:galleria value="#{imagenesGrupo.listCcImagenes}" var="image"
-										panelWidth="400" panelHeight="400" showFilmstrip="true"
-										transitionInterval="1000">
-										<p:graphicImage value="#{image.jpgStreamedContent}"
-											stream="false" style="max-width: 100%; max-height: 100%;"
-											alt="#{image.nombreImagen}" title="#{image.nombreImagen}" />
-									</p:galleria>
-								</div>
-							</ui:repeat>
-							
-			-->				
+						<div class="ui-g-12 ui-md-12 dicom">	
 							
 							<h1>#{coreCasePreviewForm.ccPreguntasFtaV1.tituloPregunta}?</h1>
 							<h3>(#{coreCasePreviewForm.ccPreguntasFtaV1.textoSugerencias})</h3>
@@ -194,148 +150,186 @@
 							
 							
 						<h:panelGroup layout="block"
-								rendered="#{coreCasePreviewForm.listPresentQCcImagenesGrp.size() > 0}">	
-						<div class="card dicom">
+								rendered="#{coreCasePreviewForm.listPresentCcImagenesGrp.size() > 0 and coreCasePreviewForm.questionView}">
+								<script type="text/javascript">
+								$(document).ready(function(){
+									polyModel.loadDICOMPlayer('divSeries', 
+											'paintingCanvas',
+											'coreCaseForm:divSeriesPlay',
+											'cursorCor');	
+								})
+						</script>
+							
+						<div class="card">
 
 							<section>
-								<fieldset>
-									<legend>DICOM Series</legend>
-<!-- 									<div class="ui-g-4" >		
-										 <p:dataTable var="imagenesGrupo"  value="#{coreCasePreviewForm.listPresentQCcImagenesGrp}" 
-										 	scrollable="true" scrollHeight="420">
+								<fieldset style="height: 640px;">
+									<legend>Multimedia añadido</legend>
+									<div class="ui-g-5" >		
+										 <p:dataTable var="imagenesGrupo"  value="#{coreCasePreviewForm.listPresentCcImagenesGrp}" 
+										 	scrollable="true" scrollHeight="420" >
 			    
-										  <p:column headerText="Series Title" style="text-align: left;">
+										  <p:column headerText="Series Title" style="width:80%; text-align: left;" >
 												<div class="ui-g-12" >		            	 	
 													<h:outputText value="#{imagenesGrupo.tituloSuperior}" />
 												</div>
-												 <p:scrollPanel style="width:100%; height:110px">
-												
-													<ui:repeat var="imagenes"
-														value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
-														<h:graphicImage
-															value="data:image/jpg;base64,#{imagenes.thumbailBase64}"
-															style="max-width: 250px; max-height: 300px; padding: 2px;"
-															onclick="previewDicom.reload('#{imagenes.dcmKey}')" 
-															alt="#{imagenes.nombreImagen}" title="#{imagenes.nombreImagen}"
-															/>
-													</ui:repeat>
-												
-												</p:scrollPanel>
-											</p:column>		           
-										</p:dataTable>
-									</div> -->
-									<div class="ui-g-4" >		
-										 <p:dataTable var="imagenesGrupo"  value="#{coreCasePreviewForm.listPresentQCcImagenesGrp}" 
-										 	scrollable="true" scrollHeight="420">
-			    
-										  <p:column headerText="Series Title" style="width:60%; text-align: left;">
-												<div class="ui-g-12" >		            	 	
-													<h:outputText value="#{imagenesGrupo.tituloSuperior}" />
-												</div>
-												<div class="dicom dicom-tile" style="height: 130px">
-													
-												 <!-- <p:scrollPanel style=" width: 100%; height:130px;" styleClass="image-tile"> -->
+												<!-- <div class="dicom dicom-tile" style="height: 130px">
 													<ui:repeat var="imagenes"
 														value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
 														<div class="image-tile" style="float: left;">
 														<h:graphicImage
 															value="data:image/jpg;base64,#{imagenes.thumbailBase64}"
 															style="max-width: 250px; max-height: 300px; padding: 2px;"
-															ajax="true"
-															actionListener="#{coreCasePreviewForm.selCCImagenes(imagenes)}" 
 															alt="#{imagenes.nombreImagen}" title="#{imagenes.nombreImagen}"
-															
 															/>
-															 <p:commandButton icon="fa fa-edit" 
-																oncomplete="polyModel.drawCanvas('paintingCanvasQ', 'canvas-containerQ', 'coreCaseForm:imgHeightQ', 'coreCaseForm:imgWidthQ', 'coreCaseForm:cursorCorQ', 'coreCaseForm:respuestasPuntosQ')"
-																ajax="true"
-																process="@this"
-																update="
-																:coreCaseForm:canvas-imageQ
-																:coreCaseForm:numeroPoligonosQ
-																:coreCaseForm:imgHeightQ
-																:coreCaseForm:imgWidthQ
-																:coreCaseForm:outputQ
-																:coreCaseForm:respuestasPuntosQ
-																"
-																actionListener="#{coreCasePreviewForm.selCCImagenes(imagenes)}"
-															/>	
 															</div>	
 													</ui:repeat>
+												</p:scrollPanel>
+												</div> -->
+												
+												<h:panelGroup rendered="#{imagenesGrupo.dicom}">
+												<div class="dicom dicom-tile" style="height: 130px">
+													<ui:repeat var="imagenes"
+														value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
+														<div class="image-tile" style="float: left;">
+														<h:graphicImage
+															value="data:image/jpg;base64,#{imagenes.thumbailBase64}"
+															style="max-width: 250px; max-height: 300px; padding: 2px;"
+															alt="#{imagenes.nombreImagen}" title="#{imagenes.nombreImagen}"
+															/>
+															</div>	
+													</ui:repeat>
+													
 												<!-- </p:scrollPanel> -->
 												</div>
+												</h:panelGroup>
 												
-											</p:column>		           
+												<h:panelGroup rendered="#{!imagenesGrupo.dicom}">
+													<div class="dicom dicom-tile" style="width:auto; height: 250px">
+													<div class="ui-g-12" >		       
+													<ui:repeat var="imagenes"
+														value="#{imagenesGrupo.listCcImagenes}" varStatus="status">
+														
+														<div class="ui-g-6">
+															<div class="ui-g-12" style="text-align: center; " >      
+																<h:panelGroup layout="block" rendered="#{imagenes.image}">
+																			<h:graphicImage id="recurso"
+																				value="data:image/jpg;base64,#{imagenes.imagenBase64}"
+																				style="max-width: 150px; max-height: 150px; padding: 2px;"
+																				>
+																			</h:graphicImage>
+																</h:panelGroup>
+																<h:panelGroup layout="block" rendered="#{imagenes.video}">
+																			<video width="180" height="120" controls="controls">
+																				<source src="data:#{imagenes.contentType};base64,#{imagenes.imagenBase64}" />
+																			</video>
+																</h:panelGroup>
+															</div>
+															<div class="ui-g-12" style="text-align: center;" >
+																	<p:commandButton immediate="true" id="decargar"
+																						ajax="true"
+																						onclick="PrimeFaces.monitorDownload(start, stop);"
+																						icon="pi pi-arrow-down" process="@this"
+																						style="BackGround:#2D0D86;" title="Descargar">
+																						<p:fileDownload value="#{imagenes.imagen}" />
+																	</p:commandButton>
+															</div>
+														</div> 	
+													</ui:repeat>
+													</div>
+													</div>
+												</h:panelGroup>
+												
+												
+												
+												
+											</p:column>
+											 <p:column headerText="Total Slice" style="width:10%; text-align: left;">
+												  <h:outputText value="#{imagenesGrupo.listCcImagenes.size()}" />	
+											</p:column>		  
+											<p:column headerText="Action" style="width:10%; text-align: left;">
+												 <p:commandButton id="dicom" icon="fa fa-eye" 
+														oncomplete="polyModel.loadSeries(
+														'coreCaseForm:dicomSeriesJSON',
+														'coreCaseForm:respuestasPuntos'
+														)"
+														ajax="true"
+														process="@this"
+														update="
+														:coreCaseForm:dicomSeriesJSON
+														"
+														actionListener="#{coreCasePreviewForm.selCCImagenesList(imagenesGrupo.listCcImagenes)}"
+													/>	
+											</p:column>		  		           
 										</p:dataTable>
 									</div>
-									<!-- <div class="ui-g-8">
-										<iframe id="dcmpreview" src="" style="height:450px;width:100%;border:none;overflow:hidden;"></iframe>
+									<div class="ui-g-7">
+									
+									
+								<h:panelGroup layout="block" id="output"   rendered="true">
+									<div class="ui-g-12 dicom-border" style="text-align: center; margin-top: -15px">
+										<div class="ui-g-12 ui-md-2" style="text-align: left;">
+										<p:commandButton id="divSeriesPlay" icon="fa fa-play"  type="button"
+													onclick="playSeries.play()"
+												 	style="background: #2d0d86;" />
+										<span id="divSeriesIndex" style="padding-right:10px ">0/0</span>												 	
+										</div>
 										
-									</div> -->
-							<div class="ui-g-8">
-								<h:panelGroup layout="block" id="outputQ"   rendered="true"> 	
-										<div class="ui-g-12">
-											<div class="ui-g-12 ui-md-8" style="text-align: left;">
-												<p:inputText id="imgWidthQ"
-													value="#{coreCasePreviewForm.selCcImagenes.width}"
-													type="hidden" />
-												<p:inputText id="imgHeightQ"
-													value="#{coreCasePreviewForm.selCcImagenes.height}"
-													type="hidden" />
-												<p:inputText id="respuestasPuntosQ"
-													value="#{coreCasePreviewForm.respuestasPuntos}"
-													type="hidden" />	
-												<p:inputText id="numeroPoligonosQ"
-													value="#{coreCasePreviewForm.selCcImagenes.poligonos}"
-													type="hidden" />
-												<div id="canvas-containerQ" class="canvas-container" style="visibility:visible;">	
-													<div class="canvas-contenQt">	
-														<h:graphicImage id="canvas-imageQ" style="display:none;"
-																	value="data:jpeg;base64,#{coreCasePreviewForm.selCcImagenes.jpgBase64}"
-																	>
-	    												</h:graphicImage>	
-													</div>
-												</div>
-												<canvas  id="paintingCanvasQ"  style="cursor: crosshair; display: none;"
-													onmousedown="polyModel.drawPoint(event, 'paintingCanvasQ', 'coreCaseForm:respuestasPuntosQ', 'coreCaseForm:numeroPoligonosQ')"
-												>	</canvas>	
-											</div>
-											<div class="ui-g-12 ui-md-4">
-												<div class="ui-g-12" style="text-align: right;">
-													<p:inputText id="cursorCorQ"	value="" />
-												</div>
-												<div class="ui-g-12" style="text-align: right;">
-													Poligonos : <h:outputText value="#{coreCasePreviewForm.selCcImagenes.poligonos}" />
-												</div>
-												<div class="ui-g-12" style="text-align: right;" >
-													Punto Correctos : <h:outputText id="scorePointsQ" value="#{coreCasePreviewForm.selCcImagenes.puntoCorrectos}" />
-												</div>
-												<div class="ui-g-12" style="text-align: right;">
-													<p:commandButton value="Puntos claros" type="button"
-														onclick="polyModel.clearPoint('paintingCanvasQ', 'canvas-containerQ',
-																'coreCaseForm:imgHeightQ', 
-																'coreCaseForm:imgWidthQ',
-																'coreCaseForm:cursorCorQ', 
-																'coreCaseForm:respuestasPuntosQ',
-																'coreCaseForm:scorePointsQ')"
+										<div class="ui-g-12 ui-md-4" style="text-align: left;">
+											<p:commandButton id="divSeriesClear" icon="fa fa-remove"  type="button"
+														onclick="playSeries.clearPoint()"
+														title="Clear Puntos"
 													 	style="background: #2d0d86;" />
-													<p:commandButton value="Verify" 
-														ajax="true"
-														process="@this,respuestasPuntosQ"
-														update=":coreCaseForm:scorePointsQ"
-										                actionListener="#{coreCasePreviewForm.calculateScore(coreCasePreviewForm.selCcImagenes)}"
-													 	style="background: #2d0d86;" />
-												</div>
-												<div class="ui-g-12" style="text-align: right;">
-													 <p:commandButton value="Guardar puntos"
-												  	   icon="fa fa-save"
-							                           ajax="true"
-							                           actionListener="#{coreCasePreviewForm.savePolygon()}"
-							                           style="background: #2d0d86;" />	
-												</div>
+											<p:commandButton id="divSeriesVerify" icon="fa fa-check" 
+													title="Verify "
+													ajax="true"
+													process="@this,respuestasPuntos"
+													update=":coreCaseForm:dicomSeriesJSON"
+									                actionListener="#{coreCasePreviewForm.calculateScore()}"
+									                onstart="playSeries.saveDrawPoints()"
+									                oncomplete="playSeries.updateSeries('coreCaseForm:dicomSeriesJSON')"
+												 	style="background: #2d0d86;" />	 	
+											<p:commandButton id="divSeriesSave" icon="fa fa-save"  type="button"
+														onclick="playSeries.clearPoint()"
+														title="Save points"
+													 	style="background: #2d0d86;" />	
+											<p:commandButton id="divSeriesReset" icon="fa fa-refresh"  type="button"
+														title="Reiniciar"
+														onclick="playSeries.resetPlayer()"
+													 	style="background: #2d0d86;" />															 	
+											
+											  <p:splitButton value="Opciones" type="button" style="BackGround:#2D0D86;">
+											        <p:menuitem id="divSeriesZoom" value="Zoom"  onclick="playSeries.setActiveBtn(2)"/>
+											        <p:menuitem id="divSeriesCont" value="Contraste" onclick="playSeries.setActiveBtn(3)" />
+											    </p:splitButton>		 		 			 	
+										</div>
+										<div class="ui-g-12 ui-md-3" style="text-align: left; margin-top: 7px">
+										Poligonos: <span id="divSeriesPoly"></span>
+										<br/>Punto Correctos : <span id="divSeriesPuntoCorrect" ></span>
+										<br/>Cursor: <span id="cursorCor" style="padding-right:10px"></span>
+										</div>
+									</div>	 	
+									<div class="ui-g-12">
+										
+										<div class="ui-g-12 ui-md-12" style="text-align: center;">
+										    
+											<p:inputText id="respuestasPuntos"
+												value="#{coreCasePreviewForm.respuestasPuntos}"
+												type="hidden" />	
+											<p:inputText id="dicomSeriesJSON"
+												value="#{coreCasePreviewForm.selDICOMSeries}"
+												type="hidden" />		
+											<div id="divSeries" class="dicom-border" style="height: 510px; width: 510px; 
+											position: absolute;
+											overflow: hidden;
+											display: block;">
+											<canvas  id="divSeriesCanvas"  style="cursor: crosshair; display: none;"
+												onmousedown="playSeries.addPoint(event)"
+											>	</canvas>
 											</div>
 										</div>
-									</h:panelGroup>
+									</div>
+								</h:panelGroup>		
 									</div>
 								</fieldset>
 							</section>
@@ -573,11 +567,13 @@
 						actionListener="#{coreCasePreviewForm.saveProceed()}"
 						rendered="#{coreCasePreviewForm.questionView}"
 						style="margin-left:15px"
-						oncomplete="handleUpdateRequest(xhr, status, args)" />
+						 />
 					<p:commandButton value="Saltar" style="margin-left:15px"
-						immediate="true" action="#{coreCasePreviewForm.returnUpdateFta()}" />
+						immediate="true"
+						action="#{coreCasePreviewForm.returnUpdateFta()}" />
 					<p:commandButton value="Regresar" style="margin-left:15px"
-						immediate="true" action="#{coreCasePreviewForm.returnUpdateFta()}" />
+						immediate="true"
+						action="#{coreCasePreviewForm.returnUpdateFta()}" />
 				</div>
 			</div>
 

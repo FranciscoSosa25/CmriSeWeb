@@ -18,6 +18,7 @@ public class CandExamRespuestasV1 implements Serializable {
 	private long numeroPreguntaHdr; 
 	private long numeroPreguntaFta; 
 	private String respuesta; 
+	private double valorPuntuacion;
 	private double puntuacion; 
 	private long numeroExamen; 
 	private long numeroUsuario; 
@@ -27,7 +28,9 @@ public class CandExamRespuestasV1 implements Serializable {
 	private String tipoPreguntaDesc; 
 	private String estatus; 
 	private int numOpcCorrectas; 
-	private int numOpcIncorrectas; 
+	private int numOpcIncorrectas;
+	private Long duration;
+	private String timeSpent;
 	
 	
 	public long getNumero() {
@@ -100,6 +103,15 @@ public class CandExamRespuestasV1 implements Serializable {
 
 	public void setNumeroPreguntaFta(long numeroPreguntaFta) {
 		this.numeroPreguntaFta = numeroPreguntaFta;
+	}
+	
+	
+	public double getValorPuntuacion() {
+		return valorPuntuacion;
+	}
+
+	public void setValorPuntuacion(double valorPuntuacion) {
+		this.valorPuntuacion = valorPuntuacion;
 	}
 
 	public double getPuntuacion() {
@@ -189,5 +201,23 @@ public class CandExamRespuestasV1 implements Serializable {
 	public void setNumOpcIncorrectas(int numOpcIncorrectas) {
 		this.numOpcIncorrectas = numOpcIncorrectas;
 	}
+
+	
+	public Long getDuration() {
+		return duration;
+	}
+
+	public void setDuration(Long duration) {
+		this.duration = duration;
+	}
+
+	public String getTimeSpent() {
+		return timeSpent;
+	}
+
+	public void setTimeSpent(String timeSpent) {
+		this.timeSpent = timeSpent;
+	}
+	
 
 }

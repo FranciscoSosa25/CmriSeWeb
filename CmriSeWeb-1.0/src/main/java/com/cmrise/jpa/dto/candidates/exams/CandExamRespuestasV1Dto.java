@@ -47,11 +47,17 @@ public class CandExamRespuestasV1Dto implements Serializable {
 	@Column(name="RESPUESTA")
 	private String respuesta; 
 	
+	@Column(name="VALOR_PUNTUACION")
+	private double valorPuntuacion;
+	
 	@Column(name="PUNTUACION")
 	private double puntuacion; 
 	
 	@Column(name="NUMERO_EXAMEN")
-	private long numeroExamen; 
+	private long numeroExamen;
+	
+	@Column(name="DURATION")
+	private Long duration;
 	
 	@Column(name="NUMERO_USUARIO")
 	private long numeroUsuario; 
@@ -149,6 +155,16 @@ public class CandExamRespuestasV1Dto implements Serializable {
 	public void setNumeroPreguntaFta(long numeroPreguntaFta) {
 		this.numeroPreguntaFta = numeroPreguntaFta;
 	}
+	
+	
+
+	public double getValorPuntuacion() {
+		return valorPuntuacion;
+	}
+
+	public void setValorPuntuacion(double valorPuntuacion) {
+		this.valorPuntuacion = valorPuntuacion;
+	}
 
 	public double getPuntuacion() {
 		return puntuacion;
@@ -238,4 +254,14 @@ public class CandExamRespuestasV1Dto implements Serializable {
 		this.numOpcIncorrectas = numOpcIncorrectas;
 	}
 
+	public Long getDuration() {
+		return duration;
+	}
+
+	public void setDuration(Long duration) {
+		this.duration = duration;
+	}
+
+	
+	
 }

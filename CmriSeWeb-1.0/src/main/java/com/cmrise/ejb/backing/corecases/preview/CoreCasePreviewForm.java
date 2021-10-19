@@ -1,6 +1,5 @@
 package com.cmrise.ejb.backing.corecases.preview;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,6 +15,9 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.primefaces.shaded.json.JSONArray;
+import org.primefaces.shaded.json.JSONObject;
+
 import com.cmrise.ejb.backing.corecases.UpdateQuestionFtaCoreCaseForm;
 import com.cmrise.ejb.backing.mrq.preview.Poligonos;
 import com.cmrise.ejb.helpers.GuestPreferences;
@@ -25,17 +27,12 @@ import com.cmrise.ejb.model.corecases.CcPreguntasFtaV1;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
 import com.cmrise.ejb.model.corecases.img.CcImagenes;
 import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
-import com.cmrise.ejb.model.mrqs.MrqsOpcionMultiple;
-import com.cmrise.ejb.model.mrqs.MrqsPreguntasFtaV1;
 import com.cmrise.ejb.services.corecases.CcHdrLocal;
 import com.cmrise.ejb.services.corecases.CcOpcionMultipleLocal;
 import com.cmrise.ejb.services.corecases.CcPreguntasFtaSinonimosLocal;
 import com.cmrise.ejb.services.corecases.img.CcImagenesGrpLocal;
 import com.cmrise.jpa.dto.corecases.CcOpcionMultipleDto;
 import com.cmrise.jpa.dto.corecases.CcPreguntasFtaSinonimos;
-import com.cmrise.jpa.dto.mrqs.MrqsOpcionMultipleDto;
-import com.cmrise.jpa.dto.mrqs.MrqsPreguntasFtaSinonimos;
-import com.cmrise.utils.CorrelacionColumnasInsertException;
 import com.cmrise.utils.Utilitarios;
 
 @ManagedBean
@@ -83,7 +80,6 @@ public class CoreCasePreviewForm {
 	// private CcPreguntasFtaV1 ccPreguntasFtaV1ForRead = new CcPreguntasFtaV1();
 
 	private List<CcImagenesGrp> listPresentCcImagenesGrp = new ArrayList<CcImagenesGrp>();
-	private List<CcImagenesGrp> listPresentQCcImagenesGrp = new ArrayList<CcImagenesGrp>();
 	private List<CcPreguntasFtaSinonimos> ccListaSinonimos = new ArrayList<CcPreguntasFtaSinonimos>();
 	
 	private CcImagenes selCcImagenes;
@@ -118,11 +114,11 @@ public class CoreCasePreviewForm {
 			
 			
 			for (CcPreguntasHdrV1 i : listCcPreguntasHdrV1) {
-				if (i.getCcPreguntasFtaV1().getNumero() == longNumeroCcPreguntaHdrSV) {
+				if (i.getNumero() == longNumeroCcPreguntaHdrSV) {
 					ccPreguntasHdrV1 = i;
 					ccPreguntasFtaV1 = i.getCcPreguntasFtaV1();
 					listCcOpcionMultiple = ccPreguntasFtaV1.getListCcOpcionMultiple();
-					listPresentQCcImagenesGrp =  ccImagenesGrpLocal.findByFta(i.getCcPreguntasFtaV1().getNumero(), Utilitarios.INTRODUCCION);
+					listPresentCcImagenesGrp =  ccImagenesGrpLocal.findByFta(i.getCcPreguntasFtaV1().getNumero(), Utilitarios.INTRODUCCION);
 					//  ccPreguntasFtaV1.getListCcImagenesGrp();
 					
 					break;
@@ -290,11 +286,6 @@ public class CoreCasePreviewForm {
 	private void refreshEntity() {
 		ccHdrV1 = ccHdrLocal.findByNumeroObjMod(this.numeroCcHdr);
 		listCcPreguntasHdrV1 = ccHdrV1.getListCcPreguntasHdrV1();
-	//	for (CcPreguntasHdrV1 ccPreguntasHdrV1 : listCcPreguntasHdrV1) {
-	//		ccPreguntasHdrV1.setListCcImagenesGrp(ccImagenesGrpLocal.findByFta(ccPreguntasHdrV1., pSeccion));
-			
-	//	}
-		
 	}
 
 	public String returnUpdateFta() {
@@ -323,7 +314,7 @@ public class CoreCasePreviewForm {
 			try {
 			FacesContext context = FacesContext.getCurrentInstance();
 			HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-			long question = listCcPreguntasHdrV1.get(element).getCcPreguntasFtaV1().getNumero();
+			long question = listCcPreguntasHdrV1.get(element).getNumero();
 			session.setAttribute("NumeroCcPreguntaHdrSV", question);
 			}catch (RuntimeException e) {
 				// TODO: handle exception
@@ -370,22 +361,56 @@ public class CoreCasePreviewForm {
 	}
 	
 	
-	public void selCCImagenes(CcImagenes ccImagenes) {
-		this.selCcImagenes = ccImagenes;
+	private String selDICOMSeries = "{}";
+	private List<CcImagenes> selCCImagenesList;
+	
+	public void selCCImagenesList(List<CcImagenes> ccImagenes) {
+		this.selCCImagenesList = ccImagenes;
+		JSONObject response = new JSONObject();
+		JSONArray series = new JSONArray();
+		for(CcImagenes imagenes: ccImagenes) {
+			JSONObject dicom = new JSONObject();
+			dicom.put("numero",imagenes.getNumero());
+			dicom.put("height", imagenes.getHeight());
+			dicom.put("width", imagenes.getWidth());
+			dicom.put("respuestasPuntos", imagenes.getRespuestasPuntos());
+			dicom.put("numeroPoligonos", imagenes.getPoligonos());
+			dicom.put("jpgBase64", imagenes.getJpgBase64());
+			dicom.put("fileName", imagenes.getFilePath().substring(imagenes.getFilePath().lastIndexOf("\\")));
+			dicom.put("puntoCorrectos", imagenes.getPuntoCorrectos());
+			dicom.put("score", imagenes.getPuntoCorrectos());
+			series.put(dicom);
+		}
+		response.put("series", series);
+		this.selDICOMSeries = response.toString();
 	}
 	
-	public void calculateScore(CcImagenes ccImagenes) {
-		 Poligonos ob= new Poligonos();
-		 double score = ob.obtenerPuntuacion(this.selCcImagenes.getPoligonos(), this.selCcImagenes.getPoligonos(), this.selCcImagenes.getWidth(), this.respuestasPuntos, selCcImagenes.getPoligonoModel());
-		 BigDecimal bd = new BigDecimal(score).setScale(2, BigDecimal.ROUND_DOWN);
-		 if(score > 0) {
-			 this.selCcImagenes.setPuntoCorrectos((float)bd.floatValue());
-		 }else {
-			 this.selCcImagenes.setPuntoCorrectos(0f);
-		 }
+	
+	public void calculateScore() {
+		JSONObject jsonObject = new JSONObject(this.respuestasPuntos);
+		if(jsonObject != null) {
+			Poligonos ob= new Poligonos();
+			JSONArray array = jsonObject.getJSONArray("series");
+			for(int i=0;i<array.length();i++) {
+				JSONObject dicom = array.getJSONObject(i);
+				JSONArray points = dicom.optJSONArray("points");
+				if(points!=null && points.length() > 0) {
+					CcImagenes ccImagenes = this.selCCImagenesList.get(i);
+					 double score = ob.calculateScore(ccImagenes.getPoligonos(), ccImagenes.getPoligonos(), ccImagenes.getWidth(), points, ccImagenes.getPoligonoModel());
+					 BigDecimal bd = new BigDecimal(score).setScale(2, BigDecimal.ROUND_DOWN);
+					 if(score > 0) {
+						 ccImagenes.setPuntoCorrectos((float)bd.floatValue());
+					 }else {
+						 ccImagenes.setPuntoCorrectos(0f);
+					 }
+					 dicom.put("score", (float)bd.floatValue());
+				}else {
+					dicom.put("score", 0f);
+				}
+			}
+		}
+		this.selDICOMSeries = jsonObject.toString();
 	}
-	
-	
 	
 	public void asignarRespuesta(String query) {
 		setRespuestaPreguntaCandidato(query);
@@ -643,14 +668,7 @@ public class CoreCasePreviewForm {
 		this.ccListaSinonimos = ccListaSinonimos;
 	}
 
-	public List<CcImagenesGrp> getListPresentQCcImagenesGrp() {
-		return listPresentQCcImagenesGrp;
-	}
-
-	public void setListPresentQCcImagenesGrp(List<CcImagenesGrp> listPresentQCcImagenesGrp) {
-		this.listPresentQCcImagenesGrp = listPresentQCcImagenesGrp;
-	}
-
+	
 	public CcImagenes getSelCcImagenes() {
 		return selCcImagenes;
 	}
@@ -666,6 +684,24 @@ public class CoreCasePreviewForm {
 	public void setRespuestasPuntos(String respuestasPuntos) {
 		this.respuestasPuntos = respuestasPuntos;
 	}
+
+	public String getSelDICOMSeries() {
+		return selDICOMSeries;
+	}
+
+	public void setSelDICOMSeries(String selDICOMSeries) {
+		this.selDICOMSeries = selDICOMSeries;
+	}
+
+	public List<CcImagenes> getSelCCImagenesList() {
+		return selCCImagenesList;
+	}
+
+	public void setSelCCImagenesList(List<CcImagenes> selCCImagenesList) {
+		this.selCCImagenesList = selCCImagenesList;
+	}
+	
+	
 	
 	
 }

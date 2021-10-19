@@ -62,31 +62,31 @@ import java.text.SimpleDateFormat;
 @ViewScoped
 public class MRQsExamForm {
 
-	private CandExamenesV1 candExamenesV1 =  new CandExamenesV1(); 
-	private CandExamRespuestasV1 candExamRespuestasV1 = new CandExamRespuestasV1(); 
-	private MrqsExamenes mrqsExamen = new MrqsExamenes(); 
+	private CandExamenesV1 candExamenesV1 = new CandExamenesV1();
+	private CandExamRespuestasV1 candExamRespuestasV1 = new CandExamRespuestasV1();
+	private MrqsExamenes mrqsExamen = new MrqsExamenes();
 	private MrqsGrupoHdr mrqsGrupoHdr = new MrqsGrupoHdr();
-	private MrqsGrupoLines mrqsGrupoLines = new MrqsGrupoLines(); 
+	private MrqsGrupoLines mrqsGrupoLines = new MrqsGrupoLines();
 	private TreeNode rootMrqsGrupo;
 	private TreeNode selectedNode;
-	private List<MrqsGrupoHdr> listMrqsGrupoHdr = new ArrayList<MrqsGrupoHdr>(); 
+	private List<MrqsGrupoHdr> listMrqsGrupoHdr = new ArrayList<MrqsGrupoHdr>();
 	private List<MrqsPreguntasHdrV1> listMrqsGrupoPreguntas = new ArrayList<MrqsPreguntasHdrV1>();
-    private MrqsGrupoLinesV2 mrqsGrupoLinesV2 = new MrqsGrupoLinesV2(); 
-    private List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>(); 
-	private List<MrqsImagenesGrp> listPresentMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>(); 
+	private MrqsGrupoLinesV2 mrqsGrupoLinesV2 = new MrqsGrupoLinesV2();
+	private List<MrqsOpcionMultiple> listMrqsOpcionMultiple = new ArrayList<MrqsOpcionMultiple>();
+	private List<MrqsImagenesGrp> listPresentMrqsImagenesGrp = new ArrayList<MrqsImagenesGrp>();
 	private CandExamRespSkipDto candExamRespSkipDto = new CandExamRespSkipDto();
-	List<MrqsGrupoLinesV2> listMrqsGrupoLinesV2 =new ArrayList<MrqsGrupoLinesV2>();
+	List<MrqsGrupoLinesV2> listMrqsGrupoLinesV2 = new ArrayList<MrqsGrupoLinesV2>();
 	List<CandExamSkipV1Dto> lCandExamSkipV1Dto = new ArrayList<CandExamSkipV1Dto>();
-	
+
 	private long numeroMRQsExamen;
 	private long numeroCandExamen;
-	private long numeroPreguntaFta; 
-    private boolean multipleChoice; 
+	private long numeroPreguntaFta;
+	private boolean multipleChoice;
 	private boolean limitedFreeTextAnswer;
 	private boolean indicateImage;
 	private boolean annotatedImage;
-	private Short sSegundos =60;
-	private String respuestaCandidato; 
+	private Short sSegundos = 60;
+	private String respuestaCandidato;
 	private String[] respuestasPreguntaCandidato;
 	private String timerValue;
 	private String strDate;
@@ -101,47 +101,47 @@ public class MRQsExamForm {
 	private int skipMax = 0;
 	private boolean showFinalMessage = false;
 	private int limiteCaracteres = 50;
-	private String tipoPregunta; 
+	private String tipoPregunta;
+
 	
-	
-	private MrqsPreguntasFtaV1 mrqsPreguntasFtaV1ForRead = new MrqsPreguntasFtaV1(); 
+	private MrqsPreguntasFtaV1 mrqsPreguntasFtaV1ForRead = new MrqsPreguntasFtaV1();
 	private List<RespReactCorImg> listRespReactCorImg = new ArrayList<RespReactCorImg>();
 	private List<RespReactCorImg> listRespCandCorImg = new ArrayList<RespReactCorImg>();
 	private List<AnotacionesCorImg> listAnotacionesCorImg = new ArrayList<AnotacionesCorImg>();
-	private List<SelectItem> selectRespReactCorImg = new ArrayList<SelectItem>(); 
-	private List<SelectItem> candRespReactCorImg = new ArrayList<SelectItem>(); 
+	private List<SelectItem> selectRespReactCorImg = new ArrayList<SelectItem>();
+	private List<SelectItem> candRespReactCorImg = new ArrayList<SelectItem>();
 	private SelectItem respuestaSelect = new SelectItem();
-	
+
 	@Inject
-	UtilitariosLocal utilitariosLocal; 
-	
-	@Inject 
-	MrqsExamenesLocal mrqsExamenesLocal; 
-	
-	@Inject 
-	MrqsGrupoHdrLocal mrqsGrupoHdrLocal; 
-	
-	@Inject 
-	MrqsGrupoLinesLocal mrqsGrupoLinesLocal; 
-	
-	@Inject 
-	MrqsOpcionMultipleLocal mrqsOpcionMultipleLocal; 
-	
-	@Inject 
-	MrqsPreguntasFtaLocal mrqsPreguntasFtaLocal; 
-	
+	UtilitariosLocal utilitariosLocal;
+
 	@Inject
-	CandExamenesLocal candExamenesLocal; 
-	
+	MrqsExamenesLocal mrqsExamenesLocal;
+
 	@Inject
-	CandExamRespuestasLocal candExamRespuestasLocal; 
-	
-	@Inject 
+	MrqsGrupoHdrLocal mrqsGrupoHdrLocal;
+
+	@Inject
+	MrqsGrupoLinesLocal mrqsGrupoLinesLocal;
+
+	@Inject
+	MrqsOpcionMultipleLocal mrqsOpcionMultipleLocal;
+
+	@Inject
+	MrqsPreguntasFtaLocal mrqsPreguntasFtaLocal;
+
+	@Inject
+	CandExamenesLocal candExamenesLocal;
+
+	@Inject
+	CandExamRespuestasLocal candExamRespuestasLocal;
+
+	@Inject
 	MrqsImagenesGrpLocal mrqsImagenesGrpLocal;
-	
+
 	@Inject
 	CandExamRespSkipLocal candExamRespSkipLocal;
-	
+
 	@Inject
 	MrqsCorrelacionColumnasLocal mrqsCorrelacionColumnasLocal;
 	private List<MrqsCorrelacionColumnasDto> listMrqsCorrelacionColumnasDto = new ArrayList<MrqsCorrelacionColumnasDto>();
@@ -149,43 +149,43 @@ public class MRQsExamForm {
 	private List<MrqsCorrelacionColumnaPair> listMrqsCorrelacionColumnas = new ArrayList<MrqsCorrelacionColumnaPair>();
 	private boolean correlacionColumnas;
 	private boolean panelCorrelacionColumnasResultados;
-	
+
 	@PostConstruct
 	public void init() {
-		 FacesContext context = FacesContext.getCurrentInstance(); 
-		 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-		 Object objNumeroCandExamen = session.getAttribute("NumeroCandExamenSV"); 
-		 numeroCandExamen = utilitariosLocal.objToLong(objNumeroCandExamen);
-		 candExamRespSkipDto.setNumeroCandExamen(numeroCandExamen);
-		 System.out.println("*** Candidato de examen: "+numeroCandExamen);
-		 this.candExamenesV1 = candExamenesLocal.findByNumero(numeroCandExamen); 
-		 idxReactivos=0;
-		 idxGrupo=0;
-		 flag2=false;
-		 reactivosSize=0;
-		 hdrGrupoSize=0;
-		 Object objNumeroMRQsExamen = session.getAttribute("NumeroMrqsExamenSV"); 
-		 numeroMRQsExamen = utilitariosLocal.objToLong(objNumeroMRQsExamen); 
-		 candExamRespSkipDto.setExamen(numeroMRQsExamen);
-		 long numCand = Long.valueOf(session.getAttribute("numCand").toString()).longValue();
-		 System.out.println("Numero buscado de examen: "+numCand);
-		 //this.mrqsExamen = mrqsExamenesLocal.findByIdWD(numeroMRQsExamen,numCand); 
-		 this.mrqsExamen = mrqsExamenesLocal.findByNumeroWD(numeroMRQsExamen,numCand); 
-		 candExamRespSkipDto.setExamen(numeroMRQsExamen);
-		 
-		 System.out.println("Examen: "+mrqsExamen.getDescripcion());
-		 
-		 Date date = new Date();  
-		 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
-		 strDate= formatter.format(date); 
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		Object objNumeroCandExamen = session.getAttribute("NumeroCandExamenSV");
+		numeroCandExamen = utilitariosLocal.objToLong(objNumeroCandExamen);
+		candExamRespSkipDto.setNumeroCandExamen(numeroCandExamen);
+		System.out.println("*** Candidato de examen: " + numeroCandExamen);
+		this.candExamenesV1 = candExamenesLocal.findByNumero(numeroCandExamen);
+		idxReactivos = 0;
+		idxGrupo = 0;
+		flag2 = false;
+		reactivosSize = 0;
+		hdrGrupoSize = 0;
+		Object objNumeroMRQsExamen = session.getAttribute("NumeroMrqsExamenSV");
+		numeroMRQsExamen = utilitariosLocal.objToLong(objNumeroMRQsExamen);
+		candExamRespSkipDto.setExamen(numeroMRQsExamen);
+		long numCand = Long.valueOf(session.getAttribute("numCand").toString()).longValue();
+		System.out.println("Numero buscado de examen: " + numCand);
+		// this.mrqsExamen = mrqsExamenesLocal.findByIdWD(numeroMRQsExamen,numCand);
+		this.mrqsExamen = mrqsExamenesLocal.findByNumeroWD(numeroMRQsExamen, numCand);
+		candExamRespSkipDto.setExamen(numeroMRQsExamen);
+
+		System.out.println("Examen: " + mrqsExamen.getDescripcion());
+
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		strDate = formatter.format(date);
 		 Short intTime = Short.parseShort(String.valueOf(Integer.parseInt(session.getAttribute("tiempoExamen").toString())*sSegundos));
-		 this.mrqsExamen.setTiempoLimite(intTime);
-		 
-		 rootMrqsGrupo = new DefaultTreeNode("Root", null);
-		 listMrqsGrupoHdr = mrqsGrupoHdrLocal.findByNumeroExamen(this.getMrqsExamen().getNumero()); 
-		 listMrqsGrupoHdr = GrupoAleatorio(listMrqsGrupoHdr);
-		 hdrGrupoSize = listMrqsGrupoHdr.size();
-			
+		this.mrqsExamen.setTiempoLimite(intTime);
+
+		rootMrqsGrupo = new DefaultTreeNode("Root", null);
+		listMrqsGrupoHdr = mrqsGrupoHdrLocal.findByNumeroExamen(this.getMrqsExamen().getNumero());
+		listMrqsGrupoHdr = GrupoAleatorio(listMrqsGrupoHdr);
+		hdrGrupoSize = listMrqsGrupoHdr.size();
+
 			for(MrqsGrupoHdr idxHdr:listMrqsGrupoHdr) {
 				TreeNode nodeGrupoHdr = new DefaultTreeNode(idxHdr, rootMrqsGrupo);
 				listMrqsGrupoPreguntas = mrqsGrupoLinesLocal.findByNumeroHdrWD(idxHdr.getNumero());
@@ -197,81 +197,83 @@ public class MRQsExamForm {
 			}
 		
 			
-			Object objNumeroMglSV = session.getAttribute("NumeroMglSV"); 
-			long numeroMgl = utilitariosLocal.objToLong(objNumeroMglSV); 
-			System.out.println("numeroMgl:"+numeroMgl);
-			if(0==numeroMgl) {
-				//for(MrqsGrupoHdr idxHdr:listMrqsGrupoHdr) {
-				MrqsGrupoHdr idxHdr = listMrqsGrupoHdr.get(idxGrupo);
-					mrqsGrupoHdr.setNumero(idxHdr.getNumero());
-					candExamRespSkipDto.setNumeroGrupo(idxHdr.getNumero());
-					mrqsGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
-					mrqsGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
-	//				mrqsGrupoHdr.setTitulo(idxHdr.getTitulo());
-					/* Grupolines preguntas */
-					listMrqsGrupoLinesV2 = mrqsGrupoLinesLocal.findByNumeroHdrWDV2(idxHdr.getNumero());
-					reactivosSize=listMrqsGrupoLinesV2.size();
-					System.out.println("********Cantidad de Preguntas: "+reactivosSize);
-					listMrqsGrupoLinesV2 = PreguntasAleatorio(listMrqsGrupoLinesV2);
-					
-					//for(MrqsGrupoLinesV2 idx:listMrqsGrupoLinesV2) {
-					MrqsGrupoLinesV2 idx = null ;
-					if(listMrqsGrupoLinesV2 != null || reactivosSize>=0) { //Algunas veces llegaba vacía la lista y truena la página sin está validación
-					 idx = listMrqsGrupoLinesV2.get(idxReactivos);
-					    System.out.println("idx.getTextoPregunta():"+idx.getNumeroPregunta());
-						mrqsGrupoLinesV2.setTitulo(idx.getTitulo());
-						mrqsGrupoLinesV2.setTextoPregunta(idx.getTextoPregunta());
-						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
-						mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
-						this.setTipoPregunta(idx.getTipoPregunta());
-						System.err.println("TIPO PREGUNTA: "+ this.getTipoPregunta());
-						
-						candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
-						/* preguntas */
+		Object objNumeroMglSV = session.getAttribute("NumeroMglSV");
+		long numeroMgl = utilitariosLocal.objToLong(objNumeroMglSV);
+		System.out.println("numeroMgl:" + numeroMgl);
+		if (0 == numeroMgl) {
+			// for(MrqsGrupoHdr idxHdr:listMrqsGrupoHdr) {
+			MrqsGrupoHdr idxHdr = listMrqsGrupoHdr.get(idxGrupo);
+			mrqsGrupoHdr.setNumero(idxHdr.getNumero());
+			candExamRespSkipDto.setNumeroGrupo(idxHdr.getNumero());
+			mrqsGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
+			mrqsGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
+			// mrqsGrupoHdr.setTitulo(idxHdr.getTitulo());
+			/* Grupolines preguntas */
+			listMrqsGrupoLinesV2 = mrqsGrupoLinesLocal.findByNumeroHdrWDV2(idxHdr.getNumero());
+			reactivosSize = listMrqsGrupoLinesV2.size();
+			System.out.println("********Cantidad de Preguntas: " + reactivosSize);
+			listMrqsGrupoLinesV2 = PreguntasAleatorio(listMrqsGrupoLinesV2);
+
+			// for(MrqsGrupoLinesV2 idx:listMrqsGrupoLinesV2) {
+			MrqsGrupoLinesV2 idx = null;
+			if (listMrqsGrupoLinesV2 != null && !listMrqsGrupoLinesV2.isEmpty()) { // Algunas veces llegaba vacía la lista y truena
+																		// la página sin está validación
+				idx = listMrqsGrupoLinesV2.get(idxReactivos);
+				System.out.println("idx.getTextoPregunta():" + idx.getNumeroPregunta());
+				mrqsGrupoLinesV2.setTitulo(idx.getTitulo());
+				mrqsGrupoLinesV2.setTextoPregunta(idx.getTextoPregunta());
+				mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
+				mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
+				mrqsGrupoLinesV2.setStartTime(new Date());
+				this.setTipoPregunta(idx.getTipoPregunta());
+				System.err.println("TIPO PREGUNTA: " + this.getTipoPregunta());
+
+				candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
+				/* preguntas */
 						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
-						
+
 						MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,idx.getTipoPregunta());
-						if(pregunta.getLimiteCaracteres() != null)
-							limiteCaracteres = pregunta.getLimiteCaracteres();
-						else
-							limiteCaracteres = 50;
-						candExamRespSkipDto.setNumeroPreguntaFta(this.numeroPreguntaFta);
-						if(Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
-							this.setLimitedFreeTextAnswer(true);
-						}else if(Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
-							mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
-							mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
-							/* opciones */
+				if (pregunta.getLimiteCaracteres() != null)
+					limiteCaracteres = pregunta.getLimiteCaracteres();
+				else
+					limiteCaracteres = 50;
+				candExamRespSkipDto.setNumeroPreguntaFta(this.numeroPreguntaFta);
+				if (Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
+					this.setLimitedFreeTextAnswer(true);
+				} else if (Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
+					mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
+					mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
+					/* opciones */
 							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
-							this.setMultipleChoice(true);
+					this.setMultipleChoice(true);
 						}
 						else if(Utilitarios.IMAGEN_ANOTADA.equals(idx.getTipoPregunta())) {
-								this.setAnnotatedImage(true);
+					this.setAnnotatedImage(true);
 						}
 						else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
 							this.setCorrelacionColumnas(true);
 					    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
 					     }
-						
+					
 						
 					}//
 					
 					if(Utilitarios.IMAGEN_ANOTADA.equals(idx.getTipoPregunta())) {
 						mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,
 								idx.getTipoPregunta());
-				    	 Gson gson = new Gson();
-				    	System.out.println("mrqsPreguntasFtaV1ForRead.widht"+mrqsPreguntasFtaV1ForRead.getWidth());
+					Gson gson = new Gson();
+					System.out.println("mrqsPreguntasFtaV1ForRead.widht" + mrqsPreguntasFtaV1ForRead.getWidth());
 				    	System.out.println("mrqsPreguntasFtaV1ForRead el content type"+ mrqsPreguntasFtaV1ForRead.getContentType());
-			             if(null!=mrqsPreguntasFtaV1ForRead.getRespuestas()) {
+					if (null != mrqsPreguntasFtaV1ForRead.getRespuestas()) {
 			            	Type collectionType = new TypeToken<List<RespReactCorImg>>(){}.getType();
-			            	setListRespReactCorImg(gson.fromJson(mrqsPreguntasFtaV1ForRead.getRespuestas(), collectionType)); 
-			            	refreshRespuestas();
-			            	
-			             }
-			             if(null!=mrqsPreguntasFtaV1ForRead.getAnotaciones()) {
+						setListRespReactCorImg(gson.fromJson(mrqsPreguntasFtaV1ForRead.getRespuestas(), collectionType));
+						refreshRespuestas();
+
+					}
+					if (null != mrqsPreguntasFtaV1ForRead.getAnotaciones()) {
 			            	 Type collectionType = new TypeToken<List<AnotacionesCorImg>>(){}.getType();
 			            	 setListAnotacionesCorImg(gson.fromJson(mrqsPreguntasFtaV1ForRead.getCorrelaciones(), collectionType)); 
-			             }
+					}
 				     }
 					
 						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
@@ -285,7 +287,7 @@ public class MRQsExamForm {
 							  this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
 						  }else {
 							  this.respuestasPreguntaCandidato = new String[] {this.candExamRespuestasV1.getRespuesta()};
-						  }
+				}
 						 }
 						}
 						this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
@@ -300,23 +302,24 @@ public class MRQsExamForm {
 				mrqsGrupoHdr.setAdmonMateriaDesc(tmp.getTitulo()); 
 				//mrqsGrupoHdr.setAdmonMateriaDesc(tmp.getTemaPreguntaDesc());
 				mrqsGrupoHdr.setAdmonSubMateriaDesc(tmp.getTemaPreguntaDesc());
-				
+			
 				mrqsGrupoLinesV2.setNumero(tmp.getNumero());
 			//	mrqsGrupoLinesV2.setTitulo(tmp.getTitulo());
 				mrqsGrupoLinesV2.setTextoPregunta(tmp.getTextoPregunta());
 				mrqsGrupoLinesV2.setTextoSugerencias(tmp.getTextoSugerencias());
 				mrqsGrupoLinesV2.setTipoPregunta(tmp.getTipoPregunta());
 				mrqsGrupoLinesV2.setNumeroPregunta(tmp.getNumeroPregunta());
+				mrqsGrupoLinesV2.setStartTime(new Date());
 				this.setTipoPregunta(tmp.getTipoPregunta());
 				System.err.println("TIPO PREGUNTA: "+ this.getTipoPregunta());
 				this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
-				
+			
 				MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta, tmp.getTipoPregunta());
 				if(pregunta.getLimiteCaracteres() != null)
 					limiteCaracteres = pregunta.getLimiteCaracteres();
 				else
 					limiteCaracteres = 50;
-				
+			
 				if(Utilitarios.RESP_TEXTO_LIBRE.equals(tmp.getTipoPregunta())) {
 					this.setLimitedFreeTextAnswer(true);
 				}else if(Utilitarios.OPCION_MULTIPLE.equals(tmp.getTipoPregunta())) {
@@ -325,7 +328,7 @@ public class MRQsExamForm {
 					listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
 					this.setMultipleChoice(true);
 				}
-				
+
 				if(Utilitarios.IMAGEN_ANOTADA.equals(tmp.getTipoPregunta())) {
 					mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,
 							tmp.getTipoPregunta());
@@ -342,95 +345,89 @@ public class MRQsExamForm {
 		            	 setListAnotacionesCorImg(gson.fromJson(mrqsPreguntasFtaV1ForRead.getCorrelaciones(), collectionType)); 
 		             }
 			     }
-				
+
 				
 				this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
                         , this.mrqsGrupoHdr.getNumero()
                         , this.mrqsGrupoLinesV2.getNumeroPregunta()
                         , this.numeroPreguntaFta
                         ); 
-				if(!mrqsGrupoLinesV2.isSingleAnswerMode()) {
-					  if(null!=this.candExamRespuestasV1.getRespuesta()) {	
-					  if(this.candExamRespuestasV1.getRespuesta().contains(",")) {
-						  this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
+			if (!mrqsGrupoLinesV2.isSingleAnswerMode()) {
+				if (null != this.candExamRespuestasV1.getRespuesta()) {
+					if (this.candExamRespuestasV1.getRespuesta().contains(",")) {
+						this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
 					  }
 					  else {
-						  this.respuestasPreguntaCandidato = new String[] {this.candExamRespuestasV1.getRespuesta()};
-					  }
-					 }
+						this.respuestasPreguntaCandidato = new String[] { this.candExamRespuestasV1.getRespuesta() };
 					}
-				this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
-				
+				}
 			}
-			
-			listPresentMrqsImagenesGrp =  mrqsImagenesGrpLocal.findByFta(this.numeroPreguntaFta,Utilitarios.INTRODUCCION);
-		        	
+			this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
+
+		}
+
+		listPresentMrqsImagenesGrp = mrqsImagenesGrpLocal.findByFta(this.numeroPreguntaFta, Utilitarios.INTRODUCCION);
+
 			
 	}
 
 	public void onNodeSelect(NodeSelectEvent event) {
-		String strEvent = event.getTreeNode().toString(); 
-		System.out.println("strEvent:"+strEvent);
-		if(strEvent.contains("LINE")) {
-			 long lNumeroHeader =  Long.parseLong(strEvent.substring(4)); 
-			 FacesContext context = FacesContext.getCurrentInstance();
-			 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-			 session.setAttribute("NumeroMrqsExamenSV", this.getMrqsExamen().getNumero());
-			 session.setAttribute("NumeroMglSV", lNumeroHeader);
-			 context.getApplication().getNavigationHandler().handleNavigation(context, null, "Candidates-MRQs-Exam");
-		     return; 
+		String strEvent = event.getTreeNode().toString();
+		System.out.println("strEvent:" + strEvent);
+		if (strEvent.contains("LINE")) {
+			long lNumeroHeader = Long.parseLong(strEvent.substring(4));
+			FacesContext context = FacesContext.getCurrentInstance();
+			HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+			session.setAttribute("NumeroMrqsExamenSV", this.getMrqsExamen().getNumero());
+			session.setAttribute("NumeroMglSV", lNumeroHeader);
+			context.getApplication().getNavigationHandler().handleNavigation(context, null, "Candidates-MRQs-Exam");
+			return;
 		}
 	}
-	
+
 	public void saveAndProceed() {
 		System.out.println("Entra saveAndProceed()");
-		System.out.println("this.candExamenesV1.getNumero():"+this.candExamenesV1.getNumero());
-		System.out.println("this.mrqsGrupoHdr.getNumero():"+this.mrqsGrupoHdr.getNumero());
-		System.out.println(" this.mrqsGrupoLinesV2.getNumeroPregunta():"+ this.mrqsGrupoLinesV2.getNumeroPregunta());
-		System.out.println("this.numeroPreguntaFta:"+this.numeroPreguntaFta);
-		
-		if(this.isMultipleChoice()) {
-			if(!this.getMrqsGrupoLinesV2().isSingleAnswerMode()) {
+		System.out.println("this.candExamenesV1.getNumero():" + this.candExamenesV1.getNumero());
+		System.out.println("this.mrqsGrupoHdr.getNumero():" + this.mrqsGrupoHdr.getNumero());
+		System.out.println(" this.mrqsGrupoLinesV2.getNumeroPregunta():" + this.mrqsGrupoLinesV2.getNumeroPregunta());
+		System.out.println("this.numeroPreguntaFta:" + this.numeroPreguntaFta);
+
+		if (this.isMultipleChoice()) {
+			if (!this.getMrqsGrupoLinesV2().isSingleAnswerMode()) {
 				System.out.println(this.getRespuestasPreguntaCandidato());
-				if(null!=this.getRespuestasPreguntaCandidato()) {
-				     String strRespuestas = "";
-					for(int i =0;i<this.getRespuestasPreguntaCandidato().length;i++) {
-						if((i+1)==this.getRespuestasPreguntaCandidato().length) {
-						strRespuestas = strRespuestas+this.getRespuestasPreguntaCandidato()[i];
-						}else {
-							strRespuestas = strRespuestas+this.getRespuestasPreguntaCandidato()[i]+",";
+				if (null != this.getRespuestasPreguntaCandidato()) {
+					String strRespuestas = "";
+					for (int i = 0; i < this.getRespuestasPreguntaCandidato().length; i++) {
+						if ((i + 1) == this.getRespuestasPreguntaCandidato().length) {
+							strRespuestas = strRespuestas + this.getRespuestasPreguntaCandidato()[i];
+						} else {
+							strRespuestas = strRespuestas + this.getRespuestasPreguntaCandidato()[i] + ",";
 						}
-				    }
+					}
 					this.setRespuestaCandidato(strRespuestas);
 				}
 			}
 		}
 		if (this.isAnnotatedImage()) {
-			//updateRespuestas();
+			// updateRespuestas();
 			Gson gson = new Gson();
 			String strRespuestas = "";
 			strRespuestas = gson.toJson(listRespCandCorImg);
 
-			System.out.println("strRespuestas: "+strRespuestas);
+			System.out.println("strRespuestas: " + strRespuestas);
 			this.setRespuestaCandidato(strRespuestas);
 		}
-		if(this.isCorrelacionColumnas())
-		{
-			//falta añadir logica.
+		if (this.isCorrelacionColumnas()) {
+			// falta añadir logica.
 		}
-		
-		
-		candExamRespuestasLocal.updateRespuesta( this.candExamenesV1.getNumero()
-				                              , this.mrqsGrupoHdr.getNumero()
-				                              , this.mrqsGrupoLinesV2.getNumeroPregunta()
-				                              , this.numeroPreguntaFta
-				                              , this.respuestaCandidato
-				                              ); 
-		candExamRespuestasLocal.calificaRespuesta(this.candExamenesV1.getNumero()
-								                , this.mrqsGrupoHdr.getNumero()
-								                , this.mrqsGrupoLinesV2.getNumeroPregunta()
-								                , this.numeroPreguntaFta
-								                );
+		long duration =  0;
+		if(mrqsGrupoLinesV2.getStartTime()!=null) {
+			duration = new Date().getTime() - mrqsGrupoLinesV2.getStartTime().getTime();
+			candExamRespuestasLocal.updateRespuesta(this.candExamenesV1.getNumero(), this.mrqsGrupoHdr.getNumero(),
+					this.mrqsGrupoLinesV2.getNumeroPregunta(), this.numeroPreguntaFta, duration, this.respuestaCandidato);
+			candExamRespuestasLocal.calificaRespuesta(this.candExamenesV1.getNumero(), this.mrqsGrupoHdr.getNumero(),
+					this.mrqsGrupoLinesV2.getNumeroPregunta(), this.numeroPreguntaFta);
+		}
 		System.out.println("Sale saveAndProceed()");
 	}
 		
@@ -829,7 +826,7 @@ public class MRQsExamForm {
 					this.setCorrelacionColumnas(true);
 			    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
 			     }
-				
+
 				this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
                         , this.mrqsGrupoHdr.getNumero()
                         , this.mrqsGrupoLinesV2.getNumeroPregunta()
@@ -846,131 +843,131 @@ public class MRQsExamForm {
 					 }
 					}
 				this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
-				
-			}
-			
+
+		}
+
 			 listPresentMrqsImagenesGrp =  mrqsImagenesGrpLocal.findByFta(this.numeroPreguntaFta,Utilitarios.INTRODUCCION);
 		        	
 			
-			}
-			
+	}
+
 		}
 		
-		public void saltarSkip() {
-			lCandExamSkipV1Dto=candExamRespSkipLocal.findAllListSkip(numeroMRQsExamen,numeroCandExamen,1,1);
-			skipMax = lCandExamSkipV1Dto.size();
-			MrqsGrupoHdr idxHdr = new MrqsGrupoHdr();
-			if(skipMax == idxSkip) {
-				idxSkip = 0;
+	public void saltarSkip() {
+		lCandExamSkipV1Dto = candExamRespSkipLocal.findAllListSkip(numeroMRQsExamen, numeroCandExamen, 1, 1);
+		skipMax = lCandExamSkipV1Dto.size();
+		MrqsGrupoHdr idxHdr = new MrqsGrupoHdr();
+		if (skipMax == idxSkip) {
+			idxSkip = 0;
+		}
+		if (skipMax == 1) {
+			flag2 = true;
+			return;
+		} else {
+			for (int i = 0; i < listMrqsGrupoHdr.size(); i++) {
+				if (listMrqsGrupoHdr.get(i).getNumero() == (int) lCandExamSkipV1Dto.get(idxSkip).getNumeroGrupo())
+					idxHdr = listMrqsGrupoHdr.get(i);
 			}
-			if(skipMax == 1){
-				flag2 = true; 
-				return; 
-			}else {
-		    for(int i=0;i <	listMrqsGrupoHdr.size();i++) {
-		    	if(listMrqsGrupoHdr.get(i).getNumero() == (int)lCandExamSkipV1Dto.get(idxSkip).getNumeroGrupo())
-		    		idxHdr = listMrqsGrupoHdr.get(i);
-		    }
 
-					mrqsGrupoHdr.setNumero(idxHdr.getNumero()); 
-					mrqsGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
-					mrqsGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
-					/* Grupolines preguntas */
-					listMrqsGrupoLinesV2 = mrqsGrupoLinesLocal.findByNumeroHdrWDV2(idxHdr.getNumero());
-					reactivosSize=listMrqsGrupoLinesV2.size();
-					MrqsGrupoLinesV2 idx = new MrqsGrupoLinesV2();
-					for(int i=0;i<reactivosSize;i++) {
+			mrqsGrupoHdr.setNumero(idxHdr.getNumero());
+			mrqsGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
+			mrqsGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
+			/* Grupolines preguntas */
+			listMrqsGrupoLinesV2 = mrqsGrupoLinesLocal.findByNumeroHdrWDV2(idxHdr.getNumero());
+			reactivosSize = listMrqsGrupoLinesV2.size();
+			MrqsGrupoLinesV2 idx = new MrqsGrupoLinesV2();
+			for (int i = 0; i < reactivosSize; i++) {
 						if(lCandExamSkipV1Dto.get(idxSkip).getNumeroPreguntaHdr() == listMrqsGrupoLinesV2.get(i).getNumeroPregunta())
-						 idx = listMrqsGrupoLinesV2.get(i);												
-					}
-					System.out.println("********Cantidad de Preguntas: "+reactivosSize);
-					//listMrqsGrupoLinesV2 = PreguntasAleatorio(listMrqsGrupoLinesV2);
+					idx = listMrqsGrupoLinesV2.get(i);
+			}
+			System.out.println("********Cantidad de Preguntas: " + reactivosSize);
+			// listMrqsGrupoLinesV2 = PreguntasAleatorio(listMrqsGrupoLinesV2);
+
 					
-					
-					    System.out.println("idx.getTextoPregunta():"+idx.getNumeroPregunta());
-						
-						mrqsGrupoLinesV2.setTitulo(idx.getTitulo());
-						mrqsGrupoLinesV2.setTextoPregunta(idx.getTextoPregunta());
-						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
-						mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
-						//candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
-						/* preguntas */
+			System.out.println("idx.getTextoPregunta():" + idx.getNumeroPregunta());
+
+			mrqsGrupoLinesV2.setTitulo(idx.getTitulo());
+			mrqsGrupoLinesV2.setTextoPregunta(idx.getTextoPregunta());
+			mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
+			mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
+			// candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
+			/* preguntas */
 						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(lCandExamSkipV1Dto.get(idxSkip).getNumeroPreguntaHdr());
-						if(Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
-							this.setLimitedFreeTextAnswer(true);
-						}else if(Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
-							mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
-							mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
-							/* opciones */
+			if (Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
+				this.setLimitedFreeTextAnswer(true);
+			} else if (Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
+				mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
+				mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
+				/* opciones */
 							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
-							this.setMultipleChoice(true);
+				this.setMultipleChoice(true);
 						}
 						else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
-							this.setCorrelacionColumnas(true);
-					    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
-					     }
+				this.setCorrelacionColumnas(true);
+				actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(), idx);
+			}
 						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
 								                                                     , this.mrqsGrupoHdr.getNumero()
 								                                                     , this.mrqsGrupoLinesV2.getNumeroPregunta()
 								                                                     , this.numeroPreguntaFta
 								                                                     ); 
-						if(!mrqsGrupoLinesV2.isSingleAnswerMode()) {
-						  if(null!=this.candExamRespuestasV1.getRespuesta()) {	
-						  if(this.candExamRespuestasV1.getRespuesta().contains(",")) {
-							  this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
-						  }else {
-							  this.respuestasPreguntaCandidato = new String[] {this.candExamRespuestasV1.getRespuesta()};
-						  }
-						 }
-						}
-						this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
-						//break; 
-					
-						idxSkip++;
-		   }
-		}
-		
-		public String getTimerValue() {
-			return timerValue;
-		}
+			if (!mrqsGrupoLinesV2.isSingleAnswerMode()) {
+				if (null != this.candExamRespuestasV1.getRespuesta()) {
+					if (this.candExamRespuestasV1.getRespuesta().contains(",")) {
+						this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
+					} else {
+						this.respuestasPreguntaCandidato = new String[] { this.candExamRespuestasV1.getRespuesta() };
+					}
+				}
+			}
+			this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
+			// break;
 
-		public void setTimerValue(String timerValue) {	
-			this.timerValue = timerValue;
+			idxSkip++;
 		}
-		
-		public void siguienteGuardarResp() {
- 			saveAndProceed();
-			 FacesContext context = FacesContext.getCurrentInstance(); 
-			 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-			 Object objNumeroCandExamen = session.getAttribute("NumeroCandExamenSV"); 
-			 long numeroCandExamen = utilitariosLocal.objToLong(objNumeroCandExamen);
-			 MrqsGrupoLinesV2 idx = new MrqsGrupoLinesV2();
+	}
+
+	public String getTimerValue() {
+		return timerValue;
+	}
+
+	public void setTimerValue(String timerValue) {
+		this.timerValue = timerValue;
+	}
+
+	public void siguienteGuardarResp() {
+		saveAndProceed();
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+		Object objNumeroCandExamen = session.getAttribute("NumeroCandExamenSV");
+		long numeroCandExamen = utilitariosLocal.objToLong(objNumeroCandExamen);
+		MrqsGrupoLinesV2 idx = new MrqsGrupoLinesV2();
 			/* candExamRespSkipDto.setSkip(0);
 			 if(busquedaSkip == false && candExamRespSkipLocal.existsSkip(candExamRespSkipDto.getExamen(),candExamRespSkipDto.getNumeroCandExamen(),candExamRespSkipDto.getNumeroGrupo(),candExamRespSkipDto.getNumeroPreguntaHdr(),candExamRespSkipDto.getNumeroPreguntaFta(),1)== true) {
 				 candExamRespSkipLocal.update(candExamRespSkipDto.getNumero(),candExamRespSkipDto); 
 			 }*/
-			 
-			 System.out.println("idxReactivos:"+idxReactivos);
-			 reactivosSize = listMrqsGrupoLinesV2.size();
+
+		System.out.println("idxReactivos:" + idxReactivos);
+		reactivosSize = listMrqsGrupoLinesV2.size();
 			 if(busquedaSkip==false && idxReactivos<reactivosSize) {
 			 idxReactivos = idxReactivos+1; 
-			 }
+		}
 			if(idxReactivos< reactivosSize &&  busquedaSkip==false) {
 			  idx =listMrqsGrupoLinesV2.get(idxReactivos);
 			}
 			if (busquedaSkip==false && idxReactivos == reactivosSize && (idxGrupo+1 < hdrGrupoSize)) {
-				idxGrupo++;
-				idxReactivos = 0;
-				nuevaBusqueda=true;
-			}else if(busquedaSkip==true || (idxReactivos == reactivosSize && idxGrupo+1 == hdrGrupoSize)) {
-				guardarSkip();
-				busquedaSkip=true;
-			}else {
-			Object objNumeroMglSV = session.getAttribute("NumeroMglSV"); 
-			long numeroMgl = utilitariosLocal.objToLong(objNumeroMglSV); 
-            
-			if(0==numeroMgl) {
-				MrqsGrupoHdr idxHdr =listMrqsGrupoHdr.get(idxGrupo);
+			idxGrupo++;
+			idxReactivos = 0;
+			nuevaBusqueda = true;
+		} else if (busquedaSkip == true || (idxReactivos == reactivosSize && idxGrupo + 1 == hdrGrupoSize)) {
+			guardarSkip();
+			busquedaSkip = true;
+		} else {
+			Object objNumeroMglSV = session.getAttribute("NumeroMglSV");
+			long numeroMgl = utilitariosLocal.objToLong(objNumeroMglSV);
+
+			if (0 == numeroMgl) {
+				MrqsGrupoHdr idxHdr = listMrqsGrupoHdr.get(idxGrupo);
 				  if(nuevaBusqueda) {
 					  listMrqsGrupoLinesV2 = mrqsGrupoLinesLocal.findByNumeroHdrWDV2(idxHdr.getNumero());
 						reactivosSize=listMrqsGrupoLinesV2.size();
@@ -992,67 +989,68 @@ public class MRQsExamForm {
 						mrqsGrupoLinesV2.setTextoPregunta(idx.getTextoPregunta());
 						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
 						mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
+						mrqsGrupoLinesV2.setStartTime(new Date());
 						candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
 						this.setTipoPregunta(idx.getTipoPregunta());
 						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
-						candExamRespSkipDto.setNumeroPreguntaFta(this.numeroPreguntaFta);
-						if(Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
-							this.setLimitedFreeTextAnswer(true);
-							mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,
-									idx.getTipoPregunta());
-							if (mrqsPreguntasFtaV1ForRead.getLimiteCaracteres() != null)
-								limiteCaracteres = mrqsPreguntasFtaV1ForRead.getLimiteCaracteres();
-							else
-								limiteCaracteres = 50;
-							
-						}else if(Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
-							mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
-							mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
+				candExamRespSkipDto.setNumeroPreguntaFta(this.numeroPreguntaFta);
+				if (Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
+					this.setLimitedFreeTextAnswer(true);
+					mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,
+							idx.getTipoPregunta());
+					if (mrqsPreguntasFtaV1ForRead.getLimiteCaracteres() != null)
+						limiteCaracteres = mrqsPreguntasFtaV1ForRead.getLimiteCaracteres();
+					else
+						limiteCaracteres = 50;
+
+				} else if (Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
+					mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
+					mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
 							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
-							this.setMultipleChoice(true);
+					this.setMultipleChoice(true);
 						}
 						else
 						if(Utilitarios.IMAGEN_ANOTADA.equals(idx.getTipoPregunta())) {
-							this.setAnnotatedImage(true);
-							mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,
-									idx.getTipoPregunta());
-					    	 Gson gson = new Gson();
-					    	System.out.println("mrqsPreguntasFtaV1ForRead.widht"+mrqsPreguntasFtaV1ForRead.getWidth());
+					this.setAnnotatedImage(true);
+					mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,
+							idx.getTipoPregunta());
+					Gson gson = new Gson();
+					System.out.println("mrqsPreguntasFtaV1ForRead.widht" + mrqsPreguntasFtaV1ForRead.getWidth());
 					    	System.out.println("mrqsPreguntasFtaV1ForRead el content type"+ mrqsPreguntasFtaV1ForRead.getContentType());
-				             if(null!=mrqsPreguntasFtaV1ForRead.getRespuestas()) {
+					if (null != mrqsPreguntasFtaV1ForRead.getRespuestas()) {
 				            	Type collectionType = new TypeToken<List<RespReactCorImg>>(){}.getType();
 				            	setListRespReactCorImg(gson.fromJson(mrqsPreguntasFtaV1ForRead.getRespuestas(), collectionType)); 
-				            	refreshRespuestas();
-				             }
-				             if(null!=mrqsPreguntasFtaV1ForRead.getAnotaciones()) {
+						refreshRespuestas();
+					}
+					if (null != mrqsPreguntasFtaV1ForRead.getAnotaciones()) {
 				            	 Type collectionType = new TypeToken<List<AnotacionesCorImg>>(){}.getType();
 				            	 setListAnotacionesCorImg(gson.fromJson(mrqsPreguntasFtaV1ForRead.getCorrelaciones(), collectionType)); 
-				             }
+					}
 					     }
 						else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
-							this.setCorrelacionColumnas(true);
-					    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
-					     }
-						
+					this.setCorrelacionColumnas(true);
+					actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(), idx);
+				}
+
 						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
 								                                                     , this.mrqsGrupoHdr.getNumero()
 								                                                     , this.mrqsGrupoLinesV2.getNumeroPregunta()
 								                                                     , this.numeroPreguntaFta
 								                                                     ); 
-						if(!mrqsGrupoLinesV2.isSingleAnswerMode()) {
-						  if(null!=this.candExamRespuestasV1.getRespuesta()) {	
-						  if(this.candExamRespuestasV1.getRespuesta().contains(",")) {
-							  this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
-						  }else {
+				if (!mrqsGrupoLinesV2.isSingleAnswerMode()) {
+					if (null != this.candExamRespuestasV1.getRespuesta()) {
+						if (this.candExamRespuestasV1.getRespuesta().contains(",")) {
+							this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
+						} else {
 							  this.respuestasPreguntaCandidato = new String[] {this.candExamRespuestasV1.getRespuesta()};
-						  }
-						 }
 						}
-						this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
-				
-			}else {
+					}
+				}
+				this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
+
+			} else {
 				MrqsGrupoLinesV2 tmp = mrqsGrupoLinesLocal.findByNumeroV2(numeroMgl);
-				
+
 				mrqsGrupoHdr.setNumero(tmp.getNumeroHdr());
 				mrqsGrupoHdr.setAdmonMateriaDesc(tmp.getTitulo()); 
 				//mrqsGrupoHdr.setAdmonMateriaDesc(tmp.getTemaPreguntaDesc());
@@ -1064,9 +1062,10 @@ public class MRQsExamForm {
 				mrqsGrupoLinesV2.setTextoSugerencias(tmp.getTextoSugerencias());
 				mrqsGrupoLinesV2.setTipoPregunta(tmp.getTipoPregunta());
 				mrqsGrupoLinesV2.setNumeroPregunta(tmp.getNumeroPregunta());
+				mrqsGrupoLinesV2.setStartTime(new Date());
 				this.setTipoPregunta(tmp.getTipoPregunta());
 				this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(mrqsGrupoLinesV2.getNumeroPregunta());
-				
+
 				if(Utilitarios.RESP_TEXTO_LIBRE.equals(tmp.getTipoPregunta())) {
 					this.setLimitedFreeTextAnswer(true);
 					MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,idx.getTipoPregunta());
@@ -1079,12 +1078,12 @@ public class MRQsExamForm {
 					mrqsGrupoLinesV2.setSuffleAnswerOrder(tmp.isSuffleAnswerOrder());
 					listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
 					this.setMultipleChoice(true);
-				}
+		}
 				else if(Utilitarios.CORRELACION_COLUMNA.equals(idx.getTipoPregunta())) {
 					this.setCorrelacionColumnas(true);
 			    	 actualizarTablaCorrelacionColumnas(getNumeroPreguntaFta(),idx);
-			     }
-				
+		}
+
 				this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
                         , this.mrqsGrupoHdr.getNumero()
                         , this.mrqsGrupoLinesV2.getNumeroPregunta()
@@ -1094,21 +1093,21 @@ public class MRQsExamForm {
 					  if(null!=this.candExamRespuestasV1.getRespuesta()) {	
 					  if(this.candExamRespuestasV1.getRespuesta().contains(",")) {
 						  this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
-					  }
+	}
 					  else {
 						  this.respuestasPreguntaCandidato = new String[] {this.candExamRespuestasV1.getRespuesta()};
 					  }
 					 }
 					}
 				this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
-				
-			}
-			
+	
+		}
+		
 			 listPresentMrqsImagenesGrp =  mrqsImagenesGrpLocal.findByFta(this.numeroPreguntaFta,Utilitarios.INTRODUCCION);
-		        	
-			
-			}
-			
+		
+
+		}
+		
 			System.out.println("id " + idxReactivos + " size " +  reactivosSize + " "+busquedaSkip);
 			if(idxReactivos == reactivosSize /*&&  busquedaSkip==false*/) { // ??usar busquedaSkip aquí ocasiona que algunas veces el examen no termine:
 				//this.candExamenesV1 = candExamenesLocal.findByNumero(numeroCandExamen); ???
@@ -1118,346 +1117,346 @@ public class MRQsExamForm {
 		    	showFinalMessage = true;
 				//redirectPage(); //no se llama aquí por que ahora se llama la función al cerrar el mensaje final
 				return;
-				
+		
 			}
 			/*if(null!=this.candExamRespuestasV1.getRespuesta()) {	
-				  if(this.candExamRespuestasV1.getRespuesta().contains(",")) {
-					  this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
-				  }else {
+				if (this.candExamRespuestasV1.getRespuesta().contains(",")) {
+					this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
+				} else {
 					  this.respuestasPreguntaCandidato = new String[] {this.candExamRespuestasV1.getRespuesta()};
 				  }
 				 }
 				for(int i = 0;i< this.respuestasPreguntaCandidato.length;i++) {
 					System.out.println("Respuesta "+i+" : "+respuestasPreguntaCandidato[i]);				
-				}
+		}
 				*/
-			
+
+	}
+	
+
+	public void refreshRespuestas() {
+		selectRespReactCorImg = new ArrayList<SelectItem>();
+		for (RespReactCorImg i : listRespReactCorImg) {
+			SelectItem selectItem = new SelectItem(i.getNumero(), i.getRespuesta());
+			selectRespReactCorImg.add(selectItem);
+			System.out.println("SELECT ITEM " + selectItem);
+			candRespReactCorImg.add(selectItem);
 		}
-		
-		
-		public void refreshRespuestas() {
-			selectRespReactCorImg = new ArrayList<SelectItem>(); 
-			for(RespReactCorImg i:listRespReactCorImg) {
-				SelectItem selectItem = new SelectItem(i.getNumero(),i.getRespuesta()); 
-				selectRespReactCorImg.add(selectItem); 
-				System.out.println("SELECT ITEM "+selectItem);
-				candRespReactCorImg.add(selectItem);
-			}
-		}
-		
-		public void updateRespuestasImgCor(Object x) {
-			System.out.println("X=>"+x.toString());
+	}
+
+	public void updateRespuestasImgCor(Object x) {
+		System.out.println("X=>" + x.toString());
 			SelectItem selectItem = new SelectItem(
 					x,
-					listRespReactCorImg.get(Integer.parseInt(respuestaSelect.getValue().toString())).getRespuesta());
-			System.out.println("getLabel "+selectItem.getLabel());
-			System.out.println("getValue "+selectItem.getValue());
+				listRespReactCorImg.get(Integer.parseInt(respuestaSelect.getValue().toString())).getRespuesta());
+		System.out.println("getLabel " + selectItem.getLabel());
+		System.out.println("getValue " + selectItem.getValue());
 
-			candRespReactCorImg.add(selectItem);
-			// listRespReactCandCorImg.add(candRespReactCorImg);
+		candRespReactCorImg.add(selectItem);
+		// listRespReactCandCorImg.add(candRespReactCorImg);
+	}
+
+	public List<MrqsGrupoHdr> GrupoAleatorio(List<MrqsGrupoHdr> lmqrsGrouoHdr) {
+		int elementosMax = lmqrsGrouoHdr.size();
+		int numero;
+		ArrayList<Integer> numeros = new ArrayList<Integer>();
+		ArrayList<Integer> arrayRandom = new ArrayList<Integer>();
+		List<MrqsGrupoHdr> lmgh = new ArrayList<MrqsGrupoHdr>();
+		// llenaValores
+		for (int i = 0; i < elementosMax; i++) {
+			numeros.add(i);
 		}
-		
-		public List<MrqsGrupoHdr> GrupoAleatorio(List<MrqsGrupoHdr> lmqrsGrouoHdr) {
-			int elementosMax = lmqrsGrouoHdr.size();
-			int numero;
-			ArrayList<Integer> numeros = new ArrayList<Integer>();
-			ArrayList<Integer> arrayRandom = new ArrayList<Integer>();
-			List<MrqsGrupoHdr> lmgh = new ArrayList<MrqsGrupoHdr>();
-			// llenaValores
-			for (int i = 0; i < elementosMax ; i++) {
-			    numeros.add(i);
-			}
+
 			
-			
-			for (int i = 0; i < elementosMax; i++) {
-			    numero = (int) (Math.random() * numeros.size());
-			    if (arrayRandom.contains(numero)) {
-			        i--;
-			    } else {
-			    	arrayRandom.add(numero);
-			    }
+		for (int i = 0; i < elementosMax; i++) {
+			numero = (int) (Math.random() * numeros.size());
+			if (arrayRandom.contains(numero)) {
+				i--;
+			} else {
+				arrayRandom.add(numero);
 			}
-			
-			for  (int i = 0; i < elementosMax; i++) {
-				lmgh.add(lmqrsGrouoHdr.get(arrayRandom.get(i)));
-			}
-						
-			return lmgh;
 		}
-		
-		public List<MrqsGrupoLinesV2> PreguntasAleatorio(List<MrqsGrupoLinesV2> lmqrsGrupoLines) {
-			int elementosMax = lmqrsGrupoLines.size();
-			int numero;
-			ArrayList<Integer> numeros = new ArrayList<Integer>();
-			ArrayList<Integer> arrayRandom = new ArrayList<Integer>();
-			List<MrqsGrupoLinesV2> lmgl = new ArrayList<MrqsGrupoLinesV2>();
-			// llenaValores
-			for (int i = 0; i < elementosMax ; i++) {
-			    numeros.add(i);
-			}
-			
-			
-			for (int i = 0; i < elementosMax; i++) {
-			    numero = (int) (Math.random() * numeros.size());
-			    if (arrayRandom.contains(numero)) {
-			        i--;
-			    } else {
-			    	arrayRandom.add(numero);
-			    }
-			}
-			
-			for  (int i = 0; i < elementosMax; i++) {
-				//System.out.println("Random: "+arrayRandom.get(i));
-				lmgl.add(lmqrsGrupoLines.get(arrayRandom.get(i)));
-			}
-						
-			return lmgl;
+
+		for (int i = 0; i < elementosMax; i++) {
+			lmgh.add(lmqrsGrouoHdr.get(arrayRandom.get(i)));
 		}
-		
-		public void guardarSkip() {
-			MrqsGrupoHdr idxHdr = new MrqsGrupoHdr();
-			saveAndProceed();
+
+		return lmgh;
+	}
+
+	public List<MrqsGrupoLinesV2> PreguntasAleatorio(List<MrqsGrupoLinesV2> lmqrsGrupoLines) {
+		int elementosMax = lmqrsGrupoLines.size();
+		int numero;
+		ArrayList<Integer> numeros = new ArrayList<Integer>();
+		ArrayList<Integer> arrayRandom = new ArrayList<Integer>();
+		List<MrqsGrupoLinesV2> lmgl = new ArrayList<MrqsGrupoLinesV2>();
+		// llenaValores
+		for (int i = 0; i < elementosMax; i++) {
+			numeros.add(i);
+		}
+
 			
-			 candExamRespSkipDto.setSkip(0);
-			
-			lCandExamSkipV1Dto=candExamRespSkipLocal.findAllListSkip(numeroMRQsExamen,numeroCandExamen,1,1);
-			skipMax = lCandExamSkipV1Dto.size();
-    		idxSkip = 0;
-			if(skipMax == 0){
-				flag2 = true; 
-				
-			}else {
-		    for(int i=0;i <	listMrqsGrupoHdr.size();i++) {
-		    	if(listMrqsGrupoHdr.get(i).getNumero() == (int)lCandExamSkipV1Dto.get(idxSkip).getNumeroGrupo()) {
-		    		candExamRespSkipDto.setNumeroGrupo(lCandExamSkipV1Dto.get(idxSkip).getNumeroGrupo());
-		    		candExamRespSkipDto.setExamen(lCandExamSkipV1Dto.get(idxSkip).getExamen());
-		    		candExamRespSkipDto.setEstatus(0);
-		    		candExamRespSkipDto.setNumero(lCandExamSkipV1Dto.get(idxSkip).getNumero());
-		    		candExamRespSkipDto.setNumeroCandExamen(lCandExamSkipV1Dto.get(idxSkip).getNumeroCandExamen());
-		    		candExamRespSkipDto.setNumeroPreguntaHdr(lCandExamSkipV1Dto.get(idxSkip).getNumeroPreguntaHdr());
-		    		candExamRespSkipDto.setNumeroPreguntaFta(lCandExamSkipV1Dto.get(idxSkip).getNumeroPreguntaFta());
-		    		
-		    	    candExamRespSkipLocal.update(lCandExamSkipV1Dto.get(idxSkip).getNumero(),candExamRespSkipDto); 
-		    		idxHdr = listMrqsGrupoHdr.get(i);	
-		    	}
-		    }
-		    if(skipMax == 1  ) {
-		    	CandExamenesDto candExamenesDto = new CandExamenesDto();
-		    	candExamenesLocal.updateEstatus(numeroCandExamen, candExamenesDto);
+		for (int i = 0; i < elementosMax; i++) {
+			numero = (int) (Math.random() * numeros.size());
+			if (arrayRandom.contains(numero)) {
+				i--;
+			} else {
+				arrayRandom.add(numero);
+			}
+		}
+
+		for (int i = 0; i < elementosMax; i++) {
+			// System.out.println("Random: "+arrayRandom.get(i));
+			lmgl.add(lmqrsGrupoLines.get(arrayRandom.get(i)));
+		}
+
+		return lmgl;
+	}
+
+	public void guardarSkip() {
+		MrqsGrupoHdr idxHdr = new MrqsGrupoHdr();
+		saveAndProceed();
+
+		candExamRespSkipDto.setSkip(0);
+
+		lCandExamSkipV1Dto = candExamRespSkipLocal.findAllListSkip(numeroMRQsExamen, numeroCandExamen, 1, 1);
+		skipMax = lCandExamSkipV1Dto.size();
+		idxSkip = 0;
+		if (skipMax == 0) {
+			flag2 = true;
+
+		} else {
+			for (int i = 0; i < listMrqsGrupoHdr.size(); i++) {
+				if (listMrqsGrupoHdr.get(i).getNumero() == (int) lCandExamSkipV1Dto.get(idxSkip).getNumeroGrupo()) {
+					candExamRespSkipDto.setNumeroGrupo(lCandExamSkipV1Dto.get(idxSkip).getNumeroGrupo());
+					candExamRespSkipDto.setExamen(lCandExamSkipV1Dto.get(idxSkip).getExamen());
+					candExamRespSkipDto.setEstatus(0);
+					candExamRespSkipDto.setNumero(lCandExamSkipV1Dto.get(idxSkip).getNumero());
+					candExamRespSkipDto.setNumeroCandExamen(lCandExamSkipV1Dto.get(idxSkip).getNumeroCandExamen());
+					candExamRespSkipDto.setNumeroPreguntaHdr(lCandExamSkipV1Dto.get(idxSkip).getNumeroPreguntaHdr());
+					candExamRespSkipDto.setNumeroPreguntaFta(lCandExamSkipV1Dto.get(idxSkip).getNumeroPreguntaFta());
+
+					candExamRespSkipLocal.update(lCandExamSkipV1Dto.get(idxSkip).getNumero(), candExamRespSkipDto);
+					idxHdr = listMrqsGrupoHdr.get(i);
+				}
+			}
+			if (skipMax == 1) {
+				CandExamenesDto candExamenesDto = new CandExamenesDto();
+				candExamenesLocal.updateEstatus(numeroCandExamen, candExamenesDto);
 				redirectPage();
 				return;
 			}
-					mrqsGrupoHdr.setNumero(idxHdr.getNumero()); 
-					mrqsGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
-					mrqsGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
-					/* Grupolines preguntas */
-					listMrqsGrupoLinesV2 = mrqsGrupoLinesLocal.findByNumeroHdrWDV2(idxHdr.getNumero());
-					reactivosSize=listMrqsGrupoLinesV2.size();
-					MrqsGrupoLinesV2 idx = new MrqsGrupoLinesV2();
-					for(int i=0;i<reactivosSize;i++) {
+			mrqsGrupoHdr.setNumero(idxHdr.getNumero());
+			mrqsGrupoHdr.setAdmonMateriaDesc(idxHdr.getAdmonMateriaDesc());
+			mrqsGrupoHdr.setAdmonSubMateriaDesc(idxHdr.getAdmonSubMateriaDesc());
+			/* Grupolines preguntas */
+			listMrqsGrupoLinesV2 = mrqsGrupoLinesLocal.findByNumeroHdrWDV2(idxHdr.getNumero());
+			reactivosSize = listMrqsGrupoLinesV2.size();
+			MrqsGrupoLinesV2 idx = new MrqsGrupoLinesV2();
+			for (int i = 0; i < reactivosSize; i++) {
 						if(lCandExamSkipV1Dto.get(idxSkip).getNumeroPreguntaHdr() == listMrqsGrupoLinesV2.get(i).getNumeroPregunta())
-						 idx = listMrqsGrupoLinesV2.get(i);												
-					}
-					System.out.println("********Cantidad de Preguntas: "+reactivosSize);
-					//listMrqsGrupoLinesV2 = PreguntasAleatorio(listMrqsGrupoLinesV2);
+					idx = listMrqsGrupoLinesV2.get(i);
+			}
+			System.out.println("********Cantidad de Preguntas: " + reactivosSize);
+			// listMrqsGrupoLinesV2 = PreguntasAleatorio(listMrqsGrupoLinesV2);
+
 					
-					
-					    System.out.println("idx.getTextoPregunta():"+idx.getNumeroPregunta());
-						
-						mrqsGrupoLinesV2.setTitulo(idx.getTitulo());
-						mrqsGrupoLinesV2.setTextoPregunta(idx.getTextoPregunta());
-						mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
-						mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
-						//candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
-						/* preguntas */
+			System.out.println("idx.getTextoPregunta():" + idx.getNumeroPregunta());
+
+			mrqsGrupoLinesV2.setTitulo(idx.getTitulo());
+			mrqsGrupoLinesV2.setTextoPregunta(idx.getTextoPregunta());
+			mrqsGrupoLinesV2.setTextoSugerencias(idx.getTextoSugerencias());
+			mrqsGrupoLinesV2.setNumeroPregunta(idx.getNumeroPregunta());
+			// candExamRespSkipDto.setNumeroPreguntaHdr(idx.getNumeroPregunta());
+			/* preguntas */
 						this.numeroPreguntaFta = mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(lCandExamSkipV1Dto.get(idxSkip).getNumeroPreguntaHdr());
-						if(Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
-							this.setLimitedFreeTextAnswer(true);
+			if (Utilitarios.RESP_TEXTO_LIBRE.equals(idx.getTipoPregunta())) {
+				this.setLimitedFreeTextAnswer(true);
 							MrqsPreguntasFtaV1 pregunta = mrqsPreguntasFtaLocal.findObjModByNumeroFta(numeroPreguntaFta,idx.getTipoPregunta());
-							if(pregunta.getLimiteCaracteres() != null)
-								limiteCaracteres = pregunta.getLimiteCaracteres();
-							else
-								limiteCaracteres = 50;
-						}else if(Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
-							mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
-							mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
-							/* opciones */
+				if (pregunta.getLimiteCaracteres() != null)
+					limiteCaracteres = pregunta.getLimiteCaracteres();
+				else
+					limiteCaracteres = 50;
+			} else if (Utilitarios.OPCION_MULTIPLE.equals(idx.getTipoPregunta())) {
+				mrqsGrupoLinesV2.setSingleAnswerMode(idx.isSingleAnswerMode());
+				mrqsGrupoLinesV2.setSuffleAnswerOrder(idx.isSuffleAnswerOrder());
+				/* opciones */
 							listMrqsOpcionMultiple =  mrqsOpcionMultipleLocal.findByNumeroFtaShuffleOrderOM(this.numeroPreguntaFta,mrqsGrupoLinesV2.isSuffleAnswerOrder());
-							this.setMultipleChoice(true);
-						}
-						
+				this.setMultipleChoice(true);
+			}
+
 						this.candExamRespuestasV1 = candExamRespuestasLocal.findObjMod(numeroCandExamen
 								                                                     , this.mrqsGrupoHdr.getNumero()
 								                                                     , this.mrqsGrupoLinesV2.getNumeroPregunta()
 								                                                     , this.numeroPreguntaFta
 								                                                     ); 
-						if(!mrqsGrupoLinesV2.isSingleAnswerMode()) {
-						  if(null!=this.candExamRespuestasV1.getRespuesta()) {	
-						  if(this.candExamRespuestasV1.getRespuesta().contains(",")) {
-							  this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
-						  }else {
-							  this.respuestasPreguntaCandidato = new String[] {this.candExamRespuestasV1.getRespuesta()};
-						  }
-						 }
-						}
-						this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
-						//break; 
-					
-						idxSkip++;
-		   }
-		}
-
-		public MrqsPreguntasFtaV1 getMrqsPreguntasFtaV1ForRead() {
-			return mrqsPreguntasFtaV1ForRead;
-		}
-
-		public void setMrqsPreguntasFtaV1ForRead(MrqsPreguntasFtaV1 mrqsPreguntasFtaV1ForRead) {
-			this.mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaV1ForRead;
-		}
-
-		/**
-		 * @return the listAnotacionesCorImg
-		 */
-		public List<AnotacionesCorImg> getListAnotacionesCorImg() {
-			return listAnotacionesCorImg;
-		}
-
-		/**
-		 * @param listAnotacionesCorImg the listAnotacionesCorImg to set
-		 */
-		public void setListAnotacionesCorImg(List<AnotacionesCorImg> listAnotacionesCorImg) {
-			this.listAnotacionesCorImg = listAnotacionesCorImg;
-		}
-
-		/**
-		 * @return the listRespReactCorImg
-		 */
-		public List<RespReactCorImg> getListRespReactCorImg() {
-			return listRespReactCorImg;
-		}
-
-		/**
-		 * @param listRespReactCorImg the listRespReactCorImg to set
-		 */
-		public void setListRespReactCorImg(List<RespReactCorImg> listRespReactCorImg) {
-			this.listRespReactCorImg = listRespReactCorImg;
-		}
-
-		/**
-		 * @return the selectRespReactCorImg
-		 */
-		public List<SelectItem> getSelectRespReactCorImg() {
-			return selectRespReactCorImg;
-		}
-
-		/**
-		 * @param selectRespReactCorImg the selectRespReactCorImg to set
-		 */
-		public void setSelectRespReactCorImg(List<SelectItem> selectRespReactCorImg) {
-			this.selectRespReactCorImg = selectRespReactCorImg;
-		}
-
-		/**
-		 * @return the respuestaSelect
-		 */
-		public SelectItem getRespuestaSelect() {
-			return respuestaSelect;
-		}
-
-		/**
-		 * @param respuestaSelect the respuestaSelect to set
-		 */
-		public void setRespuestaSelect(SelectItem respuestaSelect) {
-			this.respuestaSelect = respuestaSelect;
-		}
-
-		/**
-		 * @return the tipoPregunta
-		 */
-		public String getTipoPregunta() {
-			return tipoPregunta;
-		}
-
-		/**
-		 * @param tipoPregunta the tipoPregunta to set
-		 */
-		public void setTipoPregunta(String tipoPregunta) {
-			this.tipoPregunta = tipoPregunta;
-		}
-
-		/**
-		 * @return the listMrqsCorrelacionColumnasDto
-		 */
-		public List<MrqsCorrelacionColumnasDto> getListMrqsCorrelacionColumnasDto() {
-			return listMrqsCorrelacionColumnasDto;
-		}
-
-		/**
-		 * @param listMrqsCorrelacionColumnasDto the listMrqsCorrelacionColumnasDto to set
-		 */
-		public void setListMrqsCorrelacionColumnasDto(List<MrqsCorrelacionColumnasDto> listMrqsCorrelacionColumnasDto) {
-			this.listMrqsCorrelacionColumnasDto = listMrqsCorrelacionColumnasDto;
-		}
-
-		/**
-		 * @return the listMrqsCorrelacionColumnasRespuestasDto
-		 */
-		public List<MrqsCorrelacionColumnasRespuestasDto> getListMrqsCorrelacionColumnasRespuestasDto() {
-			return listMrqsCorrelacionColumnasRespuestasDto;
-		}
-
-		/**
-		 * @param listMrqsCorrelacionColumnasRespuestasDto the listMrqsCorrelacionColumnasRespuestasDto to set
-		 */
-		public void setListMrqsCorrelacionColumnasRespuestasDto(List<MrqsCorrelacionColumnasRespuestasDto> listMrqsCorrelacionColumnasRespuestasDto) {
-			this.listMrqsCorrelacionColumnasRespuestasDto = listMrqsCorrelacionColumnasRespuestasDto;
-		}
-
-		/**
-		 * @return the listMrqsCorrelacionColumnasPrev
-		 */
-		public List<MrqsCorrelacionColumnaPair> getListMrqsCorrelacionColumnas() {
-			return listMrqsCorrelacionColumnas;
-		}
-
-		/**
-		 * @param listMrqsCorrelacionColumnasPrev the listMrqsCorrelacionColumnasPrev to set
-		 */
-		public void setListMrqsCorrelacionColumnas(List<MrqsCorrelacionColumnaPair> listMrqsCorrelacionColumnasPrev) {
-			this.listMrqsCorrelacionColumnas = listMrqsCorrelacionColumnasPrev;
-		}
-
-		/**
-		 * @return the correlacionColumnas
-		 */
-		public boolean isCorrelacionColumnas() {
-			return correlacionColumnas;
-		}
-
-		/**
-		 * @param correlacionColumnas the correlacionColumnas to set
-		 */
-		public void setCorrelacionColumnas(boolean correlacionColumnas) {
-			if(correlacionColumnas) {
-				this.setAnnotatedImage(false);
-				this.setMultipleChoice(false);
-				this.setIndicateImage(false);
-				this.setLimitedFreeTextAnswer(false);
+			if (!mrqsGrupoLinesV2.isSingleAnswerMode()) {
+				if (null != this.candExamRespuestasV1.getRespuesta()) {
+					if (this.candExamRespuestasV1.getRespuesta().contains(",")) {
+						this.respuestasPreguntaCandidato = this.candExamRespuestasV1.getRespuesta().split(",");
+					} else {
+						this.respuestasPreguntaCandidato = new String[] { this.candExamRespuestasV1.getRespuesta() };
+					}
+				}
 			}
-			this.correlacionColumnas = correlacionColumnas;
-		}
+			this.respuestaCandidato = this.getCandExamRespuestasV1().getRespuesta();
+			// break;
 
-		/**
-		 * @return the panelCorrelacionColumnasResultados
-		 */
-		public boolean isPanelCorrelacionColumnasResultados() {
-			return panelCorrelacionColumnasResultados;
+			idxSkip++;
 		}
+	}
 
-		/**
+	public MrqsPreguntasFtaV1 getMrqsPreguntasFtaV1ForRead() {
+		return mrqsPreguntasFtaV1ForRead;
+	}
+
+	public void setMrqsPreguntasFtaV1ForRead(MrqsPreguntasFtaV1 mrqsPreguntasFtaV1ForRead) {
+		this.mrqsPreguntasFtaV1ForRead = mrqsPreguntasFtaV1ForRead;
+	}
+
+	/**
+	 * @return the listAnotacionesCorImg
+	 */
+	public List<AnotacionesCorImg> getListAnotacionesCorImg() {
+		return listAnotacionesCorImg;
+	}
+
+	/**
+	 * @param listAnotacionesCorImg the listAnotacionesCorImg to set
+	 */
+	public void setListAnotacionesCorImg(List<AnotacionesCorImg> listAnotacionesCorImg) {
+		this.listAnotacionesCorImg = listAnotacionesCorImg;
+	}
+
+	/**
+	 * @return the listRespReactCorImg
+	 */
+	public List<RespReactCorImg> getListRespReactCorImg() {
+		return listRespReactCorImg;
+	}
+
+	/**
+	 * @param listRespReactCorImg the listRespReactCorImg to set
+	 */
+	public void setListRespReactCorImg(List<RespReactCorImg> listRespReactCorImg) {
+		this.listRespReactCorImg = listRespReactCorImg;
+	}
+
+	/**
+	 * @return the selectRespReactCorImg
+	 */
+	public List<SelectItem> getSelectRespReactCorImg() {
+		return selectRespReactCorImg;
+	}
+
+	/**
+	 * @param selectRespReactCorImg the selectRespReactCorImg to set
+	 */
+	public void setSelectRespReactCorImg(List<SelectItem> selectRespReactCorImg) {
+		this.selectRespReactCorImg = selectRespReactCorImg;
+	}
+
+	/**
+	 * @return the respuestaSelect
+	 */
+	public SelectItem getRespuestaSelect() {
+		return respuestaSelect;
+	}
+
+	/**
+	 * @param respuestaSelect the respuestaSelect to set
+	 */
+	public void setRespuestaSelect(SelectItem respuestaSelect) {
+		this.respuestaSelect = respuestaSelect;
+	}
+
+	/**
+	 * @return the tipoPregunta
+	 */
+	public String getTipoPregunta() {
+		return tipoPregunta;
+	}
+
+	/**
+	 * @param tipoPregunta the tipoPregunta to set
+	 */
+	public void setTipoPregunta(String tipoPregunta) {
+		this.tipoPregunta = tipoPregunta;
+	}
+
+	/**
+	 * @return the listMrqsCorrelacionColumnasDto
+	 */
+	public List<MrqsCorrelacionColumnasDto> getListMrqsCorrelacionColumnasDto() {
+		return listMrqsCorrelacionColumnasDto;
+	}
+
+	/**
+		 * @param listMrqsCorrelacionColumnasDto the listMrqsCorrelacionColumnasDto to set
+	 */
+	public void setListMrqsCorrelacionColumnasDto(List<MrqsCorrelacionColumnasDto> listMrqsCorrelacionColumnasDto) {
+		this.listMrqsCorrelacionColumnasDto = listMrqsCorrelacionColumnasDto;
+	}
+
+	/**
+	 * @return the listMrqsCorrelacionColumnasRespuestasDto
+	 */
+	public List<MrqsCorrelacionColumnasRespuestasDto> getListMrqsCorrelacionColumnasRespuestasDto() {
+		return listMrqsCorrelacionColumnasRespuestasDto;
+	}
+
+	/**
+		 * @param listMrqsCorrelacionColumnasRespuestasDto the listMrqsCorrelacionColumnasRespuestasDto to set
+	 */
+		public void setListMrqsCorrelacionColumnasRespuestasDto(List<MrqsCorrelacionColumnasRespuestasDto> listMrqsCorrelacionColumnasRespuestasDto) {
+		this.listMrqsCorrelacionColumnasRespuestasDto = listMrqsCorrelacionColumnasRespuestasDto;
+	}
+
+	/**
+	 * @return the listMrqsCorrelacionColumnasPrev
+	 */
+	public List<MrqsCorrelacionColumnaPair> getListMrqsCorrelacionColumnas() {
+		return listMrqsCorrelacionColumnas;
+	}
+
+	/**
+		 * @param listMrqsCorrelacionColumnasPrev the listMrqsCorrelacionColumnasPrev to set
+	 */
+	public void setListMrqsCorrelacionColumnas(List<MrqsCorrelacionColumnaPair> listMrqsCorrelacionColumnasPrev) {
+		this.listMrqsCorrelacionColumnas = listMrqsCorrelacionColumnasPrev;
+	}
+
+	/**
+	 * @return the correlacionColumnas
+	 */
+	public boolean isCorrelacionColumnas() {
+		return correlacionColumnas;
+	}
+
+	/**
+	 * @param correlacionColumnas the correlacionColumnas to set
+	 */
+	public void setCorrelacionColumnas(boolean correlacionColumnas) {
+		if (correlacionColumnas) {
+			this.setAnnotatedImage(false);
+			this.setMultipleChoice(false);
+			this.setIndicateImage(false);
+			this.setLimitedFreeTextAnswer(false);
+		}
+		this.correlacionColumnas = correlacionColumnas;
+	}
+
+	/**
+	 * @return the panelCorrelacionColumnasResultados
+	 */
+	public boolean isPanelCorrelacionColumnasResultados() {
+		return panelCorrelacionColumnasResultados;
+	}
+
+	/**
 		 * @param panelCorrelacionColumnasResultados the panelCorrelacionColumnasResultados to set
-		 */
-		public void setPanelCorrelacionColumnasResultados(boolean panelCorrelacionColumnasResultados) {
-			this.panelCorrelacionColumnasResultados = panelCorrelacionColumnasResultados;
-		}
+	 */
+	public void setPanelCorrelacionColumnasResultados(boolean panelCorrelacionColumnasResultados) {
+		this.panelCorrelacionColumnasResultados = panelCorrelacionColumnasResultados;
+	}
 }

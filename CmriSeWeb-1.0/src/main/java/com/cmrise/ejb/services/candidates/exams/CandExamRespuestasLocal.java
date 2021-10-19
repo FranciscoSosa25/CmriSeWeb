@@ -19,6 +19,7 @@ public interface CandExamRespuestasLocal {
 					          , long pNumeroGrupo
 					          , long pNumeroPreguntaHdr
 					          , long pNumeroPreguntaFta
+					          ,long duration
 					          , String pRespuesta); 
 	public CandExamRespuestasV1 findObjMod(long pNumeroCandExamen
 							              ,long pNumeroGrupo
