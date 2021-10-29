@@ -12,7 +12,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringUtils;
+
 
 import com.cmrise.ejb.model.candidates.exams.CandExamRespuestasV1;
 import com.cmrise.ejb.model.candidates.exams.CandHExamenes;
@@ -20,7 +20,6 @@ import com.cmrise.ejb.model.exams.Examenes;
 import com.cmrise.ejb.services.candidates.exams.CandExamRespuestasLocal;
 import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;
 import com.cmrise.ejb.services.exams.ExamenesLocal;
-import com.cmrise.utils.Utilitarios;
 
 
 @ManagedBean
@@ -67,12 +66,18 @@ public class CandidateExamDetailsForm {
 	     
 	    }
 
-	public String toDetailExam(Examenes pExamenes) {
-		FacesContext context = FacesContext.getCurrentInstance(); 
+	public String toDetailExam(CandExamRespuestasV1 pExamenes) {
+		FacesContext context = FacesContext.getCurrentInstance();
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-		session.setAttribute("NumeroExamenSV", pExamenes.getNumero());
-		session.setAttribute("TipoExamenSV", pExamenes.getTipoExamenCode());
-		return "History-Exams-Detail"; 
+		if("MRQS".equalsIgnoreCase(this.presentCandHExamenes.getTipo())) {
+			session.setAttribute("CMEDNumeroCandExamen",pExamenes.getNumeroCandExamen());
+			session.setAttribute("CMEDNumeroMrqsExamen",pExamenes.getNumeroExamen());
+			session.setAttribute("CMEDNumeroCand",pExamenes.getNumeroUsuario());
+			session.setAttribute("CMEDNumeroSelQuestion",pExamenes.getNumeroPreguntaFta());
+			 
+		}
+		
+		return "Cand-MRQs-Exam-Details";
 	}
 	
 	
@@ -140,3 +145,4 @@ public class CandidateExamDetailsForm {
 	
 	
 }
+ 

@@ -200,3 +200,7 @@ SELECT NUMERO
  
 GO
 ----------------------------------------------------------
+
+ALTER TABLE CAND_EXAMENES ADD EXAM_START_TIME [datetime] NULL;
+ALTER TABLE CAND_EXAMENES ADD EXAM_END_TIME [datetime] NULL;
+----------------------------------------------------------

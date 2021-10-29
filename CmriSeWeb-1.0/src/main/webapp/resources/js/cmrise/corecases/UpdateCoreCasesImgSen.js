@@ -377,13 +377,7 @@ var polyModel = {
 				return false
 			}
 			document.getElementById(canvas).style.display = "block";
-			if(ansPoints){
-				try{
-				document.getElementById(ansPoints).value = '[]';
-				}catch (e) {
-				}
-			}
-		    
+			
 			var img = new Image();
 	        img.setAttribute('src', imgSrc);
 	        paintingCanvasID = document.getElementById(canvas);
@@ -393,15 +387,63 @@ var polyModel = {
 		    ctx = paintingCanvasID.getContext("2d");
 		    //ctx.clearRect(0, 0, paintingCanvasID.width, paintingCanvasID.height);
 		    ctx.drawImage(img, 0, 0, paintingCanvasID.width, paintingCanvasID.height);
+         	
+         	
+         	if(ansPoints){
+				try{
+				var val = document.getElementById(ansPoints)
+				if(val && val.value != "[]"  && val.value != ""){
+					polyModel.addAllPoints(canvas, val.value)
+				}else{
+					val.value = "[]";
+				}
+								}catch (e) {
+				}
+			}else{
+				
+			}
 		    
-		    cursorPos = cursor;
-		    paintingCanvasID.addEventListener("mousemove", function (e, cursor) {
-	            var cRect = paintingCanvasID.getBoundingClientRect(); // Gets CSS pos, and width/height
-	            var canvasX = Math.round(e.clientX - cRect.left); // Subtract the 'left' of the canvas
-	            var canvasY = Math.round(e.clientY - cRect.top); // from the X/Y positions to make
-	            document.getElementById(cursorPos).value = "X: " + canvasX + ", Y: " + canvasY;
-	        });
+		    if(cursor){
+		    	cursorPos = cursor;
+			    paintingCanvasID.addEventListener("mousemove", function (e, cursor) {
+		            var cRect = paintingCanvasID.getBoundingClientRect(); // Gets CSS pos, and width/height
+		            var canvasX = Math.round(e.clientX - cRect.left); // Subtract the 'left' of the canvas
+		            var canvasY = Math.round(e.clientY - cRect.top); // from the X/Y positions to make
+		            document.getElementById(cursorPos).value = "X: " + canvasX + ", Y: " + canvasY;
+		        });
+		    }
 		},
+		addAllPoints: function(canvas, pVal){
+			if(pVal){
+				points = JSON.parse(pVal);
+				for(var i = 0; i < points.length; i++) {
+				    var obj = points[i];
+				    var x = obj.x;
+				    var y = obj.y;
+				    var tmpX, tmpY;
+					var ctx = canvas;
+					var strColor;
+			        ctx.strokeStyle = '#ff0000';
+			        ctx.beginPath();
+			        tmpX = parseFloat(x) + 20;
+			        ctx.moveTo(tmpX, y);
+			        ctx.lineTo(x, y);
+			        tmpX = parseFloat(x) - 20;
+			        ctx.moveTo(tmpX, y);
+			        ctx.lineTo(x, y);
+			        tmpY = parseFloat(y) + 20;
+			        ctx.moveTo(x, tmpY);
+			        ctx.lineTo(x, y);
+			        tmpY = parseFloat(y) - 20;
+			        ctx.moveTo(x, tmpY);
+			        ctx.lineTo(x, y);
+			        ctx.lineWidth = 3;
+			        ctx.stroke();
+				}
+				
+			}	
+		},
+		
 		drawPoint : function(event, canvas,ansPoints,numeroPolygon){
 			var paintingCanvasID = document.getElementById(canvas);
 			let pVal = document.getElementById(ansPoints).value;
@@ -459,6 +501,7 @@ var polyModel = {
 		clearPoint : function(canvas, canvasContainer, height, width, cursor, ansPoints, scorePoints){
 			let paintingCanvasID = document.getElementById(canvas);
 		    ctx = paintingCanvasID.getContext("2d");
+		    document.getElementById(ansPoints).value = '[]';
 		    ctx.clearRect(0, 0, paintingCanvasID.width, paintingCanvasID.height);		
 		    polyModel.drawCanvas(canvas, canvasContainer, height, width, cursor, ansPoints)
 		    polyModel.clearScore(scorePoints)

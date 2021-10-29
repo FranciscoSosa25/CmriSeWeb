@@ -43,6 +43,8 @@ public class Utilitarios {
     public static final String ERROR_ELIMINAR = "Error al eliminar imagen";
     public static final String ERROR_PUNTOS_USUARIO = "No se han señalado puntos";
     public static final String ERROR_PUNTUACION = "Error al obtener puntuacion";
+    public static final String INCORRECTA = "INCORRECTA";
+    public static final String CORRECTA = "CORRECTA";
     
     /**
      * Casos Clinicos

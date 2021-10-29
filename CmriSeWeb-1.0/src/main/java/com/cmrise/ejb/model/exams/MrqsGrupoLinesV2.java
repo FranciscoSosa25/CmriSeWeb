@@ -32,6 +32,8 @@ public class MrqsGrupoLinesV2 implements Serializable {
 	private Date startTime;
 	private Date endTime;
 	private long duration; 
+	private String questionType;
+	private String questionNumber;
 	
 	public long getNumero() {
 		return this.numero;
@@ -224,8 +226,23 @@ public class MrqsGrupoLinesV2 implements Serializable {
 	public void setDuration(long duration) {
 		this.duration = duration;
 	}
-	
-	
+
+	public String getQuestionType() {
+		return questionType;
+	}
+
+	public void setQuestionType(String questionType) {
+		this.questionType = questionType;
+	}
+
+	public String getQuestionNumber() {
+		return questionNumber;
+	}
+
+	public void setQuestionNumber(String questionNumber) {
+		this.questionNumber = questionNumber;
+	}
+
 	
 	
 	

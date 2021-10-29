@@ -93,7 +93,7 @@ public class CandHExamenes {
 	public void setPercentage(String percentage) {
 		this.percentage = percentage;
 	}
-	
-	
+
+		
 	
 }
