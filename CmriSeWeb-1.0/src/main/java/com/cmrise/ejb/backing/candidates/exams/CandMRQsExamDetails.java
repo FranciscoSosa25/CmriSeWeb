@@ -212,8 +212,10 @@ public class CandMRQsExamDetails {
 			questionIterator = questionQueue.listIterator();
 			while(questionIterator.hasNext()) {
 				ExamQuestion examQuestion = questionIterator.next();
-				if(examQuestion.getMrqsGrupoLinesV2().getNumeroPregunta() == selectedQuestion) {
-					setQuestion(questionIterator.next());
+				long numeroPreguntaFta = 
+						mrqsPreguntasFtaLocal.findNumeroFtaByNumeroHdr(examQuestion.getMrqsGrupoLinesV2().getNumeroPregunta());
+				if(numeroPreguntaFta == selectedQuestion) {
+					setQuestion(examQuestion);
 					break;
 				}
 			}
