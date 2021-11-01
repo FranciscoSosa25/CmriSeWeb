@@ -235,4 +235,27 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 		retval.setTipo(candExamenesV2Dto.getTipo());
 		return retval;
 	}
+
+	@Override
+	public Date getStartTime(long pNumero) {
+		Date startTime = null;
+		CandExamenesDto candExamenesDto	=candExamenesDao.find(pNumero);
+		if(candExamenesDto !=null && candExamenesDto.getExamStartTime() !=null) {
+		   startTime=new java.util.Date(candExamenesDto.getExamStartTime().getTime());
+		}
+		return startTime;
+	}
+
+	@Override
+	public boolean updateStartTime(long pNumero, Date date) {
+		boolean isSuccess = false;
+		try {
+			candExamenesDao.updateStartTime(pNumero, date);
+			isSuccess = true;
+		}catch (RuntimeException e) {
+			isSuccess = false;	
+		}
+		
+		return isSuccess;
+	}
 }

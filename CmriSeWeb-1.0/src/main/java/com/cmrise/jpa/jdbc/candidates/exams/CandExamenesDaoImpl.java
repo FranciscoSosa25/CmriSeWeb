@@ -172,7 +172,19 @@ public class CandExamenesDaoImpl implements CandExamenesDao {
 		java.util.Date sysdate = new java.util.Date();
 		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
 		candExamenesDto.setFechaActualizacion(sqlsysdate);
+		if(pCandExamenesDto.getExamEndTime() !=null) {
+			candExamenesDto.setExamEndTime(pCandExamenesDto.getExamEndTime());
+		}
+		
 	}
+	
+	@Override
+	public void updateStartTime(long pNumero, Date date) {
+		CandExamenesDto candExamenesDto = em.find(CandExamenesDto.class, pNumero); 
+		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(date.getTime());
+		candExamenesDto.setExamStartTime(sqlsysdate);
+	}
+
 
 	@Override
 	public List<CandExamenesV2Dto> findCandidateByExam(String cCurp, String cNombre, String c_aPaterno, String c_aMaterno, String actPor, String fechaActu
@@ -200,4 +212,10 @@ public class CandExamenesDaoImpl implements CandExamenesDao {
 		Query query = em.createQuery(strQuery);
 		return (CandExamenesV2Dto)query.getSingleResult();
 	}
+
+	@Override
+	public CandExamenesDto find(long pNumero) {
+		return em.find(CandExamenesDto.class, pNumero); 
+	}
+	
 }

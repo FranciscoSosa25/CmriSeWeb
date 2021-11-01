@@ -19,7 +19,7 @@ public class MrqsGrupoHdr implements Serializable {
 	private String admonMateriaDesc; 
 	private String admonSubMateriaDesc;
 	private int numeroReactivos; 
-	private String elaborador; 
+	private String elaborador;
 	
 	private List<MrqsGrupoLines> listMrqsGrupoLines = new ArrayList<MrqsGrupoLines>(); 
 	

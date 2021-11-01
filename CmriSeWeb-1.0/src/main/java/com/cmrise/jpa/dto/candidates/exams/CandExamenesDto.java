@@ -40,6 +40,12 @@ public class CandExamenesDto implements Serializable {
 
 	@Column(name="FECHA_ACTUALIZACION")
 	private Timestamp fechaActualizacion;
+	
+	@Column(name="EXAM_START_TIME")
+	private Timestamp examStartTime;
+	
+	@Column(name="EXAM_END_TIME")
+	private Timestamp examEndTime;
 
 	@Column(name="FECHA_CREACION")
 	private Timestamp fechaCreacion;
@@ -117,5 +123,23 @@ public class CandExamenesDto implements Serializable {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
+
+	public Timestamp getExamStartTime() {
+		return examStartTime;
+	}
+
+	public void setExamStartTime(Timestamp examStartTime) {
+		this.examStartTime = examStartTime;
+	}
+
+	public Timestamp getExamEndTime() {
+		return examEndTime;
+	}
+
+	public void setExamEndTime(Timestamp examEndTime) {
+		this.examEndTime = examEndTime;
+	}
+	
+	
 	
 }

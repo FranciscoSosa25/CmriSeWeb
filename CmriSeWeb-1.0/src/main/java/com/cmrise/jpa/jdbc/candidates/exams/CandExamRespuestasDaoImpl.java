@@ -66,6 +66,32 @@ public class CandExamRespuestasDaoImpl implements CandExamRespuestasDao {
 		candExamRespuestasDto.setDuration(duration);
 		
 	}
+	
+	
+	@Override
+	public void updateRespuesta(long pNumeroCandExamen
+            ,long pNumeroGrupo
+            ,long pNumeroPreguntaHdr
+            ,long pNumeroPreguntaFta
+            ,long duration
+            ,String pRespuesta
+            ,String estatus
+            ,double puntuacion
+            ){
+		String strQuery ="SELECT c FROM CandExamRespuestasDto c WHERE c.numeroCandExamen="+pNumeroCandExamen;
+		strQuery = strQuery+" AND c.numeroGrupo="+pNumeroGrupo; 
+		strQuery = strQuery+" AND c.numeroPreguntaHdr="+pNumeroPreguntaHdr; 
+		strQuery = strQuery+" AND c.numeroPreguntaFta="+pNumeroPreguntaFta;
+		
+		Query query = em.createQuery(strQuery);
+		
+		CandExamRespuestasDto candExamRespuestasDto = (CandExamRespuestasDto)query.getSingleResult(); 
+		candExamRespuestasDto.setRespuesta(pRespuesta);
+		candExamRespuestasDto.setDuration(duration);
+		candExamRespuestasDto.setEstatus(estatus);
+		candExamRespuestasDto.setPuntuacion(puntuacion);
+		
+	}
 
 	@Override
 	public CandExamRespuestasDto findDto(long pNumeroCandExamen

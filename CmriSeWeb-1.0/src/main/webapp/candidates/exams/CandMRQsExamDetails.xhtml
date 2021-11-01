@@ -15,46 +15,18 @@
    <p:row>
         <p:column style="font-weight: bold;width: 100px; font-size: 20px;">Examen</p:column>
         <p:column style="font-weight: bold;">
-        <h:outputText value="#{mRQsExamForm.mrqsExamen.descripcion}" style="position: relative; left:0px; font-size: 20px;"/></p:column>
+        <h:outputText value="#{candMRQsExamDetails.mrqsExamen.descripcion}" style="position: relative; left:0px; font-size: 20px;"/></p:column>
         <p:column style="font-weight: bold; font-size: 20px;">
-          <h:outputText id="FechaExa" value="#{mRQsExamForm.strDate}" />
+          <h:outputText id="FechaExa" value="#{candMRQsExamDetails.strDate}" />
          </p:column>
-         <p:column style="font-weight: bold; font-size: 20px;" class="text_right">Tiempo Restante:</p:column>
-         <p:column style="width: 100px; font-size: 20px;">
-         <pe:timer id="timer2"
-         	  rendered="#{mRQsExamForm.examTimeout > 0}"	
-              timeout="#{mRQsExamForm.examTimeout}"
-              format="HH:mm:ss"
-              forward="false"
-              listener="#{mRQsExamForm.onTimeout}"           
-              style=" background-color:hsl(210, 99%, 27%);
-					  color:#fff;
-					  border-radius:5px;  
-					  padding:0px 0px 0px 8px;
-					  left:500px;"
-              /></p:column>
+         
+
     </p:row>
     
 </p:panelGrid>
 </h:form>
 <h:form id="mqrsExaForm">
 
-		<p:dialog style="background-color:#D9E0E7;" id="myDialog" header="Examen finalizado" resizable="false" rendered="#{mRQsExamForm.showFinalMessage}" visible="#{mRQsExamForm.showFinalMessage}" modal="true">
-			<div style="font-size:35pt;  border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;">
-  				<h:outputText value="#{mRQsExamForm.mrqsExamen.getMensajeFinalizacion()}" />
-  				<p:ajax event="close" listener="#{mRQsExamForm.redirectPage()}" update="mqrsExaForm" />
-  			</div>
-        </p:dialog>
-        
-        
-        <p:dialog style="background-color:#D9E0E7;" id="myDialog2" header="Alerta de examen" resizable="false" rendered="#{not empty mRQsExamForm.errorMsg}" visible="#{not empty mRQsExamForm.errorMsg}" modal="true">
-			<div style="font-size:35pt;  border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;">
-  				<h:outputText value="#{mRQsExamForm.errorMsg}" />
-  				<p:ajax event="close" listener="#{mRQsExamForm.redirectPage()}" update="mqrsExaForm" />
-  			</div>
-        </p:dialog>
-        
-        
 <!-- CODIGO INICIO -->
    <div id="mqrsExaForm" style="background-color:#D9E0E7; ">
        <div >
@@ -72,9 +44,9 @@
        <h:outputText id="titulo" value="" /><!-- aqui venía la parte de admonmateria que se pidió eliminar -->
        </div>
        <div>
-       <p:inputText id="tipoReactivo" value="#{mRQsExamForm.tipoPregunta}"
+       <p:inputText id="tipoReactivo" value="#{candMRQsExamDetails.tipoPregunta}"
 				type="hidden" />
-       <ui:repeat var="imagenesGrupo" value="#{mRQsExamForm.listPresentMrqsImagenesGrp}" varStatus="status">
+       <ui:repeat var="imagenesGrupo" value="#{candMRQsExamDetails.listPresentMrqsImagenesGrp}" varStatus="status">
 		    <div>
 		     <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
 		        <h:panelGroup layout="block" rendered="#{imagenes.image}">
@@ -90,23 +62,22 @@
 		    </ui:repeat>
        </div>
        <div style="font-size:2em;  border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;">
-         <h:outputText id="pregunta"  value="Pregunta #{mRQsExamForm.mrqsGrupoLinesV2.questionNumber} : #{mRQsExamForm.mrqsGrupoLinesV2.textoPregunta}" />
+         <h:outputText id="pregunta"  value="Pregunta #{candMRQsExamDetails.mrqsGrupoLinesV2.questionNumber} : #{candMRQsExamDetails.mrqsGrupoLinesV2.textoPregunta}" />
        </div>
        </div>
-       <div class="ui-g-12 ui-md-12 card"
-          style=" font-size:1em;  border-spacing: 0px;
+       <div class="ui-g-12 ui-md-12 card" style=" font-size:1em;  border-spacing: 0px;
           	padding:8px 15px 8px 15px; background-color:#D9E0E7;
           	margin-bottom: 0px;
           	">
-          <p:fieldset legend="#{mRQsExamForm.mrqsGrupoLinesV2.textoSugerencias}" 
-          style="border-spacing: 2px;	padding:2px 2px 2px 2px;  background-color:#D9E0E7; font-size: 20px;width: 100%; height: 700px; overflow-y: scroll;">
+          <p:fieldset legend="#{candMRQsExamDetails.mrqsGrupoLinesV2.textoSugerencias}"
+           style="border-spacing: 2px;	padding:2px 2px 2px 2px;  background-color:#D9E0E7; font-size: 20px;width: 100%; height: 700px; overflow-y: scroll;">
           
           
 			<!-- Free text answer -->          
-            <h:panelGroup layout="block" rendered="#{mRQsExamForm.mrqsGrupoLinesV2.questionType == 'RESP_TEXTO_LIBRE'}">
+            <h:panelGroup layout="block" rendered="#{candMRQsExamDetails.mrqsGrupoLinesV2.questionType == 'RESP_TEXTO_LIBRE'}">
              <div class="ui-g-12 ui-md-12" >
 			    <p:outputLabel for="answer" value="Intrucciones: Su Respuesta:" style="font-weight: bold;"/>
-			    <p:inputTextarea id="answer"  value="#{mRQsExamForm.respuestaCandidato}" rows="10" cols="50" style="width:98%;font-size: 24px;"  maxlength="#{mRQsExamForm.limiteCaracteres}" onfocus="updateCount()" onkeyup="updateCount()" requiredMessage="#{msgs['globalForm.requiredMessage']}" autoResize="false" required="true"/>
+			    <p:inputTextarea id="answer"  value="#{candMRQsExamDetails.respuestaCandidato}" rows="10" cols="50" style="width:98%;font-size: 24px;"  maxlength="#{candMRQsExamDetails.limiteCaracteres}" onfocus="updateCount()" onkeyup="updateCount()" requiredMessage="#{msgs['globalForm.requiredMessage']}" autoResize="false" required="true"/>
 			     <br />
 			     <h:outputText id="counter"/>
 			   
@@ -117,9 +88,9 @@
 		    
 		    <!-- correlacionColumnas  -->
 		    <p:dataTable  id="ColumnasCorrelacionPrev"  
-					rendered="#{mRQsExamForm.mrqsGrupoLinesV2.questionType == 'CORRELACION_COLUMNA'}"
+					rendered="#{candMRQsExamDetails.mrqsGrupoLinesV2.questionType == 'CORRELACION_COLUMNA'}"
 					var="mrqsCorrelacionColumna"
-					value="#{mRQsExamForm.listMrqsCorrelacionColumnas}">
+					value="#{candMRQsExamDetails.listMrqsCorrelacionColumnas}">
 				
  				 <p:column style="text-align: right;">
  					<h:outputLabel id="textoPregunta"
@@ -135,7 +106,7 @@
 								noSelectionOption="true" />
 								
 							<f:selectItems
-								value="#{mRQsExamForm.listMrqsCorrelacionColumnasDto}"
+								value="#{candMRQsExamDetails.listMrqsCorrelacionColumnasDto}"
 								var="competitor" itemValue="#{competitor}" />
 						</p:selectOneMenu>		
 			 	 </p:column>	
@@ -143,33 +114,33 @@
 		    
 		    <!-- annotatedImage  -->
 		    <h:panelGroup layout="block"
-								rendered="#{mRQsExamForm.mrqsGrupoLinesV2.questionType == 'IMAGEN_ANOTADA'}">
+								rendered="#{candMRQsExamDetails.mrqsGrupoLinesV2.questionType == 'IMAGEN_ANOTADA'}">
 								<div class="ui-g-12">
 									<p:inputText id="widthImgCor"
-										value="#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.width}"
+										value="#{candMRQsExamDetails.mrqsPreguntasFtaV1ForRead.width}"
 										type="hidden" />
 									<p:inputText id="heightImgCor"
-										value="#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.height}"
+										value="#{candMRQsExamDetails.mrqsPreguntasFtaV1ForRead.height}"
 										type="hidden" />
 									<h:graphicImage id="graphicImageImgCor"
-										value="data:#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.contentType};base64,#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.imagenBase64}"
-										style="display:none;" rendered="#{mRQsExamForm.mrqsGrupoLinesV2.questionType == 'IMAGEN_ANOTADA'}"/>
+										value="data:#{candMRQsExamDetails.mrqsPreguntasFtaV1ForRead.contentType};base64,#{candMRQsExamDetails.mrqsPreguntasFtaV1ForRead.imagenBase64}"
+										style="display:none;" rendered="#{candMRQsExamDetails.mrqsGrupoLinesV2.questionType == 'IMAGEN_ANOTADA'}"/>
 									<h:panelGroup id="imgCorDiv" layout="block"
 										style="width:400px; height:150px; background-color: #DAE4E4;">
 									</h:panelGroup>
 								</div>
 							<div>
 								<ui:repeat var="anotacion"
-									value="#{mRQsExamForm.listAnotacionesCorImg}"
+									value="#{candMRQsExamDetails.listAnotacionesCorImg}"
 									varStatus="status">
 									<div class="ui-g-1">#{anotacion.nodo}</div>
 									<div class="ui-g-11">
 										<p:selectOneMenu id="respuestaCorrelacionada" required="true"
 											requiredMessage="#{msgs['globalForm.requiredMessage']}"
-											value="#{mRQsExamForm.respuestaSelect.value}">
+											value="#{candMRQsExamDetails.respuestaSelect.value}">
 											<f:selectItem itemLabel="Seleccione un Valor.." itemValue="" />
-											<p:ajax event="change" process="@this"  listener="#{mRQsExamForm.updateRespuestasImgCor(anotacion.numero)}" /> />
-											<f:selectItems value="#{mRQsExamForm.selectRespReactCorImg}" />
+											<p:ajax event="change" process="@this"  listener="#{candMRQsExamDetails.updateRespuestasImgCor(anotacion.numero)}" /> />
+											<f:selectItems value="#{candMRQsExamDetails.selectRespReactCorImg}" />
 										</p:selectOneMenu>
 										<p:message for="respuestaCorrelacionada" />
 									</div>
@@ -178,35 +149,35 @@
 						</h:panelGroup>
 							
 				<p:inputTextarea id="coordinatesImgCor"
-								value="#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.poligonos}"
+								value="#{candMRQsExamDetails.mrqsPreguntasFtaV1ForRead.poligonos}"
 								placeholder="Coordenadas" style="width:100%;display:none;" />
 								
 								
 			 <!-- IMAGEN_INDICADA  -->
 		    <h:panelGroup layout="block"
-								rendered="#{mRQsExamForm.mrqsGrupoLinesV2.questionType == 'IMAGEN_INDICADA'}">
+								rendered="#{candMRQsExamDetails.mrqsGrupoLinesV2.questionType == 'IMAGEN_INDICADA'}">
 								
 								
 								<div class="ui-g-12">
 									<p:inputText id="imgWidth"
-										value="#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.width}"
+										value="#{candMRQsExamDetails.mrqsPreguntasFtaV1ForRead.width}"
 										type="hidden" />
 									<p:inputText id="imgHeight"
-										value="#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.height}"
+										value="#{candMRQsExamDetails.mrqsPreguntasFtaV1ForRead.height}"
 										type="hidden" />
 									<div class="ui-g-12">
 									<p:inputText id="respuestasPuntos"
-												value="#{mRQsExamForm.respuestaCandidato}"
+												value="#{candMRQsExamDetails.respuestaCandidato}"
 												type="hidden" />	
 											<p:inputText id="numeroPoligonos"
-												value="#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.poligonos}"
+												value="#{candMRQsExamDetails.mrqsPreguntasFtaV1ForRead.poligonos}"
 												type="hidden" />	
 										
 									
 									<div id="canvas-container" class="canvas-container" style="visibility:visible;">	
 												<div class="canvas-content">	
 													<h:graphicImage id="canvas-image" style="display:none;"
-																value="data:#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.contentType};base64,#{mRQsExamForm.mrqsPreguntasFtaV1ForRead.imagenBase64}"
+																value="data:#{candMRQsExamDetails.mrqsPreguntasFtaV1ForRead.contentType};base64,#{candMRQsExamDetails.mrqsPreguntasFtaV1ForRead.imagenBase64}"
 																>
     												</h:graphicImage>	
 												</div>
@@ -218,9 +189,7 @@
 										></canvas>
 									</div>
 									
-									<div class="ui-g-2" >
-													
-									</div>
+									
 										
 											
 									
@@ -233,7 +202,7 @@
 											'canvas-container', 
 											'mqrsExaForm:imgHeight', 
 											'mqrsExaForm:imgWidth', 
-											undefined, 
+											'mqrsExaForm:cursorCor', 
 											'mqrsExaForm:respuestasPuntos');	
 								})
 								
@@ -244,44 +213,34 @@
 						</h:panelGroup>				
 								
 		    <!-- multipleChoice -->
-		    <h:panelGroup layout="block" rendered="#{mRQsExamForm.mrqsGrupoLinesV2.questionType == 'OPCION_MULTIPLE'  and mRQsExamForm.mrqsGrupoLinesV2.singleAnswerMode}">
+		    <h:panelGroup layout="block" rendered="#{candMRQsExamDetails.mrqsGrupoLinesV2.questionType == 'OPCION_MULTIPLE'  and candMRQsExamDetails.mrqsGrupoLinesV2.singleAnswerMode}">
 		      <div class="ui-g-12 ui-md-12" >
-		         <p:selectOneRadio id="answerRadioSingle" value="#{mRQsExamForm.respuestaCandidato}" layout="grid" columns="1"  requiredMessage="#{msgs['globalForm.requiredMessage']}" required="true">
-				 <f:selectItems value="#{mRQsExamForm.listMrqsOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
+		         <p:selectOneRadio id="answerRadioSingle" value="#{candMRQsExamDetails.respuestaCandidato}" layout="grid" columns="1"  requiredMessage="#{msgs['globalForm.requiredMessage']}" required="true">
+				 <f:selectItems value="#{candMRQsExamDetails.listMrqsOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
 				 </p:selectOneRadio>
 				   <p:message for="answerRadioSingle"  />
 		      </div>
              </h:panelGroup>  
              
             
-            <h:panelGroup layout="block" rendered="#{mRQsExamForm.mrqsGrupoLinesV2.questionType == 'OPCION_MULTIPLE' and not mRQsExamForm.mrqsGrupoLinesV2.singleAnswerMode}" style="border-spacing: 1px;	padding:1px 1px 1px 1px;  background-color:#D9E0E7;">
-		         <p:selectManyCheckbox id="answerRadioMultiple"  value="#{mRQsExamForm.respuestasPreguntaCandidato}" layout="grid" columns="1" requiredMessage="#{msgs['globalForm.requiredMessage']}"  requerid="true">
-				 <f:selectItems value="#{mRQsExamForm.listMrqsOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
+            <h:panelGroup layout="block" rendered="#{candMRQsExamDetails.mrqsGrupoLinesV2.questionType == 'OPCION_MULTIPLE' and not candMRQsExamDetails.mrqsGrupoLinesV2.singleAnswerMode}" style="border-spacing: 1px;	padding:1px 1px 1px 1px;  background-color:#D9E0E7;">
+		         <p:selectManyCheckbox id="answerRadioMultiple"  value="#{candMRQsExamDetails.respuestasPreguntaCandidato}" layout="grid" columns="1" requiredMessage="#{msgs['globalForm.requiredMessage']}"  requerid="true">
+				 <f:selectItems value="#{candMRQsExamDetails.listMrqsOpcionMultiple}" var="l" itemLabel="#{l.textoRespuesta}" itemValue="#{l.numero}"/>
 				 </p:selectManyCheckbox>
 				 <p:message for="answerRadioMultiple"  />
              </h:panelGroup>  
             </p:fieldset>
             
+            
             <div class="ui-g-12 ui-md-12">
-             <h:outputText id="timerVal" value="#{mRQsExamForm.timerValue}" rendered="true" />
-             <p:commandButton value="Saltar Pregunta" style="margin-left:15px"  actionListener="#{mRQsExamForm.SaltarPregunta()}" update="mqrsExaForm" rendered="#{mRQsExamForm.mrqsExamen.saltarPreguntas}" immediate="true"  disabled="#{mRQsExamForm.questionQueue.size() == 1}" />
-             <p:commandButton value="Siguiente" actionListener="#{mRQsExamForm.siguienteGuardarResp()}" update="mqrsExaForm myDialog" style="margin-left:15px"    />
-             <p:commandButton id="divSeriesReset" icon="fa fa-remove"  type="button"
-             											rendered="#{mRQsExamForm.mrqsGrupoLinesV2.questionType == 'IMAGEN_INDICADA'}"
-														value="Limpiar"
-														onclick="polyModel.clearPoint('paintingCanvas', 
-															'canvas-container', 
-															'mqrsExaForm:imgHeight', 
-															'mqrsExaForm:imgWidth', 
-															'mqrsExaForm:cursorCor', 
-															'mqrsExaForm:respuestasPuntos')"
-													 	style="background: #2d0d86;" />
-           	</div>   
-         	</div>
-		</div> 
-		
-		 
-		    
+             <p:commandButton value="Prev" style="margin-left:15px" actionListener="#{candMRQsExamDetails.prevQuestion()}" update="mqrsExaForm" disabled="#{!candMRQsExamDetails.questionIterator.hasPrevious()}" />
+             <p:commandButton value="Next" actionListener="#{candMRQsExamDetails.nextQuestion()}" update="mqrsExaForm" style="margin-left:15px"   disabled="#{!candMRQsExamDetails.questionIterator.hasNext()}"  />
+             <p:commandButton icon="fa fa-backward" value="Cerrar"
+								action="#{candMRQsExamDetails.returnToView()}" immediate="true"
+								style="backGround:#2D0D86;" />
+           </div>
+	       </div> 
+       </div>   
          
 	    
 <!-- CODIGO FIN -->

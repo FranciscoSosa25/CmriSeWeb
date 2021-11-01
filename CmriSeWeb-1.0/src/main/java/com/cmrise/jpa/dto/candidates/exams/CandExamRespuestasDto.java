@@ -45,13 +45,16 @@ public class CandExamRespuestasDto  implements Serializable {
 	private long numeroPreguntaFta; 
 	
 	@Column(name="RESPUESTA")
-	private String respuesta; 
+	private String respuesta;
+	
+	@Column(name="ESTATUS")
+	private String estatus;
 	
 	@Column(name="PUNTUACION")
 	private double puntuacion; 
 	
 	@Column(name="DURATION")
-	private long duration; 
+	private Long duration; 
 	
 	public long getNumero() {
 		return this.numero;
@@ -141,13 +144,23 @@ public class CandExamRespuestasDto  implements Serializable {
 		this.respuesta = respuesta;
 	}
 
-	public long getDuration() {
+	public Long getDuration() {
 		return duration;
 	}
 
-	public void setDuration(long duration) {
+	public void setDuration(Long duration) {
 		this.duration = duration;
 	}
+
+	public String getEstatus() {
+		return estatus;
+	}
+
+	public void setEstatus(String estatus) {
+		this.estatus = estatus;
+	}
+
+	
 	
 	
 

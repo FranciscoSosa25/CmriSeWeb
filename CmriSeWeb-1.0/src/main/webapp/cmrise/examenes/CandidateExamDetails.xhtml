@@ -64,7 +64,9 @@
 					<p:dataTable var="candAns" value="#{candidateExamDetailsForm.listCandExamRespuestasV1}">
 					<f:facet name="header">Examen</f:facet>
 					<p:column headerText="Acción">
-						<p:commandButton value="Ver" style="margin-left: 10px"  />
+						<p:commandButton value="Ver"
+								action="#{candidateExamDetailsForm.toDetailExam(candAns)}" immediate="true"
+								style="backGround:#2D0D86;" />
 					</p:column>
 					<p:column headerText="Reactivo">
 						<h:outputText value="#{candAns.numeroPreguntaFta}" />

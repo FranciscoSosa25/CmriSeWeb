@@ -23,6 +23,16 @@ public interface CandExamRespuestasDao {
 				               ,String pRespuesta
 				               );
 	
+	public void updateRespuesta(long pNumeroCandExamen
+            ,long pNumeroGrupo
+            ,long pNumeroPreguntaHdr
+            ,long pNumeroPreguntaFta
+            ,long duration
+            ,String pRespuesta
+            ,String estatus
+            ,double puntuacion
+            );
+	
 	public CandExamRespuestasDto findDto(long pNumeroCandExamen
 							            ,long pNumeroGrupo
 							            ,long pNumeroPreguntaHdr
