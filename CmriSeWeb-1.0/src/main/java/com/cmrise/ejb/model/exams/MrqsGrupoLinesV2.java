@@ -2,6 +2,7 @@ package com.cmrise.ejb.model.exams;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class MrqsGrupoLinesV2 implements Serializable {
 
@@ -28,6 +29,11 @@ public class MrqsGrupoLinesV2 implements Serializable {
 	private boolean singleAnswerMode; 
 	private boolean suffleAnswerOrder; 
 	private long tiempoEspera;
+	private Date startTime;
+	private Date endTime;
+	private long duration; 
+	private String questionType;
+	private String questionNumber;
 	
 	public long getNumero() {
 		return this.numero;
@@ -197,6 +203,47 @@ public class MrqsGrupoLinesV2 implements Serializable {
 		this.tiempoEspera = tiempoEspera;
 	}
 
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public long getDuration() {
+		return duration;
+	}
+
+	public void setDuration(long duration) {
+		this.duration = duration;
+	}
+
+	public String getQuestionType() {
+		return questionType;
+	}
+
+	public void setQuestionType(String questionType) {
+		this.questionType = questionType;
+	}
+
+	public String getQuestionNumber() {
+		return questionNumber;
+	}
+
+	public void setQuestionNumber(String questionNumber) {
+		this.questionNumber = questionNumber;
+	}
+
+	
 	
 	
 }

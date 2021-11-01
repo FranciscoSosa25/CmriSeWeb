@@ -32,6 +32,8 @@ public class HistoryExamsForm {
 	private int tiempo;
 	private Boolean showtable = true;
 	private String buttonText = "Ver";
+	private Examenes presentExamenes;
+	private CandHExamenes presentCandHExamenes;
 
 	@Inject
 	CandExamenesLocal candExamenesLocal;
@@ -48,6 +50,15 @@ public class HistoryExamsForm {
 		
 	    public void refreshEntity() {
 	     listExamenes = examenesLocal.findAllObjMod(); 
+	     FacesContext context = FacesContext.getCurrentInstance(); 
+    	 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+    	 clearForm();
+    	 
+    	 Examenes examenes = (Examenes)session.getAttribute("CEDExam");
+    	 if(examenes !=null) {
+    		 session.removeAttribute("CEDExam");
+    		 updateTable(examenes);
+    	 }
 	    }
 
 	public String toDetailExam(Examenes pExamenes) {
@@ -58,27 +69,35 @@ public class HistoryExamsForm {
 		return "History-Exams-Detail"; 
 	}
 	
-	public List<Examenes> updateTable(int id_examen) {
+	public void reloadPage() {
+		clearForm();
+		listExamenes = examenesLocal.findAllObjMod();
+		listCandidatos.clear();
+	}
+	
+	
+	
+	public List<Examenes> updateTable(Examenes examenes) {
 		changeButtonText();
 		clearForm();
-	    showtable = !showtable;
-	    if(!showtable)
-		{
-	    	setIdExamen((int)id_examen);
-	    	//findByTituloExamen();
-	    	//listExamenes=examenesLocal.findByTituloExamen(idExamen, nombreExamen, fechaDesde, fechaHasta, tiempo, tipoExamen);
-		}
+	    this.presentExamenes = examenes;
+	    setIdExamen((int)examenes.getNumero());
 	    setListCandidatos(examenesLocal.findCandidatesForthisExam(this.idExamen));
 	    return listExamenes= examenesLocal.findByTituloExamen(this.idExamen,this.nombreExamen,this.fechaDesde,this.fechaHasta,this.tiempo,this.tipoExamen);
 	}
 	
-	public String toPreviewExamDetails() {
+	public String toPreviewExamDetails(CandHExamenes candHExamenes) {
 		 FacesContext context = FacesContext.getCurrentInstance(); 
     	 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-    	 session.setAttribute("NumeroMrqsExamenSV", this.idExamen);
+    	 session.setAttribute("NumeroMrqsExamenSV", presentExamenes.getNumero());
+    	 session.setAttribute("CEDExam", presentExamenes);
+    	 session.setAttribute("CEDCandHExamenes", candHExamenes);
+    	 session.setAttribute("CEDReturnView", "History-Exams");
         	/*return "Preview-Examen-Reactivos";*/
     	 return "Candidate-Exam-Details";
 	}
+	
+	
 	
 	public Boolean getShowtable() {
 	    return showtable;
@@ -167,7 +186,6 @@ public class HistoryExamsForm {
         setFechaHasta(null);
         setTiempo(0);
         setTipoExamen("");
-        refreshEntity();
     }
 	
 	public void changeButtonText() {

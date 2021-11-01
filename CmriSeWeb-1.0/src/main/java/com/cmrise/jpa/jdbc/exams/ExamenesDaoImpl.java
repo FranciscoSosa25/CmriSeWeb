@@ -108,8 +108,8 @@ public class ExamenesDaoImpl implements ExamenesDao {
 		String strQuery = "SELECT C.NOMBRE_COMPLETO_USUARIO, C.TIPO"
 				+ ",(SELECT SUM(NUMERO_REACTIVOS) FROM dbo.MRQS_GRUPO_HDR_V1 WHERE NUMERO_EXAMEN = "
 				+ idExamen
-				+ " ) AS TOTAL_REACTIVOS"
-				+ ",E.TIEMPO_LIMITE FROM dbo.CAND_EXAMENES_V1 C LEFT JOIN dbo.MRQS_EXAMENES E "
+				+ " ) AS TOTAL_REACTIVOS "
+				+ ",E.TIEMPO_LIMITE, C.RECTIVOS_RESPONDIDOS, C.NUMERO AS NUMERO_CAND_EXAMEN   FROM dbo.CAND_EXAMENES_V1 C LEFT JOIN dbo.MRQS_EXAMENES E "
 				+ "ON C.NUMERO_EXAMEN=E.NUMERO WHERE E.NUMERO = "
 				+ idExamen + " ORDER BY C.NOMBRE_COMPLETO_USUARIO";
 
@@ -118,5 +118,23 @@ public class ExamenesDaoImpl implements ExamenesDao {
 		Query query = em.createNativeQuery(strQuery);
 		return query.getResultList();
 	}
+	@Override
+	public List<Object> findCandidatesExamDetails(int idExamen, long numeroCandExamen){
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String strQuery = "SELECT C.NOMBRE_COMPLETO_USUARIO, C.TIPO"
+				+ ",(SELECT SUM(NUMERO_REACTIVOS) FROM dbo.MRQS_GRUPO_HDR_V1 WHERE NUMERO_EXAMEN = "
+				+ idExamen
+				+ " ) AS TOTAL_REACTIVOS "
+				+ ",E.TIEMPO_LIMITE, C.RECTIVOS_RESPONDIDOS, C.NUMERO AS NUMERO_CAND_EXAMEN   FROM dbo.CAND_EXAMENES_V1 C LEFT JOIN dbo.MRQS_EXAMENES E "
+				+ "ON C.NUMERO_EXAMEN=E.NUMERO WHERE E.NUMERO = "
+				+ idExamen + " AND C.NUMERO_USUARIO = "+numeroCandExamen+"  ORDER BY C.NOMBRE_COMPLETO_USUARIO";
+
+		System.out.println(strQuery);
+
+		Query query = em.createNativeQuery(strQuery);
+		return query.getResultList();
+	}
+
 
 }

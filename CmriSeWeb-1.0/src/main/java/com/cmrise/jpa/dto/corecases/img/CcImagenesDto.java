@@ -52,6 +52,9 @@ public class CcImagenesDto implements Serializable {
 	
 	@Column(name="POLIGONOS")
 	private Long poligonos; 
+	
+	@Column(name="CONTENT_TYPE")
+	private String contentType; 
 
 	
 	public long getNumero() {
@@ -148,6 +151,14 @@ public class CcImagenesDto implements Serializable {
 
 	public void setPoligonos(Long poligons) {
 		this.poligonos = poligons;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
 	}
 
 	

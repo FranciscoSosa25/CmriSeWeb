@@ -44,6 +44,7 @@ public class CcImagenesDaoImpl implements CcImagenesDao {
 		ccImagenesDto.setNumeroGrp(pNumeroImagenesGrp);
 		ccImagenesDto.setNombreImagen(pCcImagenes.getNombreImagen());
 		ccImagenesDto.setRutaImagen(pCcImagenes.getRutaImagen());
+		ccImagenesDto.setContentType(pCcImagenes.getContentType());
 		System.out.println("V1 mrqsImagenesDto.getRutaImagen():"+ccImagenesDto.getRutaImagen());
 		insert(ccImagenesDto);
 		System.out.println("V2 mrqsImagenesDto.getRutaImagen():"+ccImagenesDto.getRutaImagen());

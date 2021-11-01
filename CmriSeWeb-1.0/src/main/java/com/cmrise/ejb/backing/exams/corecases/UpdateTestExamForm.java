@@ -77,18 +77,28 @@ public class UpdateTestExamForm {
 	private List<SelectItem> selectEstatusCC = new ArrayList<SelectItem>();
 	private List<AdmonMateriaHdr> materiasHdrDelete = new ArrayList<AdmonMateriaHdr>();
 	private List<AdmonSubMateria> subMateriasDelete = new ArrayList<AdmonSubMateria>();
-	private List<SelectItem> selectExamenesHdrDelete = new ArrayList<SelectItem>(); 
+	 
 	private List<SelectItem> selectMateriasHdrDelete = new ArrayList<SelectItem>();  
 	private List<SelectItem> selectSubMateriasDelete = new ArrayList<SelectItem>();
 	private List<SelectItem> selectEstatusDelete = new ArrayList<SelectItem>();
-	private List<CcExamAsignaciones> listCcHdrV1Delete = new ArrayList<CcExamAsignaciones>();
+	private List<CcExamAsignaciones> listCcHdrV1Delete = new ArrayList<CcExamAsignaciones>();	
 	private List<CcExamAsignaciones> selectedlistCcHdrV1Delete = new ArrayList<CcExamAsignaciones>(); 
+	
+	private List<CcExamAsignaciones> listCcHdrVDT = new ArrayList<CcExamAsignaciones>();
+	private List<SelectItem> selectEstatusVDT = new ArrayList<SelectItem>();
+	private List<SelectItem> selectMateriasHdrVDT = new ArrayList<SelectItem>();
+	private List<AdmonMateriaHdr> materiasHdrVDT = new ArrayList<AdmonMateriaHdr>();
+	private List<CcHdrV1> selectedlistCcHdrVDT = new ArrayList<CcHdrV1>();
+	
 	private long admonMateriaDelete; 
 	private long admonSubmateriaDelete;
 	private long admonMateria; 
 	private long admonSubmateria;
 	private String admonEstatus;
 	private String admonEstatusDelete;	
+	
+	private long admonMateriaView;
+	private String admonEstatusView;
 	
 	private TreeNode rootCcExamAsignaciones;
 	private TreeNode selectedNode;
@@ -152,6 +162,21 @@ public class UpdateTestExamForm {
 		
 		//listCcExamAsignaciones = ccExamAsignacionesLocal.findByNumeroExamenWD(this.getNumeroCcExamen());
 		listCcExamAsignaciones = ccExamenesObjMod.getListCcExamAsignaciones(); 		
+		listCcHdrVDT = ccHdrLocal.findCCInExam(numeroCcExamen);
+		
+		materiasHdrVDT = admonMateriaHdrLocal.findByNumeroAdmonExamen(getIdTipoExamen());   
+		for(AdmonMateriaHdr i:materiasHdrVDT) {
+			 SelectItem selectItem = new SelectItem(i.getNumero(),i.getNombre());
+			 selectMateriasHdrVDT.add(selectItem); 
+		}
+	
+		List<TablasUtilitariasValoresDto> listEstatusCCValores =  tablasUtilitariasValoresLocal.findByTipoTabla("ESTATUS_CC");  
+		Iterator<TablasUtilitariasValoresDto> iterEstatusCCValores = listEstatusCCValores.iterator(); 
+		while(iterEstatusCCValores.hasNext()) {
+			TablasUtilitariasValoresDto tablasUtilitariasValoresDto = iterEstatusCCValores.next();
+			SelectItem selectItem = new SelectItem(tablasUtilitariasValoresDto.getCodigoTabla(),tablasUtilitariasValoresDto.getSignificado()); 
+			selectEstatusVDT.add(selectItem);
+		}
 		
 		rootCcExamAsignaciones = new DefaultTreeNode("Root", null);
 		if(null!=listCcExamAsignaciones) {
@@ -203,8 +228,8 @@ public class UpdateTestExamForm {
 		
 		try {
 			
-			if(listCcHdrV1Delete.size()<1) {	
-				System.out.println("listCcHdrV1Delete.size()=" + listCcHdrV1Delete.size());
+			if(listCcHdrVDT.size()<1) {	
+				System.out.println("listCcHdrVDT.size()=" + listCcHdrVDT.size());
 				context.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Por favor agregue al menos un Caso Clínico al examen"));
 			}else {
 				ccExamenesLocal.update(this.getNumeroCcExamen(), ccExamenesUpdateDto);
@@ -586,14 +611,6 @@ public class UpdateTestExamForm {
 		this.subMateriasDelete = subMateriasDelete;
 	}
 
-	public List<SelectItem> getSelectExamenesHdrDelete() {
-		return selectExamenesHdrDelete;
-	}
-
-	public void setSelectExamenesHdrDelete(List<SelectItem> selectExamenesHdrDelete) {
-		this.selectExamenesHdrDelete = selectExamenesHdrDelete;
-	}
-
 	public List<SelectItem> getSelectMateriasHdrDelete() {
 		return selectMateriasHdrDelete;
 	}
@@ -680,6 +697,62 @@ public class UpdateTestExamForm {
 
 	public void setSelectEstatusDelete(List<SelectItem> selectEstatusDelete) {
 		this.selectEstatusDelete = selectEstatusDelete;
+	}
+
+	public List<CcExamAsignaciones> getListCcHdrVDT() {
+		return listCcHdrVDT;
+	}
+
+	public void setListCcHdrVDT(List<CcExamAsignaciones> listCcHdrVDT) {
+		this.listCcHdrVDT = listCcHdrVDT;
+	}
+
+	public List<SelectItem> getSelectEstatusVDT() {
+		return selectEstatusVDT;
+	}
+
+	public void setSelectEstatusVDT(List<SelectItem> selectEstatusVDT) {
+		this.selectEstatusVDT = selectEstatusVDT;
+	}
+
+	public List<SelectItem> getSelectMateriasHdrVDT() {
+		return selectMateriasHdrVDT;
+	}
+
+	public void setSelectMateriasHdrVDT(List<SelectItem> selectMateriasHdrVDT) {
+		this.selectMateriasHdrVDT = selectMateriasHdrVDT;
+	}
+
+	public List<AdmonMateriaHdr> getMateriasHdrVDT() {
+		return materiasHdrVDT;
+	}
+
+	public void setMateriasHdrVDT(List<AdmonMateriaHdr> materiasHdrVDT) {
+		this.materiasHdrVDT = materiasHdrVDT;
+	}
+
+	public long getAdmonMateriaView() {
+		return admonMateriaView;
+	}
+
+	public void setAdmonMateriaView(long admonMateriaView) {
+		this.admonMateriaView = admonMateriaView;
+	}
+
+	public String getAdmonEstatusView() {
+		return admonEstatusView;
+	}
+
+	public void setAdmonEstatusView(String admonEstatusView) {
+		this.admonEstatusView = admonEstatusView;
+	}
+
+	public List<CcHdrV1> getSelectedlistCcHdrVDT() {
+		return selectedlistCcHdrVDT;
+	}
+
+	public void setSelectedlistCcHdrVDT(List<CcHdrV1> selectedlistCcHdrVDT) {
+		this.selectedlistCcHdrVDT = selectedlistCcHdrVDT;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.cmrise.ejb.services.candidates.exams;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,8 +8,11 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.cmrise.ejb.model.candidates.exams.CandExamenesV1;
 import com.cmrise.ejb.model.candidates.exams.CandExamenesV2;
+import com.cmrise.ejb.model.exams.CandExams;
 import com.cmrise.jpa.dao.candidates.exams.CandExamenesDao;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesDto;
 import com.cmrise.jpa.dto.candidates.exams.CandExamenesV1Dto;
@@ -96,6 +100,47 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 		}
 		return retval;
 	}
+	@Override
+	public List<CandExams> findAllByCandidate(long pNumeroUsuario, String matricula, String cCurp) {
+		List<CandExams> retval = new ArrayList<CandExams>(); 
+		List<Object> listCandExamenesV2Dto = candExamenesDao.findAllByCandidate(pNumeroUsuario,matricula,cCurp); 
+		for(Object object:listCandExamenesV2Dto) {
+			 retval.add(convertToCandExams(object));
+			
+		}
+		return retval;
+	}
+	
+	private CandExams convertToCandExams(Object pObject) {
+		CandExams candExams = new CandExams();
+		if(pObject instanceof Object[]) {
+			Object[] row = (Object[]) pObject;
+			try {
+			if(row[0] instanceof BigInteger) { /** NOMBRE COMPLETO **/
+				 candExams.setNumeroUsuario(((BigInteger)row[0]).longValue());
+			}
+			if(row[1] instanceof String) { /** TIPO **/
+				 candExams.setCurp(String.valueOf(row[1]));
+			}
+			if(row[2] instanceof String) { /** NOMBRE **/
+				candExams.setNombreCompletoUsuario(String.valueOf(row[2]));
+			}
+			if(row[3] instanceof String) { /** NOMBRE **/
+				candExams.setMatricula(String.valueOf(row[3]));
+			}
+			if(row[4] instanceof Integer) { /** TIEMPO_LIMITE **/
+				candExams.setExamCount(((Integer)row[4]).intValue()); 
+			}
+			}catch (RuntimeException e) {
+				// TODO: handle exception
+			}
+		}
+		return candExams;
+	}
+	
+	
+	
+	
 
 	public CandExamenesV2 dtoV2ToObjMod(CandExamenesV2Dto pCandExamenesV2Dto) {
 		CandExamenesV2 retval = new CandExamenesV2(); 
@@ -105,6 +150,8 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 		retval.setMatricula(pCandExamenesV2Dto.getMatricula());
 		retval.setNombreCompletoUsuario(pCandExamenesV2Dto.getNombreCompletoUsuario());
 		retval.setDescripcionRol(pCandExamenesV2Dto.getDescripcionRol());
+		retval.setDescripcion(pCandExamenesV2Dto.getDescripcion());
+		retval.setTotalPuntuacion(pCandExamenesV2Dto.getTotalPuntuacion());
 		if(Utilitarios.CORE_CASES.equals(pCandExamenesV2Dto.getTipo()))
 			retval.setTipo(Utilitarios.CORE_CASES_TITLE);
 		else
@@ -187,5 +234,28 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 		retval.setNumeroExamen(candExamenesV2Dto.getNumeroExamen());
 		retval.setTipo(candExamenesV2Dto.getTipo());
 		return retval;
+	}
+
+	@Override
+	public Date getStartTime(long pNumero) {
+		Date startTime = null;
+		CandExamenesDto candExamenesDto	=candExamenesDao.find(pNumero);
+		if(candExamenesDto !=null && candExamenesDto.getExamStartTime() !=null) {
+		   startTime=new java.util.Date(candExamenesDto.getExamStartTime().getTime());
+		}
+		return startTime;
+	}
+
+	@Override
+	public boolean updateStartTime(long pNumero, Date date) {
+		boolean isSuccess = false;
+		try {
+			candExamenesDao.updateStartTime(pNumero, date);
+			isSuccess = true;
+		}catch (RuntimeException e) {
+			isSuccess = false;	
+		}
+		
+		return isSuccess;
 	}
 }

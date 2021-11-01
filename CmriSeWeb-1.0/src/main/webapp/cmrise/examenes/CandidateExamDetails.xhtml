@@ -6,40 +6,104 @@
 	template="/WEB-INF/template/template.xhtml">
 
 	<ui:define name="content">
+	
+	<style>
+.ui-accordion-header {
+	background-color: #2d0d86;
+}
+.no-border {
+    border-style: hidden !important ; /* or none */
+}
+.canvas-container {
+	position: relative;
+}
+.cmrise .output-lable{
+    font-weight: 600;
+    font-size: medium;
+}
+
+</style>
 		<h:form id="data-form">
-			<h:outputLabel for="exam" value="Examen:" />
-			<br> </br>
-			<h:outputLabel for="Description" value="Descripción:" />
-			<br> </br>
-			<h:outputLabel for="name" value="Candidato:" />
-
-			<p:dataTable>
-			<f:facet name="header">Examen</f:facet>
-			<p:column headerText="Acción">
-				<p:commandButton value="Ver" style="margin-left: 10px"  />
-			</p:column>
-			<p:column headerText="Reactivo">
-				<h:outputText value="" />
-			</p:column>
-			<p:column headerText="Respuesta">
-				<h:outputText value="">
-				</h:outputText>
-			</p:column>
-			<p:column headerText="Calificación pregunta">
-				<h:outputText value="#{examen.tiempoLimite}" />
-			</p:column>
-			</p:dataTable>
-
-			<p:dataTable>
-				<p:column headerText="Calificación">
-					<h:outputText value="" />
-				</p:column>
-				<p:column headerText="Estado">
-					<h:outputText value="" />
-				</p:column>
-
-			</p:dataTable>
-
+			<div class="card cmrise">
+			 <div class="ui-g">
+  				<div class="ui-g-12 ui-md-9">
+					<div class="ui-g-12" >
+					<p:outputLabel value="Examen: " styleClass="output-lable" /><h:outputLabel value="#{candidateExamDetailsForm.presentExamenes.nombre}" />
+					</div>
+					<div class="ui-g-12" >
+					<p:outputLabel value="Descripción: " styleClass="output-lable" /> <h:outputLabel value=" #{candidateExamDetailsForm.presentExamenes.descripcion}" />
+					</div>
+					<div class="ui-g-12">
+					<p:outputLabel value="Candidato: " styleClass="output-lable" />  <h:outputLabel  value="#{candidateExamDetailsForm.presentCandHExamenes.nombre}" />
+					</div>
+					<div class="ui-g-12">
+					<p:outputLabel value="Estado: " styleClass="output-lable" />  <h:outputLabel  value="Approved" />
+					</div>
+					<!-- <h:outputText value="#{candidateExamDetailsForm.presentCandHExamenes.totalScore} = #{candidateExamDetailsForm.presentCandHExamenes.obtainScore}" /> -->
+				</div>
+				<div class="ui-g-12 ui-md-3" >
+					<div class="ui-g-12" >
+					<p:outputLabel value="Calificación: " styleClass="output-lable" /><h:outputLabel value="#{candidateExamDetailsForm.presentCandHExamenes.totalScore} = #{candidateExamDetailsForm.presentCandHExamenes.obtainScore}" />
+					</div>
+					<div class="ui-g-12" >
+					<p:outputLabel value="Obtener puntuación: " styleClass="output-lable" /> <h:outputLabel  value=" #{candidateExamDetailsForm.presentCandHExamenes.obtainScore}" />
+					</div>
+					<div class="ui-g-12">
+					<p:outputLabel value="Puntuación media: " styleClass="output-lable" />  <h:outputLabel  value="#{candidateExamDetailsForm.presentCandHExamenes.avgScore}" />
+					</div>
+					<div class="ui-g-12">
+					<p:outputLabel value="Porcentaje(%): " styleClass="output-lable" />  <h:outputLabel value="#{candidateExamDetailsForm.presentCandHExamenes.percentage}" />
+					</div>
+					<!-- <h:outputText value="#{candidateExamDetailsForm.presentCandHExamenes.totalScore} = #{candidateExamDetailsForm.presentCandHExamenes.obtainScore}" /> -->
+				</div>
+			</div>
+		   </div>
+		   <div class="card cmrise">
+			 <div class="ui-g">			
+				<div class="ui-g-12 ui-md-12">
+					<p:dataTable var="candAns" value="#{candidateExamDetailsForm.listCandExamRespuestasV1}">
+					<f:facet name="header">Examen</f:facet>
+					<p:column headerText="Acción">
+						<p:commandButton value="Ver"
+								action="#{candidateExamDetailsForm.toDetailExam(candAns)}" immediate="true"
+								style="backGround:#2D0D86;" />
+					</p:column>
+					<p:column headerText="Reactivo">
+						<h:outputText value="#{candAns.numeroPreguntaFta}" />
+					</p:column>
+					<p:column headerText="Respuesta">
+						<h:outputText value="#{candAns.respuesta}" />
+						
+					</p:column>
+					<p:column headerText="Clasificación">
+						<h:outputText value="#{candAns.tipoPreguntaDesc}" />
+					</p:column>
+					<p:column headerText="Valor de puntuación">
+						<h:outputText value="#{candAns.valorPuntuacion}" />
+					</p:column>
+					
+					<p:column headerText="Calificación pregunta">
+						<h:outputText value="#{candAns.puntuacion}" />
+					</p:column>
+					<p:column headerText="Tiempo invertido (segundos)">
+						<h:outputText value="#{candAns.timeSpent}" />
+					</p:column>
+					
+					</p:dataTable>
+		
+					
+					</div>
+				</div>	
+			</div>
+			 <div class="card cmrise">
+			 	<div class="ui-g">
+					 
+							<p:commandButton icon="fa fa-backward" value="Cerrar"
+								action="#{candidateExamDetailsForm.returnToView()}" immediate="true"
+								style="backGround:#2D0D86;" />
+						     	
+			 	</div>
+			 </div>	
 		</h:form>
 
 	</ui:define>

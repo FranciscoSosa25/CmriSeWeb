@@ -75,9 +75,9 @@ public class CreateCoreCaseForm {
    	    ccHdrV1ForInsert.setEstatus(Utilitarios.INITIAL_STATUS_MRQ);
 		ccHdrV1ForInsert.setFechaCreacion(new java.util.Date());
 		ccHdrV1ForInsert.setFechaActualizacion(new java.util.Date());
-		setNumeroCcHdr(0); 
+		 
 		try {
-		 setNumeroCcHdr(ccHdrLocal.insert(ccHdrV1ForInsert));
+		 numeroCcHdr = ccHdrLocal.insert(ccHdrV1ForInsert);
 		}catch(Exception e) {
 			 Throwable throwable = e.getCause();
 			 while(null!=throwable) {

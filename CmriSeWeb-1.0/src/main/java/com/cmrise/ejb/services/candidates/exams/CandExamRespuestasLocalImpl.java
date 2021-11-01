@@ -38,13 +38,38 @@ public class CandExamRespuestasLocalImpl implements CandExamRespuestasLocal {
 			                  , long pNumeroGrupo
 			                  , long pNumeroPreguntaHdr
 			                  , long pNumeroPreguntaFta
+			                  ,long duration
 			                  , String pRespuesta) {
 		candExamRespuestasDao.updateRespuesta(pNumeroCandExamen
 				                            , pNumeroGrupo
 				                            , pNumeroPreguntaHdr
 				                            , pNumeroPreguntaFta
+				                            , duration
 				                            , pRespuesta
 				                            );
+	}
+	
+
+	public void updateRespuesta(long pNumeroCandExamen
+            ,long pNumeroGrupo
+            ,long pNumeroPreguntaHdr
+            ,long pNumeroPreguntaFta
+            ,long duration
+            ,String pRespuesta
+            ,String estatus
+            ,double puntuacion
+            ) {
+		
+		candExamRespuestasDao.updateRespuesta(pNumeroCandExamen
+                , pNumeroGrupo
+                , pNumeroPreguntaHdr
+                , pNumeroPreguntaFta
+                , duration
+                , pRespuesta
+                , estatus
+                ,puntuacion
+                );
+		
 	}
 
 	@Override
@@ -94,6 +119,7 @@ public class CandExamRespuestasLocalImpl implements CandExamRespuestasLocal {
 			 candExamRespuestasV1.setNumeroPreguntaHdr(candExamRespuestasV1Dto.getNumeroPreguntaHdr());
 			 candExamRespuestasV1.setNumeroPreguntaFta(candExamRespuestasV1Dto.getNumeroPreguntaFta());
 			 candExamRespuestasV1.setRespuesta(candExamRespuestasV1Dto.getRespuesta());
+			 candExamRespuestasV1.setValorPuntuacion(candExamRespuestasV1Dto.getValorPuntuacion());
 			 candExamRespuestasV1.setPuntuacion(candExamRespuestasV1Dto.getPuntuacion());
 			 candExamRespuestasV1.setEstatus(candExamRespuestasV1Dto.getEstatus());
 			 candExamRespuestasV1.setNumOpcCorrectas(candExamRespuestasV1Dto.getNumOpcCorrectas());
@@ -104,6 +130,13 @@ public class CandExamRespuestasLocalImpl implements CandExamRespuestasLocal {
 			 candExamRespuestasV1.setTituloPregunta(candExamRespuestasV1Dto.getTituloPregunta());
 			 candExamRespuestasV1.setTipoPregunta(candExamRespuestasV1Dto.getTipoPregunta());
 			 candExamRespuestasV1.setTipoPreguntaDesc(candExamRespuestasV1Dto.getTipoPreguntaDesc());
+			 candExamRespuestasV1.setDuration(candExamRespuestasV1Dto.getDuration());
+			 if(candExamRespuestasV1Dto.getDuration() != null && candExamRespuestasV1.getDuration() > 0) {
+				 double val = candExamRespuestasV1.getDuration() / 1000;
+				 candExamRespuestasV1.setTimeSpent(String.format("%.2f",val));
+			 }else {
+				 candExamRespuestasV1.setTimeSpent("0.00");
+			 }
 			 
 			 retval.add(candExamRespuestasV1); 
 			 

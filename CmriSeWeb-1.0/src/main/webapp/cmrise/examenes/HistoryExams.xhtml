@@ -6,6 +6,23 @@
                 template="/WEB-INF/template/template.xhtml">
 
  <ui:define name="content">
+ <style>
+.ui-accordion-header {
+	background-color: #2d0d86;
+}
+.no-border {
+    border-style: hidden !important ; /* or none */
+}
+.canvas-container {
+	position: relative;
+}
+.cmrise .output-lable{
+    font-weight: 600;
+    font-size: medium;
+}
+
+</style>
+ 
 
 		<h:form id="SearchForm">
 			<f:passThroughAttribute name="autocomplete" value="off" />
@@ -55,7 +72,7 @@
 					<div class="ui-g">
 						<div class="ui-g-12 ui-lg-12" style="text-align: right;">
 							<p:commandButton value="Cancelar">
-								<p:ajax  listener="#{historyExamsForm.clearForm()}" update="SearchPanel ReadOnlyForm"/>
+								<p:ajax  listener="#{historyExamsForm.refreshEntity()}" update="SearchPanel ReadOnlyForm"/>
 							</p:commandButton>
 							<p:commandButton value="Consultar"
 								actionListener="#{historyExamsForm.findByTituloExamen()}" update="ReadOnlyForm" style="margin-left: 10px;" />
@@ -65,79 +82,82 @@
 			</p:fieldset>
 		</h:form>
 
+
+
 <h:form id="ReadOnlyForm">
- <p:dataTable var="examen" value="#{historyExamsForm.listExamenes}" emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
-   <f:facet name="header">Historial de Examenes</f:facet>
-   <!-- <p:column headerText="Título">
-    <p:commandLink action="#{historyExamsForm.toDetailExam(examen)}">
-      <h:outputText value="#{examen.titulo}"/>
-    </p:commandLink>
-   </p:column>-->
-   <p:column headerText="Id Examen">
-    <h:outputText value="#{examen.numero}"/>
-   </p:column>
-   <p:column headerText="Examen">
-    <h:outputText value="#{examen.nombre}"/>
-   </p:column>
-   <p:column headerText="Descripción">
-    <h:outputText value="#{examen.descripcion}"/>
-   </p:column>
-   <p:column headerText="Fecha">
-    <h:outputText value="Desde #{examen.fechaEfectivaDesde} hasta #{examen.fechaEfectivaHasta}">
-     <f:convertDateTime type="date" pattern= "dd/MM/yyyy HH:mm" />
-     </h:outputText>
-   </p:column>
-   <p:column headerText="Tiempo Límite">
-    <h:outputText value="#{examen.tiempoLimite}"/>
-   </p:column>
-   <p:column headerText="Tipo Examen">
-    <h:outputText value="#{examen.tipoExamenDesc=='MRQs' ? 'Examen de Reactivos' : 'Examen casos clínicos' }"/>
-   </p:column>
-   <p:column headerText="Total Candidatos">
-    <h:outputText value="#{examen.totalCandidatos}"/>
-   </p:column>
-   <p:column headerText="Acciones">
-   <p:commandButton value="#{historyExamsForm.buttonText}" onclick="changeLabel();" style="margin-left: 10px" actionListener="#{historyExamsForm.updateTable(examen.numero)}"  update="ReadOnlyForm"/>
-   </p:column>
- </p:dataTable>
+<div class="card cmrise">
+	<div class="ui-g">
+	  		<div class="ui-g-12">
+				 <p:dataTable var="examen" value="#{historyExamsForm.listExamenes}" emptyMessage="Sin resultados"   paginator="true" rows="10" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+					   <f:facet name="header">Historial de Examenes</f:facet>
+					   <!-- <p:column headerText="Título">
+					    <p:commandLink action="#{historyExamsForm.toDetailExam(examen)}">
+					      <h:outputText value="#{examen.titulo}"/>
+					    </p:commandLink>
+					   </p:column>-->
+					   <p:column headerText="Id Examen" style="width:100px; text-align='right'">
+					    <h:outputText value="#{examen.numero}"/>
+					   </p:column>
+					   <p:column headerText="Examen">
+					    <h:outputText value="#{examen.nombre}"/>
+					   </p:column>
+					   <p:column headerText="Descripción">
+					    <h:outputText value="#{examen.descripcion}"/>
+					   </p:column>
+					   <p:column headerText="Fecha">
+					    <h:outputText value="Desde #{examen.fechaEfectivaDesde} hasta #{examen.fechaEfectivaHasta}">
+					     <f:convertDateTime type="date" pattern= "dd/MM/yyyy HH:mm" />
+					     </h:outputText>
+					   </p:column>
+					   <p:column headerText="Tiempo Límite">
+					    <h:outputText value="#{examen.tiempoLimite} minutos"/>
+					   </p:column>
+					   <p:column headerText="Tipo Examen">
+					    <h:outputText value="#{examen.tipoExamenDesc=='MRQs' ? 'Examen de Reactivos' : 'Examen casos clínicos' }"/>
+					   </p:column>
+					   <p:column headerText="Total Candidatos">
+					    <h:outputText value="#{examen.totalCandidatos}"/>
+					   </p:column>
+					   <p:column headerText="Acciones">
+					   <p:commandButton value="Ver"  rendered="#{historyExamsForm.listCandidatos.size() == 0}" style="margin-left: 10px" actionListener="#{historyExamsForm.updateTable(examen)}"  update="ReadOnlyForm"/>
+					   <p:commandButton value="Regresar"  rendered="#{historyExamsForm.listCandidatos.size() > 0}" style="margin-left: 10px" actionListener="#{historyExamsForm.reloadPage()}"  update="ReadOnlyForm"/>
+					   </p:column>
+				 </p:dataTable>
+			</div>
+	 </div>
+</div>
+<h:panelGroup rendered="#{historyExamsForm.listCandidatos.size() > 0}"> 
+<div class="card cmrise">
+	<div class="ui-g">
+	  		<div class="ui-g-12">
  
- 	<script>
- 	function changeLabel() {
- 		 $(document).on("click","button",function(){
- 		    alert(this.text());
- 		  });
-
- 	    if (this.value=="Ver") this.value = "Regresar";
- 	    else this.value = "Ver";
-
- 		}
-	</script>
- 
- <p:dataTable var="candidato" value="#{historyExamsForm.listCandidatos}" rendered="#{not historyExamsForm.getShowtable()}">
- 	<f:facet name="header">Examen</f:facet>
-   <p:column headerText="Nombre completo">
-    <h:outputText value="#{candidato.nombre}"/>
-   </p:column>
-   <p:column headerText="Tipo examen">
-    <h:outputText value="#{candidato.tipo=='MRQS' ? 'Examen de Reactivos' : 'Examen casos clínicos'}"/>
-   </p:column>
-   <p:column headerText="Total reactivos">
-    <h:outputText value="#{candidato.totalReactivos}">
-     </h:outputText>
-   </p:column>
-   <p:column headerText="reactivos respondidos">
-    <h:outputText value="#{examen.tiempoLimite}"/>
-   </p:column>
-   <p:column headerText="Tiempo limite">
-    <h:outputText value="#{candidato.tiempoLimite}"/>
-   </p:column>
-   <p:column headerText="Acciones">
-   <p:commandButton value="Actualizar" style="margin-left: 10px" ajax="true" update="ReadOnlyForm"/>
-   <p:commandButton value="Ver más" style="margin-left: 10px" action="#{historyExamsForm.toPreviewExamDetails()}" />
-   </p:column>
-   
- </p:dataTable>
- 
+			 <p:dataTable var="candidato" value="#{historyExamsForm.listCandidatos}" >
+			 	<f:facet name="header">Examen</f:facet>
+			   <p:column headerText="Nombre completo">
+			    <h:outputText value="#{candidato.nombre}"/>
+			   </p:column>
+			   <p:column headerText="Tipo examen">
+			    <h:outputText value="#{candidato.tipo=='MRQS' ? 'Examen de Reactivos' : 'Examen casos clínicos'}"/>
+			   </p:column>
+			   <p:column headerText="Total reactivos">
+			    <h:outputText value="#{candidato.totalReactivos}">
+			     </h:outputText>
+			   </p:column>
+			   <p:column headerText="reactivos respondidos">
+			    <h:outputText value="#{candidato.reactivosRespondidos}"/>
+			   </p:column>
+			   <p:column headerText="Tiempo limite">
+			    <h:outputText value="#{candidato.tiempoLimite} minutos"/>
+			   </p:column>
+			   <p:column headerText="Acciones">
+			   <p:commandButton value="Ver más" style="margin-left: 10px" action="#{historyExamsForm.toPreviewExamDetails(candidato)}" />
+			   </p:column>
+			   
+			 </p:dataTable>
+ 			</div>
+ 	</div>
+ </div>
+ </h:panelGroup>			
  </h:form>
  </ui:define>
  </ui:composition>

@@ -1,6 +1,10 @@
 package com.cmrise.ejb.backing.corecases;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 
@@ -15,6 +19,9 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.file.UploadedFile;
 import org.primefaces.model.file.UploadedFiles;
 
@@ -460,6 +467,13 @@ public class UpdateQuestionFtaCoreCaseForm {
 
 	public void uploadMultiple() {
 		System.out.println("Entra uploadMultiple");
+        FacesContext context = FacesContext.getCurrentInstance();
+	  
+		if(this.numeroFtaRecord <= 0l) {
+		    context.addMessage(null, new FacesMessage("Guarde la pregunta antes de cargar multimedia.", "Actualizacion correcta"));
+			return;
+		}
+		
 		if (this.presentationFiles != null) {
 			if (this.presentationFiles.getSize() > 0) {
 
@@ -475,7 +489,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 
 					System.out.println(f.getFileName());
 					CcImagenes presentacionImagen = new CcImagenes();
-
+					presentacionImagen.setContentType(f.getContentType());
 					presentacionImagen.setNombreImagen(f.getFileName());
 					presentacionImagen.setImagenContent(byteContent);
 					lListCcPresentaciones.add(presentacionImagen);
@@ -499,14 +513,109 @@ public class UpdateQuestionFtaCoreCaseForm {
 			// TODO: handle exception
 		  }
 		  listPresentCcImagenesGrp = ccImagenesGrpLocal.findByFta(this.numeroFtaRecord, Utilitarios.INTRODUCCION);
-		  FacesContext context = FacesContext.getCurrentInstance();
+		  ;
 	      context.addMessage(null, new FacesMessage("Se actualizaron los datos correctamente", "Actualizacion correcta"));
 		  System.out.println("Sale Actualizar");
 	}
 	
 	
+ public void uploadMultipleMultiMedia() {
+		 
+		 
+		 System.out.println("Entra uploadMultiple");
+	        if (this.presentationFiles != null) {
+	        	if(this.presentationFiles.getSize()>0) {
+	        		CcImagenesGrp mrqsPresentaciones = new CcImagenesGrp(); 
+	        		mrqsPresentaciones.setTituloSuperior(this.presentCcImagenesGrp.getTituloSuperior());
+	        		mrqsPresentaciones.setTituloInferior(this.presentCcImagenesGrp.getTituloInferior());
+	                List<CcImagenes> listMrqsPresentaciones = new ArrayList<CcImagenes>();
+	                
+	        		for (UploadedFile f : this.presentationFiles.getFiles()) {
+		            	
+	        			byte[] byteContent = f.getContent(); 
+	        			
+		            	System.out.println(f.getFileName());
+		            	CcImagenes presentacionImagen = new CcImagenes(); 
+		            	
+		            	presentacionImagen.setNombreImagen(f.getFileName());
+		            	presentacionImagen.setImagenContent(byteContent);
+		            	presentacionImagen.setImagenBase64(new String(Base64.getEncoder().encode(byteContent)));
+		            	presentacionImagen.setContentType(f.getContentType());
+		            
+		        		StreamedContent streamedContent = DefaultStreamedContent.builder()
+		        		                                                            .contentType(f.getContentType())
+		        		                                                            .stream(() -> {
+		        		                                                            	  try(InputStream is = f.getInputStream()) {
+		        		                                                      				return is;	
+		        			                                                      	     } catch (IOException e) {
+		        			                                                      			e.printStackTrace();
+		        			                                                      			return null; 
+		        			                                                      		} 
+		        		                                                              })
+		        		                                                             .build()
+		        		                                                             ;
+		        		if(f.getContentType().contains("image")) {
+		        			presentacionImagen.setImagenStreamed(streamedContent);
+		        			presentacionImagen.setImage(true);
+		        			presentacionImagen.setImagen(cargarImagen(f));
+			        	}else if(f.getContentType().contains("video")) {
+			        		presentacionImagen.setVideo(true);
+			        		presentacionImagen.setVideoStreamed(streamedContent);
+		        		}
+		        			
+		        		listMrqsPresentaciones.add(presentacionImagen); 
+		        		
+		                FacesMessage message = new FacesMessage("Aviso", f.getFileName() + " ha sido subido");
+		                FacesContext.getCurrentInstance().addMessage(null, message);
+		            }
+	        		
+	        		mrqsPresentaciones.setListCcImagenes(listMrqsPresentaciones);
+	        		this.listPresentCcImagenesGrp.add(mrqsPresentaciones);
+	        	}
+	        	
+	        	
+	        }
+	        System.out.println("Sale uploadMultiple");
+			  try {
+				  for (CcImagenesGrp ccImagenesGrp : listPresentCcImagenesGrp) {
+						ccImagenesGrp.setTipo(Utilitarios.CORE_CASES);
+						ccImagenesGrp.setSeccion(Utilitarios.INTRODUCCION);
+						updateImagenesGrp(this.getNumeroFtaRecord(), ccImagenesGrp);
+					}
+			  }catch (Exception e) {
+				// TODO: handle exception
+			  }
+			  listPresentCcImagenesGrp = ccImagenesGrpLocal.findByFta(this.numeroFtaRecord, Utilitarios.INTRODUCCION);
+			  FacesContext context = FacesContext.getCurrentInstance();
+		      context.addMessage(null, new FacesMessage("Se actualizaron los datos correctamente", "Actualizacion correcta"));
+			  System.out.println("Sale Actualizar");
+		 
+	 }
+ 
+ private StreamedContent cargarImagen(UploadedFile f) {
+		StreamedContent file=null;
+		try {
+			byte contents[] = IOUtils.toByteArray(f.getInputStream());
+			 file = DefaultStreamedContent.builder()
+                 .name(f.getFileName())
+                 .contentType("application/octet-stream")
+                 .stream(() -> new ByteArrayInputStream(contents)).build();
+
+		} catch (IOException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,Utilitarios.ERROR_CARGAR_IMAGEN, null));
+		}
+		return file;
+	}
+	
+	
 	 public void uploadMultiple(CcImagenesGrp pCcImagenesGrp) {
 		 System.out.println("Entra uploadMultiple");
+		 FacesContext context = FacesContext.getCurrentInstance();
+		 if(this.numeroFtaRecord== 0) {
+			 context.addMessage(null, new FacesMessage("Guarde la pregunta antes de cargar multimedia.", "Actualizacion correcta"));
+			 return;
+		 }
+		 
 		 pCcImagenesGrp = this.editPresentCcImagenesGrp;
 		 pCcImagenesGrp.getListCcImagenes().clear();
 			if (this.presentationFiles != null) {
@@ -531,7 +640,7 @@ public class UpdateQuestionFtaCoreCaseForm {
 			
 			  ccImagenesGrpLocal.update(this.numeroFtaRecord, pCcImagenesGrp);
 			  refreshEntity();
-			  FacesContext context = FacesContext.getCurrentInstance();
+			  
 		      context.addMessage(null, new FacesMessage("Update DICOM image group successfully.", "Actualizacion correcta"));
 			  System.out.println("Sale Actualizar");
 			
@@ -546,6 +655,15 @@ public class UpdateQuestionFtaCoreCaseForm {
 	 
 	 private CcImagenesGrp selCcImagenesGrpDelete;
 	 private CcImagenes selCcImagenesToDelete;
+	 
+	 public void deleteImageFromGroupMultiMedia(CcImagenesGrp ccImageGroup, CcImagenes imagenes) {
+		 ccImagenesGrpLocal.deleteGroupImage(ccImageGroup, imagenes);
+		  FacesContext context = FacesContext.getCurrentInstance();
+	      context.addMessage(null, new FacesMessage(imagenes.getNombreImagen()+" deleted successfully.", "Actualizacion correcta"));
+		 refreshEntity();
+		 
+	 }
+
 	 
 	 public void deleteImageFromGroup(CcImagenesGrp ccImageGroup, CcImagenes imagenes) {
 		 this.selCcImagenesGrpDelete = ccImageGroup;

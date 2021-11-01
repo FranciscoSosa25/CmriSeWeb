@@ -12,6 +12,7 @@ public class CandExamenesV2 implements Serializable{
 	private long numero; 
 	private long numeroUsuario; 
 	private long numeroExamen; 
+	private String descripcion;
 	private String tipo; 
 	private String estatus;
 	private String matricula; 
@@ -49,6 +50,13 @@ public class CandExamenesV2 implements Serializable{
 	}
 	public void setNumeroExamen(long numeroExamen) {
 		this.numeroExamen = numeroExamen;
+	}
+	
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 	public String getTipo() {
 		return tipo;

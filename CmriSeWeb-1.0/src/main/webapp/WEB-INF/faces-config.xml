@@ -217,6 +217,11 @@
 			<redirect />
 		</navigation-case>
 		<navigation-case>
+			<from-outcome>Cand-MRQs-Exam-Details</from-outcome>
+			<to-view-id>/candidates/exams/CandMRQsExamDetails.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
 			<from-outcome>Candidates-CoreCases-Exam</from-outcome>
 			<to-view-id>/candidates/exams/CcExam.xhtml</to-view-id>
 			<redirect />
