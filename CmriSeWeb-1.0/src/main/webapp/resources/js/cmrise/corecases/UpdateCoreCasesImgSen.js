@@ -393,7 +393,7 @@ var polyModel = {
 				try{
 				var val = document.getElementById(ansPoints)
 				if(val && val.value != "[]"  && val.value != ""){
-					polyModel.addAllPoints(canvas, val.value)
+					polyModel.addAllPoints(ctx, val.value)
 				}else{
 					val.value = "[]";
 				}
@@ -406,14 +406,18 @@ var polyModel = {
 		    if(cursor){
 		    	cursorPos = cursor;
 			    paintingCanvasID.addEventListener("mousemove", function (e, cursor) {
-		            var cRect = paintingCanvasID.getBoundingClientRect(); // Gets CSS pos, and width/height
-		            var canvasX = Math.round(e.clientX - cRect.left); // Subtract the 'left' of the canvas
-		            var canvasY = Math.round(e.clientY - cRect.top); // from the X/Y positions to make
-		            document.getElementById(cursorPos).value = "X: " + canvasX + ", Y: " + canvasY;
+			    	var c = document.getElementById(cursorPos)
+			    	if(c){
+			    		var cRect = paintingCanvasID.getBoundingClientRect(); // Gets CSS pos, and width/height
+			            var canvasX = Math.round(e.clientX - cRect.left); // Subtract the 'left' of the canvas
+			            var canvasY = Math.round(e.clientY - cRect.top); // from the X/Y positions to make
+			            c.value = "X: " + canvasX + ", Y: " + canvasY;
+			    	}
+		            
 		        });
 		    }
 		},
-		addAllPoints: function(canvas, pVal){
+		addAllPoints: function(ctx, pVal){
 			if(pVal){
 				points = JSON.parse(pVal);
 				for(var i = 0; i < points.length; i++) {
@@ -421,7 +425,6 @@ var polyModel = {
 				    var x = obj.x;
 				    var y = obj.y;
 				    var tmpX, tmpY;
-					var ctx = canvas;
 					var strColor;
 			        ctx.strokeStyle = '#ff0000';
 			        ctx.beginPath();
