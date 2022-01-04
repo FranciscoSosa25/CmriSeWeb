@@ -74,10 +74,11 @@
        <div>
        <p:inputText id="tipoReactivo" value="#{mRQsExamForm.tipoPregunta}"
 				type="hidden" />
-       <ui:repeat var="imagenesGrupo" value="#{mRQsExamForm.listPresentMrqsImagenesGrp}" varStatus="status">
-		    <div>
+		<div class="ui-g-12 ui-md-12" style="text-align: center;" >		
+       		<ui:repeat var="imagenesGrupo" value="#{mRQsExamForm.listPresentMrqsImagenesGrp}" varStatus="status">
+		    <div class="ui-g-12 ui-md-12" style="text-align: center;" >
 		     <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
-		        <h:panelGroup layout="block" rendered="#{imagenes.image}">
+		        <h:panelGroup layout="block" rendered="#{imagenes.image}" style="padding: 5px;">
 		         <h:graphicImage value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="width: 20%;height:20%;" />
 		       </h:panelGroup>
 		       <h:panelGroup layout="block" rendered="#{imagenes.video}">
@@ -88,6 +89,7 @@
 		     </ui:repeat>
 		    </div>
 		    </ui:repeat>
+		</div>    
        </div>
        <div style="font-size:2em;  border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;">
          <h:outputText id="pregunta"  value="Pregunta #{mRQsExamForm.mrqsGrupoLinesV2.questionNumber} : #{mRQsExamForm.mrqsGrupoLinesV2.textoPregunta}" />
