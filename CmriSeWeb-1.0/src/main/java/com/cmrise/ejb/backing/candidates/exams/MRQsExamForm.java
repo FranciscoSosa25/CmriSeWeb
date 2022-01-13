@@ -538,7 +538,7 @@ public class MRQsExamForm {
 					refreshRespuestas();
 
 			}
-			if (null != mrqsPreguntasFtaV1ForRead.getAnotaciones()) {
+			if (null != mrqsPreguntasFtaV1ForRead.getCorrelaciones()) {
 	            	 Type collectionType = new TypeToken<List<AnotacionesCorImg>>(){}.getType();
 	            	 setListAnotacionesCorImg(gson.fromJson(mrqsPreguntasFtaV1ForRead.getCorrelaciones(), collectionType)); 
 			}

@@ -135,6 +135,7 @@ public class UpdateFTAMrqForm {
 	private List<SelectItem> selectScoringMethodItems; 
 	
 	private int idxRespuestas = 0; 
+	//Answer List" Correlación de Imagen
 	private List<RespReactCorImg> listRespReactCorImg = new ArrayList<RespReactCorImg>(); 
     private int idxRespuestasCorrelacionadas=0; 
 	private List<RespCorrectReactCorImg> listRespCorrectReactCorImg = new ArrayList<RespCorrectReactCorImg>(); 
@@ -1073,6 +1074,10 @@ public class UpdateFTAMrqForm {
         FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
+	/**
+	 * Correlación de Imagen
+	 * add Answer
+	 */
 	public void agregarRespReact() {
 		System.out.println("Entra agregarRespReact");
 		RespReactCorImg respReactCorImg = new RespReactCorImg(); 
@@ -1082,6 +1087,11 @@ public class UpdateFTAMrqForm {
 		System.out.println("Sale agregarRespReact");
 	}
 	
+	/**
+	 * Correlación de Imagen
+	 * Remove answer
+	 * @param id
+	 */
 	public void removerRespReact(Object id) {
 		System.out.println("entra removerRespReact");
 		listRespReactCorImg.remove(id);
@@ -1089,6 +1099,11 @@ public class UpdateFTAMrqForm {
 		System.out.println("sale removerRespReact");
 	}
 	
+	/**
+	 * Correlación de Imagen
+	 * Add question
+	 * @param id
+	 */
 	public void agregarRespCorrelacionadas() {
 		System.out.println("Entra agregarRespCorrelacionadas");
 		RespCorrectReactCorImg respCorrectReactCorImg = new RespCorrectReactCorImg(); 
@@ -1100,6 +1115,11 @@ public class UpdateFTAMrqForm {
 		System.out.println("Sale agregarRespCorrelacionadas");
 	}
 	
+	/**
+	 * Correlación de Imagen
+	 * remove question
+	 * @param id
+	 */
 	public <E> void removerRespCorrelacionadas(Object id) {
 		int contador = 0;
 		
