@@ -1,9 +1,11 @@
 package com.cmrise.ejb.backing.exams.mrqs;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -107,12 +109,11 @@ public class UpdateMrqsExamGroupForm {
 	
 	public String updateMRQsGroup() {
 		MrqsGrupoHdrDto mrqsGrupoHdrDto = new MrqsGrupoHdrDto(); 
-		/**
-		mrqsGrupoHdrDto.setTitulo(mrqsGrupoHdr.getTitulo());
-		mrqsGrupoHdrDto.setTema(mrqsGrupoHdr.getTema());
-		**/
+		/** mrqsGrupoHdrDto.setTitulo(mrqsGrupoHdr.getTitulo());
+		mrqsGrupoHdrDto.setTema(mrqsGrupoHdr.getTema()); **/
 		mrqsGrupoHdrDto.setComentarios(mrqsGrupoHdrForUpdate.getComentarios());
 		mrqsGrupoHdrLocal.update(this.getNumeroMrqsGrupo(), mrqsGrupoHdrDto);
+				
 		FacesContext context = FacesContext.getCurrentInstance(); 
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 		session.setAttribute("NumeroMrqsExamenSV", (long)this.getNumeroMrqsExamen());
@@ -144,6 +145,18 @@ public class UpdateMrqsExamGroupForm {
 	public void delete() {
 		mrqsGrupoLinesLocal.delete(mrqPreguntaForAction.getNumero());
 		refreshEntitys(); 
+	}
+	
+	public void regresar() throws IOException {
+		
+		if(listMrqsGrupoPreguntas == null || listMrqsGrupoPreguntas.size() == 0) {			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe asignar por lo menos una pregunta dentro de la materia"));
+		}
+		else {
+			FacesContext context = FacesContext.getCurrentInstance();
+			HttpSession session = (HttpSession) context.getExternalContext().getSession(false);							
+		    context.getExternalContext().redirect("/CmriSeWeb/faces/cmrise/examenes/mrqs/UpdateMrqsExam.xhtml");
+		}
 	}
 	
 	public String getTituloGrupo() {
