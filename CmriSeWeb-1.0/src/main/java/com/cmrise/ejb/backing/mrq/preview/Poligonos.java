@@ -7,6 +7,7 @@ import org.primefaces.context.PrimeRequestContext;
 import org.primefaces.shaded.json.JSONArray;
 import org.primefaces.shaded.json.JSONObject;
 
+import com.cmrise.exception.CmriseRuntimeException;
 import com.cmrise.utils.Utilitarios;
 import com.google.gson.Gson;
 
@@ -30,6 +31,9 @@ public class Poligonos {
 		try {
 			valorPuntuacion=puntuacion(puntuacion,poligonos,ancho,respuestaPreguntaCandidato ,respuestas);		
 		}
+		catch (CmriseRuntimeException  e) {
+			throw e;
+		}
 		catch(Exception e) {			  		 
 	   		  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, Utilitarios.ERROR_PUNTUACION, null));
 			
@@ -42,7 +46,12 @@ public class Poligonos {
 		JSONArray conjuntoPoligonos = model.getJSONObject("model").getJSONArray("nodeDataArray");
 		  
 		JSONArray usuarioCordenadas = new JSONArray(respuestaPreguntaCandidato);
-
+		
+		if(conjuntoPoligonos.length() > 0) {
+			if(usuarioCordenadas.length() == 0) {
+				throw new CmriseRuntimeException("Por favor, marque al menos un punto en la imagen.");
+			}
+		}
 		
 		double valor=(double)puntuacion/(double)poligonos;
 		double total=0;

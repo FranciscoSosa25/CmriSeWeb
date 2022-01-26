@@ -30,6 +30,22 @@
               $(".ui-messages-info").delay(1800).fadeOut(500);
               $(".ui-messages-warn").delay(1800).fadeOut(500);
           }
+         $(document).ready(function(e){
+       	  	$('body').bind('contextmenu', function(e) {       	  		
+         	    return false;
+         	});
+       	  	
+	       	 $('img').bind('contextmenu', function(e) {       	  		
+	      	    return false;
+	      	});
+	       	
+	       	 $('img').magnify();
+	       	 
+       	  	
+         })        
+         
+         
+         
          /* window.funcValueTimer = function(t){
               
         	var elem = document.getElementById("timerVal");//(t.current);
@@ -76,7 +92,9 @@
     </script>
 	<ui:insert name="xxhrwjs" />
 	<h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
-	<style type="text/css">
+	<h:outputStylesheet name="magnify/css/magnify.css" library="js" />
+	<h:outputScript name="magnify/js/jquery.magnify.js" library="js"></h:outputScript>
+	<style type="text/css">			
 		 	header,footer .lawea{
 			               font-size: 20px;
 			               color:#fff;
@@ -167,6 +185,15 @@
 			.ui-button.ui-state-default {
 			background-color: hsl(210, 89%, 17%);
 			}
+			.img-magnifier-glass {
+			  position: absolute;
+			  border: 3px solid #000;
+			  border-radius: 50%;
+			  cursor: none;
+			  /*Set the size of the magnifier glass:*/
+			  width: 150px;
+			  height: 150px;
+			}
 	    </style>
       
    </h:head>
@@ -182,6 +209,55 @@
 	  	<div class="layout-main">
 				<ui:insert name="content" />
 		</div>
+		
+                                
+        <p:ajaxExceptionHandler type="java.lang.Exception"
+                                update="exceptionDialog2"
+                                onexception="PF('exceptionDialog2').show()" />
+            <p:dialog id="exceptionDialog2" header="Error"
+                  widgetVar="exceptionDialog2"                  
+                  width="">
+                  <div class="card">
+	                  <div class="ui-g">
+	                  		<div class="ui-g-12">
+								<p:outputLabel value="Message:"/>
+								 Error interno del servidor. Vuelva a intentarlo.
+								<p:inputText value="#{pfExceptionHandler.message}" type="hidden" />
+								<p:inputText value="#{pfExceptionHandler.formattedStackTrace}" type="hidden" />
+							</div>
+							<div class="ui-g-12" style="text-align: center;">
+								<p:commandButton value="Ok"							
+								immediate="true"
+								onclick="PF('exceptionDialog2').hide();"
+								 />
+							</div>
+	            	  </div>	
+            		</div>	
+        	</p:dialog>                                          
+		                                			
+			 <p:ajaxExceptionHandler type="com.cmrise.exception.CmriseRuntimeException"
+                                update="exceptionDialog"
+                                onexception="PF('exceptionDialog').show()" />
+			  <p:dialog id="exceptionDialog" header="Alert!"
+                  widgetVar="exceptionDialog"                  
+                  width="">
+                  <div class="card">
+	                  <div class="ui-g">
+	                  		<div class="ui-g-12">
+								<p:outputLabel value="Message:" />
+								#{pfExceptionHandler.message}
+								<p:inputText value="#{pfExceptionHandler.message}" type="hidden" />
+								<p:inputText value="#{pfExceptionHandler.formattedStackTrace}" type="hidden" />
+							</div>
+							<div class="ui-g-12" style="text-align: center;">
+								<p:commandButton value="Ok"							
+								immediate="true"
+								onclick="PF('exceptionDialog').hide();"
+								 />
+							</div>
+	            	  </div>	
+            		</div>	
+        	</p:dialog>
 	
 		<div style="height: 6%">
 			 <div class="footer">

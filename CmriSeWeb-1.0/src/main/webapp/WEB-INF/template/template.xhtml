@@ -30,6 +30,11 @@
               $(".ui-messages-info").delay(1800).fadeOut(500);
               $(".ui-messages-warn").delay(1800).fadeOut(500);
           }
+          $(document).ready(function(e){
+         	  	$('img').bind('contextmenu', function(e) {         	  		
+           	    return false;
+           	});  
+           })  
         </script>
 	<ui:insert name="xxhrwjs" />
 	<h:outputStylesheet name="primeicons/primeicons.css"
@@ -80,6 +85,53 @@
 			<div class="layout-main-content">
 				<ui:insert name="content" />
 			</div>
+			 <p:ajaxExceptionHandler type="java.lang.Exception"
+                                update="exceptionDialog2"
+                                onexception="PF('exceptionDialog2').show()" />
+            <p:dialog id="exceptionDialog2" header="Error"
+                  widgetVar="exceptionDialog2"                  
+                  width="">
+                  <div class="card">
+	                  <div class="ui-g">
+	                  		<div class="ui-g-12">
+								<p:outputLabel value="Message:"/>
+								 Error interno del servidor. Vuelva a intentarlo.
+								<p:inputText value="#{pfExceptionHandler.message}" type="hidden" />
+								<p:inputText value="#{pfExceptionHandler.formattedStackTrace}" type="hidden" />
+							</div>
+							<div class="ui-g-12" style="text-align: center;">
+								<p:commandButton value="Ok"							
+								immediate="true"
+								onclick="PF('exceptionDialog2').hide();"
+								 />
+							</div>
+	            	  </div>	
+            		</div>	
+        	</p:dialog>                                          
+		                                			
+			 <p:ajaxExceptionHandler type="com.cmrise.exception.CmriseRuntimeException"
+                                update="exceptionDialog"
+                                onexception="PF('exceptionDialog').show()" />
+			  <p:dialog id="exceptionDialog" header="Alert!"
+                  widgetVar="exceptionDialog"                  
+                  width="">
+                  <div class="card">
+	                  <div class="ui-g">
+	                  		<div class="ui-g-12">
+								<p:outputLabel value="Message:" />
+								#{pfExceptionHandler.message}
+								<p:inputText value="#{pfExceptionHandler.message}" type="hidden" />
+								<p:inputText value="#{pfExceptionHandler.formattedStackTrace}" type="hidden" />
+							</div>
+							<div class="ui-g-12" style="text-align: center;">
+								<p:commandButton value="Ok"							
+								immediate="true"
+								onclick="PF('exceptionDialog').hide();"
+								 />
+							</div>
+	            	  </div>	
+            		</div>	
+        	</p:dialog>
 
 			<ui:include src="./footer.xhtml" />
 		</div>

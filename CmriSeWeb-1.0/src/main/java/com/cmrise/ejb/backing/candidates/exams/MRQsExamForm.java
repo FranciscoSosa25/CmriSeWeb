@@ -607,7 +607,7 @@ public class MRQsExamForm {
 				System.out.println("strRespuestas: " + strRespuestas);
 				this.setRespuestaCandidato(strRespuestas);
 				break;
-			case Utilitarios.IMAGEN_INDICADA:
+			case Utilitarios.IMAGEN_INDICADA:				
 				
 				 int puntuacion= Integer.valueOf(mrqsPreguntasFtaV1ForRead.getValorPuntuacion());
 				 int poligonos=Integer.valueOf(mrqsPreguntasFtaV1ForRead.getPoligonos());
@@ -1213,20 +1213,20 @@ public class MRQsExamForm {
 		this.timerValue = timerValue;
 	}
 
-	public void siguienteGuardarResp() {
-		saveAndProceed();
-		FacesContext context = FacesContext.getCurrentInstance();
-		HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-		Object objNumeroCandExamen = session.getAttribute("NumeroCandExamenSV");
-		long numeroCandExamen = utilitariosLocal.objToLong(objNumeroCandExamen);
-		MrqsGrupoLinesV2 idx = new MrqsGrupoLinesV2();
-			/* candExamRespSkipDto.setSkip(0);
-			 if(busquedaSkip == false && candExamRespSkipLocal.existsSkip(candExamRespSkipDto.getExamen(),candExamRespSkipDto.getNumeroCandExamen(),candExamRespSkipDto.getNumeroGrupo(),candExamRespSkipDto.getNumeroPreguntaHdr(),candExamRespSkipDto.getNumeroPreguntaFta(),1)== true) {
-				 candExamRespSkipLocal.update(candExamRespSkipDto.getNumero(),candExamRespSkipDto); 
-			 }*/
-		answerQueue.add(this.presentExamQuestion);
-		questionQueue.remove();
-		setNextQuestion();
+	public void siguienteGuardarResp(){
+			saveAndProceed();
+			FacesContext context = FacesContext.getCurrentInstance();
+			HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+			Object objNumeroCandExamen = session.getAttribute("NumeroCandExamenSV");
+			long numeroCandExamen = utilitariosLocal.objToLong(objNumeroCandExamen);
+			MrqsGrupoLinesV2 idx = new MrqsGrupoLinesV2();
+				/* candExamRespSkipDto.setSkip(0);
+				 if(busquedaSkip == false && candExamRespSkipLocal.existsSkip(candExamRespSkipDto.getExamen(),candExamRespSkipDto.getNumeroCandExamen(),candExamRespSkipDto.getNumeroGrupo(),candExamRespSkipDto.getNumeroPreguntaHdr(),candExamRespSkipDto.getNumeroPreguntaFta(),1)== true) {
+					 candExamRespSkipLocal.update(candExamRespSkipDto.getNumero(),candExamRespSkipDto); 
+				 }*/
+			answerQueue.add(this.presentExamQuestion);
+			questionQueue.remove();
+			setNextQuestion();		
 		
 		/**
 		System.out.println("idxReactivos:" + idxReactivos);
