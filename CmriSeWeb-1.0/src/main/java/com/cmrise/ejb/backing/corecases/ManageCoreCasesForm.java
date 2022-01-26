@@ -1,5 +1,6 @@
 package com.cmrise.ejb.backing.corecases;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -135,7 +136,7 @@ public class ManageCoreCasesForm {
 				it.remove();
 			}
 		}
-	public String view(CcHdrV1 pCcHdrV1) {
+	public String view(CcHdrV1 pCcHdrV1) throws IOException {
 		if(validar(pCcHdrV1)==false) {		
 			limpiarMensajes();
 			FacesContext.getCurrentInstance().addMessage(null,

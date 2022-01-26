@@ -26,6 +26,7 @@ import com.cmrise.ejb.model.admin.AdmonMateriaHdr;
 import com.cmrise.ejb.model.exams.CcExamAsignaciones;
 import com.cmrise.ejb.model.exams.MrqsExamenes;
 import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
+import com.cmrise.ejb.model.exams.MrqsGrupoLines;
 import com.cmrise.ejb.model.mrqs.MrqsPreguntasHdrV1;
 import com.cmrise.ejb.services.admin.AdmonExamenHdrLocal;
 import com.cmrise.ejb.services.admin.AdmonMateriaHdrLocal;
@@ -113,7 +114,7 @@ public class UpdateMrqsExamForm {
 	public boolean update() {
 		System.out.println("Entra UpdateTestExamForm update()");
 		boolean updateIn = false;
-
+		
 		FacesContext context = FacesContext.getCurrentInstance();
 		// Valida si la fecha efectiva hasta es mayor que la fecha efectiva desde, de lo
 		// contrario muestra el error en la pantalla.
@@ -126,15 +127,29 @@ public class UpdateMrqsExamForm {
 				return updateIn;
 			}
 		}
-
-		mrqsExamenesLocal.update(mrqsExamenesForUpdate);
-		refreshEntity();
-		updateIn = true;
-
-		PrimeFaces.current().ajax().addCallbackParam("updateIn", updateIn);
-		System.out.println("Sale UpdateTestExamForm update()");
 		
-		return updateIn;
+		String mensajeError = "";
+		boolean vacio = true;
+		for(MrqsGrupoHdr i : mrqsExamenesForUpdate.getListMrqsGrupoHdr()){
+			if(i.getNumeroReactivos() ==  0 ) {
+				vacio = false;
+				mensajeError += "Agregue por lo menos una pregunta a la materia: "+ i.getAdmonMateriaDesc() + '\n';
+			}
+		}
+		
+		if(vacio){
+			mrqsExamenesLocal.update(mrqsExamenesForUpdate);
+			refreshEntity();
+			updateIn = true;	
+			PrimeFaces.current().ajax().addCallbackParam("updateIn", updateIn);
+					
+			return updateIn;
+		}
+		else {
+			System.out.println("una de las materias no tiene preguntas agregadas");
+			context.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", mensajeError));
+			return vacio;
+		}
 	}
 	
 
@@ -232,14 +247,14 @@ public class UpdateMrqsExamForm {
 		//BUG: Despues de crear examen de reactivo y al cerrar la pantalla de actualizar SIEMPRE marca error dado q no se han ligado preguntas
 		// y no es posible hacerlo de ninguna forma desde la misma pagina actualizar
 		System.out.println("getNumeroReactivos: "+exam.getListMrqsGrupoHdr().get(0).getListMrqsGrupoLines().size());
-		if(exam.getListMrqsGrupoHdr().get(0).getListMrqsGrupoLines().size() <=0)
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-				"DEBE TENER AL MENOS UN REACTIVO ASIGNADO AL EXAMEN"));
+		//if(exam.getListMrqsGrupoHdr().get(0).getListMrqsGrupoLines().size() <=0)
+			//context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+				//"DEBE TENER AL MENOS UN REACTIVO ASIGNADO AL EXAMEN"));
 		
-		else {
+		//else {
 			return "Exams-MRQs-Manage";
-		}
-		return null;
+		//}
+		//return null;
 	}
 	
 	public String cancel() {
