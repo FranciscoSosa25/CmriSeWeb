@@ -15,18 +15,17 @@
    <p:row>
         <p:column style="font-weight: bold;width: 100px; font-size: 20px;">Examen</p:column>
         <p:column style="font-weight: bold;">
-        <h:outputText value="#{mRQsExamForm.mrqsExamen.descripcion}" style="position: relative; left:0px; font-size: 20px;"/></p:column>
-        <p:column style="font-weight: bold; font-size: 20px;">
-          <h:outputText id="FechaExa" value="#{mRQsExamForm.strDate}" />
+        <h:outputText value="#{mRQsExamForm.mrqsExamen.descripcion}" style="position: relative; left:0px; font-size: 20px;"/></p:column>        
+         <p:column style="font-weight: bold; font-size: 20px; width: 50px; ">
          </p:column>
          <p:column style="font-weight: bold; font-size: 20px;" class="text_right">Tiempo Restante:</p:column>
-         <p:column style="width: 100px; font-size: 20px;">
+         <p:column style="width: 200px; font-size: 20px;">
          <pe:timer id="timer2"
          	  rendered="#{mRQsExamForm.examTimeout > 0}"	
               timeout="#{mRQsExamForm.examTimeout}"
               format="HH:mm:ss"
               forward="false"
-              listener="#{mRQsExamForm.onTimeout}"           
+              listener="#{mRQsExamForm.onTimeout}"                 
               style=" background-color:hsl(210, 99%, 27%);
 					  color:#fff;
 					  border-radius:5px;  
@@ -68,8 +67,15 @@
 		        	$("[id$='counter']").html($("[id$='answer']").val().length + "/" + $("[id$='answer']").attr('maxlength') + " caracteres");
 		    }
 	  </script>
-       <div  style="font-size:2em; font-weight:bold; border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;" >
-       <h:outputText id="titulo" value="" /><!-- aqui venía la parte de admonmateria que se pidió eliminar -->
+       <div  id="testq" style="border-spacing: 0px;
+       	position:fixed; top:180px;
+       	left:80%; 
+       	background-color: transparent;
+       	" >
+      	  <div><span class="dot-circle" style="background-color: #f13939" >#{mRQsExamForm.getQuestionCount() } </span><span> Pendiente de responder </span> </div>
+      	  <div><span class="dot-circle" style="background-color: #34a704" >#{mRQsExamForm.answerQueue.size()} </span><span> Respondida </span></div>
+      	  <div><span class="dot-circle" style="background-color: #e7e748" >#{mRQsExamForm.getSkipCount()} </span><span> Saltada</span></div>
+          
        </div>
        <div>
        <p:inputText id="tipoReactivo" value="#{mRQsExamForm.tipoPregunta}"
@@ -79,7 +85,10 @@
 		    <div class="ui-g-12 ui-md-12" style="text-align: center;" >
 		     <ui:repeat var="imagenes" value="#{imagenesGrupo.listMrqsImagenes}" varStatus="status">
 		        <h:panelGroup layout="block" rendered="#{imagenes.image}" style="padding: 5px;">
-		         <h:graphicImage styleClass="magnify-image"   value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="width: 250px;height:250px;" />
+		         <div id="magnify-div" class="cmrise-img-div"> 	
+		         	<h:graphicImage styleClass="magnify-image"   value="data:image/jpg;base64,#{imagenes.imagenBase64}" style="width: 250px;height:250px;" />
+		         	<p:commandButton styleClass="magnify-image-btn" value="Amplier" style="margin-left:15px"    />
+		         </div>
 		       </h:panelGroup>
 		       <h:panelGroup layout="block" rendered="#{imagenes.video}">
 		        <video controls="controls" style="width: 20%;height:20%;" >
@@ -92,7 +101,7 @@
 		</div>    
        </div>
        <div style="font-size:2em;  border-spacing: 0px;	padding:8px 15px 8px 15px;  background-color:#D9E0E7;">
-         <h:outputText id="pregunta"  value="Pregunta #{mRQsExamForm.mrqsGrupoLinesV2.questionNumber} : #{mRQsExamForm.mrqsGrupoLinesV2.textoPregunta}" />
+         <h:outputText id="pregunta"  value="#{mRQsExamForm.mrqsGrupoLinesV2.questionNumber} : #{mRQsExamForm.mrqsGrupoLinesV2.textoPregunta}" />
        </div>
        </div>
        <div class="ui-g-12 ui-md-12 card"
@@ -277,7 +286,7 @@
              </h:panelGroup>  
             </p:fieldset>
             
-            <div class="ui-g-12 ui-md-12">
+            <div class="ui-g-12 ui-md-12" >
              <h:outputText id="timerVal" value="#{mRQsExamForm.timerValue}" rendered="true" />
              <p:commandButton value="Saltar Pregunta" style="margin-left:15px"  actionListener="#{mRQsExamForm.SaltarPregunta()}" update="mqrsExaForm" rendered="#{mRQsExamForm.mrqsExamen.saltarPreguntas}" immediate="true"  disabled="#{mRQsExamForm.questionQueue.size() == 1}" />
              <p:commandButton value="Siguiente" actionListener="#{mRQsExamForm.siguienteGuardarResp()}" update="mqrsExaForm myDialog" style="margin-left:15px"    />

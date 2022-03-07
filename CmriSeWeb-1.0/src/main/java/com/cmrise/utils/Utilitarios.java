@@ -111,6 +111,22 @@ public class Utilitarios {
         }
         return retval;
     }
+    
+    public static int strToInt(String val ) {
+    	return strToInt(val,0);
+    }
+    
+    public static int strToInt(String val, int defaultVal ) {    	
+    	try {
+    		if(val !=null && !"".equals(val))
+    			return Integer.parseInt(val);
+    		else {
+    			return defaultVal;
+    		}
+    	}catch (RuntimeException e) {
+    		return defaultVal;
+		}
+    }
 
     public static long objToLong(Object pObject) {
         long retval = 0;
@@ -128,6 +144,8 @@ public class Utilitarios {
         }
         return retval;
     }
+    
+    
 
     public static Date sqlDateToUtilDate(java.sql.Date pFecha) {
         return new java.util.Date(pFecha.getTime());

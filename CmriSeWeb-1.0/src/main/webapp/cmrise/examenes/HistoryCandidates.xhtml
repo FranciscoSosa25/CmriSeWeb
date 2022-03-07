@@ -74,13 +74,18 @@
 				   <p:column headerText="ACCIONES">
 				   	<p:commandButton value="Ver Exámenes" style="margin-left: 10px" 
 				   	ajax="true"
-				   	actionListener="#{historyCandidatesForm.loadCandExams(ce)}"
+				   	actionListener="#{historyCandidatesForm.loadCandExams(ce,'candExam')}"
 				   	 update="ReadOnlyForm"/>
+				   	 <p:commandButton value="Gestion del tiempo" style="margin-left: 10px" 
+				   	ajax="true"
+				   	actionListener="#{historyCandidatesForm.loadCandExams(ce,'timeMgnt')}"
+				   	 update="ReadOnlyForm"/>
+				   	 
 				   </p:column>
 				</p:dataTable>
   		</div>
   </div>				
- 	
+ 	 	
  </div>
  <div class="card cmrise">	
  <div class="ui-g">	
@@ -95,8 +100,7 @@
 					 <h:outputLabel  value="#{historyCandidatesForm.selCandExams.curp}" />
 			</div>
   		</h:panelGroup>
-  		
-  		<h:panelGroup rendered="#{historyCandidatesForm.listCandExamenesV2.size() > 0}">
+  		<h:panelGroup rendered="#{historyCandidatesForm.listCandExamenesV2.size() > 0 and 'candExam' == historyCandidatesForm.viewGrid }">
 	 		<div class="ui-g-12">
 					 <p:dataTable var="candExamenesV2"   value="#{historyCandidatesForm.listCandExamenesV2}" emptyMessage="Sin resultados"   paginator="true" rows="5" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
 					   <p:column headerText="EXAMEN" style="text-overflow: ellipsis; white-space: nowrap;width:250px">
@@ -126,16 +130,126 @@
 					     <f:convertDateTime type="date" pattern= "dd/MM/yyyy HH:mm" />
 					     </h:outputText>
 					   </p:column>
-					   
 					   <p:column headerText="ACCIONES" style="text-overflow: ellipsis; white-space: nowrap;width:130px">
 					     <p:commandButton value="Ver Respuestas" 
 					      action="#{historyCandidatesForm.candidatesDetail(candExamenesV2)}"> </p:commandButton>
 					   </p:column>
 					 </p:dataTable>
 	 			</div>	
+	 		</h:panelGroup>
+	 		
+	 		
+	 		<h:panelGroup rendered="#{historyCandidatesForm.listCandExamenesV2.size() > 0 and 'timeMgnt' == historyCandidatesForm.viewGrid}">
+	 		<div class="ui-g-12">
+					 <p:dataTable var="candExamenesV2"   value="#{historyCandidatesForm.listCandExamenesV2}" emptyMessage="Sin resultados"   paginator="true" rows="5" paginatorPosition="bottom" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" >
+					   <p:column headerText="EXAMEN" style="text-overflow: ellipsis; white-space: nowrap;width:250px">
+					       <h:outputText value="#{candExamenesV2.titulo}"/>
+					   </p:column>
+					    <p:column headerText="DESCRIPCION">
+					    <h:outputText value="#{candExamenesV2.descripcion}"/>
+					   </p:column>
+					    <p:column headerText="TIPO EXAMEN">
+					    <h:outputText value="#{candExamenesV2.tipo}"/>
+					   </p:column>
+					   <p:column headerText="TIEMPO LIMITE" >
+					    <h:outputText value="#{candExamenesV2.tiempoLimite} minutos"/>
+					   </p:column>
+					   <p:column headerText="CAND EXAM TIME" >
+					    <h:outputText value="#{candExamenesV2.candExamTime} minutos"/>
+					   </p:column>
+					   
+					   
+					   <p:column headerText="ESTATUS">
+					    <h:outputText value="#{candExamenesV2.estatus}"/>
+					   </p:column>
+					   <p:column headerText="GESTION" style="text-align:center; width:130px">
+					     <p:commandButton icon="fa fa-minus"  title="REDUCIR" 
+					      ajax="true" 
+					      oncomplete="PF('timeMgntRemoveDlgWV').show();"
+					      actionListener="#{historyCandidatesForm.selectCandExam(candExamenesV2)}"
+					      > </p:commandButton>
+					       <p:commandButton icon="fa fa-plus"  title="AUMENTAR" 
+					       ajax="true" 
+					      oncomplete="PF('timeMgntAddDlgWV').show();" 
+					      actionListener="#{historyCandidatesForm.selectCandExam(candExamenesV2)}"> </p:commandButton>
+					       <p:commandButton icon="fa fa-play"  title="RESUME" rendered="#{candExamenesV2.estatus == 'PAUSAR'}"
+					      action="#{historyCandidatesForm.resumeCandExams(candExamenesV2)}"
+					      ajax="true" update="ReadOnlyForm"> </p:commandButton>
+					      <p:commandButton icon="fa fa-pause"  title="PAUSAR" rendered="#{candExamenesV2.estatus != 'PAUSAR'}"
+					      action="#{historyCandidatesForm.pauseCandExams(candExamenesV2)}"
+					      ajax="true" update="ReadOnlyForm"> </p:commandButton>
+					   </p:column>
+					   <p:column headerText="ACCIONES" style="text-overflow: ellipsis; white-space: nowrap;width:230px">
+					     <p:commandButton value="SUSPENDER EXAMEN" 
+					      action="#{historyCandidatesForm.suspendCandExams(candExamenesV2)}"
+					      ajax="true" update="ReadOnlyForm"> </p:commandButton>
+					   </p:column>
+					 </p:dataTable>
+	 			</div>	
 	 		</h:panelGroup>	
  	</div>
- </div>	  	
+ </div>	 
+ 
+  <p:dialog id="timeMgntAddDlg" widgetVar="timeMgntAddDlgWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" 
+  header="Aumentar">
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-lg-8">
+                		<p:inputNumber  value="#{historyCandidatesForm.addTime}" 
+                				minValue="0" maxValue="100000" decimalSeparator=","
+                                >                     
+                		</p:inputNumber>
+                    </div>
+                    <div class="ui-g-12 ui-lg-2">
+                    	 <h:outputText value="(minutos)"/>
+                    </div>
+                </div>
+                <div class="ui-g" >
+                    <div class="ui-g-12 ui-lg-12" style="text-align: right;">
+                        <p:commandButton value="Cancelar"
+                                       ajax="true"
+                                       immediate="true"
+                                       onclick="PF('timeMgntAddDlgWV').hide();"/>
+                        <p:commandButton value="ok"
+                                         ajax="true"
+                                         update="ReadOnlyForm"
+                                         actionListener="#{historyCandidatesForm.increaseCandExamsTime()}"
+                                         onstart="PF('timeMgntAddDlgWV').hide();"
+                                         style="margin-left: 10px;"/>
+                    </div>
+                </div>
+ </p:dialog>
+   <p:dialog id="timeMgntRemoveDlg" widgetVar="timeMgntRemoveDlgWV" modal="true" closable="true" closeOnEscape="true" draggable="false" resizable="false" 
+  header="Reducir">
+
+                <div class="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-lg-8">
+                		<p:inputNumber  value="#{historyCandidatesForm.removeTime}" 
+                				minValue="0" maxValue="100000" decimalSeparator="," 
+                                >                     
+                		</p:inputNumber>
+                    </div>
+                    <div class="ui-g-12 ui-lg-2">
+                    	 <h:outputText value="(minutos)"/>
+                    </div>
+                    
+                </div>
+                <div class="ui-g" >
+                    <div class="ui-g-12 ui-lg-12" style="text-align: right;">
+                        <p:commandButton value="Cancelar"
+                                       ajax="true"
+                                       immediate="true"
+                                       onclick="PF('timeMgntRemoveDlgWV').hide();"/>
+                        <p:commandButton value="ok"
+                                         ajax="true"
+                                         update="ReadOnlyForm"
+                                         actionListener="#{historyCandidatesForm.decreaseCandExamsTime()}"
+                                         onstart="PF('timeMgntRemoveDlgWV').hide();"
+                                         style="margin-left: 10px;"/>
+                    </div>
+                </div>
+ </p:dialog>
+ 
+  	
  </h:form>
  </ui:define>
  </ui:composition>

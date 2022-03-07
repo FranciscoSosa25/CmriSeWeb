@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.function.Predicate;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -25,6 +26,7 @@ import org.primefaces.model.TreeNode;
 import com.cmrise.ejb.backing.mrq.preview.Poligonos;
 import com.cmrise.ejb.model.candidates.exams.CandExamRespuestasV1;
 import com.cmrise.ejb.model.candidates.exams.CandExamenesV1;
+import com.cmrise.ejb.model.exams.CandExamStatusEnum;
 import com.cmrise.ejb.model.exams.ExamQuestion;
 import com.cmrise.ejb.model.exams.MrqsExamenes;
 import com.cmrise.ejb.model.exams.MrqsGrupoHdr;
@@ -193,6 +195,17 @@ public class MRQsExamForm {
 		this.candExamenesV1 = candExamenesLocal.findByNumero(numeroCandExamen);
 		this.mrqsExamen = mrqsExamenesLocal.findByNumeroWD(numeroMRQsExamen, numCand);
 		
+		CandExamStatusEnum examStatusEnum  = CandExamStatusEnum.getCandExamStatusEnum(this.candExamenesV1.getEstatus());
+		
+		switch (examStatusEnum) {
+		case PAUSAR:
+			throw new IllegalArgumentException("Su examen está en pausa, comuníquese con el administrador para reanudar.");			
+		case SUSPENDER:
+			throw new IllegalArgumentException("Su examen está suspendido, comuníquese con el administrador.");
+		default:
+			break;		
+		}
+		
 		Date startTime = candExamenesLocal.getStartTime(numeroCandExamen);
 		
 		Date todayDate = new Date();
@@ -203,7 +216,7 @@ public class MRQsExamForm {
 			candExamenesLocal.updateStartTime(numeroCandExamen, todayDate);
 		}else {
 			timeDiffrence = (todayDate.getTime()-startTime.getTime())/1000;
-			examTimeout = examTimeout - timeDiffrence;
+			examTimeout = examTimeout - timeDiffrence + (this.candExamenesV1.getCandExamTime()*60);
 		}
 		
 		System.out.println("Examen: " + mrqsExamen.getDescripcion());
@@ -240,7 +253,7 @@ public class MRQsExamForm {
 			for(MrqsGrupoLinesV2 mrqsGrupoLinesV2 : listMrqsGrupoLinesV2) {
 				ExamQuestion examQuestion = new ExamQuestion();
 				++count;
-				String questionNumber = count + " de " + listMrqsGrupoLinesV2.size();
+				String questionNumber = mrqsGrupoLinesV2.getTitulo()+" "+ count + " de " + listMrqsGrupoLinesV2.size();
 				
 				examQuestion.setQuestionNumber(questionNumber);
 				examQuestion.setMrqsGrupoHdr(idxHdr);
@@ -458,6 +471,7 @@ public class MRQsExamForm {
 			showFinalMessage = true;
 			CandExamenesDto candExamenesDto = new CandExamenesDto();
 			candExamenesDto.setExamEndTime(new java.sql.Timestamp(new Date().getTime()));
+			candExamenesDto.setEstatus(CandExamStatusEnum.REVISADO.getStatus());
 			candExamenesLocal.updateEstatus(numeroCandExamen, candExamenesDto);
 		}else {
 			setQuestion(examQuestion);
@@ -578,7 +592,7 @@ public class MRQsExamForm {
 		System.out.println("this.mrqsGrupoHdr.getNumero():" + this.presentExamQuestion.getMrqsGrupoHdr().getNumero());
 		System.out.println(" this.mrqsGrupoLinesV2.getNumeroPregunta():" + this.mrqsGrupoLinesV2.getNumeroPregunta());
 		System.out.println("this.numeroPreguntaFta:" + this.numeroPreguntaFta);
-		
+		this.presentExamQuestion.setSkip(false);
 		String questionType = this.mrqsGrupoLinesV2.getQuestionType();
 		
 		double puntuacionScore = 0d;
@@ -924,6 +938,7 @@ public class MRQsExamForm {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "FIN DE TIEMPO", "Fin de tiempo"));
 				CandExamenesDto candExamenesDto = new CandExamenesDto();
 				candExamenesDto.setExamEndTime(new java.sql.Timestamp(new Date().getTime()));
+				candExamenesDto.setEstatus(CandExamStatusEnum.REVISADO.getStatus());
 		    	candExamenesLocal.updateEstatus(numeroCandExamen, candExamenesDto);
 				redirectPage();
 		}
@@ -975,6 +990,7 @@ public class MRQsExamForm {
 			 }
 			 
 			 ExamQuestion examQuestion = questionQueue.remove(); // remove queue head
+			 examQuestion.setSkip(true);
 			 questionQueue.add(examQuestion); // add at end of queue
 			 setNextQuestion();
 			 /**
@@ -1803,7 +1819,22 @@ public class MRQsExamForm {
 	public void setErrorMsg(String errorMsg) {
 		this.errorMsg = errorMsg;
 	}
+
+	public Queue<ExamQuestion> getAnswerQueue() {
+		return answerQueue;
+	}
+
+	public void setAnswerQueue(Queue<ExamQuestion> answerQueue) {
+		this.answerQueue = answerQueue;
+	}
 	
+	public long getSkipCount() {
+		return questionQueue.stream().filter(e->e.isSkip()).count();
+	}
+	
+	public long getQuestionCount() {
+		return questionQueue.stream().filter(e->!e.isSkip()).count();
+	}
 	
 	
 	

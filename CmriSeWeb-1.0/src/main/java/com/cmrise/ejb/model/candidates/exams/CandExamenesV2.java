@@ -24,6 +24,7 @@ public class CandExamenesV2 implements Serializable{
 	private String descripcionRol; 
 	private String titulo; 
 	private short tiempoLimite; 
+	private int candExamTime;
 	private double totalPuntuacion;
 	private String curp; 
 	private Date fechaEfectivaDesdeExamen; 
@@ -173,6 +174,12 @@ public class CandExamenesV2 implements Serializable{
 	}
 	public void setTotalPuntuacion(double totalPuntuacion) {
 		this.totalPuntuacion = totalPuntuacion;
+	}
+	public int getCandExamTime() {
+		return candExamTime;
+	}
+	public void setCandExamTime(int candExamTime) {
+		this.candExamTime = candExamTime;
 	} 
-
+	
 }

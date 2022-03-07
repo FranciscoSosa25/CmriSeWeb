@@ -167,9 +167,11 @@ public class CandExamenesDaoImpl implements CandExamenesDao {
 	}
 	@Override
 	public void updateEstatus(long pNumero, CandExamenesDto pCandExamenesDto) {
-		CandExamenesDto candExamenesDto = em.find(CandExamenesDto.class, pNumero); 
-		candExamenesDto.setEstatus("REVISADO");
+		CandExamenesDto candExamenesDto = em.find(CandExamenesDto.class, pNumero); 		
 		java.util.Date sysdate = new java.util.Date();
+		if(pCandExamenesDto.getEstatus()!=null) {
+			candExamenesDto.setEstatus(pCandExamenesDto.getEstatus());
+		}
 		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(sysdate.getTime());
 		candExamenesDto.setFechaActualizacion(sqlsysdate);
 		if(pCandExamenesDto.getExamEndTime() !=null) {
@@ -184,7 +186,12 @@ public class CandExamenesDaoImpl implements CandExamenesDao {
 		java.sql.Timestamp sqlsysdate = new java.sql.Timestamp(date.getTime());
 		candExamenesDto.setExamStartTime(sqlsysdate);
 	}
-
+	
+	@Override
+	public void updateCandExamTime(long pNumero, int time) {
+		CandExamenesDto candExamenesDto = em.find(CandExamenesDto.class, pNumero); 		
+		candExamenesDto.setCandExamTime(time);
+	}
 
 	@Override
 	public List<CandExamenesV2Dto> findCandidateByExam(String cCurp, String cNombre, String c_aPaterno, String c_aMaterno, String actPor, String fechaActu

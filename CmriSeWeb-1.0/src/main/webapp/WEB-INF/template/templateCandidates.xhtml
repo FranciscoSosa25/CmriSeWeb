@@ -13,7 +13,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="theme-color" content="#{guestPreferences.themeColors[guestPreferences.theme]}" />
+		<meta name="theme-color" content="#{guestPreferences.themeColors[guestPreferences.theme]}" />		
 	</f:facet>
 	<title><ui:insert name="title">CMRI</ui:insert></title>
 	<h:outputScript name="js/nanoscroller.js" library="poseidon-layout" />
@@ -22,6 +22,7 @@
 	<h:outputStylesheet name="css/nanoscroller.css" library="poseidon-layout" />
     <h:outputStylesheet name="css/animate.css" library="poseidon-layout" />
     <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="poseidon-layout" />
+    
 	<script type="text/javascript">
 	//<![CDATA[
          function argsValidationFailed(){
@@ -30,6 +31,7 @@
               $(".ui-messages-info").delay(1800).fadeOut(500);
               $(".ui-messages-warn").delay(1800).fadeOut(500);
           }
+         
          $(document).ready(function(e){
        	  	$('body').bind('contextmenu', function(e) {       	  		
          	    return false;
@@ -38,6 +40,22 @@
 	       	 $('img').bind('contextmenu', function(e) {       	  		
 	      	    return false;
 	      	});
+	       	 
+	       	$('.magnify-image-btn').bind('click', function(e) {
+	       		  var img = $(this).siblings().find('img')[0];     			
+	       		  cmriseModal.style.display = "block";
+	       		  cmriseModalImg.src = img.src;
+		       	  captionText.innerHTML = img.alt;
+		      	});
+	       	 
+	       	 $('.cmrise-modal-close').bind('click', function(e){
+	       		cmriseModal.style.display = "none";
+	       	 })
+	       	 
+	         // Get the modal
+	          var cmriseModal = document.getElementById('cmrise-modal');
+	          var cmriseModalImg = document.getElementById("cmrise-model-img");
+	          var captionText = document.getElementById("cmrise-modal-caption");
 	       	
 	       	 $('img').magnify();
 	       	 
@@ -73,7 +91,13 @@
           {
             history.pushState(null, document.title, location.href);
           });
-
+		
+          
+     
+          
+          
+          
+          
          document.onkeydown = function(){
         	  switch (event.keyCode){
         	        case 116 : //F5 button
@@ -194,6 +218,113 @@
 			  width: 150px;
 			  height: 150px;
 			}
+			
+			
+				    
+	    
+	    
+	    
+	    	.magnify-image {
+			  border-radius: 5px;
+			  cursor: pointer;
+			  transition: 0.3s;
+			}
+
+		magnify-image:hover {opacity: 0.7;}
+		
+		/* The Modal (background) */
+		.cmrise-modal {
+		  display: none; /* Hidden by default */
+		  position: fixed; /* Stay in place */
+		  z-index: 1; /* Sit on top */
+		  padding-top: 100px; /* Location of the box */
+		  left: 0;
+		  top: 110px;
+		  width: 100%; /* Full width */
+		  height: 100%; /* Full height */
+		  overflow: auto; /* Enable scroll if needed */
+		  background-color: rgb(0,0,0); /* Fallback color */
+		  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+		}
+		
+		/* Modal Content (image) */
+		.cmrise-modal-content {
+		  margin: auto;
+		  display: block;
+		  width: 80%;
+		  max-width: 700px;
+		}
+		
+		/* Caption of Modal Image */
+		#cmrise-model-caption {
+		  margin: auto;
+		  display: block;
+		  width: 80%;
+		  max-width: 700px;
+		  text-align: center;
+		  color: #ccc;
+		  padding: 10px 0;
+		  height: 150px;
+		}
+		
+		/* Add Animation */
+		.modal-content, #cmrise-model-caption {  
+		  -webkit-animation-name: zoom;
+		  -webkit-animation-duration: 0.6s;
+		  animation-name: zoom;
+		  animation-duration: 0.6s;
+		}
+		
+		@-webkit-keyframes zoom {
+		  from {-webkit-transform:scale(0)} 
+		  to {-webkit-transform:scale(1)}
+		}
+		
+		@keyframes zoom {
+		  from {transform:scale(0)} 
+		  to {transform:scale(1)}
+		}
+		
+		/* The Close Button */
+		.cmrise-modal-close {
+		  position: absolute;
+		  top: 15px;
+		  right: 35px;
+		  color: #f1f1f1;
+		  font-size: 40px;
+		  font-weight: bold;
+		  transition: 0.3s;
+		}
+		
+		.cmrise-modal-close:hover,
+		.cmrise-modal-close:focus {
+		  color: #bbb;
+		  text-decoration: none;
+		  cursor: pointer;
+		}
+		
+		/* 100% Image Width on Smaller Screens */
+		@media only screen and (max-width: 700px){
+		  .modal-content {
+		    width: 100%;
+		  }
+		}
+		
+		
+	    .ui-sticky {
+	        top: 130px !important;
+	    }
+	 	.dot-circle {
+		  height: 35px;
+		  width: 35px;		  
+		  border-radius: 50%;
+		  display: inline-block;
+		  font-size: 18pt;
+		  text-align: center;
+		  margin: 2px;
+		  
+		}
+			    
 	    </style>
       
    </h:head>
@@ -258,6 +389,12 @@
 	            	  </div>	
             		</div>	
         	</p:dialog>
+        	
+        	<div id="cmrise-modal" class="cmrise-modal">
+        	  <span class="cmrise-modal-close">X</span>	
+			  <img class="cmrise-modal-content" id="cmrise-model-img"></img>
+			  <div id="cmrise-modal-caption"></div>
+			</div>
 	
 		<div style="height: 6%">
 			 <div class="footer">
