@@ -580,3 +580,88 @@ function setPointAnswer(x,y) {
 //        console.log("finalResult : "+finalResult);
     });
 }
+
+var  rectivosExam = {
+		
+		imageAnotoda : function(){			
+			tipoReactivoID = document.getElementById('mqrsExaForm:tipoReactivo');
+		    paintingCanvasID = document.getElementById('paintingCanvas');
+		    graphicImageImgSenID = document.getElementById('mqrsExaForm:graphicImageImgSen');
+		    graphicImageImgCorID = document.getElementById('mqrsExaForm:graphicImageImgCor');
+		    widthImgSenID = document.getElementById('mqrsExaForm:widthImgSen');
+		    heightImgSenID = document.getElementById('mqrsExaForm:heightImgSen');
+		    
+				widthImgCorID = document.getElementById('mqrsExaForm:widthImgCor');
+		        heightImgCorID = document.getElementById('mqrsExaForm:heightImgCor');
+		        $goJs = go.GraphObject.make;
+		        var img = new Image();
+		        img.setAttribute('src', graphicImageImgCorID.src);
+		        img.addEventListener('load', (e) => {
+
+
+		            diagram = $goJs(go.Diagram, "mqrsExaForm:imgCorDiv",
+		                {
+		                    fixedBounds: new go.Rect(0, 0, img.width, img.height),  // document is always 500x300 units
+		                    allowHorizontalScroll: false,  // disallow scrolling or panning
+		                    allowVerticalScroll: false,
+		                    allowZoom: false,              // disallow zooming
+		                    "animationManager.isEnabled": false,
+		                    "undoManager.isEnabled": true,
+		                    isReadOnly: true
+		                });
+
+		            imgCorDivID = diagram.div;
+		            imgCorDivID.style.width = img.width + "px";
+		            imgCorDivID.style.height = img.height + "px";
+
+		            /**
+		             diagram.grid.visible = true;
+		             diagram.startTransaction("change Layout");
+		             var lay = diagram.layout;
+		             lay.alignment = go.GridLayout.Location;
+		             lay.wrappingWidth = img.width;
+		             diagram.commitTransaction("change Layout");
+		             ***/
+
+		            /*** Bug Alteracion de Posicionamiento **/
+		            coordinatesImgCorId = document.getElementById('mqrsExaForm:coordinatesImgCor');
+		            console.log(coordinatesImgCorId.value);
+		            diagram.linkTemplate =
+		                $goJs(go.Link,
+		                    $goJs(go.Shape,
+		                        new go.Binding("stroke", "color"),  // shape.stroke = data.color
+		                        new go.Binding("strokeWidth", "thick")),  // shape.strokeWidth = data.thick
+		                    $goJs(go.Shape,
+		                        {toArrow: "OpenTriangle", fill: null},
+		                        new go.Binding("stroke", "color"),  // shape.stroke = data.color
+		                        new go.Binding("strokeWidth", "thick"))  // shape.strokeWidth = data.thick
+		                );
+
+		            diagram.nodeTemplate =
+		                $goJs(go.Node, "Auto"
+		                    , {dragComputation: stayInFixedArea}
+		                    , new go.Binding("location", "loc").makeTwoWay(),
+		                    $goJs(go.Shape,
+		                        new go.Binding("figure", "fig"),
+		                        new go.Binding("fill", "color"),
+		                        new go.Binding("stroke", "color"),
+		                        new go.Binding("strokeWidth", "thick")
+		                    ),
+		                    $goJs(go.TextBlock,
+		                        {margin: 5}, new go.Binding("text", "say"))
+		                );
+
+		            // the background Part showing the fixed bounds of the diagram contents
+		            diagram.add(
+		                $goJs(go.Part,
+		                    {layerName: "Grid", position: diagram.fixedBounds.position},
+		                    $goJs(go.Picture, e.target.src)
+		                ));
+
+		            diagram.model = go.Model.fromJson(coordinatesImgCorId.value);
+
+		        });
+		}
+		
+		
+}
