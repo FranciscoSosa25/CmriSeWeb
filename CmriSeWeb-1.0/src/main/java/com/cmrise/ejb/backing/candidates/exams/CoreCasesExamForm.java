@@ -26,6 +26,7 @@ import com.cmrise.ejb.model.corecases.CcOpcionMultiple;
 import com.cmrise.ejb.model.corecases.CcPreguntasFtaV1;
 import com.cmrise.ejb.model.corecases.CcPreguntasHdrV1;
 import com.cmrise.ejb.model.corecases.img.CcImagenesGrp;
+import com.cmrise.ejb.model.exams.CandExamStatusEnum;
 import com.cmrise.ejb.model.exams.CcExamAsignaciones;
 import com.cmrise.ejb.model.exams.CcExamenes;
 import com.cmrise.ejb.services.candidates.exams.CandExamRespuestasLocal;
@@ -229,6 +230,7 @@ public class CoreCasesExamForm {
 	public void onTimeout() {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "FIN DE TIEMPO", "Fin de tiempo"));
 		CandExamenesDto candExamenesDto = new CandExamenesDto();
+		candExamenesDto.setEstatus(CandExamStatusEnum.REVISADO.getStatus());
     	candExamenesLocal.updateEstatus(numeroCandExamen, candExamenesDto);
 		redirectPage();
 }

@@ -1,6 +1,7 @@
 package com.cmrise.ejb.backing.exams;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -12,10 +13,13 @@ import javax.servlet.http.HttpSession;
 import com.cmrise.ejb.model.candidates.exams.CandExamenesV1;
 import com.cmrise.ejb.model.candidates.exams.CandExamenesV2;
 import com.cmrise.ejb.model.candidates.exams.CandHExamenes;
+import com.cmrise.ejb.model.exams.CandExamStatusEnum;
 import com.cmrise.ejb.model.exams.CandExams;
 import com.cmrise.ejb.model.exams.Examenes;
 import com.cmrise.ejb.services.candidates.exams.CandExamenesLocal;
 import com.cmrise.ejb.services.exams.ExamenesLocal;
+import com.cmrise.jpa.dto.candidates.exams.CandExamenesDto;
+import com.cmrise.utils.Utilitarios;
 
 @ManagedBean
 @ViewScoped
@@ -30,6 +34,12 @@ public class HistoryCandidatesForm {
 	private String matricula;
 	
 	private CandExams selCandExams = new CandExams();
+	private CandExamenesV2 selCandExamenesV2;
+	private String viewGrid = "candExam";
+	
+	private String addTime = "";
+	private String removeTime = "";
+	
 	
 	@Inject
 	CandExamenesLocal candExamenesLocal;
@@ -51,23 +61,74 @@ public class HistoryCandidatesForm {
 	    
 	    
 		public void refreshEntity() {
-			 
 			 listCandExams = candExamenesLocal.findAllByCandidate(0, "","");
-			 
 			 FacesContext context = FacesContext.getCurrentInstance(); 
 			 HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 			 CandExams candExams = (CandExams)session.getAttribute("HCCandExams");
 			 if(candExams!=null) {
 				 session.removeAttribute("HCCandExams");
-				 loadCandExams(candExams);
+				 loadCandExams(candExams,viewGrid);
 			 }
 			 
 		}
 		
-		public void loadCandExams(CandExams candExams) {
-			this.selCandExams = candExams;
-			listHistoCandV2 = candExamenesLocal.findByCURP(candExams.getCurp(),String.valueOf(candExams.getNumeroUsuario()),"","");
+		private void updateCandExamGrid() {
+			listHistoCandV2 = candExamenesLocal.findByCURP(selCandExams.getCurp(),String.valueOf(selCandExams.getNumeroUsuario()),"","");
 		}
+		
+		
+		public void loadCandExams(CandExams candExams, String viewGrid) {
+			this.viewGrid = viewGrid;
+			this.selCandExams = candExams;
+			updateCandExamGrid();
+		}
+		
+		public void selectCandExam(CandExamenesV2 pCandExamenesV2) {
+			this.selCandExamenesV2 = pCandExamenesV2;
+			
+		}
+		
+		public void decreaseCandExamsTime() {
+			int val = Utilitarios.strToInt(getRemoveTime())*-1;
+			candExamenesLocal.updateExamTime(this.selCandExamenesV2.getNumero(), val);
+			setRemoveTime("");
+			updateCandExamGrid();
+		}
+		
+		public void increaseCandExamsTime() {			
+			int val = Utilitarios.strToInt(getAddTime());			
+			candExamenesLocal.updateExamTime(this.selCandExamenesV2.getNumero(), val);
+			setRemoveTime("");
+			updateCandExamGrid();
+		}
+		
+		
+		
+		
+		public void resumeCandExams(CandExamenesV2 pCandExamenesV2) {			
+			updateStatus(pCandExamenesV2.getNumero(),CandExamStatusEnum.RESUME.getStatus());
+			updateCandExamGrid();
+		}
+		
+		public void pauseCandExams(CandExamenesV2 pCandExamenesV2) {
+			updateStatus(pCandExamenesV2.getNumero(),CandExamStatusEnum.PAUSAR.getStatus());
+			updateCandExamGrid();
+		}
+		
+		
+		public void suspendCandExams(CandExamenesV2 pCandExamenesV2) {			
+			updateStatus(pCandExamenesV2.getNumero(),CandExamStatusEnum.SUSPENDER.getStatus());
+			updateCandExamGrid();	
+		}
+
+		
+		private void updateStatus(long numeroCandExamen, String status ) {
+			CandExamenesDto candExamenesDto = new CandExamenesDto();
+			candExamenesDto.setEstatus(status);
+			candExamenesLocal.updateEstatus(numeroCandExamen, candExamenesDto);
+		}
+		
+		
 		
 		
 		
@@ -135,6 +196,38 @@ public class HistoryCandidatesForm {
 
 		public void setMatricula(String matricula) {
 			this.matricula = matricula;
+		}
+
+		public String getViewGrid() {
+			return viewGrid;
+		}
+
+		public void setViewGrid(String viewGrid) {
+			this.viewGrid = viewGrid;
+		}
+
+		public String getAddTime() {
+			return addTime;
+		}
+
+		public void setAddTime(String addTime) {
+			this.addTime = addTime;
+		}
+
+		public String getRemoveTime() {
+			return removeTime;
+		}
+
+		public void setRemoveTime(String removeTime) {
+			this.removeTime = removeTime;
+		}
+
+		public CandExamenesV2 getSelCandExamenesV2() {
+			return selCandExamenesV2;
+		}
+
+		public void setSelCandExamenesV2(CandExamenesV2 selCandExamenesV2) {
+			this.selCandExamenesV2 = selCandExamenesV2;
 		}
 		
 		

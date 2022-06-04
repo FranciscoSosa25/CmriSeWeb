@@ -79,6 +79,9 @@ public class CandExamenesV2Dto implements Serializable {
 	@Column(name="TIEMPO_LIMITE")
 	private short tiempoLimite;
 	
+	@Column(name="CAND_EXAM_TIME")
+	private Integer candExamTime;
+	
 	@Column(name="TOTAL_PUNTUACION")
 	private double totalPuntuacion;
 
@@ -244,6 +247,14 @@ public class CandExamenesV2Dto implements Serializable {
 		this.tiempoLimite = tiempoLimite;
 	}
 	
+	public Integer getCandExamTime() {
+		return candExamTime;
+	}
+
+	public void setCandExamTime(Integer candExamTime) {
+		this.candExamTime = candExamTime;
+	}
+
 	public double getTotalPuntuacion() {
 		return totalPuntuacion;
 	}

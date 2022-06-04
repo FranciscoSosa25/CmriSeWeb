@@ -29,7 +29,8 @@ public class CandExamenesV1  implements Serializable{
 	private Date fechaActualizacion;
 	private String actualizadoPorString;
 	private String fechaActString;
-	private String nombreActPor;
+	private String nombreActPor;	
+	private int candExamTime;
 	
 	public long getNumero() {
 		return numero;
@@ -146,6 +147,13 @@ public class CandExamenesV1  implements Serializable{
 	}
 	public void setNombreActPor(String nombreActPor) {
 		this.nombreActPor = nombreActPor;
+	}
+	public int getCandExamTime() {
+		return candExamTime;
+	}
+	public void setCandExamTime(int candExamTime) {
+		this.candExamTime = candExamTime;
 	} 
+	
 
 }

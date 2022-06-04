@@ -14,9 +14,16 @@ public class ExamQuestion {
 	private String questionNumber;
 	private double puntuacion;
 	private String estatus;
+	private boolean isSkip;
 	
 	
 	
+	public boolean isSkip() {
+		return isSkip;
+	}
+	public void setSkip(boolean isSkip) {
+		this.isSkip = isSkip;
+	}
 	public MrqsGrupoLinesV2 getMrqsGrupoLinesV2() {
 		return mrqsGrupoLinesV2;
 	}
