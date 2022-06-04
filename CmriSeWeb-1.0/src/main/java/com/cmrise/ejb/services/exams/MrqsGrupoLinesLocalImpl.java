@@ -87,7 +87,7 @@ public class MrqsGrupoLinesLocalImpl implements MrqsGrupoLinesLocal {
     public MrqsGrupoLinesV2 fromMglV2DtoMrqsPreguntasHdrV2(MrqsGrupoLinesV2Dto pMrqsGrupoLinesV2Dto) {
     	MrqsGrupoLinesV2 retval = new MrqsGrupoLinesV2(); 
     	
-    	retval.setTitulo("AdmonMateria");
+    	retval.setTitulo(pMrqsGrupoLinesV2Dto.getAdmonMateriaDesc());
     	retval.setNumero(pMrqsGrupoLinesV2Dto.getNumero());
     	retval.setNumeroHdr(pMrqsGrupoLinesV2Dto.getNumeroHdr());
     	retval.setNumeroPregunta(pMrqsGrupoLinesV2Dto.getNumeroPregunta());

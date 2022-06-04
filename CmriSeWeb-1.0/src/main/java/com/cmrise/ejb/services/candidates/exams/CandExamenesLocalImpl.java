@@ -162,6 +162,11 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 		retval.setCurp(pCandExamenesV2Dto.getCurp());
 		retval.setFechaEfectivaDesdeExamen(new java.util.Date(pCandExamenesV2Dto.getFechaEfectivaDesdeExamen().getTime()));
 		retval.setFechaEfectivaHastaExamen(new java.util.Date(pCandExamenesV2Dto.getFechaEfectivaHastaExamen().getTime()));
+		int val = 0;
+		if(pCandExamenesV2Dto.getCandExamTime()!=null) {
+			val = pCandExamenesV2Dto.getCandExamTime();
+		}
+		retval.setCandExamTime(retval.getTiempoLimite() + val);
 		return retval; 
 	}
 
@@ -172,6 +177,9 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 		retval.setNumero(candExamenesV1Dto.getNumero());
 		retval.setNumeroExamen(candExamenesV1Dto.getNumeroExamen());
 		retval.setTipo(candExamenesV1Dto.getTipo());
+		retval.setEstatus(candExamenesV1Dto.getEstatus());
+		
+		retval.setCandExamTime(null == candExamenesV1Dto.getCandExamTime()?0:candExamenesV1Dto.getCandExamTime());
 		return retval;
 	}
 
@@ -257,5 +265,15 @@ public class CandExamenesLocalImpl implements CandExamenesLocal {
 		}
 		
 		return isSuccess;
+	}
+
+	@Override
+	public void updateExamTime(long pNumero, int time) {
+		CandExamenesDto candExamenesDto = candExamenesDao.find(pNumero);
+		if(candExamenesDto.getCandExamTime()==null) {
+			candExamenesDto.setCandExamTime(time);
+		}else {
+			candExamenesDto.setCandExamTime(candExamenesDto.getCandExamTime() + time);
+		}
 	}
 }

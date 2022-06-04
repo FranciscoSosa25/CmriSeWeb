@@ -77,6 +77,9 @@ public class CandExamenesV1Dto implements Serializable {
 	@Column(name="NOMBRE_ACT_POR")
 	private String nombreActPor;
 	
+	@Column(name="CAND_EXAM_TIME")
+	private Integer candExamTime;
+	
 	public long getNumero() {
 		return this.numero;
 	}
@@ -237,4 +240,14 @@ public class CandExamenesV1Dto implements Serializable {
 	public void setNombreActPor(String nombreActPor) {
 		this.nombreActPor = nombreActPor;
 	}
+
+	public Integer getCandExamTime() {
+		return candExamTime;
+	}
+
+	public void setCandExamTime(Integer candExamTime) {
+		this.candExamTime = candExamTime;
+	}
+	
+	
 }

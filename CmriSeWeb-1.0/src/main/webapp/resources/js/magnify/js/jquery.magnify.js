@@ -38,8 +38,8 @@
           
         }
         oDataAttr['src'] = $image.attr('src');
-        oDataAttr['magnifiedWidth'] = 750;
-        oDataAttr['magnifiedHeight'] = 750;
+        oDataAttr['magnifiedWidth'] = 550;
+        oDataAttr['magnifiedHeight'] = 550;
         
 
         // Disable zooming if no valid large image source
